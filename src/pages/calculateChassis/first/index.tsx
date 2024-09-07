@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './styles.css';
-import {Col, Divider, InputNumber, Row, Select, List, message, Form, Input, Button, } from "antd";
+import {Col, Divider, InputNumber, Row, Select, List, message, Button, } from "antd";
 import { Typography } from 'antd';
 import chassisTypeOptions from "../../../definition/chassisType";
 import {DeleteOutlined, RightOutlined} from "@ant-design/icons";
@@ -9,6 +9,7 @@ import {InputStatus} from "antd/es/_util/statusUtils";
 const { Title } = Typography;
 
 interface RegisteringChassis {
+    index: number;
     chassisType: string;
     width: number | undefined;
     height: number | undefined;
@@ -81,6 +82,7 @@ const FirstScreen = () => {
         }
 
         let newItem: RegisteringChassis = {
+            index: registeredList.length + 1,
             chassisType: chassisType,
             width: width,
             height: height
@@ -99,6 +101,10 @@ const FirstScreen = () => {
             (a) => a.value === target
         )?.label;
     }
+
+    const deleteRegisteredChassis = (index: number) => {
+        setRegisteredList((prevList) => prevList.filter(item => item.index !== index));
+    };
 
 
     return (
@@ -204,8 +210,8 @@ const FirstScreen = () => {
                                         <List
                                             itemLayout={"horizontal"}
                                             dataSource={registeredList}
-                                            renderItem={(item: RegisteringChassis) => (
-                                                <List.Item key={item.chassisType}>
+                                            renderItem={(item: RegisteringChassis, index) => (
+                                                <List.Item key={item.index}>
                                                     <List.Item.Meta
                                                         title={getLabelOfChassisType(item.chassisType)}
                                                         description={
@@ -223,7 +229,12 @@ const FirstScreen = () => {
                                                             </div>
                                                         }
                                                     />
-                                                    <div style={{fontSize:18, color: 'red'}}><DeleteOutlined/></div>
+                                                    <div
+                                                        style={{fontSize:18, color: 'red'}}
+                                                        onClick={() => deleteRegisteredChassis(item.index)}
+                                                    >
+                                                        <DeleteOutlined/>
+                                                    </div>
                                                 </List.Item>
                                             )}
                                         />
@@ -234,7 +245,6 @@ const FirstScreen = () => {
                                             <Button type={'primary'} size={'large'}>확정<RightOutlined /></Button>
                                         </div>
                                     }
-
 
                                 </div>
                             </Col>
