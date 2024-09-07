@@ -1,0 +1,52 @@
+/* 기본 스타일 */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.app-header {
+    background-color: #282c34;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+.app-main {
+    display: flex;
+    flex: 1;
+}
+
+.content {
+    flex: 1;
+    padding: 1rem;
+}
+
+/* 배너 스타일 */
+.banner {
+    background-color: #f4f4f4;
+    border-left: 2px solid #ccc;
+    padding: 1rem;
+    width: 300px; /* 배너의 기본 너비 */
+    box-sizing: border-box;
+}
+
+/* 화면이 좁을 때 배너를 상단으로 이동 */
+@media (max-width: 768px) {
+    .app-main {
+        flex-direction: column;
+    }
+
+    .banner {
+        border-left: none;
+        border-top: 2px solid #ccc;
+        width: 100%;
+    }
+}
