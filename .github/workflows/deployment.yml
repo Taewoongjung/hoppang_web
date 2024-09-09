@@ -1,0 +1,57 @@
+name: Front Deployment
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # 레포지토리에 접근하여 CI서버로 코드를 내려받는 과정
+      - name: checkout Github Action
+        uses: actions/checkout@v3
+
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        run: |
+          echo "::set-output name=dir::$(npm config get cache)"
+      - uses: actions/cache@v3
+        id: npm-cache
+        with:
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+#      - name: install npm dependencies
+#        run: npm install
+#
+#      - name: react build
+#        run: npm run build
+
+      - name: execute remote ssh & deploy
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          port: ${{ secrets.SERVER_PORT }}
+          script: |
+            docker kill $(docker ps -q --filter ancestor=hopppang-web-fe)
+            docker rmi -f $(docker images --format "{{.ID}}\t{{.Repository}}:{{.Tag}}" hopppang-web-fe)
+            rm -rf /home/twj/hopppang-web
+            git clone https://github.com/Taewoongjung/hoppang_web.git
+            cd /home/twj/hopppang-web
+            docker build -t hopppang-web-fe .
+            docker tag hopppang-web-fe dndxowjd/hoppang-web-fe:0.01
+            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+            docker push dndxowjd/hoppang-web-fe:0.01
+            cd /home/twj/hopppang
+            docker compose up -d --build web-front-end-app

@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {Switch, Typography, Form, Input, Popover, Row, Col, InputNumber, Button} from 'antd';
+import {Switch, Typography, Form, Input, Popover, Row, Col, Button} from 'antd';
 import RegisteringChassis from "../../definition/interfaces";
 import SearchAddressPopUp from "../SearchAddressPopUp";
-import {RightOutlined, SearchOutlined} from "@ant-design/icons";
+import {SearchOutlined} from "@ant-design/icons";
 
 const { Title } = Typography;
 
