@@ -53,5 +53,5 @@ jobs:
             docker tag hoppang-web-fe dndxowjd/hoppang-web-fe:0.01
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             docker push dndxowjd/hoppang-web-fe:0.01
-            cd /home/twj/hoppang
+            cd /home/twj/hoppang-web
             docker compose up -d --build web-front-end-app
