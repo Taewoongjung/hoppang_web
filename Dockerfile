@@ -20,6 +20,11 @@ RUN npm run build
 # prod environment
 FROM nginx:stable-alpine
 
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+# 이전 빌드 단계에서 빌드한 결과물을 /usr/share/nginx/html 으로 복사한다.
+COPY --from=builder /app/build /usr/share/nginx/html
+
 # 컨테이너의 10244번 포트를 열어준다.
 EXPOSE 10244
 
