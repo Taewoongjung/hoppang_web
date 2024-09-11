@@ -38,7 +38,7 @@ html, body {
     box-sizing: border-box;
 }
 
-/* 아이폰 15 프로에서 화면 조절 */
+
 @media screen and (max-width: 1179px) {
     .app-main {
         flex-direction: column;

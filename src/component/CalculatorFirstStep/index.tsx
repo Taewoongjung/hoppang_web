@@ -111,11 +111,11 @@ const CalculatorFirstStep = (props: {
 
     return (
         <>
-            <div>
-                <table>
-                    <tbody>
+            {contextHolder}
+            <table>
+                <tbody>
                     <tr>
-                        <td>
+                        <td colSpan={2}>
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                 <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
                                 <Title level={4}>
@@ -123,11 +123,13 @@ const CalculatorFirstStep = (props: {
                                 </Title>
                             </div>
                         </td>
-                        <td>
+                    </tr>
+                    <tr>
+                        <td colSpan={2}>
                             <Select
                                 status={chassisTypeStatus}
                                 defaultValue="샤시 종류 선택"
-                                style={{ width: 150, marginTop: '18px', marginLeft: '20%' }}
+                                style={{ width: 150, marginLeft: '20%' }}
                                 onChange={setChassisType}
                                 options={chassisTypeOptions}/>
                         </td>
@@ -135,7 +137,7 @@ const CalculatorFirstStep = (props: {
 
                     <tr>
                         <td colSpan={2}>
-                            <div style={{marginTop:'10%', marginBottom:'-9%'}}>
+                            <div style={{marginTop:'30%', marginBottom:'-25%'}}>
                                 <div style={{color: 'grey', textDecorationLine: 'underline'}}>
                                     *가로 세로 수치는 10mm 단위로 작성 해주세요
                                 </div>
@@ -143,16 +145,18 @@ const CalculatorFirstStep = (props: {
                         </td>
                     </tr>
                     <tr>
-                        <td>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <td colSpan={2}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '15%' }}>
                                 <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
                                 <Title level={4}>
                                     샤시 가로 (w) :
                                 </Title>
                             </div>
                         </td>
-                        <td>
-                            <InputNumber style={{ width: 150, marginTop: '18px', marginLeft: '20%' }}
+                    </tr>
+                    <tr>
+                        <td colSpan={2}>
+                            <InputNumber style={{ width: 150, marginLeft: '20%' }}
                                          addonAfter="mm"
                                          min={0}
                                          status={widthStatus}
@@ -161,7 +165,7 @@ const CalculatorFirstStep = (props: {
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td colSpan={2}>
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                 <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
                                 <Title level={4}>
@@ -169,8 +173,10 @@ const CalculatorFirstStep = (props: {
                                 </Title>
                             </div>
                         </td>
-                        <td>
-                            <InputNumber style={{ width: 150, marginTop: '18px', marginLeft: '20%' }}
+                    </tr>
+                    <tr>
+                        <td colSpan={2}>
+                            <InputNumber style={{ width: 150, marginLeft: '20%' }}
                                          addonAfter="mm"
                                          min={0}
                                          status={heightStatus}
@@ -178,59 +184,65 @@ const CalculatorFirstStep = (props: {
                             />
                         </td>
                     </tr>
-                    </tbody>
-                </table>
 
-                <Button
-                    type="dashed"
-                    shape="round"
-                    style={{marginTop: '7%', width: '25%'}}
-                    onClick={handleRegisterChassis}
-                >
-                    추가
-                </Button>
+                    <tr>
+                        <td colSpan={2}>
+                            <Button
+                                type="dashed"
+                                shape="round"
+                                style={{marginTop: '25%', width: '45%'}}
+                                onClick={handleRegisterChassis}
+                            >
+                                추가
+                            </Button>
 
-                <Divider style={{ marginTop: '10%' }}>추가리스트</Divider>
-                <div id="scrollableDiv" style={{ height: ContainerHeight, overflow: 'auto' }}>
-                    <List
-                        itemLayout={"horizontal"}
-                        dataSource={registeredList}
-                        renderItem={(item: RegisteringChassis, index) => (
-                            <List.Item key={item.index}>
-                                <List.Item.Meta
-                                    title={getLabelOfChassisType(item.chassisType)}
-                                    description={
-                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                            <table>
-                                                <tr>
-                                                    <td>가로 :</td>
-                                                    <td>{item.width}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>세로 :</td>
-                                                    <td>{item.height}</td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    }
+                            <Divider style={{ marginTop: '10%' }}>추가리스트</Divider>
+                            <div id="scrollableDiv" style={{ height: ContainerHeight, overflow: 'auto', width: 300 }}>
+                                <List
+                                    itemLayout={"horizontal"}
+                                    dataSource={registeredList}
+                                    renderItem={(item: RegisteringChassis, index) => (
+                                        <List.Item key={item.index}>
+                                            <List.Item.Meta
+                                                title={getLabelOfChassisType(item.chassisType)}
+                                                description={
+                                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                        <table>
+                                                            <tr>
+                                                                <td>가로 :</td>
+                                                                <td>{item.width}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>세로 :</td>
+                                                                <td>{item.height}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                }
+                                            />
+                                            <div
+                                                style={{fontSize:18, color: 'red'}}
+                                                onClick={() => deleteRegisteredChassis(item.index)}
+                                            >
+                                                <DeleteOutlined/>
+                                            </div>
+                                        </List.Item>
+                                    )}
                                 />
-                                <div
-                                    style={{fontSize:18, color: 'red'}}
-                                    onClick={() => deleteRegisteredChassis(item.index)}
-                                >
-                                    <DeleteOutlined/>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colSpan={2}>
+                            {registeredList.length > 0 &&
+                                <div style={{ marginTop: '20%'}}>
+                                    <Button type={'primary'} size={'large'} onClick={CompleteOnFirstScreen}>확정<RightOutlined /></Button>
                                 </div>
-                            </List.Item>
-                        )}
-                    />
-                </div>
-
-                {registeredList.length > 0 &&
-                    <div style={{ marginTop: '10%'}}>
-                        <Button type={'primary'} size={'large'} onClick={CompleteOnFirstScreen}>확정<RightOutlined /></Button>
-                    </div>
-                }
-            </div>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </>
     )
 }
