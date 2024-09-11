@@ -7,8 +7,8 @@ const FirstScreen = loadable(() => import('../../pages/calculateChassis/first'))
 const App = () => {
     return (
         <Switch>
-            <Redirect exact path="/" to="/fir" />
-            <Route path="/fir" component={FirstScreen} />
+            <Redirect exact path="/" to="/chassis/calculator" />
+            <Route path="/chassis/calculator" component={FirstScreen} />
         </Switch>
     )
 }
