@@ -38,15 +38,17 @@ html, body {
     box-sizing: border-box;
 }
 
-/* 화면이 좁을 때 배너를 상단으로 이동 */
-@media (max-width: 768px) {
+/* 아이폰 15 프로에서 화면 조절 */
+@media screen and (max-width: 1179px) {
     .app-main {
         flex-direction: column;
+        /* 더 많은 스타일 조정 가능 */
     }
 
     .banner {
         border-left: none;
         border-top: 2px solid #ccc;
         width: 100%;
+        /* 필요한 경우 추가 스타일 */
     }
 }
