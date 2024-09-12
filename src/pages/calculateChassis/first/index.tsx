@@ -116,6 +116,10 @@ const FirstScreen = () => {
         setSecondStep(true);
     };
 
+    const clickBackButton = () => {
+        setSecondStep(false);
+    }
+
 
     return (
         <>
@@ -125,16 +129,12 @@ const FirstScreen = () => {
                     <h1>호구 빵명 프로젝트</h1>
                 </header>
                 <main className="app-main">
-                    <aside className="banner">
-                        <p>광고 베너 칸</p>
-                    </aside>
+                    {/*<aside className="banner">*/}
+                    {/*    <p>광고 베너 칸</p>*/}
+                    {/*</aside>*/}
                     <div className="content">
                         <Row>
-
-                            <Col xs={2} sm={4} md={6} lg={8} xl={6} />
-
-
-                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+                            <div>
                                 <Col
                                     xs={24}
                                     sm={20}
@@ -249,7 +249,7 @@ const FirstScreen = () => {
                                                     </Button>
 
                                                     <Divider style={{ marginTop: '10%' }}>추가리스트</Divider>
-                                                    <div id="scrollableDiv" style={{ height: ContainerHeight, overflow: 'auto', width: 300 }}>
+                                                    <div id="scrollableDiv" style={{ height: ContainerHeight, overflow: 'auto', width: 400 }}>
                                                         <List
                                                             itemLayout={"horizontal"}
                                                             dataSource={registeredList}
@@ -274,7 +274,11 @@ const FirstScreen = () => {
                                                                     />
                                                                     <div
                                                                         style={{fontSize:18, color: 'red'}}
-                                                                        onClick={() => deleteRegisteredChassis(item.index)}
+                                                                        onClick={(e) => {
+                                                                            e.stopPropagation(); // 이벤트 전파 중단
+                                                                            console.log(`Deleting chassis with index: ${item.index}`); // 함수 호출 확인 로그
+                                                                            deleteRegisteredChassis(item.index);
+                                                                        }}
                                                                     >
                                                                         <DeleteOutlined/>
                                                                     </div>
@@ -298,18 +302,14 @@ const FirstScreen = () => {
                                     }
 
                                     {/* 두 번째 화면 렌더링 */}
-                                    {secondStep && <CalculatorSecondStep registeredList={registeredList} companyType={companyType} /> }
+                                    {secondStep && <CalculatorSecondStep registeredList={registeredList} companyType={companyType} clickBackButton={clickBackButton}/> }
                                 </Col>
                             </div>
-
-
-                            <Col xs={2} sm={4} md={6} lg={8} xl={6} />
-
                         </Row>
                     </div>
-                    <aside className="banner">
-                        <p>광고 베너 칸</p>
-                    </aside>
+                    {/*<aside className="banner">*/}
+                    {/*    <p>광고 베너 칸</p>*/}
+                    {/*</aside>*/}
                 </main>
             </div>
         </>

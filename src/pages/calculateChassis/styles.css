@@ -3,7 +3,8 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    font-family: Arial, sans-serif;
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f7f8fa;
 }
 
 .app {
@@ -13,59 +14,129 @@ html, body {
 }
 
 .app-header {
-    background-color: #282c34;
+    background-color: #4a90e2;
     color: white;
-    padding: 1rem;
+    padding: 1.5rem;
     text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .app-main {
     display: flex;
     flex: 1;
+    justify-content: center;
+    align-items: center;
 }
 
 .content {
-    flex: 1;
-    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 90%;
 }
 
-/* 배너 스타일 */
 .banner {
-    background-color: #f4f4f4;
+    background-color: #f0f0f5;
     border-left: 2px solid #ccc;
     padding: 1rem;
-    width: 300px; /* 배너의 기본 너비 */
+    width: 280px;
     box-sizing: border-box;
+    font-size: 14px;
+    color: #333;
+    text-align: center;
 }
 
+table {
+    width: 100%;
+    margin: 20px 0;
+}
 
-@media screen and (max-width: 1179px) {
+tr {
+    padding: 10px 0;
+}
+
+td {
+    padding: 8px 16px;
+}
+
+.ant-select,
+.ant-input-number {
+    margin: 10px auto;
+    width: 220px;
+}
+
+button, .ant-btn {
+    width: 220px;
+    height: 40px;
+    margin: 10px 0;
+    background-color: #4a90e2;
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+button:hover, .ant-btn:hover {
+    background-color: #357abd;
+    transform: scale(1.05);
+}
+
+input, .ant-input-number, .ant-select-selector {
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.ant-input-number,
+.ant-select {
+    margin: 10px 0;
+}
+
+.ant-divider {
+    color: #4a90e2;
+    font-weight: bold;
+}
+
+@media screen and (max-width: 768px) {
     .app-main {
-        display: flex;
         flex-direction: column;
-        align-items: center; /* 아이템을 가운데로 정렬 */
+        padding: 1rem;
     }
 
     .banner {
-        border-left: none;
-        border-top: 2px solid #ccc;
+        border: none;
         width: 100%;
+        margin-top: 1rem;
+        text-align: center;
     }
 
     .content {
         width: 100%;
-        margin: 0; /* 불필요한 마진 제거 */
-    }
-
-    /* 버튼, 텍스트 등의 요소 크기 조정 */
-    button, .ant-input-number, .ant-select {
-        width: 80%; /* 모바일에서 더 좁게 */
-        margin: 5px auto; /* 자동 중앙 정렬 */
-    }
-
-    /* 테이블 여백 조정 */
-    table {
-        width: 100%;
+        padding: 1.5rem;
         margin: 0;
     }
+}
+
+/* 애니메이션 추가 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.content {
+    animation: fadeIn 0.5s ease-in-out;
 }

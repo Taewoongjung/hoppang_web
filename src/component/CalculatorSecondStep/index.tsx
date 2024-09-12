@@ -8,7 +8,7 @@ import CalculatedResult from "../../pages/calculateChassis/calculatedresult";
 
 const { Title } = Typography;
 
-const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], companyType: string}) => {
+const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], companyType: string, clickBackButton: () => void}) => {
 
     const [form] = Form.useForm();
 
@@ -18,7 +18,7 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
     const [messageApi, contextHolder] = message.useMessage();
 
 
-    const {registeredList, companyType} = props;
+    const {registeredList, companyType, clickBackButton} = props;
 
     const [openSearchAddr, setOpenSearchAddr] = useState(false);
     const [address, setAddress] = useState('');
@@ -62,7 +62,14 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
         { name: ['mainAddress'], value: address },
     ];
 
+    console.log("??? = ", floorCustomerLiving);
     const CallCalculate = () => {
+        if (floorCustomerLiving == null) {
+            errorModal('공사 예정 층 수를 입력해주세요');
+            return;
+        }
+        console.log("?AA");
+
         console.log("address = ", address);
         console.log("addressZoneCode = ", addressZoneCode);
         console.log("addressBuildingNum = ", addressBuildingNum);
@@ -92,6 +99,7 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
             .catch((error) => {
                 if (error.response.data.errorCode === 202) {
                     errorModal(error.response.data.message);
+                    clickBackButton();
                 }
             });
     }
@@ -107,8 +115,9 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
             {calculatedChassisPriceResult === 0 &&
             <table>
                 <tbody>
+                <tr><td colSpan={2}><Button onClick={clickBackButton}>뒤로가기</Button></td></tr>
                     <tr>
-                        <td>
+                        <td colSpan={2}>
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                 <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
                                 <Title level={4}>
@@ -116,11 +125,13 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
                                 </Title>
                             </div>
                         </td>
-                        <td>
+                    </tr>
+                    <tr>
+                        <td colSpan={2}>
                             <Switch checkedChildren="철거"
                                     unCheckedChildren="철거 안함"
                                     defaultChecked
-                                    style={{ marginTop: '18px' }}
+                                    style={{ marginTop: '-18px', width: '90px' }}
                                     defaultValue={true}
                                     onChange={setIsScheduledForDemolition} />
                         </td>
@@ -142,7 +153,7 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
                                     <Form.Item
                                         name="zipCode"
                                         label=""
-                                        style={{ marginTop: '10px'}}
+                                        style={{ marginTop: '-10px'}}
                                         rules={[{ required: true, message: '⚠️ 주소는 필수 응답 항목입니다.' }]}
                                     >
                                         <Input addonAfter={
@@ -193,7 +204,7 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td colSpan={2}>
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                 <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
                                 <Title level={4}>
@@ -201,14 +212,16 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
                                 </Title>
                             </div>
                         </td>
-                        <td>
-                            <InputNumber style={{ width: 150, marginTop: '18px', marginLeft: '10%' }}
-                                         addonAfter="층"
-                                         min={0}
-                                         onChange={setFloor}
-                            />
-                        </td>
                     </tr>
+                <tr>
+                    <td colSpan={2}>
+                        <InputNumber style={{ width: 150, marginTop: '-18px' }}
+                                     addonAfter="층"
+                                     min={0}
+                                     onChange={setFloor}
+                        />
+                    </td>
+                </tr>
                     <tr >
                         <td colSpan={2}>
                             <div style={{color: 'grey'}}>
@@ -219,7 +232,7 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td colSpan={2}>
                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 30 }}>
                                 <div style={{ color: 'red', fontSize: 16, marginTop: '0px' }}>*</div>
                                 <Title level={4}>
@@ -227,13 +240,15 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
                                 </Title>
                             </div>
                         </td>
-                        <td>
+                    </tr>
+                    <tr>
+                        <td colSpan={2}>
                             <Switch checkedChildren="거주중"
                                     unCheckedChildren="미거주"
                                     onChange={setIsResident}
                                     defaultValue={true}
                                     defaultChecked
-                                    style={{ width: 80, marginTop: '47px'}}/>
+                                    style={{ width: 80, marginTop: '-17px'}}/>
                         </td>
                     </tr>
                     <tr>
