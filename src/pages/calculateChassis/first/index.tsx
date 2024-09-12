@@ -134,7 +134,7 @@ const FirstScreen = () => {
                             <Col xs={2} sm={4} md={6} lg={8} xl={6} />
 
 
-                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
                                 <Col
                                     xs={24}
                                     sm={20}
