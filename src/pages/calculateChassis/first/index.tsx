@@ -125,9 +125,9 @@ const FirstScreen = () => {
         <>
             {contextHolder}
             <div className="app">
-                <header className="app-header">
-                    <h1>호구 빵명 프로젝트</h1>
-                </header>
+                {/*<header className="app-header">*/}
+                {/*    <h1>호구 빵명 프로젝트</h1>*/}
+                {/*</header>*/}
                 <main className="app-main">
                     {/*<aside className="banner">*/}
                     {/*    <p>광고 베너 칸</p>*/}
