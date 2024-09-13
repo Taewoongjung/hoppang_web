@@ -312,6 +312,9 @@ const FirstScreen = () => {
                     {/*</aside>*/}
                 </main>
             </div>
+            <footer className="footer">
+                인트로 정일윤 | 주소 : 울산광역시남구삼산로318번길12,2층(삼산동) | 사업자등록번호 : 175-24-00881
+            </footer>
         </>
     );
 }
