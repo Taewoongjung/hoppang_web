@@ -125,9 +125,9 @@ const FirstScreen = () => {
         <>
             {contextHolder}
             <div className="app">
-                {/*<header className="app-header">*/}
-                {/*    <h1>호구 빵명 프로젝트</h1>*/}
-                {/*</header>*/}
+                <header className="app-header">
+                    <h1>호빵</h1>
+                </header>
                 <main className="app-main">
                     {/*<aside className="banner">*/}
                     {/*    <p>광고 베너 칸</p>*/}
@@ -306,15 +306,16 @@ const FirstScreen = () => {
                                 </Col>
                             </div>
                         </Row>
+                        <Divider/>
+                        <footer className="footer">
+                            인트로 정일윤 | 주소 : 울산광역시남구삼산로318번길12,2층(삼산동) | 사업자등록번호 : 175-24-00881
+                        </footer>
                     </div>
                     {/*<aside className="banner">*/}
                     {/*    <p>광고 베너 칸</p>*/}
                     {/*</aside>*/}
                 </main>
             </div>
-            <footer className="footer">
-                인트로 정일윤 | 주소 : 울산광역시남구삼산로318번길12,2층(삼산동) | 사업자등록번호 : 175-24-00881
-            </footer>
         </>
     );
 }

@@ -14,11 +14,11 @@ html, body {
 }
 
 .app-header {
-    background-color: #4a90e2;
-    color: white;
+    background-color: #f7f8fa;
+    color: #000000;
     padding: 1.5rem;
     text-align: center;
-    font-size: 24px;
+    font-size: 15px;
     font-weight: bold;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
