@@ -18,6 +18,7 @@ const AdditionalChassisPriceCriteria = () => {
         MinimumLaborFee: undefined,
         MaintenanceFee: undefined,
         FreightTransportFee: undefined,
+        DeliveryFee: undefined,
         LadderCar2To6: undefined,
         LadderCar7To8: undefined,
         LadderCar9To10: undefined,
@@ -85,7 +86,8 @@ const AdditionalChassisPriceCriteria = () => {
             'DemolitionFee',
             'MinimumLaborFee',
             'MaintenanceFee',
-            'FreightTransportFee'
+            'FreightTransportFee',
+            'DeliveryFee'
         ]
 
         const reqReviseAdditionalChassisPriceList = filterTargetedCriteriaKeyList(targetList);
@@ -185,7 +187,7 @@ const AdditionalChassisPriceCriteria = () => {
                 <div>
                     <Descriptions
                         bordered
-                        title="철거비/최소 인건비/보양비/도수 운반비"
+                        title="철거비/최소 인건비/보양비/도수 운반비/배송비"
                         size="middle"
                         extra={
                             <>
@@ -200,6 +202,7 @@ const AdditionalChassisPriceCriteria = () => {
                         {renderFirstItem('최소 인건비', 'MinimumLaborFee')}
                         {renderFirstItem('보양비', 'MaintenanceFee')}
                         {renderFirstItem('도수 운반비', 'FreightTransportFee')}
+                        {renderFirstItem('배송비', 'DeliveryFee')}
                     </Descriptions>
 
                     <br />
