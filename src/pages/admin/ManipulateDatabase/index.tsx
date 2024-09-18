@@ -10,7 +10,7 @@ import {
     Divider,
 } from "antd";
 import axios from "axios";
-import chassisType from "../../../definition/admin/chassisType";
+import chassisType from "../../../definition/chassisType";
 import mappedValueByCompany, {addCommasToNumber} from "../../../util/adminUtil";
 import adminFetcher from "../../../util/adminFetcher";
 import useSWR from "swr";
