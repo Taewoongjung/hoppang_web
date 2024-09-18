@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Collapse, Result, Table, TableColumnsType, Divider} from 'antd';
-import {addCommasToNumber, mappedCompanyByValue} from "../../../util";
+import {addCommasToNumber, getYetCalculatedCompanyList, mappedCompanyByValue} from "../../../util";
 import {getLabelOfChassisType} from "../../../util";
 
 // 재료비
@@ -139,6 +139,8 @@ const CalculatedResult = (props:{result:[]}) => {
 
     }, [result]);
 
+    const yetCalculatedCompanyList = getYetCalculatedCompanyList(firstCalculatedCompanyType);
+
     return(
         <>
             <div style={{}}>
@@ -152,6 +154,9 @@ const CalculatedResult = (props:{result:[]}) => {
                         </Button>,
                     ]}
                 />
+
+                <br/>
+
                 <Collapse
                     size="large"
                     style={{width:500}}
@@ -181,6 +186,26 @@ const CalculatedResult = (props:{result:[]}) => {
                                 />
                             </p>
                     }]}
+                />
+
+                <Collapse
+                    collapsible="disabled"
+                    items={[
+                        {
+                            key: '1',
+                            label: `${yetCalculatedCompanyList?.[0]}`,
+                        },
+                    ]}
+                />
+
+                <Collapse
+                    collapsible="disabled"
+                    items={[
+                        {
+                            key: '1',
+                            label: `${yetCalculatedCompanyList?.[1]}`,
+                        },
+                    ]}
                 />
             </div>
         </>

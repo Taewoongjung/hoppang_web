@@ -28,6 +28,20 @@ export const mappedCompanyByValue = (value: string) => {
     }
 }
 
+export const getYetCalculatedCompanyList = (firstCalculatedCompany: string) => {
+    if (firstCalculatedCompany === 'HYUNDAI') {
+        return ['LX 하우시스', '홈 CC'];
+    }
+
+    if (firstCalculatedCompany === 'LX') {
+        return ['현대 L&C', '홈 CC'];
+    }
+
+    if (firstCalculatedCompany === 'HOME_CC') {
+        return ['현대 L&C', 'LX 하우시스'];
+    }
+}
+
 
 export const addCommasToNumber = (number: any): string | undefined => {
     return number?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
