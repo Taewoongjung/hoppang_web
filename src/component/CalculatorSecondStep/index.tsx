@@ -4,7 +4,7 @@ import RegisteringChassis from "../../definition/interfaces";
 import SearchAddressPopUp from "../SearchAddressPopUp";
 import {SearchOutlined} from "@ant-design/icons";
 import axios from "axios";
-import CalculatedResult from "../../pages/calculateChassis/calculatedresult";
+import CalculatedResult from "../../pages/calculateChassis/CalculatedResult";
 import {calculateChassisCall} from "../../definition/apiPath";
 
 const { Title } = Typography;

@@ -2,7 +2,7 @@ import React from 'react';
 import loadable from "@loadable/component";
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-const FirstScreen = loadable(() => import('../../pages/calculateChassis/first'));
+const FirstScreen = loadable(() => import('../../pages/calculateChassis/First'));
 
 // 어드민
 const LoginPage = loadable(() => import('../../pages/admin/Login'));
