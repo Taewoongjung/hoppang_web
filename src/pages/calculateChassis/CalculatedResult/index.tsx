@@ -99,26 +99,34 @@ const CalculatedResult = (props:{result:[]}) => {
         let freightTransportFee = result['freightTransportFee']; // 도수운반비
 
         // @ts-ignore
+        let laborFee = result['laborFee']; // 인건비
+
+        // @ts-ignore
         let deliveryFee = result['deliveryFee']; // 배송비
 
         const additionalDataTypes: AdditionalDataType[] = [];
         additionalDataTypes.push({
             key: 0,
+            additionalPriceType: '인건비',
+            price: addCommasToNumber(laborFee) || 'N/A'
+        });
+        additionalDataTypes.push({
+            key: 1,
             additionalPriceType: '철거비',
             price: addCommasToNumber(demolitionFee) || 'N/A'
         });
         additionalDataTypes.push({
-            key: 1,
+            key: 2,
             additionalPriceType: '사다리차비',
             price: addCommasToNumber(ladderFee) || 'N/A'
         });
         additionalDataTypes.push({
-            key: 2,
+            key: 3,
             additionalPriceType: '보양비',
             price: addCommasToNumber(maintenanceFee) || 'N/A'
         });
         additionalDataTypes.push({
-            key: 3,
+            key: 4,
             additionalPriceType: '기타비용',
             price: addCommasToNumber((deliveryFee + freightTransportFee)) || 'N/A'
         });
