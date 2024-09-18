@@ -188,6 +188,8 @@ const CalculatedResult = (props:{result:[]}) => {
                     }]}
                 />
 
+                <br/>
+
                 <Collapse
                     collapsible="disabled"
                     items={[
@@ -197,6 +199,8 @@ const CalculatedResult = (props:{result:[]}) => {
                         },
                     ]}
                 />
+
+                <br/>
 
                 <Collapse
                     collapsible="disabled"
