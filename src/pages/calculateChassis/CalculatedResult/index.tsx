@@ -114,6 +114,11 @@ const CalculatedResult = (props:{result:[]}) => {
         });
         additionalDataTypes.push({
             key: 2,
+            additionalPriceType: '보양비',
+            price: addCommasToNumber(maintenanceFee) || 'N/A'
+        });
+        additionalDataTypes.push({
+            key: 3,
             additionalPriceType: '기타비용',
             price: addCommasToNumber((deliveryFee + freightTransportFee)) || 'N/A'
         });
