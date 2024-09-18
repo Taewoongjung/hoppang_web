@@ -142,6 +142,7 @@ const CalculatedResult = (props:{result:[]}) => {
                 <Collapse
                     size="large"
                     style={{width:500}}
+                    defaultActiveKey={['1']}
                     items={[{ key: '1',
                         label: `${mappedCompanyByValue(firstCalculatedCompanyType)}`,
                         children:
