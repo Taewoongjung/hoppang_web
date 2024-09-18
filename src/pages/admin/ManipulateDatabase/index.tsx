@@ -11,7 +11,7 @@ import {
 } from "antd";
 import axios from "axios";
 import chassisType from "../../../definition/chassisType";
-import mappedValueByCompany, {addCommasToNumber} from "../../../util/adminUtil";
+import {mappedValueByCompany, addCommasToNumber} from "../../../util";
 import adminFetcher from "../../../util/adminFetcher";
 import useSWR from "swr";
 import AddAndReviseChassisInfo from "../../../component/admin/AddAndReviseChassisInfo";

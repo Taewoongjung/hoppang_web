@@ -106,155 +106,162 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
     return (
         <>
             {contextHolder}
-            {calculatedChassisPriceResult.length === 0 &&
             <table>
-                <tbody>
-                <tr><td colSpan={2}><Button onClick={clickBackButton}>뒤로가기</Button></td></tr>
-                    <tr>
-                        <td colSpan={2}>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
-                                <Title level={4}>
-                                    철거 여부 :
-                                </Title>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colSpan={2}>
-                            <Switch checkedChildren="철거"
-                                    unCheckedChildren="철거 안함"
-                                    defaultChecked
-                                    style={{ marginTop: '-18px', width: '90px' }}
-                                    defaultValue={true}
-                                    onChange={setIsScheduledForDemolition} />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colSpan={2}>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
-                                <Title level={4}>
-                                    주소 입력 :
-                                </Title>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colSpan={2}>
-                            <Form form={form} fields={formFields}>
-                                <Col>
-                                    <Form.Item
-                                        name="zipCode"
-                                        label=""
-                                        style={{ marginTop: '-10px'}}
-                                        rules={[{ required: true, message: '⚠️ 주소는 필수 응답 항목입니다.' }]}
-                                    >
-                                        <Input addonAfter={
-                                            (
-                                                <Popover
-                                                    content={<SearchAddressPopUp setAddress={handleAddress} setOpenSearchAddr={setOpenSearchAddr}/>}
-                                                    trigger="click"
-                                                    open={openSearchAddr}
-                                                    placement="bottom"
-                                                    onOpenChange={handleOpenSearchAddrChange}
-                                                >
-                                                    <SearchOutlined onClick={(e) => {
-                                                        e.preventDefault();
-                                                    }}/>
-                                                </Popover>
-                                            )
-                                        } style={{width:"160px"}} readOnly
-                                        />
-                                    </Form.Item>
-                                </Col>
+                {calculatedChassisPriceResult.length === 0 &&
+                    <tbody>
+                        <tr><td colSpan={2}><Button onClick={clickBackButton}>뒤로가기</Button></td></tr>
+                        <tr>
+                            <td colSpan={2}>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
+                                    <Title level={4}>
+                                        철거 여부 :
+                                    </Title>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={2}>
+                                <Switch checkedChildren="철거"
+                                        unCheckedChildren="철거 안함"
+                                        defaultChecked
+                                        style={{ marginTop: '-18px', width: '90px' }}
+                                        defaultValue={true}
+                                        onChange={setIsScheduledForDemolition} />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={2}>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
+                                    <Title level={4}>
+                                        주소 입력 :
+                                    </Title>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={2}>
+                                <Form form={form} fields={formFields}>
+                                    <Col>
+                                        <Form.Item
+                                            name="zipCode"
+                                            label=""
+                                            style={{ marginTop: '-10px'}}
+                                            rules={[{ required: true, message: '⚠️ 주소는 필수 응답 항목입니다.' }]}
+                                        >
+                                            <Input addonAfter={
+                                                (
+                                                    <Popover
+                                                        content={<SearchAddressPopUp setAddress={handleAddress} setOpenSearchAddr={setOpenSearchAddr}/>}
+                                                        trigger="click"
+                                                        open={openSearchAddr}
+                                                        placement="bottom"
+                                                        onOpenChange={handleOpenSearchAddrChange}
+                                                    >
+                                                        <SearchOutlined onClick={(e) => {
+                                                            e.preventDefault();
+                                                        }}/>
+                                                    </Popover>
+                                                )
+                                            } style={{width:"160px"}} readOnly
+                                            />
+                                        </Form.Item>
+                                    </Col>
 
-                                <Col>
-                                    <Form.Item
-                                        name="mainAddress"
-                                    >
-                                        <Input
-                                            style={{ width: '300px' }}
-                                            readOnly
-                                        />
-                                    </Form.Item>
-                                </Col>
-                                <Col>
-                                    <Form.Item
-                                        name="subAddress"
-                                        rules={[
-                                            { required: true, message: '⚠️ 나머지 주소는 필수 응답 항목입니다.' },
-                                        ]}
-                                    >
-                                        <Input
-                                            style={{ width: '300px' }}
-                                            id="company_sub_address"
-                                            type="text"
-                                            placeholder = "사업체 나머지 주소"
-                                        />
-                                    </Form.Item>
-                                </Col>
-                            </Form>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colSpan={2}>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
-                                <Title level={4}>
-                                    공사 예정 층 수 :
-                                </Title>
-                            </div>
-                        </td>
-                    </tr>
-                <tr>
-                    <td colSpan={2}>
-                        <InputNumber style={{ width: 150, marginTop: '-18px' }}
-                                     addonAfter="층"
-                                     min={0}
-                                     onChange={setFloor}
-                        />
-                    </td>
-                </tr>
-                    <tr >
-                        <td colSpan={2}>
-                            <div style={{color: 'grey'}}>
-                                *사다리차 작업 불가 시 가격 변동 및 작업 불가 가능성 있습니다.<br/>
-                                *층수에 따라 가격이 변동됩니다. (사다리차 등)<br/>
-                                *사다리차 대여 비용은 기본 2 시간으로 측정됩니다.
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colSpan={2}>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 30 }}>
-                                <div style={{ color: 'red', fontSize: 16, marginTop: '0px' }}>*</div>
-                                <Title level={4}>
-                                    거주 여부 :
-                                </Title>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colSpan={2}>
-                            <Switch checkedChildren="거주중"
-                                    unCheckedChildren="미거주"
-                                    onChange={setIsResident}
-                                    defaultValue={true}
-                                    defaultChecked
-                                    style={{ width: 80, marginTop: '-17px'}}/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colSpan={2}>
-                            <div style={{ marginTop: '20%'}}>
-                                <Button type={'primary'} size={'large'} onClick={CallCalculate}>계산하기</Button>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>}
-            {calculatedChassisPriceResult.length !== 0 && <CalculatedResult result={calculatedChassisPriceResult}/>}
+                                    <Col>
+                                        <Form.Item
+                                            name="mainAddress"
+                                        >
+                                            <Input
+                                                style={{ width: '300px' }}
+                                                readOnly
+                                            />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col>
+                                        <Form.Item
+                                            name="subAddress"
+                                            rules={[
+                                                { required: true, message: '⚠️ 나머지 주소는 필수 응답 항목입니다.' },
+                                            ]}
+                                        >
+                                            <Input
+                                                style={{ width: '300px' }}
+                                                id="company_sub_address"
+                                                type="text"
+                                                placeholder = "사업체 나머지 주소"
+                                            />
+                                        </Form.Item>
+                                    </Col>
+                                </Form>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={2}>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
+                                    <Title level={4}>
+                                        공사 예정 층 수 :
+                                    </Title>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={2}>
+                                <InputNumber style={{ width: 150, marginTop: '-18px' }}
+                                             addonAfter="층"
+                                             min={0}
+                                             onChange={setFloor}
+                                />
+                            </td>
+                        </tr>
+                        <tr >
+                            <td colSpan={2}>
+                                <div style={{color: 'grey'}}>
+                                    *사다리차 작업 불가 시 가격 변동 및 작업 불가 가능성 있습니다.<br/>
+                                    *층수에 따라 가격이 변동됩니다. (사다리차 등)<br/>
+                                    *사다리차 대여 비용은 기본 2 시간으로 측정됩니다.
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={2}>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: 30 }}>
+                                    <div style={{ color: 'red', fontSize: 16, marginTop: '0px' }}>*</div>
+                                    <Title level={4}>
+                                        거주 여부 :
+                                    </Title>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={2}>
+                                <Switch checkedChildren="거주중"
+                                        unCheckedChildren="미거주"
+                                        onChange={setIsResident}
+                                        defaultValue={true}
+                                        defaultChecked
+                                        style={{ width: 80, marginTop: '-17px'}}/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colSpan={2}>
+                                <div style={{ marginTop: '20%'}}>
+                                    <Button type={'primary'} size={'large'} onClick={CallCalculate}>계산하기</Button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                }
+                {calculatedChassisPriceResult.length !== 0 &&
+                    <tbody>
+                        <tr>
+                            <CalculatedResult result={calculatedChassisPriceResult}/>
+                        </tr>
+                    </tbody>
+                }
+            </table>
         </>
     )
 };

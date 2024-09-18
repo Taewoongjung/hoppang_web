@@ -1,16 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Result, Table, TableColumnsType} from 'antd';
-import {addCommasToNumber} from "../../../util/adminUtil";
-import {getLabelOfChassisType} from "../../../util/util";
+import {Button, Collapse, Result, Table, TableColumnsType, Divider} from 'antd';
+import {addCommasToNumber, mappedCompanyByValue} from "../../../util";
+import {getLabelOfChassisType} from "../../../util";
 
-interface DataType {
+// 재료비
+interface MaterialDataType {
     key: React.Key;
     chassisType: string;
     standard: string;
     price: string | undefined;
 }
 
-const columns: TableColumnsType<DataType> = [
+const materialColumns: TableColumnsType<MaterialDataType> = [
     {
         title: '샤시 종류',
         dataIndex: 'chassisType',
@@ -25,18 +26,53 @@ const columns: TableColumnsType<DataType> = [
     },
 ];
 
+
+// 부가비용
+interface AdditionalDataType {
+    key: React.Key;
+    additionalPriceType: string;
+    price: string | undefined;
+}
+
+const additionalColumns: TableColumnsType<AdditionalDataType> = [
+    {
+        title: '비용',
+        dataIndex: 'additionalPriceType',
+    },
+    {
+        title: '금액',
+        dataIndex: 'price',
+    },
+];
+
+
 const CalculatedResult = (props:{result:[]}) => {
 
     const { result = [] } = props; // 기본값으로 빈 배열 설정
 
-    const [tableData, setTableData] = useState<DataType[]>([]);
+    const [materialTableData1, setMaterialTableData1] = useState<MaterialDataType[]>([]);
+    const [additionalTableData1, setAdditionalTableData1] = useState<AdditionalDataType[]>([]);
     const [wholePrice, setWholePrice] = useState('');
+
+    let [calculatedCount, setCalculatedCount] = useState(0);
+    const [firstCalculatedCompanyType, setFirstCalculatedCompanyType] = useState('');
 
     const onClickReCalculate = () => {
         window.location.reload();
     }
 
     useEffect(() => {
+
+        if (calculatedCount === 0) {
+            // @ts-ignore
+            let company = result['company'];
+
+            setFirstCalculatedCompanyType(company);
+        }
+
+        // 견적 받은 횟수 (첫 번째 견적 요청에만 setFirstCalculatedCompanyType 에 해당 브랜드 회사 정보 담기)
+        setCalculatedCount(calculatedCount++);
+
         // @ts-ignore
         const formattedData = result['chassisPriceResultList'].map((item: any, index: number) => ({
             key: index,
@@ -44,10 +80,46 @@ const CalculatedResult = (props:{result:[]}) => {
             standard: `${item.width} x ${item.height}` || 'N/A',
             price: addCommasToNumber(item.price) || 'N/A'
         }));
-        setTableData(formattedData);
+        setMaterialTableData1(formattedData);
 
         // @ts-ignore
         let wholePrice = result['wholeCalculatedFee'];
+
+
+        // @ts-ignore
+        let demolitionFee = result['demolitionFee']; // 철거비
+
+        // @ts-ignore
+        let maintenanceFee = result['maintenanceFee']; // 보양비
+
+        // @ts-ignore
+        let ladderFee = result['ladderFee']; // 사다리차비
+
+        // @ts-ignore
+        let freightTransportFee = result['freightTransportFee']; // 도수운반비
+
+        // @ts-ignore
+        let deliveryFee = result['deliveryFee']; // 배송비
+
+        const additionalDataTypes: AdditionalDataType[] = [];
+        additionalDataTypes.push({
+            key: 0,
+            additionalPriceType: '철거비',
+            price: addCommasToNumber(demolitionFee) || 'N/A'
+        });
+        additionalDataTypes.push({
+            key: 1,
+            additionalPriceType: '사다리차비',
+            price: addCommasToNumber(ladderFee) || 'N/A'
+        });
+        additionalDataTypes.push({
+            key: 2,
+            additionalPriceType: '기타비용',
+            price: addCommasToNumber((deliveryFee + freightTransportFee)) || 'N/A'
+        });
+
+        setAdditionalTableData1(additionalDataTypes);
+
 
         // @ts-ignore
         setWholePrice(addCommasToNumber(wholePrice));
@@ -67,13 +139,34 @@ const CalculatedResult = (props:{result:[]}) => {
                         </Button>,
                     ]}
                 />
-                <Table
-                    columns={columns}
-                    dataSource={tableData}
-                    size="middle"
-                    style={{width:1000}}
-                    footer={() => `총 금액: ${wholePrice}`}
-                    pagination={false}
+                <Collapse
+                    size="large"
+                    style={{width:500}}
+                    items={[{ key: '1',
+                        label: `${mappedCompanyByValue(firstCalculatedCompanyType)}`,
+                        children:
+                            <p>
+                                <Divider orientation="left">재료값</Divider>
+                                <Table
+                                    columns={materialColumns}
+                                    dataSource={materialTableData1}
+                                    size="middle"
+                                    style={{width:500}}
+                                    pagination={false}
+                                />
+                                <br/>
+
+                                <Divider orientation="left">부가비용</Divider>
+                                <Table
+                                    columns={additionalColumns}
+                                    dataSource={additionalTableData1}
+                                    size="middle"
+                                    style={{width:500}}
+                                    footer={() => `총 금액: ${wholePrice}`}
+                                    pagination={false}
+                                />
+                            </p>
+                    }]}
                 />
             </div>
         </>

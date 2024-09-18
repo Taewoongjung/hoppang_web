@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Button, Descriptions, Divider, Typography, Input, message} from "antd";
 import axios from "axios";
 import {findAllAdditionalChassisPriceCriteria, reviseAdditionalChassisPriceCriteria} from "../../../definition/admin/apiPath";
-import {addCommasToNumber} from "../../../util/adminUtil";
+import {addCommasToNumber} from "../../../util";
 
 const { Title } = Typography;
 
