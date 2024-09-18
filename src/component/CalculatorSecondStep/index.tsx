@@ -5,15 +5,13 @@ import SearchAddressPopUp from "../SearchAddressPopUp";
 import {SearchOutlined} from "@ant-design/icons";
 import axios from "axios";
 import CalculatedResult from "../../pages/calculateChassis/calculatedresult";
+import {calculateChassisCall} from "../../definition/apiPath";
 
 const { Title } = Typography;
 
 const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], companyType: string, clickBackButton: () => void}) => {
 
     const [form] = Form.useForm();
-
-    // const calculateChassisCall = `http://localhost:7070/api/chassis/calculations/prices`;
-    const calculateChassisCall = `https://hoppang.store/api/chassis/calculations/prices`;
 
     const [messageApi, contextHolder] = message.useMessage();
 
@@ -28,7 +26,7 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
     const [isScheduledForDemolition, setIsScheduledForDemolition] = useState(true);
     const [isResident, setIsResident] = useState(true);
 
-    const [calculatedChassisPriceResult, setCalculatedChassisPriceResult] = useState<number>(0)
+    const [calculatedChassisPriceResult, setCalculatedChassisPriceResult] = useState<[]>([]);
 
 
     const success = (successMsg:string) => {
@@ -104,15 +102,11 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
             });
     }
 
-    const addCommasToNumber = (number: any): string | undefined => {
-        return number?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    };
-
 
     return (
         <>
             {contextHolder}
-            {calculatedChassisPriceResult === 0 &&
+            {calculatedChassisPriceResult.length === 0 &&
             <table>
                 <tbody>
                 <tr><td colSpan={2}><Button onClick={clickBackButton}>뒤로가기</Button></td></tr>
@@ -260,7 +254,7 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
                     </tr>
                 </tbody>
             </table>}
-            {calculatedChassisPriceResult !== 0 && <CalculatedResult result={addCommasToNumber(calculatedChassisPriceResult)}/>}
+            {calculatedChassisPriceResult.length !== 0 && <CalculatedResult result={calculatedChassisPriceResult}/>}
         </>
     )
 };

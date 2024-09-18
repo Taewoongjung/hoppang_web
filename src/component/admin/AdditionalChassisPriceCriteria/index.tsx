@@ -224,8 +224,8 @@ const AdditionalChassisPriceCriteria = () => {
                         {renderSecondItem('2 ~ 6 층', 'LadderCar2To6')}
                         {renderSecondItem('7 ~ 8 층', 'LadderCar7To8')}
                         {renderSecondItem('9 ~ 10 층', 'LadderCar9To10')}
-                        {renderSecondItem('11 ~ 22 층', 'LadderCar11To22PerF')}
-                        {renderSecondItem('23 층 이상', 'LadderCarOver23')}
+                        {renderSecondItem('11 ~ 22 층 (층별 가격)', 'LadderCar11To22PerF')}
+                        {renderSecondItem('23 층 이상 (층별 가격)', 'LadderCarOver23')}
                     </Descriptions>
                 </div>
                 <Divider/>
