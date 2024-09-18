@@ -37,14 +37,10 @@ const CalculatedResult = (props:{result:[]}) => {
     }
 
     useEffect(() => {
-
-        // @ts-ignore
-        let chassisType = result['chassisType'] || 'N/A';
-
         // @ts-ignore
         const formattedData = result['chassisPriceResultList'].map((item: any, index: number) => ({
             key: index,
-            chassisType: getLabelOfChassisType(chassisType),
+            chassisType: getLabelOfChassisType(item.chassisType),
             standard: `${item.width} x ${item.height}` || 'N/A',
             price: addCommasToNumber(item.price) || 'N/A'
         }));
