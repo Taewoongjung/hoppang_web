@@ -104,6 +104,9 @@ const CalculatedResult = (props:{result:[]}) => {
         // @ts-ignore
         let deliveryFee = result['deliveryFee']; // 배송비
 
+        // @ts-ignore
+        let customerFloor = result['customerFloor']; // 고객 층수
+
         const additionalDataTypes: AdditionalDataType[] = [];
         additionalDataTypes.push({
             key: 0,
@@ -117,7 +120,7 @@ const CalculatedResult = (props:{result:[]}) => {
         });
         additionalDataTypes.push({
             key: 2,
-            additionalPriceType: '사다리차비',
+            additionalPriceType: `사다리차비 ${customerFloor}`,
             price: addCommasToNumber(ladderFee) || 'N/A'
         });
         additionalDataTypes.push({
