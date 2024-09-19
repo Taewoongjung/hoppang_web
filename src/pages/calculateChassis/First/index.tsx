@@ -146,160 +146,159 @@ const FirstScreen = () => {
                                     {!secondStep &&
                                         <table>
                                             <tbody>
-                                            <tr>
-                                                <td colSpan={2}>
-                                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                                        <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
-                                                        <Title level={4}>
-                                                            샤시 회사 선택 :
-                                                        </Title>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colSpan={2}>
-                                                    <Select
-                                                        status={companyTypeStatus}
-                                                        defaultValue="샤시 회사 선택"
-                                                        style={{ width: 150 }}
-                                                        onChange={setCompany}
-                                                        options={companyTypeOptions}/>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colSpan={2}>
-                                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                                        <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
-                                                        <Title level={4}>
-                                                            샤시 종류 선택 :
-                                                        </Title>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colSpan={2}>
-                                                    <Select
-                                                        status={chassisTypeStatus}
-                                                        defaultValue="샤시 종류 선택"
-                                                        style={{ width: 150 }}
-                                                        onChange={setChassisType}
-                                                        options={chassisTypeOptions}/>
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td colSpan={2}>
-                                                    <div style={{marginTop:'12%', marginBottom:'-28%'}}>
-                                                        <div style={{color: 'grey', textDecorationLine: 'underline'}}>
-                                                            *가로 세로 수치는 10mm 단위로 작성 해주세요
+                                                <tr>
+                                                    <td colSpan={2}>
+                                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                            <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
+                                                            <Title level={4}>
+                                                                샤시 회사 선택 :
+                                                            </Title>
                                                         </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colSpan={2}>
-                                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '15%' }}>
-                                                        <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
-                                                        <Title level={4}>
-                                                            샤시 가로 (w) :
-                                                        </Title>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colSpan={2}>
-                                                    <InputNumber style={{ width: 150 }}
-                                                                 addonAfter="mm"
-                                                                 min={0}
-                                                                 status={widthStatus}
-                                                                 onChange={setWidth}
-                                                    />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colSpan={2}>
-                                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                                        <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
-                                                        <Title level={4}>
-                                                            샤시 세로 (h) :
-                                                        </Title>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colSpan={2}>
-                                                    <InputNumber style={{ width: 150 }}
-                                                                 addonAfter="mm"
-                                                                 min={0}
-                                                                 status={heightStatus}
-                                                                 onChange={setHeight}
-                                                    />
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colSpan={2}>
+                                                        <Select
+                                                            status={companyTypeStatus}
+                                                            defaultValue="샤시 회사 선택"
+                                                            style={{ width: 150 }}
+                                                            onChange={setCompany}
+                                                            options={companyTypeOptions}/>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colSpan={2}>
+                                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                            <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
+                                                            <Title level={4}>
+                                                                샤시 종류 선택 :
+                                                            </Title>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colSpan={2}>
+                                                        <Select
+                                                            status={chassisTypeStatus}
+                                                            defaultValue="샤시 종류 선택"
+                                                            style={{ width: 150 }}
+                                                            onChange={setChassisType}
+                                                            options={chassisTypeOptions}/>
+                                                    </td>
+                                                </tr>
 
-                                            <tr>
-                                                <td colSpan={2}>
-                                                    <Button
-                                                        type="dashed"
-                                                        shape="round"
-                                                        style={{marginTop: '15%', width: '45%'}}
-                                                        onClick={handleRegisterChassis}
-                                                    >
-                                                        추가
-                                                    </Button>
-
-                                                    <Divider style={{ marginTop: '10%' }}>추가리스트</Divider>
-                                                    <div id="scrollableDiv" style={{ height: ContainerHeight, overflow: 'auto', width: 400 }}>
-                                                        <List
-                                                            itemLayout={"horizontal"}
-                                                            dataSource={registeredList}
-                                                            renderItem={(item: RegisteringChassis, index) => (
-                                                                <List.Item key={item.index}>
-                                                                    <List.Item.Meta
-                                                                        title={getLabelOfChassisType(item.chassisType)}
-                                                                        description={
-                                                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                                                                <table>
-                                                                                    <tr>
-                                                                                        <td>가로 :</td>
-                                                                                        <td>{item.width}</td>
-                                                                                    </tr>
-                                                                                    <tr>
-                                                                                        <td>세로 :</td>
-                                                                                        <td>{item.height}</td>
-                                                                                    </tr>
-                                                                                </table>
-                                                                            </div>
-                                                                        }
-                                                                    />
-                                                                    <div
-                                                                        style={{fontSize:18, color: 'red'}}
-                                                                        onClick={(e) => {
-                                                                            e.stopPropagation(); // 이벤트 전파 중단
-                                                                            console.log(`Deleting chassis with index: ${item.index}`); // 함수 호출 확인 로그
-                                                                            deleteRegisteredChassis(item.index);
-                                                                        }}
-                                                                    >
-                                                                        <DeleteOutlined/>
-                                                                    </div>
-                                                                </List.Item>
-                                                            )}
+                                                <tr>
+                                                    <td colSpan={2}>
+                                                        <div style={{marginTop:'12%', marginBottom:'-28%'}}>
+                                                            <div style={{color: 'grey', textDecorationLine: 'underline'}}>
+                                                                *가로 세로 수치는 10mm 단위로 작성 해주세요
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colSpan={2}>
+                                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '15%' }}>
+                                                            <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
+                                                            <Title level={4}>
+                                                                샤시 가로 (w) :
+                                                            </Title>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colSpan={2}>
+                                                        <InputNumber style={{ width: 150 }}
+                                                                     addonAfter="mm"
+                                                                     min={0}
+                                                                     status={widthStatus}
+                                                                     onChange={setWidth}
                                                         />
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colSpan={2}>
-                                                    {registeredList.length > 0 &&
-                                                        <div >
-                                                            <Button type={'primary'} size={'large'} onClick={CompleteOnFirstScreen}>확정<RightOutlined /></Button>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colSpan={2}>
+                                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                            <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
+                                                            <Title level={4}>
+                                                                샤시 세로 (h) :
+                                                            </Title>
                                                         </div>
-                                                    }
-                                                </td>
-                                            </tr>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colSpan={2}>
+                                                        <InputNumber style={{ width: 150 }}
+                                                                     addonAfter="mm"
+                                                                     min={0}
+                                                                     status={heightStatus}
+                                                                     onChange={setHeight}
+                                                        />
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td colSpan={2}>
+                                                        <Button
+                                                            type="dashed"
+                                                            shape="round"
+                                                            style={{marginTop: '15%', width: '45%'}}
+                                                            onClick={handleRegisterChassis}
+                                                        >
+                                                            추가
+                                                        </Button>
+
+                                                        <Divider style={{ marginTop: '10%' }}>추가리스트</Divider>
+                                                        <div id="scrollableDiv" style={{ height: ContainerHeight, overflow: 'auto', width: 400 }}>
+                                                            <List
+                                                                itemLayout={"horizontal"}
+                                                                dataSource={registeredList}
+                                                                renderItem={(item: RegisteringChassis, index) => (
+                                                                    <List.Item key={item.index}>
+                                                                        <List.Item.Meta
+                                                                            title={getLabelOfChassisType(item.chassisType)}
+                                                                            description={
+                                                                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                                                    <table>
+                                                                                        <tr>
+                                                                                            <td>가로 :</td>
+                                                                                            <td>{item.width}</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                            <td>세로 :</td>
+                                                                                            <td>{item.height}</td>
+                                                                                        </tr>
+                                                                                    </table>
+                                                                                </div>
+                                                                            }
+                                                                        />
+                                                                        <div
+                                                                            style={{fontSize:18, color: 'red'}}
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation(); // 이벤트 전파 중단
+                                                                                console.log(`Deleting chassis with index: ${item.index}`); // 함수 호출 확인 로그
+                                                                                deleteRegisteredChassis(item.index);
+                                                                            }}
+                                                                        >
+                                                                            <DeleteOutlined/>
+                                                                        </div>
+                                                                    </List.Item>
+                                                                )}
+                                                            />
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colSpan={2}>
+                                                        {registeredList.length > 0 &&
+                                                            <div >
+                                                                <Button type={'primary'} size={'large'} onClick={CompleteOnFirstScreen}>확정<RightOutlined /></Button>
+                                                            </div>
+                                                        }
+                                                    </td>
+                                                </tr>
                                             </tbody>
-                                        </table>
-                                    }
+                                    </table>}
 
                                     {/* 두 번째 화면 렌더링 */}
                                     {secondStep && <CalculatorSecondStep registeredList={registeredList} companyType={companyType} clickBackButton={clickBackButton}/> }
