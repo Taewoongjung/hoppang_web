@@ -146,7 +146,7 @@ const CalculatedResult = (props:{result:[]}) => {
 
     return(
         <>
-            <div style={{}}>
+            <div>
                 <Result
                     status="success"
                     title={`견적 완료`}

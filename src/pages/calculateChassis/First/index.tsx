@@ -161,7 +161,7 @@ const FirstScreen = () => {
                                                     <Select
                                                         status={companyTypeStatus}
                                                         defaultValue="샤시 회사 선택"
-                                                        style={{ width: 150, marginLeft: '20%' }}
+                                                        style={{ width: 150 }}
                                                         onChange={setCompany}
                                                         options={companyTypeOptions}/>
                                                 </td>
@@ -181,7 +181,7 @@ const FirstScreen = () => {
                                                     <Select
                                                         status={chassisTypeStatus}
                                                         defaultValue="샤시 종류 선택"
-                                                        style={{ width: 150, marginLeft: '20%' }}
+                                                        style={{ width: 150 }}
                                                         onChange={setChassisType}
                                                         options={chassisTypeOptions}/>
                                                 </td>
@@ -208,7 +208,7 @@ const FirstScreen = () => {
                                             </tr>
                                             <tr>
                                                 <td colSpan={2}>
-                                                    <InputNumber style={{ width: 150, marginLeft: '20%' }}
+                                                    <InputNumber style={{ width: 150 }}
                                                                  addonAfter="mm"
                                                                  min={0}
                                                                  status={widthStatus}
@@ -228,7 +228,7 @@ const FirstScreen = () => {
                                             </tr>
                                             <tr>
                                                 <td colSpan={2}>
-                                                    <InputNumber style={{ width: 150, marginLeft: '20%' }}
+                                                    <InputNumber style={{ width: 150 }}
                                                                  addonAfter="mm"
                                                                  min={0}
                                                                  status={heightStatus}
