@@ -194,6 +194,7 @@ const CalculatedResult = (props:{result:[]}) => {
                 <br/>
 
                 <Collapse
+                    size="large"
                     collapsible="disabled"
                     items={[
                         {
@@ -206,6 +207,7 @@ const CalculatedResult = (props:{result:[]}) => {
                 <br/>
 
                 <Collapse
+                    size="large"
                     collapsible="disabled"
                     items={[
                         {

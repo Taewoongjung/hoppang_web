@@ -53,7 +53,7 @@ const API_URL = process.env.REACT_APP_REQUEST_API_URL;
 
 const ManipulateDatabase = () => {
 
-    const tabList = ['현대 L&C', 'LX 하우시스', '홈 CC'];
+    const tabList = ['현대 L&C', 'LX 하우시스', 'KCC 글라스'];
 
     const [curCompanyType, setCurCompanyType] = useState('현대 L&C');
 
@@ -260,7 +260,7 @@ const ManipulateDatabase = () => {
                 <div style={{width:150}}>
                     {curCompanyType === "현대 L&C" && <img src={"https://www.hyundailnc.com/images/front/company/c_logo.png"}/>}
                     {curCompanyType === "LX 하우시스" && <img src={"https://www.zincatalog.com/resources/web/images/logo.svg"}/>}
-                    {curCompanyType === "홈 CC" && <img src={"https://www.homecc.co.kr/images/logo_on_2022_2.png"}/>}
+                    {curCompanyType === "KCC 글라스" && <img src={"https://www.homecc.co.kr/images/logo_on_2022_2.png"}/>}
                 </div>
                 <Select
                     defaultValue={'발코니단창'}

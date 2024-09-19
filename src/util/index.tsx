@@ -9,8 +9,8 @@ export const mappedValueByCompany = (value: string) => {
         return 'LX';
     }
 
-    if (value === '홈 CC') {
-        return 'HOME_CC';
+    if (value === 'KCC 글라스') {
+        return 'KCC_GLASS';
     }
 }
 
@@ -23,21 +23,21 @@ export const mappedCompanyByValue = (value: string) => {
         return 'LX 하우시스';
     }
 
-    if (value === 'HOME_CC') {
-        return '홈 CC';
+    if (value === 'KCC_GLASS') {
+        return 'KCC 글라스';
     }
 }
 
 export const getYetCalculatedCompanyList = (firstCalculatedCompany: string) => {
     if (firstCalculatedCompany === 'HYUNDAI') {
-        return ['LX 하우시스', '홈 CC'];
+        return ['LX 하우시스', 'KCC 글라스'];
     }
 
     if (firstCalculatedCompany === 'LX') {
-        return ['현대 L&C', '홈 CC'];
+        return ['현대 L&C', 'KCC 글라스'];
     }
 
-    if (firstCalculatedCompany === 'HOME_CC') {
+    if (firstCalculatedCompany === 'KCC_GLASS') {
         return ['현대 L&C', 'LX 하우시스'];
     }
 }
