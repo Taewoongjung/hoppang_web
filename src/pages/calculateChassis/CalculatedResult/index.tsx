@@ -120,7 +120,7 @@ const CalculatedResult = (props:{result:[]}) => {
         });
         additionalDataTypes.push({
             key: 2,
-            additionalPriceType: `사다리차비 (${customerFloor})`,
+            additionalPriceType: `사다리차비 (${customerFloor} 층)`,
             price: addCommasToNumber(ladderFee) || 'N/A'
         });
         additionalDataTypes.push({
