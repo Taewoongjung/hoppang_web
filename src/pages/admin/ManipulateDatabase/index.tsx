@@ -17,6 +17,7 @@ import useSWR from "swr";
 import AddAndReviseChassisInfo from "../../../component/admin/AddAndReviseChassisInfo";
 import {callMeData, findAllChassisPriceByCompanyTypeAndChassisType} from "../../../definition/admin/apiPath";
 import AdditionalChassisPriceCriteria from "../../../component/admin/AdditionalChassisPriceCriteria";
+import {HYUNDAI_ko, KCC_GLASS_ko, LX_ko} from "../../../definition/companyType";
 
 const { Header, Content, Footer } = Layout;
 
@@ -246,7 +247,7 @@ const ManipulateDatabase = () => {
             <Header style={{ display: 'flex', alignItems: 'center' }}>
                 <div className="demo-logo" style={{ color: "white" }}>{userData?.name}</div>
             </Header>
-            <Content style={{ padding: '0 48px' }}>
+            <Content style={{ padding: '0 0px' }}>
                 <Tabs
                     defaultActiveKey="0"
                     onChange={(key) => setCurCompanyType(tabList[parseInt(key)])}
@@ -258,9 +259,9 @@ const ManipulateDatabase = () => {
 
                 {/*샤시 브랜드 로고*/}
                 <div style={{width:150}}>
-                    {curCompanyType === "현대 L&C" && <img src={"https://www.hyundailnc.com/images/front/company/c_logo.png"}/>}
-                    {curCompanyType === "LX 하우시스" && <img src={"https://www.zincatalog.com/resources/web/images/logo.svg"}/>}
-                    {curCompanyType === "KCC 글라스" && <img src={"https://www.homecc.co.kr/images/logo_on_2022_2.png"}/>}
+                    {curCompanyType === HYUNDAI_ko && <img src={"https://www.hyundailnc.com/images/front/company/c_logo.png"}/>}
+                    {curCompanyType === LX_ko && <img src={"https://www.zincatalog.com/resources/web/images/logo.svg"}/>}
+                    {curCompanyType === KCC_GLASS_ko && <img src={"https://www.homecc.co.kr/images/logo_on_2022_2.png"}/>}
                 </div>
                 <Select
                     defaultValue={'발코니단창'}

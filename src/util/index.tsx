@@ -1,44 +1,45 @@
 import chassisTypeOptions from "../definition/chassisType";
+import {HYUNDAI, HYUNDAI_ko, KCC_GLASS, KCC_GLASS_ko, LX, LX_ko} from "../definition/companyType";
 
 export const mappedValueByCompany = (value: string) => {
-    if (value === '현대 L&C') {
-        return 'HYUNDAI';
+    if (value === HYUNDAI_ko) {
+        return HYUNDAI;
     }
 
-    if (value === 'LX 하우시스') {
-        return 'LX';
+    if (value === LX_ko) {
+        return LX;
     }
 
-    if (value === 'KCC 글라스') {
-        return 'KCC_GLASS';
+    if (value === KCC_GLASS_ko) {
+        return KCC_GLASS;
     }
 }
 
 export const mappedCompanyByValue = (value: string) => {
-    if (value === 'HYUNDAI') {
-        return '현대 L&C';
+    if (value === HYUNDAI) {
+        return HYUNDAI_ko;
     }
 
-    if (value === 'LX') {
-        return 'LX 하우시스';
+    if (value === LX) {
+        return LX_ko;
     }
 
-    if (value === 'KCC_GLASS') {
-        return 'KCC 글라스';
+    if (value === KCC_GLASS) {
+        return KCC_GLASS_ko;
     }
 }
 
 export const getYetCalculatedCompanyList = (firstCalculatedCompany: string) => {
-    if (firstCalculatedCompany === 'HYUNDAI') {
-        return ['LX 하우시스', 'KCC 글라스'];
+    if (firstCalculatedCompany === HYUNDAI) {
+        return [LX_ko, KCC_GLASS_ko];
     }
 
-    if (firstCalculatedCompany === 'LX') {
-        return ['현대 L&C', 'KCC 글라스'];
+    if (firstCalculatedCompany === LX) {
+        return [HYUNDAI_ko, KCC_GLASS_ko];
     }
 
-    if (firstCalculatedCompany === 'KCC_GLASS') {
-        return ['현대 L&C', 'LX 하우시스'];
+    if (firstCalculatedCompany === KCC_GLASS) {
+        return [HYUNDAI_ko, LX_ko];
     }
 }
 
