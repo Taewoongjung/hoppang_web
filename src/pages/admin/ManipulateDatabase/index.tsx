@@ -7,7 +7,7 @@ import {
     TableProps,
     Select,
     Result,
-    Divider,
+    Divider, Menu,
 } from "antd";
 import axios from "axios";
 import chassisType from "../../../definition/chassisType";
@@ -48,6 +48,17 @@ const defaultDataSource = {
     '5100': '',
     '5400': ''
 };
+
+const headerMenuItems = [
+    {
+        key: 1,
+        label: '샤시 가격 정보'
+    },
+    {
+        key: 2,
+        label: '고객 견적 정보'
+    }
+]
 
 
 const API_URL = process.env.REACT_APP_REQUEST_API_URL;
@@ -241,11 +252,18 @@ const ManipulateDatabase = () => {
         setChassisTypeValue(value);
     };
 
-
     return (
         <Layout>
             <Header style={{ display: 'flex', alignItems: 'center' }}>
                 <div className="demo-logo" style={{ color: "white" }}>{userData?.name}</div>
+
+                <Menu
+                    theme="dark"
+                    mode="horizontal"
+                    defaultSelectedKeys={['1']}
+                    items={headerMenuItems}
+                    style={{ flex: 1, minWidth: 0, marginLeft: 70 }}
+                />
             </Header>
             <Content style={{ padding: '0 0px' }}>
                 <Tabs
