@@ -41,7 +41,7 @@ const ChassisPriceDatabaseMainScreen = () => {
                 </Header>
                 <Content style={{ padding: '0 0px' }}>
 
-                    {/*샤시 가격 정보 페이지*/}
+                    {/* 샤시 가격 정보 페이지 */}
                     <ManipulateDatabase/>
 
                 </Content>
