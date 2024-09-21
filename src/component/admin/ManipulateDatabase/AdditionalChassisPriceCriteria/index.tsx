@@ -1,8 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Descriptions, Divider, Typography, Input, message} from "antd";
 import axios from "axios";
-import {findAllAdditionalChassisPriceCriteria, reviseAdditionalChassisPriceCriteria} from "../../../definition/admin/apiPath";
-import {addCommasToNumber} from "../../../util";
+import {addCommasToNumber} from "../../../../util";
+import {
+    findAllAdditionalChassisPriceCriteria,
+    reviseAdditionalChassisPriceCriteria
+} from "../../../../definition/admin/apiPath";
+
 
 const { Title } = Typography;
 

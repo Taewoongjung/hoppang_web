@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import {
-    Layout,
     Table,
     Tabs,
     theme,
     TableProps,
     Select,
     Result,
-    Divider, Menu,
+    Divider
 } from "antd";
 import axios from "axios";
 import chassisType from "../../../definition/chassisType";
 import {mappedValueByCompany, addCommasToNumber} from "../../../util";
-import adminFetcher from "../../../util/adminFetcher";
-import useSWR from "swr";
-import AddAndReviseChassisInfo from "../../../component/admin/AddAndReviseChassisInfo";
-import {callMeData, findAllChassisPriceByCompanyTypeAndChassisType} from "../../../definition/admin/apiPath";
-import AdditionalChassisPriceCriteria from "../../../component/admin/AdditionalChassisPriceCriteria";
+import {findAllChassisPriceByCompanyTypeAndChassisType} from "../../../definition/admin/apiPath";
 import {HYUNDAI_ko, KCC_GLASS_ko, LX_ko} from "../../../definition/companyType";
-
-const { Header, Content, Footer } = Layout;
+import AddAndReviseChassisInfo from "./AddAndReviseChassisInfo";
+import AdditionalChassisPriceCriteria from "./AdditionalChassisPriceCriteria";
 
 type TransformedData = Record<string, string>;
 
@@ -49,17 +44,6 @@ const defaultDataSource = {
     '5400': ''
 };
 
-const headerMenuItems = [
-    {
-        key: 1,
-        label: '샤시 가격 정보'
-    },
-    {
-        key: 2,
-        label: '고객 견적 정보'
-    }
-]
-
 
 const API_URL = process.env.REACT_APP_REQUEST_API_URL;
 
@@ -83,10 +67,6 @@ const ManipulateDatabase = () => {
     const [chassisTypeValue, setChassisTypeValue] = useState('BalconySingle');
 
     const { token: { colorBgContainer, borderRadiusLG } } = theme.useToken();
-
-    const { data: userData, error, mutate } = useSWR(callMeData, adminFetcher, {
-        dedupingInterval: 2000
-    });
 
     const columns: TableProps['columns'] = [
         { title: '', dataIndex: 'rowLabel', key: 'rowLabel', rowScope: 'row', fixed: 'left', width: 70 },
@@ -253,19 +233,7 @@ const ManipulateDatabase = () => {
     };
 
     return (
-        <Layout>
-            <Header style={{ display: 'flex', alignItems: 'center' }}>
-                <div className="demo-logo" style={{ color: "white" }}>{userData?.name}</div>
-
-                <Menu
-                    theme="dark"
-                    mode="horizontal"
-                    defaultSelectedKeys={['1']}
-                    items={headerMenuItems}
-                    style={{ flex: 1, minWidth: 0, marginLeft: 70 }}
-                />
-            </Header>
-            <Content style={{ padding: '0 0px' }}>
+        <>
                 <Tabs
                     defaultActiveKey="0"
                     onChange={(key) => setCurCompanyType(tabList[parseInt(key)])}
@@ -322,11 +290,7 @@ const ManipulateDatabase = () => {
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <AdditionalChassisPriceCriteria />
                 </div>
-            </Content>
-            <Footer style={{ textAlign: 'center' }}>
-                <strong>호빵</strong> ©{new Date().getFullYear()} Created by clan Jung
-            </Footer>
-        </Layout>
+        </>
     );
 };
 
