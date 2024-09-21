@@ -6,7 +6,8 @@ const FirstScreen = loadable(() => import('../../pages/calculateChassis/First'))
 
 // 어드민
 const LoginPage = loadable(() => import('../../pages/admin/Login'));
-const MainScreen = loadable(() => import('../../pages/admin/ChassisPriceDatabaseMainScreen'));
+const ChassisPriceDatabaseMainScreen = loadable(() => import('../../pages/admin/ChassisPriceDatabaseMainScreen'));
+const EstimatedDatabaseMainScreen = loadable(() => import('../../pages/admin/EstimatedDatabaseMainScreen'));
 
 const App = () => {
     return (
@@ -14,7 +15,8 @@ const App = () => {
             <Redirect exact path="/" to="/chassis/calculator" />
             <Route path="/chassis/calculator" component={FirstScreen} />
             <Route path="/admin/login" component={LoginPage} />
-            <Route path="/admin/essentials/info" component={MainScreen} />
+            <Route path="/admin/essentials/info" component={ChassisPriceDatabaseMainScreen} />
+            <Route path="/admin/essentials/estimates/info" component={EstimatedDatabaseMainScreen} />
         </Switch>
     )
 }
