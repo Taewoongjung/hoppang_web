@@ -19,7 +19,7 @@ const headerMenuItems = [
 ]
 
 
-const MainScreen = () => {
+const ChassisPriceDatabaseMainScreen = () => {
 
     const { data: userData, error, mutate } = useSWR(callMeData, adminFetcher, {
         dedupingInterval: 2000
@@ -53,4 +53,4 @@ const MainScreen = () => {
     )
 }
 
-export default MainScreen;
+export default ChassisPriceDatabaseMainScreen;

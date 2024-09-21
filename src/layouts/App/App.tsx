@@ -6,7 +6,7 @@ const FirstScreen = loadable(() => import('../../pages/calculateChassis/First'))
 
 // 어드민
 const LoginPage = loadable(() => import('../../pages/admin/Login'));
-const MainScreen = loadable(() => import('../../pages/admin/MainScreen'));
+const MainScreen = loadable(() => import('../../pages/admin/ChassisPriceDatabaseMainScreen'));
 
 const App = () => {
     return (
