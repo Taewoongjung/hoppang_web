@@ -1,9 +1,9 @@
 import React from 'react';
-import {Layout, Menu, MenuProps} from "antd";
 import useSWR from "swr";
 import {callMeData} from "../../../definition/admin/apiPath";
 import adminFetcher from "../../../util/adminFetcher";
-import ManipulateDatabase from "../../../component/admin/ManipulateDatabase";
+import {Layout, Menu, MenuProps} from "antd";
+import EstimationManagement from "../../../component/admin/EstimationManagement";
 
 const { Header, Content, Footer } = Layout;
 
@@ -19,7 +19,7 @@ const headerMenuItems = [
 ]
 
 
-const ChassisPriceDatabaseMainScreen = () => {
+const EstimatedDatabaseMainScreen = () => {
 
     const { data: userData, error, mutate } = useSWR(callMeData, adminFetcher, {
         dedupingInterval: 2000
@@ -38,6 +38,7 @@ const ChassisPriceDatabaseMainScreen = () => {
     };
 
 
+
     return (
         <>
             <Layout>
@@ -48,15 +49,17 @@ const ChassisPriceDatabaseMainScreen = () => {
                         theme="dark"
                         mode="horizontal"
                         onClick={onClickAdminMenu}
-                        defaultSelectedKeys={['1']}
+                        defaultSelectedKeys={['2']}
                         items={headerMenuItems}
                         style={{ flex: 1, minWidth: 0, marginLeft: 70 }}
                     />
                 </Header>
                 <Content style={{ padding: '0 0px' }}>
 
-                    {/* 샤시 가격 정보 페이지 */}
-                    <ManipulateDatabase/>
+                    <div style={{marginTop: '5%'}}>
+                        {/* 견적 인입 리스트 페이지 */}
+                        <EstimationManagement/>
+                    </div>
 
                 </Content>
                 <Footer style={{ textAlign: 'center' }}>
@@ -67,4 +70,4 @@ const ChassisPriceDatabaseMainScreen = () => {
     )
 }
 
-export default ChassisPriceDatabaseMainScreen;
+export default EstimatedDatabaseMainScreen;

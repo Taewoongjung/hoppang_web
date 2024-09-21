@@ -14,6 +14,8 @@ const App = () => {
         <Switch>
             <Redirect exact path="/" to="/chassis/calculator" />
             <Route path="/chassis/calculator" component={FirstScreen} />
+
+            {/* ADMIN */}
             <Route path="/admin/login" component={LoginPage} />
             <Route path="/admin/essentials/info" component={ChassisPriceDatabaseMainScreen} />
             <Route path="/admin/essentials/estimates/info" component={EstimatedDatabaseMainScreen} />

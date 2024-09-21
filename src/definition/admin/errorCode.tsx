@@ -1,1 +1,1 @@
-export const notAuthorizedErrorCode = [12];
+export const notAuthorizedErrorCode = [400, 404, 12];
