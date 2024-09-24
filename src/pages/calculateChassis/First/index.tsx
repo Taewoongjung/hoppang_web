@@ -47,6 +47,10 @@ const FirstScreen = () => {
     };
 
     useEffect(() => {
+        if (companyType !== '선택안함' && companyType !== undefined) {
+            setCompanyTypeStatus('');
+        }
+
         if (chassisType !== '선택안함' && chassisType !== undefined) {
             setChassisTypeStatus('');
         }
@@ -59,13 +63,13 @@ const FirstScreen = () => {
             setHeightStatus('');
         }
 
-    }, [chassisType, width, height]);
+    }, [companyType, chassisType, width, height]);
 
     const handleRegisterChassis = () => {
 
         if (companyType === '선택안함' || companyType === undefined) {
             errorModal("샤시 회사를 선택해주세요.");
-            setChassisTypeStatus('error');
+            setCompanyTypeStatus('error');
             return;
         }
 
