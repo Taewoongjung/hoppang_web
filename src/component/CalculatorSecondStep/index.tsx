@@ -21,6 +21,7 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
     const [openSearchAddr, setOpenSearchAddr] = useState(false);
     const [address, setAddress] = useState('');
     const [addressZoneCode, setAddressZoneCode] = useState("");
+    const [subAddress, setSubAddress] = useState("");
     const [addressBuildingNum, setAddressBuildingNum] = useState("");
     const [floorCustomerLiving, setFloor] = useState<number | null>();
     const [isScheduledForDemolition, setIsScheduledForDemolition] = useState(true);
@@ -60,18 +61,24 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
         { name: ['mainAddress'], value: address },
     ];
 
-    console.log("??? = ", floorCustomerLiving);
     const CallCalculate = () => {
+        /* 테스트 기간일 때는 주소 입력은 스킵 */
+        // if (address == null) {
+        //     errorModal('주소를 입력해주세요');
+        //     return;
+        // }
+        // if (subAddress == null) {
+        //     errorModal('나머지 주소를 입력해주세요');
+        //     return;
+        // }
         if (floorCustomerLiving == null) {
             errorModal('공사 예정 층 수를 입력해주세요');
             return;
         }
-        console.log("?AA");
 
         console.log("address = ", address);
         console.log("addressZoneCode = ", addressZoneCode);
         console.log("addressBuildingNum = ", addressBuildingNum);
-
 
         console.log("registeredList = ", registeredList);
         console.log("floor = ", floorCustomerLiving);
@@ -88,10 +95,19 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
             isResident,
         }));
 
-        axios.post(calculateChassisCall, {reqCalculateChassisPriceList}, {withCredentials: true},
+        axios.post(calculateChassisCall,
+            {
+                    zipCode: addressZoneCode,
+                    address: address,
+                    subAddress: subAddress,
+                    buildingNumber: addressBuildingNum,
+                    reqCalculateChassisPriceList
+                },
+        {withCredentials: true},
         )
             .then((response) => {
                 success("견적 성공");
+                allStatesReset();
                 setCalculatedChassisPriceResult(response.data);
             })
             .catch((error) => {
@@ -102,6 +118,17 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
             });
     }
 
+    const allStatesReset = () => {
+        setAddress('');
+        setSubAddress('');
+        setAddressZoneCode('');
+        setAddressBuildingNum('');
+        setCalculatedChassisPriceResult([]);
+    }
+
+    const changeSubAddress = (subAddr:any) => {
+        setSubAddress(subAddr.target.value);
+    }
 
     return (
         <>
@@ -194,6 +221,7 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
                                                     id="company_sub_address"
                                                     type="text"
                                                     placeholder = "사업체 나머지 주소"
+                                                    onChange={changeSubAddress}
                                                 />
                                             </Form.Item>
                                         </Col>

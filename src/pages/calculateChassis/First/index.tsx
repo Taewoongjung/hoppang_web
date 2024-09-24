@@ -277,7 +277,7 @@ const FirstScreen = () => {
                                                                             }
                                                                         />
                                                                         <div
-                                                                            style={{fontSize:18, color: 'red'}}
+                                                                            style={{fontSize:18, color: 'red', marginRight: 10}}
                                                                             onClick={(e) => {
                                                                                 e.stopPropagation(); // 이벤트 전파 중단
                                                                                 console.log(`Deleting chassis with index: ${item.index}`); // 함수 호출 확인 로그
