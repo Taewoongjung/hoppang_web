@@ -14,8 +14,8 @@ const adminFetcher = async (url: string) => await axios.get(url, {
 
     return response.data;
 }).catch((error) => {
-    if (notAuthorizedErrorCode.includes(error.response.data.errorCode)) {
-        window.location.href = '/login';
+    if (notAuthorizedErrorCode.includes(error.response.status)) {
+        window.location.href = '/admin/login';
     }
 });
 
