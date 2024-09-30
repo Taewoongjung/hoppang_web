@@ -1,5 +1,5 @@
 import axios from "axios";
-import {notAuthorizedErrorCode} from "../definition/admin/errorCode";
+import {notAuthorizedErrorCode} from "../definition/Admin/errorCode";
 
 const adminFetcher = async (url: string) => await axios.get(url, {
     headers: {

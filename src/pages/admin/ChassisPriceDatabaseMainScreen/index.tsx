@@ -1,7 +1,7 @@
 import React from 'react';
 import {Layout, Menu, MenuProps} from "antd";
 import useSWR from "swr";
-import {callMeData} from "../../../definition/admin/apiPath";
+import {callMeData} from "../../../definition/Admin/apiPath";
 import adminFetcher from "../../../util/adminFetcher";
 import ManipulateDatabase from "../../../component/admin/ManipulateDatabase";
 

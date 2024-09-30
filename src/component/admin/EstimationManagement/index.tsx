@@ -13,12 +13,15 @@ const columns: TableColumnsType<DataType> = [
     { title: 'Name', dataIndex: 'name', key: 'name' },
     { title: 'Age', dataIndex: 'age', key: 'age' },
     { title: 'Address', dataIndex: 'address', key: 'address' },
-    {
-        title: 'Action',
-        dataIndex: '',
-        key: 'x',
-        render: () => <a>Delete</a>,
-    },
+];
+
+const columns2: TableColumnsType<DataType> = [
+    { title: '견적번호', dataIndex: 'estimationId', key: 'id' },
+    { title: '회사종류', dataIndex: 'companyType', key: 'companyType' },
+    { title: '전체 금액', dataIndex: 'totalPrice', key: 'totalPrice' },
+    { title: '주소', dataIndex: 'address', key: 'address' },
+    { title: '상세주소', dataIndex: 'subAddress', key: 'subAddress' },
+    { title: '견적일', dataIndex: 'createdAt', key: 'createdAt' },
 ];
 
 

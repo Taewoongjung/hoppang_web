@@ -11,7 +11,7 @@ import {
 import axios from "axios";
 import chassisType from "../../../definition/chassisType";
 import {mappedValueByCompany, addCommasToNumber} from "../../../util";
-import {findAllChassisPriceByCompanyTypeAndChassisType} from "../../../definition/admin/apiPath";
+import {findAllChassisPriceByCompanyTypeAndChassisType} from "../../../definition/Admin/apiPath";
 import {HYUNDAI_ko, KCC_GLASS_ko, LX_ko} from "../../../definition/companyType";
 import AddAndReviseChassisInfo from "./AddAndReviseChassisInfo";
 import AdditionalChassisPriceCriteria from "./AdditionalChassisPriceCriteria";

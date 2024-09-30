@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Input, Button, message } from 'antd';
 import axios from "axios";
-import {loginAPI} from "../../../definition/admin/apiPath";
+import {loginAPI} from "../../../definition/Admin/apiPath";
 
 // 레이아웃 설정
 const layout = {

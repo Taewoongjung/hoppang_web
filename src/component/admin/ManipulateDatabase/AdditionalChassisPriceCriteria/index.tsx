@@ -5,7 +5,7 @@ import {addCommasToNumber} from "../../../../util";
 import {
     findAllAdditionalChassisPriceCriteria,
     reviseAdditionalChassisPriceCriteria
-} from "../../../../definition/admin/apiPath";
+} from "../../../../definition/Admin/apiPath";
 
 
 const { Title } = Typography;

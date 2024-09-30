@@ -1,6 +1,6 @@
 import React from 'react';
 import useSWR from "swr";
-import {callMeData} from "../../../definition/admin/apiPath";
+import {callMeData} from "../../../definition/Admin/apiPath";
 import adminFetcher from "../../../util/adminFetcher";
 import {Layout, Menu, MenuProps} from "antd";
 import EstimationManagement from "../../../component/admin/EstimationManagement";
