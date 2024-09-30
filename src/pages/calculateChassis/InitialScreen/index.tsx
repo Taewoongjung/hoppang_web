@@ -37,7 +37,7 @@ const InitialScreen = (props: {secondStep:boolean, companyType:string, setCompan
                         </tr>
                         <tr>
                             <td colSpan={2}>
-                                <div style={{marginTop: 10}}>
+                                <div style={{marginTop: '7%', marginBottom: '-14%'}}>
                                     <Button onClick={handleGetStarted} size={"small"}> 견적 시작하기</Button>
                                 </div>
                             </td>

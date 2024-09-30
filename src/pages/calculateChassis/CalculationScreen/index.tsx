@@ -1,15 +1,40 @@
 import React, {useEffect, useState} from 'react';
 import '../styles.css';
-import {Col, Row, message, Select, InputNumber, Button, Divider, List} from "antd";
+import {Col, Row, message, Select, InputNumber, Button, Divider, List, Tooltip} from "antd";
 import { Typography } from 'antd';
 import chassisTypeOptions from "../../../definition/chassisType";
 import {InputStatus} from "antd/es/_util/statusUtils";
 import CalculatorSecondStep from "../../../component/CalculatorSecondStep";
 import RegisteringChassis from "../../../definition/interfaces";
-import {DeleteOutlined, RightOutlined} from "@ant-design/icons";
+import {DeleteOutlined, RightOutlined, SwapOutlined} from "@ant-design/icons";
 import InitialScreen from '../InitialScreen';
+import styled, { keyframes } from "styled-components";
+import companyTypeOptions from "../../../definition/companyType";
+import {mappedCompanyByValue} from "../../../util";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
+
+const blink = keyframes`
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
+`;
+
+const AnimatedIcon = styled(SwapOutlined)`
+  color: #ababab;
+  width: 15px;
+  margin-left: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+
+  &.blink {
+    animation: ${blink} 0.5s linear;
+  }
+`;
 
 const CalculationScreen = () => {
 
@@ -139,6 +164,20 @@ const CalculationScreen = () => {
         }
     }, []);
 
+    const [isBlinking, setIsBlinking] = useState(false);
+    const [isRevising, setIsRevising] = useState(false);
+
+    const handleIconClick = () => {
+        setIsBlinking(true);
+        setIsRevising(true);
+        setTimeout(() => setIsBlinking(false), 500);
+    };
+
+    const handleChangeCompanyType = (target : any) => {
+        setCompany(target);
+        setIsRevising(false);
+    }
+
 
     return (
         <>
@@ -175,6 +214,31 @@ const CalculationScreen = () => {
                                     {(!secondStep && companyType !== '선택안함') &&
                                         <table>
                                             <tbody>
+                                                <tr>
+                                                    <td colSpan={2}>
+                                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                            <Title level={5}>
+                                                                {!isRevising && <Text keyboard> {mappedCompanyByValue(companyType)} </Text> }
+                                                                {!isRevising &&
+                                                                    <Tooltip title="회사 재설정하기">
+                                                                        <AnimatedIcon
+                                                                            className={isBlinking ? 'blink' : ''}
+                                                                            onClick={handleIconClick}
+                                                                        />
+                                                                    </Tooltip>
+                                                                }
+                                                                {isRevising &&
+                                                                    <Select
+                                                                        status={companyTypeStatus}
+                                                                        value={companyType}
+                                                                        style={{ width: 150 }}
+                                                                        onChange={handleChangeCompanyType}
+                                                                        options={companyTypeOptions}/>
+                                                                }
+                                                            </Title>
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                                 <tr>
                                                     <td colSpan={2}>
                                                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

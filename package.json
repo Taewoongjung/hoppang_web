@@ -25,6 +25,7 @@
     "react-modal": "^3.16.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "5.0.1",
+    "styled-components": "^6.1.13",
     "swr": "^2.2.5",
     "typescript": "^3.2.1"
   },
