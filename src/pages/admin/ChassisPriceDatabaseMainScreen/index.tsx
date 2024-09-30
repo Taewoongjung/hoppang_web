@@ -1,9 +1,10 @@
 import React from 'react';
-import {Layout, Menu, MenuProps} from "antd";
+import {Layout, Menu} from "antd";
 import useSWR from "swr";
 import {callMeData} from "../../../definition/Admin/apiPath";
 import adminFetcher from "../../../util/adminFetcher";
 import ManipulateDatabase from "../../../component/admin/ManipulateDatabase";
+import {onClickAdminMenu} from "../../../util";
 
 const { Header, Content, Footer } = Layout;
 
@@ -24,18 +25,6 @@ const ChassisPriceDatabaseMainScreen = () => {
     const { data: userData, error, mutate } = useSWR(callMeData, adminFetcher, {
         dedupingInterval: 2000
     });
-
-    const onClickAdminMenu: MenuProps['onClick'] = (e) => {
-        console.log('click ', e.key);
-
-        if (e.key === '1') {
-            window.location.href = '/admin/essentials/info';
-        }
-
-        if (e.key === '2') {
-            window.location.href = '/admin/essentials/estimates/info';
-        }
-    };
 
 
     return (

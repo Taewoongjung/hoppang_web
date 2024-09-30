@@ -1,5 +1,6 @@
 import chassisTypeOptions from "../definition/chassisType";
 import {HYUNDAI, HYUNDAI_ko, KCC_GLASS, KCC_GLASS_ko, LX, LX_ko} from "../definition/companyType";
+import {MenuProps} from "antd";
 
 export const mappedValueByCompany = (value: string) => {
     if (value === HYUNDAI_ko) {
@@ -48,8 +49,22 @@ export const addCommasToNumber = (number: any): string | undefined => {
     return number?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 
+
 export const getLabelOfChassisType = (target:string) => {
     return chassisTypeOptions.find(
         (a) => a.value === target
     )?.label;
 }
+
+
+export const onClickAdminMenu: MenuProps['onClick'] = (e) => {
+    console.log('click ', e.key);
+
+    if (e.key === '1') {
+        window.location.href = '/admin/essentials/info';
+    }
+
+    if (e.key === '2') {
+        window.location.href = '/admin/essentials/estimates/info';
+    }
+};
