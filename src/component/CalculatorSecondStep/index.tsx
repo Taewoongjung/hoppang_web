@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Switch, Typography, Form, Input, Popover, Col, Button, InputNumber, message} from 'antd';
-import RegisteringChassis from "../../definition/interfaces";
+import RegisteringChassis, {CalculateResult} from "../../definition/interfaces";
 import SearchAddressPopUp from "../SearchAddressPopUp";
 import {SearchOutlined} from "@ant-design/icons";
 import axios from "axios";
@@ -15,7 +15,6 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
 
     const [messageApi, contextHolder] = message.useMessage();
 
-
     const {registeredList, companyType, clickBackButton} = props;
 
     const [openSearchAddr, setOpenSearchAddr] = useState(false);
@@ -29,6 +28,7 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
 
     const [calculatedChassisPriceResult, setCalculatedChassisPriceResult] = useState<[]>([]);
 
+    const [requestCalculateObject, setRequestCalculateObject] = useState<CalculateResult>();
 
     const success = (successMsg:string) => {
         messageApi.open({
@@ -61,7 +61,7 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
         { name: ['mainAddress'], value: address },
     ];
 
-    const CallCalculate = () => {
+    const callCalculate = () => {
         /* 테스트 기간일 때는 주소 입력은 스킵 */
         // if (address == null) {
         //     errorModal('주소를 입력해주세요');
@@ -109,6 +109,13 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
                 success("견적 성공");
                 allStatesReset();
                 setCalculatedChassisPriceResult(response.data);
+                setRequestCalculateObject({
+                    reqCalculateChassisPriceList: reqCalculateChassisPriceList,
+                    zipCode: addressZoneCode,
+                    address: address,
+                    subAddress: subAddress,
+                    buildingNumber: addressBuildingNum,
+                });
             })
             .catch((error) => {
                 if (error.response.data.errorCode === 202) {
@@ -279,16 +286,16 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
                             <tr>
                                 <td colSpan={2}>
                                     <div style={{ marginTop: '20%'}}>
-                                        <Button type={'primary'} size={'large'} onClick={CallCalculate}>계산하기</Button>
+                                        <Button type={'primary'} size={'large'} onClick={callCalculate}>계산하기</Button>
                                     </div>
                                 </td>
                             </tr>
                         </tbody>
                     }
-                    {calculatedChassisPriceResult.length !== 0 &&
+                    {calculatedChassisPriceResult.length !== 0 && requestCalculateObject &&
                         <tbody>
                             <tr>
-                                <CalculatedResult result={calculatedChassisPriceResult}/>
+                                <CalculatedResult result={calculatedChassisPriceResult} requestCalculateObject={requestCalculateObject}/>
                             </tr>
                         </tbody>
                     }

@@ -6,3 +6,12 @@ interface RegisteringChassis {
 }
 
 export default RegisteringChassis;
+
+
+export interface CalculateResult {
+    reqCalculateChassisPriceList: any[],
+    zipCode: any,
+    address: any,
+    subAddress: any,
+    buildingNumber: any,
+}

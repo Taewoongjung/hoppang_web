@@ -44,6 +44,19 @@ export const getYetCalculatedCompanyList = (firstCalculatedCompany: string) => {
     }
 }
 
+export const convertCompanyTypeKoToNormal = (targetCompanyType : string | undefined) => {
+    if (targetCompanyType === HYUNDAI_ko) {
+        return HYUNDAI;
+    }
+
+    if (targetCompanyType === LX_ko) {
+        return LX;
+    }
+
+    if (targetCompanyType === KCC_GLASS_ko) {
+        return KCC_GLASS;
+    }
+}
 
 export const addCommasToNumber = (number: any): string | undefined => {
     return number?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
