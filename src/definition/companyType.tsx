@@ -8,7 +8,7 @@ export const KCC_GLASS_ko = 'KCC 글라스';
 
 const companyTypeOptions = [
     { value: HYUNDAI, label: HYUNDAI_ko },
-    { value: LX, label: LX_ko, disabled: true },
+    { value: LX, label: LX_ko },
     { value: KCC_GLASS, label: KCC_GLASS_ko, disabled: true },
 ]
 
