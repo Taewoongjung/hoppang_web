@@ -164,7 +164,8 @@ const CalculationScreen = () => {
                                     style={{ textAlign: 'center' }}
                                 >
                                     {!(!secondStep && companyType !== '선택안함') &&
-                                        <InitialScreen companyType={companyType}
+                                        <InitialScreen secondStep={secondStep}
+                                                       companyType={companyType}
                                                        setCompanyType={(target: any) => setCompany(target)}
                                                        companyTypeStatus={companyTypeStatus}
                                                        setCompanyTypeStatus={(target: any) => setCompanyTypeStatus(target)}
