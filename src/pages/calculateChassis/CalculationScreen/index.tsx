@@ -7,11 +7,11 @@ import {InputStatus} from "antd/es/_util/statusUtils";
 import CalculatorSecondStep from "../../../component/CalculatorSecondStep";
 import RegisteringChassis from "../../../definition/interfaces";
 import {DeleteOutlined, RightOutlined} from "@ant-design/icons";
-import companyTypeOptions from "../../../definition/companyType";
+import InitialScreen from '../InitialScreen';
 
 const { Title } = Typography;
 
-const FirstScreen = () => {
+const CalculationScreen = () => {
 
     const ContainerHeight = 200;
 
@@ -163,29 +163,17 @@ const FirstScreen = () => {
                                     xl={12}
                                     style={{ textAlign: 'center' }}
                                 >
-                                    {!secondStep &&
+                                    {!(!secondStep && companyType !== '선택안함') &&
+                                        <InitialScreen companyType={companyType}
+                                                       setCompanyType={(target: any) => setCompany(target)}
+                                                       companyTypeStatus={companyTypeStatus}
+                                                       setCompanyTypeStatus={(target: any) => setCompanyTypeStatus(target)}
+                                        />
+                                    }
+
+                                    {(!secondStep && companyType !== '선택안함') &&
                                         <table>
                                             <tbody>
-                                                <tr>
-                                                    <td colSpan={2}>
-                                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                                            <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
-                                                            <Title level={4}>
-                                                                샤시 회사 선택 :
-                                                            </Title>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={2}>
-                                                        <Select
-                                                            status={companyTypeStatus}
-                                                            defaultValue="샤시 회사 선택"
-                                                            style={{ width: 150 }}
-                                                            onChange={setCompany}
-                                                            options={companyTypeOptions}/>
-                                                    </td>
-                                                </tr>
                                                 <tr>
                                                     <td colSpan={2}>
                                                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -339,4 +327,4 @@ const FirstScreen = () => {
     );
 }
 
-export default FirstScreen;
+export default CalculationScreen;
