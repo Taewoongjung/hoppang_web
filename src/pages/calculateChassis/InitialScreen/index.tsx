@@ -28,7 +28,7 @@ const InitialScreen = (props: {companyType:string, setCompanyType: (s: string) =
                         <tr>
                             <td colSpan={2}>
                                 <div style={{fontFamily: 'Cochin', color: 'grey'}}>
-                                    안녕하세요 호빵입니다. <br/><br/>
+                                    안녕하세요 <strong>호빵</strong>입니다. <br/><br/>
                                     소비자들이 적정 가격에 샤시를 구매할 수 있도록 지표를 제시합니다.
                                     <br/><br/>
                                     호구가 빵명이 되는 그날까지.
