@@ -124,6 +124,21 @@ const FirstScreen = () => {
         setSecondStep(false);
     }
 
+    const [deviceId, setDeviceId] = useState<string>();
+    const [deviceType, setDeviceType] = useState<string>();
+
+    useEffect(() => {
+        const deviceIdFromLocal = localStorage.getItem('deviceId');
+        const deviceTypeFromLocal = localStorage.getItem('deviceType');
+
+        if (deviceIdFromLocal && deviceTypeFromLocal) {
+            setDeviceId(deviceIdFromLocal);
+            setDeviceType(deviceTypeFromLocal);
+        } else {
+            console.log('No deviceId found in localStorage');
+        }
+    }, []);
+
 
     return (
         <>
@@ -131,6 +146,7 @@ const FirstScreen = () => {
             <div className="app">
                 <header className="app-header">
                     <h1>호빵</h1>
+                    <div>디바이스 아이디 :({deviceType}) {deviceId}</div>
                 </header>
                 <main className="app-main">
                     {/*<aside className="banner">*/}
