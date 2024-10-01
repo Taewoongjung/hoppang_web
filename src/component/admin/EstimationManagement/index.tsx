@@ -278,9 +278,9 @@ const EstimationManagement = () => {
 
     return (
         <>
-            <div style={{ padding: '24px' }}>
+            <div style={{ marginTop: '-40px' }}>
                 <Card
-                    style={{ marginBottom: '24px', width: '500px'}}
+                    style={{ marginBottom: '10px', width: '500px'}}
                     title="견적 검색"
                     extra={
                         <Button
