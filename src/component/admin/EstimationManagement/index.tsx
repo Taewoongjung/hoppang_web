@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Button, DatePicker, Input, Space, Table, Card} from "antd";
 import moment from 'moment';
 import axios from "axios";
-import {findEstimationList} from "../../../definition/Admin/apiPath";
+import {findCountOfEstimationList, findEstimationList} from "../../../definition/Admin/apiPath";
 import {addCommasToNumber, convertAdditionalChassisPriceInfoToKo} from "../../../util";
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
@@ -48,14 +48,15 @@ const columns = [
 const EstimationManagement = () => {
 
     const [data, setData] = useState();
+    const [countOfData, setCountOfData] = useState(0);
     const [expandedRowKeys, setExpandedRowKeys] = useState<React.Key[]>([]);
 
     // 검색 파라메터 변수
     const [estimationIdList, setEstimationIdList] = useState('');
     const [dateRange, setDateRange] = useState([]);
+    const [requestParam, setRequestParam] = useState();
 
-
-    // 견적 리스트 조회
+    // 초기 렌더링 견적 리스트 조회
     useEffect(() => {
         // 컴포넌트 마운트 시 기본 날짜 범위 설정
         const defaultStartDate = moment().subtract(7, 'days').format(dateFormat).toString();
@@ -72,8 +73,23 @@ const EstimationManagement = () => {
                     ...item,
                     key: item.id // 각 항목에 고유한 key 추가
                 }));
+                console.log("[original] estimationList = ", res.data);
                 console.log("estimationList = ", estimationList)
                 setData(estimationList);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+
+        axios.get(findCountOfEstimationList + `?startTime=${defaultStartDate}&endTime=${defaultEndDate}`, {
+            withCredentials: true,
+            headers: {
+                Authorization: localStorage.getItem("hoppang-admin-token") || '',
+            },
+        })
+            .then(res => {
+                const countOfEstimationList = res.data;
+                setCountOfData(countOfEstimationList);
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -147,17 +163,16 @@ const EstimationManagement = () => {
 
         // 날짜 처리
         let startDate, endDate;
-        if (dateRange.length === 2) {
+        if (dateRange && dateRange.length === 2) {
             // @ts-ignore
             [startDate, endDate] = dateRange.map(date => date.format(dateFormat));
         } else {
             startDate = moment().subtract(7, 'days').format(dateFormat);
             endDate = moment().add(7, 'days').format(dateFormat);
             // @ts-ignore
-            setDateRange(startDate.toString);
-            // @ts-ignore
-            setDateRange(endDate.toString);
+            setDateRange([moment(startDate), moment(endDate)]);
         }
+
 
         // API 호출 또는 상태 업데이트
         console.log('검색 파라미터:', {ids: estIdList, startDate, endDate});
@@ -171,8 +186,8 @@ const EstimationManagement = () => {
         }
 
         requestParam += "startTime=" + startDate + "&" + "endTime=" + endDate;
-
-        // 견적 리스트 호출
+        console.log("requestParam = ", requestParam);
+        // 견적 리스트 조회 호출
         await axios.get(findEstimationList + requestParam, {
             withCredentials: true,
             headers: {
@@ -184,9 +199,28 @@ const EstimationManagement = () => {
                     ...item,
                     key: item.id // 각 항목에 고유한 key 추가
                 }));
-                console.log("estimationList = ", estimationList)
+                console.log("[original] estimationList = ", res.data);
+                console.log("estimationList = ", estimationList);
+                // @ts-ignore
+                setRequestParam(requestParam);
                 setData(estimationList);
                 setExpandedRowKeys([]);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+
+        // 견적 리스트의 카운트 조회 호출
+        axios.get(findCountOfEstimationList + requestParam, {
+            withCredentials: true,
+            headers: {
+                Authorization: localStorage.getItem("hoppang-admin-token") || '',
+            },
+        })
+            .then(res => {
+                const countOfEstimationList = res.data;
+                console.log("count = ", countOfEstimationList);
+                setCountOfData(countOfEstimationList);
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -209,6 +243,36 @@ const EstimationManagement = () => {
             // 각 부분에서 공백을 제거하고 연속된 숫자로 만듦
             return part.replace(/\s+/g, '').trim();
         }).filter(id => id !== '').join(',');
+    };
+
+    const fetchData = async (page: number, pageSize: number) => {
+
+        try {
+            const response = await axios.get(findEstimationList + requestParam, {
+                withCredentials: true,
+                headers: {
+                    Authorization: localStorage.getItem("hoppang-admin-token") || '',
+                },
+            });
+
+            const estimationList = response.data.map((item: any) => ({
+                ...item,
+                key: item.id
+            }));
+
+            setData(estimationList);
+
+            // 전체 데이터 수 업데이트
+            const countResponse = await axios.get(findCountOfEstimationList + requestParam, {
+                withCredentials: true,
+                headers: {
+                    Authorization: localStorage.getItem("hoppang-admin-token") || '',
+                },
+            });
+            setCountOfData(countResponse.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
     };
 
 
@@ -254,8 +318,19 @@ const EstimationManagement = () => {
                         expandedRowKeys,
                         onExpand
                     }}
-                    style={{ backgroundColor: 'white' }}
+                    pagination={{
+                        total: countOfData,
+                        position: ["bottomCenter"],
+                        pageSize: 10,
+                        showSizeChanger: false,
+                        showTotal: (total, range) => `총 ${total}개 중 ${range[0]}-${range[1]}번째 항목`,
+                        onChange: (page, pageSize) => {
+                            // 여기서 페이지 변경 시 새로운 데이터 조회
+                            fetchData(page, pageSize).then(r => {});
+                        },
+                    }}
                     bordered
+                    style={{ backgroundColor: 'white' }}
                 />
             </div>
         </>
