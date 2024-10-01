@@ -1,6 +1,12 @@
 import chassisTypeOptions from "../definition/chassisType";
 import {HYUNDAI, HYUNDAI_ko, KCC_GLASS, KCC_GLASS_ko, LX, LX_ko} from "../definition/companyType";
 import {MenuProps} from "antd";
+import {
+    deliveryFee,
+    demolitionFee,
+    freightTransportFee, laborFee, ladderCarFee,
+    maintenanceFee
+} from "../definition/Admin/additionalChassisPriceInfo";
 
 export const mappedValueByCompany = (value: string) => {
     if (value === HYUNDAI_ko) {
@@ -81,3 +87,22 @@ export const onClickAdminMenu: MenuProps['onClick'] = (e) => {
         window.location.href = '/admin/essentials/estimates/info';
     }
 };
+
+
+export const convertAdditionalChassisPriceInfoToKo = (target:string) => {
+    if (target === 'laborFee') {
+        return laborFee;}
+    if (target === 'ladderCarFee') {
+        return ladderCarFee;}
+    if (target === 'demolitionFee') {
+        return demolitionFee;}
+    if (target === 'maintenanceFee') {
+        return maintenanceFee;}
+    if (target === 'freightTransportFee') {
+        return freightTransportFee;}
+    if (target === 'deliveryFee') {
+        return deliveryFee;}
+    else {
+        return "unknown";
+    }
+}
