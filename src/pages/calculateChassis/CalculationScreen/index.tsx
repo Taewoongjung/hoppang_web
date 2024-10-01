@@ -93,25 +93,25 @@ const CalculationScreen = () => {
     const handleRegisterChassis = () => {
 
         if (companyType === '선택안함' || companyType === undefined) {
-            errorModal("샤시 회사를 선택해주세요.");
+            errorModal("창호 회사를 선택해주세요.");
             setCompanyTypeStatus('error');
             return;
         }
 
         if (chassisType === '선택안함' || chassisType === undefined) {
-            errorModal("샤시 종류를 선택해주세요.");
+            errorModal("창호 종류를 선택해주세요.");
             setChassisTypeStatus('error');
             return;
         }
 
         if (width === null || width === undefined) {
-            errorModal("샤시 가로 정보를 입력해주세요.");
+            errorModal("창호 가로 정보를 입력해주세요.");
             setWidthStatus('error');
             return;
         }
 
         if (height === null || height === undefined) {
-            errorModal("샤시 세로 정보를 입력해주세요.");
+            errorModal("창호 세로 정보를 입력해주세요.");
             setHeightStatus('error');
             return;
         }
@@ -244,7 +244,7 @@ const CalculationScreen = () => {
                                                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                                             <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
                                                             <Title level={4}>
-                                                                샤시 종류 선택 :
+                                                                창호 종류 선택 :
                                                             </Title>
                                                         </div>
                                                     </td>
@@ -253,7 +253,7 @@ const CalculationScreen = () => {
                                                     <td colSpan={2}>
                                                         <Select
                                                             status={chassisTypeStatus}
-                                                            defaultValue="샤시 종류 선택"
+                                                            defaultValue="창호 종류 선택"
                                                             style={{ width: 150 }}
                                                             onChange={setChassisType}
                                                             options={chassisTypeOptions}/>
@@ -274,7 +274,7 @@ const CalculationScreen = () => {
                                                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '15%' }}>
                                                             <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
                                                             <Title level={4}>
-                                                                샤시 가로 (w) :
+                                                                창호 가로 (w) :
                                                             </Title>
                                                         </div>
                                                     </td>
@@ -294,7 +294,7 @@ const CalculationScreen = () => {
                                                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                                             <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
                                                             <Title level={4}>
-                                                                샤시 세로 (h) :
+                                                                창호 세로 (h) :
                                                             </Title>
                                                         </div>
                                                     </td>

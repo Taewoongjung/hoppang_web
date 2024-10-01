@@ -21,7 +21,7 @@ interface MaterialDataType {
 
 const materialColumns: TableColumnsType<MaterialDataType> = [
     {
-        title: '샤시 종류',
+        title: '창호 종류',
         dataIndex: 'chassisType',
     },
     {
