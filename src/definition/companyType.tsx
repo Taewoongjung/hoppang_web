@@ -7,9 +7,9 @@ export const LX_ko = 'LX 하우시스';
 export const KCC_GLASS_ko = 'KCC 글라스';
 
 const companyTypeOptions = [
-    { value: HYUNDAI, label: HYUNDAI_ko },
-    { value: LX, label: LX_ko },
-    { value: KCC_GLASS, label: KCC_GLASS_ko, disabled: true },
+    { value: HYUNDAI, label: HYUNDAI_ko, disabled: false },
+    { value: LX, label: LX_ko, disabled: false },
+    { value: KCC_GLASS, label: KCC_GLASS_ko, disabled: false },
 ]
 
 export default companyTypeOptions;
