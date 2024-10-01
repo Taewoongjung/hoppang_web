@@ -46,7 +46,7 @@ const InitialScreen = (props: {secondStep:boolean, companyType:string, setCompan
                 </table>
             }
 
-            {<table>
+            {getStarted && <table>
                     <tbody>
                         <tr>
                             <td colSpan={2}>
@@ -69,8 +69,7 @@ const InitialScreen = (props: {secondStep:boolean, companyType:string, setCompan
                             </td>
                         </tr>
                     </tbody>
-                </table> &&
-                getStarted
+                </table>
             }
         </>
     );
