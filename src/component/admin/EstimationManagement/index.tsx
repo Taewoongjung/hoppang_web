@@ -50,10 +50,18 @@ const EstimationManagement = () => {
     const [data, setData] = useState();
     const [expandedRowKeys, setExpandedRowKeys] = useState<React.Key[]>([]);
 
+    // 검색 파라메터 변수
+    const [estimationIdList, setEstimationIdList] = useState('');
+    const [dateRange, setDateRange] = useState([]);
+
 
     // 견적 리스트 조회
     useEffect(() => {
-        axios.get(findEstimationList + `?startTime=2024-09-22&endTime=2024-10-01`, {
+        // 컴포넌트 마운트 시 기본 날짜 범위 설정
+        const defaultStartDate = moment().subtract(7, 'days').format(dateFormat).toString();
+        const defaultEndDate = moment().format(dateFormat).toString();
+
+        axios.get(findEstimationList + `?startTime=${defaultStartDate}&endTime=${defaultEndDate}`, {
             withCredentials: true,
             headers: {
                 Authorization: localStorage.getItem("hoppang-admin-token") || '',
@@ -130,10 +138,6 @@ const EstimationManagement = () => {
             : expandedRowKeys.filter(k => k !== record.key)
         );
     };
-
-    // 검색 파라메터 변수
-    const [estimationIdList, setEstimationIdList] = useState('');
-    const [dateRange, setDateRange] = useState([]);
 
     const onClickSearchEstimation = async () => {
         // ID 처리
