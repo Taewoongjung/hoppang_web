@@ -437,7 +437,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                             {
                                 key: '3',
                                 label: thirdCalculatedCompanyType !== '' ?
-                                    mappedCompanyByValue(thirdCalculatedCompanyType) : `${yetCalculatedCompanyList?.[0]}`,
+                                    mappedCompanyByValue(thirdCalculatedCompanyType) : `${yetCalculatedCompanyList?.[1]}`,
                                 children:
                                     <p>
                                         {result3 &&
