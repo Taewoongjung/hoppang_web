@@ -29,7 +29,7 @@ const InitialScreen = (props: {secondStep:boolean, companyType:string, setCompan
                             <td colSpan={2}>
                                 <div style={{fontFamily: 'Cochin', color: 'grey', width: 300}}>
                                     안녕하세요 <strong style={{ color: '#444444'}}>호빵</strong>입니다. <br/><br/>
-                                    전국의 창호금액의 기준을 제시하는 것을 목표로 합니다.
+                                    전국 창호금액의 기준을 제시하는 것을 목표로 합니다.
                                     <br/><br/>
                                     <strong style={{ color: '#444444'}}>호</strong>구가 <strong style={{ color: '#444444'}}>빵</strong>명이 되는 그날까지.
                                 </div>
@@ -46,7 +46,8 @@ const InitialScreen = (props: {secondStep:boolean, companyType:string, setCompan
                 </table>
             }
 
-            {getStarted && <table>
+            {getStarted &&
+                <table>
                     <tbody>
                         <tr>
                             <td colSpan={2}>
