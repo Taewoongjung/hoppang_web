@@ -154,9 +154,6 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
         let freightTransportFee = result['freightTransportFee']; // 도수운반비
 
         // @ts-ignore
-        let laborFee = result['laborFee']; // 인건비
-
-        // @ts-ignore
         let deliveryFee = result['deliveryFee']; // 배송비
 
         // @ts-ignore
@@ -165,26 +162,21 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
         const additionalDataTypes: AdditionalDataType[] = [];
         additionalDataTypes.push({
             key: 0,
-            additionalPriceType: '인건비',
-            price: addCommasToNumber(laborFee) || 'N/A'
-        });
-        additionalDataTypes.push({
-            key: 1,
             additionalPriceType: '철거비',
             price: addCommasToNumber(demolitionFee) || 'N/A'
         });
         additionalDataTypes.push({
-            key: 2,
+            key: 1,
             additionalPriceType: `사다리차비 (${customerFloor} 층)`,
             price: addCommasToNumber(ladderFee) || 'N/A'
         });
         additionalDataTypes.push({
-            key: 3,
+            key: 2,
             additionalPriceType: '보양비',
             price: addCommasToNumber(maintenanceFee) || 'N/A'
         });
         additionalDataTypes.push({
-            key: 4,
+            key: 3,
             additionalPriceType: '기타비용',
             price: addCommasToNumber((deliveryFee + freightTransportFee)) || 'N/A'
         });
@@ -224,15 +216,13 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
             const additionalDataTypes = [
                 // @ts-ignore
-                { key: 0, additionalPriceType: '인건비', price: addCommasToNumber(result2["laborFee"]) || 'N/A' },
+                { key: 0, additionalPriceType: '철거비', price: addCommasToNumber(result2["demolitionFee"]) || 'N/A' },
                 // @ts-ignore
-                { key: 1, additionalPriceType: '철거비', price: addCommasToNumber(result2["demolitionFee"]) || 'N/A' },
+                { key: 1, additionalPriceType: `사다리차비 (${result2["customerFloor"]} 층)`, price: addCommasToNumber(result2["ladderFee"]) || 'N/A' },
                 // @ts-ignore
-                { key: 2, additionalPriceType: `사다리차비 (${result2["customerFloor"]} 층)`, price: addCommasToNumber(result2["ladderFee"]) || 'N/A' },
+                { key: 2, additionalPriceType: '보양비', price: addCommasToNumber(result2["maintenanceFee"]) || 'N/A' },
                 // @ts-ignore
-                { key: 3, additionalPriceType: '보양비', price: addCommasToNumber(result2["maintenanceFee"]) || 'N/A' },
-                // @ts-ignore
-                { key: 4, additionalPriceType: '기타비용', price: addCommasToNumber(result2["deliveryFee"] + result2["freightTransportFee"]) || 'N/A' }
+                { key: 3, additionalPriceType: '기타비용', price: addCommasToNumber(result2["deliveryFee"] + result2["freightTransportFee"]) || 'N/A' }
             ];
 
             setMaterialTableData2(formattedData);
@@ -274,15 +264,13 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
             const additionalDataTypes = [
                 // @ts-ignore
-                { key: 0, additionalPriceType: '인건비', price: addCommasToNumber(result3.laborFee) || 'N/A' },
+                { key: 0, additionalPriceType: '철거비', price: addCommasToNumber(result3.demolitionFee) || 'N/A' },
                 // @ts-ignore
-                { key: 1, additionalPriceType: '철거비', price: addCommasToNumber(result3.demolitionFee) || 'N/A' },
+                { key: 1, additionalPriceType: `사다리차비 (${result3.customerFloor} 층)`, price: addCommasToNumber(result3.ladderFee) || 'N/A' },
                 // @ts-ignore
-                { key: 2, additionalPriceType: `사다리차비 (${result3.customerFloor} 층)`, price: addCommasToNumber(result3.ladderFee) || 'N/A' },
+                { key: 2, additionalPriceType: '보양비', price: addCommasToNumber(result3.maintenanceFee) || 'N/A' },
                 // @ts-ignore
-                { key: 3, additionalPriceType: '보양비', price: addCommasToNumber(result3.maintenanceFee) || 'N/A' },
-                // @ts-ignore
-                { key: 4, additionalPriceType: '기타비용', price: addCommasToNumber(result3.deliveryFee + result3.freightTransportFee) || 'N/A' }
+                { key: 3, additionalPriceType: '기타비용', price: addCommasToNumber(result3.deliveryFee + result3.freightTransportFee) || 'N/A' }
             ];
 
             setMaterialTableData3(formattedData);
