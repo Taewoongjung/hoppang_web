@@ -59,6 +59,7 @@ const InitialScreen = (props: {secondStep:boolean, companyType:string, setCompan
 
                         <Modal
                             centered
+                            closeIcon={false}
                             open={openNotification}
                             onOk={handleNotificationAgree}
                             okText={"동의하고 견적 받기"}
@@ -72,10 +73,10 @@ const InitialScreen = (props: {secondStep:boolean, companyType:string, setCompan
                                 <div className="project-description">
                                     <h2>호구 빵명 프로젝트란?</h2>
                                     <p>
-                                        "왜 인테리어에는 명확한 소비자 기준 금액이 없을까?"
-                                        이 질문에서 시작된 저희 호빵의 프로젝트는, 창호 계산 프로그램을 통해 전국에 통일된 창호 가격 기준을 제시하여 소비자들이 신뢰할 수 있는 금액을 만들어보고자 합니다.
+                                        <strong>"왜 인테리어 견적비에는 명확한 기준이 없을까?"</strong>
+                                        통일된 창호 가격 기준을 제시하여 소비자가 신뢰할 수 있는 금액을 만들어보고자 합니다.<br/><br/>
                                         현재 인테리어 시장의 불신은 비전문가들이 퍼뜨린 잘못된 정보에서 비롯된다고 생각합니다.
-                                        저희 호빵은 완벽하진 않지만, 한 분야의 전문가로서 올바른 방향을 제시하고 기준이 되려 노력하고 있습니다.
+                                        저희 호빵은 한 분야의 전문가로서 올바른 방향을 제시하고 기준이 되고자 합니다.
                                     </p>
                                 </div>
 
