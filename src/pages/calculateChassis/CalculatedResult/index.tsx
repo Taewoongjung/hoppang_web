@@ -63,9 +63,9 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
     // 첫 번째 결과 변수
     const [materialTableData1, setMaterialTableData1] = useState<MaterialDataType[]>([]);
     const [additionalTableData1, setAdditionalTableData1] = useState<AdditionalDataType[]>([]);
-
     const [wholePrice, setWholePrice] = useState('');
     const [firstCalculatedCompanyType, setFirstCalculatedCompanyType] = useState('');
+    const [estimationId, setEstimationId] = useState();
 
 
     // 두 번째 결과 변수
@@ -73,6 +73,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
     const [materialTableData2, setMaterialTableData2] = useState<MaterialDataType[]>([]);
     const [additionalTableData2, setAdditionalTableData2] = useState<AdditionalDataType[]>([]);
     const [wholePrice2, setWholePrice2] = useState('');
+    const [estimationId2, setEstimationId2] = useState();
 
     const [secondCalculatedCompanyType, setSecondCalculatedCompanyType] = useState('');
 
@@ -82,11 +83,12 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
     const [materialTableData3, setMaterialTableData3] = useState<MaterialDataType[]>([]);
     const [additionalTableData3, setAdditionalTableData3] = useState<AdditionalDataType[]>([]);
     const [wholePrice3, setWholePrice3] = useState('');
+    const [estimationId3, setEstimationId3] = useState();
 
     const [thirdCalculatedCompanyType, setThirdCalculatedCompanyType] = useState('');
 
-
     let [calculatedCount, setCalculatedCount] = useState(0);
+
 
     // 추가 견적인지 판단하는 변수
     const [isReEstimation2, setIsReEstimation2] = useState(false);
@@ -117,6 +119,9 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
         // 견적 받은 횟수 (첫 번째 견적 요청에만 setFirstCalculatedCompanyType 에 해당 브랜드 회사 정보 담기)
         setCalculatedCount(calculatedCount++);
 
+        // @ts-ignore
+        setEstimationId(result["estimationId"]);
+
         if (calculatedCount === 1) {
             // @ts-ignore
             let company = result['company'];
@@ -135,7 +140,6 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
         // @ts-ignore
         let wholePrice = result['wholeCalculatedFee'];
-
 
         // @ts-ignore
         let demolitionFee = result['demolitionFee']; // 철거비
@@ -202,6 +206,9 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
         const updateState = () => {
 
+            // @ts-ignore
+            setEstimationId2(result2["estimationId"]);
+
             setCalculatedCount(prevCount => prevCount + 1);
 
             // @ts-ignore
@@ -243,12 +250,14 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
     // 세 번째 결과 렌더링
     useEffect(() => {
 
-        console.log("??? = ", isReEstimation3);
         if (!isReEstimation3) {
             return;
         }
 
         const updateState = () => {
+
+            // @ts-ignore
+            setEstimationId3(result3["estimationId"]);
 
             setCalculatedCount(prevCount => prevCount + 1);
 
@@ -352,7 +361,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                     defaultActiveKey={['1']}
                     items={[{
                         key: '1',
-                        label: `${mappedCompanyByValue(firstCalculatedCompanyType)}`,
+                        label: `${mappedCompanyByValue(firstCalculatedCompanyType)} - 📋 ${estimationId} (견적번호)`,
                         children:
                             <p>
                                 <Divider orientation="left">재료값</Divider>
@@ -389,7 +398,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                             {
                                 key: '2',
                                 label: secondCalculatedCompanyType !== '' ?
-                                    mappedCompanyByValue(secondCalculatedCompanyType) : `${yetCalculatedCompanyList?.[0]}`
+                                    `${mappedCompanyByValue(secondCalculatedCompanyType)} - 📋 ${estimationId2} (견적번호)` : `${yetCalculatedCompanyList?.[0]}`
                                 ,
                                 children:
                                     <p>
@@ -437,7 +446,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                             {
                                 key: '3',
                                 label: thirdCalculatedCompanyType !== '' ?
-                                    mappedCompanyByValue(thirdCalculatedCompanyType) : `${yetCalculatedCompanyList?.[1]}`,
+                                    `${mappedCompanyByValue(thirdCalculatedCompanyType)} - 📋 ${estimationId3} (견적번호)` : `${yetCalculatedCompanyList?.[1]}`,
                                 children:
                                     <p>
                                         {result3 &&
