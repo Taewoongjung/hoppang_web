@@ -326,7 +326,9 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
                     {calculatedChassisPriceResult.length !== 0 && requestCalculateObject &&
                         <tbody>
                             <tr>
-                                <CalculatedResult result={calculatedChassisPriceResult} requestCalculateObject={requestCalculateObject}/>
+                                <td colSpan={2}>
+                                    <CalculatedResult result={calculatedChassisPriceResult} requestCalculateObject={requestCalculateObject}/>
+                                </td>
                             </tr>
                         </tbody>
                     }

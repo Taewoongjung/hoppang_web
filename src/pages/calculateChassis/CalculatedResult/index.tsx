@@ -345,7 +345,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
                 <Collapse
                     size="large"
-                    style={{ width:500 }}
+                    style={{ width:400 }}
                     defaultActiveKey={['1']}
                     items={[{
                         key: '1',
@@ -357,7 +357,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                     columns={materialColumns}
                                     dataSource={materialTableData1}
                                     size="middle"
-                                    style={{width:500}}
+                                    style={{width:400}}
                                     pagination={false}
                                 />
                                 <br/>
@@ -367,7 +367,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                     columns={additionalColumns}
                                     dataSource={additionalTableData1}
                                     size="middle"
-                                    style={{width:500}}
+                                    style={{width:400}}
                                     footer={() => `총 금액: ${wholePrice}`}
                                     pagination={false}
                                 />
@@ -380,7 +380,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 <Space direction="horizontal" style={{ width:'100%' }}>
                     <Collapse
                         size={result2 ? "large" : "small"}
-                        style={result2 ? { width: 500 } : { width: 400 }}
+                        style={result2 ? { width: 400 } : { width: 320 }}
                         collapsible={result2 ? "header" : "disabled"}
                         items={[
                             {
@@ -397,7 +397,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                             columns={materialColumns}
                                             dataSource={materialTableData2}
                                             size="middle"
-                                            style={{width: 500}}
+                                            style={{width: 400}}
                                             pagination={false}
                                         />
                                         <br/>
@@ -407,7 +407,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                             columns={additionalColumns}
                                             dataSource={additionalTableData2}
                                             size="middle"
-                                            style={{width: 500}}
+                                            style={{width: 400}}
                                             footer={() => `총 금액: ${wholePrice2}`}
                                             pagination={false}
                                         />
@@ -417,7 +417,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         ]}
                     />
                     {!result2 &&
-                    <Button style={{ width: 100 }} type="primary"
+                    <Button style={{ width: 80 }} type="primary"
                             onClick={() => callCalculate(convertCompanyTypeKoToNormal(yetCalculatedCompanyList?.[0]), 2)}>
                         견적받기
                     </Button>}
@@ -428,7 +428,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 <Space>
                     <Collapse
                         size={result3 ? "large" : "small"}
-                        style={result3 ? { width: 500, marginTop:'4%' } : { width: 400 }}
+                        style={result3 ? { width: 400, marginTop:'4%' } : { width: 320 }}
                         collapsible={result3 ? "header" : "disabled"}
                         items={[
                             {
@@ -444,7 +444,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                     columns={materialColumns}
                                                     dataSource={materialTableData3}
                                                     size="middle"
-                                                    style={{width: 500}}
+                                                    style={{width: 400}}
                                                     pagination={false}
                                                 />
                                                 <br/>
@@ -454,7 +454,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                     columns={additionalColumns}
                                                     dataSource={additionalTableData3}
                                                     size="middle"
-                                                    style={{width: 500}}
+                                                    style={{width: 400}}
                                                     footer={() => `총 금액: ${wholePrice3}`}
                                                     pagination={false}
                                                 />
@@ -464,7 +464,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         ]}
                     />
                     {!result3 &&
-                        <Button style={{ width: 100 }} type="primary"
+                        <Button style={{ width: 80 }} type="primary"
                                 onClick={() => callCalculate(convertCompanyTypeKoToNormal(yetCalculatedCompanyList?.[1]), 3)}>
                             견적받기
                         </Button>
