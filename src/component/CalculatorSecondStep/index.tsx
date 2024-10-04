@@ -9,6 +9,7 @@ import {calculateChassisCall} from "../../definition/apiPath";
 
 const { Title } = Typography;
 
+
 const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], companyType: string, clickBackButton: () => void}) => {
 
     const [form] = Form.useForm();
@@ -17,11 +18,20 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
 
     const {registeredList, companyType, clickBackButton} = props;
 
+    // 주소
     const [openSearchAddr, setOpenSearchAddr] = useState(false);
     const [address, setAddress] = useState('');
     const [addressZoneCode, setAddressZoneCode] = useState("");
-    const [subAddress, setSubAddress] = useState("");
+    const [remainAddress, setRemainAddress] = useState("");
     const [addressBuildingNum, setAddressBuildingNum] = useState("");
+    const [sido, setSido] = useState("");
+    const [siGunGu, setSiGunGu] = useState("");
+    const [yupMyeonDong, setYupMyeonDong] = useState("");
+    const [bCode, setBCode] = useState("");
+    const [isApartment, setIsApartment] = useState("false");
+    const [isExpanded, setIsExpanded] = useState("false");
+
+    // 가격 정보
     const [floorCustomerLiving, setFloor] = useState<number | null>();
     const [isScheduledForDemolition, setIsScheduledForDemolition] = useState(true);
     const [isResident, setIsResident] = useState(true);
@@ -37,7 +47,6 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
         });
     };
 
-
     const errorModal = (errorMsg:string) => {
         messageApi.open({
             type: 'error',
@@ -46,9 +55,25 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
     };
 
     const handleAddress = (newAddress:any) => {
-        setAddress(newAddress.address);
-        setAddressZoneCode(newAddress.zonecode);
-        setAddressBuildingNum(newAddress.buildingCode);
+        console.log("address = ", newAddress);
+        console.log("우편번호 = ", newAddress.zonecode);
+        console.log("시도 = ", newAddress.sido);
+        console.log("시군구 = ", newAddress.sigungu);
+        console.log("읍면동 = ", newAddress.bname);
+        console.log("bCode = ", newAddress.bcode);
+        console.log("apartment = ", newAddress.apartment);
+
+        setAddress(newAddress.address); // input 창에 주소 표시 전용
+        setAddressZoneCode(newAddress.zonecode); // 우편번호
+        setAddressBuildingNum(newAddress.buildingCode); // 빌딩번호
+        setSido(newAddress.sido); // 시도
+        setSiGunGu(newAddress.sigungu); // 시군구
+        setYupMyeonDong(newAddress.bname); // 읍면동
+        setBCode(newAddress.bcode); // 법정동코드
+
+        if (newAddress.apartment === "Y") {
+            setIsApartment("true") // 아파트 여부 (디폴트 false)
+        }
     };
 
 
@@ -79,6 +104,7 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
         console.log("address = ", address);
         console.log("addressZoneCode = ", addressZoneCode);
         console.log("addressBuildingNum = ", addressBuildingNum);
+        console.log("remainAddress = ", remainAddress);
 
         console.log("registeredList = ", registeredList);
         console.log("floor = ", floorCustomerLiving);
@@ -98,9 +124,14 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
         axios.post(calculateChassisCall,
             {
                     zipCode: addressZoneCode,
-                    address: address,
-                    subAddress: subAddress,
+                    state: sido,
+                    city: siGunGu,
+                    town: yupMyeonDong,
+                    bCode: bCode,
+                    remainAddress: remainAddress,
                     buildingNumber: addressBuildingNum,
+                    isApartment: isApartment,
+                    isExpanded: isExpanded,
                     reqCalculateChassisPriceList
                 },
         {withCredentials: true},
@@ -113,7 +144,7 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
                     reqCalculateChassisPriceList: reqCalculateChassisPriceList,
                     zipCode: addressZoneCode,
                     address: address,
-                    subAddress: subAddress,
+                    subAddress: remainAddress,
                     buildingNumber: addressBuildingNum,
                 });
             })
@@ -127,14 +158,14 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
 
     const allStatesReset = () => {
         setAddress('');
-        setSubAddress('');
+        setRemainAddress('');
         setAddressZoneCode('');
         setAddressBuildingNum('');
         setCalculatedChassisPriceResult([]);
     }
 
     const changeSubAddress = (subAddr:any) => {
-        setSubAddress(subAddr.target.value);
+        setRemainAddress(subAddr.target.value);
     }
 
     return (
@@ -227,7 +258,7 @@ const CalculatorSecondStep = (props: {registeredList: RegisteringChassis[], comp
                                                     style={{ width: '300px' }}
                                                     id="company_sub_address"
                                                     type="text"
-                                                    placeholder = "사업체 나머지 주소"
+                                                    placeholder = "나머지 주소"
                                                     onChange={changeSubAddress}
                                                 />
                                             </Form.Item>

@@ -31,7 +31,7 @@ const SearchAddressPopUp = (props:{ setAddress:any; setOpenSearchAddr:any;}) => 
                     width: "450px",
                     height: "550px",
                     padding: "7px"}}
-                    autoClose onComplete={handlePostCode}/>
+                    onComplete={handlePostCode}/>
             </section>
         </>
     );
