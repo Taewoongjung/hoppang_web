@@ -345,7 +345,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
                 <Collapse
                     size="large"
-                    style={{ width:400 }}
+                    style={{ width: 440 }}
                     defaultActiveKey={['1']}
                     items={[{
                         key: '1',
@@ -380,7 +380,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 <Space direction="horizontal" style={{ width:'100%' }}>
                     <Collapse
                         size={result2 ? "large" : "small"}
-                        style={result2 ? { width: 400 } : { width: 320 }}
+                        style={result2 ? { width: 440 } : { width: 350 }}
                         collapsible={result2 ? "header" : "disabled"}
                         items={[
                             {
@@ -397,7 +397,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                             columns={materialColumns}
                                             dataSource={materialTableData2}
                                             size="middle"
-                                            style={{width: 400}}
+                                            style={{width: 440}}
                                             pagination={false}
                                         />
                                         <br/>
@@ -407,7 +407,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                             columns={additionalColumns}
                                             dataSource={additionalTableData2}
                                             size="middle"
-                                            style={{width: 400}}
+                                            style={{width: 440}}
                                             footer={() => `총 금액: ${wholePrice2}`}
                                             pagination={false}
                                         />
@@ -428,7 +428,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 <Space>
                     <Collapse
                         size={result3 ? "large" : "small"}
-                        style={result3 ? { width: 400, marginTop:'4%' } : { width: 320 }}
+                        style={result3 ? { width: 440, marginTop:'4%' } : { width: 350 }}
                         collapsible={result3 ? "header" : "disabled"}
                         items={[
                             {
@@ -444,7 +444,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                     columns={materialColumns}
                                                     dataSource={materialTableData3}
                                                     size="middle"
-                                                    style={{width: 400}}
+                                                    style={{width: 440}}
                                                     pagination={false}
                                                 />
                                                 <br/>
@@ -454,7 +454,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                     columns={additionalColumns}
                                                     dataSource={additionalTableData3}
                                                     size="middle"
-                                                    style={{width: 400}}
+                                                    style={{width: 440}}
                                                     footer={() => `총 금액: ${wholePrice3}`}
                                                     pagination={false}
                                                 />
