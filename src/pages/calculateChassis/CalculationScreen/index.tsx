@@ -183,213 +183,215 @@ const CalculationScreen = () => {
     return (
         <>
             {contextHolder}
-            <div className="app">
-                <header className="app-header">
-                    <h1>호빵</h1>
-                    <div>디바이스 아이디 :({deviceType}) {deviceId}</div>
-                </header>
-                <main className="app-main">
-                    {/*<aside className="banner">*/}
-                    {/*    <p>광고 베너 칸</p>*/}
-                    {/*</aside>*/}
-                    <div className="content">
-                        <Row>
-                            <div>
-                                <Col
-                                    xs={24}
-                                    sm={20}
-                                    md={12}
-                                    lg={10}
-                                    xl={12}
-                                    style={{ textAlign: 'center' }}
-                                >
-                                    {!(!secondStep && companyType !== '선택안함') &&
-                                        <InitialScreen secondStep={secondStep}
-                                                       companyType={companyType}
-                                                       setCompanyType={(target: any) => setCompany(target)}
-                                                       companyTypeStatus={companyTypeStatus}
-                                                       setCompanyTypeStatus={(target: any) => setCompanyTypeStatus(target)}
-                                        />
-                                    }
+            <div className="whole-app">
+                <div className="app">
+                    <header className="app-header">
+                        <h1>호빵</h1>
+                        <div>디바이스 아이디 :({deviceType}) {deviceId}</div>
+                    </header>
+                    <main className="app-main">
+                        {/*<aside className="banner">*/}
+                        {/*    <p>광고 베너 칸</p>*/}
+                        {/*</aside>*/}
+                        <div className="content">
+                            <Row>
+                                <div>
+                                    <Col
+                                        xs={24}
+                                        sm={20}
+                                        md={12}
+                                        lg={10}
+                                        xl={12}
+                                        style={{ textAlign: 'center' }}
+                                    >
+                                        {!(!secondStep && companyType !== '선택안함') &&
+                                            <InitialScreen secondStep={secondStep}
+                                                           companyType={companyType}
+                                                           setCompanyType={(target: any) => setCompany(target)}
+                                                           companyTypeStatus={companyTypeStatus}
+                                                           setCompanyTypeStatus={(target: any) => setCompanyTypeStatus(target)}
+                                            />
+                                        }
 
-                                    {(!secondStep && companyType !== '선택안함') &&
-                                        <table>
-                                            <tbody>
-                                                <tr>
-                                                    <td colSpan={2}>
-                                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                                            <Title level={5}>
-                                                                {!isRevising && <Text keyboard> {mappedCompanyByValue(companyType)} </Text> }
-                                                                {!isRevising &&
-                                                                    <Tooltip title="회사 재설정하기">
-                                                                        <AnimatedIcon
-                                                                            className={isBlinking ? 'blink' : ''}
-                                                                            onClick={handleIconClick}
-                                                                        />
-                                                                    </Tooltip>
-                                                                }
-                                                                {isRevising &&
-                                                                    <Select
-                                                                        status={companyTypeStatus}
-                                                                        value={companyType}
-                                                                        style={{ width: 150 }}
-                                                                        onChange={handleChangeCompanyType}
-                                                                        options={companyTypeOptions}/>
-                                                                }
-                                                            </Title>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={2}>
-                                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                                            <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
-                                                            <Title level={4}>
-                                                                창호 종류 선택 :
-                                                            </Title>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={2}>
-                                                        <Select
-                                                            status={chassisTypeStatus}
-                                                            defaultValue="창호 종류 선택"
-                                                            style={{ width: 150 }}
-                                                            onChange={setChassisType}
-                                                            options={chassisTypeOptions}/>
-                                                    </td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td colSpan={2}>
-                                                        <div style={{marginTop:'12%', marginBottom:'-28%'}}>
-                                                            <div style={{color: 'grey', textDecorationLine: 'underline'}}>
-                                                                *가로 세로 수치는 10mm 단위로 작성 해주세요
+                                        {(!secondStep && companyType !== '선택안함') &&
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <td colSpan={2}>
+                                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                                <Title level={5}>
+                                                                    {!isRevising && <Text keyboard> {mappedCompanyByValue(companyType)} </Text> }
+                                                                    {!isRevising &&
+                                                                        <Tooltip title="회사 재설정하기">
+                                                                            <AnimatedIcon
+                                                                                className={isBlinking ? 'blink' : ''}
+                                                                                onClick={handleIconClick}
+                                                                            />
+                                                                        </Tooltip>
+                                                                    }
+                                                                    {isRevising &&
+                                                                        <Select
+                                                                            status={companyTypeStatus}
+                                                                            value={companyType}
+                                                                            style={{ width: 150 }}
+                                                                            onChange={handleChangeCompanyType}
+                                                                            options={companyTypeOptions}/>
+                                                                    }
+                                                                </Title>
                                                             </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={2}>
-                                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '15%' }}>
-                                                            <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
-                                                            <Title level={4}>
-                                                                창호 가로 (w) :
-                                                            </Title>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={2}>
-                                                        <InputNumber style={{ width: 150 }}
-                                                                     addonAfter="mm"
-                                                                     min={0}
-                                                                     status={widthStatus}
-                                                                     onChange={setWidth}
-                                                        />
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={2}>
-                                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                                            <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
-                                                            <Title level={4}>
-                                                                창호 세로 (h) :
-                                                            </Title>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={2}>
-                                                        <InputNumber style={{ width: 150 }}
-                                                                     addonAfter="mm"
-                                                                     min={0}
-                                                                     status={heightStatus}
-                                                                     onChange={setHeight}
-                                                        />
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan={2}>
+                                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                                <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
+                                                                <Title level={4}>
+                                                                    창호 종류 선택 :
+                                                                </Title>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan={2}>
+                                                            <Select
+                                                                status={chassisTypeStatus}
+                                                                defaultValue="창호 종류 선택"
+                                                                style={{ width: 150 }}
+                                                                onChange={setChassisType}
+                                                                options={chassisTypeOptions}/>
+                                                        </td>
+                                                    </tr>
 
-                                                <tr>
-                                                    <td colSpan={2}>
-                                                        <Button
-                                                            type="dashed"
-                                                            shape="round"
-                                                            style={{marginTop: '10%', width: '45%'}}
-                                                            onClick={handleRegisterChassis}
-                                                        >
-                                                            추가
-                                                        </Button>
-
-                                                        <Divider style={{ marginTop: '10%' }}>추가리스트</Divider>
-                                                        <div id="scrollableDiv" style={{ height: ContainerHeight, overflow: 'auto', width: 400, border: '1px solid grey' }}>
-                                                            <List
-                                                                itemLayout={"horizontal"}
-                                                                dataSource={registeredList}
-                                                                renderItem={(item: RegisteringChassis, index) => (
-                                                                    <List.Item key={item.index}>
-                                                                        <List.Item.Meta
-                                                                            title={getLabelOfChassisType(item.chassisType)}
-                                                                            description={
-                                                                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                                                                    <table>
-                                                                                        <tr>
-                                                                                            <td>가로 :</td>
-                                                                                            <td>{item.width}</td>
-                                                                                        </tr>
-                                                                                        <tr>
-                                                                                            <td>세로 :</td>
-                                                                                            <td>{item.height}</td>
-                                                                                        </tr>
-                                                                                    </table>
-                                                                                </div>
-                                                                            }
-                                                                        />
-                                                                        <div
-                                                                            style={{fontSize:18, color: 'red', marginRight: 10}}
-                                                                            onClick={(e) => {
-                                                                                e.stopPropagation(); // 이벤트 전파 중단
-                                                                                console.log(`Deleting chassis with index: ${item.index}`); // 함수 호출 확인 로그
-                                                                                deleteRegisteredChassis(item.index);
-                                                                            }}
-                                                                        >
-                                                                            <DeleteOutlined/>
-                                                                        </div>
-                                                                    </List.Item>
-                                                                )}
+                                                    <tr>
+                                                        <td colSpan={2}>
+                                                            <div style={{marginTop:'12%', marginBottom:'-28%'}}>
+                                                                <div style={{color: 'grey', textDecorationLine: 'underline'}}>
+                                                                    *가로 세로 수치는 10mm 단위로 작성 해주세요
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan={2}>
+                                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '15%' }}>
+                                                                <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
+                                                                <Title level={4}>
+                                                                    창호 가로 (w) :
+                                                                </Title>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan={2}>
+                                                            <InputNumber style={{ width: 150 }}
+                                                                         addonAfter="mm"
+                                                                         min={0}
+                                                                         status={widthStatus}
+                                                                         onChange={setWidth}
                                                             />
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colSpan={2}>
-                                                        {registeredList.length > 0 &&
-                                                            <div >
-                                                                <Button type={'primary'} size={'large'} onClick={CompleteOnFirstScreen}>확정<RightOutlined /></Button>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan={2}>
+                                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                                <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
+                                                                <Title level={4}>
+                                                                    창호 세로 (h) :
+                                                                </Title>
                                                             </div>
-                                                        }
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                    </table>}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan={2}>
+                                                            <InputNumber style={{ width: 150 }}
+                                                                         addonAfter="mm"
+                                                                         min={0}
+                                                                         status={heightStatus}
+                                                                         onChange={setHeight}
+                                                            />
+                                                        </td>
+                                                    </tr>
 
-                                    {/* 두 번째 화면 렌더링 */}
-                                    {secondStep && <CalculatorSecondStep registeredList={registeredList} companyType={companyType} clickBackButton={clickBackButton}/> }
-                                </Col>
-                            </div>
-                        </Row>
-                        <Divider/>
-                        <footer className="footer">
-                            인트로 정일윤 | 주소 : 울산광역시남구삼산로318번길12,2층(삼산동) | 사업자등록번호 : 175-24-00881
-                        </footer>
+                                                    <tr>
+                                                        <td colSpan={2}>
+                                                            <Button
+                                                                type="dashed"
+                                                                shape="round"
+                                                                style={{marginTop: '10%', width: '45%'}}
+                                                                onClick={handleRegisterChassis}
+                                                            >
+                                                                추가
+                                                            </Button>
+
+                                                            <Divider style={{ marginTop: '10%' }}>추가리스트</Divider>
+                                                            <div id="scrollableDiv" style={{ height: ContainerHeight, overflow: 'auto', width: 400, border: '1px solid grey' }}>
+                                                                <List
+                                                                    itemLayout={"horizontal"}
+                                                                    dataSource={registeredList}
+                                                                    renderItem={(item: RegisteringChassis, index) => (
+                                                                        <List.Item key={item.index}>
+                                                                            <List.Item.Meta
+                                                                                title={getLabelOfChassisType(item.chassisType)}
+                                                                                description={
+                                                                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                                                        <table>
+                                                                                            <tr>
+                                                                                                <td>가로 :</td>
+                                                                                                <td>{item.width}</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td>세로 :</td>
+                                                                                                <td>{item.height}</td>
+                                                                                            </tr>
+                                                                                        </table>
+                                                                                    </div>
+                                                                                }
+                                                                            />
+                                                                            <div
+                                                                                style={{fontSize:18, color: 'red', marginRight: 10}}
+                                                                                onClick={(e) => {
+                                                                                    e.stopPropagation(); // 이벤트 전파 중단
+                                                                                    console.log(`Deleting chassis with index: ${item.index}`); // 함수 호출 확인 로그
+                                                                                    deleteRegisteredChassis(item.index);
+                                                                                }}
+                                                                            >
+                                                                                <DeleteOutlined/>
+                                                                            </div>
+                                                                        </List.Item>
+                                                                    )}
+                                                                />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan={2}>
+                                                            {registeredList.length > 0 &&
+                                                                <div >
+                                                                    <Button type={'primary'} size={'large'} onClick={CompleteOnFirstScreen}>확정<RightOutlined /></Button>
+                                                                </div>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                        </table>}
+
+                                        {/* 두 번째 화면 렌더링 */}
+                                        {secondStep && <CalculatorSecondStep registeredList={registeredList} companyType={companyType} clickBackButton={clickBackButton}/> }
+                                    </Col>
+                                </div>
+                            </Row>
+                            <Divider/>
+                            <footer className="footer">
+                                인트로 정일윤 | 주소 : 울산광역시남구삼산로318번길12,2층(삼산동) | 사업자등록번호 : 175-24-00881
+                            </footer>
+                        </div>
+                        {/*<aside className="banner">*/}
+                        {/*    <p>광고 베너 칸</p>*/}
+                        {/*</aside>*/}
+                    </main>
+                    <div>
+                        <BottomNavigator/>
                     </div>
-                    {/*<aside className="banner">*/}
-                    {/*    <p>광고 베너 칸</p>*/}
-                    {/*</aside>*/}
-                </main>
-                <div>
-                    <BottomNavigator/>
                 </div>
             </div>
         </>
