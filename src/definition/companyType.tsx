@@ -13,3 +13,5 @@ const companyTypeOptions = [
 ]
 
 export default companyTypeOptions;
+
+export const companyTypeOptionsString = [HYUNDAI_ko, LX_ko, KCC_GLASS_ko]

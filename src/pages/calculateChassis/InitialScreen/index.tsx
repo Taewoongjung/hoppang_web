@@ -1,14 +1,22 @@
 import React, {useEffect, useState} from 'react';
-import {Select, Typography, Button, Modal} from "antd";
-import companyTypeOptions from "../../../definition/companyType";
+import {Select, Typography, Button, Modal, Divider, Steps} from "antd";
+import companyTypeOptions, {companyTypeOptionsString} from "../../../definition/companyType";
 import "./initialScreenStyles.css";
-import {LeftOutlined} from "@ant-design/icons";
+import {CheckOutlined, LeftOutlined} from "@ant-design/icons";
 
 const { Title } = Typography;
 
-const InitialScreen = (props: {secondStep:boolean, companyType:string, setCompanyType: (s: string) => void, companyTypeStatus:any, setCompanyTypeStatus: (s: string) => void}) => {
+const InitialScreen = (props: {
+    secondStep:boolean,
+    companyType:string,
+    setCompanyType: (s: string) => void,
+    companyTypeStatus:any,
+    setCompanyTypeStatus: (s: string) => void,
+    current:number,
+    setCurrent: (s: number) => void}
+) => {
 
-    const {secondStep, companyType, setCompanyType, companyTypeStatus, setCompanyTypeStatus} = props;
+    const {secondStep, companyType, setCompanyType, companyTypeStatus, setCompanyTypeStatus, current, setCurrent} = props;
 
     const [isAgreed, setIsAgreed] = useState(false);
     const [openNotification, setOpenNotification] = useState(false);
@@ -41,6 +49,15 @@ const InitialScreen = (props: {secondStep:boolean, companyType:string, setCompan
         }
     }, [companyType]);
 
+    const [selectedOption, setSelectedOption] = useState(null);
+
+    const handleSelect = (option: any) => {
+        setSelectedOption(option);
+        setCompanyType(option);
+        setCurrent(current + 1)
+    };
+
+
     return (
         <>
             { ( !getStarted && !secondStep && !isAgreed ) &&
@@ -48,7 +65,7 @@ const InitialScreen = (props: {secondStep:boolean, companyType:string, setCompan
                     <tbody>
                         <tr>
                             <td colSpan={2}>
-                                <div style={{fontFamily: 'Cochin', color: 'grey', width: 300}}>
+                                <div style={{fontFamily: 'Cochin', color: 'grey', width: 500}}>
                                     안녕하세요 <strong style={{ color: '#444444'}}>호빵</strong>입니다. <br/><br/>
                                     전국 창호금액의 기준을 제시하는 것을 목표로 합니다.
                                     <br/><br/>
@@ -58,7 +75,7 @@ const InitialScreen = (props: {secondStep:boolean, companyType:string, setCompan
                         </tr>
                         <tr>
                             <td colSpan={2}>
-                                <div style={{marginTop: '7%', marginBottom: '-14%'}}>
+                                <div style={{ marginTop: '7%' }}>
                                     <Button onClick={handleGetStarted} size={"small"}> 창호 견적 시작하기</Button>
                                 </div>
                             </td>
@@ -72,7 +89,7 @@ const InitialScreen = (props: {secondStep:boolean, companyType:string, setCompan
                             okText={"동의하고 견적 받기"}
                             cancelText={"미동의"}
                             onCancel={() => setOpenNotification(false)}
-                            cancelButtonProps={{ style: { backgroundColor: "#fff", color: "#000", border: "1px solid #000" } }} // 미동의 버튼 테두리 검정, 바탕 흰색
+                            cancelButtonProps={{ style: { backgroundColor: "#fff", color: "#000", border: "1px solid #000" } }}
                         >
                             <body className="modal-body">
                                 <h1 className="modal-h1">호빵 소개</h1>
@@ -109,40 +126,100 @@ const InitialScreen = (props: {secondStep:boolean, companyType:string, setCompan
             }
 
             { ( getStarted && isAgreed ) &&
-                <table>
-                    <tbody>
-                        <tr>
-                            <td colSpan={2}>
-                                <div onClick={handleBack} style={{color: "darkred"}}>
-                                    <LeftOutlined style={{marginBottom:20}}/> 뒤로
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colSpan={2}>
-                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                    <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
-                                    <Title level={4}>
-                                        창호 회사 선택 :
-                                    </Title>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colSpan={2}>
-                                <Select
-                                    status={companyTypeStatus}
-                                    defaultValue="창호 회사 선택"
-                                    style={{ width: 150 }}
-                                    onChange={setCompanyType}
-                                    options={companyTypeOptions}/>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <>
+                    {/*상황 진척도*/}
+                    <div style={{width: "1000px"}}>
+                        <Steps
+                            current={current}
+                            items={[
+                                {
+                                    title: '회사선택',
+                                    description: companyType
+                                },
+                                {
+                                    title: '창호 종류/사이즈 입력',
+
+                                },
+                                {
+                                    title: '주소 입력',
+                                },
+                                {
+                                    title: '기타 사항 입력',
+                                },
+                                {
+                                    title: '계산시작',
+                                },
+                            ]}
+                        />
+                    </div>
+
+                    <div style={{width: '1000px'}}>
+                        {/*뒤로가기*/}
+                        <div onClick={handleBack} style={{color: "blue", marginRight: "80%", marginTop: '50px'}}>
+                            <LeftOutlined/>
+                        </div>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td colSpan={2}>
+                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: "50%" }}>
+                                            <div style={{ color: 'red', fontSize: 16 }}>*</div>
+                                            <Title level={2}>
+                                                창호 회사 선택
+                                            </Title>
+                                        </div>
+                                        <Divider  style={{  borderColor: '#a4a3a3', marginTop: '-10px' }}/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colSpan={2}>
+                                        <div style={styles.container}>
+                                            {companyTypeOptionsString.map((option, index) => (
+                                                <div
+                                                    key={index}
+                                                    onClick={() => handleSelect(option)}
+                                                    style={{
+                                                        ...styles.box,
+                                                        borderColor: selectedOption === option ? 'green' : '#ccc',
+                                                        position: 'relative',
+                                                    }}
+                                                >
+                                                    {option}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </>
             }
         </>
     );
 }
+
+const styles: { [key: string]: React.CSSProperties } = {
+    container: {
+        display: 'flex',
+        gap: '10px',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        marginBottom: '10%'
+    },
+    box: {
+        width: '150px',
+        height: '50px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        border: '2px solid #ccc',
+        borderRadius: '8px',
+        cursor: 'pointer',
+        transition: 'border-color 0.3s ease',
+    }
+};
+
 
 export default InitialScreen;
