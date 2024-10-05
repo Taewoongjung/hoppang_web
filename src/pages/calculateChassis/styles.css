@@ -11,13 +11,12 @@ html, body {
     display: flex;
     flex-direction: column;
     height: 100%;
-    min-height: 90vh;
 }
 
 .app-header {
     background-color: #f7f8fa;
     color: #000000;
-    padding: 0.3rem;
+    padding: 0.5rem;
     text-align: center;
     font-size: 15px;
     font-weight: bold;
@@ -30,14 +29,15 @@ html, body {
     justify-content: center;
     align-items: center;
     margin-top: 30px;
-    padding: 0;
+    padding-top: 10px;
+    padding-bottom: 70px;
 }
 
 .content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem;
+    padding: 1rem;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
@@ -113,7 +113,7 @@ input, .ant-input-number, .ant-select-selector {
 .footer {
     color: #593b2d;
     font-size: 10px;
-    margin-top: 15px;
+    margin-top: 1%;
 }
 @media screen and (max-width: 768px) {
     .app-main {
@@ -147,4 +147,38 @@ input, .ant-input-number, .ant-select-selector {
 
 .content {
     animation: fadeIn 0.5s ease-in-out;
+}
+
+/* 하단 네비바 */
+nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #c9dbf3;
+    height: 60px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+nav a {
+    color: #333333;
+    text-decoration: none;
+    font-size: 14px;
+    text-align: center;
+}
+
+nav a:hover {
+    opacity: 0.8;
+}
+
+.nav-icon {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.nav-icon img {
+    width: 24px;
+    height: 24px;
 }

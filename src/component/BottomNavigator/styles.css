@@ -1,0 +1,32 @@
+nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #4a90e2;
+    height: 60px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    text-align: center;
+}
+
+nav a:hover {
+    opacity: 0.8;
+}
+
+.nav-icon {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.nav-icon img {
+    width: 24px;
+    height: 24px;
+}

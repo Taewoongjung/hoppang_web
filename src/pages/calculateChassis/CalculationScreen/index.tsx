@@ -11,6 +11,7 @@ import InitialScreen from '../InitialScreen';
 import styled, { keyframes } from "styled-components";
 import companyTypeOptions from "../../../definition/companyType";
 import {mappedCompanyByValue} from "../../../util";
+import BottomNavigator from "../../../component/BottomNavigator";
 
 const { Title, Text } = Typography;
 
@@ -315,14 +316,14 @@ const CalculationScreen = () => {
                                                         <Button
                                                             type="dashed"
                                                             shape="round"
-                                                            style={{marginTop: '15%', width: '45%'}}
+                                                            style={{marginTop: '10%', width: '45%'}}
                                                             onClick={handleRegisterChassis}
                                                         >
                                                             추가
                                                         </Button>
 
                                                         <Divider style={{ marginTop: '10%' }}>추가리스트</Divider>
-                                                        <div id="scrollableDiv" style={{ height: ContainerHeight, overflow: 'auto', width: 400 }}>
+                                                        <div id="scrollableDiv" style={{ height: ContainerHeight, overflow: 'auto', width: 400, border: '1px solid grey' }}>
                                                             <List
                                                                 itemLayout={"horizontal"}
                                                                 dataSource={registeredList}
@@ -387,6 +388,9 @@ const CalculationScreen = () => {
                     {/*    <p>광고 베너 칸</p>*/}
                     {/*</aside>*/}
                 </main>
+            </div>
+            <div>
+                <BottomNavigator/>
             </div>
         </>
     );
