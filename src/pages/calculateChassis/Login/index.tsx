@@ -3,6 +3,7 @@ import '../styles.css';
 import axios from "axios";
 
 const API_URL = process.env.REACT_APP_HOPPANG_APP_REQUEST_API_URL;
+const KAKAO_REST_API_KEY = process.env.REACT_APP_REST_API_KEY;
 
 const Login = () => {
 
@@ -16,6 +17,7 @@ const Login = () => {
 
     const handleAppleLogin = () => {
         console.log("애플 로그인 = ", API_URL);
+        console.log("key = ", KAKAO_REST_API_KEY);
     };
 
     return (
