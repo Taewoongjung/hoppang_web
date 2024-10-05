@@ -17,8 +17,8 @@ html, body {
 .app {
     display: flex;
     flex-direction: column;
-    width: 70%; /* 원하는 사이즈로 조정 */
-    height: 70%; /* 원하는 사이즈로 조정 */
+    width: 100%; /* 원하는 사이즈로 조정 */
+    height: 100%; /* 원하는 사이즈로 조정 */
 }
 
 .app-header {

@@ -8,7 +8,7 @@ nav {
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
     position: fixed;
     bottom: 0;
-    width: 70%;
+    width: 100%;
 }
 
 nav a {
