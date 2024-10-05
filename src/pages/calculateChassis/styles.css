@@ -154,36 +154,3 @@ input, .ant-input-number, .ant-select-selector {
 .content {
     animation: fadeIn 0.5s ease-in-out;
 }
-
-/* 하단 네비바 */
-nav {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background-color: #c9dbf3;
-    height: 60px;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    position: absolute;
-    bottom: 0;
-    width: 70%;
-}
-
-nav a {
-    color: #333333;
-    text-decoration: none;
-    font-size: 14px;
-    text-align: center;
-}
-
-nav a:hover {
-    opacity: 0.8;
-}
-
-.nav-icon {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.nav-icon img {
-    width: 24px;
-}

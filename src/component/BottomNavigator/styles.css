@@ -1,17 +1,18 @@
+/* 하단 네비바 */
 nav {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: #4a90e2;
+    background-color: #c9dbf3;
     height: 60px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
     position: fixed;
     bottom: 0;
-    width: 100%;
+    width: 70%;
 }
 
 nav a {
-    color: white;
+    color: #333333;
     text-decoration: none;
     font-size: 14px;
     text-align: center;
@@ -28,5 +29,4 @@ nav a:hover {
 
 .nav-icon img {
     width: 24px;
-    height: 24px;
 }
