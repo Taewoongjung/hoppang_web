@@ -41,7 +41,7 @@ const Login = () => {
                 {/*뒤로가기*/}
                 <LeftOutlined
                     onClick={() => {window.location.href = "/"}}
-                    style={{marginRight: '100%', fontSize: '30px', marginBottom: '50px', color: 'blue'}}
+                    style={{marginRight: '100%', fontSize: '40px', marginBottom: '50px', color: 'blue'}}
                 />
 
                 <h2 style={styles.subtitle}>호빵 - 호구빵명 프로젝트</h2>
