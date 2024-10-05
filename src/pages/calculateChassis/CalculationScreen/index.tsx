@@ -388,9 +388,9 @@ const CalculationScreen = () => {
                     {/*    <p>광고 베너 칸</p>*/}
                     {/*</aside>*/}
                 </main>
-            </div>
-            <div>
-                <BottomNavigator/>
+                <div>
+                    <BottomNavigator/>
+                </div>
             </div>
         </>
     );
