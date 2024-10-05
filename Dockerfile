@@ -30,7 +30,7 @@ EXPOSE 10244
 
 # .env 파일을 환경 변수로 전달
 # Docker 컨테이너를 실행할 때 이 부분을 환경 변수에 맞게 수정해주세요
-ENV REACT_HOPPANG_APP_REQUEST_API_URL=${REACT_HOPPANG_APP_REQUEST_API_URL}
+ENV REACT_HOPPANG_APP_REQUEST_API_URL=https://hoppang.store/
 
 # nginx 서버를 실행하고 백그라운드로 동작하도록 한다.
 CMD ["nginx", "-g", "daemon off;"]
