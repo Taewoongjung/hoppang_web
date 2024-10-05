@@ -1,72 +1,113 @@
 import React from 'react';
-import {Select} from "antd";
-import companyTypeOptions from "../../../definition/companyType";
 import '../styles.css';
+import axios from "axios";
+
+const API_URL = process.env.REACT_HOPPANG_APP_REQUEST_API_URL;
+
 const Login = () => {
 
     const REST_API_KEY = "da09bfccea21381b988c8ede053a85c5";
-
-    const REDIRECT_URI = "http://localhost:3000"
+    // const REDIRECT_URI = "http://localhost:7070/api/kakao/signup";
+    const REDIRECT_URI = "http://localhost:3000/chassis/calculator";
 
     const handleKakaoLogin = () => {
-        window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+        // window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
     };
 
     const handleAppleLogin = () => {
-        console.log("애플 로그인");
+        console.log("애플 로그인 = ", API_URL);
     };
 
     return (
-        <>
-            <div className="app">
-                <main className="app-main">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td colSpan={2}>
-                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                        <button
-                                            onClick={handleKakaoLogin}
-                                            style={{
-                                                background: `url("/assets/kakao_login_medium_wide.png") no-repeat center center`,
-                                                backgroundSize: 'cover',
-                                                width: '300px', // 이미지의 실제 너비로 조정하세요
-                                                height: '45px', // 이미지의 실제 높이로 조정하세요
-                                                border: 'none',
-                                                cursor: 'pointer',
-                                                padding: 0,
-                                                overflow: 'hidden',
-                                                textIndent: '-9999px' // 버튼 텍스트 숨기기
-                                            }}
-                                        >
-                                            카카오 로그인
-                                        </button>
+        <div className="login-container" style={styles.container}>
+            <div className="login-box" style={styles.box}>
 
-                                        <button
-                                            onClick={handleAppleLogin}
-                                            style={{
-                                                background: `url("/assets/appleid_button@2x.png") no-repeat center center`,
-                                                backgroundSize: 'cover',
-                                                width: '300px', // 이미지의 실제 너비로 조정하세요
-                                                height: '45px', // 이미지의 실제 높이로 조정하세요
-                                                border: 'none',
-                                                cursor: 'pointer',
-                                                padding: 0,
-                                                overflow: 'hidden',
-                                                textIndent: '-9999px' // 버튼 텍스트 숨기기
-                                            }}
-                                        >
-                                            애플 로그인
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </main>
+                <h2 style={styles.subtitle}>호빵 - 호구빵명 프로젝트</h2>
+                {/* 회사 로고 */}
+                <img
+                    src="/assets/hoppang-character.png"
+                    alt="Hoppang Logo"
+                    style={styles.logo}
+                />
+
+                <div style={styles.buttonContainer}>
+
+                    {/*카카오 로그인*/}
+                    <button
+                        onClick={handleKakaoLogin}
+                        style={{
+                            ...styles.button,
+                            background: `url("/assets/kakao_login_medium_wide.png") no-repeat center center`,
+                            backgroundSize: 'cover'
+                        }}
+                    />
+
+                    {/*애플 로그인*/}
+                    <button
+                        onClick={handleAppleLogin}
+                        style={{
+                            ...styles.button,
+                            background: `url("/assets/appleid_button@2x.png") no-repeat center center`,
+                            backgroundSize: 'cover',
+                            marginTop: "-9px"
+                        }}
+                    />
+                </div>
             </div>
-        </>
+        </div>
     );
-}
+};
+
+const styles: { [key: string]: React.CSSProperties } = {
+    container: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        backgroundColor: '#f5f5f5',
+    },
+    box: {
+        backgroundColor: '#fff',
+        padding: '40px',
+        borderRadius: '10px',
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        textAlign: 'center',
+        width: '100%',
+        maxWidth: '400px',
+    },
+    title: {
+        fontSize: '28px',
+        marginBottom: '10px',
+        color: '#333',
+        fontWeight: 'bold',
+    },
+    logo: {
+        width: '100px', // 로고 크기 조정
+        marginBottom: '50px',
+    },
+    subtitle: {
+        fontSize: '16px',
+        color: '#666',
+        // marginBottom: '50px',
+    },
+    buttonContainer: {
+        display: 'flex',
+        alignItems: 'center', justifyContent: 'center',
+        flexDirection: 'column',
+        gap: '15px',
+    },
+    button: {
+        width: '300px',
+        height: '45px',
+        border: 'none',
+        cursor: 'pointer',
+        padding: 0,
+        overflow: 'hidden',
+        borderRadius: '8px',
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+    },
+};
+
 
 export default Login;

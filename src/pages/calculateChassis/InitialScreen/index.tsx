@@ -29,6 +29,13 @@ const InitialScreen = (props: {secondStep:boolean, companyType:string, setCompan
     }
 
     useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('code')) {
+            console.log("kakao = ", urlParams.get('code'));
+        }
+    }, []);
+
+    useEffect(() => {
         if (companyType !== '선택안함' && companyType !== undefined) {
             setCompanyTypeStatus('');
         }
