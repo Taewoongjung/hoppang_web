@@ -128,7 +128,7 @@ const InitialScreen = (props: {
             { ( getStarted && isAgreed ) &&
                 <>
                     {/*상황 진척도*/}
-                    <div style={{width: "1000px"}}>
+                    <div style={{width: "800px"}}>
                         <Steps
                             current={current}
                             items={[
@@ -137,7 +137,7 @@ const InitialScreen = (props: {
                                     description: companyType
                                 },
                                 {
-                                    title: '창호 종류/사이즈 입력',
+                                    title: '창호 입력',
 
                                 },
                                 {
@@ -153,7 +153,7 @@ const InitialScreen = (props: {
                         />
                     </div>
 
-                    <div style={{width: '1000px'}}>
+                    <div style={{width: '800px'}}>
                         {/*뒤로가기*/}
                         <div onClick={handleBack} style={{color: "blue", marginRight: "80%", marginTop: '50px'}}>
                             <LeftOutlined/>

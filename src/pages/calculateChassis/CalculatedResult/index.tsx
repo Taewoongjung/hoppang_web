@@ -345,7 +345,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
                 <Collapse
                     size="large"
-                    style={{ width: 1000 }}
+                    style={{ width: 800 }}
                     defaultActiveKey={['1']}
                     items={[{
                         key: '1',
@@ -357,7 +357,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                     columns={materialColumns}
                                     dataSource={materialTableData1}
                                     size="middle"
-                                    style={{width:800}}
+                                    style={{width:700}}
                                     pagination={false}
                                 />
                                 <br/>
@@ -380,7 +380,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 <Space direction="horizontal" style={{ width:'100%' }}>
                     <Collapse
                         size={result2 ? "large" : "small"}
-                        style={result2 ? { width: 1000 } : { width: 910 }}
+                        style={result2 ? { width: 800 } : { width: 690 }}
                         collapsible={result2 ? "header" : "disabled"}
                         defaultActiveKey={['1']}
                         items={[
@@ -398,7 +398,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                             columns={materialColumns}
                                             dataSource={materialTableData2}
                                             size="middle"
-                                            style={{width: 800}}
+                                            style={{width: 700}}
                                             pagination={false}
                                         />
                                         <br/>
@@ -429,7 +429,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 <Space direction="horizontal" style={{ width:'100%' }}>
                     <Collapse
                         size={result3 ? "large" : "small"}
-                        style={result3 ? { width: 1000, marginTop:'2%' } : { width: 910 }}
+                        style={result3 ? { width: 800, marginTop:'2%' } : { width: 690 }}
                         collapsible={result3 ? "header" : "disabled"}
                         defaultActiveKey={['1']}
                         items={[
@@ -446,7 +446,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                     columns={materialColumns}
                                                     dataSource={materialTableData3}
                                                     size="middle"
-                                                    style={{width: 800}}
+                                                    style={{width: 700}}
                                                     pagination={false}
                                                 />
                                                 <br/>

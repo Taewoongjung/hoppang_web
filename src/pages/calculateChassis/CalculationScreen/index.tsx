@@ -221,7 +221,7 @@ const CalculationScreen = () => {
                                         {(!secondStep && companyType !== '선택안함') &&
                                             <>
                                                 {/*상황 진척도*/}
-                                                <div style={{width: "1000px"}}>
+                                                <div style={{width: "800px"}}>
                                                     <Steps
                                                         current={current}
                                                         items={[
@@ -230,7 +230,7 @@ const CalculationScreen = () => {
                                                                 description: companyType
                                                             },
                                                             {
-                                                                title: '창호 종류/사이즈 입력',
+                                                                title: '창호 입력',
                                                             },
                                                             {
                                                                 title: '주소 입력',
@@ -244,7 +244,7 @@ const CalculationScreen = () => {
                                                         ]}
                                                     />
                                                 </div>
-                                                <table style={{width: "1000px"}}>
+                                                <table style={{width: "800px"}}>
                                                     <tbody>
                                                         {/*<tr>*/}
                                                         {/*    <td colSpan={2}>*/}
@@ -353,7 +353,7 @@ const CalculationScreen = () => {
                                                                 </Button>
 
                                                                 <Divider style={{ marginTop: '10%' }}>추가리스트</Divider>
-                                                                <div id="scrollableDiv" style={{ height: ContainerHeight, overflow: 'auto', width: 1000, border: '1px solid grey' }}>
+                                                                <div id="scrollableDiv" style={{ height: ContainerHeight, overflow: 'auto', width: 800, border: '1px solid grey' }}>
                                                                     <List
                                                                         itemLayout={"horizontal"}
                                                                         dataSource={registeredList}

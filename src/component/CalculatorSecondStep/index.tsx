@@ -220,7 +220,7 @@ const CalculatorSecondStep = (props: {
         <>
             {contextHolder}
             {/*상황 진척도*/}
-            <div style={{width: "1000px"}}>
+            <div style={{width: "800px"}}>
                 <Steps
                     current={current}
                     items={[
@@ -229,7 +229,7 @@ const CalculatorSecondStep = (props: {
                             description: companyType
                         },
                         {
-                            title: '창호 종류/사이즈 입력',
+                            title: '창호 입력',
                         },
                         {
                             title: '주소 입력',
@@ -243,7 +243,7 @@ const CalculatorSecondStep = (props: {
                     ]}
                 />
             </div>
-            <div style={{width: "1000px"}}>
+            <div style={{width: "800px"}}>
                 <table>
                     {calculatedChassisPriceResult.length === 0 &&
                         <tbody>
