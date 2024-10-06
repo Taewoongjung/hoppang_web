@@ -6,7 +6,7 @@ import {findCountOfEstimationList, findEstimationList} from "../../../definition
 import {addCommasToNumber, convertAdditionalChassisPriceInfoToKo} from "../../../util";
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import {SearchOutlined} from "@ant-design/icons";
+import {SearchOutlined, CloseOutlined} from "@ant-design/icons";
 
 dayjs.extend(customParseFormat);
 
@@ -31,6 +31,13 @@ const columns = [
         render: (address: { address: any | undefined; subAddress: any | undefined; }) => address ? `${address.address} ${address.subAddress}` : null,
     },
     {
+        title: '확장여부',
+        dataIndex: 'chassisEstimationAddress',
+        key: 'isExpanded',
+        width: 82,
+        render: (address: { isExpanded: any | undefined; }) => address.isExpanded ? "O" : <CloseOutlined /> ,
+    },
+    {
         title: '총 가격',
         dataIndex: 'totalPrice',
         key: 'totalPrice',
@@ -40,6 +47,7 @@ const columns = [
         title: '생성일',
         dataIndex: 'createdAt',
         key: 'createdAt',
+        width: 170,
         render: (date: any) => moment(date).format('YYYY-MM-DD HH:mm:ss'),
     },
 ];
