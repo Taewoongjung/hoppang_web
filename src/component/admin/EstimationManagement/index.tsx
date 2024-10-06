@@ -28,7 +28,7 @@ const columns = [
         title: '주소',
         dataIndex: 'chassisEstimationAddress',
         key: 'address',
-        render: (address: { address: any | undefined; subAddress: any | undefined; }) => address ? `${address.address} ${address.subAddress}` : null,
+        render: (address: { zipCode: any | undefined; address: any | undefined; subAddress: any | undefined; }) => address ? `(${address.zipCode}) ${address.address} ${address.subAddress}` : null,
     },
     {
         title: '확장여부',
@@ -41,13 +41,13 @@ const columns = [
         title: '총 가격',
         dataIndex: 'totalPrice',
         key: 'totalPrice',
-        render: (price: any) => `₩${addCommasToNumber(price)}`,
+        render: (price: any) => addCommasToNumber(price),
     },
     {
         title: '생성일',
         dataIndex: 'createdAt',
         key: 'createdAt',
-        width: 170,
+        width: 180,
         render: (date: any) => moment(date).format('YYYY-MM-DD HH:mm:ss'),
     },
 ];
