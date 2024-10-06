@@ -21,7 +21,6 @@ const CalculatorSecondStep = (props: {
 }) => {
 
     const [form] = Form.useForm();
-    const values = Form.useWatch([], form);
 
     const [messageApi, contextHolder] = message.useMessage();
 
@@ -160,6 +159,7 @@ const CalculatorSecondStep = (props: {
                     subAddress: remainAddress,
                     buildingNumber: addressBuildingNum,
                 });
+                setCurrent(5);
             })
             .catch((error) => {
                 if (error.response.data.errorCode === 202) {
@@ -190,10 +190,15 @@ const CalculatorSecondStep = (props: {
     }
 
     const handleSetAddressSector = () => {
-        if (address !== '' && remainAddress !== '' && order === 1) {
-            setOrder(2);
-            setCurrent(3);
-        }
+
+        // 테스트 기간은 검증 안함 (이후에는 밑에 주석 해제 해야 한다)
+        // if (address !== '' && remainAddress !== '' && order === 1) {
+        //     setOrder(2);
+        //     setCurrent(3);
+        // }
+
+        setOrder(2);
+        setCurrent(3);
     }
 
     const completeSetFloorSector = () => {
@@ -220,30 +225,33 @@ const CalculatorSecondStep = (props: {
         <>
             {contextHolder}
             {/*상황 진척도*/}
-            <div style={{width: "800px"}}>
-                <Steps
-                    current={current}
-                    items={[
-                        {
-                            title: '회사선택',
-                            description: companyType
-                        },
-                        {
-                            title: '창호 입력',
-                        },
-                        {
-                            title: '주소 입력',
-                        },
-                        {
-                            title: '기타 사항 입력',
-                        },
-                        {
-                            title: '계산시작',
-                        },
-                    ]}
-                />
-            </div>
-            <div style={{width: "800px"}}>
+            {current !== 5 &&
+                <div style={{width: "700px"}}>
+                    <Steps
+                        current={current}
+                        size="small"
+                        items={[
+                            {
+                                title: '회사선택',
+                                description: companyType
+                            },
+                            {
+                                title: '창호 입력',
+                            },
+                            {
+                                title: '주소 입력',
+                            },
+                            {
+                                title: '기타 사항 입력',
+                            },
+                            {
+                                title: '계산시작',
+                            },
+                        ]}
+                    />
+                </div>
+            }
+            <div style={{width: "700px"}}>
                 <table>
                     {calculatedChassisPriceResult.length === 0 &&
                         <tbody>

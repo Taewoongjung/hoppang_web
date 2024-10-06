@@ -6,34 +6,11 @@ import chassisTypeOptions from "../../../definition/chassisType";
 import {InputStatus} from "antd/es/_util/statusUtils";
 import CalculatorSecondStep from "../../../component/CalculatorSecondStep";
 import RegisteringChassis from "../../../definition/interfaces";
-import {DeleteOutlined, RightOutlined, SwapOutlined} from "@ant-design/icons";
+import {DeleteOutlined, RightOutlined} from "@ant-design/icons";
 import InitialScreen from '../InitialScreen';
-import styled, { keyframes } from "styled-components";
 import BottomNavigator from "../../../component/BottomNavigator";
 
 const { Title, Text } = Typography;
-
-const blink = keyframes`
-      0% { opacity: 1; }
-      50% { opacity: 0; }
-      100% { opacity: 1; }
-`;
-
-const AnimatedIcon = styled(SwapOutlined)`
-  color: #ababab;
-  width: 15px;
-  margin-left: 8px;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-
-  &:hover {
-    transform: scale(1.2);
-  }
-
-  &.blink {
-    animation: ${blink} 0.5s linear;
-  }
-`;
 
 const CalculationScreen = () => {
 
@@ -221,9 +198,10 @@ const CalculationScreen = () => {
                                         {(!secondStep && companyType !== '선택안함') &&
                                             <>
                                                 {/*상황 진척도*/}
-                                                <div style={{width: "800px"}}>
+                                                <div style={{width: "700px"}}>
                                                     <Steps
                                                         current={current}
+                                                        size="small"
                                                         items={[
                                                             {
                                                                 title: '회사선택',
@@ -244,7 +222,7 @@ const CalculationScreen = () => {
                                                         ]}
                                                     />
                                                 </div>
-                                                <table style={{width: "800px"}}>
+                                                <table style={{width: "700px"}}>
                                                     <tbody>
                                                         {/*<tr>*/}
                                                         {/*    <td colSpan={2}>*/}
@@ -353,7 +331,7 @@ const CalculationScreen = () => {
                                                                 </Button>
 
                                                                 <Divider style={{ marginTop: '10%' }}>추가리스트</Divider>
-                                                                <div id="scrollableDiv" style={{ height: ContainerHeight, overflow: 'auto', width: 800, border: '1px solid grey' }}>
+                                                                <div id="scrollableDiv" style={{ height: ContainerHeight, overflow: 'auto', width: 700, border: '1px solid grey' }}>
                                                                     <List
                                                                         itemLayout={"horizontal"}
                                                                         dataSource={registeredList}

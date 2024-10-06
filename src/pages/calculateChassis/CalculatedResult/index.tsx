@@ -345,7 +345,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
                 <Collapse
                     size="large"
-                    style={{ width: 800 }}
+                    style={{ width: 700 }}
                     defaultActiveKey={['1']}
                     items={[{
                         key: '1',
@@ -357,7 +357,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                     columns={materialColumns}
                                     dataSource={materialTableData1}
                                     size="middle"
-                                    style={{width:700}}
+                                    style={{width:600}}
                                     pagination={false}
                                 />
                                 <br/>
@@ -367,7 +367,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                     columns={additionalColumns}
                                     dataSource={additionalTableData1}
                                     size="middle"
-                                    style={{width:600}}
+                                    style={{width:500}}
                                     footer={() => `총 금액: ${wholePrice}`}
                                     pagination={false}
                                 />
@@ -380,9 +380,8 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 <Space direction="horizontal" style={{ width:'100%' }}>
                     <Collapse
                         size={result2 ? "large" : "small"}
-                        style={result2 ? { width: 800 } : { width: 690 }}
+                        style={result2 ? { width: 700 } : { width: 580 }}
                         collapsible={result2 ? "header" : "disabled"}
-                        defaultActiveKey={['1']}
                         items={[
                             {
                                 key: '2',
@@ -398,7 +397,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                             columns={materialColumns}
                                             dataSource={materialTableData2}
                                             size="middle"
-                                            style={{width: 700}}
+                                            style={{width: 600}}
                                             pagination={false}
                                         />
                                         <br/>
@@ -408,7 +407,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                             columns={additionalColumns}
                                             dataSource={additionalTableData2}
                                             size="middle"
-                                            style={{width: 600}}
+                                            style={{width: 500}}
                                             footer={() => `총 금액: ${wholePrice2}`}
                                             pagination={false}
                                         />
@@ -429,9 +428,8 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 <Space direction="horizontal" style={{ width:'100%' }}>
                     <Collapse
                         size={result3 ? "large" : "small"}
-                        style={result3 ? { width: 800, marginTop:'2%' } : { width: 690 }}
+                        style={result3 ? { width: 700, marginTop:'2%' } : { width: 580 }}
                         collapsible={result3 ? "header" : "disabled"}
-                        defaultActiveKey={['1']}
                         items={[
                             {
                                 key: '3',
@@ -446,7 +444,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                     columns={materialColumns}
                                                     dataSource={materialTableData3}
                                                     size="middle"
-                                                    style={{width: 700}}
+                                                    style={{width: 600}}
                                                     pagination={false}
                                                 />
                                                 <br/>
@@ -456,7 +454,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                     columns={additionalColumns}
                                                     dataSource={additionalTableData3}
                                                     size="middle"
-                                                    style={{width: 600}}
+                                                    style={{width: 500}}
                                                     footer={() => `총 금액: ${wholePrice3}`}
                                                     pagination={false}
                                                 />
