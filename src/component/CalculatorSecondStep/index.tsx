@@ -36,10 +36,10 @@ const CalculatorSecondStep = (props: {
     const [siGunGu, setSiGunGu] = useState("");
     const [yupMyeonDong, setYupMyeonDong] = useState("");
     const [bCode, setBCode] = useState("");
-    const [isApartment, setIsApartment] = useState("false");
-    const [isExpanded, setIsExpanded] = useState("false");
+    const [isApartment, setIsApartment] = useState(false);
 
-    // 가격 정보
+    // 추가 기타사항 입력 변수
+    const [isExpanded, setIsExpanded] = useState(false);
     const [floorCustomerLiving, setFloor] = useState<number | null>();
     const [isScheduledForDemolition, setIsScheduledForDemolition] = useState(true);
     const [isResident, setIsResident] = useState(true);
@@ -84,7 +84,7 @@ const CalculatorSecondStep = (props: {
         setBCode(newAddress.bcode); // 법정동코드
 
         if (newAddress.apartment === "Y") {
-            setIsApartment("true") // 아파트 여부 (디폴트 false)
+            setIsApartment(true) // 아파트 여부 (디폴트 false)
         }
     };
 
@@ -122,6 +122,8 @@ const CalculatorSecondStep = (props: {
         console.log("floor = ", floorCustomerLiving);
         console.log("isScheduledForDemolition = ", isScheduledForDemolition);
         console.log("isResident = ", isResident);
+        console.log("isApartment = ", isApartment);
+        console.log("isExpanded = ", isExpanded);
 
         const reqCalculateChassisPriceList = registeredList.map((item) => ({
             chassisType: item.chassisType,
@@ -130,7 +132,7 @@ const CalculatorSecondStep = (props: {
             height: item.height,
             floorCustomerLiving,
             isScheduledForDemolition,
-            isResident,
+            isResident
         }));
 
         axios.post(calculateChassisCall,
@@ -150,13 +152,17 @@ const CalculatorSecondStep = (props: {
         )
             .then((response) => {
                 success("견적 성공");
-                allStatesReset();
                 setCalculatedChassisPriceResult(response.data);
                 setRequestCalculateObject({
                     reqCalculateChassisPriceList: reqCalculateChassisPriceList,
                     zipCode: addressZoneCode,
-                    address: address,
-                    subAddress: remainAddress,
+                    sido: sido,
+                    siGunGu: siGunGu,
+                    yupMyeonDong: yupMyeonDong,
+                    bCode: bCode,
+                    isApartment: isApartment,
+                    isExpanded: isExpanded,
+                    remainAddress: remainAddress,
                     buildingNumber: addressBuildingNum,
                 });
                 setCurrent(5);
@@ -201,21 +207,27 @@ const CalculatorSecondStep = (props: {
         setCurrent(3);
     }
 
-    const completeSetFloorSector = () => {
-        if (floorCustomerLiving && order === 2) {
+    const completeSetIsExpanded = () => {
+        if (order === 2) {
             setOrder(3);
         }
     }
 
-    const completeSetIsScheduledForDemolitionSector = () => {
-        if (order === 3) {
+    const completeSetFloorSector = () => {
+        if (floorCustomerLiving && order === 3) {
             setOrder(4);
         }
     }
 
-    const completeSetDemolitionSector = () => {
+    const completeSetIsScheduledForDemolitionSector = () => {
         if (order === 4) {
             setOrder(5);
+        }
+    }
+
+    const completeSetDemolitionSector = () => {
+        if (order === 5) {
+            setOrder(6);
             setCurrent(4);
         }
     }
@@ -270,7 +282,7 @@ const CalculatorSecondStep = (props: {
                                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: "50%" }}>
                                                 <div style={{ color: 'red', fontSize: 16 }}>*</div>
                                                 <Title level={2}>
-                                                    주소 입력 :
+                                                    주소 입력
                                                 </Title>
                                             </div>
                                             <Divider  style={{  borderColor: '#a4a3a3', marginTop: '-10px' }}/>
@@ -337,7 +349,7 @@ const CalculatorSecondStep = (props: {
                                                     </Form.Item>
                                                 </Col>
                                             </Form>
-                                            {order < 5 &&
+                                            {order < 6 &&
                                                 <Button onClick={handleSetAddressSector}>입력</Button>
                                             }
                                         </td>
@@ -351,7 +363,36 @@ const CalculatorSecondStep = (props: {
                                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: "50%" }}>
                                                 <div style={{ color: 'red', fontSize: 16 }}>*</div>
                                                 <Title level={2}>
-                                                    공사 예정 층 수 :
+                                                    확장 여부
+                                                </Title>
+                                            </div>
+                                            <Divider  style={{  borderColor: '#a4a3a3', marginTop: '-10px' }}/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colSpan={2}>
+                                            <Switch checkedChildren="확장"
+                                                    unCheckedChildren="미확장"
+                                                    style={{ marginTop: '-18px', width: '90px' }}
+                                                    defaultValue={false}
+                                                    onChange={setIsExpanded}
+                                            />
+                                        </td>
+                                    </tr>
+                                    {order < 6 &&
+                                        <Button onClick={completeSetIsExpanded} style={{marginTop: 40}}>입력</Button>
+                                    }
+                                </>
+                            }
+
+                            {(order === 3) &&
+                                <>
+                                    <tr>
+                                        <td colSpan={2}>
+                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: "50%" }}>
+                                                <div style={{ color: 'red', fontSize: 16 }}>*</div>
+                                                <Title level={2}>
+                                                    공사 예정 층 수
                                                 </Title>
                                             </div>
                                             <Divider  style={{  borderColor: '#a4a3a3', marginTop: '-10px' }}/>
@@ -375,20 +416,20 @@ const CalculatorSecondStep = (props: {
                                             </div>
                                         </td>
                                     </tr>
-                                    {order < 5 &&
+                                    {order < 6 &&
                                         <Button onClick={completeSetFloorSector} style={{marginTop: 40}}>입력</Button>
                                     }
                                 </>
                             }
 
-                            {(order === 3)  &&
+                            {(order === 4)  &&
                                 <>
                                     <tr>
                                         <td colSpan={2}>
                                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: "50%" }}>
                                                 <div style={{ color: 'red', fontSize: 16 }}>*</div>
                                                 <Title level={2}>
-                                                    철거 여부 :
+                                                    철거 여부
                                                 </Title>
                                             </div>
                                             <Divider  style={{  borderColor: '#a4a3a3', marginTop: '-10px' }}/>
@@ -405,20 +446,20 @@ const CalculatorSecondStep = (props: {
                                             />
                                         </td>
                                     </tr>
-                                    {order < 5 &&
+                                    {order < 6 &&
                                         <Button onClick={completeSetIsScheduledForDemolitionSector} style={{marginTop: 40}}>확정</Button>
                                     }
                                 </>
                             }
 
-                            {(order === 4) &&
+                            {(order === 5) &&
                                 <>
                                     <tr>
                                         <td colSpan={2}>
                                             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: "50%"  }}>
                                                 <div style={{ color: 'red', fontSize: 16, marginTop: '0px' }}>*</div>
                                                 <Title level={2}>
-                                                    거주 여부 :
+                                                    거주 여부
                                                 </Title>
                                             </div>
                                             <Divider  style={{  borderColor: '#a4a3a3', marginTop: '-10px' }}/>
@@ -434,12 +475,12 @@ const CalculatorSecondStep = (props: {
                                                     style={{ width: 80, marginTop: '-17px'}}/>
                                         </td>
                                     </tr>
-                                    {order < 5 &&
+                                    {order < 6 &&
                                         <Button onClick={completeSetDemolitionSector} style={{marginTop: 40}}>확정</Button>
                                     }
                                 </>
                             }
-                            {order > 4 &&
+                            {order > 5 &&
                                 <tr>
                                     <td colSpan={2}>
                                         <div style={{ marginTop: '50px'}}>

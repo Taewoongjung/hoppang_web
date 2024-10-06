@@ -297,9 +297,14 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
         axios.post(calculateChassisCall,
             {
                 zipCode: requestCalculateObject.zipCode,
-                address: requestCalculateObject.address,
-                subAddress: requestCalculateObject.subAddress,
+                state: requestCalculateObject.sido,
+                city: requestCalculateObject.siGunGu,
+                town: requestCalculateObject.yupMyeonDong,
+                bCode: requestCalculateObject.bCode,
+                remainAddress: requestCalculateObject.remainAddress,
                 buildingNumber: requestCalculateObject.buildingNumber,
+                isApartment: requestCalculateObject.isApartment,
+                isExpanded: requestCalculateObject.isExpanded,
                 reqCalculateChassisPriceList: requestCalculateObject.reqCalculateChassisPriceList
             },
             {withCredentials: true},
