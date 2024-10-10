@@ -58,6 +58,9 @@ const InitialScreen = (props: {
                 .then((res) => {
                     console.log(res.data);
 
+                    const token = res.headers['authorization'];
+                    localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
+
                     const newPath = location.pathname;
 
                     // 쿼리 파라미터를 지우고 현재 페이지로 URL 변경

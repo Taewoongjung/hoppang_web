@@ -13,7 +13,8 @@ const Login = () => {
         const callLogin = async () => {
             axios.post(kakaoLogin, {}, {withCredentials: true})
                 .then((res) => {
-
+                    console.log("All headers:", res.headers);
+                    console.log("Authorization header:", res.headers['authorization']);
                     const token = res.headers['authorization'];
                     localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
 
