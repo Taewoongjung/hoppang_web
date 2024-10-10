@@ -9,7 +9,6 @@ import { useLocation } from 'react-router-dom';
 import useSWR from "swr";
 import {callMeData} from "../../../definition/apiPath";
 import fetcher from 'src/util/fetcher';
-import deviceIdStateInstance from "../../../statemanagers/deviceState";
 
 
 const { Title } = Typography;
