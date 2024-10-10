@@ -1,8 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {Select, Typography, Button, Modal, Divider, Steps} from "antd";
-import companyTypeOptions, {companyTypeOptionsString} from "../../../definition/companyType";
+import {Typography, Button, Modal, Divider, Steps} from "antd";
+import {companyTypeOptionsString} from "../../../definition/companyType";
 import "./initialScreenStyles.css";
-import {CheckOutlined, LeftOutlined} from "@ant-design/icons";
+import {LeftOutlined} from "@ant-design/icons";
+import axios from "axios";
+import {kakaoAuth} from "../../../definition/apiPath";
+import { useLocation } from 'react-router-dom';
+import useSWR from "swr";
+import {callMeData} from "../../../definition/apiPath";
+import fetcher from 'src/util/fetcher';
+
 
 const { Title } = Typography;
 
@@ -15,6 +22,13 @@ const InitialScreen = (props: {
     current:number,
     setCurrent: (s: number) => void}
 ) => {
+
+    const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
+        dedupingInterval: 2000
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const location = useLocation();
 
     const {secondStep, companyType, setCompanyType, companyTypeStatus, setCompanyTypeStatus, current, setCurrent} = props;
 
@@ -36,12 +50,27 @@ const InitialScreen = (props: {
         window.location.reload();
     }
 
+    // 카카오 소셜 로그인
     useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('code')) {
-            console.log("kakao = ", urlParams.get('code'));
+
+            axios.post(kakaoAuth + urlParams.get('code') + "?deviceId=111", {}, {withCredentials: true})
+                .then((res) => {
+                    console.log(res.data);
+
+                    const newPath = location.pathname;
+
+                    // 쿼리 파라미터를 지우고 현재 페이지로 URL 변경
+                    if (location.search) {
+                        // 새로고침하면서 쿼리 파라미터 없이 경로로 이동
+                        window.location.href = newPath;
+                    }
+                })
+                .catch((err) => {
+                    console.log("카카오 로그인 에러 = ", err);
+                })
         }
-    }, []);
+    }, [urlParams.get('code')]);
 
     useEffect(() => {
         if (companyType !== '선택안함' && companyType !== undefined) {

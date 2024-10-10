@@ -1,6 +1,6 @@
 // prod
 export const loginAPI = `https://hoppang.store/api/login`;
-export const callMeData = `https://hoppang.store/api/me?isAdminPage=true`;
+export const callMeDataForAdmin = `https://hoppang.store/api/me?isAdminPage=true`;
 
 export const findAllChassisPriceByCompanyTypeAndChassisType = `https://hoppang.store/api/chassis/prices`;
 export const findAllAdditionalChassisPriceCriteria = `https://hoppang.store/api/chassis/prices/additions/criteria`;
@@ -12,7 +12,7 @@ export const findCountOfEstimationList = `https://hoppang.store/api/chassis/esti
 
 // dev
 // export const loginAPI = `http://localhost:7070/api/login`;
-// export const callMeData = `http://localhost:7070/api/me?isAdminPage=true`;
+// export const callMeDataForAdmin = `http://localhost:7070/api/me?isAdminPage=true`;
 //
 // export const findAllChassisPriceByCompanyTypeAndChassisType = `http://localhost:7070/api/chassis/prices`;
 // export const findAllAdditionalChassisPriceCriteria = `http://localhost:7070/api/chassis/prices/additions/criteria`;

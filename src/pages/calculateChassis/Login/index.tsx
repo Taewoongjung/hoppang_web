@@ -13,6 +13,10 @@ const Login = () => {
         const callLogin = async () => {
             axios.post(kakaoLogin, {}, {withCredentials: true})
                 .then((res) => {
+
+                    const token = res.headers['authorization'];
+                    localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
+
                     setKakaoFirstLoginReqUrl(res.data);
                 })
                 .catch((err) => {

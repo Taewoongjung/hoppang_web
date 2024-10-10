@@ -1,6 +1,6 @@
 import React from 'react';
 import useSWR from "swr";
-import {callMeData} from "../../../definition/Admin/apiPath";
+import {callMeDataForAdmin} from "../../../definition/Admin/apiPath";
 import adminFetcher from "../../../util/adminFetcher";
 import {Layout, Menu} from "antd";
 import EstimationManagement from "../../../component/admin/EstimationManagement";
@@ -22,7 +22,7 @@ const headerMenuItems = [
 
 const EstimatedDatabaseMainScreen = () => {
 
-    const { data: userData, error, mutate } = useSWR(callMeData, adminFetcher, {
+    const { data: userData, error, mutate } = useSWR(callMeDataForAdmin, adminFetcher, {
         dedupingInterval: 2000
     });
 

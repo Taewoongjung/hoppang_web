@@ -1,7 +1,7 @@
 import React from 'react';
 import {Layout, Menu} from "antd";
 import useSWR from "swr";
-import {callMeData} from "../../../definition/Admin/apiPath";
+import {callMeDataForAdmin} from "../../../definition/Admin/apiPath";
 import adminFetcher from "../../../util/adminFetcher";
 import ManipulateDatabase from "../../../component/admin/ManipulateDatabase";
 import {onClickAdminMenu} from "../../../util";
@@ -22,7 +22,7 @@ const headerMenuItems = [
 
 const ChassisPriceDatabaseMainScreen = () => {
 
-    const { data: userData, error, mutate } = useSWR(callMeData, adminFetcher, {
+    const { data: userData, error, mutate } = useSWR(callMeDataForAdmin, adminFetcher, {
         dedupingInterval: 2000
     });
 
