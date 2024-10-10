@@ -55,7 +55,7 @@ const InitialScreen = (props: {
     useEffect(() => {
         if (urlParams.get('code')) {
 
-            axios.post(kakaoAuth + urlParams.get('code') + "?deviceId=" + deviceIdStateInstance.getDeviceIdState(),
+            axios.post(kakaoAuth + urlParams.get('code') + "?deviceId=" + localStorage.getItem('deviceId'),
                 {},
                 {withCredentials: true})
                 .then((res) => {

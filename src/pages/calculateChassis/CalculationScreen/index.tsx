@@ -9,7 +9,6 @@ import RegisteringChassis from "../../../definition/interfaces";
 import {DeleteOutlined, RightOutlined} from "@ant-design/icons";
 import InitialScreen from '../InitialScreen';
 import BottomNavigator from "../../../component/BottomNavigator";
-import deviceIdStateInstance from "../../../statemanagers/deviceState";
 
 const { Title, Text } = Typography;
 
@@ -139,7 +138,6 @@ const CalculationScreen = () => {
         const deviceTypeFromLocal = localStorage.getItem('deviceType');
 
         if (deviceIdFromLocal && deviceTypeFromLocal) {
-            deviceIdStateInstance.setDeviceId(deviceIdFromLocal);
             setDeviceId(deviceIdFromLocal);
             setDeviceType(deviceTypeFromLocal);
         } else {
