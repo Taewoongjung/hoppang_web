@@ -145,7 +145,7 @@ const CalculationScreen = () => {
         } else {
             console.log('No deviceId found in localStorage');
         }
-    }, []);
+    }, [localStorage.getItem('deviceId')]);
 
     const [isBlinking, setIsBlinking] = useState(false);
     const [isRevising, setIsRevising] = useState(false);
