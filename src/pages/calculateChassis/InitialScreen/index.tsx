@@ -9,6 +9,7 @@ import { useLocation } from 'react-router-dom';
 import useSWR from "swr";
 import {callMeData} from "../../../definition/apiPath";
 import fetcher from 'src/util/fetcher';
+import deviceIdStateInstance from "../../../statemanagers/deviceState";
 
 
 const { Title } = Typography;
@@ -54,7 +55,9 @@ const InitialScreen = (props: {
     useEffect(() => {
         if (urlParams.get('code')) {
 
-            axios.post(kakaoAuth + urlParams.get('code') + "?deviceId=111", {}, {withCredentials: true})
+            axios.post(kakaoAuth + urlParams.get('code') + "?deviceId=" + deviceIdStateInstance.getDeviceIdState(),
+                {},
+                {withCredentials: true})
                 .then((res) => {
                     console.log(res.data);
 
