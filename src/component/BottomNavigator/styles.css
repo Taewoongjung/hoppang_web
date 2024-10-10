@@ -30,3 +30,13 @@ nav a:hover {
 .nav-icon img {
     width: 24px;
 }
+
+nav a.active {
+    color: #007BFF;
+    font-weight: bold;
+    border-bottom: 2px solid #007BFF;
+}
+
+nav a.active .nav-icon img {
+    filter: brightness(0) saturate(100%) invert(40%) sepia(57%) saturate(2878%) hue-rotate(200deg) brightness(104%) contrast(95%);
+}
