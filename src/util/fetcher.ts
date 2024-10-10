@@ -15,7 +15,7 @@ const fetcher = async (url: string) => await axios.get(url, {
     return response.data;
 }).catch((error) => {
     const token = localStorage.getItem("hoppang-token");
-    if (token && error.response.status === 403) {
+    if (token !== undefined && error.response.status === 403) {
         axios.put(kakaoRefreshAccessToken + "?expiredToken=" + token, {
             withCredentials: true
         })
