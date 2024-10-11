@@ -194,45 +194,47 @@ const EstimationManagement = () => {
         }
 
         requestParam += "startTime=" + startDate + "&" + "endTime=" + endDate;
-        console.log("requestParam = ", requestParam);
-        // 견적 리스트 조회 호출
-        await axios.get(findEstimationList + requestParam, {
-            withCredentials: true,
-            headers: {
-                Authorization: localStorage.getItem("hoppang-admin-token") || '',
-            },
-        })
-            .then(res => {
-                const estimationList = res.data.map((item: any) => ({
-                    ...item,
-                    key: item.id // 각 항목에 고유한 key 추가
-                }));
-                console.log("[original] estimationList = ", res.data);
-                console.log("estimationList = ", estimationList);
-                // @ts-ignore
-                setRequestParam(requestParam);
-                setData(estimationList);
-                setExpandedRowKeys([]);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
 
-        // 견적 리스트의 카운트 조회 호출
-        axios.get(findCountOfEstimationList + requestParam, {
-            withCredentials: true,
-            headers: {
-                Authorization: localStorage.getItem("hoppang-admin-token") || '',
-            },
-        })
-            .then(res => {
-                const countOfEstimationList = res.data;
-                console.log("count = ", countOfEstimationList);
-                setCountOfData(countOfEstimationList);
+        if (requestParam) {
+            // 견적 리스트 조회 호출
+            await axios.get(findEstimationList + requestParam, {
+                withCredentials: true,
+                headers: {
+                    Authorization: localStorage.getItem("hoppang-admin-token") || '',
+                },
             })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
+                .then(res => {
+                    const estimationList = res.data.map((item: any) => ({
+                        ...item,
+                        key: item.id // 각 항목에 고유한 key 추가
+                    }));
+                    console.log("[original] estimationList = ", res.data);
+                    console.log("estimationList = ", estimationList);
+                    // @ts-ignore
+                    setRequestParam(requestParam);
+                    setData(estimationList);
+                    setExpandedRowKeys([]);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+
+            // 견적 리스트의 카운트 조회 호출
+            axios.get(findCountOfEstimationList + requestParam, {
+                withCredentials: true,
+                headers: {
+                    Authorization: localStorage.getItem("hoppang-admin-token") || '',
+                },
+            })
+                .then(res => {
+                    const countOfEstimationList = res.data;
+                    console.log("count = ", countOfEstimationList);
+                    setCountOfData(countOfEstimationList);
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
     }
 
     const handleInputChange = (e: { target: { value: any; }; }) => {
