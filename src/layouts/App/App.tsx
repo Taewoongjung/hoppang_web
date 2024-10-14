@@ -2,8 +2,10 @@ import React from 'react';
 import loadable from "@loadable/component";
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-const LoginPage = loadable(() => import("../../pages/calculateChassis/Login"))
 const CalculationScreen = loadable(() => import('../../pages/calculateChassis/CalculationScreen'));
+const MyPage = loadable(() => import('../../pages/calculateChassis/MyPage'));
+const LoginPage = loadable(() => import("../../pages/calculateChassis/Login"))
+const MyPageConfigPage  = loadable(() => import('../../pages/calculateChassis/MyPage/ConfigPage'));
 
 // 어드민
 const AdminLoginPage = loadable(() => import('../../pages/admin/Login'));
@@ -14,8 +16,11 @@ const App = () => {
     return (
         <Switch>
             <Redirect exact path="/" to="/chassis/calculator" />
-            <Route path="/login" component={LoginPage} />
             <Route path="/chassis/calculator" component={CalculationScreen} />
+
+            <Route path="/mypage" component={MyPage} />
+            <Route path="/login" component={LoginPage} />
+            <Route path="/mypage/config" component={MyPageConfigPage} />
 
             {/* ADMIN */}
             <Route path="/admin/login" component={AdminLoginPage} />
