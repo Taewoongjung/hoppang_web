@@ -18,9 +18,9 @@ const App = () => {
             <Redirect exact path="/" to="/chassis/calculator" />
             <Route path="/chassis/calculator" component={CalculationScreen} />
 
+            <Route path="/mypage/config" component={MyPageConfigPage} />
             <Route path="/mypage" component={MyPage} />
             <Route path="/login" component={LoginPage} />
-            <Route path="/mypage/config" component={MyPageConfigPage} />
 
             {/* ADMIN */}
             <Route path="/admin/login" component={AdminLoginPage} />

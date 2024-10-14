@@ -45,7 +45,7 @@ const Login = () => {
 
                 {/*뒤로가기*/}
                 <LeftOutlined
-                    onClick={() => {window.location.href = "/"}}
+                    onClick={() => {window.location.href = "/mypage"}}
                     style={{marginRight: '100%', fontSize: '40px', marginBottom: '50px', color: 'blue'}}
                 />
 
