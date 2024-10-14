@@ -6,7 +6,7 @@ const ConfigPage = () => {
 
     return (
         <>
-            <body>
+            <body style={{marginTop: 40}}>
                 <section className="settings-section">
                     <header className="settings-header">
                         <button className="back-button" onClick={() => {window.location.href = '/mypage';}}><LeftOutlined /></button>

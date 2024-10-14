@@ -8,7 +8,7 @@ const MyPage = () => {
 
     return(
         <>
-            <body>
+            <body style={{marginTop: 40}}>
                 <header className="header">
                     <div className="icons">
                         <h2>마이</h2>
