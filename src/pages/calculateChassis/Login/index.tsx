@@ -21,7 +21,6 @@ const Login = () => {
                     setKakaoFirstLoginReqUrl(res.data);
                 })
                 .catch((err) => {
-                    console.log("카카오 로그인 에러 = ", err);
                 })
         }
 
@@ -95,36 +94,37 @@ const styles: { [key: string]: React.CSSProperties } = {
         height: '100vh',
     },
     box: {
-        borderRadius: '10px',
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        borderRadius: '15px',
+        boxShadow: '0 6px 12px rgba(0, 0, 0, 0.1)',
         textAlign: 'center',
         width: '100%',
-        maxWidth: '600px',
-        padding: '400px',
+        maxWidth: '700px',
+        padding: '60px',
     },
     logo: {
-        width: '230px',
-        marginBottom: '50px',
+        width: '280px',
+        marginBottom: '60px',
     },
     subtitle: {
-        fontSize: '26px',
+        fontSize: '30px',
         color: '#666',
+        marginBottom: '40px',
     },
     buttonContainer: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column',
-        gap: '15px',
+        gap: '20px',
     },
     button: {
-        width: '600px',
-        height: '65px',
+        width: '500px',
+        height: '70px',
         border: 'none',
         cursor: 'pointer',
         padding: 0,
         overflow: 'hidden',
-        borderRadius: '8px',
+        borderRadius: '10px',
         transition: 'transform 0.2s ease, box-shadow 0.2s ease',
     },
 };

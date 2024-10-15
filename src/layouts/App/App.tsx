@@ -6,6 +6,7 @@ const CalculationScreen = loadable(() => import('../../pages/calculateChassis/Ca
 const MyPage = loadable(() => import('../../pages/calculateChassis/MyPage'));
 const LoginPage = loadable(() => import("../../pages/calculateChassis/Login"))
 const MyPageConfigPage  = loadable(() => import('../../pages/calculateChassis/MyPage/ConfigPage'));
+const DuplicatedSsoLoginErrorPage = loadable(() => import('../../pages/calculateChassis/Login/DuplicateLoginPage'));
 
 // 어드민
 const AdminLoginPage = loadable(() => import('../../pages/admin/Login'));
@@ -20,6 +21,7 @@ const App = () => {
 
             <Route path="/mypage/config" component={MyPageConfigPage} />
             <Route path="/mypage" component={MyPage} />
+            <Route path="/login/duplicate" component={DuplicatedSsoLoginErrorPage} />
             <Route path="/login" component={LoginPage} />
 
             {/* ADMIN */}

@@ -73,6 +73,12 @@ const InitialScreen = (props: {
                 })
                 .catch((err) => {
                     console.log("카카오 로그인 에러 = ", err);
+                    if (err.response.data.errorCode === 1) {
+                        const email = err.response.data.email;
+                        const oauthType = err.response.data.oauthType;
+                        const message = err.response.data.errorMessage;
+                        window.location.href = "/login/duplicate?email=" + email + "&oauthType=" + oauthType + "&message=" + message;
+                    }
                 })
         }
     }, [urlParams.get('code')]);
