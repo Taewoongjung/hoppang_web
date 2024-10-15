@@ -3,8 +3,15 @@ import './styles.css';
 import BottomNavigator from "../../../component/BottomNavigator";
 import { Divider } from 'antd';
 import { RightOutlined } from '@ant-design/icons';
+import useSWR from "swr";
+import {callMeData} from "../../../definition/apiPath";
+import fetcher from "../../../util/fetcher";
 
 const MyPage = () => {
+
+    const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
+        dedupingInterval: 2000
+    });
 
     return(
         <>
@@ -21,13 +28,22 @@ const MyPage = () => {
                 <main>
                     <div className="login-section" onClick={() => {window.location.href = '/login';}}>
                         <div className="login-box">
-                            <div className="login-text">
-                                <h3>호빵 로그인 및 회원가입</h3>
-                                <p>간편하게 로그인하고 다양한 혜택을 누려보세요</p>
-                            </div>
-                            <div className="arrow-icon">
-                                <span><RightOutlined /></span>
-                            </div>
+                            {!userData &&
+                                <>
+                                    <div className="login-text">
+                                        <h3>호빵 로그인 및 회원가입</h3>
+                                        <p>간편하게 로그인하고 다양한 혜택을 누려보세요</p>
+                                    </div>
+                                    <div className="arrow-icon">
+                                        <span><RightOutlined /></span>
+                                    </div>
+                                </>
+                            }
+                            {userData &&
+                                <div className="login-text">
+                                    {userData.name} 님 안녕하세요.
+                                </div>
+                            }
                         </div>
                     </div>
 
