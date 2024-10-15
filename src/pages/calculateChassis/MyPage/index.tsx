@@ -26,26 +26,26 @@ const MyPage = () => {
                 </header>
 
                 <main>
-                    <div className="login-section" onClick={() => {window.location.href = '/login';}}>
-                        <div className="login-box">
-                            {!userData &&
-                                <>
-                                    <div className="login-text">
-                                        <h3>호빵 로그인 및 회원가입</h3>
-                                        <p>간편하게 로그인하고 다양한 혜택을 누려보세요</p>
-                                    </div>
-                                    <div className="arrow-icon">
-                                        <span><RightOutlined /></span>
-                                    </div>
-                                </>
-                            }
-                            {userData &&
+                    {!userData &&
+                        <div className="login-section" onClick={() => {window.location.href = '/login';}}>
+                            <div className="login-box">
                                 <div className="login-text">
-                                    {userData.name} 님 안녕하세요.
+                                    <h3>호빵 로그인 및 회원가입</h3>
+                                    <p>간편하게 로그인하고 다양한 혜택을 누려보세요</p>
                                 </div>
-                            }
+                                <div className="arrow-icon">
+                                    <span><RightOutlined /></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    }
+                    {userData &&
+                        <div className="login-box">
+                            <div className="login-text">
+                                {userData.name} 님 안녕하세요.
+                            </div>
+                        </div>
+                    }
 
                     <section className="shopping-section">
                         <h3>창호</h3>
