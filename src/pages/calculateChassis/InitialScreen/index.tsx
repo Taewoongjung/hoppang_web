@@ -3,9 +3,6 @@ import {Typography, Button, Modal, Divider, Steps} from "antd";
 import {companyTypeOptionsString} from "../../../definition/companyType";
 import "./initialScreenStyles.css";
 import {LeftOutlined} from "@ant-design/icons";
-import axios from "axios";
-import {kakaoAuth} from "../../../definition/apiPath";
-import { useLocation } from 'react-router-dom';
 import useSWR from "swr";
 import {callMeData} from "../../../definition/apiPath";
 import fetcher from 'src/util/fetcher';
@@ -27,9 +24,6 @@ const InitialScreen = (props: {
         dedupingInterval: 2000
     });
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const location = useLocation();
-
     const {secondStep, companyType, setCompanyType, companyTypeStatus, setCompanyTypeStatus, current, setCurrent} = props;
 
     const [isAgreed, setIsAgreed] = useState(false);
@@ -49,38 +43,6 @@ const InitialScreen = (props: {
     const handleBack = () => {
         window.location.reload();
     }
-
-    // 카카오 소셜 로그인
-    useEffect(() => {
-        if (urlParams.get('code')) {
-
-            axios.post(kakaoAuth + urlParams.get('code') + "?deviceId=" + localStorage.getItem('deviceId'),
-                {},
-                {withCredentials: true})
-                .then((res) => {
-                    console.log(res.data);
-
-                    const token = res.headers['authorization'];
-                    localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
-
-                    const newPath = location.pathname;
-
-                    // 쿼리 파라미터를 지우고 현재 페이지로 URL 변경
-                    if (location.search) {
-                        // 새로고침하면서 쿼리 파라미터 없이 경로로 이동
-                        window.location.href = newPath;
-                    }
-                })
-                .catch((err) => {
-                    if (err.response.data.errorCode === 1) {
-                        const email = err.response.data.email;
-                        const oauthType = err.response.data.oauthType;
-                        const message = err.response.data.errorMessage;
-                        window.location.href = "/login/duplicate?email=" + email + "&oauthType=" + oauthType + "&message=" + message;
-                    }
-                })
-        }
-    }, [urlParams.get('code')]);
 
     useEffect(() => {
         if (companyType !== '선택안함' && companyType !== undefined) {

@@ -3,6 +3,7 @@ export const calculateChassisCall = `https://hoppang.store/api/chassis/calculati
 export const kakaoLogin = `https://hoppang.store/api/kakao/auth`;
 export const kakaoAuth = `https://hoppang.store/api/kakao/signup/`;
 export const kakaoRefreshAccessToken = `https://hoppang.store/api/kakao/refresh`;
+export const callVerifyPhoneNumber = `https://hoppang.store/api/phones/validations`;
 export const callMeData = `https://hoppang.store/api/me`;
 
 // dev
@@ -10,5 +11,5 @@ export const callMeData = `https://hoppang.store/api/me`;
 // export const kakaoLogin = `http://localhost:7070/api/kakao/auth`;
 // export const kakaoAuth = `http://localhost:7070/api/kakao/signup/`;
 // export const kakaoRefreshAccessToken = `http://localhost:7070/api/kakao/refresh`;
+// export const callVerifyPhoneNumber = `http://localhost:7070/api/phones/validations`;
 // export const callMeData = `http://localhost:7070/api/me`;
-
