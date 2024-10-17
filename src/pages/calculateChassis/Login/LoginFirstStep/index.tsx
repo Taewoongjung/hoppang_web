@@ -95,7 +95,7 @@ const LoginFirstStep = () => {
             {withCredentials: true})
             .then((response) => {
                 if (response.data === true) {
-                    window.location.href = "/login/second?code=" + urlParams.get('code') +"&phoneNumber=" + targetPhoneNumber;
+                    window.location.href = "/login/second?phoneNumber=" + targetPhoneNumber +"&userEmail=" + urlParams.get("userEmail");
                 }
             }).catch((error) => {
                 showModal();

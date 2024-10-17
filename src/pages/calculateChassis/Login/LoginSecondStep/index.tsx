@@ -3,7 +3,7 @@ import {Button, Input, Popover, Switch} from "antd";
 import SearchAddressPopUp from "../../../../component/SearchAddressPopUp";
 import {SearchOutlined} from "@ant-design/icons";
 import axios from "axios";
-import {kakaoAuth} from "../../../../definition/apiPath";
+import {callFinalSocialSignUp} from "../../../../definition/apiPath";
 
 const LoginSecondStep = () => {
 
@@ -36,49 +36,44 @@ const LoginSecondStep = () => {
         setRemainAddress(e.target.value);
     };
 
-
     const completeAddress = () => {
         setIsAddressComplete(true);
     }
 
     const signupFinally = () => {
-        const code = urlParams.get('code');
-        const deviceId = localStorage.getItem('deviceId');
+        const userEmail = urlParams.get('userEmail');
         const userPhoneNumber = urlParams.get('phoneNumber');
 
-        if (code) {
-            axios.post(kakaoAuth + urlParams.get('code'),
-                {deviceId: deviceId,
-                    userPhoneNumber: userPhoneNumber,
-                    address: address,
-                    subAddress: remainAddress,
-                    buildingNumber: addressBuildingNum,
-                    isPushOn: isPushAlarmOn
-                },
-                {withCredentials: true})
-                .then((res) => {
-                    console.log(res.data);
+        axios.put(callFinalSocialSignUp,
+            {
+                userEmail: userEmail,
+                userPhoneNumber: userPhoneNumber,
+                address: address,
+                subAddress: remainAddress,
+                buildingNumber: addressBuildingNum,
+                isPushOn: isPushAlarmOn
+            },
+            {
+                withCredentials: true,
+                headers: {
+                    Authorization: localStorage.getItem("hoppang-admin-token") || '',
+                }
+            }
+        )
+            .then((res) => {
 
-                    const token = res.headers['authorization'];
-                    localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
+                console.log(res.data);
+                window.location.href = "/"
 
-
-                    // 쿼리 파라미터를 지우고 현재 페이지로 URL 변경
-                    if (window.location.search) {
-                        // 새로고침하면서 쿼리 파라미터 없이 경로로 이동
-                        window.location.href = window.location.pathname;
-                    }
-                })
-                .catch((err) => {
-                    if (err.response.data.errorCode === 1) {
-                        const email = err.response.data.email;
-                        const oauthType = err.response.data.oauthType;
-                        const message = err.response.data.errorMessage;
-                        window.location.href = "/login/duplicate?email=" + email + "&oauthType=" + oauthType + "&message=" + message;
-                    }
-                })
-        }
-
+            })
+            .catch((err) => {
+                if (err.response.data.errorCode === 1) {
+                    const email = err.response.data.email;
+                    const oauthType = err.response.data.oauthType;
+                    const message = err.response.data.errorMessage;
+                    window.location.href = "/login/duplicate?email=" + email + "&oauthType=" + oauthType + "&message=" + message;
+                }
+            });
     }
 
 

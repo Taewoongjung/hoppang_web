@@ -5,6 +5,7 @@ export const kakaoAuth = `https://hoppang.store/api/kakao/signup/`;
 export const kakaoRefreshAccessToken = `https://hoppang.store/api/kakao/refresh`;
 export const callVerifyPhoneNumber = `https://hoppang.store/api/phones/validations`;
 export const callMeData = `https://hoppang.store/api/me`;
+export const callFinalSocialSignUp = `https://hoppang.store/api/social/users`;
 
 // dev
 // export const calculateChassisCall = `http://localhost:7070/api/chassis/calculations/prices`;
@@ -13,3 +14,4 @@ export const callMeData = `https://hoppang.store/api/me`;
 // export const kakaoRefreshAccessToken = `http://localhost:7070/api/kakao/refresh`;
 // export const callVerifyPhoneNumber = `http://localhost:7070/api/phones/validations`;
 // export const callMeData = `http://localhost:7070/api/me`;
+// export const callFinalSocialSignUp = `http://localhost:7070/api/social/users`;

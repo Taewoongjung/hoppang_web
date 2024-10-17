@@ -4,8 +4,9 @@ import {companyTypeOptionsString} from "../../../definition/companyType";
 import "./initialScreenStyles.css";
 import {LeftOutlined} from "@ant-design/icons";
 import useSWR from "swr";
-import {callMeData} from "../../../definition/apiPath";
+import {callMeData, kakaoAuth} from "../../../definition/apiPath";
 import fetcher from 'src/util/fetcher';
+import axios from "axios";
 
 
 const { Title } = Typography;
@@ -19,6 +20,8 @@ const InitialScreen = (props: {
     current:number,
     setCurrent: (s: number) => void}
 ) => {
+
+    const urlParams = new URLSearchParams(window.location.search);
 
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
@@ -43,6 +46,31 @@ const InitialScreen = (props: {
     const handleBack = () => {
         window.location.reload();
     }
+
+    // 카카오 소셜 로그인
+    useEffect(() => {
+        if (urlParams.get('code')) {
+
+            axios.post(kakaoAuth + urlParams.get('code'),
+                {deviceId: localStorage.getItem('deviceId')},
+                {withCredentials: true})
+                .then((res) => {
+                    console.log("소셜로그인 성공 = ", res.data);
+
+                    const token = res.headers['authorization'];
+                    localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
+
+                    if (res.data.isSuccess && res.data.isTheFirstLogIn) {
+                        window.location.href = "/login/first?userEmail=" + res.data.userEmail
+                    }
+
+                })
+                .catch((err) => {
+                    alert(err.response.data.errorMessage);
+                })
+        }
+    }, [urlParams.get('code')]);
+
 
     useEffect(() => {
         if (companyType !== '선택안함' && companyType !== undefined) {
