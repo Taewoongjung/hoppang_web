@@ -52,7 +52,10 @@ const InitialScreen = (props: {
         if (urlParams.get('code')) {
 
             axios.post(kakaoAuth + urlParams.get('code'),
-                {deviceId: localStorage.getItem('deviceId')},
+                {
+                    deviceId: localStorage.getItem('deviceId'),
+                    deviceType: localStorage.getItem('deviceType')
+                },
                 {withCredentials: true})
                 .then((res) => {
                     console.log("소셜로그인 성공 = ", res.data);
