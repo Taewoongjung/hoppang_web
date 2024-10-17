@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import {Input, Button, Space, Modal} from 'antd';
 import { LeftOutlined } from '@ant-design/icons';
 import axios from 'axios';
-import {callVerifyPhoneNumber} from "../../../../definition/apiPath";
+import {callMeData, callVerifyPhoneNumber} from "../../../../definition/apiPath";
+import useSWR from "swr";
+import fetcher from "../../../../util/fetcher";
 
 const LoginFirstStep = () => {
 
@@ -14,6 +16,10 @@ const LoginFirstStep = () => {
 
     const [validationNumber, setValidationNumber] = useState('');
     const [timer, setTimer] = useState(180); // 3분 (180초) 타이머
+
+    const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
+        dedupingInterval: 2000
+    });
 
     const allReset = () => {
         setTargetPhoneNumber('');
