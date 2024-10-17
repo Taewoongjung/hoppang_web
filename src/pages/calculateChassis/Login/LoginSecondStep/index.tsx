@@ -56,7 +56,7 @@ const LoginSecondStep = () => {
             {
                 withCredentials: true,
                 headers: {
-                    Authorization: localStorage.getItem("hoppang-admin-token") || '',
+                    Authorization: localStorage.getItem("hoppang-token") || '',
                 }
             }
         )
