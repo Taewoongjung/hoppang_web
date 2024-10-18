@@ -27,9 +27,9 @@ const Login = () => {
 
     const handleAppleLogin = () => {
         console.log("애플 로그인 ");
-        axios.get('https://appleid.apple.com/auth/authorize?response_type=code' +
+        window.location.href = 'https://appleid.apple.com/auth/authorize?response_type=code' +
             '&client_id=NUDBF8SVWU' +
-            '&redirect_uri=https://hoppang.store/login/first')
+            '&redirect_uri=https://hoppang.store/login/first';
     };
 
 
