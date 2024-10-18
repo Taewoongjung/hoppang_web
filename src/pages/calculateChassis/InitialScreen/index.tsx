@@ -70,6 +70,9 @@ const InitialScreen = (props: {
                 })
                 .catch((err) => {
                     alert(err.response.data.errorMessage);
+                    if (err.response.data.errorCode === 7) { // 리프레시 토큰이 만료 되었을 때
+                        window.location.href = err.response.data.redirectUrl; // 로그인 화면으로 리다이렉팅
+                    }
                 })
         }
     }, [urlParams.get('code')]);
