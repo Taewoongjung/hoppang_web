@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import '../styles.css';
 import axios from "axios";
 import {LeftOutlined} from "@ant-design/icons";
@@ -6,8 +6,6 @@ import {kakaoLogin} from "../../../definition/apiPath";
 
 
 const Login = () => {
-
-    const [kakaoFirstLoginReqUrl, setKakaoFirstLoginReqUrl] = useState('');
 
     const handleKakaoLogin = () => {
         const callLogin = async () => {
@@ -18,7 +16,7 @@ const Login = () => {
                     const token = res.headers['authorization'];
                     localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
 
-                    setKakaoFirstLoginReqUrl(res.data);
+                    window.location.href = res.data;
                 })
                 .catch((err) => {
                 })
@@ -26,12 +24,6 @@ const Login = () => {
 
         callLogin();
     };
-
-    useEffect(() => {
-        if (kakaoFirstLoginReqUrl) {
-            window.location.href = kakaoFirstLoginReqUrl;
-        }
-    }, [kakaoFirstLoginReqUrl]);
 
     const handleAppleLogin = () => {
         console.log("애플 로그인 ");
