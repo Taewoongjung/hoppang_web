@@ -2,34 +2,31 @@ import React from 'react';
 import '../styles.css';
 import axios from "axios";
 import {LeftOutlined} from "@ant-design/icons";
-import {kakaoLogin} from "../../../definition/apiPath";
+import {appleAuth, kakaoLogin} from "../../../definition/apiPath";
 
 
 const Login = () => {
 
     const handleKakaoLogin = () => {
         const callLogin = async () => {
-            axios.post(kakaoLogin, {}, {withCredentials: true})
+            axios.get(kakaoLogin)
                 .then((res) => {
-                    console.log("All headers:", res.headers);
-                    console.log("Authorization header:", res.headers['authorization']);
-                    const token = res.headers['authorization'];
-                    localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
-
                     window.location.href = res.data;
-                })
-                .catch((err) => {
-                })
+                });
         }
 
         callLogin();
     };
 
     const handleAppleLogin = () => {
-        console.log("애플 로그인 ");
-        window.location.href = 'https://appleid.apple.com/auth/authorize?response_type=code' +
-            '&client_id=NUDBF8SVWU' +
-            '&redirect_uri=https://hoppang.store/login/first';
+        const callLogin = async () => {
+            axios.get(appleAuth)
+                .then((res) => {
+                    window.location.href = res.data;
+                });
+        }
+
+        callLogin();
     };
 
 
