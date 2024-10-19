@@ -20,6 +20,7 @@ const App = () => {
         <Switch>
             <Redirect exact path="/" to="/chassis/calculator" />
             <Route path="/chassis/calculator" component={CalculationScreen} />
+            <Route path="/:oauthtype/chassis/calculator" component={CalculationScreen} />
 
             <Route path="/mypage/config" component={MyPageConfigPage} />
             <Route path="/mypage" component={MyPage} />

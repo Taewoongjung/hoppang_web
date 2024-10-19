@@ -7,6 +7,7 @@ import useSWR from "swr";
 import {callMeData, kakaoAuth} from "../../../definition/apiPath";
 import fetcher from 'src/util/fetcher';
 import axios from "axios";
+import { useParams } from 'react-router-dom';
 
 
 const { Title } = Typography;
@@ -20,6 +21,7 @@ const InitialScreen = (props: {
     current:number,
     setCurrent: (s: number) => void}
 ) => {
+    const { oauthtype } = useParams();
 
     const urlParams = new URLSearchParams(window.location.search);
 
@@ -49,33 +51,39 @@ const InitialScreen = (props: {
 
     // 카카오 소셜 로그인
     useEffect(() => {
-        if (urlParams.get('code')) {
+        if (oauthtype) {
+            if (oauthtype === 'kko' && urlParams.get('code')) {
+                console.log("카카오 로그인 성공 요청");
+                axios.post(kakaoAuth + urlParams.get('code'),
+                    {
+                        deviceId: localStorage.getItem('deviceId'),
+                        deviceType: localStorage.getItem('deviceType')
+                    },
+                    {withCredentials: true})
+                    .then((res) => {
+                        console.log("소셜로그인 성공 = ", res.data);
 
-            axios.post(kakaoAuth + urlParams.get('code'),
-                {
-                    deviceId: localStorage.getItem('deviceId'),
-                    deviceType: localStorage.getItem('deviceType')
-                },
-                {withCredentials: true})
-                .then((res) => {
-                    console.log("소셜로그인 성공 = ", res.data);
+                        const token = res.headers['authorization'];
+                        localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
 
-                    const token = res.headers['authorization'];
-                    localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
+                        if (res.data.isSuccess && res.data.isTheFirstLogIn) {
+                            window.location.href = "/login/first?userEmail=" + res.data.userEmail
+                        }
 
-                    if (res.data.isSuccess && res.data.isTheFirstLogIn) {
-                        window.location.href = "/login/first?userEmail=" + res.data.userEmail
-                    }
+                    })
+                    .catch((err) => {
+                        alert(err.response.data.errorMessage);
+                        if (err.response.data.errorCode === 7) { // 리프레시 토큰이 만료 되었을 때
+                            window.location.href = err.response.data.redirectUrl; // 로그인 화면으로 리다이렉팅
+                        }
+                    });
+            }
 
-                })
-                .catch((err) => {
-                    alert(err.response.data.errorMessage);
-                    if (err.response.data.errorCode === 7) { // 리프레시 토큰이 만료 되었을 때
-                        window.location.href = err.response.data.redirectUrl; // 로그인 화면으로 리다이렉팅
-                    }
-                })
+            if (oauthtype === 'apl' && urlParams.get('code')) {
+                console.log("애플 로그인 성공 요청");
+            }
         }
-    }, [urlParams.get('code')]);
+    }, [oauthtype, urlParams.get('code')]);
 
 
     useEffect(() => {
