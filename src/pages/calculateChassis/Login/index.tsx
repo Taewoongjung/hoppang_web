@@ -43,6 +43,8 @@ const Login = () => {
                 />
 
                 <h2 style={styles.subtitle}>호빵 - 호구빵명 프로젝트</h2>
+                {urlParams.get('needed') === 'true' && <div style={{marginBottom:20, fontWeight: "bold"}}>로그인을 하고 창호 가격 정보를 알아보세요</div>}
+
                 {/* 회사 로고 */}
                 <img
                     src="/assets/hoppang-character.png"
@@ -50,7 +52,6 @@ const Login = () => {
                     style={styles.logo}
                 />
 
-                {urlParams.get('needed') === 'true' && "로그인을 하고 창호 가격 정보를 알아보세요"}
 
                 <div style={styles.buttonContainer}>
 
