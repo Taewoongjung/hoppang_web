@@ -7,6 +7,8 @@ import {appleLogin, kakaoLogin} from "../../../definition/apiPath";
 
 const Login = () => {
 
+    const urlParams = new URLSearchParams(window.location.search);
+
     const handleKakaoLogin = () => {
         const callLogin = async () => {
             axios.get(kakaoLogin)
@@ -47,6 +49,8 @@ const Login = () => {
                     alt="Hoppang Logo"
                     style={styles.logo}
                 />
+
+                {urlParams.get('needed') === 'true' && "로그인을 하고 창호 가격 정보를 알아보세요"}
 
                 <div style={styles.buttonContainer}>
 

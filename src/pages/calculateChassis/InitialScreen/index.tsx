@@ -40,9 +40,23 @@ const InitialScreen = (props: {
     }
 
     const handleNotificationAgree = () => {
+        checkIfLoggedIn(); // 로그인 했는지 확인하기
         setGetStarted(!getStarted);
         setIsAgreed(!isAgreed);
         setOpenNotification(!openNotification);
+    }
+
+    const checkIfLoggedIn = () => {
+        axios.get(callMeData, {
+            headers: {
+                withCredentials: true,
+                Authorization: localStorage.getItem("hoppang-token")
+            },
+        }).then((res) => {
+
+        }).catch((err) => {
+            window.location.href = "/login?needed=true";
+        })
     }
 
     const handleBack = () => {
