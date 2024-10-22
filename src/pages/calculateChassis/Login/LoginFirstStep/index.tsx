@@ -134,9 +134,13 @@ const LoginFirstStep = () => {
 
                 {/* 회원가입 종료 */}
                 <LeftOutlined
-                    onClick={() => { window.location.href = "/mypage"; }}
-                    style={{ marginRight: '100%', fontSize: '40px', marginBottom: '50px', color: 'blue' }}
+                    onClick={() => {
+                        window.location.href = "/mypage";
+                    }}
+                    style={{marginRight: '100%', fontSize: '40px', marginBottom: '50px', color: 'blue'}}
                 />
+
+                {urlParams.get("applelogin") === "true" && "애플 로그인 ~"}
 
                 {!requestedValidation && (
                     <>
@@ -151,18 +155,20 @@ const LoginFirstStep = () => {
                             />
 
                             {feedback === '유효한 번호입니다.' ?
-                                    <Button type="primary" style={styles.button} onClick={clickVerifyPhoneNumber}>확인</Button> :
-                                    <Button type="primary" style={styles.button} disabled>확인</Button>
+                                <Button type="primary" style={styles.button}
+                                        onClick={clickVerifyPhoneNumber}>확인</Button> :
+                                <Button type="primary" style={styles.button} disabled>확인</Button>
                             }
                         </div>
 
                         {/* 피드백 메시지 */}
-                        {(!requestedValidation && feedback) && <p style={{ color: feedback === '유효한 번호입니다.' ? 'green' : 'red' }}>{feedback}</p>}
+                        {(!requestedValidation && feedback) &&
+                            <p style={{color: feedback === '유효한 번호입니다.' ? 'green' : 'red'}}>{feedback}</p>}
                     </>
                 )}
 
                 {requestedValidation &&
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                         <Space.Compact>
                             <Input
                                 style={styles.input1}
@@ -173,7 +179,7 @@ const LoginFirstStep = () => {
                             <Button type="primary" style={styles.button1} onClick={clickValidationNumber}>인증</Button>
                         </Space.Compact>
 
-                        <p style={{ color: 'red', marginLeft: '10px' }}>{formatTime(timer)}</p>
+                        <p style={{color: 'red', marginLeft: '10px'}}>{formatTime(timer)}</p>
                     </div>
                 }
             </div>
@@ -182,10 +188,10 @@ const LoginFirstStep = () => {
                    okText={"재시도"}
                    onOk={handleOk}
                    footer={[
-                        <Button key="submit" type="primary" onClick={handleOk}>
-                            재시도
-                        </Button>,
-                    ]}
+                       <Button key="submit" type="primary" onClick={handleOk}>
+                           재시도
+                       </Button>,
+                   ]}
                    closeIcon={null}
             >
                 <p>{compErrMessage}</p>

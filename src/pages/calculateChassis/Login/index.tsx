@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles.css';
 import axios from "axios";
 import {LeftOutlined} from "@ant-design/icons";
-import {appleAuth, kakaoLogin} from "../../../definition/apiPath";
+import {appleLogin, kakaoLogin} from "../../../definition/apiPath";
 
 
 const Login = () => {
@@ -20,7 +20,7 @@ const Login = () => {
 
     const handleAppleLogin = () => {
         const callLogin = async () => {
-            axios.get(appleAuth)
+            axios.get(appleLogin)
                 .then((res) => {
                     window.location.href = res.data;
                 });
