@@ -137,18 +137,23 @@ const CalculatorSecondStep = (props: {
 
         axios.post(calculateChassisCall,
             {
-                    zipCode: addressZoneCode,
-                    state: sido,
-                    city: siGunGu,
-                    town: yupMyeonDong,
-                    bCode: bCode,
-                    remainAddress: remainAddress,
-                    buildingNumber: addressBuildingNum,
-                    isApartment: isApartment,
-                    isExpanded: isExpanded,
-                    reqCalculateChassisPriceList
-                },
-        {withCredentials: true},
+                zipCode: addressZoneCode,
+                state: sido,
+                city: siGunGu,
+                town: yupMyeonDong,
+                bCode: bCode,
+                remainAddress: remainAddress,
+                buildingNumber: addressBuildingNum,
+                isApartment: isApartment,
+                isExpanded: isExpanded,
+                reqCalculateChassisPriceList
+            },
+            {
+                withCredentials: true,
+                headers: {
+                    Authorization: localStorage.getItem("hoppang-token"),
+                }
+            },
         )
             .then((response) => {
                 success("견적 성공");
