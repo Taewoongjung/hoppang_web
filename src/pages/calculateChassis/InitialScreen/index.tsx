@@ -108,7 +108,7 @@ const InitialScreen = (props: {
                         localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
 
                         if (res.data.isSuccess && res.data.isTheFirstLogIn) {
-                            window.location.href = "/login/first?applelogin=true"
+                            window.location.href = "/login/first?applelogin=true&userEmail=" + res.data.userEmail
                         }
 
                     })
