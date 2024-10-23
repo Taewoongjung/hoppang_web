@@ -25,6 +25,16 @@ const columns = [
         key: 'companyType',
     },
     {
+        title: '고객 명',
+        dataIndex: 'userName',
+        key: 'userName',
+    },
+    {
+        title: '고객 전화번호',
+        dataIndex: 'userPhoneNumber',
+        key: 'userPhoneNumber',
+    },
+    {
         title: '주소',
         dataIndex: 'chassisEstimationAddress',
         key: 'address',
@@ -208,8 +218,8 @@ const EstimationManagement = () => {
                         ...item,
                         key: item.id // 각 항목에 고유한 key 추가
                     }));
-                    console.log("[original] estimationList = ", res.data);
-                    console.log("estimationList = ", estimationList);
+                    // console.log("[original] estimationList = ", res.data);
+                    // console.log("estimationList = ", estimationList);
                     // @ts-ignore
                     setRequestParam(requestParam);
                     setData(estimationList);
@@ -228,7 +238,7 @@ const EstimationManagement = () => {
             })
                 .then(res => {
                     const countOfEstimationList = res.data;
-                    console.log("count = ", countOfEstimationList);
+                    // console.log("count = ", countOfEstimationList);
                     setCountOfData(countOfEstimationList);
                 })
                 .catch(error => {
