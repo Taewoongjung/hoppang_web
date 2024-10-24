@@ -79,6 +79,7 @@ const InitialScreen = (props: {
 
                         const token = res.headers['authorization'];
                         localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
+                        localStorage.setItem("hoppang-login-oauthType", res.data.oauthType); // 로그인 타입 설정
 
                         if (res.data.isSuccess && res.data.isTheFirstLogIn) {
                             window.location.href = "/login/first?userEmail=" + res.data.userEmail
@@ -106,6 +107,7 @@ const InitialScreen = (props: {
 
                         const token = res.headers['authorization'];
                         localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
+                        localStorage.setItem("hoppang-login-oauthType", res.data.oauthType); // 로그인 타입 설정
 
                         if (res.data.isSuccess && res.data.isTheFirstLogIn) {
                             window.location.href = "/login/first?applelogin=true&userEmail=" + res.data.userEmail
