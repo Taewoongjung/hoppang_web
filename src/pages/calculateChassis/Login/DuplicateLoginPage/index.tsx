@@ -21,9 +21,13 @@ const DuplicateLoginPage = () => {
                         }
                     </div>
                     <p>{urlParams.get("oauthType")}</p>
-                    <div className="email">
-                        <span>{urlParams.get("email")}</span>
-                    </div>
+
+                    {urlParams.get("oauthType") !== 'APL' &&
+                        <div className="email">
+                            <span>{urlParams.get("email")}</span>
+                        </div>
+                    }
+
                     <p>{urlParams.get("message")}</p>
                 </div>
                 <div className="login-button">

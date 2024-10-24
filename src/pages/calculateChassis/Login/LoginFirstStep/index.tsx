@@ -86,6 +86,7 @@ const LoginFirstStep = () => {
                 const email = err.response.data.email;
                 const oauthType = err.response.data.oauthType;
                 const message = err.response.data.errorMessage;
+                localStorage.setItem("hoppang-token", 'undefined'); // 이미 해당 유저에 겹치는 로그인을 하면 토큰 삭제 (카카오톡으로 소셜로그인을 했었는데 애플로 다시 하려고 하는 경우)
                 window.location.href = "/login/duplicate?email=" + email + "&oauthType=" + oauthType + "&message=" + message;
             }
         });
