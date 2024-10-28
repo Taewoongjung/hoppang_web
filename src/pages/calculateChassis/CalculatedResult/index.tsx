@@ -307,7 +307,12 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 isExpanded: requestCalculateObject.isExpanded,
                 reqCalculateChassisPriceList: requestCalculateObject.reqCalculateChassisPriceList
             },
-            {withCredentials: true},
+            {
+                withCredentials: true,
+                headers: {
+                    Authorization: localStorage.getItem("hoppang-token"),
+                }
+            },
         )
             .then((response) => {
                 success("견적 성공");
