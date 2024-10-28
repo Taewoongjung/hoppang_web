@@ -174,7 +174,7 @@ const CalculatorSecondStep = (props: {
             })
             .catch((error) => {
                 if (error.response.data.errorCode === 202) {
-                    errorModal(error.response.data.message);
+                    alert(error.response.data.message);
                     clickBackButton();
                 }
             });
