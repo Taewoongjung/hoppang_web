@@ -72,6 +72,11 @@ const CalculationScreen = () => {
 
     const handleRegisterChassis = () => {
 
+        if (!isValidHeightMin || !isValidHeightMax || !isValidWidthMin || !isValidWidthMax) {
+            errorModal("가로/세로를 확인해주세요.");
+            return;
+        }
+
         if (companyType === '선택안함' || companyType === undefined) {
             errorModal("창호 회사를 선택해주세요.");
             setCompanyTypeStatus('error');
@@ -158,6 +163,39 @@ const CalculationScreen = () => {
         setCompany(target);
         setIsRevising(false);
     }
+
+
+    // 최소/최대 입력값 검증
+    const [isValidWidthMin, setIsValidWidthMin] = useState(true);
+    const [isValidWidthMax, setIsValidWidthMax] = useState(true);
+
+    const [isValidHeightMin, setIsValidHeightMin] = useState(true);
+    const [isValidHeightMax, setIsValidHeightMax] = useState(true);
+
+    const handleBlurWidth = (width:any) => {
+        if (width.target.value < 300) {
+            setIsValidWidthMin(false);
+            return;
+        } else if (width.target.value > 5000) {
+            setIsValidWidthMax(false);
+            return;
+        }
+        setIsValidWidthMin(true);
+        setIsValidWidthMax(true);
+    };
+
+    const handleBlurHeight = (height:any) => {
+        if (height.target.value < 300) {
+            setIsValidHeightMin(false);
+            return;
+        } else if (height.target.value > 2600) {
+            setIsValidHeightMax(false);
+            return;
+        }
+        setIsValidHeightMin(true);
+        setIsValidHeightMax(true);
+    };
+
 
 
     return (
@@ -294,7 +332,10 @@ const CalculationScreen = () => {
                                                                              min={0}
                                                                              status={widthStatus}
                                                                              onChange={setWidth}
+                                                                             onBlur={handleBlurWidth}
                                                                 />
+                                                                {!isValidWidthMax && <div className="caution">입력 값이 너무 큽니다. 최대값은 5000mm 입니다.</div>}
+                                                                {!isValidWidthMin && <div className="caution">입력 값이 너무 작습니다. 최소값은 300mm 입니다.</div>}
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -314,7 +355,10 @@ const CalculationScreen = () => {
                                                                              min={0}
                                                                              status={heightStatus}
                                                                              onChange={setHeight}
+                                                                             onBlur={handleBlurHeight}
                                                                 />
+                                                                {!isValidHeightMax && <div className="caution">입력 값이 너무 큽니다. 최대값은 2600mm 입니다.</div>}
+                                                                {!isValidHeightMin && <div className="caution">입력 값이 너무 작습니다. 최소값은 300mm 입니다.</div>}
                                                             </td>
                                                         </tr>
 
