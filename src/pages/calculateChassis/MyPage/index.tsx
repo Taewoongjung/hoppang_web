@@ -69,8 +69,8 @@ const MyPage = () => {
 
                     </body>
                 </div>
+                <BottomNavigator/>
             </div>
-            <BottomNavigator/>
         </>
     )
 }
