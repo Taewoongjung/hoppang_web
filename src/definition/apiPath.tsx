@@ -9,6 +9,9 @@ export const callFinalSocialSignUp = `https://hoppang.store/api/social/users`;
 export const appleLogin = `https://hoppang.store/api/apple/auth`;
 export const appleAuth = `https://hoppang.store/api/apple/signup/`;
 export const appleRefreshAccessToken = `https://hoppang.store/api/apple/refresh`;
+export const callReviseUserConfiguration = `https://hoppang.store/api/users/{userId}/configs`;
+export const callUserConfigurationInfo = `https://hoppang.store/api/users/{userId}/configs`;
+
 
 // dev
 // export const calculateChassisCall = `http://localhost:7070/api/chassis/calculations/prices`;
@@ -21,3 +24,5 @@ export const appleRefreshAccessToken = `https://hoppang.store/api/apple/refresh`
 // export const appleLogin = `http://localhost:7070/api/apple/auth`;
 // export const appleAuth = `http://localhost:7070/api/apple/signup/`;
 // export const appleRefreshAccessToken = `http://localhost:7070/api/apple/refresh`;
+// export const callReviseUserConfiguration = `http://localhost:7070/api/users/{userId}/configs`;
+// export const callUserConfigurationInfo = `http://localhost:7070/api/users/{userId}/configs`;
