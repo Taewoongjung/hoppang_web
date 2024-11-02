@@ -138,8 +138,6 @@ const LoginFirstStep = () => {
         <div className="login-container" style={styles.container}>
             <div className="login-box" style={styles.box}>
 
-                {urlParams.get("applelogin") === "true" && "애플 로그인 ~"}
-
                 {!requestedValidation && (
                     <>
                         <h3>휴대폰 인증을 해주세요. (- 없이 입력 해주세요)</h3>
