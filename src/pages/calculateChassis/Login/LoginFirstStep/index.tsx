@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import {Input, Button, Space, Modal} from 'antd';
-import { LeftOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import {callMeData, callVerifyPhoneNumber} from "../../../../definition/apiPath";
 import useSWR from "swr";
