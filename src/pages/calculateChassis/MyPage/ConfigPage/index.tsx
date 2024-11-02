@@ -4,6 +4,9 @@ import {LeftOutlined, RightOutlined} from "@ant-design/icons";
 import { Modal } from 'antd';
 
 const ConfigPage = () => {
+
+    const urlParams = new URLSearchParams(window.location.search);
+
     const [isShowEngPolicyModalOpen, setIsShowEngPolicyModalOpen] = useState(false);
 
     const showEngPolicyModal = () => {
@@ -38,10 +41,12 @@ const ConfigPage = () => {
                                     <span>개인정보 처리방침</span>
                                     <span className="arrow"><RightOutlined /></span>
                                 </li>
-                                <li className="settings-item" onClick={() => {window.location.href = '/login';}}>
-                                    <span>회원가입</span>
-                                    <span className="arrow"><RightOutlined /></span>
-                                </li>
+                                {urlParams.get("isLoggedIn") === 'true' &&
+                                    <li className="settings-item" onClick={() => {window.location.href = '/login';}}>
+                                        <span>회원가입</span>
+                                        <span className="arrow"><RightOutlined /></span>
+                                    </li>
+                                }
                                 <li className="settings-item">
                                     <span>앱 관리</span>
                                     <span className="arrow"><RightOutlined /></span>

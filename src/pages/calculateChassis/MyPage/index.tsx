@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './styles.css';
 import BottomNavigator from "../../../component/BottomNavigator";
 import { Divider } from 'antd';
@@ -13,6 +13,17 @@ const MyPage = () => {
         dedupingInterval: 2000
     });
 
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        if (userData) {
+            setIsLoggedIn(true);
+        } else {
+            setIsLoggedIn(false);
+        }
+    }, [userData]);
+
+
     return(
         <>
             <div style={styles.container}>
@@ -22,7 +33,7 @@ const MyPage = () => {
                             <div className="icons">
                                 <h2>마이</h2>
                             </div>
-                            <div className="settings-icon" onClick={() => {window.location.href = '/mypage/config';}}>
+                            <div className="settings-icon" onClick={() => {window.location.href = `/mypage/config?isLoggedIn=${isLoggedIn}`;}}>
                                 <img src="/assets/MyPage/config-icon.png" alt="Home" style={{width:23, height:23}}/>
                         ️   </div>
                         </header>
