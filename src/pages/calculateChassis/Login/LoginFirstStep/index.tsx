@@ -74,7 +74,11 @@ const LoginFirstStep = () => {
     const clickVerifyPhoneNumber = async () => {
         const validationType = "SIGN_UP";
         await axios.post(callVerifyPhoneNumber,
-            { targetPhoneNumber, validationType },
+            {
+                email: urlParams.get("userEmail"),
+                targetPhoneNumber,
+                validationType
+            },
             { withCredentials: true }
         ).then((response) => {
             if (response.data === true) {
