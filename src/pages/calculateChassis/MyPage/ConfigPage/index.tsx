@@ -41,7 +41,7 @@ const ConfigPage = () => {
                                     <span>개인정보 처리방침</span>
                                     <span className="arrow"><RightOutlined /></span>
                                 </li>
-                                {urlParams.get("isLoggedIn") === 'true' &&
+                                {urlParams.get("isLoggedIn") === 'false' &&
                                     <li className="settings-item" onClick={() => {window.location.href = '/login';}}>
                                         <span>회원가입</span>
                                         <span className="arrow"><RightOutlined /></span>
