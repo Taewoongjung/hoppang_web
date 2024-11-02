@@ -138,14 +138,6 @@ const LoginFirstStep = () => {
         <div className="login-container" style={styles.container}>
             <div className="login-box" style={styles.box}>
 
-                {/* 회원가입 종료 */}
-                <LeftOutlined
-                    onClick={() => {
-                        window.location.href = "/mypage";
-                    }}
-                    style={{marginRight: '100%', fontSize: '40px', marginBottom: '50px', color: 'blue'}}
-                />
-
                 {urlParams.get("applelogin") === "true" && "애플 로그인 ~"}
 
                 {!requestedValidation && (
