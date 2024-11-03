@@ -3,6 +3,8 @@ import './styles.css';
 import {LeftOutlined, RightOutlined} from "@ant-design/icons";
 import { Modal } from 'antd';
 import LoadingPage from "../../../../component/LoadingPage";
+import axios from 'axios';
+import {callMeData, callWithdrawUser} from "../../../../definition/apiPath";
 
 const ConfigPage = () => {
 
@@ -10,6 +12,7 @@ const ConfigPage = () => {
 
     const [loading, setLoading] = useState(false);
     const [isShowEngPolicyModalOpen, setIsShowEngPolicyModalOpen] = useState(false);
+    const [withdrawUserModal, setWithdrawUserModal] = useState(false);
 
     const showEngPolicyModal = () => {
         setIsShowEngPolicyModalOpen(true);
@@ -34,10 +37,66 @@ const ConfigPage = () => {
         }, 2000);
     }
 
+    const handleWithdrawUser = () => {
+        let token = localStorage.getItem("hoppang-token");
+
+        if (token) {
+
+            // 모달 창 제거
+            setWithdrawUserModal(false)
+
+            const fetchUserData = async () => {
+                try {
+                    return await axios.get(callMeData, {
+                        headers: {
+                            withCredentials: true,
+                            Authorization: token
+                        }
+                    });
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                }
+            };
+
+            // 로딩창 진입
+            setLoading(true);
+
+            fetchUserData().then((userData) => {
+
+                if (userData) {
+
+                    const callWithdrawUserApi = callWithdrawUser.replace('{userId}', userData.data.id);
+
+                    setWithdrawUserModal(false);
+                    axios.post(callWithdrawUserApi,
+                        {oauthType: localStorage.getItem("hoppang-login-oauthType")},
+                        {
+                            withCredentials: true,
+                            headers: {
+                                Authorization: token,
+                            }
+                        })
+                        .then((res) => {
+                            setTimeout(() => {
+                                setLoading(false);
+                                window.location.href = '/';
+                            }, 2000);
+                        })
+                        .catch((err) => {
+                            setLoading(false);
+                            alert(`[에러 발생] ${err}`);
+                        })
+                }
+            });
+        }
+    }
+
 
     return (
         <>
             { loading && <LoadingPage/> }
+
+
             <div className="container">
                 <div className="box">
                     <div style={{marginTop: 40}}>
@@ -67,7 +126,7 @@ const ConfigPage = () => {
                                 </li>
                                 {urlParams.get("isLoggedIn") === 'true' &&
                                     <>
-                                        <li className="settings-item">
+                                        <li className="settings-item" onClick={() => setWithdrawUserModal(true)}>
                                             <span>회원탈퇴</span>
                                             <span className="arrow"><RightOutlined /></span>
                                         </li>
@@ -80,7 +139,15 @@ const ConfigPage = () => {
                             </ul>
                         </section>
 
-
+                        <Modal
+                            title="정말로 탈퇴 하시겠습니까?"
+                            centered
+                            open={withdrawUserModal}
+                            onOk={handleWithdrawUser}
+                            onCancel={() => setWithdrawUserModal(false)}
+                        >
+                            <p>회원 탈퇴 후 모든 유저 데이터가 사라지게 됩니다. 그래도 하시겠습니까?</p>
+                        </Modal>
 
 
                         <Modal title="Basic Modal" open={isShowEngPolicyModalOpen} onOk={handleEngPolicyOk} onCancel={handleEngPolicyCancel}>
