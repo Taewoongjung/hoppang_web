@@ -68,14 +68,15 @@ const ConfigPage = () => {
                     const callWithdrawUserApi = callWithdrawUser.replace('{userId}', userData.data.id);
 
                     setWithdrawUserModal(false);
-                    axios.post(callWithdrawUserApi,
-                        {oauthType: localStorage.getItem("hoppang-login-oauthType")},
-                        {
-                            withCredentials: true,
-                            headers: {
-                                Authorization: token,
-                            }
-                        })
+                    axios.delete(callWithdrawUserApi, {
+                        data: {
+                            oauthType: localStorage.getItem("hoppang-login-oauthType")
+                        },
+                        withCredentials: true,
+                        headers: {
+                            Authorization: token,
+                        }
+                    })
                         .then((res) => {
                             setTimeout(() => {
                                 setLoading(false);
