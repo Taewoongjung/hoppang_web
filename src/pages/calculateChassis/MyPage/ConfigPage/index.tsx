@@ -145,6 +145,8 @@ const ConfigPage = () => {
                             centered
                             open={withdrawUserModal}
                             onOk={handleWithdrawUser}
+                            okText={"동의"}
+                            cancelText={"취소"}
                             onCancel={() => setWithdrawUserModal(false)}
                         >
                             <p>회원 탈퇴 후 모든 유저 데이터가 사라지게 됩니다. 그래도 하시겠습니까?</p>
