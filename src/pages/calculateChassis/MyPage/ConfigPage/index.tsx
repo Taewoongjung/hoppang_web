@@ -2,11 +2,13 @@ import React, {useState} from 'react';
 import './styles.css';
 import {LeftOutlined, RightOutlined} from "@ant-design/icons";
 import { Modal } from 'antd';
+import LoadingPage from "../../../../component/LoadingPage";
 
 const ConfigPage = () => {
 
     const urlParams = new URLSearchParams(window.location.search);
 
+    const [loading, setLoading] = useState(false);
     const [isShowEngPolicyModalOpen, setIsShowEngPolicyModalOpen] = useState(false);
 
     const showEngPolicyModal = () => {
@@ -21,10 +23,22 @@ const ConfigPage = () => {
         setIsShowEngPolicyModalOpen(false);
     };
 
+    const handleLogOut = () => {
+        localStorage.setItem("hoppang-token", 'undefined');
+
+        setLoading(true);
+        
+        setTimeout(() => {
+            setLoading(false);
+            window.location.href = '/';
+        }, 3000);
+    }
+
 
     return (
         <>
             <div className="container">
+                { loading && <LoadingPage/> }
                 <div className="box">
                     <div style={{marginTop: 40}}>
                         <section className="settings-section">
@@ -51,8 +65,19 @@ const ConfigPage = () => {
                                     <span>앱 관리</span>
                                     <span className="arrow"><RightOutlined /></span>
                                 </li>
+                                <li className="settings-item">
+                                    <span>회원탈퇴</span>
+                                    <span className="arrow"><RightOutlined /></span>
+                                </li>
+                                <li className="settings-item" onClick={handleLogOut}>
+                                    <span>로그아웃</span>
+                                    <span className="arrow"><RightOutlined /></span>
+                                </li>
                             </ul>
                         </section>
+
+
+
 
                         <Modal title="Basic Modal" open={isShowEngPolicyModalOpen} onOk={handleEngPolicyOk} onCancel={handleEngPolicyCancel}>
                             <strong>Terms &amp; Conditions</strong><br/>

@@ -1,0 +1,22 @@
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* 화면의 전체 높이를 차지 */
+    background-color: #f8f9fa; /* 배경 색상 */
+}
+
+.loading-spinner {
+    border: 8px solid #f3f3f3; /* 배경 색상 */
+    border-top: 8px solid #3498db; /* 스피너 색상 */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite; /* 스피너 회전 애니메이션 */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
