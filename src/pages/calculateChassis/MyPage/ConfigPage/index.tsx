@@ -27,18 +27,18 @@ const ConfigPage = () => {
         localStorage.setItem("hoppang-token", 'undefined');
 
         setLoading(true);
-        
+
         setTimeout(() => {
             setLoading(false);
             window.location.href = '/';
-        }, 3000);
+        }, 2000);
     }
 
 
     return (
         <>
+            { loading && <LoadingPage/> }
             <div className="container">
-                { loading && <LoadingPage/> }
                 <div className="box">
                     <div style={{marginTop: 40}}>
                         <section className="settings-section">
@@ -65,14 +65,18 @@ const ConfigPage = () => {
                                     <span>앱 관리</span>
                                     <span className="arrow"><RightOutlined /></span>
                                 </li>
-                                <li className="settings-item">
-                                    <span>회원탈퇴</span>
-                                    <span className="arrow"><RightOutlined /></span>
-                                </li>
-                                <li className="settings-item" onClick={handleLogOut}>
-                                    <span>로그아웃</span>
-                                    <span className="arrow"><RightOutlined /></span>
-                                </li>
+                                {urlParams.get("isLoggedIn") === 'true' &&
+                                    <>
+                                        <li className="settings-item">
+                                            <span>회원탈퇴</span>
+                                            <span className="arrow"><RightOutlined /></span>
+                                        </li>
+                                        <li className="settings-item" onClick={handleLogOut}>
+                                            <span>로그아웃</span>
+                                            <span className="arrow"><RightOutlined /></span>
+                                        </li>
+                                    </>
+                                }
                             </ul>
                         </section>
 
