@@ -4,7 +4,7 @@ nav {
     justify-content: space-around;
     align-items: center;
     background-color: #ffffff; /* 밝은 배경색 */
-    height: 60px;
+    height: 100px; /* 높이 약간 증가 */
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
     position: fixed;
     bottom: 0;
@@ -29,7 +29,7 @@ nav a:hover {
 }
 
 .nav-icon img {
-    width: 28px; /* 아이콘 크기 증가 */
+    width: 32px; /* 아이콘 크기 증가 */
 }
 
 nav a.active {
@@ -43,9 +43,9 @@ nav a.active .nav-icon img {
 }
 
 /* 반응형 디자인 적용 (모바일 최적화) */
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1000px) {
     nav {
-        height: 55px; /* 모바일에서 네비게이션 바 높이 조정 */
+        height: 80px; /* 모바일에서 네비게이션 바 높이 조정 */
     }
 
     nav a {
@@ -54,6 +54,6 @@ nav a.active .nav-icon img {
     }
 
     .nav-icon img {
-        width: 24px; /* 모바일에서 아이콘 크기 줄임 */
+        width: 30px; /* 모바일에서 아이콘 크기 줄임 */
     }
 }
