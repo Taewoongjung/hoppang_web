@@ -8,6 +8,7 @@ import CalculatedResult from "../../pages/calculateChassis/CalculatedResult";
 import {calculateChassisCall} from "../../definition/apiPath";
 import './styles.css';
 import {mappedValueByCompany} from "../../util";
+import OverlayLoadingPage from "../Loading/OverlayLoadingPage";
 
 const { Title } = Typography;
 
@@ -21,6 +22,8 @@ const CalculatorSecondStep = (props: {
 }) => {
 
     const [form] = Form.useForm();
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const [messageApi, contextHolder] = message.useMessage();
 
@@ -171,11 +174,13 @@ const CalculatorSecondStep = (props: {
                     buildingNumber: addressBuildingNum,
                 });
                 setCurrent(5);
+                setIsLoading(false);
             })
             .catch((error) => {
                 if (error.response.data.errorCode === 202) {
                     alert(error.response.data.message);
                     clickBackButton();
+                    setIsLoading(false);
                 }
             });
     }
@@ -240,6 +245,9 @@ const CalculatorSecondStep = (props: {
 
     return (
         <>
+            {isLoading && <OverlayLoadingPage/>}
+
+
             {contextHolder}
             {/*상황 진척도*/}
             {current !== 5 &&

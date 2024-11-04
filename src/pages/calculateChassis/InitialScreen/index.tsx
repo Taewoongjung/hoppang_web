@@ -8,6 +8,7 @@ import {appleAuth, callMeData, kakaoAuth} from "../../../definition/apiPath";
 import fetcher from 'src/util/fetcher';
 import axios from "axios";
 import { useParams } from 'react-router-dom';
+import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
 
 
 const { Title } = Typography;
@@ -28,6 +29,8 @@ const InitialScreen = (props: {
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
     });
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const {secondStep, companyType, setCompanyType, companyTypeStatus, setCompanyTypeStatus, current, setCurrent} = props;
 
@@ -66,6 +69,7 @@ const InitialScreen = (props: {
     // 카카오 소셜 로그인
     useEffect(() => {
         if (oauthtype) {
+            setIsLoading(true);
             if (oauthtype === 'kko' && urlParams.get('code')) {
                 console.log("카카오 로그인 성공 요청");
                 axios.post(kakaoAuth + urlParams.get('code'),
@@ -81,6 +85,7 @@ const InitialScreen = (props: {
                         const token = res.headers['authorization'];
                         localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
                         localStorage.setItem("hoppang-login-oauthType", res.data.oauthType); // 로그인 타입 설정
+                        setIsLoading(false);
 
                         if (res.data.isSuccess && res.data.isTheFirstLogIn) {
                             window.location.href = "/login/first?userEmail=" + res.data.userEmail
@@ -91,6 +96,7 @@ const InitialScreen = (props: {
                         alert(err.response.data.errorMessage);
                         if (err.response.data.errorCode === 7) { // 리프레시 토큰이 만료 되었을 때
                             window.location.href = err.response.data.redirectUrl; // 로그인 화면으로 리다이렉팅
+                            setIsLoading(false);
                         }
                     });
             }
@@ -109,9 +115,11 @@ const InitialScreen = (props: {
                         const token = res.headers['authorization'];
                         localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
                         localStorage.setItem("hoppang-login-oauthType", res.data.oauthType); // 로그인 타입 설정
+                        setIsLoading(false);
 
                         if (res.data.isSuccess && res.data.isTheFirstLogIn) {
                             window.location.href = "/login/first?applelogin=true&userEmail=" + res.data.userEmail
+                            setIsLoading(false);
                         }
 
                     })
@@ -119,6 +127,7 @@ const InitialScreen = (props: {
                         alert(err.response.data.errorMessage);
                         if (err.response.data.errorCode === 7) { // 리프레시 토큰이 만료 되었을 때
                             window.location.href = err.response.data.redirectUrl; // 로그인 화면으로 리다이렉팅
+                            setIsLoading(false);
                         }
                     });
             }
@@ -143,6 +152,9 @@ const InitialScreen = (props: {
 
     return (
         <>
+            {isLoading && <OverlayLoadingPage/>}
+
+
             { ( !getStarted && !secondStep && !isAgreed ) &&
                 <table>
                     <tbody>

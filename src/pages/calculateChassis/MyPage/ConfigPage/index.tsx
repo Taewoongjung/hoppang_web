@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import './styles.css';
 import {LeftOutlined, RightOutlined} from "@ant-design/icons";
 import { Modal } from 'antd';
-import LoadingPage from "../../../../component/LoadingPage";
 import axios from 'axios';
 import {callMeData, callWithdrawUser} from "../../../../definition/apiPath";
+import LoadingPage from 'src/component/Loading/SimpleLoadingPage';
 
 const ConfigPage = () => {
 
