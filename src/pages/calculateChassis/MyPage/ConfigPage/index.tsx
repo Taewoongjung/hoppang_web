@@ -22,10 +22,6 @@ const ConfigPage = () => {
         setIsShowEngPolicyModalOpen(false);
     };
 
-    const handleEngPolicyCancel = () => {
-        setIsShowEngPolicyModalOpen(false);
-    };
-
     const handleLogOut = () => {
         localStorage.setItem("hoppang-token", 'undefined');
 
@@ -153,17 +149,18 @@ const ConfigPage = () => {
                         </Modal>
 
 
-                        <Modal title="Basic Modal" open={isShowEngPolicyModalOpen} onOk={handleEngPolicyOk} onCancel={handleEngPolicyCancel}>
+                        <Modal title="Basic Modal"
+                               open={isShowEngPolicyModalOpen}
+                               onOk={handleEngPolicyOk}
+                               okText={"확인"}
+                               destroyOnClose={true}
+                        >
                             <strong>Terms &amp; Conditions</strong><br/>
                             <p>These terms and conditions apply to the Hoppang app (hereby referred to as "Application") for mobile devices that was created by (hereby referred to as "Service Provider") as a Free service.</p>
                             <br/>
                             <p>Upon downloading or utilizing the Application, you are automatically agreeing to the following terms...</p>
                             <div>
                                 <p>Please note that the Application utilizes third-party services that have their own Terms and Conditions. Below are the links to the Terms and Conditions of the third-party service providers used by the Application:</p>
-                                <ul>
-                                    <li><a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer">Google Play Services</a></li>
-                                    <li><a href="https://expo.io/terms" target="_blank" rel="noopener noreferrer">Expo</a></li>
-                                </ul>
                             </div>
                             <br/>
                             <p>The Service Provider may wish to update the application at some point...</p>
