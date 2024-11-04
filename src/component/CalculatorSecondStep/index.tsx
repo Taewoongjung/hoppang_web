@@ -176,9 +176,11 @@ const CalculatorSecondStep = (props: {
                 });
                 setCurrent(5);
 
+                // 로딩 화면 제거
                 setTimeout(() => {
                     setIsLoading(false);
                 }, 2030);
+
             })
             .catch((error) => {
                 if (error.response.data.errorCode === 202) {

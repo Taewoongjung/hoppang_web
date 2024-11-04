@@ -10,6 +10,7 @@ import {getLabelOfChassisType} from "../../../util";
 import axios from "axios";
 import {calculateChassisCall} from "../../../definition/apiPath";
 import { CalculateResult } from 'src/definition/interfaces';
+import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
 
 // 재료비
 interface MaterialDataType {
@@ -55,6 +56,8 @@ const additionalColumns: TableColumnsType<AdditionalDataType> = [
 
 
 const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateResult }) => {
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const [messageApi, contextHolder] = message.useMessage();
 
@@ -289,6 +292,8 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
     const callCalculate = (companyType : string | undefined, additionalEstimationNumber: number) => {
 
+        setIsLoading(true);
+
         requestCalculateObject.reqCalculateChassisPriceList = requestCalculateObject.reqCalculateChassisPriceList.map(item => ({
             ...item,
             companyType: companyType
@@ -327,10 +332,17 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                     setResult3(response.data);
                     setIsReEstimation3(true);
                 }
+
+                // 로딩 화면 제거
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 1530);
+
             })
             .catch((error) => {
                 if (error.response.data.errorCode === 202) {
                     errorModal(error.response.data.message);
+                    setIsLoading(false);
                 }
             });
     }
@@ -338,6 +350,8 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
     return(
         <>
+            {isLoading && <OverlayLoadingPage/>}
+
             {contextHolder}
             <div>
                 <Result
