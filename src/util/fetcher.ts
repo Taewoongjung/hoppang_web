@@ -28,6 +28,7 @@ const fetcher = async (url: string) => {
                             localStorage.setItem("hoppang-token", refreshedToken); // 로그인 성공 시 로컬 스토리지에 토큰 갱신
                         })
                         .catch((error) => {
+                            localStorage.setItem("hoppang-token", "undefined");
                             if (error.response.data.errorCode === 7) { // 리프레시 토큰이 만료 되었을 때
                                 // 모든 토큰이 만료 되었으므로 다시 로그인을 요청 한다.
                                 axios.post(kakaoLogin, {}, {withCredentials: true})
@@ -50,6 +51,7 @@ const fetcher = async (url: string) => {
                             localStorage.setItem("hoppang-token", refreshedToken); // 로그인 성공 시 로컬 스토리지에 토큰 갱신
                         })
                         .catch((error) => {
+                            localStorage.setItem("hoppang-token", "undefined");
                             if (error.response.data.errorCode === 7) { // 리프레시 토큰이 만료 되었을 때
                                 // 모든 토큰이 만료 되었으므로 다시 로그인을 요청 한다.
                                 axios.post(appleLogin, {}, {withCredentials: true})
