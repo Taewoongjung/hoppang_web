@@ -138,6 +138,7 @@ const CalculatorSecondStep = (props: {
             isResident
         }));
 
+        setIsLoading(true);
         axios.post(calculateChassisCall,
             {
                 zipCode: addressZoneCode,
@@ -174,7 +175,10 @@ const CalculatorSecondStep = (props: {
                     buildingNumber: addressBuildingNum,
                 });
                 setCurrent(5);
-                setIsLoading(false);
+
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 2030);
             })
             .catch((error) => {
                 if (error.response.data.errorCode === 202) {
