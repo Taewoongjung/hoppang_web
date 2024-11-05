@@ -15,15 +15,6 @@ html, body {
     margin-bottom: 60px;
 }
 
-/* 기본 스타일 */
-html, body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Noto Sans KR', sans-serif;
-    background-color: #f9f9f9; /* 배경색을 약간 회색으로 변경 */
-    height: 100%;
-}
-
 .whole-app {
     width: 100%;
     min-height: 100vh; /* 화면 전체 높이를 차지 */
@@ -31,13 +22,6 @@ html, body {
     justify-content: center; /* 수평 중앙 정렬 */
     align-items: center; /* 수직 중앙 정렬 */
     margin-top: 10%;
-}
-
-.app {
-    display: flex;
-    flex-direction: column;
-    width: 100%; /* 전체 너비 차지 */
-    height: 100%; /* 전체 높이 차지 */
 }
 
 .app-header {
@@ -48,10 +32,10 @@ html, body {
     font-size: 20px;
     font-weight: bold;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
-    /*position: fixed;*/
+    position: fixed;
     top: 0;
     width: 100%;
-    /*z-index: 1000; !* 헤더가 항상 상단에 고정되도록 설정 *!*/
+    z-index: 1000; /* 헤더가 항상 상단에 고정되도록 설정 */
     display: flex;
     justify-content: space-between;
     align-items: center;
