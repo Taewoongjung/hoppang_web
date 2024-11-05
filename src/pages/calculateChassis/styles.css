@@ -7,14 +7,6 @@ html, body {
     height: 100%;
 }
 
-.whole-app {
-    width: 100%;
-    min-height: 100vh; /* 화면 전체 높이를 차지 */
-    display: flex;
-    justify-content: center; /* 수평 중앙 정렬 */
-    align-items: center; /* 수직 중앙 정렬 */
-}
-
 .app {
     display: flex;
     flex-direction: column;
@@ -22,22 +14,6 @@ html, body {
     height: 100%; /* 전체 높이 차지 */
 }
 
-.app-header {
-    background-color: #ffffff; /* 밝은 배경색 */
-    color: #333333; /* 텍스트 색상을 어두운 회색으로 변경 */
-    padding: 1rem;
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000; /* 헤더가 항상 상단에 고정되도록 설정 */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
 /* 기본 스타일 */
 html, body {
     margin: 0;
@@ -53,6 +29,7 @@ html, body {
     display: flex;
     justify-content: center; /* 수평 중앙 정렬 */
     align-items: center; /* 수직 중앙 정렬 */
+    margin-top: 10%;
 }
 
 .app {
