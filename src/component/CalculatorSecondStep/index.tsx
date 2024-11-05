@@ -257,7 +257,7 @@ const CalculatorSecondStep = (props: {
             {contextHolder}
             {/*상황 진척도*/}
             {current !== 5 &&
-                <div style={{width: "700px"}}>
+                <div style={{ width: "700px", marginBottom: '60px'}}>
                     <Steps
                         current={current}
                         size="small"

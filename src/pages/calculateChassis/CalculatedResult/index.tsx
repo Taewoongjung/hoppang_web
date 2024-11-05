@@ -353,7 +353,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
             {isLoading && <OverlayLoadingPage/>}
 
             {contextHolder}
-            <div>
+            <div style={{ marginBottom: '60px' }}>
                 <Result
                     status="success"
                     title={`견적 완료`}

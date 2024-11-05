@@ -12,6 +12,7 @@ html, body {
     flex-direction: column;
     width: 100%; /* 전체 너비 차지 */
     height: 100%; /* 전체 높이 차지 */
+    margin-bottom: 60px;
 }
 
 /* 기본 스타일 */

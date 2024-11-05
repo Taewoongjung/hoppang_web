@@ -4,7 +4,7 @@ nav {
     justify-content: space-around;
     align-items: center;
     background-color: #ffffff; /* 밝은 배경색 */
-    height: 100px; /* 높이 약간 증가 */
+    height: 70px; /* 높이 약간 증가 */
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
     position: fixed;
     bottom: 0;
