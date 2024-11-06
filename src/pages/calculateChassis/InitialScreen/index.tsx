@@ -71,7 +71,7 @@ const InitialScreen = (props: {
         if (oauthtype) {
             setIsLoading(true);
             if (oauthtype === 'kko' && urlParams.get('code')) {
-                console.log("카카오 로그인 성공 요청");
+                // 카카오 로그인 성공 요청
                 axios.post(kakaoAuth + urlParams.get('code'),
                     {
                         deviceId: localStorage.getItem('deviceId'),
@@ -80,8 +80,6 @@ const InitialScreen = (props: {
                     },
                     {withCredentials: true})
                     .then((res) => {
-                        console.log("소셜로그인 성공 = ", res.data);
-
                         const token = res.headers['authorization'];
                         localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
                         localStorage.setItem("hoppang-login-oauthType", res.data.oauthType); // 로그인 타입 설정
@@ -102,7 +100,7 @@ const InitialScreen = (props: {
             }
 
             if (oauthtype === 'apl' && urlParams.get('code')) {
-                console.log("애플 로그인 성공 요청");
+                // 애플 로그인 성공 요청
                 axios.post(appleAuth + urlParams.get('code'),
                     {
                         deviceId: localStorage.getItem('deviceId'),

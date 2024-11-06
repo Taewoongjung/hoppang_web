@@ -103,10 +103,6 @@ const ConfigPage = () => {
                                 <h2>설정</h2>
                             </header>
                             <ul className="settings-list">
-                                <li className="settings-item">
-                                    <span>서비스 이용약관</span>
-                                    <span className="arrow"><RightOutlined /></span>
-                                </li>
                                 <li className="settings-item" onClick={showEngPolicyModal}>
                                     <span>개인정보 처리방침</span>
                                     <span className="arrow"><RightOutlined /></span>

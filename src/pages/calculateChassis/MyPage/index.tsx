@@ -60,22 +60,22 @@ const MyPage = () => {
                                 </div>
                             }
 
-                            <section className="shopping-section">
-                                <h3>창호</h3>
-                                <ul>
-                                    <li>창호 고르는 팁</li>
-                                </ul>
-                            </section>
+                            {/*<section className="shopping-section">*/}
+                            {/*    <h3>창호</h3>*/}
+                            {/*    <ul>*/}
+                            {/*        <li>창호 고르는 팁</li>*/}
+                            {/*    </ul>*/}
+                            {/*</section>*/}
 
                             <Divider />
 
-                            <section className="customer-center-section">
-                                <h3>고객센터</h3>
-                                <ul>
-                                    <li onClick={() => window.open("https://pf.kakao.com/_dbxezn", "_blank")}>카카오톡 문의하기</li>
-                                    <li>공지사항</li>
-                                </ul>
-                            </section>
+                            {/*<section className="customer-center-section">*/}
+                            {/*    <h3>고객센터</h3>*/}
+                            {/*    <ul>*/}
+                            {/*        <li onClick={() => window.open("https://pf.kakao.com/_dbxezn", "_blank")}>카카오톡 문의하기</li>*/}
+                            {/*        <li>공지사항</li>*/}
+                            {/*    </ul>*/}
+                            {/*</section>*/}
                         </main>
 
                     </body>
