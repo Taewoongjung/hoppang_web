@@ -347,6 +347,10 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
             });
     }
 
+    const handleInquiry = () => {
+
+    }
+
 
     return(
         <>
@@ -373,7 +377,14 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                     defaultActiveKey={['1']}
                     items={[{
                         key: '1',
-                        label: `${mappedCompanyByValue(firstCalculatedCompanyType)} - 📋 ${estimationId} (견적번호)`,
+                        label: (
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <span>{`${mappedCompanyByValue(firstCalculatedCompanyType)} - 📋 ${estimationId} (견적번호)`}</span>
+                                <Button type="primary" size="small" onClick={() => handleInquiry()}>
+                                    해당 견적 문의하기
+                                </Button>
+                            </div>
+                        ),
                         children:
                             <p>
                                 <Divider orientation="left">재료값</Divider>
@@ -409,9 +420,21 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         items={[
                             {
                                 key: '2',
-                                label: secondCalculatedCompanyType !== '' ?
-                                    `${mappedCompanyByValue(secondCalculatedCompanyType)} - 📋 ${estimationId2} (견적번호)` : `${yetCalculatedCompanyList?.[0]}`
-                                ,
+                                label: (
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <span>
+                                            {secondCalculatedCompanyType !== ''
+                                                ? `${mappedCompanyByValue(secondCalculatedCompanyType)} - 📋 ${estimationId2} (견적번호)`
+                                                : `${yetCalculatedCompanyList?.[0]}`
+                                            }
+                                        </span>
+                                        {secondCalculatedCompanyType !== '' && (
+                                            <Button type="primary" size="small" onClick={() => handleInquiry()}>
+                                                해당 견적 문의하기
+                                            </Button>
+                                        )}
+                                    </div>
+                                ),
                                 children:
                                     <p>
                                         {result2 &&
@@ -457,8 +480,21 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         items={[
                             {
                                 key: '3',
-                                label: thirdCalculatedCompanyType !== '' ?
-                                    `${mappedCompanyByValue(thirdCalculatedCompanyType)} - 📋 ${estimationId3} (견적번호)` : `${yetCalculatedCompanyList?.[1]}`,
+                                label: (
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <span>
+                                            {thirdCalculatedCompanyType !== ''
+                                                ? `${mappedCompanyByValue(secondCalculatedCompanyType)} - 📋 ${estimationId3} (견적번호)`
+                                                : `${yetCalculatedCompanyList?.[1]}`
+                                            }
+                                        </span>
+                                        {thirdCalculatedCompanyType !== '' && (
+                                            <Button type="primary" size="small" onClick={() => handleInquiry()}>
+                                                해당 견적 문의하기
+                                            </Button>
+                                        )}
+                                    </div>
+                                ),
                                 children:
                                     <p>
                                         {result3 &&
