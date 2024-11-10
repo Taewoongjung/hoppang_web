@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles.css';
 import axios from "axios";
 import {LeftOutlined} from "@ant-design/icons";
-import {appleLogin, kakaoLogin} from "../../../definition/apiPath";
+import {appleLogin, googleLogin, kakaoLogin} from "../../../definition/apiPath";
 
 
 const Login = () => {
@@ -30,6 +30,17 @@ const Login = () => {
 
         callLogin();
     };
+
+    const handleGoogleLogin = () => {
+        const callLogin = async () => {
+            axios.get(googleLogin)
+                .then((res) => {
+                    window.location.href = res.data;
+                })
+        }
+
+        callLogin();
+    }
 
 
     return (
@@ -73,6 +84,18 @@ const Login = () => {
                             background: `url("/assets/appleid_button@2x.png") no-repeat center center`,
                             backgroundSize: 'cover',
                             marginTop: "-9px"
+                        }}
+                    />
+
+                    {/*구글 로그인*/}
+                    <button
+                        onClick={handleGoogleLogin}
+                        style={{
+                            ...styles.button,
+                            background: `url("/assets/google_login.png") no-repeat center center`,
+                            backgroundSize: 'cover',
+                            marginTop: "-9px",
+                            border: '1px solid black'
                         }}
                     />
                 </div>

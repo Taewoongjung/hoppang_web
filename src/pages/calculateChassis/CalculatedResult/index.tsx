@@ -380,7 +380,9 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         label: (
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <span>{`${mappedCompanyByValue(firstCalculatedCompanyType)} - 📋 ${estimationId} (견적번호)`}</span>
-                                <Button type="primary" size="small" onClick={() => handleInquiry()}>
+                                <Button type="primary" size="small"
+                                        style={{ width: '30%' }} ghost
+                                        onClick={() => handleInquiry()}>
                                     해당 견적 문의하기
                                 </Button>
                             </div>
@@ -429,7 +431,9 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                             }
                                         </span>
                                         {secondCalculatedCompanyType !== '' && (
-                                            <Button type="primary" size="small" onClick={() => handleInquiry()}>
+                                            <Button type="primary" size="small"
+                                                    style={{ width: '30%' }} ghost
+                                                    onClick={() => handleInquiry()}>
                                                 해당 견적 문의하기
                                             </Button>
                                         )}
@@ -489,7 +493,9 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                             }
                                         </span>
                                         {thirdCalculatedCompanyType !== '' && (
-                                            <Button type="primary" size="small" onClick={() => handleInquiry()}>
+                                            <Button type="primary" size="small"
+                                                    style={{ width: '30%' }} ghost
+                                                    onClick={() => handleInquiry()}>
                                                 해당 견적 문의하기
                                             </Button>
                                         )}

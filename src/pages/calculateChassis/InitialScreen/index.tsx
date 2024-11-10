@@ -4,7 +4,7 @@ import {companyTypeOptionsString} from "../../../definition/companyType";
 import "./initialScreenStyles.css";
 import {LeftOutlined} from "@ant-design/icons";
 import useSWR from "swr";
-import {appleAuth, callMeData, kakaoAuth} from "../../../definition/apiPath";
+import {appleAuth, callMeData, kakaoAuth, googleAuth} from "../../../definition/apiPath";
 import fetcher from 'src/util/fetcher';
 import axios from "axios";
 import { useParams } from 'react-router-dom';
@@ -102,6 +102,36 @@ const InitialScreen = (props: {
             if (oauthtype === 'apl' && urlParams.get('code')) {
                 // 애플 로그인 성공 요청
                 axios.post(appleAuth + urlParams.get('code'),
+                    {
+                        deviceId: localStorage.getItem('deviceId'),
+                        deviceType: localStorage.getItem('deviceType')
+                    },
+                    {withCredentials: true})
+                    .then((res) => {
+                        console.log("소셜로그인 성공 = ", res.data);
+
+                        const token = res.headers['authorization'];
+                        localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
+                        localStorage.setItem("hoppang-login-oauthType", res.data.oauthType); // 로그인 타입 설정
+
+                        if (res.data.isSuccess && res.data.isTheFirstLogIn) {
+                            window.location.href = "/login/first?applelogin=true&userEmail=" + res.data.userEmail
+                        }
+                        setIsLoading(false);
+
+                    })
+                    .catch((err) => {
+                        alert(err.response.data.errorMessage);
+                        if (err.response.data.errorCode === 7) { // 리프레시 토큰이 만료 되었을 때
+                            window.location.href = err.response.data.redirectUrl; // 로그인 화면으로 리다이렉팅
+                        }
+                        setIsLoading(false);
+                    });
+            }
+
+            if (oauthtype === 'gle' && urlParams.get('code')) {
+                // 구글 로그인 성공 요청
+                axios.post(googleAuth + "?code=" + urlParams.get('code'),
                     {
                         deviceId: localStorage.getItem('deviceId'),
                         deviceType: localStorage.getItem('deviceType')
