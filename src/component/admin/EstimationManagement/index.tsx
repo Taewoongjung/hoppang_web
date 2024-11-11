@@ -87,7 +87,10 @@ const EstimationManagement = () => {
         if (urlParams.get("estimationIdList")) {
             requestEstimationIdParam += "estimationIdList=";
             // @ts-ignore
-            requestEstimationIdParam += urlParams.get("estimationIdList").join(',');
+            requestEstimationIdParam += urlParams.get("estimationIdList")
+                .split(',')
+                .map(id => Number(id))
+                .join(',');
 
             requestParam = `?estimationIdList=${requestEstimationIdParam}&startTime=${defaultStartDate}&endTime=${defaultEndDate}`
         } else {
