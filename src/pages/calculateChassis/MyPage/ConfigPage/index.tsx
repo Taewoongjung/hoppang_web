@@ -113,10 +113,12 @@ const ConfigPage = () => {
                                         <span className="arrow"><RightOutlined /></span>
                                     </li>
                                 }
-                                <li className="settings-item" onClick={() => {window.location.href = '/mypage/config/app';}}>
-                                    <span>앱 관리</span>
-                                    <span className="arrow"><RightOutlined /></span>
-                                </li>
+                                {urlParams.get("isLoggedIn") === 'true' &&
+                                    <li className="settings-item" onClick={() => {window.location.href = '/mypage/config/app';}}>
+                                        <span>앱 관리</span>
+                                        <span className="arrow"><RightOutlined /></span>
+                                    </li>
+                                }
                                 {urlParams.get("isLoggedIn") === 'true' &&
                                     <>
                                         <li className="settings-item" onClick={() => setWithdrawUserModal(true)}>
