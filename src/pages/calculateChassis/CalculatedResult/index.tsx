@@ -396,15 +396,15 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         label: (
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <span>{`${mappedCompanyByValue(firstCalculatedCompanyType)} - 📋 ${estimationId} (견적번호)`}</span>
+                            </div>
+                        ),
+                        children:
+                            <p>
                                 <Button type="primary" size="small"
                                         style={{ width: '30%' }} ghost
                                         onClick={() => handleInquiry(estimationId)}>
                                     해당 견적 문의하기
                                 </Button>
-                            </div>
-                        ),
-                        children:
-                            <p>
                                 <Divider orientation="left">재료값</Divider>
                                 <Table
                                     columns={materialColumns}
@@ -446,38 +446,38 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                 : `${yetCalculatedCompanyList?.[0]}`
                                             }
                                         </span>
-                                        {secondCalculatedCompanyType !== '' && (
-                                            <Button type="primary" size="small"
-                                                    style={{ width: '30%' }} ghost
-                                                    onClick={() => handleInquiry(estimationId2)}>
-                                                해당 견적 문의하기
-                                            </Button>
-                                        )}
                                     </div>
                                 ),
                                 children:
                                     <p>
                                         {result2 &&
                                             <div>
-                                        <Divider orientation="left">재료값</Divider>
-                                        <Table
-                                            columns={materialColumns}
-                                            dataSource={materialTableData2}
-                                            size="middle"
-                                            style={{width: 600}}
-                                            pagination={false}
-                                        />
-                                        <br/>
+                                                {secondCalculatedCompanyType !== '' && (
+                                                    <Button type="primary" size="small"
+                                                            style={{ width: '30%' }} ghost
+                                                            onClick={() => handleInquiry(estimationId2)}>
+                                                        해당 견적 문의하기
+                                                    </Button>
+                                                )}
+                                                <Divider orientation="left">재료값</Divider>
+                                                <Table
+                                                    columns={materialColumns}
+                                                    dataSource={materialTableData2}
+                                                    size="middle"
+                                                    style={{width: 600}}
+                                                    pagination={false}
+                                                />
+                                                <br/>
 
-                                        <Divider orientation="left">부가비용</Divider>
-                                        <Table
-                                            columns={additionalColumns}
-                                            dataSource={additionalTableData2}
-                                            size="middle"
-                                            style={{width: 500}}
-                                            footer={() => `총 금액: ${wholePrice2}`}
-                                            pagination={false}
-                                        />
+                                                <Divider orientation="left">부가비용</Divider>
+                                                <Table
+                                                    columns={additionalColumns}
+                                                    dataSource={additionalTableData2}
+                                                    size="middle"
+                                                    style={{width: 500}}
+                                                    footer={() => `총 금액: ${wholePrice2}`}
+                                                    pagination={false}
+                                                />
                                             </div>}
                                     </p>
                             },
@@ -508,19 +508,19 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                 : `${yetCalculatedCompanyList?.[1]}`
                                             }
                                         </span>
-                                        {thirdCalculatedCompanyType !== '' && (
-                                            <Button type="primary" size="small"
-                                                    style={{ width: '30%' }} ghost
-                                                    onClick={() => handleInquiry(estimationId3)}>
-                                                해당 견적 문의하기
-                                            </Button>
-                                        )}
                                     </div>
                                 ),
                                 children:
                                     <p>
                                         {result3 &&
                                             <div>
+                                                {thirdCalculatedCompanyType !== '' && (
+                                                    <Button type="primary" size="small"
+                                                            style={{ width: '30%' }} ghost
+                                                            onClick={() => handleInquiry(estimationId3)}>
+                                                        해당 견적 문의하기
+                                                    </Button>
+                                                )}
                                                 <Divider orientation="left">재료값</Divider>
                                                 <Table
                                                     columns={materialColumns}
