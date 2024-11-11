@@ -83,16 +83,15 @@ const EstimationManagement = () => {
         const defaultEndDate = moment().format(dateFormat).toString();
 
         let requestParam = '';
-        let requestEstimationIdParam = '';
+        let requestEstimationIdParam: any = [];
         if (urlParams.get("estimationIdList")) {
             requestEstimationIdParam += "estimationIdList=";
             // @ts-ignore
             requestEstimationIdParam += urlParams.get("estimationIdList")
                 .split(',')
-                .map(id => Number(id))
-                .join(',');
+                .map(id => Number(id));
 
-            requestParam = `?estimationIdList=${requestEstimationIdParam}&startTime=${defaultStartDate}&endTime=${defaultEndDate}`
+            requestParam = `?estimationIdList=${requestEstimationIdParam.join(',')}&startTime=${defaultStartDate}&endTime=${defaultEndDate}`
         } else {
             requestParam = `?startTime=${defaultStartDate}&endTime=${defaultEndDate}`;
         }
