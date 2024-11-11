@@ -504,7 +504,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                         <span>
                                             {thirdCalculatedCompanyType !== ''
-                                                ? `${mappedCompanyByValue(secondCalculatedCompanyType)} - 📋 ${estimationId3} (견적번호)`
+                                                ? `${mappedCompanyByValue(thirdCalculatedCompanyType)} - 📋 ${estimationId3} (견적번호)`
                                                 : `${yetCalculatedCompanyList?.[1]}`
                                             }
                                         </span>
