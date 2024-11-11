@@ -65,6 +65,8 @@ const columns = [
 
 const EstimationManagement = () => {
 
+    const urlParams = new URLSearchParams(window.location.search);
+
     const [data, setData] = useState();
     const [countOfData, setCountOfData] = useState(0);
     const [expandedRowKeys, setExpandedRowKeys] = useState<React.Key[]>([]);
@@ -80,7 +82,19 @@ const EstimationManagement = () => {
         const defaultStartDate = moment().subtract(7, 'days').format(dateFormat).toString();
         const defaultEndDate = moment().format(dateFormat).toString();
 
-        axios.get(findEstimationList + `?startTime=${defaultStartDate}&endTime=${defaultEndDate}`, {
+        let requestParam = '';
+        let requestEstimationIdParam = '';
+        if (urlParams.get("estimationIdList")) {
+            requestEstimationIdParam += "estimationIdList=";
+            // @ts-ignore
+            requestEstimationIdParam += urlParams.get("estimationIdList").join(',');
+
+            requestParam = `?estimationIdList=${requestEstimationIdParam}&startTime=${defaultStartDate}&endTime=${defaultEndDate}`
+        } else {
+            requestParam = `?startTime=${defaultStartDate}&endTime=${defaultEndDate}`;
+        }
+
+        axios.get(findEstimationList + requestParam, {
             withCredentials: true,
             headers: {
                 Authorization: localStorage.getItem("hoppang-admin-token") || '',
@@ -99,7 +113,7 @@ const EstimationManagement = () => {
                 console.error('Error fetching data:', error);
             });
 
-        axios.get(findCountOfEstimationList + `?startTime=${defaultStartDate}&endTime=${defaultEndDate}`, {
+        axios.get(findCountOfEstimationList + requestParam, {
             withCredentials: true,
             headers: {
                 Authorization: localStorage.getItem("hoppang-admin-token") || '',
@@ -218,8 +232,7 @@ const EstimationManagement = () => {
                         ...item,
                         key: item.id // 각 항목에 고유한 key 추가
                     }));
-                    // console.log("[original] estimationList = ", res.data);
-                    // console.log("estimationList = ", estimationList);
+
                     // @ts-ignore
                     setRequestParam(requestParam);
                     setData(estimationList);
