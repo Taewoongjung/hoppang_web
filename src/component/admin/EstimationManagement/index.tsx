@@ -83,11 +83,10 @@ const EstimationManagement = () => {
         const defaultEndDate = moment().format(dateFormat).toString();
 
         let requestParam = '';
-        let requestEstimationIdParam: any = [];
+        let requestEstimationIdParam: number[] = [];
+
         if (urlParams.get("estimationIdList")) {
-            requestEstimationIdParam += "estimationIdList=";
-            // @ts-ignore
-            requestEstimationIdParam += urlParams.get("estimationIdList")
+            requestEstimationIdParam = urlParams.get("estimationIdList")!
                 .split(',')
                 .map(id => Number(id));
 
@@ -95,7 +94,7 @@ const EstimationManagement = () => {
         } else {
             requestParam = `?startTime=${defaultStartDate}&endTime=${defaultEndDate}`;
         }
-
+        
         axios.get(findEstimationList + requestParam, {
             withCredentials: true,
             headers: {
