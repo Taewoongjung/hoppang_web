@@ -8,7 +8,7 @@ import {
 } from "../../../util";
 import {getLabelOfChassisType} from "../../../util";
 import axios from "axios";
-import {calculateChassisCall} from "../../../definition/apiPath";
+import {calculateChassisCall, callEstimateInquiry} from "../../../definition/apiPath";
 import { CalculateResult } from 'src/definition/interfaces';
 import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
 
@@ -347,7 +347,23 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
             });
     }
 
-    const handleInquiry = () => {
+    const handleInquiry = (estimationId : any) => {
+        const callEstimateInquiryAPIRequest = callEstimateInquiry.replace('{estimationId}', estimationId);
+
+        axios.get(callEstimateInquiryAPIRequest,
+            {
+                withCredentials: true,
+                headers: {
+                    Authorization: localStorage.getItem("hoppang-token"),
+                }
+            },
+        ).then((res) => {
+            if (res.data === true) {
+                success("견적문의 성공");
+            }
+        }).catch((err) => {
+            errorModal("견적 문의를 잠시후 다시 시도해주세요");
+        })
 
     }
 
@@ -382,7 +398,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                 <span>{`${mappedCompanyByValue(firstCalculatedCompanyType)} - 📋 ${estimationId} (견적번호)`}</span>
                                 <Button type="primary" size="small"
                                         style={{ width: '30%' }} ghost
-                                        onClick={() => handleInquiry()}>
+                                        onClick={() => handleInquiry(estimationId)}>
                                     해당 견적 문의하기
                                 </Button>
                             </div>
@@ -433,7 +449,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                         {secondCalculatedCompanyType !== '' && (
                                             <Button type="primary" size="small"
                                                     style={{ width: '30%' }} ghost
-                                                    onClick={() => handleInquiry()}>
+                                                    onClick={() => handleInquiry(estimationId2)}>
                                                 해당 견적 문의하기
                                             </Button>
                                         )}
@@ -495,7 +511,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                         {thirdCalculatedCompanyType !== '' && (
                                             <Button type="primary" size="small"
                                                     style={{ width: '30%' }} ghost
-                                                    onClick={() => handleInquiry()}>
+                                                    onClick={() => handleInquiry(estimationId3)}>
                                                 해당 견적 문의하기
                                             </Button>
                                         )}

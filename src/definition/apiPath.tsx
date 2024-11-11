@@ -14,6 +14,7 @@ export const googleAuth = `https://hoppang.store/api/google/signup`;
 export const callReviseUserConfiguration = `https://hoppang.store/api/users/{userId}/configs`;
 export const callUserConfigurationInfo = `https://hoppang.store/api/users/{userId}/configs`;
 export const callWithdrawUser = `https://hoppang.store/api/users/{userId}`;
+export const callEstimateInquiry = `https://hoppang.store/api/estimations/{estimationId}/inquiries`;
 
 // dev
 // export const calculateChassisCall = `http://localhost:7070/api/chassis/calculations/prices`;
@@ -31,3 +32,4 @@ export const callWithdrawUser = `https://hoppang.store/api/users/{userId}`;
 // export const callReviseUserConfiguration = `http://localhost:7070/api/users/{userId}/configs`;
 // export const callUserConfigurationInfo = `http://localhost:7070/api/users/{userId}/configs`;
 // export const callWithdrawUser = `http://localhost:7070/api/users/{userId}`;
+// export const callEstimateInquiry = `http://localhost:7070/api/estimations/{estimationId}/inquiries`;
