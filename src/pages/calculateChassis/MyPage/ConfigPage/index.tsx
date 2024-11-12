@@ -91,7 +91,7 @@ const ConfigPage = () => {
 
     return (
         <>
-            { loading && <LoadingPage/> }
+            { loading && <LoadingPage statement={"로그아웃 처리중"}/> }
 
             { !loading &&
                 <div className="container">
