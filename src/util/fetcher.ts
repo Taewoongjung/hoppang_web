@@ -1,6 +1,12 @@
 import axios from "axios";
 import {notAuthorizedErrorCode} from "../definition/errorCode";
-import {appleLogin, appleRefreshAccessToken, kakaoLogin, kakaoRefreshAccessToken} from "../definition/apiPath";
+import {
+    appleLogin,
+    appleRefreshAccessToken, googleLogin,
+    googleRefreshAccessToken,
+    kakaoLogin,
+    kakaoRefreshAccessToken
+} from "../definition/apiPath";
 
 const fetcher = async (url: string) => {
 
@@ -19,31 +25,28 @@ const fetcher = async (url: string) => {
         }).catch((error) => {
             const token = localStorage.getItem("hoppang-token");
             if (token && token !== "undefined" && error.response.status === 403) {
+
+                let callRefreshAccessTokenApi = '';
+                let callReSocialLogin = '';
+
                 if (localStorage.getItem("hoppang-login-oauthType") === "KKO") {
-                    axios.put(kakaoRefreshAccessToken + "?expiredToken=" + token, {
-                        withCredentials: true
-                    })
-                        .then((response) => {
-                            const refreshedToken = response.headers['authorization'];
-                            localStorage.setItem("hoppang-token", refreshedToken); // 로그인 성공 시 로컬 스토리지에 토큰 갱신
-                        })
-                        .catch((error) => {
-                            localStorage.setItem("hoppang-token", "undefined");
-                            if (error.response.data.errorCode === 7) { // 리프레시 토큰이 만료 되었을 때
-                                // 모든 토큰이 만료 되었으므로 다시 로그인을 요청 한다.
-                                axios.post(kakaoLogin, {}, {withCredentials: true})
-                                    .then((res) => {
-                                        window.location.href = res.data; // 로그인 화면으로 리다이렉팅
-                                    })
-                                    .catch((err) => {
-                                        window.location.href = "/";
-                                    })
-                            }
-                        });
+                    callRefreshAccessTokenApi = kakaoRefreshAccessToken;
+                    callReSocialLogin = kakaoLogin;
                 }
 
                 if (localStorage.getItem("hoppang-login-oauthType") === "APL") {
-                    axios.put(appleRefreshAccessToken + "?expiredToken=" + token, {
+                    callRefreshAccessTokenApi = appleRefreshAccessToken;
+                    callReSocialLogin = appleLogin;
+                }
+
+                if (localStorage.getItem("hoppang-login-oauthType") === "GLE") {
+                    callRefreshAccessTokenApi = googleRefreshAccessToken;
+                    callReSocialLogin = googleLogin;
+                }
+
+                if (callRefreshAccessTokenApi !== '' || callReSocialLogin !== '') {
+
+                    axios.put(callRefreshAccessTokenApi + "?expiredToken=" + token, {
                         withCredentials: true
                     })
                         .then((response) => {
@@ -54,7 +57,7 @@ const fetcher = async (url: string) => {
                             localStorage.setItem("hoppang-token", "undefined");
                             if (error.response.data.errorCode === 7) { // 리프레시 토큰이 만료 되었을 때
                                 // 모든 토큰이 만료 되었으므로 다시 로그인을 요청 한다.
-                                axios.post(appleLogin, {}, {withCredentials: true})
+                                axios.post(callReSocialLogin, {}, {withCredentials: true})
                                     .then((res) => {
                                         window.location.href = res.data; // 로그인 화면으로 리다이렉팅
                                     })

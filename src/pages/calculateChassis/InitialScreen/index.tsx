@@ -74,8 +74,8 @@ const InitialScreen = (props: {
                 // 카카오 로그인 성공 요청
                 axios.post(kakaoAuth + urlParams.get('code'),
                     {
-                        deviceId: localStorage.getItem('deviceId'),
                         // deviceId: '122333444555666',
+                        deviceId: localStorage.getItem('deviceId'),
                         deviceType: localStorage.getItem('deviceType')
                     },
                     {withCredentials: true})
