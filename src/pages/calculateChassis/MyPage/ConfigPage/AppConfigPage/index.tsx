@@ -16,7 +16,7 @@ const ConfigPage = () => {
         // @ts-ignore
         const callReviseUserConfigurationApi = callReviseUserConfiguration.replace('{userId}', userId);
 
-        console.log("callReviseUserConfigurationApi = ", callReviseUserConfigurationApi);
+        setIsChangingPushOn(true);
 
         axios.put(callReviseUserConfigurationApi,
             {isPushOn},
@@ -27,6 +27,10 @@ const ConfigPage = () => {
             }
         }).then(res => {
             setIsPushOn(res.data.isPushOn)  // 푸시 알림 변경 후 ON/OFF 여부 설정
+
+            setTimeout(() => {
+                setIsChangingPushOn(false);
+            }, 1500);
         })
     };
 
@@ -50,7 +54,6 @@ const ConfigPage = () => {
             if (userData) {
                 setUserId(userData.data.id);
                 const callUserConfigurationApi = callUserConfigurationInfo.replace('{userId}', userData.data.id);
-                setIsChangingPushOn(true);
                 axios.get(callUserConfigurationApi, {
                     headers: {
                         withCredentials: true,
@@ -60,11 +63,6 @@ const ConfigPage = () => {
                     .then((res) => {
                         setUserId(userData.data.id); // userId 설정
                         setIsPushOn(res.data.isPushOn); // 푸시 알림 ON/OFF 여부 설정
-
-                        setTimeout(() => {
-                            setIsChangingPushOn(false);
-                        }, 1500);
-
                     })
                     .catch((error) => {
                         console.error("Error fetching user configuration:", error);
