@@ -9,6 +9,7 @@ const ConfigPage = () => {
 
     const [userId, setUserId] = useState();
     const [isPushOn, setIsPushOn] = useState<boolean>(false);
+    const [isChangingPushOn, setIsChangingPushOn] = useState<boolean>(false);
 
     const onChangePushAlarm = (isPushOn: boolean) => {
 
@@ -49,7 +50,7 @@ const ConfigPage = () => {
             if (userData) {
                 setUserId(userData.data.id);
                 const callUserConfigurationApi = callUserConfigurationInfo.replace('{userId}', userData.data.id);
-
+                setIsChangingPushOn(true);
                 axios.get(callUserConfigurationApi, {
                     headers: {
                         withCredentials: true,
@@ -59,6 +60,11 @@ const ConfigPage = () => {
                     .then((res) => {
                         setUserId(userData.data.id); // userId 설정
                         setIsPushOn(res.data.isPushOn); // 푸시 알림 ON/OFF 여부 설정
+
+                        setTimeout(() => {
+                            setIsChangingPushOn(false);
+                        }, 1500);
+
                     })
                     .catch((error) => {
                         console.error("Error fetching user configuration:", error);
@@ -82,7 +88,7 @@ const ConfigPage = () => {
                             <ul className="settings-list">
                                 <li className="settings-item">
                                     <span>푸시 알림</span>
-                                    <span className="arrow"><Switch checked={isPushOn} onChange={onChangePushAlarm} /></span>
+                                    <span className="arrow"><Switch checked={isPushOn} onChange={onChangePushAlarm} loading={isChangingPushOn} /></span>
                                 </li>
                             </ul>
 
