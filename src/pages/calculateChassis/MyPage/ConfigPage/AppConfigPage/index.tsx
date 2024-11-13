@@ -26,10 +26,9 @@ const ConfigPage = () => {
                 Authorization: localStorage.getItem("hoppang-token")
             }
         }).then(res => {
-            setIsPushOn(res.data.isPushOn)  // 푸시 알림 변경 후 ON/OFF 여부 설정
-
             setTimeout(() => {
                 setIsChangingPushOn(false);
+                setIsPushOn(isPushOn)  // 푸시 알림 변경 후 ON/OFF 여부 설정
             }, 1500);
         })
     };
