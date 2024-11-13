@@ -145,7 +145,7 @@ const InitialScreen = (props: {
                         localStorage.setItem("hoppang-login-oauthType", res.data.oauthType); // 로그인 타입 설정
 
                         if (res.data.isSuccess && res.data.isTheFirstLogIn) {
-                            window.location.href = "/login/second?googlelogin=true&userEmail=" + res.data.userEmail
+                            window.location.href = "/login/first?googlelogin=true&userEmail=" + res.data.userEmail
                         }
                         setIsLoading(false);
 
