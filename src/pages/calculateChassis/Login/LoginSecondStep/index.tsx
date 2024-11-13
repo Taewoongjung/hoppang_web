@@ -42,8 +42,7 @@ const LoginSecondStep = () => {
 
     const signupFinally = () => {
         const userEmail = urlParams.get('userEmail');
-        // const userPhoneNumber = urlParams.get('phoneNumber');
-        const userPhoneNumber = '';
+        const userPhoneNumber = urlParams.get('phoneNumber');
 
         axios.put(callFinalSocialSignUp,
             {
