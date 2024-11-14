@@ -3,28 +3,21 @@ import '../styles.css';
 import axios from "axios";
 import {LeftOutlined} from "@ant-design/icons";
 import {appleLogin, googleLogin, kakaoLogin} from "../../../definition/apiPath";
-import KakaoLogin from "react-kakao-login";
 
 
 const Login = () => {
 
     const urlParams = new URLSearchParams(window.location.search);
 
-    const kakaoClientId = '980afe4dc9138b1da95d4d49b78699f7'
-    const kakaoOnSuccess = async (data: { response: { access_token: any; }; })=>{
-        console.log(data)
-        const idToken = data.response.access_token  // 엑세스 토큰 백엔드로 전달
-    }
-    const kakaoOnFailure = (error: any) => {
-        console.log(error);
-    };
-
     const handleKakaoLogin = () => {
-        return <KakaoLogin
-            token={kakaoClientId}
-            onSuccess={kakaoOnSuccess}
-            onFail={kakaoOnFailure}
-        />
+        const callLogin = async () => {
+            axios.get(kakaoLogin)
+                .then((res) => {
+                    window.location.href = res.data;
+                });
+        }
+
+        callLogin();
     };
 
     const handleAppleLogin = () => {
@@ -74,18 +67,13 @@ const Login = () => {
                 <div style={styles.buttonContainer}>
 
                     {/*카카오 로그인*/}
-                    {/*<button*/}
-                    {/*    onClick={handleKakaoLogin}*/}
-                    {/*    style={{*/}
-                    {/*        ...styles.button,*/}
-                    {/*        background: `url("/assets/kakao_login_large_wide.png") no-repeat center center`,*/}
-                    {/*        backgroundSize: 'cover'*/}
-                    {/*    }}*/}
-                    {/*/>*/}
-                    <KakaoLogin
-                        token={kakaoClientId}
-                        onSuccess={kakaoOnSuccess}
-                        onFail={kakaoOnFailure}
+                    <button
+                        onClick={handleKakaoLogin}
+                        style={{
+                            ...styles.button,
+                            background: `url("/assets/kakao_login_large_wide.png") no-repeat center center`,
+                            backgroundSize: 'cover'
+                        }}
                     />
 
                     {/*애플 로그인*/}
