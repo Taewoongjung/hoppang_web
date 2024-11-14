@@ -4,6 +4,13 @@ import axios from "axios";
 import {LeftOutlined} from "@ant-design/icons";
 import {appleLogin, googleLogin, kakaoLogin} from "../../../definition/apiPath";
 
+declare global {
+    interface Window {
+        ReactNativeWebView?: {
+            postMessage(message: string): void;
+        };
+    }
+}
 
 const Login = () => {
 
@@ -13,7 +20,16 @@ const Login = () => {
         const callLogin = async () => {
             axios.get(kakaoLogin)
                 .then((res) => {
-                    window.location.href = res.data;
+                    if (window.ReactNativeWebView) {
+                        // 리액트 네이티브 웹뷰 환경
+                        window.ReactNativeWebView.postMessage(JSON.stringify({
+                            type: 'KKOLoginRequest',
+                            data: res.data
+                        }));
+                    } else {
+                        // 일반 웹 브라우저 환경
+                        console.log('Not in React Native WebView');
+                    }
                 });
         }
 
