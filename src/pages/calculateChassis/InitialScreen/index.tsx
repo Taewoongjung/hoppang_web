@@ -70,19 +70,21 @@ const InitialScreen = (props: {
     useEffect(() => {
         if (oauthtype) {
             setIsLoading(true);
-            if (oauthtype === 'kko' && urlParams.get('code')) {
+            if (oauthtype === 'kko' && localStorage.getItem('kakaoTokenInfo')) {
                 // 카카오 로그인 성공 요청
-                axios.post(kakaoAuth + urlParams.get('code'),
+                axios.post(kakaoAuth,
                     {
                         // deviceId: '122333444555666',
                         deviceId: localStorage.getItem('deviceId'),
-                        deviceType: localStorage.getItem('deviceType')
+                        deviceType: localStorage.getItem('deviceType'),
+                        tokenInfo: localStorage.getItem('kakaoTokenInfo')
                     },
                     {withCredentials: true})
                     .then((res) => {
                         const token = res.headers['authorization'];
                         localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
                         localStorage.setItem("hoppang-login-oauthType", res.data.oauthType); // 로그인 타입 설정
+                        localStorage.setItem('kakaoTokenInfo', '');
 
                         if (res.data.isSuccess && res.data.isTheFirstLogIn) {
                             window.location.href = "/login/first?userEmail=" + res.data.userEmail
