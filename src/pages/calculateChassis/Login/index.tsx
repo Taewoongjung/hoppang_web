@@ -143,7 +143,6 @@ const Login = () => {
                     style={styles.logo}
                 />
 
-
                 <div style={styles.buttonContainer}>
 
                     {/*카카오 로그인*/}
@@ -151,8 +150,9 @@ const Login = () => {
                         onClick={handleKakaoLogin}
                         style={{
                             ...styles.button,
-                            background: `url("/assets/kakao_login_large_wide.png") no-repeat center center`,
-                            backgroundSize: 'cover'
+                            background: `url("/assets/kakao_login_large_narrow.png") no-repeat center center`,
+                            backgroundSize: 'cover',
+                            backgroundColor: 'yellow'
                         }}
                     />
 
