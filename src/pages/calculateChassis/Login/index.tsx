@@ -157,7 +157,7 @@ const Login = () => {
                         onClick={handleAppleLogin}
                         style={{
                             ...styles.button,
-                            background: `url("/assets/appleid_button@4x.png") no-repeat center center`,
+                            background: `url("/assets/appleid_button@2x.png") no-repeat center center`,
                             backgroundSize: 'cover',
                             backgroundColor: 'black',
                             marginTop: "-9px"
