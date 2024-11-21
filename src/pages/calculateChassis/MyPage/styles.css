@@ -86,3 +86,20 @@ ul {
 ul li {
     margin-top: 30px;
 }
+
+/* 반응형 디자인 적용 (모바일 최적화) */
+@media screen and (max-width : 800px) {
+
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .login-box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+        width: 80%;
+    }
+}

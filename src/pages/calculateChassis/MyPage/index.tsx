@@ -26,14 +26,14 @@ const useResponsiveStyles = () => {
             justifyContent: 'center',
             alignItems: 'center',
             backgroundColor: '#fff',
-            width: '100%',
+            width: isMobile? '80%' : '100%',
             height: '100vh',
         },
         box: {
             borderRadius: '15px',
             boxShadow: '0 6px 12px rgba(0, 0, 0, 0.1)',
             width: '100%',
-            maxWidth: isMobile ? '800px' :'1000px',
+            maxWidth: '700px',
             padding: '60px',
         }
     }
@@ -57,8 +57,8 @@ const MyPage = () => {
         }
     }, [userData]);
 
-    const styles = useResponsiveStyles();
 
+    const styles = useResponsiveStyles();
 
     return(
         <>
