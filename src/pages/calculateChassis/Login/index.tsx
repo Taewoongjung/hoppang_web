@@ -57,7 +57,7 @@ const useResponsiveStyles = () => {
             gap: isMobile ? '15px' : '20px',
         },
         button: {
-            width: isMobile ? 'calc(100% - 20px)' : '500px',
+            width: isMobile ? '100%' : '500px',
             height: '70px',
             border: 'none',
             padding: 0,
