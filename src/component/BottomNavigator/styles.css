@@ -44,17 +44,17 @@ nav a.active .nav-icon img {
 }
 
 /* 반응형 디자인 적용 (모바일 최적화) */
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 800px) {
     nav {
-        height: 80px; /* 모바일에서 네비게이션 바 높이 조정 */
+        height: 60px; /* 모바일에서 네비게이션 바 높이 조정 */
     }
 
     nav a {
-        font-size: 12px; /* 모바일에서 폰트 크기 줄임 */
+        font-size: 10px; /* 모바일에서 폰트 크기 줄임 */
         padding-top: 5px;
     }
 
     .nav-icon img {
-        width: 30px; /* 모바일에서 아이콘 크기 줄임 */
+        width: 20px; /* 모바일에서 아이콘 크기 줄임 */
     }
 }
