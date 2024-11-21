@@ -37,7 +37,7 @@ const useResponsiveStyles = () => {
             boxShadow: '0 6px 12px rgba(0, 0, 0, 0.1)',
             textAlign: 'center',
             width: '100%',
-            maxWidth: isMobile ? '100%' : '700px',
+            maxWidth: isMobile ? '500px' : '700px',
             padding: isMobile ? '30px' : '60px',
         },
         logo: {
