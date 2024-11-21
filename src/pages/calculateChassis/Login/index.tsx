@@ -37,15 +37,16 @@ const useResponsiveStyles = () => {
             boxShadow: '0 6px 12px rgba(0, 0, 0, 0.1)',
             textAlign: 'center',
             width: '100%',
-            maxWidth: isMobile ? '500px' : '700px',
-            padding: isMobile ? '30px' : '60px',
+            maxWidth: isMobile ? '550px' : '700px',
+            padding: isMobile ? '40px' : '60px',
+            height: isMobile ? '600px' : undefined
         },
         logo: {
-            width: isMobile ? '200px' : '280px',
-            marginBottom: isMobile ? '30px' : '60px',
+            width: isMobile ? '150px' : '280px',
+            marginBottom: isMobile ? '20px' : '60px',
         },
         subtitle: {
-            fontSize: isMobile ? '24px' : '30px',
+            fontSize: isMobile ? '15px' : '30px',
             color: '#666',
             marginBottom: isMobile ? '20px' : '40px',
         },
@@ -57,7 +58,7 @@ const useResponsiveStyles = () => {
             gap: isMobile ? '15px' : '20px',
         },
         button: {
-            width: isMobile ? '100%' : '500px',
+            width: isMobile ? 'calc(100% - 20px)' : '500px',
             height: '70px',
             border: 'none',
             padding: 0,
