@@ -21,7 +21,7 @@ const useResponsiveStyles = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    const isMobile = windowWidth <= 650;
+    const isMobile = windowWidth <= 800;
 
     const styles: { [key: string]: React.CSSProperties } = {
         container: {
