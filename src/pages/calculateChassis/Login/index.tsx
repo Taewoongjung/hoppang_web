@@ -54,18 +54,15 @@ const useResponsiveStyles = () => {
             alignItems: 'center',
             justifyContent: 'center',
             flexDirection: 'column',
-            gap: isMobile ? '10px' : '20px',
+            gap: isMobile ? '15px' : '20px',
         },
         button: {
-            width: isMobile ? 'calc(100% - 20px)' : '500px',
-            height: isMobile ? '50px' : '70px',
+            width: isMobile ? 'calc(100% - 250px)' : '500px',
+            height: '70px',
             border: 'none',
-            cursor: 'pointer',
             padding: 0,
             overflow: 'hidden',
             borderRadius: '10px',
-            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-            fontSize: isMobile ? '16px' : 'inherit',
         },
     };
 
