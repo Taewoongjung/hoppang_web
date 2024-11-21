@@ -26,7 +26,7 @@ const useResponsiveStyles = () => {
             justifyContent: 'center',
             alignItems: 'center',
             backgroundColor: '#fff',
-            width: isMobile? '80%' : '100%',
+            width: '100%',
             height: '100vh',
         },
         box: {
