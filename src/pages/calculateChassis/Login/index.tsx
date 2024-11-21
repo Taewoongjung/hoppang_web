@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import '../styles.css';
 import axios from "axios";
 import {LeftOutlined} from "@ant-design/icons";
@@ -12,9 +12,71 @@ declare global {
     }
 }
 
+const useResponsiveStyles = () => {
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => setWindowWidth(window.innerWidth);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    const isMobile = windowWidth <= 650;
+
+    const styles: { [key: string]: React.CSSProperties } = {
+        container: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#fff',
+            width: '100%',
+            height: '100vh',
+        },
+        box: {
+            borderRadius: '15px',
+            boxShadow: '0 6px 12px rgba(0, 0, 0, 0.1)',
+            textAlign: 'center',
+            width: '100%',
+            maxWidth: isMobile ? '100%' : '700px',
+            padding: isMobile ? '30px' : '60px',
+        },
+        logo: {
+            width: isMobile ? '200px' : '280px',
+            marginBottom: isMobile ? '30px' : '60px',
+        },
+        subtitle: {
+            fontSize: isMobile ? '24px' : '30px',
+            color: '#666',
+            marginBottom: isMobile ? '20px' : '40px',
+        },
+        buttonContainer: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            gap: isMobile ? '10px' : '20px',
+        },
+        button: {
+            width: isMobile ? 'calc(100% - 20px)' : '500px',
+            height: isMobile ? '50px' : '70px',
+            border: 'none',
+            cursor: 'pointer',
+            padding: 0,
+            overflow: 'hidden',
+            borderRadius: '10px',
+            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+            fontSize: isMobile ? '16px' : 'inherit',
+        },
+    };
+
+    return styles;
+};
+
+
 const Login = () => {
 
     const urlParams = new URLSearchParams(window.location.search);
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     const handleKakaoLogin = () => {
         const callLogin = async () => {
@@ -58,6 +120,8 @@ const Login = () => {
         callLogin();
     }
 
+
+    const styles = useResponsiveStyles();
 
     return (
         <div className="login-container" style={styles.container}>
@@ -118,51 +182,6 @@ const Login = () => {
             </div>
         </div>
     );
-};
-
-const styles: { [key: string]: React.CSSProperties } = {
-    container: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        width: '100%',
-        height: '100vh',
-    },
-    box: {
-        borderRadius: '15px',
-        boxShadow: '0 6px 12px rgba(0, 0, 0, 0.1)',
-        textAlign: 'center',
-        width: '100%',
-        maxWidth: '700px',
-        padding: '60px',
-    },
-    logo: {
-        width: '280px',
-        marginBottom: '60px',
-    },
-    subtitle: {
-        fontSize: '30px',
-        color: '#666',
-        marginBottom: '40px',
-    },
-    buttonContainer: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        gap: '20px',
-    },
-    button: {
-        width: '500px',
-        height: '70px',
-        border: 'none',
-        cursor: 'pointer',
-        padding: 0,
-        overflow: 'hidden',
-        borderRadius: '10px',
-        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-    },
-};
+}
 
 export default Login;
