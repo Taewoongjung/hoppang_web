@@ -44,7 +44,7 @@ nav a.active .nav-icon img {
 }
 
 /* 반응형 디자인 적용 (모바일 최적화) */
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 674px) {
     nav {
         height: 60px; /* 모바일에서 네비게이션 바 높이 조정 */
     }
