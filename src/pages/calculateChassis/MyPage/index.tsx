@@ -18,7 +18,7 @@ declare global {
 const useResponsiveStyles = () => {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-    const isMobile = windowWidth <= 674;
+    const isMobile = windowWidth <= 700;
 
     const styles: { [key: string]: React.CSSProperties } = {
         container: {
