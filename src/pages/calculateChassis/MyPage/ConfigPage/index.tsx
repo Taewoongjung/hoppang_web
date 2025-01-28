@@ -24,8 +24,8 @@ const ConfigPage = () => {
                 ></iframe>
             ),
             onOk() {},
-            okText: '확인', // 함수가 아니라 문자열로 설정
-            width: 800, // 모달의 넓이 설정
+            okText: '확인',
+            width: 800,
         });
     };
 

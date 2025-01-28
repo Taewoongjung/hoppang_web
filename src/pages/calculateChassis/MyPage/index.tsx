@@ -6,19 +6,9 @@ import { RightOutlined } from '@ant-design/icons';
 import useSWR from "swr";
 import {callMeData} from "../../../definition/apiPath";
 import fetcher from "../../../util/fetcher";
-
-declare global {
-    interface Window {
-        ReactNativeWebView?: {
-            postMessage(message: string): void;
-        };
-    }
-}
+import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
 
 const useResponsiveStyles = () => {
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-    const isMobile = windowWidth <= 700;
 
     const styles: { [key: string]: React.CSSProperties } = {
         container: {
@@ -47,13 +37,18 @@ const MyPage = () => {
         dedupingInterval: 2000
     });
 
+    const [loading, setLoading] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
+        setLoading(true);
+
         if (userData) {
             setIsLoggedIn(true);
+            setLoading(false);
         } else {
             setIsLoggedIn(false);
+            setLoading(false);
         }
     }, [userData]);
 
@@ -62,6 +57,8 @@ const MyPage = () => {
 
     return(
         <>
+            { loading && <OverlayLoadingPage/> }
+
             <div style={styles.container}>
                 <div style={styles.box}>
                     <body style={{marginTop: 40}}>
