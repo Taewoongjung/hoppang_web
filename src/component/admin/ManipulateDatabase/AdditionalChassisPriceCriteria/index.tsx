@@ -23,6 +23,7 @@ const AdditionalChassisPriceCriteria = () => {
         MaintenanceFee: undefined,
         FreightTransportFee: undefined,
         DeliveryFee: undefined,
+        IncrementRate: undefined,
         LadderCar2To6: undefined,
         LadderCar7To8: undefined,
         LadderCar9To10: undefined,
@@ -191,7 +192,7 @@ const AdditionalChassisPriceCriteria = () => {
                 <div>
                     <Descriptions
                         bordered
-                        title="철거비/최소 인건비/보양비/도수 운반비/배송비"
+                        title="철거비/최소 인건비/보양비/도수 운반비/배송비/원가대비 상승비율"
                         size="middle"
                         extra={
                             <>
@@ -207,6 +208,7 @@ const AdditionalChassisPriceCriteria = () => {
                         {renderFirstItem('보양비', 'MaintenanceFee')}
                         {renderFirstItem('도수 운반비', 'FreightTransportFee')}
                         {renderFirstItem('배송비', 'DeliveryFee')}
+                        {renderFirstItem('원가대비 상승비율', 'IncrementRate')}
                     </Descriptions>
 
                     <br />
