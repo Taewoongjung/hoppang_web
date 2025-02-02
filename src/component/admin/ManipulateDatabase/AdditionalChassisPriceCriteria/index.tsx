@@ -19,6 +19,8 @@ const AdditionalChassisPriceCriteria = () => {
     const [isSecondEditing, setIsSecondEditing] = useState(false); // 수정 모드 관리
     const [fees, setFees] = useState({
         DemolitionFee: undefined,
+        Demolition1To4Fee: undefined,
+        DemolitionOver5Fee: undefined,
         MinimumLaborFee: undefined,
         MaintenanceFee: undefined,
         FreightTransportFee: undefined,
@@ -88,7 +90,8 @@ const AdditionalChassisPriceCriteria = () => {
     const callReviseHandleForFirst = () => {
 
         const targetList = [
-            'DemolitionFee',
+            'Demolition1To4Fee',
+            'DemolitionOver5Fee',
             'MinimumLaborFee',
             'MaintenanceFee',
             'FreightTransportFee',
@@ -204,7 +207,8 @@ const AdditionalChassisPriceCriteria = () => {
                             </>
                         }
                     >
-                        {renderFirstItem('철거비', 'DemolitionFee')}
+                        {renderFirstItem('철거비 (1~4틀)', 'Demolition1To4Fee')}
+                        {renderFirstItem('철거비 (5틀 이상)', 'DemolitionOver5Fee')}
                         {renderFirstItem('최소 인건비', 'MinimumLaborFee')}
                         {renderFirstItem('보양비', 'MaintenanceFee')}
                         {renderFirstItem('도수 운반비', 'FreightTransportFee')}
