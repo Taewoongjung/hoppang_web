@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Collapse, Result, Table, TableColumnsType, Divider, Space, message} from 'antd';
+import {Button, Collapse, Result, Table, TableColumnsType, Divider, Space, message, Descriptions, Typography} from 'antd';
 import {
     addCommasToNumber,
     convertCompanyTypeKoToNormal,
@@ -444,7 +444,19 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                     dataSource={additionalTableData1}
                                     size="middle"
                                     style={{width:500}}
-                                    footer={() => `총 금액: ${wholePrice} + ${surtax} = ${totalPrice}`}
+                                    footer={() => (
+                                        <Descriptions bordered column={1} size="small">
+                                            <Descriptions.Item label="총 비용">
+                                                <Typography.Text strong>{wholePrice}</Typography.Text>
+                                            </Descriptions.Item>
+                                            <Descriptions.Item label="부가세">
+                                                <Typography.Text type="warning">{surtax}</Typography.Text>
+                                            </Descriptions.Item>
+                                            <Descriptions.Item label="총 합계">
+                                                <Typography.Text type="danger" strong>{totalPrice}</Typography.Text>
+                                            </Descriptions.Item>
+                                        </Descriptions>
+                                    )}
                                     pagination={false}
                                 />
                             </p>
@@ -498,7 +510,19 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                     dataSource={additionalTableData2}
                                                     size="middle"
                                                     style={{width: 500}}
-                                                    footer={() => `총 금액: ${wholePrice2} + ${surtax2} = ${totalPrice2}`}
+                                                    footer={() => (
+                                                        <Descriptions bordered column={1} size="small">
+                                                            <Descriptions.Item label="총 비용">
+                                                                <Typography.Text strong>{wholePrice2}</Typography.Text>
+                                                            </Descriptions.Item>
+                                                            <Descriptions.Item label="부가세">
+                                                                <Typography.Text type="warning">{surtax2}</Typography.Text>
+                                                            </Descriptions.Item>
+                                                            <Descriptions.Item label="총 합계">
+                                                                <Typography.Text type="danger" strong>{totalPrice2}</Typography.Text>
+                                                            </Descriptions.Item>
+                                                        </Descriptions>
+                                                    )}
                                                     pagination={false}
                                                 />
                                             </div>}
@@ -560,7 +584,19 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                     dataSource={additionalTableData3}
                                                     size="middle"
                                                     style={{width: 500}}
-                                                    footer={() => `총 금액: ${wholePrice3} + ${surtax3} = ${totalPrice3}`}
+                                                    footer={() => (
+                                                        <Descriptions bordered column={1} size="small">
+                                                            <Descriptions.Item label="총 비용">
+                                                                <Typography.Text strong>{wholePrice3}</Typography.Text>
+                                                            </Descriptions.Item>
+                                                            <Descriptions.Item label="부가세">
+                                                                <Typography.Text type="warning">{surtax3}</Typography.Text>
+                                                            </Descriptions.Item>
+                                                            <Descriptions.Item label="총 합계">
+                                                                <Typography.Text type="danger" strong>{totalPrice3}</Typography.Text>
+                                                            </Descriptions.Item>
+                                                        </Descriptions>
+                                                    )}
                                                     pagination={false}
                                                 />
                                             </div>}
