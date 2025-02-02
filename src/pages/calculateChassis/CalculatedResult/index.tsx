@@ -66,6 +66,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
     // 첫 번째 결과 변수
     const [materialTableData1, setMaterialTableData1] = useState<MaterialDataType[]>([]);
     const [additionalTableData1, setAdditionalTableData1] = useState<AdditionalDataType[]>([]);
+    const [surtax, setSurtax] = useState('');
     const [wholePrice, setWholePrice] = useState('');
     const [firstCalculatedCompanyType, setFirstCalculatedCompanyType] = useState('');
     const [estimationId, setEstimationId] = useState();
@@ -75,6 +76,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
     const [result2, setResult2] = useState<[]>();
     const [materialTableData2, setMaterialTableData2] = useState<MaterialDataType[]>([]);
     const [additionalTableData2, setAdditionalTableData2] = useState<AdditionalDataType[]>([]);
+    const [surtax2, setSurtax2] = useState('');
     const [wholePrice2, setWholePrice2] = useState('');
     const [estimationId2, setEstimationId2] = useState();
 
@@ -85,6 +87,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
     const [result3, setResult3] = useState<[]>();
     const [materialTableData3, setMaterialTableData3] = useState<MaterialDataType[]>([]);
     const [additionalTableData3, setAdditionalTableData3] = useState<AdditionalDataType[]>([]);
+    const [surtax3, setSurtax3] = useState('');
     const [wholePrice3, setWholePrice3] = useState('');
     const [estimationId3, setEstimationId3] = useState();
 
@@ -145,6 +148,9 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
         let wholePrice = result['wholeCalculatedFee'];
 
         // @ts-ignore
+        let surtax = result['surtax']; // 부가세
+
+        // @ts-ignore
         let demolitionFee = result['demolitionFee']; // 철거비
 
         // @ts-ignore
@@ -185,6 +191,9 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
         });
 
         setAdditionalTableData1(additionalDataTypes);
+
+        // @ts-ignore
+        setSurtax(addCommasToNumber(surtax));
 
         // @ts-ignore
         setWholePrice(addCommasToNumber(wholePrice));
@@ -232,6 +241,8 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
             setAdditionalTableData2(additionalDataTypes);
             // @ts-ignore
             setWholePrice2(addCommasToNumber(result2["wholeCalculatedFee"]));
+            // @ts-ignore
+            setSurtax2(addCommasToNumber(result2["surtax"]));
             setIsReEstimation2(false);
         };
 
@@ -280,6 +291,8 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
             setAdditionalTableData3(additionalDataTypes);
             // @ts-ignore
             setWholePrice3(addCommasToNumber(result3.wholeCalculatedFee));
+            // @ts-ignore
+            setSurtax3(addCommasToNumber(result3.surtax));
             setIsReEstimation3(false);
         };
 
@@ -421,7 +434,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                     dataSource={additionalTableData1}
                                     size="middle"
                                     style={{width:500}}
-                                    footer={() => `총 금액: ${wholePrice}`}
+                                    footer={() => `총 금액: ${wholePrice} + ${surtax} = ${wholePrice + surtax}`}
                                     pagination={false}
                                 />
                             </p>
@@ -475,7 +488,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                     dataSource={additionalTableData2}
                                                     size="middle"
                                                     style={{width: 500}}
-                                                    footer={() => `총 금액: ${wholePrice2}`}
+                                                    footer={() => `총 금액: ${wholePrice2} + ${surtax2} = ${wholePrice2 + surtax2}`}
                                                     pagination={false}
                                                 />
                                             </div>}
@@ -537,7 +550,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                     dataSource={additionalTableData3}
                                                     size="middle"
                                                     style={{width: 500}}
-                                                    footer={() => `총 금액: ${wholePrice3}`}
+                                                    footer={() => `총 금액: ${wholePrice3} + ${surtax3} = ${wholePrice3 + surtax3}`}
                                                     pagination={false}
                                                 />
                                             </div>}
