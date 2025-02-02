@@ -92,7 +92,8 @@ const AdditionalChassisPriceCriteria = () => {
             'MinimumLaborFee',
             'MaintenanceFee',
             'FreightTransportFee',
-            'DeliveryFee'
+            'DeliveryFee',
+            'IncrementRate'
         ]
 
         const reqReviseAdditionalChassisPriceList = filterTargetedCriteriaKeyList(targetList);
