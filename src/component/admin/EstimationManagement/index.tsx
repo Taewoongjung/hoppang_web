@@ -67,7 +67,7 @@ const EstimationManagement = () => {
 
     const urlParams = new URLSearchParams(window.location.search);
 
-    const [data, setData] = useState();
+    const [data, setData] = useState([]);
     const [countOfData, setCountOfData] = useState(0);
     const [expandedRowKeys, setExpandedRowKeys] = useState<React.Key[]>([]);
 
@@ -340,6 +340,7 @@ const EstimationManagement = () => {
                 </Card>
 
                 <Table
+                    key={data?.length}
                     columns={columns}
                     dataSource={data || []}
                     expandable={{
