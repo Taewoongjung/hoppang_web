@@ -14,8 +14,8 @@ export const googleRefreshAccessToken = `https://hoppang.store/api/google/refres
 export const callReviseUserConfiguration = `https://hoppang.store/api/users/{userId}/configs`;
 export const callUserConfigurationInfo = `https://hoppang.store/api/users/{userId}/configs`;
 export const callWithdrawUser = `https://hoppang.store/api/users/{userId}`;
-export const calculateChassisCall = `https://hoppang.store/api/chassis/calculations/prices`;
-export const callEstimateInquiry = `https://hoppang.store/api/chassis/estimations/{estimationId}/inquiries`;
+export const calculateChassisCall = `https://hoppang.store/api/customers/chassis/calculations/prices`;
+export const callEstimateInquiry = `https://hoppang.store/api/customers/chassis/estimations/{estimationId}/inquiries`;
 export const callEstimationHistories = `https://hoppang.store/api/customers/chassis`;
 
 // dev
@@ -34,6 +34,6 @@ export const callEstimationHistories = `https://hoppang.store/api/customers/chas
 // export const callReviseUserConfiguration = `http://localhost:7070/api/users/{userId}/configs`;
 // export const callUserConfigurationInfo = `http://localhost:7070/api/users/{userId}/configs`;
 // export const callWithdrawUser = `http://localhost:7070/api/users/{userId}`;
-// export const calculateChassisCall = `http://localhost:7070/api/chassis/calculations/prices`;
-// export const callEstimateInquiry = `http://localhost:7070/api/chassis/estimations/{estimationId}/inquiries`;
+// export const calculateChassisCall = `http://localhost:7070/api/customers/chassis/calculations/prices`;
+// export const callEstimateInquiry = `http://localhost:7070/api/customers/chassis/estimations/{estimationId}/inquiries`;
 // export const callEstimationHistories = `http://localhost:7070/api/customers/chassis`;

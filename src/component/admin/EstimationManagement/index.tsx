@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Button, DatePicker, Input, Space, Table, Card} from "antd";
 import moment from 'moment';
 import axios from "axios";
@@ -67,7 +67,7 @@ const EstimationManagement = () => {
 
     const urlParams = new URLSearchParams(window.location.search);
 
-    const [data, setData] = useState();
+    const [data, setData] = useState([]);
     const [countOfData, setCountOfData] = useState(0);
     const [expandedRowKeys, setExpandedRowKeys] = useState<React.Key[]>([]);
 
@@ -106,9 +106,8 @@ const EstimationManagement = () => {
                     ...item,
                     key: item.id // 각 항목에 고유한 key 추가
                 }));
-                console.log("[original] estimationList = ", res.data);
-                console.log("estimationList = ", estimationList)
-                setData(estimationList);
+                // @ts-ignore
+                setData([...estimationList]);
             })
             .catch(error => {
                 console.error('Error fetching data:', error);
@@ -206,10 +205,6 @@ const EstimationManagement = () => {
             setDateRange([moment(startDate), moment(endDate)]);
         }
 
-
-        // API 호출 또는 상태 업데이트
-        console.log('검색 파라미터:', {ids: estIdList, startDate, endDate});
-
         // 호출 파라메터 생성
         let requestParam = "?";
         if (!(estIdList.length === 1 && estIdList[0] === '')) {
@@ -233,10 +228,10 @@ const EstimationManagement = () => {
                         ...item,
                         key: item.id // 각 항목에 고유한 key 추가
                     }));
-
                     // @ts-ignore
                     setRequestParam(requestParam);
-                    setData(estimationList);
+                    // @ts-ignore
+                    setData([...estimationList]);
                     setExpandedRowKeys([]);
                 })
                 .catch(error => {
@@ -252,7 +247,6 @@ const EstimationManagement = () => {
             })
                 .then(res => {
                     const countOfEstimationList = res.data;
-                    // console.log("count = ", countOfEstimationList);
                     setCountOfData(countOfEstimationList);
                 })
                 .catch(error => {
@@ -294,7 +288,8 @@ const EstimationManagement = () => {
                 key: item.id
             }));
 
-            setData(estimationList);
+            // @ts-ignore
+            setData([...estimationList]);
 
             // 전체 데이터 수 업데이트
             const countResponse = await axios.get(findCountOfEstimationList + requestParam, {
@@ -345,8 +340,9 @@ const EstimationManagement = () => {
                 </Card>
 
                 <Table
+                    key={data?.length}
                     columns={columns}
-                    dataSource={data}
+                    dataSource={data || []}
                     expandable={{
                         expandedRowRender,
                         expandedRowKeys,
