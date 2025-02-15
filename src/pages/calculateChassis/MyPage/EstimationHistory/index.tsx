@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import {Card, List, Button, Typography} from "antd";
+import {Card, List, Button, Typography, Spin} from "antd";
 import {addCommasToNumber} from "../../../../util";
 import moment from "moment/moment";
 import useSWR from "swr";
@@ -28,23 +28,43 @@ const EstimationHistory = () => {
         dedupingInterval: 2000
     });
 
-    const [isDataExist, setIsDataExist] = useState(true);
-    const [data, setData] = useState<Estimation[] | undefined>(undefined);
+    const [data, setData] = useState<Estimation[]>([]);
+    const [lastEstimationId, setLastEstimationId] = useState<number | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isLastPage, setIsLastPage] = useState(false);
+    const observer = useRef<IntersectionObserver | null>(null);
 
     useEffect(() => {
-        axios.get(callEstimationHistories + "?size=5", {
-            withCredentials: true,
-            headers: {
-                Authorization: localStorage.getItem("hoppang-token"),
-            }
-        })
-            .then((res) => {
-                setData(mapEstimationHistories(res.data));
-            })
-            .catch((err) => {
-                setIsDataExist(false)
-            });
+        loadEstimationData(lastEstimationId);
     }, []);
+
+    const loadEstimationData = async (lastId: number | null) => {
+        if (isLoading || isLastPage) return;
+
+        setIsLoading(true);
+
+        try {
+            const lastEstimationIdParam = lastId ? `lastEstimationId=${lastId}` : "";
+            const res = await axios.get(`${callEstimationHistories}?size=2&${lastEstimationIdParam}`, {
+                withCredentials: true,
+                headers: {
+                    Authorization: localStorage.getItem("hoppang-token"),
+                }
+            });
+
+            if (res.data && res.data.estimationList.length > 0) {
+                setData((prevData) => [...prevData, ...mapEstimationHistories(res.data)]);
+
+                setLastEstimationId(res.data.lastEstimationId);
+            }
+
+            setIsLastPage(res.data.isLastPage);
+        } catch (err) {
+            console.error("Error fetching estimation histories:", err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     const mapEstimationHistories = (response: any): Estimation[] => {
         return response.estimationList.map((estimation: any) => ({
@@ -58,31 +78,68 @@ const EstimationHistory = () => {
 
     const clickBackButton = () => {
         window.location.href = "/mypage";
-    }
+    };
+
+    const lastElementRef = useCallback(
+        (node: HTMLDivElement | null) => {
+            if (isLoading || isLastPage) return;
+            if (observer.current) observer.current.disconnect();
+
+            observer.current = new IntersectionObserver(
+                (entries) => {
+                    if (entries[0].isIntersecting) {
+                        loadEstimationData(lastEstimationId);
+                    }
+                },
+                { threshold: 1 }
+            );
+
+            if (node) observer.current.observe(node);
+        },
+        [isLoading, isLastPage, lastEstimationId]
+    );
 
     return (
         <div style={{ padding: 20 }}>
-            <div onClick={clickBackButton} style={{color: "blue", marginRight: "80%", marginTop: '50px', marginBottom: '80px'}}>
-                <LeftOutlined/>
+            <div onClick={clickBackButton} style={{ color: "blue", marginRight: "80%", marginTop: '50px', marginBottom: '80px' }}>
+                <LeftOutlined />
             </div>
 
             <Title level={1} style={{ textAlign: "center" }}>견적 리스트</Title>
-            {isDataExist ? (
+            {data.length > 0 ? (
                 <List
                     grid={{ gutter: 16, column: 1 }}
                     dataSource={data}
-                    renderItem={(item) => (
-                        <List.Item>
-                            <Card style={{ borderRadius: 12, borderColor: "lightgrey" }}>
-                                <Title level={5}>{item.estimationId}</Title>
-                                <Text strong>회사 유형: </Text><Text>{item.companyType}</Text><br/>
-                                <Text strong>총 가격: </Text><Text>{addCommasToNumber(item.wholePrice)}</Text><br/>
-                                <Text strong>생성일: </Text><Text>{moment(item.estimatedAt).format('YYYY-MM-DD HH:mm:ss')}</Text>
-                                <hr/>
-                                <Text strong>주소: </Text><Text>{item.fullAddress}</Text><br/>
-                            </Card>
-                        </List.Item>
-                    )}
+                    renderItem={(item, index) => {
+                        if (index === data.length - 1) {
+                            return (
+                                <div ref={lastElementRef} key={item.estimationId}>
+                                    <List.Item>
+                                        <Card style={{ borderRadius: 12, borderColor: "lightgrey" }}>
+                                            <Title level={5}>{item.estimationId}</Title>
+                                            <Text strong>회사 유형: </Text><Text>{item.companyType}</Text><br/>
+                                            <Text strong>총 가격: </Text><Text>{addCommasToNumber(item.wholePrice)}</Text><br/>
+                                            <Text strong>생성일: </Text><Text>{moment(item.estimatedAt).format('YYYY-MM-DD HH:mm:ss')}</Text>
+                                            <hr/>
+                                            <Text strong>주소: </Text><Text>{item.fullAddress}</Text><br/>
+                                        </Card>
+                                    </List.Item>
+                                </div>
+                            );
+                        }
+                        return (
+                            <List.Item key={item.estimationId}>
+                                <Card style={{ borderRadius: 12, borderColor: "lightgrey" }}>
+                                    <Title level={5}>{item.estimationId}</Title>
+                                    <Text strong>회사 유형: </Text><Text>{item.companyType}</Text><br/>
+                                    <Text strong>총 가격: </Text><Text>{addCommasToNumber(item.wholePrice)}</Text><br/>
+                                    <Text strong>생성일: </Text><Text>{moment(item.estimatedAt).format('YYYY-MM-DD HH:mm:ss')}</Text>
+                                    <hr/>
+                                    <Text strong>주소: </Text><Text>{item.fullAddress}</Text><br/>
+                                </Card>
+                            </List.Item>
+                        );
+                    }}
                 />
             ) : (
                 <div style={{ textAlign: "center", padding: "50px 0" }}>
@@ -92,6 +149,12 @@ const EstimationHistory = () => {
                     <Button type="primary" style={{ marginTop: "20px" }} onClick={() => window.location.href = "/chassis/calculator"}>
                         견적 요청하기
                     </Button>
+                </div>
+            )}
+
+            {isLoading && (
+                <div style={{ textAlign: "center", padding: "20px 0" }}>
+                    <Spin />
                 </div>
             )}
         </div>
