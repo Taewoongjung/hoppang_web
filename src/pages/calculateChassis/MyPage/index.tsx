@@ -88,17 +88,24 @@ const MyPage = () => {
                             {userData &&
                                 <div className="login-box">
                                     <div className="login-text">
-                                        {userData.name} 님 안녕하세요.
+                                        <strong>{userData.name}</strong> 님 안녕하세요.
                                     </div>
                                 </div>
                             }
 
-                            {/*<section className="shopping-section">*/}
-                            {/*    <h3>창호</h3>*/}
-                            {/*    <ul>*/}
-                            {/*        <li>창호 고르는 팁</li>*/}
-                            {/*    </ul>*/}
-                            {/*</section>*/}
+                            {userData &&
+                                <section className="chassis-section">
+                                    <h3>창호</h3>
+                                    <ul>
+                                        <li onClick={() => {window.location.href = '/mypage/estiomation/histories';}}>
+                                            견적 이력
+                                        </li>
+                                        {/*<li>*/}
+                                        {/*    창호 고르는 팁*/}
+                                        {/*</li>*/}
+                                    </ul>
+                                </section>
+                            }
 
                             <Divider />
 

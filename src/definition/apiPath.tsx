@@ -1,5 +1,4 @@
 // prod
-export const calculateChassisCall = `https://hoppang.store/api/chassis/calculations/prices`;
 export const kakaoLogin = `https://hoppang.store/api/kakao/auth`;
 export const kakaoAuth = `https://hoppang.store/api/kakao/signup`;
 export const kakaoRefreshAccessToken = `https://hoppang.store/api/kakao/refresh`;
@@ -15,10 +14,11 @@ export const googleRefreshAccessToken = `https://hoppang.store/api/google/refres
 export const callReviseUserConfiguration = `https://hoppang.store/api/users/{userId}/configs`;
 export const callUserConfigurationInfo = `https://hoppang.store/api/users/{userId}/configs`;
 export const callWithdrawUser = `https://hoppang.store/api/users/{userId}`;
+export const calculateChassisCall = `https://hoppang.store/api/chassis/calculations/prices`;
 export const callEstimateInquiry = `https://hoppang.store/api/chassis/estimations/{estimationId}/inquiries`;
+export const callEstimationHistories = `https://hoppang.store/api/customers/chassis`;
 
 // dev
-// export const calculateChassisCall = `http://localhost:7070/api/chassis/calculations/prices`;
 // export const kakaoLogin = `http://localhost:7070/api/kakao/auth`;
 // export const kakaoAuth = `http://localhost:7070/api/kakao/signup`;
 // export const kakaoRefreshAccessToken = `http://localhost:7070/api/kakao/refresh`;
@@ -34,4 +34,6 @@ export const callEstimateInquiry = `https://hoppang.store/api/chassis/estimation
 // export const callReviseUserConfiguration = `http://localhost:7070/api/users/{userId}/configs`;
 // export const callUserConfigurationInfo = `http://localhost:7070/api/users/{userId}/configs`;
 // export const callWithdrawUser = `http://localhost:7070/api/users/{userId}`;
+// export const calculateChassisCall = `http://localhost:7070/api/chassis/calculations/prices`;
 // export const callEstimateInquiry = `http://localhost:7070/api/chassis/estimations/{estimationId}/inquiries`;
+// export const callEstimationHistories = `http://localhost:7070/api/customers/chassis`;

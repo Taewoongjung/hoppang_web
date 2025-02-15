@@ -9,6 +9,7 @@ const LoginFirstStepPage = loadable(() => import("../../pages/calculateChassis/L
 const LoginSecondStepPage = loadable(() => import("../../pages/calculateChassis/Login/LoginSecondStep"));
 const MyPageConfigPage  = loadable(() => import('../../pages/calculateChassis/MyPage/ConfigPage'));
 const MyPageAppConfigPage  = loadable(() => import('../../pages/calculateChassis/MyPage/ConfigPage/AppConfigPage'));
+const MyPageEstimationHistories = loadable(() => import('../../pages/calculateChassis/MyPage/EstimationHistory'));
 const DuplicatedSsoLoginErrorPage = loadable(() => import('../../pages/calculateChassis/Login/DuplicateLoginPage'));
 
 // 어드민
@@ -25,6 +26,7 @@ const App = () => {
 
             <Route path="/mypage/config/app" component={MyPageAppConfigPage} />
             <Route path="/mypage/config" component={MyPageConfigPage} />
+            <Route path="/mypage/estiomation/histories" component={MyPageEstimationHistories} />
             <Route path="/mypage" component={MyPage} />
 
             <Route path="/login/duplicate" component={DuplicatedSsoLoginErrorPage} />
