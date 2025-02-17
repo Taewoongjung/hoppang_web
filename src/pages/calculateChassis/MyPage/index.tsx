@@ -87,7 +87,7 @@ const MyPage = () => {
                             }
                             {userData &&
                                 <div className="login-text">
-                                    <strong>{userData.name}</strong> 님 안녕하세요.
+                                    <strong>{userData.name}</strong>
                                 </div>
                             }
 
