@@ -440,15 +440,15 @@ const CalculationScreen = () => {
                                     </Col>
                                 </div>
                             </Row>
-                            {/* 사업자 정보 푸터는 첫 화면만 나오게 */}
-                            {current === 0 &&
-                                <Divider/>
-                            }
-                            {current === 0 &&
-                                <footer className="footer">
-                                    인트로 정일윤 | 주소 : 울산광역시남구삼산로318번길12,2층(삼산동) | 사업자등록번호 : 175-24-00881
-                                </footer>
-                            }
+                            {/*/!* 사업자 정보 푸터는 첫 화면만 나오게 *!/*/}
+                            {/*{current === 0 &&*/}
+                            {/*    <Divider/>*/}
+                            {/*}*/}
+                            {/*{current === 0 &&*/}
+                            {/*    <footer className="footer">*/}
+                            {/*        인트로 정일윤 | 주소 : 울산광역시남구삼산로318번길12,2층(삼산동) | 사업자등록번호 : 175-24-00881*/}
+                            {/*    </footer>*/}
+                            {/*}*/}
                         </div>
                         {/*<aside className="banner">*/}
                         {/*    <p>광고 베너 칸</p>*/}
