@@ -86,10 +86,8 @@ const MyPage = () => {
                                 </div>
                             }
                             {userData &&
-                                <div className="login-box">
-                                    <div className="login-text">
-                                        <strong>{userData.name}</strong> 님 안녕하세요.
-                                    </div>
+                                <div className="login-text">
+                                    <strong>{userData.name}</strong> 님 안녕하세요.
                                 </div>
                             }
 
