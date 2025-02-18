@@ -70,14 +70,6 @@ const CalculatorSecondStep = (props: {
     };
 
     const handleAddress = (newAddress:any) => {
-        console.log("address = ", newAddress);
-        console.log("우편번호 = ", newAddress.zonecode);
-        console.log("시도 = ", newAddress.sido);
-        console.log("시군구 = ", newAddress.sigungu);
-        console.log("읍면동 = ", newAddress.bname);
-        console.log("bCode = ", newAddress.bcode);
-        console.log("apartment = ", newAddress.apartment);
-
         setAddress(newAddress.address); // input 창에 주소 표시 전용
         setAddressZoneCode(newAddress.zonecode); // 우편번호
         setAddressBuildingNum(newAddress.buildingCode); // 빌딩번호
@@ -102,31 +94,19 @@ const CalculatorSecondStep = (props: {
     ];
 
     const callCalculate = () => {
-        /* 테스트 기간일 때는 주소 입력은 스킵 */
-        // if (address == null) {
-        //     errorModal('주소를 입력해주세요');
-        //     return;
-        // }
-        // if (subAddress == null) {
-        //     errorModal('나머지 주소를 입력해주세요');
-        //     return;
-        // }
+
+        if (address == null) {
+            errorModal('주소를 입력해주세요');
+            return;
+        }
+        if (remainAddress == null) {
+            errorModal('나머지 주소를 입력해주세요');
+            return;
+        }
         if (floorCustomerLiving == null) {
             errorModal('공사 예정 층 수를 입력해주세요');
             return;
         }
-
-        console.log("address = ", address);
-        console.log("addressZoneCode = ", addressZoneCode);
-        console.log("addressBuildingNum = ", addressBuildingNum);
-        console.log("remainAddress = ", remainAddress);
-
-        console.log("registeredList = ", registeredList);
-        console.log("floor = ", floorCustomerLiving);
-        console.log("isScheduledForDemolition = ", isScheduledForDemolition);
-        console.log("isResident = ", isResident);
-        console.log("isApartment = ", isApartment);
-        console.log("isExpanded = ", isExpanded);
 
         const reqCalculateChassisPriceList = registeredList.map((item) => ({
             chassisType: item.chassisType,
@@ -191,14 +171,6 @@ const CalculatorSecondStep = (props: {
             });
     }
 
-    const allStatesReset = () => {
-        setAddress('');
-        setRemainAddress('');
-        setAddressZoneCode('');
-        setAddressBuildingNum('');
-        setCalculatedChassisPriceResult([]);
-    }
-
     const changeSubAddress = (subAddr:any) => {
         setRemainAddress(subAddr.target.value);
     }
@@ -213,11 +185,10 @@ const CalculatorSecondStep = (props: {
 
     const handleSetAddressSector = () => {
 
-        // 테스트 기간은 검증 안함 (이후에는 밑에 주석 해제 해야 한다)
-        // if (address !== '' && remainAddress !== '' && order === 1) {
-        //     setOrder(2);
-        //     setCurrent(3);
-        // }
+        if (address !== '' && remainAddress !== '' && order === 1) {
+            setOrder(2);
+            setCurrent(3);
+        }
 
         setOrder(2);
         setCurrent(3);
