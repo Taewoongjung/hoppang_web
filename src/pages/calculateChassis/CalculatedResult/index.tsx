@@ -1,5 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Collapse, Result, Table, TableColumnsType, Divider, Space, message, Descriptions, Typography} from 'antd';
+import {
+    Button,
+    Collapse,
+    Result,
+    Table,
+    TableColumnsType,
+    Divider,
+    Space,
+    message,
+    Descriptions,
+    Typography,
+    Modal
+} from 'antd';
 import {
     addCommasToNumber,
     convertCompanyTypeKoToNormal,
@@ -370,25 +382,30 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
             });
     }
 
-    const handleInquiry = (estimationId : any) => {
-        const callEstimateInquiryAPIRequest = callEstimateInquiry.replace('{estimationId}', estimationId);
+    const handleInquiry = (estimationId: any) => {
+        Modal.confirm({
+            title: '견적 문의 확인',
+            content: '해당 견적에 대한 문의를 진행하시겠습니까? 문의 후에는 철회가 어려울 수 있습니다.',
+            okText: '확인',
+            cancelText: '취소',
+            onOk: () => {
+                const callEstimateInquiryAPIRequest = callEstimateInquiry.replace('{estimationId}', estimationId);
 
-        axios.get(callEstimateInquiryAPIRequest,
-            {
-                withCredentials: true,
-                headers: {
-                    Authorization: localStorage.getItem("hoppang-token"),
-                }
-            },
-        ).then((res) => {
-            if (res.data === true) {
-                success("견적문의 성공");
+                axios.get(callEstimateInquiryAPIRequest, {
+                    withCredentials: true,
+                    headers: {
+                        Authorization: localStorage.getItem("hoppang-token"),
+                    }
+                }).then((res) => {
+                    if (res.data === true) {
+                        success("견적 문의가 성공적으로 접수되었습니다.");
+                    }
+                }).catch((err) => {
+                    errorModal("견적 문의를 잠시 후 다시 시도해주세요.");
+                });
             }
-        }).catch((err) => {
-            errorModal("견적 문의를 잠시후 다시 시도해주세요");
-        })
-
-    }
+        });
+    };
 
 
     return(
@@ -423,9 +440,13 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         ),
                         children:
                             <p>
-                                <Button type="primary" size="small"
-                                        style={{ width: '30%' }} ghost
-                                        onClick={() => handleInquiry(estimationId)}>
+                                <Button
+                                    type="primary"
+                                    size="small"
+                                    style={{ width: '30%' }}
+                                    ghost
+                                    onClick={() => handleInquiry(estimationId)}
+                                >
                                     해당 견적 문의하기
                                 </Button>
                                 <Divider orientation="left">재료값</Divider>
