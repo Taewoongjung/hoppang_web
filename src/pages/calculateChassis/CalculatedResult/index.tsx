@@ -385,7 +385,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
     const handleInquiry = (estimationId: any) => {
         Modal.confirm({
             title: '견적 문의 확인',
-            content: '해당 견적에 대한 문의를 진행하시겠습니까? 문의 후에는 철회가 어려울 수 있습니다.',
+            content: '해당 견적에 대한 문의를 진행하시겠습니까? 초기에 입력 하신 전화번호로 연락이 가도 괜찮으신가요?',
             okText: '확인',
             cancelText: '취소',
             onOk: () => {
