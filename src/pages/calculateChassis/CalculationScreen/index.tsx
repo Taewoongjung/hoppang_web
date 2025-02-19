@@ -135,36 +135,6 @@ const CalculationScreen = () => {
         setSecondStep(false);
     }
 
-    const [deviceId, setDeviceId] = useState<string>();
-    const [deviceType, setDeviceType] = useState<string>();
-
-    useEffect(() => {
-        const deviceIdFromLocal = localStorage.getItem('deviceId');
-        const deviceTypeFromLocal = localStorage.getItem('deviceType');
-
-        if (deviceIdFromLocal && deviceTypeFromLocal) {
-            setDeviceId(deviceIdFromLocal);
-            setDeviceType(deviceTypeFromLocal);
-        } else {
-            console.log('No deviceId found in localStorage');
-        }
-    }, [localStorage.getItem('deviceId')]);
-
-    const [isBlinking, setIsBlinking] = useState(false);
-    const [isRevising, setIsRevising] = useState(false);
-
-    const handleIconClick = () => {
-        setIsBlinking(true);
-        setIsRevising(true);
-        setTimeout(() => setIsBlinking(false), 500);
-    };
-
-    const handleChangeCompanyType = (target : any) => {
-        setCompany(target);
-        setIsRevising(false);
-    }
-
-
     // 최소/최대 입력값 검증
     const [isValidWidthMin, setIsValidWidthMin] = useState(true);
     const [isValidWidthMax, setIsValidWidthMax] = useState(true);
@@ -374,7 +344,17 @@ const CalculationScreen = () => {
                                                                 </Button>
 
                                                                 <Divider style={{ marginTop: '10%' }}>추가리스트</Divider>
-                                                                <div id="scrollableDiv" style={{ height: ContainerHeight, overflow: 'auto', width: 700, border: '1px solid grey' }}>
+                                                                <div id="scrollableDiv"
+                                                                     style={{
+                                                                         height: ContainerHeight,
+                                                                         overflow: 'auto',
+                                                                         maxWidth: 350,       // 최대 너비 지정
+                                                                         width: '100%',       // 나머지는 화면에 맞게
+                                                                         margin: '0 auto',    // 수평 중앙 정렬
+                                                                         border: '1px solid grey',
+                                                                         borderRadius: '5px'
+                                                                     }}
+                                                                >
                                                                     <List
                                                                         itemLayout={"horizontal"}
                                                                         dataSource={registeredList}
@@ -384,7 +364,8 @@ const CalculationScreen = () => {
                                                                                     title={getLabelOfChassisType(item.chassisType)}
                                                                                     description={
                                                                                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                                                                            <table>
+                                                                                            <table className="narrow-table">
+                                                                                                <tbody>
                                                                                                 <tr>
                                                                                                     <td>가로 :</td>
                                                                                                     <td>{item.width}</td>
@@ -393,6 +374,7 @@ const CalculationScreen = () => {
                                                                                                     <td>세로 :</td>
                                                                                                     <td>{item.height}</td>
                                                                                                 </tr>
+                                                                                                </tbody>
                                                                                             </table>
                                                                                         </div>
                                                                                     }
@@ -401,7 +383,6 @@ const CalculationScreen = () => {
                                                                                     style={{fontSize:18, color: 'red', marginRight: 10}}
                                                                                     onClick={(e) => {
                                                                                         e.stopPropagation(); // 이벤트 전파 중단
-                                                                                        console.log(`Deleting chassis with index: ${item.index}`); // 함수 호출 확인 로그
                                                                                         deleteRegisteredChassis(item.index);
                                                                                     }}
                                                                                 >

@@ -357,7 +357,6 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
             .then((response) => {
                 success("견적 성공");
 
-
                 if (additionalEstimationNumber === 2) {
                     setResult2(response.data);
                     setIsReEstimation2(true);

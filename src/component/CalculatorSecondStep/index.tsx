@@ -94,20 +94,6 @@ const CalculatorSecondStep = (props: {
     ];
 
     const callCalculate = () => {
-
-        if (address == null) {
-            errorModal('주소를 입력해주세요');
-            return;
-        }
-        if (remainAddress == null) {
-            errorModal('나머지 주소를 입력해주세요');
-            return;
-        }
-        if (floorCustomerLiving == null) {
-            errorModal('공사 예정 층 수를 입력해주세요');
-            return;
-        }
-
         const reqCalculateChassisPriceList = registeredList.map((item) => ({
             chassisType: item.chassisType,
             companyType: mappedValueByCompany(companyType),
@@ -184,6 +170,15 @@ const CalculatorSecondStep = (props: {
     }
 
     const handleSetAddressSector = () => {
+
+        if (!address) {
+            errorModal('주소를 입력해주세요');
+            return;
+        }
+        if (!remainAddress) {
+            errorModal('나머지 주소를 입력해주세요');
+            return;
+        }
 
         if (address !== '' && remainAddress !== '' && order === 1) {
             setOrder(2);

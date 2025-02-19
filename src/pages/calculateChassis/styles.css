@@ -168,4 +168,13 @@ input, .ant-input-number, .ant-select-selector {
         max-width: 100vw;
         box-sizing: border-box;
     }
+
+    .narrow-table {
+        border-spacing: 2px; /* 셀 사이 간격 */
+        table-layout: auto;  /* 기본값 */
+    }
+    .narrow-table td {
+        padding: 2px 4px;    /* 셀 내부 여백 */
+        vertical-align: middle;
+    }
 }
