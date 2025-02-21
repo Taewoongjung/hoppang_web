@@ -64,7 +64,7 @@ const MyPage = () => {
                     <body style={{marginTop: 40}}>
                         <header className="header">
                             <div className="icons">
-                                <h2>마이</h2>
+                                <h2><img src="/assets/hoppang-character32x32.png" alt="myPage Icon"/> 마이</h2>
                             </div>
                             <div className="settings-icon" onClick={() => {window.location.href = `/mypage/config?isLoggedIn=${isLoggedIn}`;}}>
                                 <img src="/assets/MyPage/config-icon.png" alt="Home" style={{width:23, height:23}}/>
@@ -94,17 +94,20 @@ const MyPage = () => {
                             }
 
                             {userData &&
-                                <section className="chassis-section">
-                                    <h3>창호</h3>
-                                    <ul>
-                                        <li onClick={() => {window.location.href = '/mypage/estiomation/histories';}}>
-                                            견적 이력
-                                        </li>
-                                        {/*<li>*/}
-                                        {/*    창호 고르는 팁*/}
-                                        {/*</li>*/}
-                                    </ul>
-                                </section>
+                                <>
+                                    <Divider />
+                                    <section className="chassis-section">
+                                        <h3>창호</h3>
+                                        <ul>
+                                            <li onClick={() => {window.location.href = '/mypage/estiomation/histories';}}>
+                                                견적 이력
+                                            </li>
+                                            {/*<li>*/}
+                                            {/*    창호 고르는 팁*/}
+                                            {/*</li>*/}
+                                        </ul>
+                                    </section>
+                                </>
                             }
 
                             <Divider />

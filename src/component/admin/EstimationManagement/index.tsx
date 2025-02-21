@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, DatePicker, Input, Space, Table, Card} from "antd";
 import moment from 'moment';
 import axios from "axios";
@@ -94,7 +94,7 @@ const EstimationManagement = () => {
         } else {
             requestParam = `?startTime=${defaultStartDate}&endTime=${defaultEndDate}`;
         }
-        
+
         axios.get(findEstimationList + requestParam, {
             withCredentials: true,
             headers: {
@@ -274,6 +274,10 @@ const EstimationManagement = () => {
     };
 
     const fetchData = async (page: number, pageSize: number) => {
+
+        if (!requestParam) {
+            return;
+        }
 
         try {
             const response = await axios.get(findEstimationList + requestParam, {
