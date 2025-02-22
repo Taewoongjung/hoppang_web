@@ -13,6 +13,7 @@ const VALIDATION_SENT_MESSAGE = (
 );
 const VALIDATION_PROPOSAL_MESSAGE = '확인을 눌러 인증을 진행해주세요.';
 const VALIDATION_ERROR_MESSAGE = '인증번호가 틀렸습니다. 다시 확인 해주세요.'
+const VALIDATION_NUMBER_SUCCESS_MESSAGE = '인증 요청을 해주세요.';
 
 const LoginFirstStep = () => {
 
@@ -21,6 +22,7 @@ const LoginFirstStep = () => {
     const [targetPhoneNumber, setTargetPhoneNumber] = useState('');
     const [feedback, setFeedback] = useState('');
     const [requestedValidation, setRequestedValidation] = useState(false);
+    const [feedbackForValidationNumber, setFeedbackForValidationNumber] = useState('');
 
     const [validationNumber, setValidationNumber] = useState('');
     const [timer, setTimer] = useState(180); // 3분 (180초) 타이머
@@ -31,9 +33,10 @@ const LoginFirstStep = () => {
     });
 
     const allReset = () => {
-        // setTargetPhoneNumber('');
+        setTargetPhoneNumber('');
         setFeedback('');
         setRequestedValidation(false);
+        setFeedbackForValidationNumber('');
         setValidationNumber('');
         setTimer(180);
     }
@@ -56,27 +59,37 @@ const LoginFirstStep = () => {
         }
     }, [requestedValidation, timer]);
 
+    const handleInputChange = (e: { target: { value: any; }; }) => {
+        const value = e.target.value;
+        validatePhoneNumber(value);
+        setTargetPhoneNumber(value);
+    };
+
     const validatePhoneNumber = (value: string) => {
+        if (!value) {
+            setFeedback('');
+            return;
+        }
+
         // 010으로 시작하는 11자리 숫자 체크
         const phoneRegex = /^010\d{8}$/;
 
         if (!value) {
             setFeedback('휴대폰 번호를 입력해 주세요.');
+            return;
         } else if (!/^\d+$/.test(value)) {
             setFeedback('숫자만 입력 가능합니다.');
+            return;
         } else if (value.length !== 11) {
             setFeedback('휴대폰 번호는 11자리여야 합니다.');
+            return;
         } else if (!phoneRegex.test(value)) {
             setFeedback('010으로 시작하는 11자리 번호를 입력해 주세요.');
+            return;
         } else {
             setFeedback('확인을 눌러 인증을 진행해주세요.');
+            return;
         }
-    };
-
-    const handleInputChange = (e: { target: { value: any; }; }) => {
-        const value = e.target.value;
-        setTargetPhoneNumber(value);
-        validatePhoneNumber(value);
     };
 
     // 휴대폰 검증하기 요청
@@ -108,7 +121,29 @@ const LoginFirstStep = () => {
 
     const handleValidationNumberChange = (e: { target: { value: any; }; }) => {
         const value = e.target.value;
+        validateValidationNumber(value);
         setValidationNumber(value);
+    };
+
+    const validateValidationNumber = (value: string) => {
+        if (!value) {
+            setFeedbackForValidationNumber('');
+            return;
+        }
+
+        if (!value) {
+            setFeedbackForValidationNumber('인증번호를 입력해 주세요.');
+            return;
+        } else if (value.length !== 6) {
+            setFeedbackForValidationNumber('인증번호는 6자리여야 합니다.');
+            return;
+        } else if (!/^\d+$/.test(value)) {
+            setFeedbackForValidationNumber('숫자만 입력 가능합니다.');
+            return;
+        } else {
+            setFeedbackForValidationNumber('인증 요청을 해주세요.');
+            return;
+        }
     };
 
     const clickValidationNumber = async () => {
@@ -136,11 +171,11 @@ const LoginFirstStep = () => {
             return <p style={{color: 'green'}}>{VALIDATION_SENT_MESSAGE}</p>;
         }
 
-        if (feedback === VALIDATION_PROPOSAL_MESSAGE) {
-            return <p style={{color: feedback === VALIDATION_PROPOSAL_MESSAGE ? 'green' : 'red'}}>{feedback}</p>;
-        } else {
-            return <h3>휴대폰 인증을 해주세요. (- 없이 입력 해주세요)</h3>;
-        }
+        return(<>
+                <h3>휴대폰 인증을 해주세요. (- 없이 입력 해주세요)</h3>
+                {feedback && <p style={{color: feedback === VALIDATION_PROPOSAL_MESSAGE ? 'green' : 'red'}}>{feedback}</p>}
+            </>
+        );
     }
 
     const renderTelValidationNumberRequestButton = () => {
@@ -167,6 +202,18 @@ const LoginFirstStep = () => {
         return <Button type="primary" style={styles.validationButton} onClick={clickValidationNumber}>인증</Button>;
     }
 
+    const renderValidationNumberFeedBackMessage = () => {
+        return (
+            <>
+                {feedbackForValidationNumber &&
+                    <p style={{color: feedbackForValidationNumber === VALIDATION_NUMBER_SUCCESS_MESSAGE ? 'green' : 'red'}}>
+                        {feedbackForValidationNumber}
+                    </p>
+                }
+            </>
+        );
+    }
+
 
     return (
         <div className="login-container" style={styles.container}>
@@ -185,32 +232,38 @@ const LoginFirstStep = () => {
                             value={targetPhoneNumber}
                             onChange={handleInputChange}
                             placeholder="01012345678"
+                            type="tel"
                             maxLength={11}
                         />
 
                         { renderTelValidationNumberRequestButton() }
                     </div>
                 </>
-                <br/>
-                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                    <Space.Compact>
-                        <Input
-                            style = {{
-                                ...styles.validationInput,
-                                borderColor: compErrMessage === VALIDATION_ERROR_MESSAGE ? 'red' : '',
-                            }}
-                            value = {validationNumber}
-                            onChange = {handleValidationNumberChange}
-                            placeholder = {compErrMessage ? compErrMessage : "인증번호 입력"}
-                        />
+                {requestedValidation &&
+                    <>
+                        <br/>
+                        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                            <Space.Compact>
+                                <Input
+                                    style = {{
+                                        ...styles.validationInput,
+                                        borderColor: compErrMessage === VALIDATION_ERROR_MESSAGE ? 'red' : '',
+                                    }}
+                                    value = {validationNumber}
+                                    onChange = {handleValidationNumberChange}
+                                    placeholder = {compErrMessage ? compErrMessage : "인증번호 입력"}
+                                />
 
-                        { renderTelValidationRequestButton() }
-                    </Space.Compact>
+                                { renderTelValidationRequestButton() }
+                            </Space.Compact>
 
-                    {requestedValidation &&
-                        <p style={{color: 'red', marginLeft: '10px'}}>{formatTime(timer)}</p>
-                    }
-                </div>
+                            {requestedValidation &&
+                                <p style={{color: 'red', marginLeft: '10px'}}>{formatTime(timer)}</p>
+                            }
+                        </div>
+                        { renderValidationNumberFeedBackMessage() }
+                    </>
+                }
             </div>
         </div>
     );
