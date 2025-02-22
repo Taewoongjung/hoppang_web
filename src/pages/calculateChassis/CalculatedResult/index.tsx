@@ -20,9 +20,11 @@ import {
 } from "../../../util";
 import {getLabelOfChassisType} from "../../../util";
 import axios from "axios";
-import {calculateChassisCall, callEstimateInquiry} from "../../../definition/apiPath";
+import {calculateChassisCall, callEstimateInquiry, callMeData} from "../../../definition/apiPath";
 import { CalculateResult } from 'src/definition/interfaces';
 import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
+import useSWR from "swr";
+import fetcher from "../../../util/fetcher";
 
 // 재료비
 interface MaterialDataType {
@@ -114,6 +116,10 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
     // 추가 견적인지 판단하는 변수
     const [isReEstimation2, setIsReEstimation2] = useState(false);
     const [isReEstimation3, setIsReEstimation3] = useState(false);
+
+    const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
+        dedupingInterval: 2000
+    });
 
 
     const onClickReCalculate = () => {

@@ -83,7 +83,6 @@ const CalculatorSecondStep = (props: {
         }
     };
 
-
     const handleOpenSearchAddrChange = (newOpen: boolean) => {
         setOpenSearchAddr(newOpen);
     };
@@ -94,6 +93,10 @@ const CalculatorSecondStep = (props: {
     ];
 
     const callCalculate = () => {
+        // @TODO 여기에, 해당 유저가 로그인 단계를 모두 거쳤는지 (전화번호 인증, 주소 입력, 푸시 여부 입력) 단계를 거쳤는지 확인 하기. (current 4.5 단계)
+        // @TODO 만약 안 거쳤으면, 해당 절차를 다 하고 온 뒤 current 5 단계로 넘어 가서 견적을 마친다.
+        // @TODO 유저가 모든 로그인 절차를 거쳤는지 판단하는 방법은 userData의 hasCompletedAuthentication로 한다.
+
         const reqCalculateChassisPriceList = registeredList.map((item) => ({
             chassisType: item.chassisType,
             companyType: mappedValueByCompany(companyType),

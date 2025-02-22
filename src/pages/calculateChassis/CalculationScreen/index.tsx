@@ -10,7 +10,7 @@ import {DeleteOutlined, RightOutlined} from "@ant-design/icons";
 import InitialScreen from '../InitialScreen';
 import BottomNavigator from "../../../component/BottomNavigator";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const CalculationScreen = () => {
 
@@ -42,7 +42,6 @@ const CalculationScreen = () => {
             content: successMsg,
         });
     };
-
 
     const errorModal = (errorMsg:string) => {
         messageApi.open({
