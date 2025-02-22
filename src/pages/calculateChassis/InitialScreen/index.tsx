@@ -110,7 +110,6 @@ const InitialScreen = (props: {
                     },
                     {withCredentials: true})
                     .then((res) => {
-                        console.log("소셜로그인 성공 = ", res.data);
 
                         const token = res.headers['authorization'];
                         localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장

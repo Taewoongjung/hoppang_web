@@ -15,6 +15,7 @@ const LoginSecondStep = () => {
     const [addressZoneCode, setAddressZoneCode] = useState("");
     const [remainAddress, setRemainAddress] = useState("");
     const [addressBuildingNum, setAddressBuildingNum] = useState("");
+    const [isRemainAddressBlank, setIsRemainAddressBlank] = useState(false);
 
     const [isPushAlarmOn, setIsPushAlarmOn] = useState(false);
 
@@ -33,10 +34,15 @@ const LoginSecondStep = () => {
 
     // 추가 주소 입력 시 처리 함수
     const handleRemainAddressChange = (e: any) => {
+        setIsRemainAddressBlank(false);
         setRemainAddress(e.target.value);
     };
 
     const completeAddress = () => {
+        if (!remainAddress) {
+            setIsRemainAddressBlank(true);
+            return;
+        }
         setIsAddressComplete(true);
     }
 
@@ -61,10 +67,7 @@ const LoginSecondStep = () => {
             }
         )
             .then((res) => {
-
-                console.log(res.data);
                 window.location.href = "/"
-
             })
             .catch((err) => {
                 if (err.response.data.errorCode === 1) {
@@ -109,13 +112,17 @@ const LoginSecondStep = () => {
                     ) : (
                         <>
                             <h2>선택한 주소</h2>
-                            <p>주소: {address}</p>
+                            <br/>
+                            <p>{address}</p>
                             <p>우편번호: {addressZoneCode}</p>
                             <Input
                                 placeholder="상세 주소를 입력해주세요"
                                 value={remainAddress}
                                 onChange={handleRemainAddressChange}
-                                style={styles.input}
+                                style={{
+                                    ...styles.input,
+                                    borderColor: isRemainAddressBlank ? 'red' : ''
+                                }}
                             />
 
                             <Button onClick={completeAddress} type="primary" style={styles.button}>확인</Button>
