@@ -11,7 +11,7 @@ const VALIDATION_SENT_MESSAGE = (
         문자가 안 오면 휴대폰번호 확인 후 재시도를 눌러주세요.
     </>
 );
-const VALIDATION_PROPOSAL_MESSAGE = '확인을 눌러 인증을 진행해주세요.';
+const VALIDATION_PROPOSAL_MESSAGE = '확인 버튼을 눌러 인증을 진행해 주세요.';
 const VALIDATION_ERROR_MESSAGE = '인증번호가 틀렸습니다. 다시 확인 해주세요.'
 const VALIDATION_NUMBER_SUCCESS_MESSAGE = '인증 요청을 해주세요.';
 
@@ -74,20 +74,17 @@ const LoginFirstStep = () => {
         // 010으로 시작하는 11자리 숫자 체크
         const phoneRegex = /^010\d{8}$/;
 
-        if (!value) {
-            setFeedback('휴대폰 번호를 입력해 주세요.');
-            return;
-        } else if (!/^\d+$/.test(value)) {
-            setFeedback('숫자만 입력 가능합니다.');
+        if (!/^\d+$/.test(value)) {
+            setFeedback('숫자만 입력할 수 있습니다.');
             return;
         } else if (value.length !== 11) {
-            setFeedback('휴대폰 번호는 11자리여야 합니다.');
+            setFeedback('휴대폰 번호는 11자리 숫자여야 합니다.');
             return;
         } else if (!phoneRegex.test(value)) {
-            setFeedback('010으로 시작하는 11자리 번호를 입력해 주세요.');
+            setFeedback('휴대폰 번호는 010으로 시작하는 11자리 숫자여야 합니다.');
             return;
         } else {
-            setFeedback('확인을 눌러 인증을 진행해주세요.');
+            setFeedback('확인 버튼을 눌러 인증을 진행해 주세요.');
             return;
         }
     };
@@ -138,10 +135,10 @@ const LoginFirstStep = () => {
             setFeedbackForValidationNumber('인증번호는 6자리여야 합니다.');
             return;
         } else if (!/^\d+$/.test(value)) {
-            setFeedbackForValidationNumber('숫자만 입력 가능합니다.');
+            setFeedbackForValidationNumber('숫자만 입력할 수 있습니다.');
             return;
         } else {
-            setFeedbackForValidationNumber('인증 요청을 해주세요.');
+            setFeedbackForValidationNumber('인증 버튼을 눌러 인증 요청을 진행해 주세요.');
             return;
         }
     };
