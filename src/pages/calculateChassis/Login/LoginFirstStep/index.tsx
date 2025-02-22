@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import {Input, Button, Space, Modal} from 'antd';
+import {Input, Button, Space} from 'antd';
 import axios from 'axios';
 import {callMeData, callVerifyPhoneNumber} from "../../../../definition/apiPath";
 import useSWR from "swr";
 import fetcher from "../../../../util/fetcher";
+
+const VALIDATION_SENT_MESSAGE = (
+    <>
+        문자로 인증번호를 보내드렸어요.<br/>
+        문자가 안 오면 휴대폰번호 확인 후 재시도를 눌러주세요.
+    </>
+);
+const VALIDATION_PROPOSAL_MESSAGE = '확인을 눌러 인증을 진행해주세요.';
+const VALIDATION_ERROR_MESSAGE = '인증번호가 틀렸습니다. 다시 확인 해주세요.'
 
 const LoginFirstStep = () => {
 
@@ -15,13 +24,14 @@ const LoginFirstStep = () => {
 
     const [validationNumber, setValidationNumber] = useState('');
     const [timer, setTimer] = useState(180); // 3분 (180초) 타이머
+    const [compErrMessage, setCompErrMessage] = useState('');
 
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
     });
 
     const allReset = () => {
-        setTargetPhoneNumber('');
+        // setTargetPhoneNumber('');
         setFeedback('');
         setRequestedValidation(false);
         setValidationNumber('');
@@ -59,7 +69,7 @@ const LoginFirstStep = () => {
         } else if (!phoneRegex.test(value)) {
             setFeedback('010으로 시작하는 11자리 번호를 입력해 주세요.');
         } else {
-            setFeedback('유효한 번호입니다.');
+            setFeedback('확인을 눌러 인증을 진행해주세요.');
         }
     };
 
@@ -109,8 +119,8 @@ const LoginFirstStep = () => {
                     window.location.href = "/login/second?phoneNumber=" + targetPhoneNumber +"&userEmail=" + urlParams.get("userEmail");
                 }
             }).catch((error) => {
-                showModal();
-                setCompErrMessage(error.response.data.errorMessage);
+                setValidationNumber('')
+                setCompErrMessage(VALIDATION_ERROR_MESSAGE);
             });
     }
 
@@ -121,76 +131,87 @@ const LoginFirstStep = () => {
         return `${minutes}:${secs < 10 ? `0${secs}` : secs}`;
     };
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [compErrMessage, setCompErrMessage] = useState('');
+    const renderTelValidationFeedBackMessage = () => {
+        if (requestedValidation) {
+            return <p style={{color: 'green'}}>{VALIDATION_SENT_MESSAGE}</p>;
+        }
 
-    const showModal = () => {
-        setIsModalOpen(true);
-    };
+        if (feedback === VALIDATION_PROPOSAL_MESSAGE) {
+            return <p style={{color: feedback === VALIDATION_PROPOSAL_MESSAGE ? 'green' : 'red'}}>{feedback}</p>;
+        } else {
+            return <h3>휴대폰 인증을 해주세요. (- 없이 입력 해주세요)</h3>;
+        }
+    }
 
-    const handleOk = () => {
-        setIsModalOpen(false);
-    };
+    const renderTelValidationNumberRequestButton = () => {
+
+        let buttonName = !requestedValidation ? '확인' : '재시도';
+
+        if (feedback !== VALIDATION_PROPOSAL_MESSAGE) {
+            return <Button type="primary" style={styles.validationRequestInputButton} disabled>
+                확인
+            </Button>;
+        }
+
+        return <Button type="primary" style={styles.validationRequestInputButton} onClick={clickVerifyPhoneNumber}>
+            {buttonName}
+        </Button>;
+    }
+
+    const renderTelValidationRequestButton = () => {
+
+        if (!validationNumber) {
+            return <Button type="primary" style={styles.validationButton} disabled>인증</Button>;
+        }
+
+        return <Button type="primary" style={styles.validationButton} onClick={clickValidationNumber}>인증</Button>;
+    }
 
 
     return (
         <div className="login-container" style={styles.container}>
             <div className="login-box" style={styles.box}>
+                <>
+                    {/* 피드백 메시지 */}
+                    {renderTelValidationFeedBackMessage()}
+                    <div>
+                        <Input
+                            style={{
+                                ...styles.validationRequestInput,
+                                borderColor: feedback === VALIDATION_PROPOSAL_MESSAGE ? 'green' : // 전화번호가 입력 되면 시작
+                                    !targetPhoneNumber ? '' : 'red',
+                            }}
 
-                {!requestedValidation && (
-                    <>
-                        <h3>휴대폰 인증을 해주세요. (- 없이 입력 해주세요)</h3>
-                        <div>
-                            <Input
-                                style={styles.input}
-                                value={targetPhoneNumber}
-                                onChange={handleInputChange}
-                                placeholder="01012345678"
-                                maxLength={11}
-                            />
+                            value={targetPhoneNumber}
+                            onChange={handleInputChange}
+                            placeholder="01012345678"
+                            maxLength={11}
+                        />
 
-                            {feedback === '유효한 번호입니다.' ?
-                                <Button type="primary" style={styles.button}
-                                        onClick={clickVerifyPhoneNumber}>확인</Button> :
-                                <Button type="primary" style={styles.button} disabled>확인</Button>
-                            }
-                        </div>
-
-                        {/* 피드백 메시지 */}
-                        {(!requestedValidation && feedback) &&
-                            <p style={{color: feedback === '유효한 번호입니다.' ? 'green' : 'red'}}>{feedback}</p>}
-                    </>
-                )}
-
-                {requestedValidation &&
-                    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                        <Space.Compact>
-                            <Input
-                                style={styles.input1}
-                                value={validationNumber}
-                                onChange={handleValidationNumberChange}
-                                placeholder="인증번호 입력"
-                            />
-                            <Button type="primary" style={styles.button1} onClick={clickValidationNumber}>인증</Button>
-                        </Space.Compact>
-
-                        <p style={{color: 'red', marginLeft: '10px'}}>{formatTime(timer)}</p>
+                        { renderTelValidationNumberRequestButton() }
                     </div>
-                }
-            </div>
+                </>
+                <br/>
+                <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <Space.Compact>
+                        <Input
+                            style = {{
+                                ...styles.validationInput,
+                                borderColor: compErrMessage === VALIDATION_ERROR_MESSAGE ? 'red' : '',
+                            }}
+                            value = {validationNumber}
+                            onChange = {handleValidationNumberChange}
+                            placeholder = {compErrMessage ? compErrMessage : "인증번호 입력"}
+                        />
 
-            <Modal open={isModalOpen}
-                   okText={"재시도"}
-                   onOk={handleOk}
-                   footer={[
-                       <Button key="submit" type="primary" onClick={handleOk}>
-                           재시도
-                       </Button>,
-                   ]}
-                   closeIcon={null}
-            >
-                <p>{compErrMessage}</p>
-            </Modal>
+                        { renderTelValidationRequestButton() }
+                    </Space.Compact>
+
+                    {requestedValidation &&
+                        <p style={{color: 'red', marginLeft: '10px'}}>{formatTime(timer)}</p>
+                    }
+                </div>
+            </div>
         </div>
     );
 };
@@ -212,7 +233,7 @@ const styles: { [key: string]: React.CSSProperties } = {
         maxWidth: '700px',
         padding: '60px',
     },
-    input: {
+    validationRequestInput: {
         fontSize: '20px',
         width: '300px',
         height: '70px',
@@ -222,25 +243,25 @@ const styles: { [key: string]: React.CSSProperties } = {
         borderRadius: '10px',
         transition: 'transform 0.2s ease, box-shadow 0.2s ease',
     },
-    input1: {
-        fontSize: '20px',
-        width: '300px',
-        height: '70px',
+    validationInput: {
+        fontSize: '15px',
+        width: '280px',
+        height: '50px',
         cursor: 'pointer',
         padding: 0,
         overflow: 'hidden',
         transition: 'transform 0.2s ease, box-shadow 0.2s ease',
     },
-    button: {
+    validationRequestInputButton: {
         fontSize: '20px',
         width: '80px',
         height: '70px',
         borderRadius: '10px',
         marginLeft: '5px'
     },
-    button1: {
+    validationButton: {
         fontSize: '20px',
-        height: '70px',
+        height: '50px',
     }
 };
 
