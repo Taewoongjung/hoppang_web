@@ -8,8 +8,8 @@ import {
     Title,
     Tooltip,
     Legend,
-    PointElement,
     LineElement,
+    PointElement,
     ChartData
 } from "chart.js";
 import {findAllRegisteredEstimationsCount, userStatistics} from "../../../../definition/Admin/apiPath";
@@ -24,8 +24,8 @@ ChartJS.register(
     Title,
     Tooltip,
     Legend,
+    LineElement,
     PointElement,
-    LineElement
 );
 
 const chartOptions = {
