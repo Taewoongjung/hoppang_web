@@ -122,8 +122,10 @@ const UserStatisticsVerticalBarChart = () => {
                         신규 가입자 현황
                     </Typography.Title>
                     <div style={{ marginTop: '5%' }}>
-                        {/* Buttons to select the interval */}
-                        <Row gutter={[16, 16]} justify="center" style={{ marginBottom: '20px' }}>
+
+                        <Bar data={chartData} options={chartOptions} />
+
+                        <Row gutter={[16, 16]} style={{ marginTop: '50px' }}>
                             <Col>
                                 <Button
                                     type={selectedInterval === 3 ? 'primary' : 'default'}
@@ -150,15 +152,13 @@ const UserStatisticsVerticalBarChart = () => {
                             </Col>
                             <Col>
                                 <Button
-                                    type={selectedInterval === 20 ? 'primary' : 'default'}
-                                    onClick={() => handleIntervalChange(20)}
+                                    type={selectedInterval === 28 ? 'primary' : 'default'}
+                                    onClick={() => handleIntervalChange(28)}
                                 >
-                                    20 일
+                                    28 일
                                 </Button>
                             </Col>
                         </Row>
-
-                        <Bar data={chartData} options={chartOptions} />
                     </div>
                 </Card>
             </Content>
