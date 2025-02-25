@@ -1,8 +1,9 @@
 import React from 'react';
 import {Layout, Card} from "antd";
 import TopNavigator from "../../../component/admin/TopNavigator";
-import UserStatisticsVerticalBarChart from "../../../component/admin/Statistics/UserStatisticsVerticalBarChart";
 import SumUpStatisticsTable from "../../../component/admin/Statistics/SumUpStatisticsTable";
+import UserAndEstimationStatisticsVerticalBarChart
+    from "../../../component/admin/Statistics/UserAndEstimationStatisticsVerticalBarChart";
 
 const { Content, Footer } = Layout;
 
@@ -22,7 +23,7 @@ const StatisticsMainScreen = () => {
                         </Card>
 
                         <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
-                            <UserStatisticsVerticalBarChart/>
+                            <UserAndEstimationStatisticsVerticalBarChart/>
                         </Card>
                     </div>
 

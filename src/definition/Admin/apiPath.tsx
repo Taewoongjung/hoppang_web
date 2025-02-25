@@ -12,6 +12,7 @@ export const findCountOfEstimationList = `https://hoppang.store/api/admin/chassi
 export const userStatistics = `https://hoppang.store/api/admin/users/statistics`;
 export const findAllProvidedEstimationsCount = `https://hoppang.store/api/admin/chassis/users/estimations/count`
 export const findAllUsersCount = `https://hoppang.store/api/admin/users/all/count`;
+export const findAllRegisteredEstimationsCount = `https://hoppang.store/api/admin/chassis/estimations/statistics`;
 
 // dev
 // export const loginAPI = `http://localhost:7070/api/login`;
@@ -27,3 +28,4 @@ export const findAllUsersCount = `https://hoppang.store/api/admin/users/all/coun
 // export const userStatistics = `http://localhost:7070/api/admin/users/statistics`;
 // export const findAllProvidedEstimationsCount = `http://localhost:7070/api/admin/chassis/users/estimations/count`
 // export const findAllUsersCount = `http://localhost:7070/api/admin/users/all/count`;
+// export const findAllRegisteredEstimationsCount = `http://localhost:7070/api/admin/chassis/estimations/statistics`;

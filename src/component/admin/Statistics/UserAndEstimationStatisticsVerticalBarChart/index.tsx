@@ -1,15 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import { Bar } from 'react-chartjs-2';
+import { Chart } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
+    BarElement,
     CategoryScale,
     LinearScale,
-    BarElement,
     Title,
     Tooltip,
-    Legend
-} from 'chart.js';
-import {userStatistics} from "../../../../definition/Admin/apiPath";
+    Legend,
+    PointElement,
+    LineElement,
+    ChartData
+} from "chart.js";
+import {findAllRegisteredEstimationsCount, userStatistics} from "../../../../definition/Admin/apiPath";
 import axios from 'axios';
 import {Layout, Typography, Card} from "antd";
 import {Row, Col, Button} from "antd";
@@ -20,7 +23,9 @@ ChartJS.register(
     BarElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    PointElement,
+    LineElement
 );
 
 const chartOptions = {
@@ -47,29 +52,39 @@ const chartOptions = {
 const { Content } = Layout;
 
 
-const UserStatisticsVerticalBarChart = () => {
+const UserAndEstimationStatisticsVerticalBarChart = () => {
 
     const [selectedInterval, setSelectedInterval] = useState<number>(3);
 
     const [labelList, setLabelList] = useState([]);
     const [registeredUserDataSetOfEachLabel, setRegisteredUserDataSetOfEachLabel] = useState([]);
     const [deletedUsersDataSetOfEachLabel, setDeletedUsersDataSetOfEachLabel] = useState([]);
+    const [estimatedChassisDataOfEachLabel, setEstimatedChassisDataOfEachLabel] = useState([]);
 
-
-    const chartData = {
-        labels: labelList, // X-axis labels
+    const chartData: ChartData<"bar" | "line", number[], string> = {
+        labels: labelList,
         datasets: [
             {
                 label: '가입자 수',
-                data: registeredUserDataSetOfEachLabel, // Y-axis data points
-                borderColor: 'rgba(75, 192, 192, 1)', // Bar border color
-                backgroundColor: 'rgba(75, 192, 192, 0.2)', // Bar fill color
+                type: 'bar' as const,
+                data: registeredUserDataSetOfEachLabel,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderWidth: 2
             },
             {
                 label: '탈퇴자 수',
+                type: 'bar' as const,
                 data: deletedUsersDataSetOfEachLabel,
                 borderColor: 'rgba(255, 99, 132, 1)',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                borderWidth: 2
+            },
+            {
+                label: '견적 등록 수',
+                type: 'line' as const,
+                data: estimatedChassisDataOfEachLabel,
+                borderColor: 'rgba(255, 165, 0, 1)',
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderWidth: 2
             }
@@ -80,7 +95,10 @@ const UserStatisticsVerticalBarChart = () => {
         // queryParams
         const searchPeriodType = 'DAILY';
 
-        axios.get(userStatistics + `?searchPeriodType=${searchPeriodType}&searchPeriodValue=${selectedInterval}`, {
+        const queryParam = `?searchPeriodType=${searchPeriodType}&searchPeriodValue=${selectedInterval}`
+
+        // 유저 통계 정보 조회
+        axios.get(userStatistics + queryParam, {
             withCredentials: true,
             headers: {
                 Authorization: localStorage.getItem("hoppang-admin-token") || '',
@@ -106,6 +124,26 @@ const UserStatisticsVerticalBarChart = () => {
         }).catch((err) => {
             console.error(err);
         });
+
+        // 견적 통계 정보 조회
+        axios.get(findAllRegisteredEstimationsCount + queryParam, {
+            withCredentials: true,
+            headers: {
+                Authorization: localStorage.getItem("hoppang-admin-token") || '',
+            },
+        }).then((res) => {
+            const estimatedChassisData = res.data.registeredChassisEstimationsStatisticsElementList;
+
+            // const estimatedChassisLabels = estimatedChassisData.map((item: any) => item.label);
+            const estimatedChassisDataOfEachLabel = estimatedChassisData.map((item: any) => item.count);
+
+            setEstimatedChassisDataOfEachLabel(estimatedChassisDataOfEachLabel);
+
+        }).catch((err) => {
+            console.error(err);
+        });
+
+
     }, [selectedInterval]);
 
     const handleIntervalChange = (days: number) => {
@@ -119,11 +157,11 @@ const UserStatisticsVerticalBarChart = () => {
             <Content style={{ padding: '0 0px' }}>
                 <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
                     <Typography.Title level={1} style={{ margin: 0 }}>
-                        신규 가입자 현황
+                        가입 및 탈퇴 현황 & 견적 등록 통계
                     </Typography.Title>
                     <div style={{ marginTop: '5%' }}>
 
-                        <Bar data={chartData} options={chartOptions} />
+                        <Chart type="bar" data={chartData} options={chartOptions} />
 
                         <Row gutter={[16, 16]} style={{ marginTop: '50px' }}>
                             <Col>
@@ -166,4 +204,4 @@ const UserStatisticsVerticalBarChart = () => {
     )
 }
 
-export default UserStatisticsVerticalBarChart;
+export default UserAndEstimationStatisticsVerticalBarChart;
