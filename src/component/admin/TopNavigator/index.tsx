@@ -7,17 +7,17 @@ import useSWR from "swr";
 const headerMenuItems = [
     {
         key: '1',
-        label: '샤시 가격 정보',
+        label: '💰 샤시 가격 정보',
         path: '/admin/essentials/info'
     },
     {
         key: '2',
-        label: '고객 견적 정보',
+        label: '🪟 고객 견적 정보',
         path: '/admin/essentials/estimates/info'
     },
     {
         key: '3',
-        label: '통계',
+        label: '📊 통계',
         path: '/admin/statistics'
     }
 ]
