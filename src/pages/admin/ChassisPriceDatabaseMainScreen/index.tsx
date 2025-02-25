@@ -2,8 +2,9 @@ import React from 'react';
 import {Layout} from "antd";
 import ManipulateDatabase from "../../../component/admin/ManipulateDatabase";
 import TopNavigator from "../../../component/admin/TopNavigator";
+import AdminFooter from "../../../component/admin/Footer";
 
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 
 const ChassisPriceDatabaseMainScreen = () => {
 
@@ -18,9 +19,7 @@ const ChassisPriceDatabaseMainScreen = () => {
                     <ManipulateDatabase/>
 
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>
-                    <strong>호빵</strong> ©{new Date().getFullYear()} Created by clan Jung
-                </Footer>
+                <AdminFooter/>
             </Layout>
         </>
     )

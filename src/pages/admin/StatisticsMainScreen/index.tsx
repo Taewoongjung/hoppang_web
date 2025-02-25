@@ -4,8 +4,9 @@ import TopNavigator from "../../../component/admin/TopNavigator";
 import SumUpStatisticsTable from "../../../component/admin/Statistics/SumUpStatisticsTable";
 import UserAndEstimationStatisticsVerticalBarChart
     from "../../../component/admin/Statistics/UserAndEstimationStatisticsVerticalBarChart";
+import AdminFooter from "../../../component/admin/Footer";
 
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 
 
 const StatisticsMainScreen = () => {
@@ -28,9 +29,7 @@ const StatisticsMainScreen = () => {
                     </div>
 
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>
-                    <strong>호빵</strong> ©{new Date().getFullYear()} Created by Jung
-                </Footer>
+                <AdminFooter/>
             </Layout>
         </>
     );

@@ -2,8 +2,9 @@ import React from 'react';
 import {Layout} from "antd";
 import EstimationManagement from "../../../component/admin/EstimationManagement";
 import TopNavigator from "../../../component/admin/TopNavigator";
+import AdminFooter from "../../../component/admin/Footer";
 
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 
 const EstimatedDatabaseMainScreen = () => {
 
@@ -19,9 +20,7 @@ const EstimatedDatabaseMainScreen = () => {
                     </div>
 
                 </Content>
-                <Footer style={{ textAlign: 'center' }}>
-                    <strong>호빵</strong> ©{new Date().getFullYear()} Created by clan Jung
-                </Footer>
+                <AdminFooter/>
             </Layout>
         </>
     )
