@@ -45,8 +45,6 @@ const defaultDataSource = {
 };
 
 
-const API_URL = process.env.REACT_APP_REQUEST_API_URL;
-
 const ManipulateDatabase = () => {
 
     const tabList = ['현대 L&C', 'LX 하우시스', 'KCC 글라스'];

@@ -14,8 +14,6 @@ const tailLayout = {
     wrapperCol: { offset: 8, span: 16 },
 };
 
-const API_URL = process.env.REACT_APP_REQUEST_API_URL;
-
 
 const LoginPage = () => {
 
@@ -39,12 +37,8 @@ const LoginPage = () => {
 
                 localStorage.setItem("hoppang-admin-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
 
-                // 로그인 성공 시 리다이렉트
-                // if (firstLogin === "true") {
-                //     window.location.href = '/management?firstLogin=true'; // 이 방법은 페이지를 새로고침하며 새로운 URL로 이동합니다.
-                // } else {
-                    window.location.href = '/admin/essentials/info'; // 이 방법은 페이지를 새로고침하며 새로운 URL로 이동합니다.
-                // }
+                window.location.href = '/admin/essentials/info'; // 이 방법은 페이지를 새로고침하며 새로운 URL로 이동합니다.
+
             })
             .catch((error) => {
                 if (error.response.status === 401) {

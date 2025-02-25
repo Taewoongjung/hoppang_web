@@ -9,6 +9,7 @@ export const reviseAdditionalChassisPriceCriteria = `https://hoppang.store/api/a
 export const findEstimationList = `https://hoppang.store/api/admin/chassis/estimations`;
 export const findCountOfEstimationList = `https://hoppang.store/api/admin/chassis/estimations/count`;
 
+export const userStatistics = `https://hoppang.store/api/admin/users/statistics`;
 
 // dev
 // export const loginAPI = `http://localhost:7070/api/login`;
@@ -20,3 +21,5 @@ export const findCountOfEstimationList = `https://hoppang.store/api/admin/chassi
 //
 // export const findEstimationList = `http://localhost:7070/api/admin/chassis/estimations`;
 // export const findCountOfEstimationList = `http://localhost:7070/api/admin/chassis/estimations/count`;
+//
+// export const userStatistics = `http://localhost:7070/api/admin/users/statistics`;
