@@ -52,7 +52,8 @@ const UserStatisticsVerticalBarChart = () => {
     const [selectedInterval, setSelectedInterval] = useState<number>(3);
 
     const [labelList, setLabelList] = useState([]);
-    const [dataSetOfEachLabel, setDataSetOfEachLabel] = useState([]);
+    const [registeredUserDataSetOfEachLabel, setRegisteredUserDataSetOfEachLabel] = useState([]);
+    const [deletedUsersDataSetOfEachLabel, setDeletedUsersDataSetOfEachLabel] = useState([]);
 
 
     const chartData = {
@@ -60,9 +61,16 @@ const UserStatisticsVerticalBarChart = () => {
         datasets: [
             {
                 label: '가입자 수',
-                data: dataSetOfEachLabel, // Y-axis data points
+                data: registeredUserDataSetOfEachLabel, // Y-axis data points
                 borderColor: 'rgba(75, 192, 192, 1)', // Bar border color
                 backgroundColor: 'rgba(75, 192, 192, 0.2)', // Bar fill color
+                borderWidth: 2
+            },
+            {
+                label: '탈퇴자 수',
+                data: deletedUsersDataSetOfEachLabel,
+                borderColor: 'rgba(255, 99, 132, 1)',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderWidth: 2
             }
         ]
@@ -78,13 +86,22 @@ const UserStatisticsVerticalBarChart = () => {
                 Authorization: localStorage.getItem("hoppang-admin-token") || '',
             },
         }).then((res) => {
-            const statisticsData = res.data.statisticsElements;
+            // *가입자 정보
+            const registeredUserData = res.data.registeredUsersStatisticsElementList;
 
-            const labels = statisticsData.map((item: any) => item.label);
-            const dataOfEachLabel = statisticsData.map((item: any) => item.count);
+            const registeredUserLabels = registeredUserData.map((item: any) => item.label);
+            const registeredUserDataOfEachLabel = registeredUserData.map((item: any) => item.count);
 
-            setLabelList(labels);
-            setDataSetOfEachLabel(dataOfEachLabel);
+            setRegisteredUserDataSetOfEachLabel(registeredUserDataOfEachLabel);
+
+            // *탈퇴자 정보
+            const deletedUserData = res.data.deletedUsersStatisticsElementList;
+            const deletedUserDataOfEachLabel = deletedUserData.map((item: any) => item.count);
+
+            setDeletedUsersDataSetOfEachLabel(deletedUserDataOfEachLabel);
+
+            // 공통
+            setLabelList(registeredUserLabels); // 어차피 registeredUserLabels, deletedUserLabels 둘 다 같아서 둘 중 하나 사용.
 
         }).catch((err) => {
             console.error(err);
