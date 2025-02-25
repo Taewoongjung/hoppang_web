@@ -10,6 +10,7 @@ import {
     Legend,
     LineElement,
     PointElement,
+    BarController,
     ChartData
 } from "chart.js";
 import {findAllRegisteredEstimationsCount, userStatistics} from "../../../../definition/Admin/apiPath";
@@ -26,6 +27,7 @@ ChartJS.register(
     Legend,
     LineElement,
     PointElement,
+    BarController
 );
 
 const chartOptions = {
