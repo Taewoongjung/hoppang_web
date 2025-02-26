@@ -424,7 +424,12 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                     title={`견적 완료`}
                     subTitle="받아본 견적은 상황에 따라 추가 금액이 붙을 수 있습니다. 참고 하시기 바랍니다."
                     extra={[
-                        <Button type="primary" key="console" onClick={onClickReCalculate}>
+                        <Button
+                            type="primary"
+                            key="console"
+                            onClick={onClickReCalculate}
+                            style={styles.button}
+                        >
                             다시 견적 받기
                         </Button>,
                     ]}
@@ -434,7 +439,8 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
                 <Collapse
                     size="large"
-                    style={{ width: 700 }}
+                    // style={{ width: 700 }}
+                    style={styles.collapse}
                     defaultActiveKey={['1']}
                     items={[{
                         key: '1',
@@ -641,5 +647,31 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
         </>
     )
 }
+
+const styles: { [key: string]: React.CSSProperties } = {
+    button: {
+        width: window.innerWidth > 768 ? '90%' : '40%',
+        maxWidth: '400px',
+        minWidth: '150px',
+        padding: '10px 0',
+        fontSize: '16px'
+    },
+    collapse: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: window.innerWidth > 768 ? '80%' : '100%',  // 화면 크기에 따라 너비 조정
+        textAlign: 'center',
+        boxSizing: 'border-box', // 넘침 방지
+    },
+    title: {
+        margin: 0,
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        maxWidth: '100%'
+    }
+};
+
 
 export default CalculatedResult;
