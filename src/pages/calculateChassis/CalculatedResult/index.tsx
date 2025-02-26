@@ -10,7 +10,8 @@ import {
     message,
     Descriptions,
     Typography,
-    Modal
+    Modal,
+    Flex
 } from 'antd';
 import {
     addCommasToNumber,
@@ -502,7 +503,15 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
                 <br/>
 
-                <Space direction="horizontal" style={{ width:'100%' }}>
+                <Flex
+                    style={{
+                        width: '100%',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: window.innerWidth <= 768 ? 'column' : 'row', // 작은 화면에서는 세로 정렬
+                        gap: '10px'
+                    }}
+                >
                     <Collapse
                         size={result2 ? "large" : "small"}
                         // style={result2 ? { width: 700 } : { width: 580 }}
@@ -573,15 +582,23 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                             onClick={() => callCalculate(convertCompanyTypeKoToNormal(yetCalculatedCompanyList?.[0]), 2)}>
                         견적받기
                     </Button>}
-                </Space>
+                </Flex>
 
                 <br/>
 
-                <Space direction="horizontal" style={{ width:'100%' }}>
+                <Flex
+                    style={{
+                        width: '100%',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flexDirection: window.innerWidth <= 768 ? 'column' : 'row', // 작은 화면에서는 세로 정렬
+                        gap: '10px'
+                    }}
+                >
                     <Collapse
                         size={result3 ? "large" : "small"}
                         // style={result3 ? { width: 700, marginTop:'2%' } : { width: 580 }}
-                        style={{...collapseStyle, marginTop:'2%'}}
+                        style={collapseStyle}
                         collapsible={result3 ? "header" : "disabled"}
                         items={[
                             {
@@ -649,7 +666,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                             견적받기
                         </Button>
                     }
-                </Space>
+                </Flex>
             </div>
         </>
     )
