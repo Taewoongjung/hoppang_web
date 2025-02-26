@@ -203,7 +203,19 @@ const InitialScreen = (props: {
                         <tr>
                             <td colSpan={2}>
                                 <div style={{ marginTop: '7%' }}>
-                                    <Button onClick={handleGetStarted} size={"small"}> 창호 견적 시작하기</Button>
+                                    <Button
+                                        onClick={handleGetStarted}
+                                        size={"small"}
+                                        style={{
+                                            width: window.innerWidth > 768 ? '90%' : '55%',
+                                            maxWidth: '400px',
+                                            minWidth: '150px',
+                                            padding: '10px 0',
+                                            fontSize: '16px'
+                                        }}
+                                    >
+                                        창호 견적 시작하기
+                                    </Button>
                                 </div>
                             </td>
                         </tr>
