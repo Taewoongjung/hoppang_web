@@ -523,7 +523,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         <Collapse
                             size={result2 ? "large" : "small"}
                             style={{
-                                width: window.innerWidth > 768 ? '80%' : '100%',
+                                width: window.innerWidth > 768 ? '100%' : '80%',
                                 maxWidth: '95vw', // 화면 넘침 방지
                                 margin: 'auto'
                             }}
@@ -641,7 +641,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                             size={result3 ? "large" : "small"}
                             style={{
                                 // width: window.innerWidth > 768 ? '80%' : '100%',
-                                width: '100%',
+                                width: window.innerWidth > 768 ? '100%' : '80%',
                                 maxWidth: '95vw', // 화면 넘침 방지
                                 margin: 'auto'
                             }}
