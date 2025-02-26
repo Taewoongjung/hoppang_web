@@ -596,10 +596,14 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         justifyContent: 'center',
                         alignItems: 'center',
                         flexDirection: 'row', // 작은 화면에서는 세로 정렬
-                        gap: '1px'
+                        gap: result3 ? '2px' : '10px'
                     }}
                 >
-                    <div style={{ flex: 1, maxWidth: result3 ? 'calc(50% - 5px)' : '50%' }}>
+                    <div style={{
+                        flex: result3 ? 1 : 'unset',
+                        maxWidth: result3 ? 'calc(50% - 1px)' : '30%',
+                        transition: 'max-width 0.3s ease' // 애니메이션 효과 추가
+                    }}>
                         <Collapse
                             size={result3 ? "large" : "small"}
                             // style={result3 ? { width: 700, marginTop:'2%' } : { width: 580 }}
@@ -668,9 +672,20 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         />
                     </div>
                     {!result3 &&
-                        <div style={{ flex: 1, maxWidth: 'calc(50% - 5px)', display: 'flex', justifyContent: 'center' }}>
+                        <div style={{
+                            flex: 1,
+                            maxWidth: 'calc(50% - 1px)',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            transition: 'max-width 0.3s ease'
+                        }}>
                             <Button
-                                style={{ width: '100%', maxWidth: '200px', minWidth: '120px', fontSize: '16px' }}
+                                style={{
+                                    width: '100%',
+                                    maxWidth: '200px',
+                                    minWidth: '120px',
+                                    fontSize: '16px'
+                                }}
                                 type="primary"
                                 onClick={() => callCalculate(convertCompanyTypeKoToNormal(yetCalculatedCompanyList?.[1]), 3)}
                             >
