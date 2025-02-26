@@ -513,9 +513,9 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                     }}
                 >
                     <div style={{
-                        flex: 6,
-                        flexBasis: '60%',  // 기본 크기를 60%로 설정
-                        maxWidth: 'calc(60vw - 10px)',  // 화면 너비의 60%를 기준으로 설정 (10px은 gap 고려)
+                        flex: 8,
+                        flexBasis: '80%',  // 기본 크기를 60%로 설정
+                        maxWidth: 'calc(80vw - 10px)',  // 화면 너비의 60%를 기준으로 설정 (10px은 gap 고려)
                         minWidth: '300px',
                         display: 'flex',
                         justifyContent: 'center',
@@ -595,10 +595,10 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
                     {!result2 &&
                         <div style={{
-                            flex: 4,
-                            flexBasis: '40%',  // 기본 크기를 40%로 설정
-                            maxWidth: 'calc(40vw - 10px)',  // 화면 너비의 40%를 기준으로 설정
-                            minWidth: '150px',
+                            flex: 2,
+                            flexBasis: '20%',  // 기본 크기를 40%로 설정
+                            maxWidth: 'calc(20vw - 10px)',  // 화면 너비의 40%를 기준으로 설정
+                            minWidth: '100px',
                             display: 'flex',
                             justifyContent: 'center',
                             transition: 'max-width 0.3s ease'
