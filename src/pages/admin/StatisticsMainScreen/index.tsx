@@ -5,6 +5,8 @@ import SumUpStatisticsTable from "../../../component/admin/Statistics/SumUpStati
 import UserAndEstimationStatisticsVerticalBarChart
     from "../../../component/admin/Statistics/UserAndEstimationStatisticsVerticalBarChart";
 import AdminFooter from "../../../component/admin/Footer";
+import EstimationByStateStatisticsPieChart
+    from "../../../component/admin/Statistics/EstimationByStateStatisticsPieChart";
 
 const { Content } = Layout;
 
@@ -25,6 +27,10 @@ const StatisticsMainScreen = () => {
 
                         <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
                             <UserAndEstimationStatisticsVerticalBarChart/>
+                        </Card>
+
+                        <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
+                            <EstimationByStateStatisticsPieChart/>
                         </Card>
                     </div>
 
