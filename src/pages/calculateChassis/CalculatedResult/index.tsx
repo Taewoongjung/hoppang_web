@@ -602,7 +602,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                     {/* Collapse 컨테이너 */}
                     <div style={{
                         flex: 6,
-                        maxWidth: result3 ? '60%' : '60%',
+                        maxWidth: result3 ? '60%' : '40%',
                         transition: 'max-width 0.3s ease' // 애니메이션 효과 추가
                     }}>
                         <Collapse
