@@ -514,7 +514,9 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 >
                     <div style={{
                         flex: 6,
-                        maxWidth: '60%',
+                        flexBasis: '60%',  // 기본 크기를 60%로 설정
+                        maxWidth: 'calc(60vw - 10px)',  // 화면 너비의 60%를 기준으로 설정 (10px은 gap 고려)
+                        minWidth: '300px',
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
@@ -594,7 +596,9 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                     {!result2 &&
                         <div style={{
                             flex: 4,
-                            maxWidth: '40%',
+                            flexBasis: '40%',  // 기본 크기를 40%로 설정
+                            maxWidth: 'calc(40vw - 10px)',  // 화면 너비의 40%를 기준으로 설정
+                            minWidth: '150px',
                             display: 'flex',
                             justifyContent: 'center',
                             transition: 'max-width 0.3s ease'
