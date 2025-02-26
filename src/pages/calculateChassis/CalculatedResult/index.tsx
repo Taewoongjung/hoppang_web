@@ -412,6 +412,12 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
         });
     };
 
+    const collapseStyle = {
+        width: window.innerWidth > 768 ? '700px' : '100%',  // 넓은 화면에서는 700px, 작은 화면에서는 100%
+        maxWidth: '95vw',  // 화면 넘침 방지
+        margin: 'auto'  // 중앙 정렬
+    };
+
 
     return(
         <>
@@ -439,8 +445,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
                 <Collapse
                     size="large"
-                    // style={{ width: 700 }}
-                    style={styles.collapse}
+                    style={collapseStyle}
                     defaultActiveKey={['1']}
                     items={[{
                         key: '1',
@@ -500,7 +505,8 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 <Space direction="horizontal" style={{ width:'100%' }}>
                     <Collapse
                         size={result2 ? "large" : "small"}
-                        style={result2 ? { width: 700 } : { width: 580 }}
+                        // style={result2 ? { width: 700 } : { width: 580 }}
+                        style={collapseStyle}
                         collapsible={result2 ? "header" : "disabled"}
                         items={[
                             {
@@ -574,7 +580,8 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 <Space direction="horizontal" style={{ width:'100%' }}>
                     <Collapse
                         size={result3 ? "large" : "small"}
-                        style={result3 ? { width: 700, marginTop:'2%' } : { width: 580 }}
+                        // style={result3 ? { width: 700, marginTop:'2%' } : { width: 580 }}
+                        style={{...collapseStyle, marginTop:'2%'}}
                         collapsible={result3 ? "header" : "disabled"}
                         items={[
                             {
