@@ -509,7 +509,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         justifyContent: 'center',
                         alignItems: 'center',
                         flexDirection: 'row', // 항상 가로 정렬 유지
-                        gap: '6px'
+                        gap: '2px'
                     }}
                 >
                     <div style={{
@@ -628,14 +628,15 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         justifyContent: 'center',
                         alignItems: 'center',
                         flexDirection: 'row', // 항상 가로 정렬 유지
-                        gap: '6px'
+                        gap: '2px'
                     }}
                 >
                     {/* Collapse 컨테이너 */}
                     <div style={{
-                        flex: 6,
-                        // maxWidth: result3 ? '50%' : '25%',
-                        maxWidth: '60%',
+                        flex: 8,
+                        flexBasis: '80%',  // 기본 크기를 60%로 설정
+                        maxWidth: result3 ? '100%' : 'calc(80vw - 10px)',  // 화면 너비의 60%를 기준으로 설정 (10px은 gap 고려)
+                        minWidth: '300px',
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
@@ -716,8 +717,10 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                     {/* "견적받기" 버튼 (result3가 없을 때만 표시) */}
                     {!result3 && (
                         <div style={{
-                            flex: 4,
-                            maxWidth: '40%',
+                            flex: 1,
+                            flexBasis: '10%',  // 기본 크기를 40%로 설정
+                            maxWidth: 'calc(10vw - 10px)',  // 화면 너비의 40%를 기준으로 설정
+                            minWidth: '100px',
                             display: 'flex',
                             justifyContent: 'center',
                             transition: 'max-width 0.3s ease'
