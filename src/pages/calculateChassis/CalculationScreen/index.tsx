@@ -204,30 +204,30 @@ const CalculationScreen = () => {
                                         {(!secondStep && companyType !== '선택안함') &&
                                             <>
                                                 {/*상황 진척도*/}
-                                                <div style={{width: "700px"}}>
-                                                    <Steps
-                                                        current={current}
-                                                        size="small"
-                                                        items={[
-                                                            {
-                                                                title: '회사선택',
-                                                                description: companyType
-                                                            },
-                                                            {
-                                                                title: '창호 입력',
-                                                            },
-                                                            {
-                                                                title: '주소 입력',
-                                                            },
-                                                            {
-                                                                title: '기타 사항 입력',
-                                                            },
-                                                            {
-                                                                title: '계산시작',
-                                                            },
-                                                        ]}
-                                                    />
-                                                </div>
+                                                {/*<div style={{width: "700px"}}>*/}
+                                                {/*    <Steps*/}
+                                                {/*        current={current}*/}
+                                                {/*        size="small"*/}
+                                                {/*        items={[*/}
+                                                {/*            {*/}
+                                                {/*                title: '회사선택',*/}
+                                                {/*                description: companyType*/}
+                                                {/*            },*/}
+                                                {/*            {*/}
+                                                {/*                title: '창호 입력',*/}
+                                                {/*            },*/}
+                                                {/*            {*/}
+                                                {/*                title: '주소 입력',*/}
+                                                {/*            },*/}
+                                                {/*            {*/}
+                                                {/*                title: '기타 사항 입력',*/}
+                                                {/*            },*/}
+                                                {/*            {*/}
+                                                {/*                title: '계산시작',*/}
+                                                {/*            },*/}
+                                                {/*        ]}*/}
+                                                {/*    />*/}
+                                                {/*</div>*/}
                                                 <table style={{width: "700px"}}>
                                                     <tbody>
                                                         {/*<tr>*/}

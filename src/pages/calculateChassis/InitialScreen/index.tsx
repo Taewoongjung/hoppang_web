@@ -43,7 +43,7 @@ const InitialScreen = (props: {
     }
 
     const handleNotificationAgree = () => {
-        checkIfLoggedIn(); // 로그인 했는지 확인하기
+        // checkIfLoggedIn(); // 로그인 했는지 확인하기
         setGetStarted(!getStarted);
         setIsAgreed(!isAgreed);
         setOpenNotification(!openNotification);
@@ -289,25 +289,62 @@ const InitialScreen = (props: {
                             <tbody>
                                 <tr>
                                     <td colSpan={2}>
-                                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: "50%" }}>
-                                            <div style={{ color: 'red', fontSize: 16 }}>*</div>
-                                            <Title level={2}>
+                                        <div style={{
+                                            position: 'relative',
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            width: '100%',
+                                            padding: '0 10px'
+                                        }}>
+                                            <Title
+                                                level={2}
+                                                style={{
+                                                    margin: 0,
+                                                    whiteSpace: 'nowrap',
+                                                    overflow: 'hidden',
+                                                    textOverflow: 'ellipsis',
+                                                    position: 'relative'
+                                                }}
+                                            >
                                                 창호 회사 선택
                                             </Title>
                                         </div>
-                                        <Divider  style={{  borderColor: '#a4a3a3', marginTop: '-10px' }}/>
+                                        <Divider
+                                            style={{
+                                                borderColor: '#a4a3a3',
+                                                width: '100%',
+                                                margin: '10px auto'
+                                            }}
+                                        />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td colSpan={2}>
-                                        <div style={styles.container}>
+                                        <div style={{
+                                            display: 'flex',
+                                            flexDirection: window.innerWidth < 600 ? 'column' : 'row', // 화면 크기에 따라 가로/세로 변경
+                                            gap: '10px',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            flexWrap: 'wrap',
+                                            marginBottom: '10%'
+                                        }}>
                                             {companyTypeOptionsString.map((option, index) => (
                                                 <div
                                                     key={index}
                                                     onClick={() => handleSelect(option)}
                                                     style={{
-                                                        ...styles.box,
+                                                        width: '150px',
+                                                        height: '50px',
+                                                        display: 'flex',
+                                                        justifyContent: 'center',
+                                                        alignItems: 'center',
+                                                        border: '2px solid',
                                                         borderColor: selectedOption === option ? 'green' : '#ccc',
+                                                        borderRadius: '8px',
+                                                        cursor: 'pointer',
+                                                        transition: 'border-color 0.3s ease',
                                                         position: 'relative',
                                                     }}
                                                 >
