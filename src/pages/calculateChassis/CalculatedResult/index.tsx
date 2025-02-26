@@ -509,12 +509,15 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         justifyContent: 'center',
                         alignItems: 'center',
                         flexDirection: 'row', // 항상 가로 정렬 유지
-                        gap: '3px'
+                        gap: '6px'
                     }}
                 >
                     <div style={{
                         flex: 6,
-                        maxWidth: result2 ? '50%' : '25%',
+                        maxWidth: '60%',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                         transition: 'max-width 0.3s ease' // 애니메이션 효과 추가
                     }}>
                         <Collapse
@@ -590,8 +593,8 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
                     {!result2 &&
                         <div style={{
-                            flex: 3,
-                            maxWidth: '20%',
+                            flex: 4,
+                            maxWidth: '40%',
                             display: 'flex',
                             justifyContent: 'center',
                             transition: 'max-width 0.3s ease'
@@ -621,19 +624,24 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         justifyContent: 'center',
                         alignItems: 'center',
                         flexDirection: 'row', // 항상 가로 정렬 유지
-                        gap: '3px'
+                        gap: '6px'
                     }}
                 >
                     {/* Collapse 컨테이너 */}
                     <div style={{
                         flex: 6,
-                        maxWidth: result3 ? '50%' : '25%',
+                        // maxWidth: result3 ? '50%' : '25%',
+                        maxWidth: '60%',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                         transition: 'max-width 0.3s ease' // 애니메이션 효과 추가
                     }}>
                         <Collapse
                             size={result3 ? "large" : "small"}
                             style={{
-                                width: window.innerWidth > 768 ? '80%' : '100%',
+                                // width: window.innerWidth > 768 ? '80%' : '100%',
+                                width: '100%',
                                 maxWidth: '95vw', // 화면 넘침 방지
                                 margin: 'auto'
                             }}
@@ -704,8 +712,8 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                     {/* "견적받기" 버튼 (result3가 없을 때만 표시) */}
                     {!result3 && (
                         <div style={{
-                            flex: 3,
-                            maxWidth: '20%',
+                            flex: 4,
+                            maxWidth: '40%',
                             display: 'flex',
                             justifyContent: 'center',
                             transition: 'max-width 0.3s ease'
