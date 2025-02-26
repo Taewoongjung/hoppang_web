@@ -460,7 +460,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                 <Button
                                     type="primary"
                                     size="small"
-                                    style={{ width: '30%' }}
+                                    style={{ width: '100%', maxWidth: '200px', marginBottom: '10px' }}
                                     ghost
                                     onClick={() => handleInquiry(estimationId)}
                                 >
@@ -508,7 +508,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         width: '100%',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        flexDirection: window.innerWidth <= 768 ? 'column' : 'row', // 작은 화면에서는 세로 정렬
+                        flexDirection: 'row', // 작은 화면에서는 세로 정렬
                         gap: '10px'
                     }}
                 >
@@ -536,7 +536,8 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                             <div>
                                                 {secondCalculatedCompanyType !== '' && (
                                                     <Button type="primary" size="small"
-                                                            style={{ width: '30%' }} ghost
+                                                            style={{ width: '100%', maxWidth: '200px', marginBottom: '10px' }}
+                                                            ghost
                                                             onClick={() => handleInquiry(estimationId2)}>
                                                         해당 견적 문의하기
                                                     </Button>
@@ -577,11 +578,14 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                             },
                         ]}
                     />
-                    {!result2 &&
-                    <Button style={{ width: 80 }} type="primary"
-                            onClick={() => callCalculate(convertCompanyTypeKoToNormal(yetCalculatedCompanyList?.[0]), 2)}>
-                        견적받기
-                    </Button>}
+
+                    <div style={{ flex: 1, maxWidth: '50%', display: 'flex', justifyContent: 'center' }}>
+                        {!result2 &&
+                        <Button style={{ width: 80 }} type="primary"
+                                onClick={() => callCalculate(convertCompanyTypeKoToNormal(yetCalculatedCompanyList?.[0]), 2)}>
+                            견적받기
+                        </Button>}
+                    </div>
                 </Flex>
 
                 <br/>
@@ -591,7 +595,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         width: '100%',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        flexDirection: window.innerWidth <= 768 ? 'column' : 'row', // 작은 화면에서는 세로 정렬
+                        flexDirection: 'row', // 작은 화면에서는 세로 정렬
                         gap: '10px'
                     }}
                 >
@@ -619,7 +623,8 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                             <div>
                                                 {thirdCalculatedCompanyType !== '' && (
                                                     <Button type="primary" size="small"
-                                                            style={{ width: '30%' }} ghost
+                                                            style={{ width: '100%', maxWidth: '200px', marginBottom: '10px' }}
+                                                            ghost
                                                             onClick={() => handleInquiry(estimationId3)}>
                                                         해당 견적 문의하기
                                                     </Button>
@@ -660,12 +665,14 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                             },
                         ]}
                     />
-                    {!result3 &&
-                        <Button style={{ width: 80 }} type="primary"
-                                onClick={() => callCalculate(convertCompanyTypeKoToNormal(yetCalculatedCompanyList?.[1]), 3)}>
-                            견적받기
-                        </Button>
-                    }
+                    <div style={{ flex: 1, maxWidth: '50%', display: 'flex', justifyContent: 'center' }}>
+                        {!result3 &&
+                            <Button style={{ width: 80 }} type="primary"
+                                    onClick={() => callCalculate(convertCompanyTypeKoToNormal(yetCalculatedCompanyList?.[1]), 3)}>
+                                견적받기
+                            </Button>
+                        }
+                    </div>
                 </Flex>
             </div>
         </>
