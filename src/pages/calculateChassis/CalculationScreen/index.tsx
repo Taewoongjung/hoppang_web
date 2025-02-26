@@ -302,6 +302,8 @@ const CalculationScreen = () => {
                                                                              status={widthStatus}
                                                                              onChange={setWidth}
                                                                              onBlur={handleBlurWidth}
+                                                                             inputMode="numeric"
+                                                                             pattern="\d*"
                                                                 />
                                                                 {!isValidWidthMax && <div className="caution">입력 값이 너무 큽니다. 최대값은 5000mm 입니다.</div>}
                                                                 {!isValidWidthMin && <div className="caution">입력 값이 너무 작습니다. 최소값은 300mm 입니다.</div>}
@@ -325,6 +327,8 @@ const CalculationScreen = () => {
                                                                              status={heightStatus}
                                                                              onChange={setHeight}
                                                                              onBlur={handleBlurHeight}
+                                                                             inputMode="numeric"
+                                                                             pattern="\d*"
                                                                 />
                                                                 {!isValidHeightMax && <div className="caution">입력 값이 너무 큽니다. 최대값은 2600mm 입니다.</div>}
                                                                 {!isValidHeightMin && <div className="caution">입력 값이 너무 작습니다. 최소값은 300mm 입니다.</div>}
@@ -396,8 +400,21 @@ const CalculationScreen = () => {
                                                         <tr>
                                                             <td colSpan={2}>
                                                                 {registeredList.length > 0 &&
-                                                                    <div >
-                                                                        <Button type={'primary'} size={'large'} onClick={CompleteOnFirstScreen}>확정<RightOutlined /></Button>
+                                                                    <div>
+                                                                        <Button
+                                                                            type="primary"
+                                                                            size="large"
+                                                                            onClick={CompleteOnFirstScreen}
+                                                                            style={{
+                                                                                width: window.innerWidth > 768 ? '90%' : '40%',      // 화면 크기에 따라 유동적으로 조절
+                                                                                maxWidth: '400px',  // 버튼이 너무 길어지지 않도록 최대 너비 지정
+                                                                                minWidth: '150px',  // 너무 작아지지 않도록 최소 너비 지정
+                                                                                padding: '10px 0',   // 버튼 안 텍스트가 적절하게 정렬되도록 설정
+                                                                                fontSize: '16px'
+                                                                            }}
+                                                                        >
+                                                                            확정 <RightOutlined />
+                                                                        </Button>
                                                                     </div>
                                                                 }
                                                             </td>

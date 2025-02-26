@@ -217,6 +217,10 @@ const CalculatorSecondStep = (props: {
         }
     }
 
+    const estimateWindowSize = () => {
+        return window.innerWidth > 768;
+    }
+
 
     return (
         <>
@@ -267,13 +271,29 @@ const CalculatorSecondStep = (props: {
                                 <>
                                     <tr>
                                         <td colSpan={2}>
-                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: "50%" }}>
-                                                <div style={{ color: 'red', fontSize: 16 }}>*</div>
-                                                <Title level={2}>
+                                            <div style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                width: estimateWindowSize() ? '80%' : '100%',  // 화면 크기에 따라 너비 조정
+                                                textAlign: 'center',
+                                                padding: estimateWindowSize() ? '0 5%' : '0 2%',  // 좌우 여백 조정
+                                                boxSizing: 'border-box', // 넘침 방지
+                                            }}>
+                                                <Title
+                                                    level={2}
+                                                    style={{
+                                                        margin: 0,
+                                                        whiteSpace: 'nowrap',
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis',
+                                                        maxWidth: '100%' // 넘치지 않도록 설정
+                                                    }}
+                                                >
                                                     주소 입력
                                                 </Title>
                                             </div>
-                                            <Divider  style={{  borderColor: '#a4a3a3', marginTop: '-10px' }}/>
+                                            <Divider  style={{  borderColor: '#a4a3a3' }}/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -338,7 +358,18 @@ const CalculatorSecondStep = (props: {
                                                 </Col>
                                             </Form>
                                             {order < 6 &&
-                                                <Button onClick={handleSetAddressSector}>입력</Button>
+                                                <Button
+                                                    onClick={handleSetAddressSector}
+                                                    style={{
+                                                        width: estimateWindowSize() ? '90%' : '40%',
+                                                        maxWidth: '400px',
+                                                        minWidth: '150px',
+                                                        padding: '10px 0',
+                                                        fontSize: '16px'
+                                                    }}
+                                                >
+                                                    입력
+                                                </Button>
                                             }
                                         </td>
                                     </tr>
@@ -348,13 +379,29 @@ const CalculatorSecondStep = (props: {
                                 <>
                                     <tr>
                                         <td colSpan={2}>
-                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: "50%" }}>
-                                                <div style={{ color: 'red', fontSize: 16 }}>*</div>
-                                                <Title level={2}>
+                                            <div style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                width: estimateWindowSize() ? '80%' : '100%',  // 화면 크기에 따라 너비 조정
+                                                textAlign: 'center',
+                                                padding: estimateWindowSize() ? '0 5%' : '0 2%',  // 좌우 여백 조정
+                                                boxSizing: 'border-box', // 넘침 방지
+                                            }}>
+                                                <Title
+                                                    level={2}
+                                                    style={{
+                                                        margin: 0,
+                                                        whiteSpace: 'nowrap',
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis',
+                                                        maxWidth: '100%' // 넘치지 않도록 설정
+                                                    }}
+                                                >
                                                     확장 여부
                                                 </Title>
                                             </div>
-                                            <Divider  style={{  borderColor: '#a4a3a3', marginTop: '-10px' }}/>
+                                            <Divider  style={{  borderColor: '#a4a3a3' }}/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -368,7 +415,18 @@ const CalculatorSecondStep = (props: {
                                         </td>
                                     </tr>
                                     {order < 6 &&
-                                        <Button onClick={completeSetIsExpanded} style={{marginTop: 40}}>입력</Button>
+                                        <Button
+                                            onClick={completeSetIsExpanded}
+                                            style={{
+                                                width: estimateWindowSize() ? '90%' : '40%',
+                                                maxWidth: '400px',
+                                                minWidth: '150px',
+                                                padding: '10px 0',
+                                                fontSize: '16px'
+                                            }}
+                                        >
+                                            입력
+                                        </Button>
                                     }
                                 </>
                             }
@@ -377,13 +435,29 @@ const CalculatorSecondStep = (props: {
                                 <>
                                     <tr>
                                         <td colSpan={2}>
-                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: "50%" }}>
-                                                <div style={{ color: 'red', fontSize: 16 }}>*</div>
-                                                <Title level={2}>
+                                            <div style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                width: estimateWindowSize() ? '80%' : '100%',  // 화면 크기에 따라 너비 조정
+                                                textAlign: 'center',
+                                                padding: estimateWindowSize() ? '0 5%' : '0 2%',  // 좌우 여백 조정
+                                                boxSizing: 'border-box', // 넘침 방지
+                                            }}>
+                                                <Title
+                                                    level={2}
+                                                    style={{
+                                                        margin: 0,
+                                                        whiteSpace: 'nowrap',
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis',
+                                                        maxWidth: '100%' // 넘치지 않도록 설정
+                                                    }}
+                                                >
                                                     공사 예정 층 수
                                                 </Title>
                                             </div>
-                                            <Divider  style={{  borderColor: '#a4a3a3', marginTop: '-10px' }}/>
+                                            <Divider  style={{  borderColor: '#a4a3a3' }}/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -392,6 +466,8 @@ const CalculatorSecondStep = (props: {
                                                          addonAfter="층"
                                                          min={0}
                                                          onChange={handleSetFloor}
+                                                         inputMode="numeric"
+                                                         pattern="\d*"
                                             />
                                         </td>
                                     </tr>
@@ -405,7 +481,18 @@ const CalculatorSecondStep = (props: {
                                         </td>
                                     </tr>
                                     {order < 6 &&
-                                        <Button onClick={completeSetFloorSector} style={{marginTop: 40}}>입력</Button>
+                                        <Button
+                                            onClick={completeSetFloorSector}
+                                            style={{
+                                                width: estimateWindowSize() ? '90%' : '40%',
+                                                maxWidth: '400px',
+                                                minWidth: '150px',
+                                                padding: '10px 0',
+                                                fontSize: '16px'
+                                            }}
+                                        >
+                                            입력
+                                        </Button>
                                     }
                                 </>
                             }
@@ -414,13 +501,29 @@ const CalculatorSecondStep = (props: {
                                 <>
                                     <tr>
                                         <td colSpan={2}>
-                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: "50%" }}>
-                                                <div style={{ color: 'red', fontSize: 16 }}>*</div>
-                                                <Title level={2}>
+                                            <div style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                width: estimateWindowSize() ? '80%' : '100%',  // 화면 크기에 따라 너비 조정
+                                                textAlign: 'center',
+                                                padding: estimateWindowSize() ? '0 5%' : '0 2%',  // 좌우 여백 조정
+                                                boxSizing: 'border-box', // 넘침 방지
+                                            }}>
+                                                <Title
+                                                    level={2}
+                                                    style={{
+                                                        margin: 0,
+                                                        whiteSpace: 'nowrap',
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis',
+                                                        maxWidth: '100%' // 넘치지 않도록 설정
+                                                    }}
+                                                >
                                                     철거 여부
                                                 </Title>
                                             </div>
-                                            <Divider  style={{  borderColor: '#a4a3a3', marginTop: '-10px' }}/>
+                                            <Divider  style={{  borderColor: '#a4a3a3' }}/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -435,7 +538,18 @@ const CalculatorSecondStep = (props: {
                                         </td>
                                     </tr>
                                     {order < 6 &&
-                                        <Button onClick={completeSetIsScheduledForDemolitionSector} style={{marginTop: 40}}>확정</Button>
+                                        <Button
+                                            onClick={completeSetIsScheduledForDemolitionSector}
+                                            style={{
+                                                width: estimateWindowSize() ? '90%' : '40%',
+                                                maxWidth: '400px',
+                                                minWidth: '150px',
+                                                padding: '10px 0',
+                                                fontSize: '16px'
+                                            }}
+                                        >
+                                            확정
+                                        </Button>
                                     }
                                 </>
                             }
@@ -444,13 +558,29 @@ const CalculatorSecondStep = (props: {
                                 <>
                                     <tr>
                                         <td colSpan={2}>
-                                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: "50%"  }}>
-                                                <div style={{ color: 'red', fontSize: 16, marginTop: '0px' }}>*</div>
-                                                <Title level={2}>
+                                            <div style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                width: estimateWindowSize() ? '80%' : '100%',  // 화면 크기에 따라 너비 조정
+                                                textAlign: 'center',
+                                                padding: estimateWindowSize() ? '0 5%' : '0 2%',  // 좌우 여백 조정
+                                                boxSizing: 'border-box', // 넘침 방지
+                                            }}>
+                                                <Title
+                                                    level={2}
+                                                    style={{
+                                                        margin: 0,
+                                                        whiteSpace: 'nowrap',
+                                                        overflow: 'hidden',
+                                                        textOverflow: 'ellipsis',
+                                                        maxWidth: '100%' // 넘치지 않도록 설정
+                                                    }}
+                                                >
                                                     거주 여부
                                                 </Title>
                                             </div>
-                                            <Divider  style={{  borderColor: '#a4a3a3', marginTop: '-10px' }}/>
+                                            <Divider  style={{  borderColor: '#a4a3a3' }}/>
                                         </td>
                                     </tr>
                                     <tr>
@@ -464,7 +594,18 @@ const CalculatorSecondStep = (props: {
                                         </td>
                                     </tr>
                                     {order < 6 &&
-                                        <Button onClick={completeSetDemolitionSector} style={{marginTop: 40}}>확정</Button>
+                                        <Button
+                                            onClick={completeSetDemolitionSector}
+                                            style={{
+                                                width: estimateWindowSize() ? '90%' : '40%',
+                                                maxWidth: '400px',
+                                                minWidth: '150px',
+                                                padding: '10px 0',
+                                                fontSize: '16px'
+                                            }}
+                                        >
+                                            확정
+                                        </Button>
                                     }
                                 </>
                             }
@@ -472,7 +613,19 @@ const CalculatorSecondStep = (props: {
                                 <tr>
                                     <td colSpan={2}>
                                         <div style={{ marginTop: '50px'}}>
-                                            <button className="special-button" onClick={callCalculate}>계산하기</button>
+                                            <button
+                                                className="special-button"
+                                                onClick={callCalculate}
+                                                style={{
+                                                    width: estimateWindowSize() ? '90%' : '40%',
+                                                    maxWidth: '400px',
+                                                    minWidth: '150px',
+                                                    padding: '10px 0',
+                                                    fontSize: '16px'
+                                                }}
+                                            >
+                                                계산하기
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
