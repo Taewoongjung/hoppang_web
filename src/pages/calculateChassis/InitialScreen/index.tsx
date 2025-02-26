@@ -43,7 +43,7 @@ const InitialScreen = (props: {
     }
 
     const handleNotificationAgree = () => {
-        // checkIfLoggedIn(); // 로그인 했는지 확인하기
+        checkIfLoggedIn(); // 로그인 했는지 확인하기
         setGetStarted(!getStarted);
         setIsAgreed(!isAgreed);
         setOpenNotification(!openNotification);
@@ -254,31 +254,31 @@ const InitialScreen = (props: {
             { ( getStarted && isAgreed ) &&
                 <>
                     {/*상황 진척도*/}
-                    <div style={{width: "700px"}}>
-                        <Steps
-                            current={current}
-                            size="small"
-                            items={[
-                                {
-                                    title: '회사선택',
-                                    description: companyType
-                                },
-                                {
-                                    title: '창호 입력',
+                    {/*<div style={{width: "700px"}}>*/}
+                    {/*    <Steps*/}
+                    {/*        current={current}*/}
+                    {/*        size="small"*/}
+                    {/*        items={[*/}
+                    {/*            {*/}
+                    {/*                title: '회사선택',*/}
+                    {/*                description: companyType*/}
+                    {/*            },*/}
+                    {/*            {*/}
+                    {/*                title: '창호 입력',*/}
 
-                                },
-                                {
-                                    title: '주소 입력',
-                                },
-                                {
-                                    title: '기타 사항 입력',
-                                },
-                                {
-                                    title: '계산시작',
-                                },
-                            ]}
-                        />
-                    </div>
+                    {/*            },*/}
+                    {/*            {*/}
+                    {/*                title: '주소 입력',*/}
+                    {/*            },*/}
+                    {/*            {*/}
+                    {/*                title: '기타 사항 입력',*/}
+                    {/*            },*/}
+                    {/*            {*/}
+                    {/*                title: '계산시작',*/}
+                    {/*            },*/}
+                    {/*        ]}*/}
+                    {/*    />*/}
+                    {/*</div>*/}
 
                     <div style={{width: '700px'}}>
                         {/*뒤로가기*/}
