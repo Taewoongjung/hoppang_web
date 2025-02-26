@@ -596,7 +596,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         justifyContent: 'center',
                         alignItems: 'center',
                         flexDirection: 'row', // 항상 가로 정렬 유지
-                        gap: result3 ? '4px' : '10px' // result3이 있을 때 gap 최소화
+                        gap: '2px'
                     }}
                 >
                     {/* Collapse 컨테이너 */}
@@ -679,8 +679,8 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                     {/* "견적받기" 버튼 (result3가 없을 때만 표시) */}
                     {!result3 && (
                         <div style={{
-                            flex: 4,
-                            maxWidth: '40%',
+                            flex: 3,
+                            maxWidth: '20%',
                             display: 'flex',
                             justifyContent: 'center',
                             transition: 'max-width 0.3s ease'
