@@ -596,7 +596,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         justifyContent: 'center',
                         alignItems: 'center',
                         flexDirection: 'row', // 작은 화면에서는 세로 정렬
-                        gap: result3 ? '5px' : '10px'
+                        gap: '1px'
                     }}
                 >
                     <div style={{ flex: 1, maxWidth: result3 ? 'calc(50% - 5px)' : '50%' }}>
