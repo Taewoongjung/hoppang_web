@@ -37,22 +37,21 @@ const EstimationByStateStatisticsPieChart = () => {
     const [estimationsByStateData, setEstimationsByStateData] = useState([]);
 
 
-    const generateColors = (count: number) => {
+    const generateDistinctColors = (count: number) => {
         const colors = [];
         for (let i = 0; i < count; i++) {
-            const r = Math.floor(Math.random() * 255);
-            const g = Math.floor(Math.random() * 255);
-            const b = Math.floor(Math.random() * 255);
-            colors.push(`rgba(${r}, ${g}, ${b}, 0.6)`);
+            const hue = (i * (360 / count)) % 360; // 각 색상의 Hue 값을 균등하게 분배
+            const color = `hsl(${hue}, 70%, 50%)`; // 채도 70%, 밝기 50%로 설정
+            colors.push(color);
         }
         return colors;
     };
 
     const borderColorFromBackground = (colors: string[]) => {
-        return colors.map(color => color.replace("0.6", "1"));
+        return colors.map(color => color.replace("50%)", "40%)")); // 테두리는 약간 더 어둡게
     };
 
-    const backgroundColors = generateColors(stateList.length);
+    const backgroundColors = generateDistinctColors(stateList.length);
     const borderColors = borderColorFromBackground(backgroundColors);
 
     const data = {
