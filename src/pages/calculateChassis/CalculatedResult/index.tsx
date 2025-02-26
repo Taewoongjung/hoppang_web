@@ -595,31 +595,35 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         width: '100%',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        flexDirection: 'row', // 작은 화면에서는 세로 정렬
-                        gap: result3 ? '2px' : '10px'
+                        flexDirection: 'row', // 항상 가로 정렬 유지
+                        gap: result3 ? '4px' : '10px' // result3이 있을 때 gap 최소화
                     }}
                 >
+                    {/* Collapse 컨테이너 */}
                     <div style={{
-                        flex: result3 ? 1 : 'unset',
-                        maxWidth: result3 ? 'calc(50% - 1px)' : '30%',
+                        flex: 6,
+                        maxWidth: result3 ? '60%' : '60%',
                         transition: 'max-width 0.3s ease' // 애니메이션 효과 추가
                     }}>
                         <Collapse
                             size={result3 ? "large" : "small"}
-                            // style={result3 ? { width: 700, marginTop:'2%' } : { width: 580 }}
-                            style={collapseStyle}
+                            style={{
+                                width: '100%',
+                                maxWidth: '95vw', // 화면 넘침 방지
+                                margin: 'auto'
+                            }}
                             collapsible={result3 ? "header" : "disabled"}
                             items={[
                                 {
                                     key: '3',
                                     label: (
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                            <span>
-                                                {thirdCalculatedCompanyType !== ''
-                                                    ? `${mappedCompanyByValue(thirdCalculatedCompanyType)} - 📋 ${estimationId3} (견적번호)`
-                                                    : `${yetCalculatedCompanyList?.[1]}`
-                                                }
-                                            </span>
+                            <span>
+                                {thirdCalculatedCompanyType !== ''
+                                    ? `${mappedCompanyByValue(thirdCalculatedCompanyType)} - 📋 ${estimationId3} (견적번호)`
+                                    : `${yetCalculatedCompanyList?.[1]}`
+                                }
+                            </span>
                                         </div>
                                     ),
                                     children:
@@ -639,7 +643,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                         columns={materialColumns}
                                                         dataSource={materialTableData3}
                                                         size="middle"
-                                                        style={{width: 600}}
+                                                        style={{width: '100%'}}
                                                         pagination={false}
                                                     />
                                                     <br/>
@@ -649,7 +653,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                         columns={additionalColumns}
                                                         dataSource={additionalTableData3}
                                                         size="middle"
-                                                        style={{width: 500}}
+                                                        style={{width: '100%'}}
                                                         footer={() => (
                                                             <Descriptions bordered column={1} size="small">
                                                                 <Descriptions.Item label="총 비용">
@@ -671,10 +675,12 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                             ]}
                         />
                     </div>
-                    {!result3 &&
+
+                    {/* "견적받기" 버튼 (result3가 없을 때만 표시) */}
+                    {!result3 && (
                         <div style={{
-                            flex: 1,
-                            maxWidth: 'calc(50% - 1px)',
+                            flex: 4,
+                            maxWidth: '40%',
                             display: 'flex',
                             justifyContent: 'center',
                             transition: 'max-width 0.3s ease'
@@ -682,7 +688,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                             <Button
                                 style={{
                                     width: '100%',
-                                    maxWidth: '200px',
+                                    maxWidth: '250px',
                                     minWidth: '120px',
                                     fontSize: '16px'
                                 }}
@@ -692,7 +698,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                 견적받기
                             </Button>
                         </div>
-                    }
+                    )}
                 </Flex>
             </div>
         </>
