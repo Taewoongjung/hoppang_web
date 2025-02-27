@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Row, Col, Card, Statistic, StatisticProps} from "antd";
+import {Row, Col, Card, Statistic} from "antd";
 import { AppleOutlined, AndroidOutlined } from "@ant-design/icons";
 import axios from "axios";
 import {findUserAppInboundStatistics} from "../../../../definition/Admin/apiPath";
@@ -32,24 +32,20 @@ const AppDownloadInboundStatistics = () => {
                 <Col span={12}>
                     <Card>
                         <Statistic
-                            title="Active"
+                            title={<AndroidOutlined />}
                             value={androidPercentile}
                             precision={2}
-                            valueStyle={{ color: '#3f8600' }}
-                            prefix={<AndroidOutlined />}
-                            suffix="%"
+                            valueStyle={{ color: '#000000' }}
                         />
                     </Card>
                 </Col>
                 <Col span={12}>
                     <Card>
                         <Statistic
-                            title="Idle"
+                            title={<AppleOutlined />}
                             value={iosPercentile}
                             precision={2}
-                            valueStyle={{ color: '#cf1322' }}
-                            prefix={<AppleOutlined />}
-                            suffix="%"
+                            valueStyle={{ color: '#000000' }}
                         />
                     </Card>
                 </Col>
