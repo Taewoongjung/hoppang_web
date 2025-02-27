@@ -79,7 +79,10 @@ const EstimationByStateStatisticsPieChart = () => {
             // *지역별 견적 백분위 데이터
             const estimationsByStateData = res.data.estimationByStateStatisticsData;
 
-            const stateList = estimationsByStateData.map((item: any) => item.state);
+            const stateList =
+                estimationsByStateData
+                    .filter((item: any) => item.count !== 0)
+                    .map((item: any) => item.state);
             const estimationsPercentileByStateData = estimationsByStateData.map((item: any) => item.count);
 
             setStateList(stateList);
