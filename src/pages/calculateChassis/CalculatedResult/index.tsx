@@ -444,62 +444,82 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
                 <br/>
 
-                <Collapse
-                    size="large"
-                    style={collapseStyle}
-                    defaultActiveKey={['1']}
-                    items={[{
-                        key: '1',
-                        label: (
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <span>{`${mappedCompanyByValue(firstCalculatedCompanyType)} - 📋 ${estimationId} (견적번호)`}</span>
-                            </div>
-                        ),
-                        children:
-                            <p>
-                                <Button
-                                    type="primary"
-                                    size="small"
-                                    style={{ width: '100%', maxWidth: '200px', marginBottom: '10px' }}
-                                    ghost
-                                    onClick={() => handleInquiry(estimationId)}
-                                >
-                                    해당 견적 문의하기
-                                </Button>
-                                <Divider orientation="left">재료값</Divider>
-                                <Table
-                                    columns={materialColumns}
-                                    dataSource={materialTableData1}
-                                    size="middle"
-                                    style={{width:600}}
-                                    pagination={false}
-                                />
-                                <br/>
+                <Flex
+                    style={{
+                        width: '100%',
+                        justifyContent: 'center',
+                        flexDirection: 'row', // 항상 가로 정렬 유지
+                    }}
+                >
+                    <div style={{
+                        flexBasis: '80%',  // 기본 크기를 60%로 설정
+                        maxWidth: '100%',
+                        minWidth: '300px',
+                        display: 'flex',
+                        transition: 'max-width 0.3s ease' // 애니메이션 효과 추가
+                    }}>
+                        <Collapse
+                            size="large"
+                            style={{
+                                width: window.innerWidth > 768 ? '100%' : '70%',
+                                maxWidth: '95vw', // 화면 넘침 방지
+                                margin: 'auto'
+                            }}
+                            defaultActiveKey={['1']}
+                            items={[{
+                                key: '1',
+                                label: (
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <span>{`${mappedCompanyByValue(firstCalculatedCompanyType)} - 📋 ${estimationId} (견적번호)`}</span>
+                                    </div>
+                                ),
+                                children:
+                                    <p>
+                                        <Button
+                                            type="primary"
+                                            size="small"
+                                            style={{ width: '100%', maxWidth: '200px', marginBottom: '10px' }}
+                                            ghost
+                                            onClick={() => handleInquiry(estimationId)}
+                                        >
+                                            해당 견적 문의하기
+                                        </Button>
+                                        <Divider orientation="left">재료값</Divider>
+                                        <Table
+                                            columns={materialColumns}
+                                            dataSource={materialTableData1}
+                                            size="middle"
+                                            style={{width:600}}
+                                            pagination={false}
+                                        />
+                                        <br/>
 
-                                <Divider orientation="left">부가비용</Divider>
-                                <Table
-                                    columns={additionalColumns}
-                                    dataSource={additionalTableData1}
-                                    size="middle"
-                                    style={{width:500}}
-                                    footer={() => (
-                                        <Descriptions bordered column={1} size="small">
-                                            <Descriptions.Item label="총 비용">
-                                                <Typography.Text strong>{wholePrice}</Typography.Text>
-                                            </Descriptions.Item>
-                                            <Descriptions.Item label="부가세">
-                                                <Typography.Text type="warning">{surtax}</Typography.Text>
-                                            </Descriptions.Item>
-                                            <Descriptions.Item label="총 합계">
-                                                <Typography.Text type="danger" strong>{totalPrice}</Typography.Text>
-                                            </Descriptions.Item>
-                                        </Descriptions>
-                                    )}
-                                    pagination={false}
-                                />
-                            </p>
-                    }]}
-                />
+                                        <Divider orientation="left">부가비용</Divider>
+                                        <Table
+                                            columns={additionalColumns}
+                                            dataSource={additionalTableData1}
+                                            size="middle"
+                                            style={{width:500}}
+                                            footer={() => (
+                                                <Descriptions bordered column={1} size="small">
+                                                    <Descriptions.Item label="총 비용">
+                                                        <Typography.Text strong>{wholePrice}</Typography.Text>
+                                                    </Descriptions.Item>
+                                                    <Descriptions.Item label="부가세">
+                                                        <Typography.Text type="warning">{surtax}</Typography.Text>
+                                                    </Descriptions.Item>
+                                                    <Descriptions.Item label="총 합계">
+                                                        <Typography.Text type="danger" strong>{totalPrice}</Typography.Text>
+                                                    </Descriptions.Item>
+                                                </Descriptions>
+                                            )}
+                                            pagination={false}
+                                        />
+                                    </p>
+                            }]}
+                        />
+                    </div>
+                </Flex>
 
                 <br/>
 
@@ -507,25 +527,20 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                     style={{
                         width: '100%',
                         justifyContent: 'center',
-                        alignItems: 'center',
                         flexDirection: 'row', // 항상 가로 정렬 유지
-                        gap: '2px'
                     }}
                 >
                     <div style={{
-                        flex: 8,
                         flexBasis: '80%',  // 기본 크기를 60%로 설정
                         maxWidth: result2 ? '100%' : 'calc(80vw - 10px)',  // 화면 너비의 60%를 기준으로 설정 (10px은 gap 고려)
                         minWidth: '300px',
                         display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
                         transition: 'max-width 0.3s ease' // 애니메이션 효과 추가
                     }}>
                         <Collapse
                             size={result2 ? "large" : "small"}
                             style={{
-                                width: window.innerWidth > 768 ? '100%' : '80%',
+                                width: window.innerWidth > 768 ? '100%' : '70%',
                                 maxWidth: '95vw', // 화면 넘침 방지
                                 margin: 'auto'
                             }}
@@ -591,33 +606,31 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                 },
                             ]}
                         />
+                        {!result2 &&
+                            <div style={{
+                                flex: 2,
+                                flexBasis: '20%',  // 기본 크기를 40%로 설정
+                                maxWidth: 'calc(10vw - 10px)',  // 화면 너비의 40%를 기준으로 설정
+                                minWidth: '100px',
+                                transition: 'max-width 0.3s ease',
+                                minHeight: '80px'
+                            }}>
+                                <Button
+                                    size="small"
+                                    style={{
+                                        width: '100%',
+                                        maxWidth: '150px',
+                                        minWidth: '100px',
+                                        fontSize: '14px'
+                                    }}
+                                    type="primary"
+                                    onClick={() => callCalculate(convertCompanyTypeKoToNormal(yetCalculatedCompanyList?.[0]), 2)}
+                                >
+                                    견적받기
+                                </Button>
+                            </div>
+                        }
                     </div>
-
-                    {!result2 &&
-                        <div style={{
-                            flex: 1,
-                            flexBasis: '10%',  // 기본 크기를 40%로 설정
-                            maxWidth: 'calc(10vw - 10px)',  // 화면 너비의 40%를 기준으로 설정
-                            minWidth: '100px',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            transition: 'max-width 0.3s ease'
-                        }}>
-                            <Button
-                                size="small"
-                                style={{
-                                    width: '100%',
-                                    maxWidth: '250px',
-                                    minWidth: '120px',
-                                    fontSize: '14px'
-                                }}
-                                type="primary"
-                                onClick={() => callCalculate(convertCompanyTypeKoToNormal(yetCalculatedCompanyList?.[0]), 2)}
-                            >
-                                견적받기
-                            </Button>
-                        </div>
-                    }
                 </Flex>
 
                 <br/>
@@ -626,27 +639,22 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                     style={{
                         width: '100%',
                         justifyContent: 'center',
-                        alignItems: 'center',
                         flexDirection: 'row', // 항상 가로 정렬 유지
-                        gap: '2px'
                     }}
                 >
                     {/* Collapse 컨테이너 */}
                     <div style={{
-                        flex: 8,
                         flexBasis: '80%',  // 기본 크기를 60%로 설정
                         maxWidth: result3 ? '100%' : 'calc(80vw - 10px)',  // 화면 너비의 60%를 기준으로 설정 (10px은 gap 고려)
                         minWidth: '300px',
                         display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
                         transition: 'max-width 0.3s ease' // 애니메이션 효과 추가
                     }}>
                         <Collapse
                             size={result3 ? "large" : "small"}
                             style={{
                                 // width: window.innerWidth > 768 ? '80%' : '100%',
-                                width: window.innerWidth > 768 ? '100%' : '80%',
+                                width: window.innerWidth > 768 ? '100%' : '70%',
                                 maxWidth: '95vw', // 화면 넘침 방지
                                 margin: 'auto'
                             }}
@@ -712,34 +720,31 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                 },
                             ]}
                         />
+                        {!result3 && (
+                            <div style={{
+                                flex: 2,
+                                flexBasis: '20%',  // 기본 크기를 40%로 설정
+                                maxWidth: 'calc(10vw - 10px)',  // 화면 너비의 40%를 기준으로 설정
+                                minWidth: '100px',
+                                transition: 'max-width 0.3s ease',
+                                minHeight: '80px'
+                            }}>
+                                <Button
+                                    size="small"
+                                    style={{
+                                        width: '100%',
+                                        maxWidth: '150px',
+                                        minWidth: '100px',
+                                        fontSize: '14px',
+                                    }}
+                                    type="primary"
+                                    onClick={() => callCalculate(convertCompanyTypeKoToNormal(yetCalculatedCompanyList?.[1]), 3)}
+                                >
+                                    견적받기
+                                </Button>
+                            </div>
+                        )}
                     </div>
-
-                    {/* "견적받기" 버튼 (result3가 없을 때만 표시) */}
-                    {!result3 && (
-                        <div style={{
-                            flex: 1,
-                            flexBasis: '10%',  // 기본 크기를 40%로 설정
-                            maxWidth: 'calc(10vw - 10px)',  // 화면 너비의 40%를 기준으로 설정
-                            minWidth: '100px',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            transition: 'max-width 0.3s ease'
-                        }}>
-                            <Button
-                                size="small"
-                                style={{
-                                    width: '100%',
-                                    maxWidth: '250px',
-                                    minWidth: '120px',
-                                    fontSize: '14px'
-                                }}
-                                type="primary"
-                                onClick={() => callCalculate(convertCompanyTypeKoToNormal(yetCalculatedCompanyList?.[1]), 3)}
-                            >
-                                견적받기
-                            </Button>
-                        </div>
-                    )}
                 </Flex>
             </div>
         </>
