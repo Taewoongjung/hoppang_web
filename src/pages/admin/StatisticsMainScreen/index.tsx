@@ -7,6 +7,7 @@ import UserAndEstimationStatisticsVerticalBarChart
 import AdminFooter from "../../../component/admin/Footer";
 import EstimationByStateStatisticsPieChart
     from "../../../component/admin/Statistics/EstimationByStateStatisticsPieChart";
+import AppDownloadInboundStatistics from "../../../component/admin/Statistics/AppDownloadInboundStatistics";
 
 const { Content } = Layout;
 
@@ -31,6 +32,10 @@ const StatisticsMainScreen = () => {
 
                         <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
                             <EstimationByStateStatisticsPieChart/>
+                        </Card>
+
+                        <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
+                            <AppDownloadInboundStatistics/>
                         </Card>
                     </div>
 
