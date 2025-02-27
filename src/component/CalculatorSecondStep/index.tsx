@@ -255,40 +255,43 @@ const CalculatorSecondStep = (props: {
                 <table>
                     {calculatedChassisPriceResult.length === 0 &&
                         <tbody>
-                            {/*뒤로가기*/}
-                            {(order === 1) &&
-                                <div onClick={clickBackButton} style={{color: "blue", marginRight: "80%", marginTop: '50px'}}>
-                                    <LeftOutlined/>
-                                </div>
-                            }
+                        {/*뒤로가기*/}
+                        {(order === 1) &&
+                            <div onClick={clickBackButton}
+                                 style={{color: "blue", marginRight: "80%", marginTop: '50px'}}>
+                                <LeftOutlined/>
+                            </div>
+                        }
 
-                            {/*주소입력*/}
-                            {(order === 1) &&
-                                <>
-                                    <tr>
-                                        <td colSpan={2}>
-                                            <div style={styles.wrapperOfTitle}>
-                                                <Title
-                                                    level={2}
-                                                    style={styles.title}
+                        {/*주소입력*/}
+                        {(order === 1) &&
+                            <>
+                                <tr>
+                                    <td colSpan={2}>
+                                        <div style={styles.wrapperOfTitle}>
+                                            <Title
+                                                level={2}
+                                                style={styles.title}
+                                            >
+                                                주소 입력
+                                            </Title>
+                                        </div>
+                                        <Divider style={{borderColor: '#a4a3a3'}}/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colSpan={2}>
+                                        <Form form={form} fields={formFields}>
+                                            <Col>
+                                                <Form.Item
+                                                    name="zipCode"
+                                                    label=""
+                                                    style={{marginTop: '-10px'}}
+                                                    rules={[{required: true, message: '⚠️ 주소는 필수 응답 항목입니다.'}]}
                                                 >
-                                                    주소 입력
-                                                </Title>
-                                            </div>
-                                            <Divider  style={{  borderColor: '#a4a3a3' }}/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colSpan={2}>
-                                            <Form form={form} fields={formFields}>
-                                                <Col>
-                                                    <Form.Item
-                                                        name="zipCode"
-                                                        label=""
-                                                        style={{ marginTop: '-10px'}}
-                                                        rules={[{ required: true, message: '⚠️ 주소는 필수 응답 항목입니다.' }]}
-                                                    >
-                                                        <Input addonAfter={
+                                                    <Input
+                                                        onClick={() => setOpenSearchAddr(true)}
+                                                        addonAfter={
                                                             (
                                                                 <Popover
                                                                     content={
@@ -307,235 +310,238 @@ const CalculatorSecondStep = (props: {
                                                                     }}/>
                                                                 </Popover>
                                                             )
-                                                        } style={{width:"160px"}} readOnly
-                                                        />
-                                                    </Form.Item>
-                                                </Col>
+                                                        }
+                                                        style={{width: "160px"}} readOnly
+                                                    />
+                                                </Form.Item>
+                                            </Col>
 
-                                                <Col>
-                                                    <Form.Item
-                                                        name="mainAddress"
-                                                    >
-                                                        <Input
-                                                            style={{ width: '300px' }}
-                                                            readOnly
-                                                        />
-                                                    </Form.Item>
-                                                </Col>
-                                                <Col>
-                                                    <Form.Item
-                                                        name="subAddress"
-                                                        rules={[
-                                                            { required: true, message: '⚠️ 나머지 주소는 필수 응답 항목입니다.' },
-                                                        ]}
-                                                    >
-                                                        <Input
-                                                            style={{ width: '300px' }}
-                                                            id="company_sub_address"
-                                                            type="text"
-                                                            placeholder = "나머지 주소"
-                                                            onChange={changeSubAddress}
-                                                        />
-                                                    </Form.Item>
-                                                </Col>
-                                            </Form>
-                                            {order < 6 &&
-                                                <Button
-                                                    onClick={handleSetAddressSector}
-                                                    style={styles.button}
+                                            <Col>
+                                                <Form.Item
+                                                    name="mainAddress"
                                                 >
-                                                    입력
-                                                </Button>
-                                            }
-                                        </td>
-                                    </tr>
-                                </>
-                            }
-                            {(order === 2) &&
-                                <>
-                                    <tr>
-                                        <td colSpan={2}>
-                                            <div style={styles.wrapperOfTitle}>
-                                                <Title
-                                                    level={2}
-                                                    style={styles.title}
+                                                    <Input
+                                                        onClick={() => setOpenSearchAddr(true)}
+                                                        style={{width: '300px'}}
+                                                        readOnly
+                                                    />
+                                                </Form.Item>
+                                            </Col>
+                                            <Col>
+                                                <Form.Item
+                                                    name="subAddress"
+                                                    rules={[
+                                                        {required: true, message: '⚠️ 나머지 주소는 필수 응답 항목입니다.'},
+                                                    ]}
                                                 >
-                                                    확장 여부
-                                                </Title>
-                                            </div>
-                                            <Divider  style={{  borderColor: '#a4a3a3' }}/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colSpan={2}>
-                                            <Switch checkedChildren="확장"
-                                                    unCheckedChildren="미확장"
-                                                    style={{ marginTop: '-18px', width: '90px' }}
-                                                    defaultValue={false}
-                                                    onChange={setIsExpanded}
-                                            />
-                                        </td>
-                                    </tr>
-                                    {order < 6 &&
-                                        <Button
-                                            onClick={completeSetIsExpanded}
-                                            style={styles.button}
-                                        >
-                                            입력
-                                        </Button>
-                                    }
-                                </>
-                            }
-
-                            {(order === 3) &&
-                                <>
-                                    <tr>
-                                        <td colSpan={2}>
-                                            <div style={styles.wrapperOfTitle}>
-                                                <Title
-                                                    level={2}
-                                                    style={styles.button}
-                                                >
-                                                    공사 예정 층 수
-                                                </Title>
-                                            </div>
-                                            <Divider  style={{  borderColor: '#a4a3a3' }}/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colSpan={2}>
-                                            <InputNumber style={{ width: 150 }}
-                                                         addonAfter="층"
-                                                         min={0}
-                                                         onChange={handleSetFloor}
-                                                         inputMode="numeric"
-                                                         pattern="\d*"
-                                            />
-                                        </td>
-                                    </tr>
-                                    <tr >
-                                        <td colSpan={2}>
-                                            <div style={{color: 'grey'}}>
-                                                *사다리차 작업 불가 시 가격 변동 및 작업 불가 가능성 있습니다.<br/>
-                                                *층수에 따라 가격이 변동됩니다. (사다리차 등)<br/>
-                                                *사다리차 대여 비용은 기본 2 시간으로 측정됩니다.
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    {order < 6 &&
-                                        <Button
-                                            onClick={completeSetFloorSector}
-                                            style={styles.button}
-                                        >
-                                            입력
-                                        </Button>
-                                    }
-                                </>
-                            }
-
-                            {(order === 4)  &&
-                                <>
-                                    <tr>
-                                        <td colSpan={2}>
-                                            <div style={styles.wrapperOfTitle}>
-                                                <Title
-                                                    level={2}
-                                                    style={styles.title}
-                                                >
-                                                    철거 여부
-                                                </Title>
-                                            </div>
-                                            <Divider  style={{  borderColor: '#a4a3a3' }}/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colSpan={2}>
-                                            <Switch checkedChildren="철거"
-                                                    unCheckedChildren="철거 안함"
-                                                    defaultChecked
-                                                    style={{ marginTop: '-18px', width: '90px' }}
-                                                    defaultValue={true}
-                                                    onChange={setIsScheduledForDemolition}
-                                            />
-                                        </td>
-                                    </tr>
-                                    {order < 6 &&
-                                        <Button
-                                            onClick={completeSetIsScheduledForDemolitionSector}
-                                            style={styles.button}
-                                        >
-                                            확정
-                                        </Button>
-                                    }
-                                </>
-                            }
-
-                            {(order === 5) &&
-                                <>
-                                    <tr>
-                                        <td colSpan={2}>
-                                            <div style={styles.wrapperOfTitle}>
-                                                <Title
-                                                    level={2}
-                                                    style={styles.title}
-                                                >
-                                                    거주 여부
-                                                </Title>
-                                            </div>
-                                            <Divider  style={{  borderColor: '#a4a3a3' }}/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colSpan={2}>
-                                            <Switch checkedChildren="거주중"
-                                                    unCheckedChildren="미거주"
-                                                    onChange={setIsResident}
-                                                    defaultValue={true}
-                                                    defaultChecked
-                                                    style={{ width: 80, marginTop: '-17px'}}/>
-                                        </td>
-                                    </tr>
-                                    {order < 6 &&
-                                        <Button
-                                            onClick={completeSetDemolitionSector}
-                                            style={styles.button}
-                                        >
-                                            확정
-                                        </Button>
-                                    }
-                                </>
-                            }
-                            {order > 5 &&
-                                <tr>
-                                    <td colSpan={2}>
-                                        <div style={{ marginTop: '50px'}}>
-                                            <button
-                                                className="special-button"
-                                                onClick={callCalculate}
+                                                    <Input
+                                                        style={{width: '300px'}}
+                                                        id="company_sub_address"
+                                                        type="text"
+                                                        placeholder="나머지 주소"
+                                                        onChange={changeSubAddress}
+                                                    />
+                                                </Form.Item>
+                                            </Col>
+                                        </Form>
+                                        {order < 6 &&
+                                            <Button
+                                                onClick={handleSetAddressSector}
                                                 style={styles.button}
                                             >
-                                                계산하기
-                                            </button>
+                                                입력
+                                            </Button>
+                                        }
+                                    </td>
+                                </tr>
+                            </>
+                        }
+                        {(order === 2) &&
+                            <>
+                                <tr>
+                                    <td colSpan={2}>
+                                        <div style={styles.wrapperOfTitle}>
+                                            <Title
+                                                level={2}
+                                                style={styles.title}
+                                            >
+                                                확장 여부
+                                            </Title>
+                                        </div>
+                                        <Divider style={{borderColor: '#a4a3a3'}}/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colSpan={2}>
+                                        <Switch checkedChildren="확장"
+                                                unCheckedChildren="미확장"
+                                                style={{marginTop: '-18px', width: '90px'}}
+                                                defaultValue={false}
+                                                onChange={setIsExpanded}
+                                        />
+                                    </td>
+                                </tr>
+                                {order < 6 &&
+                                    <Button
+                                        onClick={completeSetIsExpanded}
+                                        style={styles.button}
+                                    >
+                                        입력
+                                    </Button>
+                                }
+                            </>
+                        }
+
+                        {(order === 3) &&
+                            <>
+                                <tr>
+                                    <td colSpan={2}>
+                                        <div style={styles.wrapperOfTitle}>
+                                            <Title
+                                                level={2}
+                                                style={styles.button}
+                                            >
+                                                공사 예정 층 수
+                                            </Title>
+                                        </div>
+                                        <Divider style={{borderColor: '#a4a3a3'}}/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colSpan={2}>
+                                        <InputNumber style={{width: 150}}
+                                                     addonAfter="층"
+                                                     min={0}
+                                                     onChange={handleSetFloor}
+                                                     inputMode="numeric"
+                                                     pattern="\d*"
+                                        />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colSpan={2}>
+                                        <div style={{color: 'grey'}}>
+                                            *사다리차 작업 불가 시 가격 변동 및 작업 불가 가능성 있습니다.<br/>
+                                            *층수에 따라 가격이 변동됩니다. (사다리차 등)<br/>
+                                            *사다리차 대여 비용은 기본 2 시간으로 측정됩니다.
                                         </div>
                                     </td>
                                 </tr>
-                            }
+                                {order < 6 &&
+                                    <Button
+                                        onClick={completeSetFloorSector}
+                                        style={styles.button}
+                                    >
+                                        입력
+                                    </Button>
+                                }
+                            </>
+                        }
+
+                        {(order === 4) &&
+                            <>
+                                <tr>
+                                    <td colSpan={2}>
+                                        <div style={styles.wrapperOfTitle}>
+                                            <Title
+                                                level={2}
+                                                style={styles.title}
+                                            >
+                                                철거 여부
+                                            </Title>
+                                        </div>
+                                        <Divider style={{borderColor: '#a4a3a3'}}/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colSpan={2}>
+                                        <Switch checkedChildren="철거"
+                                                unCheckedChildren="철거 안함"
+                                                defaultChecked
+                                                style={{marginTop: '-18px', width: '90px'}}
+                                                defaultValue={true}
+                                                onChange={setIsScheduledForDemolition}
+                                        />
+                                    </td>
+                                </tr>
+                                {order < 6 &&
+                                    <Button
+                                        onClick={completeSetIsScheduledForDemolitionSector}
+                                        style={styles.button}
+                                    >
+                                        확정
+                                    </Button>
+                                }
+                            </>
+                        }
+
+                        {(order === 5) &&
+                            <>
+                                <tr>
+                                    <td colSpan={2}>
+                                        <div style={styles.wrapperOfTitle}>
+                                            <Title
+                                                level={2}
+                                                style={styles.title}
+                                            >
+                                                거주 여부
+                                            </Title>
+                                        </div>
+                                        <Divider style={{borderColor: '#a4a3a3'}}/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colSpan={2}>
+                                        <Switch checkedChildren="거주중"
+                                                unCheckedChildren="미거주"
+                                                onChange={setIsResident}
+                                                defaultValue={true}
+                                                defaultChecked
+                                                style={{width: 80, marginTop: '-17px'}}/>
+                                    </td>
+                                </tr>
+                                {order < 6 &&
+                                    <Button
+                                        onClick={completeSetDemolitionSector}
+                                        style={styles.button}
+                                    >
+                                        확정
+                                    </Button>
+                                }
+                            </>
+                        }
+                        {order > 5 &&
+                            <tr>
+                                <td colSpan={2}>
+                                    <div style={{marginTop: '50px'}}>
+                                        <button
+                                            className="special-button"
+                                            onClick={callCalculate}
+                                            style={styles.button}
+                                        >
+                                            계산하기
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
                         </tbody>
                     }
 
                     {calculatedChassisPriceResult.length !== 0 && requestCalculateObject &&
                         <tbody>
-                            <tr>
-                                <td colSpan={2}>
-                                    <CalculatedResult result={calculatedChassisPriceResult} requestCalculateObject={requestCalculateObject}/>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td colSpan={2}>
+                                <CalculatedResult result={calculatedChassisPriceResult}
+                                                  requestCalculateObject={requestCalculateObject}/>
+                            </td>
+                        </tr>
                         </tbody>
                     }
                 </table>
             </div>
         </>
-    )
+    );
 };
 
 const styles: { [key: string]: React.CSSProperties } = {

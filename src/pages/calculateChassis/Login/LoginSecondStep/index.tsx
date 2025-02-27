@@ -87,26 +87,28 @@ const LoginSecondStep = () => {
                     address === "" ? (
                         <>
                             <h2>주소 선택</h2>
-                            <Input addonAfter={
-                                (
-                                    <Popover
-                                        content={
-                                            <SearchAddressPopUp
-                                                setAddress={handlePostCode}
-                                                setOpenSearchAddr={setOpenSearchAddr}
-                                            />
-                                        }
-                                        trigger="click"
-                                        open={openSearchAddr}
-                                        placement="bottom"
-                                        onOpenChange={handleOpenSearchAddrChange}
-                                    >
-                                        <SearchOutlined onClick={(e) => {
-                                            e.preventDefault();
-                                        }}/>
-                                    </Popover>
-                                )
-                            } style={{width:"160px"}} readOnly
+                            <Input
+                                onClick={() => setOpenSearchAddr(true)}
+                                addonAfter={
+                                    (
+                                        <Popover
+                                            content={
+                                                <SearchAddressPopUp
+                                                    setAddress={handlePostCode}
+                                                    setOpenSearchAddr={setOpenSearchAddr}
+                                                />
+                                            }
+                                            trigger="click"
+                                            open={openSearchAddr}
+                                            placement="bottom"
+                                            onOpenChange={handleOpenSearchAddrChange}
+                                        >
+                                            <SearchOutlined onClick={(e) => {
+                                                e.preventDefault();
+                                            }}/>
+                                        </Popover>
+                                    )
+                                } style={{width: "160px"}} readOnly
                             />
                         </>
                     ) : (
@@ -138,7 +140,7 @@ const LoginSecondStep = () => {
                                 checkedChildren="ON"
                                 unCheckedChildren="OFF"
                                 defaultChecked
-                                style={{ width: '90px' }}
+                                style={{width: '90px'}}
                                 onChange={setIsPushAlarmOn}
                             />
                         </div>
