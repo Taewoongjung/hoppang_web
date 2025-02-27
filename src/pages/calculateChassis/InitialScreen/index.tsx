@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Typography, Button, Modal, Divider, Steps} from "antd";
+import {Typography, Button, Modal, Divider} from "antd";
 import {companyTypeOptionsString} from "../../../definition/companyType";
 import "./initialScreenStyles.css";
 import {LeftOutlined} from "@ant-design/icons";
@@ -374,28 +374,6 @@ const InitialScreen = (props: {
         </>
     );
 }
-
-const styles: { [key: string]: React.CSSProperties } = {
-    container: {
-        display: 'flex',
-        gap: '10px',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        marginBottom: '10%'
-    },
-    box: {
-        width: '150px',
-        height: '50px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        border: '2px solid #ccc',
-        borderRadius: '8px',
-        cursor: 'pointer',
-        transition: 'border-color 0.3s ease',
-    }
-};
 
 
 export default InitialScreen;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Layout, Card} from "antd";
+import {Layout, Card, Col, Row} from "antd";
 import TopNavigator from "../../../component/admin/TopNavigator";
 import SumUpStatisticsTable from "../../../component/admin/Statistics/SumUpStatisticsTable";
 import UserAndEstimationStatisticsVerticalBarChart
@@ -8,9 +8,9 @@ import AdminFooter from "../../../component/admin/Footer";
 import EstimationByStateStatisticsPieChart
     from "../../../component/admin/Statistics/EstimationByStateStatisticsPieChart";
 import AppDownloadInboundStatistics from "../../../component/admin/Statistics/AppDownloadInboundStatistics";
+import {GoToTopButton} from "../../../util/renderUtil";
 
 const { Content } = Layout;
-
 
 const StatisticsMainScreen = () => {
 
@@ -18,13 +18,23 @@ const StatisticsMainScreen = () => {
         <>
             <Layout>
                 <TopNavigator/>
+
                 <Content style={{ padding: '0 0px' }}>
 
                     <div style={{marginTop: '5%'}}>
                         {/* 통계 페이지 */}
-                        <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
-                            <SumUpStatisticsTable/>
-                        </Card>
+                        <Row gutter={16}>
+                            <Col span={12}>
+                                <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
+                                    <SumUpStatisticsTable/>
+                                </Card>
+                            </Col>
+                            <Col span={12}>
+                                <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
+                                    <AppDownloadInboundStatistics/>
+                                </Card>
+                            </Col>
+                        </Row>
 
                         <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
                             <UserAndEstimationStatisticsVerticalBarChart/>
@@ -33,15 +43,13 @@ const StatisticsMainScreen = () => {
                         <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
                             <EstimationByStateStatisticsPieChart/>
                         </Card>
-
-                        <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
-                            <AppDownloadInboundStatistics/>
-                        </Card>
                     </div>
-
                 </Content>
+
                 <AdminFooter/>
             </Layout>
+
+            <GoToTopButton/>
         </>
     );
 }

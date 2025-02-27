@@ -6,7 +6,6 @@ import {
     Table,
     TableColumnsType,
     Divider,
-    Space,
     message,
     Descriptions,
     Typography,
@@ -26,6 +25,7 @@ import { CalculateResult } from 'src/definition/interfaces';
 import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
 import useSWR from "swr";
 import fetcher from "../../../util/fetcher";
+import {GoToTopButton} from "../../../util/renderUtil";
 
 // 재료비
 interface MaterialDataType {
@@ -413,12 +413,6 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
         });
     };
 
-    const collapseStyle = {
-        width: window.innerWidth > 768 ? '700px' : '100%',  // 넓은 화면에서는 700px, 작은 화면에서는 100%
-        maxWidth: '95vw',  // 화면 넘침 방지
-        margin: 'auto'  // 중앙 정렬
-    };
-
 
     return(
         <>
@@ -747,6 +741,8 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                     </div>
                 </Flex>
             </div>
+
+            <GoToTopButton/>
         </>
     )
 }

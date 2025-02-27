@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import '../styles.css';
-import {Col, Row, message, Select, InputNumber, Button, Divider, List, Steps} from "antd";
+import {Col, Row, message, Select, InputNumber, Button, Divider, List} from "antd";
 import { Typography } from 'antd';
 import chassisTypeOptions from "../../../definition/chassisType";
 import {InputStatus} from "antd/es/_util/statusUtils";
@@ -9,6 +9,7 @@ import RegisteringChassis from "../../../definition/interfaces";
 import {DeleteOutlined, RightOutlined} from "@ant-design/icons";
 import InitialScreen from '../InitialScreen';
 import BottomNavigator from "../../../component/BottomNavigator";
+import {GoToTopButton} from "../../../util/renderUtil";
 
 const { Title } = Typography;
 
@@ -421,6 +422,8 @@ const CalculationScreen = () => {
                                                         </tr>
                                                     </tbody>
                                                 </table>
+
+                                                <GoToTopButton/>
                                             </>
                                         }
 
