@@ -25,24 +25,24 @@ const StatisticsMainScreen = () => {
                         <div style={{
                             display: 'flex',
                             flexDirection: window.innerWidth < 600 ? 'column' : 'row', // 화면 크기에 따라 가로/세로 변경
-                            gap: '10px',
+                            gap: '3px',
                             justifyContent: 'center',
                             alignItems: 'center',
                             flexWrap: 'wrap',
                             marginBottom: '10%'
                         }}>
-                            {/*<Row gutter={16}>*/}
-                            {/*    <Col span={12}>*/}
+                            <Row gutter={16}>
+                                <Col span={12}>
                                     <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
                                         <SumUpStatisticsTable/>
                                     </Card>
-                                {/*</Col>*/}
-                                {/*<Col span={12}>*/}
+                                </Col>
+                                <Col span={12}>
                                     <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
                                         <AppDownloadInboundStatistics/>
                                     </Card>
-                            {/*    </Col>*/}
-                            {/*</Row>*/}
+                                </Col>
+                            </Row>
                         </div>
 
                         <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
