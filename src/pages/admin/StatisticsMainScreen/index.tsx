@@ -31,18 +31,18 @@ const StatisticsMainScreen = () => {
                             flexWrap: 'wrap',
                             marginBottom: '10%'
                         }}>
-                            <Row gutter={16}>
-                                <Col span={12}>
+                            {/*<Row gutter={16}>*/}
+                            {/*    <Col span={12}>*/}
                                     <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
                                         <SumUpStatisticsTable/>
                                     </Card>
-                                </Col>
-                                <Col span={12}>
+                                {/*</Col>*/}
+                                {/*<Col span={12}>*/}
                                     <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
                                         <AppDownloadInboundStatistics/>
                                     </Card>
-                                </Col>
-                            </Row>
+                            {/*    </Col>*/}
+                            {/*</Row>*/}
                         </div>
 
                         <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
