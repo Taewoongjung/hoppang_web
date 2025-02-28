@@ -22,19 +22,28 @@ const StatisticsMainScreen = () => {
                 <Content style={{ padding: '0 0px' }}>
 
                     <div style={{marginTop: '5%'}}>
-                        {/* 통계 페이지 */}
-                        <Row gutter={16}>
-                            <Col span={12}>
-                                <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
-                                    <SumUpStatisticsTable/>
-                                </Card>
-                            </Col>
-                            <Col span={12}>
-                                <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
-                                    <AppDownloadInboundStatistics/>
-                                </Card>
-                            </Col>
-                        </Row>
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: window.innerWidth < 600 ? 'column' : 'row', // 화면 크기에 따라 가로/세로 변경
+                            gap: '10px',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexWrap: 'wrap',
+                            marginBottom: '10%'
+                        }}>
+                            <Row gutter={16}>
+                                <Col span={12}>
+                                    <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
+                                        <SumUpStatisticsTable/>
+                                    </Card>
+                                </Col>
+                                <Col span={12}>
+                                    <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
+                                        <AppDownloadInboundStatistics/>
+                                    </Card>
+                                </Col>
+                            </Row>
+                        </div>
 
                         <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
                             <UserAndEstimationStatisticsVerticalBarChart/>

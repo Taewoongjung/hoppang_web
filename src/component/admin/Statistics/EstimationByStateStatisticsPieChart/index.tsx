@@ -103,7 +103,14 @@ const EstimationByStateStatisticsPieChart = () => {
                         지역별 견적 개수
                     </Typography.Title>
 
-                    <div style={{  width: "30%", height: "30%", marginTop: '5%' }}>
+                    <div
+                        style={{
+                            width: "30%",
+                            height: "30%",
+                            marginTop: '5%',
+                            minWidth: '100px',
+                            minHeight: '100px'
+                    }}>
                         <Pie data={data} options={options} />
                     </div>
                 </Card>
