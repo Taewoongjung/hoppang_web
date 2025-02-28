@@ -105,12 +105,11 @@ const EstimationByStateStatisticsPieChart = () => {
 
                     <div
                         style={{
-                            width: "30%",
-                            height: "30%",
-                            marginTop: '5%',
-                            minWidth: '100px',
-                            minHeight: '100px'
-                    }}>
+                            width: "clamp(100px, 30%, 500px)",
+                            height: "clamp(100px, 30%, 500px)",
+                            marginTop: '5%'
+                        }}
+                    >
                         <Pie data={data} options={options} />
                     </div>
                 </Card>
