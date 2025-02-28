@@ -146,7 +146,6 @@ const EstimationHistory = () => {
                                 <List.Item key={item.estimationId}>
                                     <Card
                                         style={{ borderRadius: 12, borderColor: "lightgrey" }}
-                                        onClick={() => clickEstimation(item.estimationId)}
                                     >
                                         <Title level={5}>{item.estimationId}</Title>
                                         <Text strong>회사 유형: </Text><Text>{item.companyType}</Text><br/>
@@ -154,6 +153,17 @@ const EstimationHistory = () => {
                                         <Text strong>생성일: </Text><Text>{moment(item.estimatedAt).format('YYYY-MM-DD HH:mm:ss')}</Text>
                                         <hr/>
                                         <Text strong>주소: </Text><Text>{item.fullAddress}</Text><br/>
+
+                                        <Button
+                                            type="link"
+                                            style={{ marginTop: "10px", color: "#1890ff" }}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                clickEstimation(item.estimationId);
+                                            }}
+                                        >
+                                            자세히 보기 →
+                                        </Button>
                                     </Card>
                                 </List.Item>
                             );
