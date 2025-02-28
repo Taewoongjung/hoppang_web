@@ -99,7 +99,7 @@ const MyPage = () => {
                                     <section className="chassis-section">
                                         <h3>창호</h3>
                                         <ul>
-                                            <li onClick={() => {window.location.href = '/mypage/estiomation/histories';}}>
+                                            <li onClick={() => {window.location.href = '/mypage/estimation/histories';}}>
                                                 견적 이력
                                             </li>
                                             {/*<li>*/}

@@ -5,10 +5,11 @@ import {Card, List, Button, Typography, Spin} from "antd";
 import {addCommasToNumber} from "../../../../util";
 import moment from "moment/moment";
 import useSWR from "swr";
-import {callEstimationHistories, callMeData} from "../../../../definition/apiPath";
+import {callEstimationById, callEstimationHistories, callMeData} from "../../../../definition/apiPath";
 import fetcher from "../../../../util/fetcher";
 import axios from "axios";
 import {LeftOutlined} from "@ant-design/icons";
+import {GoToTopButton} from "../../../../util/renderUtil";
 
 
 dayjs.extend(customParseFormat);
@@ -45,7 +46,7 @@ const EstimationHistory = () => {
 
         try {
             const lastEstimationIdParam = lastId ? `lastEstimationId=${lastId}` : "";
-            const res = await axios.get(`${callEstimationHistories}?size=2&${lastEstimationIdParam}`, {
+            const res = await axios.get(`${callEstimationHistories}?size=10&${lastEstimationIdParam}`, {
                 withCredentials: true,
                 headers: {
                     Authorization: localStorage.getItem("hoppang-token"),
@@ -99,48 +100,68 @@ const EstimationHistory = () => {
         [isLoading, isLastPage, lastEstimationId]
     );
 
+    const clickEstimation = (estimationId: any) => {
+
+        if (!estimationId) {
+            return;
+        }
+
+        return window.location.href = "/mypage/estimation/" + estimationId;
+    }
+
+
     return (
         <div style={{ padding: 20 }}>
             <div onClick={clickBackButton} style={{ color: "blue", marginRight: "80%", marginTop: '50px', marginBottom: '80px' }}>
                 <LeftOutlined />
             </div>
 
-            <Title level={1} style={{ textAlign: "center" }}>견적 리스트</Title>
+            <Title level={1} style={{ textAlign: "center" }}>견적 이력</Title>
             {data.length > 0 ? (
-                <List
-                    grid={{ gutter: 16, column: 1 }}
-                    dataSource={data}
-                    renderItem={(item, index) => {
-                        if (index === data.length - 1) {
+                <>
+                    <List
+                        grid={{ gutter: 16, column: 1 }}
+                        dataSource={data}
+                        renderItem={(item, index) => {
+                            if (index === data.length - 1) {
+                                return (
+                                    <div ref={lastElementRef} key={item.estimationId}>
+                                        <List.Item>
+                                            <Card
+                                                style={{ borderRadius: 12, borderColor: "lightgrey" }}
+                                                onClick={() => clickEstimation(item.estimationId)}
+                                            >
+                                                <Title level={5}>{item.estimationId}</Title>
+                                                <Text strong>회사 유형: </Text><Text>{item.companyType}</Text><br/>
+                                                <Text strong>총 가격: </Text><Text>{addCommasToNumber(item.wholePrice)}</Text><br/>
+                                                <Text strong>생성일: </Text><Text>{moment(item.estimatedAt).format('YYYY-MM-DD HH:mm:ss')}</Text>
+                                                <hr/>
+                                                <Text strong>주소: </Text><Text>{item.fullAddress}</Text><br/>
+                                            </Card>
+                                        </List.Item>
+                                    </div>
+                                );
+                            }
                             return (
-                                <div ref={lastElementRef} key={item.estimationId}>
-                                    <List.Item>
-                                        <Card style={{ borderRadius: 12, borderColor: "lightgrey" }}>
-                                            <Title level={5}>{item.estimationId}</Title>
-                                            <Text strong>회사 유형: </Text><Text>{item.companyType}</Text><br/>
-                                            <Text strong>총 가격: </Text><Text>{addCommasToNumber(item.wholePrice)}</Text><br/>
-                                            <Text strong>생성일: </Text><Text>{moment(item.estimatedAt).format('YYYY-MM-DD HH:mm:ss')}</Text>
-                                            <hr/>
-                                            <Text strong>주소: </Text><Text>{item.fullAddress}</Text><br/>
-                                        </Card>
-                                    </List.Item>
-                                </div>
+                                <List.Item key={item.estimationId}>
+                                    <Card
+                                        style={{ borderRadius: 12, borderColor: "lightgrey" }}
+                                        onClick={() => clickEstimation(item.estimationId)}
+                                    >
+                                        <Title level={5}>{item.estimationId}</Title>
+                                        <Text strong>회사 유형: </Text><Text>{item.companyType}</Text><br/>
+                                        <Text strong>총 가격: </Text><Text>{addCommasToNumber(item.wholePrice)}</Text><br/>
+                                        <Text strong>생성일: </Text><Text>{moment(item.estimatedAt).format('YYYY-MM-DD HH:mm:ss')}</Text>
+                                        <hr/>
+                                        <Text strong>주소: </Text><Text>{item.fullAddress}</Text><br/>
+                                    </Card>
+                                </List.Item>
                             );
-                        }
-                        return (
-                            <List.Item key={item.estimationId}>
-                                <Card style={{ borderRadius: 12, borderColor: "lightgrey" }}>
-                                    <Title level={5}>{item.estimationId}</Title>
-                                    <Text strong>회사 유형: </Text><Text>{item.companyType}</Text><br/>
-                                    <Text strong>총 가격: </Text><Text>{addCommasToNumber(item.wholePrice)}</Text><br/>
-                                    <Text strong>생성일: </Text><Text>{moment(item.estimatedAt).format('YYYY-MM-DD HH:mm:ss')}</Text>
-                                    <hr/>
-                                    <Text strong>주소: </Text><Text>{item.fullAddress}</Text><br/>
-                                </Card>
-                            </List.Item>
-                        );
-                    }}
-                />
+                        }}
+                    />
+
+                    <GoToTopButton/>
+                </>
             ) : (
                 <div style={{ textAlign: "center", padding: "50px 0" }}>
                     <Title level={4}>견적 내역이 없습니다.</Title>

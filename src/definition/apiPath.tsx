@@ -17,6 +17,7 @@ export const callWithdrawUser = `https://hoppang.store/api/users/{userId}`;
 export const calculateChassisCall = `https://hoppang.store/api/customers/chassis/calculations/prices`;
 export const callEstimateInquiry = `https://hoppang.store/api/customers/chassis/estimations/{estimationId}/inquiries`;
 export const callEstimationHistories = `https://hoppang.store/api/customers/chassis`;
+export const callEstimationById = `https://hoppang.store/api/customers/chassis/{estimationId}`;
 
 // dev
 // export const kakaoLogin = `http://localhost:7070/api/kakao/auth`;
@@ -37,3 +38,4 @@ export const callEstimationHistories = `https://hoppang.store/api/customers/chas
 // export const calculateChassisCall = `http://localhost:7070/api/customers/chassis/calculations/prices`;
 // export const callEstimateInquiry = `http://localhost:7070/api/customers/chassis/estimations/{estimationId}/inquiries`;
 // export const callEstimationHistories = `http://localhost:7070/api/customers/chassis`;
+// export const callEstimationById = `http://localhost:7070/api/customers/chassis/{estimationId}`;
