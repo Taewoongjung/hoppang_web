@@ -83,7 +83,9 @@ const EstimationByStateStatisticsPieChart = () => {
                 estimationsByStateData
                     .filter((item: any) => item.count !== 0)
                     .map((item: any) => item.state);
-            const estimationsPercentileByStateData = estimationsByStateData.map((item: any) => item.count);
+            const estimationsPercentileByStateData = estimationsByStateData
+                .filter((item: any) => item.count !== 0)
+                .map((item: any) => item.count);
 
             setStateList(stateList);
             setEstimationsByStateData(estimationsPercentileByStateData);
@@ -105,9 +107,13 @@ const EstimationByStateStatisticsPieChart = () => {
 
                     <div
                         style={{
-                            width: "clamp(100px, 30%, 500px)",
-                            height: "clamp(100px, 30%, 500px)",
-                            marginTop: '5%'
+                            width: "80vw",
+                            height: "80vh",
+                            maxWidth: "1200px",
+                            maxHeight: "1200px",
+                            minWidth: "400px",
+                            minHeight: "400px",
+                            margin: "auto"
                         }}
                     >
                         <Pie data={data} options={options} />

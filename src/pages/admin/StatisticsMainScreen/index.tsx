@@ -1,5 +1,5 @@
 import React from 'react';
-import {Layout, Card, Col, Row} from "antd";
+import {Layout, Card} from "antd";
 import TopNavigator from "../../../component/admin/TopNavigator";
 import SumUpStatisticsTable from "../../../component/admin/Statistics/SumUpStatisticsTable";
 import UserAndEstimationStatisticsVerticalBarChart
@@ -27,21 +27,14 @@ const StatisticsMainScreen = () => {
                             gap: '3px',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            flexWrap: 'wrap',
-                            marginBottom: '1%'
+                            flexWrap: 'wrap'
                         }}>
-                            <Row gutter={16}>
-                                <Col span={12}>
-                                    <Card style={{ borderRadius: '8px' }}>
-                                        <SumUpStatisticsTable/>
-                                    </Card>
-                                </Col>
-                                <Col span={12}>
-                                    <Card style={{ borderRadius: '8px' }}>
-                                        <AppDownloadInboundStatistics/>
-                                    </Card>
-                                </Col>
-                            </Row>
+                            <Card style={{ marginBottom: '1%', borderRadius: '8px' }}>
+                                <SumUpStatisticsTable/>
+                            </Card>
+                            <Card style={{ marginBottom: '1%', borderRadius: '8px' }}>
+                                <AppDownloadInboundStatistics/>
+                            </Card>
                         </div>
 
                         <Card style={{ marginBottom: '1%', borderRadius: '8px' }}>
