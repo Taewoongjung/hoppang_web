@@ -5,7 +5,6 @@ import {useParams} from "react-router-dom";
 import {Button, Descriptions, Divider, message, Modal, Table, TableColumnsType, Typography} from "antd";
 import { addCommasToNumber } from 'src/util';
 import {LeftOutlined} from "@ant-design/icons";
-import {GoToTopButton} from "../../../../util/renderUtil";
 
 interface MaterialDataType {
     key: React.Key;
@@ -59,6 +58,8 @@ const EstimationDetailPage = () => {
     const [wholePrice, setWholePrice] = useState('');
     const [totalPrice, setTotalPrice] = useState('');
     const [calculatedCompanyType, setCalculatedCompanyType] = useState('');
+    const [estimatedAt, setEstimatedAt] = useState();
+
 
     const success = (successMsg:string) => {
         messageApi.open({
@@ -87,6 +88,8 @@ const EstimationDetailPage = () => {
         }).then((res) => {
 
             const result = res.data;
+
+            setEstimatedAt(result.createdAt);
 
             const formattedData = result.chassisPriceResultList.map((item: any, index: number) => ({
                 key: index,
@@ -184,44 +187,59 @@ const EstimationDetailPage = () => {
             <header
                 style={{
                     display: 'flex',
-                    justifyContent: 'center',
+                    flexDirection: 'column',
                     alignItems: 'center',
                     position: 'relative',
-                    height: '50px',
+                    height: 'auto',
                     width: '100%',
                     maxWidth: '600px',
                     margin: '0 auto',
+                    padding: '10px 0',
                     borderBottom: '1px solid #ddd',
                     marginBottom: '8%'
                 }}
             >
-                <button
+                <div
                     style={{
-                        position: 'absolute',
-                        left: '0',
-                        fontSize: 24,
-                        background: 'none',
-                        border: 'none'
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        width: '100%',
+                        maxWidth: '600px',
+                        padding: '0 10px'
                     }}
-                    onClick={() => {
-                        window.location.href = '/mypage/estimation/histories';
-                    }}>
-                    <LeftOutlined/>
-                </button>
-            </header>
+                >
+                    <button
+                        style={{
+                            fontSize: '18px',
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            color: '#333',
+                            display: 'flex',
+                            alignItems: 'center'
+                        }}
+                        onClick={() => {
+                            window.location.href = '/mypage/estimation/histories';
+                        }}>
+                        <LeftOutlined style={{ fontSize: '20px', marginRight: '5px' }} />
+                    </button>
+                </div>
 
-            <div
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    position: 'relative',
-                    marginTop: '2%',
-                    marginBottom: '5%'
-                }}
-            >
-                <span>{calculatedCompanyType} - 📋 {estimationId} (견적번호)</span>
-            </div>
+                <div
+                    style={{
+                        textAlign: 'center',
+                        marginTop: '10px'
+                    }}
+                >
+                    <Typography.Title level={5} style={{ margin: 0 }}>
+                        {calculatedCompanyType} - 📋 {estimationId} (견적번호)
+                    </Typography.Title>
+                    <Typography.Text type="secondary" style={{ fontSize: '12px' }}>
+                        견적일: {estimatedAt}
+                    </Typography.Text>
+                </div>
+            </header>
 
             <Divider orientation="center" style={{maxWidth: '600px', margin: '0 auto'}}>창호</Divider>
             <Table
@@ -289,8 +307,6 @@ const EstimationDetailPage = () => {
             >
                 해당 견적 문의하기
             </Button>
-
-            <GoToTopButton/>
         </>
     );
 }
