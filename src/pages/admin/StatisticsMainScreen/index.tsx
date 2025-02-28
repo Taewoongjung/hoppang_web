@@ -23,33 +23,32 @@ const StatisticsMainScreen = () => {
 
                     <div style={{marginTop: '5%'}}>
                         <div style={{
-                            display: 'flex',
                             flexDirection: window.innerWidth < 600 ? 'column' : 'row', // 화면 크기에 따라 가로/세로 변경
                             gap: '3px',
                             justifyContent: 'center',
                             alignItems: 'center',
                             flexWrap: 'wrap',
-                            marginBottom: '10%'
+                            marginBottom: '1%'
                         }}>
                             <Row gutter={16}>
                                 <Col span={12}>
-                                    <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
+                                    <Card style={{ borderRadius: '8px' }}>
                                         <SumUpStatisticsTable/>
                                     </Card>
                                 </Col>
                                 <Col span={12}>
-                                    <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
+                                    <Card style={{ borderRadius: '8px' }}>
                                         <AppDownloadInboundStatistics/>
                                     </Card>
                                 </Col>
                             </Row>
                         </div>
 
-                        <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
+                        <Card style={{ marginBottom: '1%', borderRadius: '8px' }}>
                             <UserAndEstimationStatisticsVerticalBarChart/>
                         </Card>
 
-                        <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
+                        <Card style={{ borderRadius: '8px' }}>
                             <EstimationByStateStatisticsPieChart/>
                         </Card>
                     </div>
