@@ -109,6 +109,22 @@ const EstimationHistory = () => {
         return window.location.href = "/mypage/estimation/" + estimationId;
     }
 
+    const clickGoToEstimationDetail = (estimationId: any) => {
+
+        return (
+            <Button
+                type="link"
+                style={{ marginTop: "10px", color: "#1890ff" }}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    clickEstimation(estimationId);
+                }}
+            >
+                자세히 보기 →
+            </Button>
+        )
+    }
+
 
     return (
         <div style={{ padding: 20 }}>
@@ -137,6 +153,8 @@ const EstimationHistory = () => {
                                                 <Text strong>생성일: </Text><Text>{moment(item.estimatedAt).format('YYYY-MM-DD HH:mm:ss')}</Text>
                                                 <hr/>
                                                 <Text strong>주소: </Text><Text>{item.fullAddress}</Text><br/>
+
+                                                {clickGoToEstimationDetail(item.estimationId)}
                                             </Card>
                                         </List.Item>
                                     </div>
@@ -154,16 +172,7 @@ const EstimationHistory = () => {
                                         <hr/>
                                         <Text strong>주소: </Text><Text>{item.fullAddress}</Text><br/>
 
-                                        <Button
-                                            type="link"
-                                            style={{ marginTop: "10px", color: "#1890ff" }}
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                clickEstimation(item.estimationId);
-                                            }}
-                                        >
-                                            자세히 보기 →
-                                        </Button>
+                                        {clickGoToEstimationDetail(item.estimationId)}
                                     </Card>
                                 </List.Item>
                             );
