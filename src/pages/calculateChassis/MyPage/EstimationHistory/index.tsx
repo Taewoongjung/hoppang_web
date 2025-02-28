@@ -114,7 +114,7 @@ const EstimationHistory = () => {
         return (
             <Button
                 type="link"
-                style={{ marginTop: "10px", color: "#1890ff" }}
+                style={{ marginTop: "13px", color: "#1890ff" }}
                 onClick={(e) => {
                     e.stopPropagation();
                     clickEstimation(estimationId);
