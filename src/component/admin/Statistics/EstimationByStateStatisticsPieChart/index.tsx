@@ -111,8 +111,8 @@ const EstimationByStateStatisticsPieChart = () => {
                             height: "80vh",
                             maxWidth: "1200px",
                             maxHeight: "1200px",
-                            minWidth: "400px",
-                            minHeight: "400px",
+                            minWidth: "277px",
+                            minHeight: "277px",
                             margin: "auto"
                         }}
                     >
