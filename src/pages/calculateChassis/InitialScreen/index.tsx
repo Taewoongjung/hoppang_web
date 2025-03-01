@@ -43,6 +43,7 @@ const InitialScreen = (props: {
     }
 
     const handleNotificationAgree = () => {
+        checkIfFinishedSignedUp(); // 모든 로그인 프로세스를 마쳤는지 확인하기
         checkIfLoggedIn(); // 로그인 했는지 확인하기
         setGetStarted(!getStarted);
         setIsAgreed(!isAgreed);
@@ -60,6 +61,12 @@ const InitialScreen = (props: {
         }).catch((err) => {
             window.location.href = "/login?needed=true";
         })
+    }
+
+    const checkIfFinishedSignedUp = () => {
+        if (!userData.tel) {
+            window.location.href = "/login/first?remainedProcess=true&userEmail=" + userData.email;
+        }
     }
 
     const handleBack = () => {
@@ -87,7 +94,7 @@ const InitialScreen = (props: {
                         localStorage.setItem('kakaoTokenInfo', '');
 
                         if (res.data.isSuccess && res.data.isTheFirstLogIn) {
-                            window.location.href = "/login/first?userEmail=" + res.data.userEmail
+                            window.location.href = "/login/first?remainedProcess=false&userEmail=" + res.data.userEmail
                         }
                         setIsLoading(false);
 
@@ -116,7 +123,7 @@ const InitialScreen = (props: {
                         localStorage.setItem("hoppang-login-oauthType", res.data.oauthType); // 로그인 타입 설정
 
                         if (res.data.isSuccess && res.data.isTheFirstLogIn) {
-                            window.location.href = "/login/first?applelogin=true&userEmail=" + res.data.userEmail
+                            window.location.href = "/login/first?remainedProcess=false&userEmail=" + res.data.userEmail
                         }
                         setIsLoading(false);
 
@@ -146,7 +153,7 @@ const InitialScreen = (props: {
                         localStorage.setItem("hoppang-login-oauthType", res.data.oauthType); // 로그인 타입 설정
 
                         if (res.data.isSuccess && res.data.isTheFirstLogIn) {
-                            window.location.href = "/login/first?applelogin=true&userEmail=" + res.data.userEmail
+                            window.location.href = "/login/first?remainedProcess=false&userEmail=" + res.data.userEmail
                         }
                         setIsLoading(false);
 

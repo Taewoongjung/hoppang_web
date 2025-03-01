@@ -14,6 +14,7 @@ const VALIDATION_SENT_MESSAGE = (
 const VALIDATION_PROPOSAL_MESSAGE = '확인 버튼을 눌러 인증을 진행해 주세요.';
 const VALIDATION_ERROR_MESSAGE = '인증번호가 틀렸습니다. 다시 확인 해주세요.'
 const VALIDATION_NUMBER_SUCCESS_MESSAGE = '인증 요청을 해주세요.';
+const PLEASE_REQUEST_VALIDATION_MESSAGE = '인증 버튼을 눌러 인증 요청을 진행해 주세요.';
 
 const LoginFirstStep = () => {
 
@@ -31,6 +32,7 @@ const LoginFirstStep = () => {
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
     });
+
 
     const allReset = () => {
         setTargetPhoneNumber('');
@@ -138,7 +140,7 @@ const LoginFirstStep = () => {
             setFeedbackForValidationNumber('숫자만 입력할 수 있습니다.');
             return;
         } else {
-            setFeedbackForValidationNumber('인증 버튼을 눌러 인증 요청을 진행해 주세요.');
+            setFeedbackForValidationNumber(PLEASE_REQUEST_VALIDATION_MESSAGE);
             return;
         }
     };
@@ -203,7 +205,9 @@ const LoginFirstStep = () => {
         return (
             <>
                 {feedbackForValidationNumber &&
-                    <p style={{color: feedbackForValidationNumber === VALIDATION_NUMBER_SUCCESS_MESSAGE ? 'green' : 'red'}}>
+                    <p
+                        style={{
+                            color: feedbackForValidationNumber === (VALIDATION_NUMBER_SUCCESS_MESSAGE || PLEASE_REQUEST_VALIDATION_MESSAGE) ? 'green' : 'red'}}>
                         {feedbackForValidationNumber}
                     </p>
                 }
@@ -215,10 +219,33 @@ const LoginFirstStep = () => {
     return (
         <div className="login-container" style={styles.container}>
             <div className="login-box" style={styles.box}>
+                {
+                    urlParams.get("remainedProcess") === "true" &&
+                    <div style={{
+                        backgroundColor: '#FFF9C4',
+                        padding: '10px',
+                        borderRadius: '5px',
+                        textAlign: 'center',
+                        fontWeight: 'bold',
+                        fontSize: '18px',
+                        color: '#333',
+                        marginBottom: '50px'
+                    }}>
+                        🔒 로그인 후 견적을 확인할 수 있습니다. 빠르게 완료해 주세요!
+                    </div>
+                }
                 <>
                     {/* 피드백 메시지 */}
                     {renderTelValidationFeedBackMessage()}
-                    <div>
+                    <div
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            textAlign: 'center',
+                            boxSizing: 'border-box',
+                        }}
+                    >
                         <Input
                             style={{
                                 ...styles.validationRequestInput,
@@ -230,6 +257,8 @@ const LoginFirstStep = () => {
                             onChange={handleInputChange}
                             placeholder="01012345678"
                             type="tel"
+                            inputMode="numeric"
+                            pattern="\d*"
                             maxLength={11}
                         />
 
@@ -239,24 +268,46 @@ const LoginFirstStep = () => {
                 {requestedValidation &&
                     <>
                         <br/>
-                        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                textAlign: 'center',
+                                boxSizing: 'border-box',
+                            }}
+                        >
                             <Space.Compact>
                                 <Input
-                                    style = {{
-                                        ...styles.validationInput,
+                                    style={{
+                                        fontSize: '15px',
+                                        width: window.innerWidth > 768 ? '280px' : '230px',
+                                        height: '50px',
+                                        cursor: 'pointer',
+                                        padding: 0,
+                                        overflow: 'hidden',
+                                        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
                                         borderColor: compErrMessage === VALIDATION_ERROR_MESSAGE ? 'red' : '',
                                     }}
-                                    value = {validationNumber}
-                                    onChange = {handleValidationNumberChange}
-                                    placeholder = {compErrMessage ? compErrMessage : "인증번호 입력"}
+                                    value={validationNumber}
+                                    onChange={handleValidationNumberChange}
+                                    placeholder={compErrMessage ? compErrMessage : "인증번호 입력"}
+                                    inputMode="numeric"
+                                    pattern="\d*"
                                 />
-
-                                { renderTelValidationRequestButton() }
+                                {renderTelValidationRequestButton()}
                             </Space.Compact>
 
-                            {requestedValidation &&
-                                <p style={{color: 'red', marginLeft: '10px'}}>{formatTime(timer)}</p>
-                            }
+                            {requestedValidation && (
+                                <p
+                                    style={{
+                                        color: 'red',
+                                        marginLeft: '10px'
+                                    }}
+                                >
+                                    {formatTime(timer)}
+                                </p>
+                            )}
                         </div>
                         { renderValidationNumberFeedBackMessage() }
                     </>
