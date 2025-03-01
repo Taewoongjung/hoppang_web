@@ -204,7 +204,7 @@ const CalculationScreen = () => {
 
                                         {(!secondStep && companyType !== '선택안함') &&
                                             <>
-                                                {/*상황 진척도*/}
+                                            {/*상황 진척도*/}
                                                 {/*<div style={{width: "700px"}}>*/}
                                                 {/*    <Steps*/}
                                                 {/*        current={current}*/}

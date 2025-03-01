@@ -5,9 +5,9 @@ export const GoToTopButton = () => {
 
     return (
         <>
-            <FloatButton.Group shape="circle">
-                <FloatButton.BackTop visibilityHeight={0} />
-            </FloatButton.Group>
+            <FloatButton.BackTop
+                visibilityHeight={0}
+            />
         </>
     )
 }

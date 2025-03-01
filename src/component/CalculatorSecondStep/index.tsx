@@ -9,6 +9,7 @@ import {calculateChassisCall} from "../../definition/apiPath";
 import './styles.css';
 import {mappedValueByCompany} from "../../util";
 import OverlayLoadingPage from "../Loading/OverlayLoadingPage";
+import InfoSection from "../CalculationInfoSection";
 
 const { Title } = Typography;
 
@@ -221,7 +222,6 @@ const CalculatorSecondStep = (props: {
     return (
         <>
             {isLoading && <OverlayLoadingPage/>}
-
 
             {contextHolder}
             {/*상황 진척도*/}
@@ -513,11 +513,27 @@ const CalculatorSecondStep = (props: {
                         {order > 5 &&
                             <tr>
                                 <td colSpan={2}>
-                                    <div style={{marginTop: '50px'}}>
+                                    <div
+                                        style={{
+                                            marginTop: '50px',
+                                            width: '100%',
+                                            maxWidth: '700px',       // 최대 너비 설정
+                                            boxSizing: 'border-box', // 넘침 방지
+                                            padding: '10px',         // 여백 추가
+                                            display: 'flex',         // 플렉스 사용
+                                            flexDirection: 'column', // 세로 정렬
+                                            alignItems: 'center',    // 수직 중앙 정렬
+                                            justifyContent: 'center' // 수평 중앙 정렬
+                                        }}
+                                    >
+                                        <InfoSection />
+
                                         <button
                                             className="special-button"
                                             onClick={callCalculate}
-                                            style={styles.button}
+                                            style={{
+                                                ...styles.button,
+                                            }}
                                         >
                                             계산하기
                                         </button>
