@@ -207,7 +207,11 @@ const LoginFirstStep = () => {
                 {feedbackForValidationNumber &&
                     <p
                         style={{
-                            color: feedbackForValidationNumber === (VALIDATION_NUMBER_SUCCESS_MESSAGE || PLEASE_REQUEST_VALIDATION_MESSAGE) ? 'green' : 'red'}}>
+                            color: [VALIDATION_NUMBER_SUCCESS_MESSAGE, PLEASE_REQUEST_VALIDATION_MESSAGE].includes(feedbackForValidationNumber)
+                                ? 'green'
+                                : 'red'
+                        }}
+                    >
                         {feedbackForValidationNumber}
                     </p>
                 }
