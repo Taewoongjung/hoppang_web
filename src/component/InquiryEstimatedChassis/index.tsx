@@ -89,7 +89,7 @@ const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:a
                             // iOS 또는 다른 경우: 기본 브라우저에서 열기
                             else {
                                 handleInquiry('KAKAO');
-                                window.open(kakaoWebLink, '_blank');
+                                window.location.href = kakaoWebLink;
 
                                 return;
                             }
