@@ -78,17 +78,16 @@ const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:a
                         key="kakao"
                         style={{ backgroundColor: '#FEE500', color: '#000' }}
                         onClick={() => {
-                            const kakaoLink = 'https://pf.kakao.com/_dbxezn';
+                            const kakaoWebLink = 'https://pf.kakao.com/_dbxezn';
                             const userAgent = navigator.userAgent.toLowerCase();
 
                             // 안드로이드인 경우: 인텐트 사용해 크롬에서 열기
                             if (userAgent.includes('android')) {
-                                // window.location.href = `intent://${kakaoLink.replace('https://', '')}#Intent;scheme=https;package=com.android.chrome;end`;
-                                window.location.href = "kakaotalk://plusfriend/chat/_dbxezn";
+                                window.location.href = `intent://${kakaoWebLink.replace('https://', '')}#Intent;scheme=https;package=com.android.chrome;end`;
                             }
                             // iOS 또는 다른 경우: 기본 브라우저에서 열기
                             else {
-                                window.location.href = "kakaotalk://plusfriend/chat/_dbxezn";
+                                window.open(kakaoWebLink, '_blank');
                             }
 
                             handleInquiry('KAKAO');
