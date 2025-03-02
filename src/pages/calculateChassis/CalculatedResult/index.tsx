@@ -423,7 +423,25 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 <Result
                     status="success"
                     title={`견적 완료`}
-                    subTitle="받아본 견적은 상황에 따라 추가 금액이 붙을 수 있습니다. 참고 하시기 바랍니다."
+                    subTitle={
+                        <div
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: '100%',
+                                textAlign: 'center',
+                                boxSizing: 'border-box',
+                                padding: '10px 0'
+                            }}
+                        >
+                            <div style={{
+                                maxWidth: window.innerWidth > 768 ? '100%' : '50%',
+                            }}>
+                                받아본 견적은 상황에 따라 추가 금액이 붙을 수 있습니다. 참고 하시기 바랍니다.
+                            </div>
+                        </div>
+                    }
                     extra={[
                         <Button
                             type="primary"
@@ -455,7 +473,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         <Collapse
                             size="large"
                             style={{
-                                width: window.innerWidth > 768 ? '100%' : '70%',
+                                width: window.innerWidth > 768 ? '100%' : '55%',
                                 maxWidth: '95vw', // 화면 넘침 방지
                                 margin: 'auto'
                             }}
@@ -469,15 +487,6 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                 ),
                                 children:
                                     <p>
-                                        <Button
-                                            type="primary"
-                                            size="small"
-                                            style={{ width: '100%', maxWidth: '200px', marginBottom: '10px' }}
-                                            ghost
-                                            onClick={() => handleInquiry(estimationId)}
-                                        >
-                                            해당 견적 문의하기
-                                        </Button>
                                         <Divider orientation="left">재료값</Divider>
                                         <Table
                                             columns={materialColumns}
@@ -509,6 +518,16 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                             )}
                                             pagination={false}
                                         />
+
+                                        <Button
+                                            type="primary"
+                                            size="small"
+                                            style={{ width: '100%', maxWidth: '200px', marginBottom: '10px' }}
+                                            ghost
+                                            onClick={() => handleInquiry(estimationId)}
+                                        >
+                                            해당 견적 문의하기
+                                        </Button>
                                     </p>
                             }]}
                         />
@@ -534,10 +553,11 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         <Collapse
                             size={result2 ? "large" : "small"}
                             style={{
-                                width: window.innerWidth > 768 ? '100%' : '70%',
+                                width: window.innerWidth > 768 ? '100%' : '55%',
                                 maxWidth: '95vw', // 화면 넘침 방지
                                 margin: 'auto'
                             }}
+                            activeKey={result2 ? ['2'] : 'null'}
                             collapsible={result2 ? "header" : "disabled"}
                             items={[
                                 {
@@ -556,14 +576,6 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                         <p>
                                             {result2 &&
                                                 <div>
-                                                    {secondCalculatedCompanyType !== '' && (
-                                                        <Button type="primary" size="small"
-                                                                style={{ width: '100%', maxWidth: '200px', marginBottom: '10px' }}
-                                                                ghost
-                                                                onClick={() => handleInquiry(estimationId2)}>
-                                                            해당 견적 문의하기
-                                                        </Button>
-                                                    )}
                                                     <Divider orientation="left">재료값</Divider>
                                                     <Table
                                                         columns={materialColumns}
@@ -595,7 +607,17 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                         )}
                                                         pagination={false}
                                                     />
-                                                </div>}
+
+                                                    {secondCalculatedCompanyType !== '' && (
+                                                        <Button type="primary" size="small"
+                                                                style={{ width: '100%', maxWidth: '200px', marginBottom: '10px' }}
+                                                                ghost
+                                                                onClick={() => handleInquiry(estimationId2)}>
+                                                            해당 견적 문의하기
+                                                        </Button>
+                                                    )}
+                                                </div>
+                                            }
                                         </p>
                                 },
                             ]}
@@ -647,11 +669,11 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                         <Collapse
                             size={result3 ? "large" : "small"}
                             style={{
-                                // width: window.innerWidth > 768 ? '80%' : '100%',
-                                width: window.innerWidth > 768 ? '100%' : '70%',
+                                width: window.innerWidth > 768 ? '100%' : '55%',
                                 maxWidth: '95vw', // 화면 넘침 방지
                                 margin: 'auto'
                             }}
+                            activeKey={result3 ? ['3'] : 'null'}
                             collapsible={result3 ? "header" : "disabled"}
                             items={[
                                 {
@@ -670,14 +692,6 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                         <p>
                                             {result3 &&
                                                 <div>
-                                                    {thirdCalculatedCompanyType !== '' && (
-                                                        <Button type="primary" size="small"
-                                                                style={{ width: '100%', maxWidth: '200px', marginBottom: '10px' }}
-                                                                ghost
-                                                                onClick={() => handleInquiry(estimationId3)}>
-                                                            해당 견적 문의하기
-                                                        </Button>
-                                                    )}
                                                     <Divider orientation="left">재료값</Divider>
                                                     <Table
                                                         columns={materialColumns}
@@ -709,7 +723,17 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                         )}
                                                         pagination={false}
                                                     />
-                                                </div>}
+
+                                                    {thirdCalculatedCompanyType !== '' && (
+                                                        <Button type="primary" size="small"
+                                                                style={{ width: '100%', maxWidth: '200px', marginBottom: '10px' }}
+                                                                ghost
+                                                                onClick={() => handleInquiry(estimationId3)}>
+                                                            해당 견적 문의하기
+                                                        </Button>
+                                                    )}
+                                                </div>
+                                            }
                                         </p>
                                 },
                             ]}
