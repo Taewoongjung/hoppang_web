@@ -43,7 +43,6 @@ const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:a
             }
         }).catch((err) => {
             errorModal("견적 문의를 잠시 후 다시 시도해주세요.");
-            errorModal(err);
         });
     }
 
@@ -82,7 +81,7 @@ const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:a
                             const kakaoWebLink = 'https://pf.kakao.com/_dbxezn';
 
                             handleInquiry('KAKAO');
-                            // window.open(kakaoWebLink, '_blank');
+                            window.open(kakaoWebLink, '_blank');
 
                         }}
                     >
