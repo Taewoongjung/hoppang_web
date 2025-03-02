@@ -1,8 +1,22 @@
-import React, {useState} from 'react';
-import {Switch, Typography, Form, Input, Popover, Col, Button, InputNumber, message, Steps, Divider} from 'antd';
+import React, {useEffect, useRef, useState} from 'react';
+import {
+    Switch,
+    Typography,
+    Form,
+    Input,
+    Popover,
+    Col,
+    Button,
+    InputNumber,
+    message,
+    Steps,
+    Divider,
+    TourProps,
+    Tour,
+    InputRef,
+} from 'antd';
 import RegisteringChassis, {CalculateResult} from "../../definition/interfaces";
-import SearchAddressPopUp from "../SearchAddressPopUp";
-import {LeftOutlined, SearchOutlined} from "@ant-design/icons";
+import {LeftOutlined} from "@ant-design/icons";
 import axios from "axios";
 import CalculatedResult from "../../pages/calculateChassis/CalculatedResult";
 import {calculateChassisCall} from "../../definition/apiPath";
@@ -10,9 +24,9 @@ import './styles.css';
 import {mappedValueByCompany} from "../../util";
 import OverlayLoadingPage from "../Loading/OverlayLoadingPage";
 import InfoSection from "../CalculationInfoSection";
+import SearchAddressPopUp from '../SearchAddressPopUp';
 
 const { Title } = Typography;
-
 
 const CalculatorSecondStep = (props: {
     registeredList: RegisteringChassis[],
@@ -55,6 +69,39 @@ const CalculatorSecondStep = (props: {
 
     // 작성 순서
     const [order, setOrder] = useState(1);
+
+    // 가이드 관련
+    const [guideOpen, setGuideOpen] = useState<boolean>(false);
+    const addressRef = useRef<InputRef>(null);
+
+
+    useEffect(() => {
+        if (order === 1) {
+            setGuideOpen(true);
+        }
+    }, [order]);
+
+    const steps: TourProps['steps'] = [
+        {
+            title: '주소 입력',
+            placement: 'bottom',
+            description: '터치 해서 주소를 입력해주세요.',
+            target: () => addressRef.current?.input as HTMLElement || null,
+            closeIcon: null,
+            nextButtonProps : {
+                children: (
+                    <div style={{color: "#4da3ff"}}>닫기</div>
+                ),
+                style: {
+                    backgroundColor: "white",
+                    borderRadius: "10%",
+                    width: 32,
+                    minWidth: 32,
+                    height: 32,
+                }
+            }
+        }
+    ]
 
     const success = (successMsg:string) => {
         messageApi.open({
@@ -173,6 +220,11 @@ const CalculatorSecondStep = (props: {
         }
     }
 
+    const handleAddressStates = () => {
+        setOpenSearchAddr(true);
+        setGuideOpen(false);
+    }
+
     const handleSetAddressSector = () => {
 
         if (!address) {
@@ -222,6 +274,14 @@ const CalculatorSecondStep = (props: {
     return (
         <>
             {isLoading && <OverlayLoadingPage/>}
+
+            <Tour
+                type="primary"
+                steps={steps}
+                open={guideOpen}
+                onClose={() => setGuideOpen(false)}
+                mask={false}
+            />
 
             {contextHolder}
             {/*상황 진척도*/}
@@ -290,38 +350,32 @@ const CalculatorSecondStep = (props: {
                                                     rules={[{required: true, message: '⚠️ 주소는 필수 응답 항목입니다.'}]}
                                                 >
                                                     <Input
-                                                        onClick={() => setOpenSearchAddr(true)}
-                                                        addonAfter={
-                                                            (
-                                                                <Popover
-                                                                    content={
-                                                                        <SearchAddressPopUp
-                                                                            setAddress={handleAddress}
-                                                                            setOpenSearchAddr={setOpenSearchAddr}
-                                                                        />
-                                                                    }
-                                                                    trigger="click"
-                                                                    open={openSearchAddr}
-                                                                    placement="bottom"
-                                                                    onOpenChange={handleOpenSearchAddrChange}
-                                                                >
-                                                                    <SearchOutlined onClick={(e) => {
-                                                                        e.preventDefault();
-                                                                    }}/>
-                                                                </Popover>
-                                                            )
-                                                        }
+                                                        ref={addressRef}
+                                                        onClick={handleAddressStates}
                                                         style={{width: "160px"}} readOnly
                                                     />
                                                 </Form.Item>
                                             </Col>
+                                            <Popover
+                                                content={
+                                                    <SearchAddressPopUp
+                                                        setAddress={handleAddress}
+                                                        setOpenSearchAddr={setOpenSearchAddr}
+                                                    />
+                                                }
+                                                trigger="click"
+                                                open={openSearchAddr}
+                                                placement="bottom"
+                                                onOpenChange={handleOpenSearchAddrChange}
+                                            >
+                                            </Popover>
 
                                             <Col>
                                                 <Form.Item
                                                     name="mainAddress"
                                                 >
                                                     <Input
-                                                        onClick={() => setOpenSearchAddr(true)}
+                                                        onClick={handleAddressStates}
                                                         style={{width: '300px'}}
                                                         readOnly
                                                     />
@@ -566,7 +620,8 @@ const styles: { [key: string]: React.CSSProperties } = {
         maxWidth: '400px',
         minWidth: '150px',
         padding: '10px 0',
-        fontSize: '16px'
+        fontSize: '16px',
+        boxSizing: 'border-box', // 넘침 방지
     },
     wrapperOfTitle: {
         display: 'flex',
