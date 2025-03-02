@@ -77,20 +77,23 @@ const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:a
                         type="primary"
                         key="kakao"
                         style={{ backgroundColor: '#FEE500', color: '#000' }}
-                        onClick={() => {
+                        onClick={ async () => {
                             const kakaoWebLink = 'https://pf.kakao.com/_dbxezn';
                             const userAgent = navigator.userAgent.toLowerCase();
 
                             // 안드로이드인 경우: 인텐트 사용해 크롬에서 열기
                             if (userAgent.includes('android')) {
                                 window.location.href = `intent://${kakaoWebLink.replace('https://', '')}#Intent;scheme=https;package=com.android.chrome;end`;
+                                handleInquiry('KAKAO');
                             }
                             // iOS 또는 다른 경우: 기본 브라우저에서 열기
                             else {
+                                handleInquiry('KAKAO');
                                 window.open(kakaoWebLink, '_blank');
+
+                                return;
                             }
 
-                            handleInquiry('KAKAO');
                         }}
                     >
                         카카오톡상담하기
