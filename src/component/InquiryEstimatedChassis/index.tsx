@@ -79,10 +79,20 @@ const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:a
                         style={{ backgroundColor: '#FEE500', color: '#000' }}
                         onClick={() => {
                             const kakaoWebLink = 'https://pf.kakao.com/_dbxezn';
+                            const kakaoAppLink = 'kakaotalk://plusfriend/chat/_dbxezn';
+                            const userAgent = navigator.userAgent.toLowerCase();
 
                             handleInquiry('KAKAO');
-                            window.open(kakaoWebLink, '_blank');
 
+                            if (userAgent.includes('iphone') || userAgent.includes('ipad')) {
+                                // iOS에서 카카오톡 앱 열기 시도 -> 실패 시 웹으로 연결
+                                setTimeout(() => {
+                                    window.location.href = kakaoWebLink;  // 앱이 없으면 웹으로 이동
+                                }, 2000);
+                                window.location.href = kakaoAppLink;  // 카카오톡 앱으로 이동 시도
+                            } else {
+                                window.open(kakaoWebLink, '_blank');
+                            }
                         }}
                     >
                         카카오톡상담하기
