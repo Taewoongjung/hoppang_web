@@ -85,11 +85,19 @@ const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:a
                             handleInquiry('KAKAO');
 
                             if (userAgent.includes('iphone') || userAgent.includes('ipad')) {
-                                // iOS에서 카카오톡 앱 열기 시도 -> 실패 시 웹으로 연결
-                                setTimeout(() => {
-                                    window.open(kakaoWebLink, '_blank');  // 앱이 없으면 웹으로 이동
-                                }, 2000);
-                                window.open(kakaoAppLink, '_blank');  // 카카오톡 앱으로 이동 시도
+                                // 카카오톡 앱으로 이동 시도
+                                const newWindow = window.open(kakaoAppLink, '_system');  // 🔄 외부 브라우저로 열기 시도
+                                if (!newWindow) {
+                                    // 새 창이 열리지 않으면 웹 링크로 이동
+                                    window.open(kakaoWebLink, '_blank');
+                                } else {
+                                    // 2초 대기 후에도 앱이 열리지 않으면 웹 링크로 이동
+                                    setTimeout(() => {
+                                        if (newWindow.closed) {
+                                            window.open(kakaoWebLink, '_blank');
+                                        }
+                                    }, 2000);
+                                }
                             } else {
                                 window.open(kakaoWebLink, '_blank');
                             }
