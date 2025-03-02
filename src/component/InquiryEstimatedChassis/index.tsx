@@ -82,7 +82,7 @@ const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:a
                             const kakaoWebLink = 'https://pf.kakao.com/_dbxezn';
 
                             handleInquiry('KAKAO');
-                            window.open(kakaoWebLink, '_blank');
+                            // window.open(kakaoWebLink, '_blank');
 
                         }}
                     >
