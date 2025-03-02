@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography, Divider, Collapse, Alert } from 'antd';
 import { CheckCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 
-const { Title, Text, Paragraph } = Typography;
+const { Title, Paragraph } = Typography;
 const { Panel } = Collapse;
 
 const InfoSection = () => (

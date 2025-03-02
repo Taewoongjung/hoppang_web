@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
-import {callEstimateInquiry, callEstimationById} from "../../../../definition/apiPath";
+import {callEstimationById} from "../../../../definition/apiPath";
 import {useParams} from "react-router-dom";
-import {Button, Descriptions, Divider, message, Modal, Table, TableColumnsType, Typography} from "antd";
+import {Button, Descriptions, Divider, Table, TableColumnsType, Typography} from "antd";
 import { addCommasToNumber } from 'src/util';
 import {LeftOutlined} from "@ant-design/icons";
+import InquiryEstimatedChassis from "../../../../component/InquiryEstimatedChassis";
 
 interface MaterialDataType {
     key: React.Key;
@@ -50,8 +51,6 @@ const EstimationDetailPage = () => {
 
     const { estimationId } = useParams();
 
-    const [messageApi, contextHolder] = message.useMessage();
-
     const [materialTableData, setMaterialTableData] = useState<MaterialDataType[]>([]);
     const [additionalTableData, setAdditionalTableData] = useState<AdditionalDataType[]>([]);
     const [surtax, setSurtax] = useState('');
@@ -59,21 +58,6 @@ const EstimationDetailPage = () => {
     const [totalPrice, setTotalPrice] = useState('');
     const [calculatedCompanyType, setCalculatedCompanyType] = useState('');
     const [estimatedAt, setEstimatedAt] = useState();
-
-
-    const success = (successMsg:string) => {
-        messageApi.open({
-            type: 'success',
-            content: successMsg,
-        });
-    };
-
-    const errorModal = (errorMsg:string) => {
-        messageApi.open({
-            type: 'error',
-            content: errorMsg
-        });
-    };
 
 
     useEffect(() => {
@@ -155,35 +139,12 @@ const EstimationDetailPage = () => {
         })
     }, [estimationId]);
 
-    const handleInquiry = (estimationId: any) => {
-        Modal.confirm({
-            title: '견적 문의 확인',
-            content: '해당 견적에 대한 문의를 진행하시겠습니까? 초기에 입력 하신 전화번호로 연락이 가도 괜찮으신가요?',
-            okText: '확인',
-            cancelText: '취소',
-            onOk: () => {
-                const callEstimateInquiryAPIRequest = callEstimateInquiry.replace('{estimationId}', estimationId);
 
-                axios.get(callEstimateInquiryAPIRequest, {
-                    withCredentials: true,
-                    headers: {
-                        Authorization: localStorage.getItem("hoppang-token"),
-                    }
-                }).then((res) => {
-                    if (res.data === true) {
-                        success("견적 문의가 성공적으로 접수되었습니다.");
-                    }
-                }).catch((err) => {
-                    errorModal("견적 문의를 잠시 후 다시 시도해주세요.");
-                });
-            }
-        });
-    };
+    const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
 
 
     return (
         <>
-            {contextHolder}
             <header
                 style={{
                     display: 'flex',
@@ -303,10 +264,17 @@ const EstimationDetailPage = () => {
                     margin: '0 auto 10px',
                     textAlign: 'center'
                 }}
-                onClick={() => handleInquiry(estimationId)}
+                onClick={() => setIsInquiryModalOpen(true)}
             >
                 해당 견적 문의하기
             </Button>
+
+            <InquiryEstimatedChassis
+                estimationId={estimationId}
+                isInquiryModalOpen={isInquiryModalOpen}
+                setIsInquiryModalOpen={setIsInquiryModalOpen}
+            />
+
         </>
     );
 }

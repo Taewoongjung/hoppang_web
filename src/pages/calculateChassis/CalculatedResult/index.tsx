@@ -9,7 +9,6 @@ import {
     message,
     Descriptions,
     Typography,
-    Modal,
     Flex
 } from 'antd';
 import {
@@ -20,12 +19,13 @@ import {
 } from "../../../util";
 import {getLabelOfChassisType} from "../../../util";
 import axios from "axios";
-import {calculateChassisCall, callEstimateInquiry, callMeData} from "../../../definition/apiPath";
+import {calculateChassisCall, callMeData} from "../../../definition/apiPath";
 import { CalculateResult } from 'src/definition/interfaces';
 import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
 import useSWR from "swr";
 import fetcher from "../../../util/fetcher";
 import {GoToTopButton} from "../../../util/renderUtil";
+import InquiryEstimatedChassis from "../../../component/InquiryEstimatedChassis";
 
 // 재료비
 interface MaterialDataType {
@@ -117,6 +117,10 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
     // 추가 견적인지 판단하는 변수
     const [isReEstimation2, setIsReEstimation2] = useState(false);
     const [isReEstimation3, setIsReEstimation3] = useState(false);
+
+    // 견적문의 관련 변수
+    const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
+
 
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
@@ -388,31 +392,6 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
             });
     }
 
-    const handleInquiry = (estimationId: any) => {
-        Modal.confirm({
-            title: '견적 문의 확인',
-            content: '해당 견적에 대한 문의를 진행하시겠습니까? 초기에 입력 하신 전화번호로 연락이 가도 괜찮으신가요?',
-            okText: '확인',
-            cancelText: '취소',
-            onOk: () => {
-                const callEstimateInquiryAPIRequest = callEstimateInquiry.replace('{estimationId}', estimationId);
-
-                axios.get(callEstimateInquiryAPIRequest, {
-                    withCredentials: true,
-                    headers: {
-                        Authorization: localStorage.getItem("hoppang-token"),
-                    }
-                }).then((res) => {
-                    if (res.data === true) {
-                        success("견적 문의가 성공적으로 접수되었습니다.");
-                    }
-                }).catch((err) => {
-                    errorModal("견적 문의를 잠시 후 다시 시도해주세요.");
-                });
-            }
-        });
-    };
-
 
     return(
         <>
@@ -524,10 +503,16 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                             size="small"
                                             style={{ width: '100%', maxWidth: '200px', marginBottom: '10px' }}
                                             ghost
-                                            onClick={() => handleInquiry(estimationId)}
+                                            onClick={() => setIsInquiryModalOpen(true)}
                                         >
                                             해당 견적 문의하기
                                         </Button>
+
+                                        <InquiryEstimatedChassis
+                                            estimationId={estimationId}
+                                            isInquiryModalOpen={isInquiryModalOpen}
+                                            setIsInquiryModalOpen={setIsInquiryModalOpen}
+                                        />
                                     </p>
                             }]}
                         />
@@ -609,12 +594,21 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                     />
 
                                                     {secondCalculatedCompanyType !== '' && (
-                                                        <Button type="primary" size="small"
-                                                                style={{ width: '100%', maxWidth: '200px', marginBottom: '10px' }}
-                                                                ghost
-                                                                onClick={() => handleInquiry(estimationId2)}>
-                                                            해당 견적 문의하기
-                                                        </Button>
+                                                        <>
+                                                            <Button type="primary" size="small"
+                                                                    style={{ width: '100%', maxWidth: '200px', marginBottom: '10px' }}
+                                                                    ghost
+                                                                    onClick={() => setIsInquiryModalOpen(true)}
+                                                            >
+                                                                해당 견적 문의하기
+                                                            </Button>
+
+                                                            <InquiryEstimatedChassis
+                                                                estimationId={estimationId2}
+                                                                isInquiryModalOpen={isInquiryModalOpen}
+                                                                setIsInquiryModalOpen={setIsInquiryModalOpen}
+                                                            />
+                                                        </>
                                                     )}
                                                 </div>
                                             }
@@ -725,12 +719,21 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                     />
 
                                                     {thirdCalculatedCompanyType !== '' && (
-                                                        <Button type="primary" size="small"
-                                                                style={{ width: '100%', maxWidth: '200px', marginBottom: '10px' }}
-                                                                ghost
-                                                                onClick={() => handleInquiry(estimationId3)}>
-                                                            해당 견적 문의하기
-                                                        </Button>
+                                                        <>
+                                                            <Button type="primary" size="small"
+                                                                    style={{ width: '100%', maxWidth: '200px', marginBottom: '10px' }}
+                                                                    ghost
+                                                                    onClick={() => setIsInquiryModalOpen(true)}
+                                                            >
+                                                                해당 견적 문의하기
+                                                            </Button>
+
+                                                            <InquiryEstimatedChassis
+                                                                estimationId={estimationId3}
+                                                                isInquiryModalOpen={isInquiryModalOpen}
+                                                                setIsInquiryModalOpen={setIsInquiryModalOpen}
+                                                            />
+                                                        </>
                                                     )}
                                                 </div>
                                             }
