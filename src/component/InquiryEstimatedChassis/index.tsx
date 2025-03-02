@@ -43,6 +43,7 @@ const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:a
             }
         }).catch((err) => {
             errorModal("견적 문의를 잠시 후 다시 시도해주세요.");
+            errorModal(err);
         });
     }
 
