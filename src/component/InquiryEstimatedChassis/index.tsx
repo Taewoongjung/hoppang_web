@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {message, Modal, Popover, Button} from "antd";
 import {callEstimateInquiry} from "../../definition/apiPath";
 import axios from "axios";
 import {MessageOutlined, PhoneOutlined} from "@ant-design/icons";
+import OverlayLoadingPage from "../Loading/OverlayLoadingPage";
 
 const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:any, setIsInquiryModalOpen:any }) => {
 
@@ -10,6 +11,7 @@ const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:a
 
     const [messageApi, contextHolder] = message.useMessage();
 
+    const [isLoading, setIsLoading] = useState(false);
 
     const success = (successMsg:string) => {
         messageApi.open({
@@ -51,6 +53,8 @@ const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:a
         <>
             {contextHolder}
 
+            {isLoading && <OverlayLoadingPage/>}
+
             <Modal
                 title="견적 문의 확인"
                 open={isInquiryModalOpen}
@@ -82,6 +86,7 @@ const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:a
                             const kakaoAppLink = 'kakaotalk://plusfriend/chat/_dbxezn';
                             const userAgent = navigator.userAgent.toLowerCase();
 
+                            setIsLoading(true);
                             handleInquiry('KAKAO');
 
                             if (userAgent.includes('iphone') || userAgent.includes('ipad')) {
@@ -93,6 +98,8 @@ const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:a
                             } else {
                                 window.open(kakaoWebLink, '_blank');
                             }
+
+                            setIsLoading(false);
                         }}
                     >
                         카카오톡상담하기
