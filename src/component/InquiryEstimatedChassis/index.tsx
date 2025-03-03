@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {message, Modal, Popover, Button} from "antd";
 import {callEstimateInquiry} from "../../definition/apiPath";
 import axios from "axios";
 import {MessageOutlined, PhoneOutlined} from "@ant-design/icons";
-import OverlayLoadingPage from "../Loading/OverlayLoadingPage";
 
 const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:any, setIsInquiryModalOpen:any }) => {
 
@@ -11,7 +10,6 @@ const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:a
 
     const [messageApi, contextHolder] = message.useMessage();
 
-    const [isLoading, setIsLoading] = useState(false);
 
     const success = (successMsg:string) => {
         messageApi.open({
@@ -53,8 +51,6 @@ const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:a
         <>
             {contextHolder}
 
-            {isLoading && <OverlayLoadingPage/>}
-
             <Modal
                 title="견적 문의 확인"
                 open={isInquiryModalOpen}
@@ -86,20 +82,17 @@ const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:a
                             const kakaoAppLink = 'kakaotalk://plusfriend/chat/_dbxezn';
                             const userAgent = navigator.userAgent.toLowerCase();
 
-                            setIsLoading(true);
                             handleInquiry('KAKAO');
 
                             if (userAgent.includes('iphone') || userAgent.includes('ipad')) {
                                 // iOS에서 카카오톡 앱 열기 시도 -> 실패 시 웹으로 연결
                                 setTimeout(() => {
                                     window.location.href = kakaoWebLink;  // 앱이 없으면 웹으로 이동
-                                }, 1000);
+                                }, 500);
                                 window.location.href = kakaoAppLink;  // 카카오톡 앱으로 이동 시도
                             } else {
                                 window.open(kakaoWebLink, '_blank');
                             }
-
-                            setIsLoading(false);
                         }}
                     >
                         카카오톡상담하기
