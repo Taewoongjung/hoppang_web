@@ -88,7 +88,7 @@ const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:a
                                 // iOS에서 카카오톡 앱 열기 시도 -> 실패 시 웹으로 연결
                                 setTimeout(() => {
                                     window.location.href = kakaoWebLink;  // 앱이 없으면 웹으로 이동
-                                }, 2000);
+                                }, 1000);
                                 window.location.href = kakaoAppLink;  // 카카오톡 앱으로 이동 시도
                             } else {
                                 window.open(kakaoWebLink, '_blank');
