@@ -78,7 +78,7 @@ const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:a
                         key="kakao"
                         style={{ backgroundColor: '#FEE500', color: '#000' }}
                         onClick={() => {
-                            const kakaoWebLink = 'https://pf.kakao.com/_dbxezn';
+                            const kakaoWebLink = 'https://pf.kakao.com/_dbxezn/chat';
                             const kakaoAppLink = 'kakaotalk://plusfriend/chat/_dbxezn';
                             const userAgent = navigator.userAgent.toLowerCase();
 
