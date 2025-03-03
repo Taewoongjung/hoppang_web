@@ -43,7 +43,7 @@ const InitialScreen = (props: {
     }
 
     const handleNotificationAgree = async () => {
-        checkIfLoggedIn(); // 로그인 했는지 확인하기
+        await checkIfLoggedIn(); // 로그인 했는지 확인하기
 
         await mutate()
             .then(() => {
