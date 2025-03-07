@@ -110,7 +110,7 @@ const Login = () => {
         const callLogin = async () => {
             axios.get(googleLogin)
                 .then((res) => {
-                    window.location.href = res.data;
+                    window.open(res.data, "_blank");
                 })
         }
 
