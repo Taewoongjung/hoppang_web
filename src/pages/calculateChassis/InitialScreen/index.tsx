@@ -100,7 +100,7 @@ const InitialScreen = (props: {
                         if (res.data.isSuccess && res.data.isTheFirstLogIn) {
                             window.location.href = "/login/first?remainedProcess=false&userEmail=" + res.data.userEmail
                         }
-                        setIsLoading(false);
+                        return setIsLoading(false);
 
                     })
                     .catch((err) => {
@@ -108,9 +108,9 @@ const InitialScreen = (props: {
                         if (err.response.data.errorCode === 7) { // 리프레시 토큰이 만료 되었을 때
                             window.location.href = err.response.data.redirectUrl; // 로그인 화면으로 리다이렉팅
                         }
-                        setIsLoading(false);
+                        return setIsLoading(false);
                     });
-                setIsLoading(false);
+                return setIsLoading(false);
             }
 
             if (oauthtype === 'apl' && urlParams.get('code')) {
@@ -130,7 +130,7 @@ const InitialScreen = (props: {
                         if (res.data.isSuccess && res.data.isTheFirstLogIn) {
                             window.location.href = "/login/first?remainedProcess=false&userEmail=" + res.data.userEmail
                         }
-                        setIsLoading(false);
+                        return setIsLoading(false);
 
                     })
                     .catch((err) => {
@@ -138,9 +138,9 @@ const InitialScreen = (props: {
                         if (err.response.data.errorCode === 7) { // 리프레시 토큰이 만료 되었을 때
                             window.location.href = err.response.data.redirectUrl; // 로그인 화면으로 리다이렉팅
                         }
-                        setIsLoading(false);
+                        return setIsLoading(false);
                     });
-                setIsLoading(false);
+                return setIsLoading(false);
             }
 
             if (oauthtype === 'gle' && urlParams.get('code')) {
@@ -161,7 +161,7 @@ const InitialScreen = (props: {
                         if (res.data.isSuccess && res.data.isTheFirstLogIn) {
                             window.location.href = "/login/first?remainedProcess=false&userEmail=" + res.data.userEmail
                         }
-                        setIsLoading(false);
+                        return setIsLoading(false);
 
                     })
                     .catch((err) => {
@@ -169,13 +169,11 @@ const InitialScreen = (props: {
                         if (err.response.data.errorCode === 7) { // 리프레시 토큰이 만료 되었을 때
                             window.location.href = err.response.data.redirectUrl; // 로그인 화면으로 리다이렉팅
                         }
-                        setIsLoading(false);
+                        return setIsLoading(false);
                     });
-                setIsLoading(false);
             }
-
-            setIsLoading(false);
         }
+        setIsLoading(false);
     }, [oauthtype, urlParams.get('code')]);
 
 
