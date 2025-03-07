@@ -50,6 +50,21 @@ const MyPage = () => {
             setIsLoggedIn(false);
             setLoading(false);
         }
+
+        const handlePopState = () => {
+            const currentUrl = window.location.href;
+            const targetPattern = /^https:\/\/hoppang\.store\/.*\/chassis\/calculator\?code=.*$/;
+
+            if (targetPattern.test(currentUrl)) {
+                window.location.replace("https://hoppang.store/chassis/calculator");
+            }
+        };
+
+        window.addEventListener("popstate", handlePopState);
+
+        return () => {
+            window.removeEventListener("popstate", handlePopState);
+        };
     }, [userData]);
 
 
