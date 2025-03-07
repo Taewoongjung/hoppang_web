@@ -80,8 +80,8 @@ const InitialScreen = (props: {
     // 카카오 소셜 로그인
     useEffect(() => {
         if (oauthtype) {
-            setIsLoading(true);
             if (oauthtype === 'kko' && localStorage.getItem('kakaoTokenInfo')) {
+                setIsLoading(true);
                 // 카카오 로그인 성공 요청
                 axios.post(kakaoAuth,
                     {
@@ -114,6 +114,7 @@ const InitialScreen = (props: {
             }
 
             if (oauthtype === 'apl' && urlParams.get('code')) {
+                setIsLoading(true);
                 // 애플 로그인 성공 요청
                 axios.post(appleAuth + urlParams.get('code'),
                     {
@@ -144,6 +145,7 @@ const InitialScreen = (props: {
             }
 
             if (oauthtype === 'gle' && urlParams.get('code')) {
+                setIsLoading(true);
                 // 구글 로그인 성공 요청
                 axios.post(googleAuth + "?code=" + urlParams.get('code'),
                     {
@@ -172,8 +174,9 @@ const InitialScreen = (props: {
                         return setIsLoading(false);
                     });
             }
+
+            return setIsLoading(false);
         }
-        setIsLoading(false);
     }, [oauthtype, urlParams.get('code')]);
 
 
