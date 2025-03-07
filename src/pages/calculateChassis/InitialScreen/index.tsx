@@ -77,6 +77,19 @@ const InitialScreen = (props: {
         window.location.reload();
     }
 
+    // 뒤로 가기를 하면 isLoading을 false로 설정
+    useEffect(() => {
+        const handlePopState = () => {
+            setIsLoading(false);
+        };
+
+        window.addEventListener("popstate", handlePopState);
+
+        return () => {
+            window.removeEventListener("popstate", handlePopState);
+        };
+    }, []);
+
     // 카카오 소셜 로그인
     useEffect(() => {
         if (oauthtype) {
