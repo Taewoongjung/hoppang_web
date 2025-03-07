@@ -179,19 +179,6 @@ const InitialScreen = (props: {
         }
     }, [oauthtype, urlParams.get('code')]);
 
-    // 🔄 뒤로 가기 시 로딩 중지
-    useEffect(() => {
-        const handlePopState = () => {
-            setIsLoading(false); // 뒤로 가기를 하면 로딩 중지
-        };
-
-        window.addEventListener("popstate", handlePopState);
-
-        return () => {
-            window.removeEventListener("popstate", handlePopState);
-        };
-    }, []);
-
     useEffect(() => {
         if (companyType !== '선택안함' && companyType !== undefined) {
             setCompanyTypeStatus('');
@@ -209,9 +196,6 @@ const InitialScreen = (props: {
 
     return (
         <>
-            {isLoading && <OverlayLoadingPage/>}
-
-
             { ( !getStarted && !secondStep && !isAgreed ) &&
                 <table>
                     <tbody>
