@@ -173,6 +173,8 @@ const InitialScreen = (props: {
                     });
                 setIsLoading(false);
             }
+
+            setIsLoading(false);
         }
     }, [oauthtype, urlParams.get('code')]);
 
