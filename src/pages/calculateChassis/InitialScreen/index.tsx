@@ -196,6 +196,9 @@ const InitialScreen = (props: {
 
     return (
         <>
+            {isLoading && <OverlayLoadingPage/>}
+
+
             { ( !getStarted && !secondStep && !isAgreed ) &&
                 <table>
                     <tbody>
