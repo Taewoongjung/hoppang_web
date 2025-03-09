@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 import '../styles.css';
 import {Col, Row, message, Select, InputNumber, Button, Divider, List} from "antd";
 import { Typography } from 'antd';
@@ -17,6 +17,8 @@ const { Title } = Typography;
 const CalculationScreen = () => {
 
     const ContainerHeight = 300;
+
+    const memoizedOptions = useMemo(() => companyTypeOptionsString, []);
 
     const [messageApi, contextHolder] = message.useMessage();
 
@@ -266,7 +268,7 @@ const CalculationScreen = () => {
                                                                 flexWrap: 'wrap',
                                                                 marginBottom: '10%'
                                                             }}>
-                                                                {companyTypeOptionsString.map((option, index) => (
+                                                                {memoizedOptions.map((option, index) => (
                                                                     <div
                                                                         key={index}
                                                                         onClick={() => handleSelect(option)}
