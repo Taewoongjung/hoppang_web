@@ -24,7 +24,7 @@ const App = () => {
     return (
         <Switch>
             <Redirect exact path="/" to="/chassis/calculator" />
-            <Route exact path="/chassis/calculator/estimation" component={CalculationScreen} />
+            <Route path="/chassis/estimation/calculator/" component={CalculationScreen} />
             <Route path="/chassis/calculator" component={CalculationInitialScreen} />
             <Route path="/:oauthtype/chassis/calculator" component={CalculationInitialScreen} />
 
