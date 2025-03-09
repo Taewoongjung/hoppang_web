@@ -52,6 +52,10 @@ const CalculationScreen = () => {
     };
 
     useEffect(() => {
+        setCompanyType('선택안함');
+    }, []);
+
+    useEffect(() => {
         if (companyType !== '선택안함' && companyType !== undefined) {
             setCompanyTypeStatus('');
         }
