@@ -10,6 +10,7 @@ import {DeleteOutlined, LeftOutlined, RightOutlined} from "@ant-design/icons";
 import BottomNavigator from "../../../component/BottomNavigator";
 import {GoToTopButton} from "../../../util/renderUtil";
 import {companyTypeOptionsString} from "../../../definition/companyType";
+import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
 
 const { Title } = Typography;
 
@@ -36,6 +37,7 @@ const CalculationScreen = () => {
     // 진행사항 변수
     const [current, setCurrent] = useState(0);
 
+    const [isLoading, setIsLoading] = useState(true);
 
     const success = (successMsg:string) => {
         messageApi.open({
@@ -53,6 +55,10 @@ const CalculationScreen = () => {
 
     useEffect(() => {
         setCompanyType('선택안함');
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 1000);
+        return () => clearTimeout(timer);
     }, []);
 
     useEffect(() => {
@@ -171,7 +177,7 @@ const CalculationScreen = () => {
     };
 
     const handleBack = () => {
-        window.location.reload();
+        window.location.href = "/chassis/calculator";
     }
 
     const [selectedOption, setSelectedOption] = useState(null);
@@ -186,6 +192,9 @@ const CalculationScreen = () => {
     return (
         <>
             {contextHolder}
+
+            {isLoading && <OverlayLoadingPage word={"이동중"}/>}
+
             <div className="whole-app">
                 <div className="app">
                     <header className="app-header">

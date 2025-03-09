@@ -280,7 +280,7 @@ const CalculatorSecondStep = (props: {
 
     return (
         <>
-            {isLoading && <OverlayLoadingPage/>}
+            {isLoading && <OverlayLoadingPage word={"처리중"}/>}
 
             <Tour
                 type="primary"

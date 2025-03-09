@@ -72,7 +72,7 @@ const MyPage = () => {
 
     return(
         <>
-            { loading && <OverlayLoadingPage/> }
+            { loading && <OverlayLoadingPage word={"처리중"}/> }
 
             <div style={styles.container}>
                 <div style={styles.box}>

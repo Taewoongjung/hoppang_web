@@ -395,7 +395,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
     return(
         <>
-            {isLoading && <OverlayLoadingPage/>}
+            {isLoading && <OverlayLoadingPage word={"처리중"}/>}
 
             {contextHolder}
             <div style={{ marginBottom: '10%' }}>

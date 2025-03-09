@@ -73,10 +73,6 @@ const InitialScreen = (props: {
         }
     }
 
-    const handleBack = () => {
-        window.location.reload();
-    }
-
     // 카카오 소셜 로그인
     useEffect(() => {
         if (oauthtype) {
@@ -185,18 +181,10 @@ const InitialScreen = (props: {
         }
     }, [companyType]);
 
-    const [selectedOption, setSelectedOption] = useState(null);
-
-    const handleSelect = (option: any) => {
-        setSelectedOption(option);
-        setCompanyType(option);
-        setCurrent(current + 1)
-    };
-
 
     return (
         <>
-            {isLoading && <OverlayLoadingPage/>}
+            {isLoading && <OverlayLoadingPage word={"처리중"}/>}
 
             <div className="whole-app">
                 <div className="app">
