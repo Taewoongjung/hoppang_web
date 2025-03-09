@@ -2,6 +2,7 @@ import React from 'react';
 import loadable from "@loadable/component";
 import { Switch, Route, Redirect } from 'react-router-dom';
 
+const CalculationInitialScreen = loadable(() => import('../../pages/calculateChassis/InitialScreen'));
 const CalculationScreen = loadable(() => import('../../pages/calculateChassis/CalculationScreen'));
 const MyPage = loadable(() => import('../../pages/calculateChassis/MyPage'));
 const LoginPage = loadable(() => import("../../pages/calculateChassis/Login"));
@@ -23,8 +24,9 @@ const App = () => {
     return (
         <Switch>
             <Redirect exact path="/" to="/chassis/calculator" />
-            <Route path="/chassis/calculator" component={CalculationScreen} />
-            <Route path="/:oauthtype/chassis/calculator" component={CalculationScreen} />
+            <Route exact path="/chassis/calculator/estimation" component={CalculationScreen} />
+            <Route path="/chassis/calculator" component={CalculationInitialScreen} />
+            <Route path="/:oauthtype/chassis/calculator" component={CalculationInitialScreen} />
 
             <Route path="/mypage/config/app" component={MyPageAppConfigPage} />
             <Route path="/mypage/config" component={MyPageConfigPage} />

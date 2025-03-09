@@ -6,10 +6,10 @@ import chassisTypeOptions from "../../../definition/chassisType";
 import {InputStatus} from "antd/es/_util/statusUtils";
 import CalculatorSecondStep from "../../../component/CalculatorSecondStep";
 import RegisteringChassis from "../../../definition/interfaces";
-import {DeleteOutlined, RightOutlined} from "@ant-design/icons";
-import InitialScreen from '../InitialScreen';
+import {DeleteOutlined, LeftOutlined, RightOutlined} from "@ant-design/icons";
 import BottomNavigator from "../../../component/BottomNavigator";
 import {GoToTopButton} from "../../../util/renderUtil";
+import {companyTypeOptionsString} from "../../../definition/companyType";
 
 const { Title } = Typography;
 
@@ -22,7 +22,7 @@ const CalculationScreen = () => {
     const [secondStep, setSecondStep] = useState(false);
 
     const [registeredList, setRegisteredList] = useState<RegisteringChassis[]>([]);
-    const [companyType, setCompany] = useState<string>('선택안함');
+    const [companyType, setCompanyType] = useState<string>('선택안함');
     const [chassisType, setChassisType] = useState<string>('선택안함');
     const [width, setWidth] = useState<number | null>();
     const [height, setHeight] = useState<number | null>();
@@ -166,6 +166,17 @@ const CalculationScreen = () => {
         setIsValidHeightMax(true);
     };
 
+    const handleBack = () => {
+        window.location.reload();
+    }
+
+    const [selectedOption, setSelectedOption] = useState(null);
+
+    const handleSelect = (option: any) => {
+        setSelectedOption(option);
+        setCompanyType(option);
+        setCurrent(current + 1)
+    };
 
 
     return (
@@ -191,44 +202,88 @@ const CalculationScreen = () => {
                                         xl={12}
                                         style={{ textAlign: 'center' }}
                                     >
-                                        {!(!secondStep && companyType !== '선택안함') &&
-                                            <InitialScreen secondStep={secondStep}
-                                                           companyType={companyType}
-                                                           setCompanyType={(target: any) => setCompany(target)}
-                                                           companyTypeStatus={companyTypeStatus}
-                                                           setCompanyTypeStatus={(target: any) => setCompanyTypeStatus(target)}
-                                                           current={current}
-                                                           setCurrent={(target: any) => setCurrent(target)}
-                                            />
+                                        {!(companyType !== '선택안함') &&
+                                            <div style={{width: '700px'}}>
+                                                {/*뒤로가기*/}
+                                                <div onClick={handleBack} style={{color: "blue", marginRight: "80%", marginTop: '50px'}}>
+                                                    <LeftOutlined/>
+                                                </div>
+                                                <table>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td colSpan={2}>
+                                                            <div style={{
+                                                                position: 'relative',
+                                                                display: 'flex',
+                                                                justifyContent: 'center',
+                                                                alignItems: 'center',
+                                                                width: '100%',
+                                                                padding: '0 10px'
+                                                            }}>
+                                                                <Title
+                                                                    level={2}
+                                                                    style={{
+                                                                        margin: 0,
+                                                                        whiteSpace: 'nowrap',
+                                                                        overflow: 'hidden',
+                                                                        textOverflow: 'ellipsis',
+                                                                        position: 'relative'
+                                                                    }}
+                                                                >
+                                                                    창호 회사 선택
+                                                                </Title>
+                                                            </div>
+                                                            <Divider
+                                                                style={{
+                                                                    borderColor: '#a4a3a3',
+                                                                    width: '100%',
+                                                                    margin: '10px auto'
+                                                                }}
+                                                            />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colSpan={2}>
+                                                            <div style={{
+                                                                display: 'flex',
+                                                                flexDirection: window.innerWidth < 600 ? 'column' : 'row', // 화면 크기에 따라 가로/세로 변경
+                                                                gap: '10px',
+                                                                justifyContent: 'center',
+                                                                alignItems: 'center',
+                                                                flexWrap: 'wrap',
+                                                                marginBottom: '10%'
+                                                            }}>
+                                                                {companyTypeOptionsString.map((option, index) => (
+                                                                    <div
+                                                                        key={index}
+                                                                        onClick={() => handleSelect(option)}
+                                                                        style={{
+                                                                            width: '150px',
+                                                                            height: '50px',
+                                                                            display: 'flex',
+                                                                            justifyContent: 'center',
+                                                                            alignItems: 'center',
+                                                                            border: '2px solid',
+                                                                            borderColor: selectedOption === option ? 'green' : '#ccc',
+                                                                            borderRadius: '8px',
+                                                                            cursor: 'pointer',
+                                                                            transition: 'border-color 0.3s ease',
+                                                                            position: 'relative',
+                                                                        }}
+                                                                    >
+                                                                        {option}
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         }
 
                                         {(!secondStep && companyType !== '선택안함') &&
                                             <>
-                                            {/*상황 진척도*/}
-                                                {/*<div style={{width: "700px"}}>*/}
-                                                {/*    <Steps*/}
-                                                {/*        current={current}*/}
-                                                {/*        size="small"*/}
-                                                {/*        items={[*/}
-                                                {/*            {*/}
-                                                {/*                title: '회사선택',*/}
-                                                {/*                description: companyType*/}
-                                                {/*            },*/}
-                                                {/*            {*/}
-                                                {/*                title: '창호 입력',*/}
-                                                {/*            },*/}
-                                                {/*            {*/}
-                                                {/*                title: '주소 입력',*/}
-                                                {/*            },*/}
-                                                {/*            {*/}
-                                                {/*                title: '기타 사항 입력',*/}
-                                                {/*            },*/}
-                                                {/*            {*/}
-                                                {/*                title: '계산시작',*/}
-                                                {/*            },*/}
-                                                {/*        ]}*/}
-                                                {/*    />*/}
-                                                {/*</div>*/}
                                                 <table style={{width: "700px"}}>
                                                     <tbody>
                                                         {/*<tr>*/}

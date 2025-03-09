@@ -104,6 +104,13 @@ button:hover, .ant-btn:hover {
     background-color: #357abd;
 }
 
+.caution {
+    background-color: #fff5f5;
+    border: 1px solid #ff6b6b;
+    padding: 15px;
+    margin-top: 20px;
+}
+
 /* 입력 필드 스타일 개선 */
 input, .ant-input-number, .ant-select-selector {
     border-radius: 8px; /* 둥근 모서리 적용 */

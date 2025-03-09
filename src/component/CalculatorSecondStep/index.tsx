@@ -9,7 +9,6 @@ import {
     Button,
     InputNumber,
     message,
-    Steps,
     Divider,
     TourProps,
     Tour,
@@ -19,12 +18,14 @@ import RegisteringChassis, {CalculateResult} from "../../definition/interfaces";
 import {LeftOutlined} from "@ant-design/icons";
 import axios from "axios";
 import CalculatedResult from "../../pages/calculateChassis/CalculatedResult";
-import {calculateChassisCall} from "../../definition/apiPath";
+import {calculateChassisCall, callMeData} from "../../definition/apiPath";
 import './styles.css';
 import {mappedValueByCompany} from "../../util";
 import OverlayLoadingPage from "../Loading/OverlayLoadingPage";
 import InfoSection from "../CalculationInfoSection";
 import SearchAddressPopUp from '../SearchAddressPopUp';
+import useSWR from "swr";
+import fetcher from "../../util/fetcher";
 
 const { Title } = Typography;
 
@@ -35,6 +36,10 @@ const CalculatorSecondStep = (props: {
     current:number,
     setCurrent: (s: number) => void
 }) => {
+
+    const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
+        dedupingInterval: 2000
+    });
 
     const [form] = Form.useForm();
 
@@ -144,6 +149,8 @@ const CalculatorSecondStep = (props: {
         // @TODO 여기에, 해당 유저가 로그인 단계를 모두 거쳤는지 (전화번호 인증, 주소 입력, 푸시 여부 입력) 단계를 거쳤는지 확인 하기. (current 4.5 단계)
         // @TODO 만약 안 거쳤으면, 해당 절차를 다 하고 온 뒤 current 5 단계로 넘어 가서 견적을 마친다.
         // @TODO 유저가 모든 로그인 절차를 거쳤는지 판단하는 방법은 userData의 hasCompletedAuthentication로 한다.
+
+        mutate();
 
         const reqCalculateChassisPriceList = registeredList.map((item) => ({
             chassisType: item.chassisType,
@@ -284,33 +291,7 @@ const CalculatorSecondStep = (props: {
             />
 
             {contextHolder}
-            {/*상황 진척도*/}
-            {/*{current !== 5 &&*/}
-            {/*    <div style={{ width: "700px", marginBottom: '60px'}}>*/}
-            {/*        <Steps*/}
-            {/*            current={current}*/}
-            {/*            size="small"*/}
-            {/*            items={[*/}
-            {/*                {*/}
-            {/*                    title: '회사선택',*/}
-            {/*                    description: companyType*/}
-            {/*                },*/}
-            {/*                {*/}
-            {/*                    title: '창호 입력',*/}
-            {/*                },*/}
-            {/*                {*/}
-            {/*                    title: '주소 입력',*/}
-            {/*                },*/}
-            {/*                {*/}
-            {/*                    title: '기타 사항 입력',*/}
-            {/*                },*/}
-            {/*                {*/}
-            {/*                    title: '계산시작',*/}
-            {/*                },*/}
-            {/*            ]}*/}
-            {/*        />*/}
-            {/*    </div>*/}
-            {/*}*/}
+
             <div style={{width: "700px"}}>
                 <table>
                     {calculatedChassisPriceResult.length === 0 &&
@@ -453,7 +434,7 @@ const CalculatorSecondStep = (props: {
                                         <div style={styles.wrapperOfTitle}>
                                             <Title
                                                 level={2}
-                                                style={styles.button}
+                                                style={styles.title}
                                             >
                                                 공사 예정 층 수
                                             </Title>
