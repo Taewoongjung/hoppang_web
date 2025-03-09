@@ -50,7 +50,7 @@ const InitialScreen = (props: {
                 setIsAgreed(!isAgreed);
                 setOpenNotification(!openNotification);
 
-                window.open("/chassis/estimation/calculator", "_self");
+                window.location.href = "/chassis/estimation/calculator";
             });
     }
 
