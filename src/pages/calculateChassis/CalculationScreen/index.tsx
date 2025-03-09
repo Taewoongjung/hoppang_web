@@ -220,7 +220,7 @@ const CalculationScreen = () => {
                                         {!(companyType !== '선택안함') &&
                                             <div style={{width: '700px'}}>
                                                 {/*뒤로가기*/}
-                                                <div onClick={handleBack} style={{color: "blue", marginRight: "80%", marginTop: '50px'}}>
+                                                <div onClick={handleBack} style={{color: "blue", marginRight: "40%", marginTop: '50px'}}>
                                                     <LeftOutlined/>
                                                 </div>
                                                 <table>
