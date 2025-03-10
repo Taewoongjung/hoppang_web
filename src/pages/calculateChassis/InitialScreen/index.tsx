@@ -36,6 +36,12 @@ const InitialScreen = (props: {
     const [openNotification, setOpenNotification] = useState(false);
     const [getStarted, setGetStarted] = useState(false);
 
+    useEffect(() => {
+        if (userData) {
+            mutate();
+        }
+    }, [userData]);
+
     const handleGetStarted = () => {
         setOpenNotification(true);
     }
@@ -43,15 +49,16 @@ const InitialScreen = (props: {
     const handleNotificationAgree = async () => {
         await checkIfLoggedIn(); // 로그인 했는지 확인하기
 
-        await mutate()
-            .then(() => {
-                checkIfFinishedSignedUp(); // 모든 로그인 프로세스를 마쳤는지 확인하기
-                setGetStarted(!getStarted);
-                setIsAgreed(!isAgreed);
-                setOpenNotification(!openNotification);
-
-                window.location.href = "/chassis/estimation/calculator";
-            });
+        try {
+            await mutate();
+            checkIfFinishedSignedUp(); // 모든 로그인 프로세스를 마쳤는지 확인하기
+            setGetStarted(!getStarted);
+            setIsAgreed(!isAgreed);
+            setOpenNotification(!openNotification);
+            window.location.href = "/chassis/estimation/calculator";
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     const checkIfLoggedIn = () => {
