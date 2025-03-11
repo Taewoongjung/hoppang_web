@@ -14,11 +14,15 @@ const SearchAddressPopUp = (props:{ setAddress:any; setOpenSearchAddr:any;}) => 
     return (
         <>
             <section>
-                <DaumPostcode style={{
-                    top: "10%",
-                    width: "450px",
-                    height: "550px",
-                    padding: "7px"}}
+                <DaumPostcode
+                    style={{
+                        top: "10%",
+                        width: "100%",
+                        maxWidth: "450px",
+                        height: "550px",
+                        padding: "7px",
+                        margin: '0 auto',
+                    }}
                     onComplete={handlePostCode}/>
             </section>
         </>

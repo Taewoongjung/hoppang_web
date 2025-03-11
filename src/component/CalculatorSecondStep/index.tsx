@@ -292,7 +292,7 @@ const CalculatorSecondStep = (props: {
 
             {contextHolder}
 
-            <div style={{width: "700px"}}>
+            <div style={{ width: "100%", maxWidth: '700px', margin: '0 auto' }}>
                 <table>
                     {calculatedChassisPriceResult.length === 0 &&
                         <tbody>
