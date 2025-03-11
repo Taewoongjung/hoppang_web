@@ -48,7 +48,7 @@ const InitialScreen = (props: {
 
     const handleNotificationAgree = async () => {
         await checkIfLoggedIn(); // 로그인 했는지 확인하기
-
+        console.log("userData = ", userData);
         try {
             await mutate().then(() => {
                 checkIfFinishedSignedUp(); // 모든 로그인 프로세스를 마쳤는지 확인하기
@@ -76,6 +76,7 @@ const InitialScreen = (props: {
     }
 
     const checkIfFinishedSignedUp = () => {
+        console.log("tel = ", userData.tel);
         if (userData.tel === '') {
             window.location.href = "/login/first?remainedProcess=true&userEmail=" + userData.email;
         }
