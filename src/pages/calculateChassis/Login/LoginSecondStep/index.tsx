@@ -60,6 +60,7 @@ const LoginSecondStep = () => {
         setAddress(data.address); // 기본 주소
         setAddressZoneCode(data.zonecode); // 우편번호
         setAddressBuildingNum(data.buildingCode); // 빌딩번호
+        notification.destroy();
     };
 
     // 추가 주소 입력 시 처리 함수
@@ -69,7 +70,6 @@ const LoginSecondStep = () => {
     };
 
     const completeAddress = () => {
-        notification.destroy();
         if (!remainAddress) {
             setIsRemainAddressBlank(true);
             return;

@@ -133,6 +133,8 @@ const CalculatorSecondStep = (props: {
         if (newAddress.apartment === "Y") {
             setIsApartment(true) // 아파트 여부 (디폴트 false)
         }
+
+        notification.destroy();
     };
 
     const formFields = [
@@ -228,7 +230,6 @@ const CalculatorSecondStep = (props: {
     }
 
     const handleSetAddressSector = () => {
-        notification.destroy();
 
         if (!address) {
             errorModal('주소를 입력해주세요');
