@@ -50,8 +50,13 @@ const InitialScreen = (props: {
         await checkIfLoggedIn(); // 로그인 했는지 확인하기
         console.log("userData = ", userData);
         try {
-            await mutate().then(() => {
-                checkIfFinishedSignedUp(); // 모든 로그인 프로세스를 마쳤는지 확인하기
+            await mutate().then((user) => {
+                if (user.tel === '') {
+                    console.log("user = ", user);
+                    console.log("tel = ", user.tel);
+                    window.location.href = "/login/first?remainedProcess=true&userEmail=" + user.email;
+                    return;
+                }
             });
             setGetStarted(!getStarted);
             setIsAgreed(!isAgreed);
