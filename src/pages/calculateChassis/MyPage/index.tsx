@@ -67,6 +67,12 @@ const MyPage = () => {
         };
     }, [userData]);
 
+    const goToEstimationHistory = () => {
+        mutate().then(() => {
+            window.location.href = '/mypage/estimation/histories';
+        })
+    }
+
 
     const styles = useResponsiveStyles();
 
@@ -114,7 +120,7 @@ const MyPage = () => {
                                     <section className="chassis-section">
                                         <h3>창호</h3>
                                         <ul>
-                                            <li onClick={() => {window.location.href = '/mypage/estimation/histories';}}>
+                                            <li onClick={goToEstimationHistory}>
                                                 견적 이력
                                             </li>
                                             {/*<li>*/}
