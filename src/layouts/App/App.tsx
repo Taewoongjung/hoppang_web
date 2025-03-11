@@ -20,32 +20,40 @@ const ChassisPriceDatabaseMainScreen = loadable(() => import('../../pages/admin/
 const EstimatedDatabaseMainScreen = loadable(() => import('../../pages/admin/EstimatedDatabaseMainScreen'));
 const StatisticsMainScreen = loadable(() => import('../../pages/admin/StatisticsMainScreen'));
 
+// 랜딩 페이지
+const LandingPage = loadable(() => import('../../pages/landingPage'));
+
+
 const App = () => {
-    return (
-        <Switch>
-            <Redirect exact path="/" to="/chassis/calculator" />
-            <Route path="/chassis/calculator" component={CalculationInitialScreen} />
-            <Route path="/:oauthtype/chassis/calculator" component={CalculationInitialScreen} />
-            <Route path="/chassis/estimation/calculator/" component={CalculationScreen} />
+        return (
+            <Switch>
+                    <Redirect exact path="/" to="/chassis/calculator"/>
+                    <Route path="/chassis/calculator" component={CalculationInitialScreen}/>
+                    <Route path="/:oauthtype/chassis/calculator" component={CalculationInitialScreen}/>
+                    <Route path="/chassis/estimation/calculator/" component={CalculationScreen}/>
 
-            <Route path="/mypage/config/app" component={MyPageAppConfigPage} />
-            <Route path="/mypage/config" component={MyPageConfigPage} />
-            <Route path="/mypage/estimation/histories" component={MyPageEstimationHistoriesPage} />
-            <Route path="/mypage/estimation/:estimationId" component={EstimationDetailPage} />
-            <Route path="/mypage" component={MyPage} />
+                    <Route path="/mypage/config/app" component={MyPageAppConfigPage}/>
+                    <Route path="/mypage/config" component={MyPageConfigPage}/>
+                    <Route path="/mypage/estimation/histories" component={MyPageEstimationHistoriesPage}/>
+                    <Route path="/mypage/estimation/:estimationId" component={EstimationDetailPage}/>
+                    <Route path="/mypage" component={MyPage}/>
 
-            <Route path="/login/duplicate" component={DuplicatedSsoLoginErrorPage} />
-            <Route path="/login/second" component={LoginSecondStepPage} />
-            <Route path="/login/first" component={LoginFirstStepPage} />
-            <Route path="/login" component={LoginPage} />
+                    <Route path="/login/duplicate" component={DuplicatedSsoLoginErrorPage}/>
+                    <Route path="/login/second" component={LoginSecondStepPage}/>
+                    <Route path="/login/first" component={LoginFirstStepPage}/>
+                    <Route path="/login" component={LoginPage}/>
 
-            {/* ADMIN */}
-            <Route path="/admin/login" component={AdminLoginPage} />
-            <Route path="/admin/essentials/info" component={ChassisPriceDatabaseMainScreen} />
-            <Route path="/admin/essentials/estimates/info" component={EstimatedDatabaseMainScreen} />
-            <Route path="/admin/statistics" component={StatisticsMainScreen} />
-        </Switch>
-    )
+                    {/* ADMIN */}
+                    <Route path="/admin/login" component={AdminLoginPage}/>
+                    <Route path="/admin/essentials/info" component={ChassisPriceDatabaseMainScreen}/>
+                    <Route path="/admin/essentials/estimates/info" component={EstimatedDatabaseMainScreen}/>
+                    <Route path="/admin/statistics" component={StatisticsMainScreen}/>
+
+                    {/*OFFICIAL*/}
+                    <Route path="/official" component={LandingPage}/>
+
+            </Switch>
+        );
 }
 
 export default App;
