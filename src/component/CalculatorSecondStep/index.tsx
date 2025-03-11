@@ -450,7 +450,16 @@ const CalculatorSecondStep = (props: {
                                 </tr>
                                 <tr>
                                     <td colSpan={2}>
-                                        <div style={{color: 'grey'}}>
+                                        <div
+                                            style={{
+                                                color: 'grey',
+                                                padding: '10px',
+                                                maxWidth: window.innerWidth > 768 ? '90%' : '40%',
+                                                width: window.innerWidth > 768 ? '90%' : '40%',
+                                                boxSizing: 'border-box',
+                                                overflow: 'hidden'
+                                            }}
+                                        >
                                             *사다리차 작업 불가 시 가격 변동 및 작업 불가 가능성 있습니다.<br/>
                                             *층수에 따라 가격이 변동됩니다. (사다리차 등)<br/>
                                             *사다리차 대여 비용은 기본 2 시간으로 측정됩니다.

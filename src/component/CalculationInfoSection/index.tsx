@@ -8,7 +8,7 @@ const { Panel } = Collapse;
 const InfoSection = () => (
     <div
         style={{
-            padding: '20px',
+            padding: '10px',
             maxWidth: window.innerWidth > 768 ? '90%' : '40%',
             width: window.innerWidth > 768 ? '90%' : '40%',
             boxSizing: 'border-box',  // 넘침 방지
