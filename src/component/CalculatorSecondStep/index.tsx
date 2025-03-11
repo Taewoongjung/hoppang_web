@@ -228,6 +228,7 @@ const CalculatorSecondStep = (props: {
     }
 
     const handleSetAddressSector = () => {
+        notification.destroy();
 
         if (!address) {
             errorModal('주소를 입력해주세요');
@@ -273,7 +274,6 @@ const CalculatorSecondStep = (props: {
     }
 
     const openToast = () => {
-        notification.destroy();
         notification.open({
             message: '시공/견적 주소',
             description: (

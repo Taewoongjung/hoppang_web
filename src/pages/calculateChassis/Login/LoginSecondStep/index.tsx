@@ -69,6 +69,7 @@ const LoginSecondStep = () => {
     };
 
     const completeAddress = () => {
+        notification.destroy();
         if (!remainAddress) {
             setIsRemainAddressBlank(true);
             return;
@@ -110,7 +111,6 @@ const LoginSecondStep = () => {
     }
 
     const openToast = () => {
-        notification.destroy();
         notification.open({
             message: '고객님 주소',
             description: (
