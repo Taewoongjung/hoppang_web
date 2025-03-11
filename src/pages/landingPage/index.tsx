@@ -41,6 +41,7 @@ const LandingPage = () => {
                     <div style={{ marginTop: '5px' }}></div>
 
                     <a href="http://pf.kakao.com/_dbxezn"
+                       target="_blank" rel="noopener noreferrer"
                        style={{
                            display: 'inline-flex',
                            alignItems: 'center',
