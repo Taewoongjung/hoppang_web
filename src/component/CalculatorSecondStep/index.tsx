@@ -452,17 +452,26 @@ const CalculatorSecondStep = (props: {
                                     <td colSpan={2}>
                                         <div
                                             style={{
-                                                color: 'grey',
-                                                padding: '10px',
-                                                maxWidth: window.innerWidth > 768 ? '90%' : '40%',
-                                                width: window.innerWidth > 768 ? '90%' : '40%',
+                                                width: '100%',
+                                                maxWidth: '700px',
                                                 boxSizing: 'border-box',
-                                                overflow: 'hidden'
+                                                display: 'flex',
+                                                flexDirection: 'column',
+                                                alignItems: 'center',
+                                                justifyContent: 'center'
                                             }}
                                         >
-                                            *사다리차 작업 불가 시 가격 변동 및 작업 불가 가능성 있습니다.<br/>
-                                            *층수에 따라 가격이 변동됩니다. (사다리차 등)<br/>
-                                            *사다리차 대여 비용은 기본 2 시간으로 측정됩니다.
+                                            <div
+                                                style={{
+                                                    color: 'grey',
+                                                    maxWidth: window.innerWidth > 768 ? '90%' : '50%',
+                                                    width: window.innerWidth > 768 ? '90%' : '50%',
+                                                }}
+                                            >
+                                                *사다리차 작업 불가 시 가격 변동 및 작업 불가 가능성 있습니다.<br/>
+                                                *층수에 따라 가격이 변동됩니다. (사다리차 등)<br/>
+                                                *사다리차 대여 비용은 기본 2 시간으로 측정됩니다.
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
