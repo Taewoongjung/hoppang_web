@@ -1,15 +1,14 @@
-import React, {useState} from 'react';
-import {Button, Input, Popover, Switch} from "antd";
+import React, {useEffect, useRef, useState} from 'react';
+import {Button, Col, Form, Input, InputRef, notification, Switch, Tour, TourProps} from "antd";
 import SearchAddressPopUp from "../../../../component/SearchAddressPopUp";
-import {SearchOutlined} from "@ant-design/icons";
 import axios from "axios";
 import {callFinalSocialSignUp} from "../../../../definition/apiPath";
 
 const LoginSecondStep = () => {
 
-    const urlParams = new URLSearchParams(window.location.search);
+    const [form] = Form.useForm();
 
-    const [openSearchAddr, setOpenSearchAddr] = useState(false);
+    const urlParams = new URLSearchParams(window.location.search);
 
     const [address, setAddress] = useState("");
     const [addressZoneCode, setAddressZoneCode] = useState("");
@@ -21,15 +20,46 @@ const LoginSecondStep = () => {
 
     const [isAddressComplete, setIsAddressComplete] = useState(false);
 
+    const [guideOpen, setGuideOpen] = useState<boolean>(false);
+    const addressRef = useRef<InputRef>(null);
+
+
+    const formFields = [
+        { name: ['zipCode'], value: addressZoneCode },
+        { name: ['mainAddress'], value: address },
+    ];
+
+    useEffect(() => {
+        setGuideOpen(true);
+    }, [addressRef]);
+
+    const steps: TourProps['steps'] = [
+        {
+            title: '주소 입력',
+            placement: 'bottom',
+            description: '터치 해서 주소를 입력해주세요.',
+            target: () => addressRef.current?.input as HTMLElement || null,
+            closeIcon: null,
+            nextButtonProps : {
+                children: (
+                    <div style={{color: "#4da3ff"}}>닫기</div>
+                ),
+                style: {
+                    backgroundColor: "white",
+                    borderRadius: "10%",
+                    width: 32,
+                    minWidth: 32,
+                    height: 32,
+                }
+            }
+        }
+    ]
+
     // 우편번호 검색 후 주소 클릭 시 실행될 함수
-    const handlePostCode = (data:any) => {
+    const handleAddress = (data:any) => {
         setAddress(data.address); // 기본 주소
         setAddressZoneCode(data.zonecode); // 우편번호
         setAddressBuildingNum(data.buildingCode); // 빌딩번호
-    };
-
-    const handleOpenSearchAddrChange = (newOpen: boolean) => {
-        setOpenSearchAddr(newOpen);
     };
 
     // 추가 주소 입력 시 처리 함수
@@ -79,44 +109,79 @@ const LoginSecondStep = () => {
             });
     }
 
+    const openToast = () => {
+        notification.destroy();
+        notification.open({
+            message: '고객님 주소',
+            description: (
+                <SearchAddressPopUp
+                    setAddress={handleAddress}
+                />
+            ),
+            placement: 'bottom',
+            closeIcon: <span style={{ fontSize: '16px' }}>X</span>
+        });
+    };
+
+    const handleAddressStates = () => {
+        openToast();
+        setGuideOpen(false);
+    }
+
 
     return (
         <div style={styles.container}>
+
+            <Tour
+                type="primary"
+                steps={steps}
+                open={guideOpen}
+                onClose={() => setGuideOpen(false)}
+                mask={false}
+            />
+
             <div style={styles.box}>
                 {!isAddressComplete && (
                     address === "" ? (
                         <>
-                            <h2>주소 선택</h2>
+                            <h2>고객님 주소 입력</h2>
                             <Input
-                                onClick={() => setOpenSearchAddr(true)}
-                                addonAfter={
-                                    (
-                                        <Popover
-                                            content={
-                                                <SearchAddressPopUp
-                                                    setAddress={handlePostCode}
-                                                    setOpenSearchAddr={setOpenSearchAddr}
-                                                />
-                                            }
-                                            trigger="click"
-                                            open={openSearchAddr}
-                                            placement="bottom"
-                                            onOpenChange={handleOpenSearchAddrChange}
-                                        >
-                                            <SearchOutlined onClick={(e) => {
-                                                e.preventDefault();
-                                            }}/>
-                                        </Popover>
-                                    )
-                                } style={{width: "160px"}} readOnly
+                                ref={addressRef}
+                                onClick={handleAddressStates}
+                                style={{width: "160px"}} readOnly
                             />
                         </>
                     ) : (
                         <>
-                            <h2>선택한 주소</h2>
+                            <h2>고객님 주소</h2>
                             <br/>
-                            <p>{address}</p>
-                            <p>우편번호: {addressZoneCode}</p>
+                            <Form form={form} fields={formFields}>
+                                <Col>
+                                    <Form.Item
+                                        name="zipCode"
+                                        label=""
+                                        style={{marginTop: '-10px'}}
+                                        rules={[{required: true, message: '⚠️ 주소는 필수 응답 항목입니다.'}]}
+                                    >
+                                        <Input
+                                            ref={addressRef}
+                                            onClick={handleAddressStates}
+                                            style={{width: "160px"}} readOnly
+                                        />
+                                    </Form.Item>
+                                </Col>
+                                <Col>
+                                    <Form.Item
+                                        name="mainAddress"
+                                    >
+                                        <Input
+                                            onClick={handleAddressStates}
+                                            style={{width: '300px'}}
+                                            readOnly
+                                        />
+                                    </Form.Item>
+                                </Col>
+                            </Form>
                             <Input
                                 placeholder="상세 주소를 입력해주세요"
                                 value={remainAddress}
@@ -173,7 +238,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     input: {
         fontSize: '16px',
         width: '50%',
-        height: '50px',
+        height: '40px',
         marginTop: '10px',
         padding: '10px',
         borderRadius: '8px',
@@ -182,7 +247,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     button: {
         fontSize: '20px',
         width: '80px',
-        height: '50px',
+        height: '40px',
         borderRadius: '10px',
         marginTop: '10px'
     },

@@ -4,7 +4,6 @@ import {
     Typography,
     Form,
     Input,
-    Popover,
     Col,
     Button,
     InputNumber,
@@ -13,6 +12,7 @@ import {
     TourProps,
     Tour,
     InputRef,
+    notification,
 } from 'antd';
 import RegisteringChassis, {CalculateResult} from "../../definition/interfaces";
 import {LeftOutlined} from "@ant-design/icons";
@@ -50,7 +50,6 @@ const CalculatorSecondStep = (props: {
     const {registeredList, companyType, clickBackButton, current, setCurrent} = props;
 
     // 주소
-    const [openSearchAddr, setOpenSearchAddr] = useState(false);
     const [address, setAddress] = useState("");
     const [addressZoneCode, setAddressZoneCode] = useState("");
     const [remainAddress, setRemainAddress] = useState("");
@@ -134,10 +133,6 @@ const CalculatorSecondStep = (props: {
         if (newAddress.apartment === "Y") {
             setIsApartment(true) // 아파트 여부 (디폴트 false)
         }
-    };
-
-    const handleOpenSearchAddrChange = (newOpen: boolean) => {
-        setOpenSearchAddr(newOpen);
     };
 
     const formFields = [
@@ -228,7 +223,7 @@ const CalculatorSecondStep = (props: {
     }
 
     const handleAddressStates = () => {
-        setOpenSearchAddr(true);
+        openToast();
         setGuideOpen(false);
     }
 
@@ -276,6 +271,20 @@ const CalculatorSecondStep = (props: {
             setCurrent(4);
         }
     }
+
+    const openToast = () => {
+        notification.destroy();
+        notification.open({
+            message: '시공/견적 주소',
+            description: (
+                <SearchAddressPopUp
+                    setAddress={handleAddress}
+                />
+            ),
+            placement: 'bottom',
+            closeIcon: <span style={{ fontSize: '16px' }}>X</span>
+        });
+    };
 
 
     return (
@@ -337,20 +346,6 @@ const CalculatorSecondStep = (props: {
                                                     />
                                                 </Form.Item>
                                             </Col>
-                                            <Popover
-                                                content={
-                                                    <SearchAddressPopUp
-                                                        setAddress={handleAddress}
-                                                        setOpenSearchAddr={setOpenSearchAddr}
-                                                    />
-                                                }
-                                                trigger="click"
-                                                open={openSearchAddr}
-                                                placement="bottom"
-                                                onOpenChange={handleOpenSearchAddrChange}
-                                            >
-                                            </Popover>
-
                                             <Col>
                                                 <Form.Item
                                                     name="mainAddress"

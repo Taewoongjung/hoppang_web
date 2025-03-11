@@ -1,14 +1,13 @@
 import React from 'react';
 import DaumPostcode from "react-daum-postcode";
 
-const SearchAddressPopUp = (props:{ setAddress:any; setOpenSearchAddr:any;}) => {
+const SearchAddressPopUp = (props:{ setAddress:any;}) => {
 
-    const {setAddress, setOpenSearchAddr} = props;
+    const {setAddress} = props;
 
     // 우편번호 검색 후 주소 클릭 시 실행될 함수, data callback 용
     const handlePostCode = (data: { address: any; addressType: string; bname: string; buildingName: string; zonecode: any; }) => {
         setAddress(data);
-        setOpenSearchAddr(false);
     }
 
     return (
