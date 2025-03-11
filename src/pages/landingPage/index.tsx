@@ -40,7 +40,7 @@ const LandingPage = () => {
 
                     <div style={{ marginTop: '5px' }}></div>
 
-                    <a href="https://hoppang.app/quote"
+                    <a href="http://pf.kakao.com/_dbxezn"
                        style={{
                            display: 'inline-flex',
                            alignItems: 'center',
