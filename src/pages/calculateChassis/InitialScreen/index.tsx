@@ -48,7 +48,7 @@ const InitialScreen = (props: {
 
     const handleNotificationAgree = async () => {
         await checkIfLoggedIn(); // 로그인 했는지 확인하기
-        console.log("userData = ", userData);
+
         try {
             await mutate().then((user) => {
                 if (user.tel === '') {
@@ -56,12 +56,13 @@ const InitialScreen = (props: {
                     console.log("tel = ", user.tel);
                     window.location.href = "/login/first?remainedProcess=true&userEmail=" + user.email;
                     return;
+                } else {
+                    setGetStarted(!getStarted);
+                    setIsAgreed(!isAgreed);
+                    setOpenNotification(!openNotification);
+                    window.location.href = "/chassis/estimation/calculator";
                 }
             });
-            setGetStarted(!getStarted);
-            setIsAgreed(!isAgreed);
-            setOpenNotification(!openNotification);
-            window.location.href = "/chassis/estimation/calculator";
         } catch (error) {
             console.error(error);
         }
