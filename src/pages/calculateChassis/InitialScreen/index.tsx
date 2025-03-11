@@ -75,7 +75,7 @@ const InitialScreen = (props: {
     }
 
     const checkIfFinishedSignedUp = () => {
-        if (!userData.tel) {
+        if (userData.tel === '') {
             window.location.href = "/login/first?remainedProcess=true&userEmail=" + userData.email;
         }
     }
