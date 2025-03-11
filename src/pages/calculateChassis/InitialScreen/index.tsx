@@ -51,7 +51,7 @@ const InitialScreen = (props: {
 
         try {
             await mutate();
-            checkIfFinishedSignedUp(); // 모든 로그인 프로세스를 마쳤는지 확인하기
+            await checkIfFinishedSignedUp(); // 모든 로그인 프로세스를 마쳤는지 확인하기
             setGetStarted(!getStarted);
             setIsAgreed(!isAgreed);
             setOpenNotification(!openNotification);
