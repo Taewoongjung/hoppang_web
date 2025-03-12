@@ -52,8 +52,6 @@ const InitialScreen = (props: {
         try {
             await mutate().then((user) => {
                 if (user.tel === '') {
-                    console.log("user = ", user);
-                    console.log("tel = ", user.tel);
                     window.location.href = "/login/first?remainedProcess=true&userEmail=" + user.email;
                     return;
                 } else {

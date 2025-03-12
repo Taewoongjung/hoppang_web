@@ -11,6 +11,7 @@ const LandingPage = () => {
 
     const visitedAt = useRef(new Date());
 
+
     const getBrowser = () => {
         const browsers = [
             'Chrome', 'Opera', 'WebTV', 'Whale',
@@ -61,15 +62,16 @@ const LandingPage = () => {
     }, [advId]);
 
     useEffect(() => {
-        if (!advId || advId === "unknown") {
-            console.warn("⚠️ adv_id가 없습니다.");
-        }
-
-        window.addEventListener("beforeunload", callWhenItEnds);
-
-        return () => {
-            window.removeEventListener("beforeunload", callWhenItEnds);
-        };
+        // if (!advId || advId === "unknown") {
+        //     console.warn("⚠️ adv_id가 없습니다.");
+        // }
+        //
+        // window.addEventListener("beforeunload", callWhenItEnds);
+        //
+        // return () => {
+        //     window.removeEventListener("beforeunload", callWhenItEnds);
+        // };
+        callWhenItEnds();
     }, [callWhenItEnds]);
 
 
