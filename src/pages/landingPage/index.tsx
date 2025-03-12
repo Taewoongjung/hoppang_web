@@ -73,6 +73,20 @@ const LandingPage = () => {
         callWhenItEnds();
     }, [callWhenItEnds]);
 
+    const handleButtonClick = (event: any) => {
+        event.preventDefault();
+        const target = event.currentTarget;
+        target.style.transition = "transform 0.3s ease, box-shadow 0.3s ease";
+        target.style.transform = "scale(1.1)";
+        target.style.boxShadow = "0 0 15px rgba(255, 165, 0, 0.8)";
+
+        setTimeout(() => {
+            target.style.transform = "scale(1)";
+            target.style.boxShadow = "none";
+            window.location.href = target.href;
+        }, 300);
+    };
+
 
     return (
         <>
@@ -102,10 +116,12 @@ const LandingPage = () => {
                         간편한 비교, 투명한 가격, 믿을 수 있는 시공까지 한 번에!
                     </p>
                     <a href="https://play.google.com/store/apps/details?id=store.hoppang.app&hl=ko"
+                       onClick={(e) => handleButtonClick(e)}
                        style={{ display: 'inline-block', margin: '10px' }}>
                         <img src="/assets/LandingPage/play-store.png" alt="Android 다운로드" style={{ width: '150px' }} />
                     </a>
                     <a href="https://apps.apple.com/kr/app/%ED%98%B8%EB%B9%B5/id6737535725"
+                       onClick={(e) => handleButtonClick(e)}
                        style={{ display: 'inline-block', margin: '10px' }}>
                         <img src="/assets/LandingPage/app-store.png" alt="iOS 다운로드" style={{ width: '150px' }} />
                     </a>
@@ -113,6 +129,7 @@ const LandingPage = () => {
                     <div style={{ marginTop: '5px' }}></div>
 
                     <a href="http://pf.kakao.com/_dbxezn"
+                       onClick={(e) => handleButtonClick(e)}
                        style={{
                            display: 'inline-flex',
                            alignItems: 'center',
