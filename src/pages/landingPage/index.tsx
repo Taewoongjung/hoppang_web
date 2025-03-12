@@ -9,8 +9,8 @@ const LandingPage = () => {
 
     const hasSentRequest = useRef(false);
 
-    const visitedAt = useRef(new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Seoul" })));
-
+    const visitedAt = useRef(new Date(new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })));
+    
     const getBrowser = () => {
         const browsers = [
             'Chrome', 'Opera', 'WebTV', 'Whale',
