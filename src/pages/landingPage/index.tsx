@@ -9,8 +9,11 @@ const LandingPage = () => {
 
     const hasSentRequest = useRef(false);
 
-    const visitedAt = useRef(new Date(new Date().toLocaleString("ko-KR", { timeZone: "Asia/Seoul" })));
-    
+    const now = new Date();
+    const utc = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
+    const koreaTimeDiff = 9 * 60 * 60 * 1000;
+    const korNow = new Date(utc+koreaTimeDiff);
+
     const getBrowser = () => {
         const browsers = [
             'Chrome', 'Opera', 'WebTV', 'Whale',
@@ -38,7 +41,7 @@ const LandingPage = () => {
         const referrer = document.referrer || "direct";
         // const stayDuration = Math.floor((Date.now() - visitedAt.current.getTime()) / 1000);
         const browser = getBrowser();
-        const formattedVisitedAt = formatDateTime(visitedAt.current);
+        const formattedVisitedAt = formatDateTime(korNow);
 
         const data = {
             referrer,
