@@ -32,13 +32,12 @@ const LandingPage = () => {
         return browsers.find((browser) => userAgent.includes(browser.toLowerCase())) || 'Unknown';
     };
 
-    // 페이지가 닫히거나 떠날 때 실행되는 함수
     const callWhenItEnds = useCallback(() => {
         if (hasSentRequest.current) return;
         hasSentRequest.current = true;
 
         const referrer = document.referrer || "direct";
-        const stayDuration = Math.floor((Date.now() - visitedAt.current.getTime()) / 1000);
+        // const stayDuration = Math.floor((Date.now() - visitedAt.current.getTime()) / 1000);
         const browser = getBrowser();
         const formattedVisitedAt = formatDateTime(visitedAt.current);
 
@@ -46,7 +45,7 @@ const LandingPage = () => {
             referrer,
             advId,
             browser,
-            stayDuration,
+            stayDuration : 0,
             visitedAt: formattedVisitedAt
         };
 
