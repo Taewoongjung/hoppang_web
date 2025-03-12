@@ -81,14 +81,6 @@ const InitialScreen = (props: {
         })
     }
 
-    const checkIfFinishedSignedUp = () => {
-        if (userData.tel === '') {
-            console.log("tel = ", userData.tel);
-            window.location.href = "/login/first?remainedProcess=true&userEmail=" + userData.email;
-            return;
-        }
-    }
-
     // 카카오 소셜 로그인
     useEffect(() => {
         if (oauthtype) {

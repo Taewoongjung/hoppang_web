@@ -91,3 +91,8 @@ export const convertAdditionalChassisPriceInfoToKo = (target:string) => {
         return "unknown";
     }
 }
+
+
+export const formatDateTime = (date: Date) => {
+    return date.toISOString().replace("T", " ").split(".")[0];
+};

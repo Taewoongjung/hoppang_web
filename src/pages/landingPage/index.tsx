@@ -1,6 +1,77 @@
-import React from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
+import {landingPageStatistics} from "../../definition/LandingPage/apiPath";
+import {formatDateTime} from "../../util";
 
 const LandingPage = () => {
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const advId = urlParams.get('adv_id') || "unknown";
+
+    const hasSentRequest = useRef(false);
+
+    const visitedAt = useRef(new Date());
+
+    const getBrowser = () => {
+        const browsers = [
+            'Chrome', 'Opera', 'WebTV', 'Whale',
+            'Beonex', 'Chimera', 'NetPositive', 'Phoenix',
+            'Firefox', 'Safari', 'SkipStone', 'Netscape', 'Mozilla',
+        ];
+
+        const userAgent = window.navigator.userAgent.toLowerCase();
+
+        if (userAgent.includes("edg")) {
+            return "Edge";
+        }
+
+        if (userAgent.includes("trident") || userAgent.includes("msie")) {
+            return "Internet Explorer";
+        }
+
+        return browsers.find((browser) => userAgent.includes(browser.toLowerCase())) || 'Unknown';
+    };
+
+    // 페이지가 닫히거나 떠날 때 실행되는 함수
+    const callWhenItEnds = useCallback(() => {
+        if (hasSentRequest.current) return;
+        hasSentRequest.current = true;
+
+        const referrer = document.referrer || "direct";
+        const stayDuration = Math.floor((Date.now() - visitedAt.current.getTime()) / 1000);
+        const browser = getBrowser();
+        const formattedVisitedAt = formatDateTime(visitedAt.current);
+
+        const data = {
+            referrer,
+            advId,
+            browser,
+            stayDuration,
+            visitedAt: formattedVisitedAt
+        };
+
+        fetch(landingPageStatistics, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data),
+            keepalive: true
+        }).then(response => {})
+            .catch(error => {});
+    }, [advId]);
+
+    useEffect(() => {
+        if (!advId || advId === "unknown") {
+            console.warn("⚠️ adv_id가 없습니다.");
+        }
+
+        window.addEventListener("beforeunload", callWhenItEnds);
+
+        return () => {
+            window.removeEventListener("beforeunload", callWhenItEnds);
+        };
+    }, [callWhenItEnds]);
+
 
     return (
         <>
@@ -41,7 +112,6 @@ const LandingPage = () => {
                     <div style={{ marginTop: '5px' }}></div>
 
                     <a href="http://pf.kakao.com/_dbxezn"
-                       target="_blank" rel="noopener noreferrer"
                        style={{
                            display: 'inline-flex',
                            alignItems: 'center',
