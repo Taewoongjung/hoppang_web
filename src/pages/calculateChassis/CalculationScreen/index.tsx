@@ -568,7 +568,6 @@ const CalculationScreen = () => {
                                                 registeredList={registeredList}
                                                 companyType={companyType}
                                                 clickBackButton={clickBackButton}
-                                                current={current}
                                                 setCurrent={setCurrent}
                                             />
                                         }
