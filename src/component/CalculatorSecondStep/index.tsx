@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
     Switch,
     Typography,
@@ -9,10 +9,9 @@ import {
     InputNumber,
     message,
     Divider,
-    TourProps,
-    Tour,
     InputRef,
     notification,
+    Tooltip,
 } from 'antd';
 import RegisteringChassis, {CalculateResult} from "../../definition/interfaces";
 import {LeftOutlined} from "@ant-design/icons";
@@ -33,7 +32,6 @@ const CalculatorSecondStep = (props: {
     registeredList: RegisteringChassis[],
     companyType: string,
     clickBackButton: () => void,
-    current:number,
     setCurrent: (s: number) => void
 }) => {
 
@@ -47,7 +45,7 @@ const CalculatorSecondStep = (props: {
 
     const [messageApi, contextHolder] = message.useMessage();
 
-    const {registeredList, companyType, clickBackButton, current, setCurrent} = props;
+    const {registeredList, companyType, clickBackButton, setCurrent} = props;
 
     // 주소
     const [address, setAddress] = useState("");
@@ -75,37 +73,9 @@ const CalculatorSecondStep = (props: {
     const [order, setOrder] = useState(1);
 
     // 가이드 관련
-    const [guideOpen, setGuideOpen] = useState<boolean>(false);
+    const [guideOpen, setGuideOpen] = useState<boolean>(true);
     const addressRef = useRef<InputRef>(null);
 
-
-    useEffect(() => {
-        if (order === 1) {
-            setGuideOpen(true);
-        }
-    }, [order]);
-
-    const steps: TourProps['steps'] = [
-        {
-            title: '주소 입력',
-            placement: 'bottom',
-            description: '터치 해서 주소를 입력해주세요.',
-            target: () => addressRef.current?.input as HTMLElement || null,
-            closeIcon: null,
-            nextButtonProps : {
-                children: (
-                    <div style={{color: "#4da3ff"}}>닫기</div>
-                ),
-                style: {
-                    backgroundColor: "white",
-                    borderRadius: "10%",
-                    width: 32,
-                    minWidth: 32,
-                    height: 32,
-                }
-            }
-        }
-    ]
 
     const success = (successMsg:string) => {
         messageApi.open({
@@ -292,14 +262,6 @@ const CalculatorSecondStep = (props: {
         <>
             {isLoading && <OverlayLoadingPage word={"처리중"}/>}
 
-            <Tour
-                type="primary"
-                steps={steps}
-                open={guideOpen}
-                onClose={() => setGuideOpen(false)}
-                mask={false}
-            />
-
             {contextHolder}
 
             <div style={{width: "700px"}}>
@@ -334,18 +296,20 @@ const CalculatorSecondStep = (props: {
                                     <td colSpan={2}>
                                         <Form form={form} fields={formFields}>
                                             <Col>
-                                                <Form.Item
-                                                    name="zipCode"
-                                                    label=""
-                                                    style={{marginTop: '-10px'}}
-                                                    rules={[{required: true, message: '⚠️ 주소는 필수 응답 항목입니다.'}]}
-                                                >
-                                                    <Input
-                                                        ref={addressRef}
-                                                        onClick={handleAddressStates}
-                                                        style={{width: "160px"}} readOnly
-                                                    />
-                                                </Form.Item>
+                                                <Tooltip title="터치 해서 주소를 입력해주세요." color="blue" open={guideOpen}>
+                                                    <Form.Item
+                                                        name="zipCode"
+                                                        label=""
+                                                        style={{marginTop: '-10px'}}
+                                                        rules={[{required: true, message: '⚠️ 주소는 필수 응답 항목입니다.'}]}
+                                                    >
+                                                            <Input
+                                                                ref={addressRef}
+                                                                onClick={handleAddressStates}
+                                                                style={{width: "160px"}} readOnly
+                                                            />
+                                                    </Form.Item>
+                                                </Tooltip>
                                             </Col>
                                             <Col>
                                                 <Form.Item
