@@ -271,11 +271,9 @@ const CalculationScreen = () => {
 
                                                                 {memoizedOptions.map((option, index) =>
                                                                     option === HYUNDAI_ko ? (
-                                                                        <div key={index} style={{ position: 'relative', overflow: 'visible', display: 'inline-block' }}>
+                                                                        <div key={index} className="ribbon-container">
                                                                             <div
-                                                                                className={`ribbon ${
-                                                                                     "ribbonRed"
-                                                                                }`}
+                                                                                className={`ribbon ${"ribbonRed"}`}
                                                                             >
                                                                                 <span>15% 할인</span>
                                                                             </div>
