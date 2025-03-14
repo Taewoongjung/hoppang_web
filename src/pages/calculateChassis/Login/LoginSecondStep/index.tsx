@@ -1,5 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Button, InputRef, Switch, Tour, TourProps} from "antd";
+import React, {useState} from 'react';
+import {Button, Switch} from "antd";
 import axios from "axios";
 import {callFinalSocialSignUp} from "../../../../definition/apiPath";
 
@@ -9,35 +9,6 @@ const LoginSecondStep = () => {
 
     const [isPushAlarmOn, setIsPushAlarmOn] = useState(false);
 
-    const [guideOpen, setGuideOpen] = useState<boolean>(false);
-    const addressRef = useRef<InputRef>(null);
-
-
-    useEffect(() => {
-        setGuideOpen(true);
-    }, [addressRef]);
-
-    const steps: TourProps['steps'] = [
-        {
-            title: '주소 입력',
-            placement: 'bottom',
-            description: '터치 해서 주소를 입력해주세요.',
-            target: () => addressRef.current?.input as HTMLElement || null,
-            closeIcon: null,
-            nextButtonProps : {
-                children: (
-                    <div style={{color: "#4da3ff"}}>닫기</div>
-                ),
-                style: {
-                    backgroundColor: "white",
-                    borderRadius: "10%",
-                    width: 32,
-                    minWidth: 32,
-                    height: 32,
-                }
-            }
-        }
-    ]
 
     const signupFinally = () => {
         const userEmail = urlParams.get('userEmail');
@@ -72,14 +43,6 @@ const LoginSecondStep = () => {
 
     return (
         <div style={styles.container}>
-
-            <Tour
-                type="primary"
-                steps={steps}
-                open={guideOpen}
-                onClose={() => setGuideOpen(false)}
-                mask={false}
-            />
 
             <div style={styles.box}>
                 <>
