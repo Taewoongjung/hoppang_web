@@ -9,7 +9,7 @@ import RegisteringChassis from "../../../definition/interfaces";
 import {DeleteOutlined, LeftOutlined, RightOutlined} from "@ant-design/icons";
 import BottomNavigator from "../../../component/BottomNavigator";
 import {GoToTopButton} from "../../../util/renderUtil";
-import {companyTypeOptionsString} from "../../../definition/companyType";
+import {companyTypeOptionsString, HYUNDAI_ko} from "../../../definition/companyType";
 import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
 
 const { Title } = Typography;
@@ -268,27 +268,57 @@ const CalculationScreen = () => {
                                                                 flexWrap: 'wrap',
                                                                 marginBottom: '10%'
                                                             }}>
-                                                                {memoizedOptions.map((option, index) => (
-                                                                    <div
-                                                                        key={index}
-                                                                        onClick={() => handleSelect(option)}
-                                                                        style={{
-                                                                            width: '150px',
-                                                                            height: '50px',
-                                                                            display: 'flex',
-                                                                            justifyContent: 'center',
-                                                                            alignItems: 'center',
-                                                                            border: '2px solid',
-                                                                            borderColor: selectedOption === option ? 'green' : '#ccc',
-                                                                            borderRadius: '8px',
-                                                                            cursor: 'pointer',
-                                                                            transition: 'border-color 0.3s ease',
-                                                                            position: 'relative',
-                                                                        }}
-                                                                    >
-                                                                        {option}
-                                                                    </div>
-                                                                ))}
+
+                                                                {memoizedOptions.map((option, index) =>
+                                                                    option === HYUNDAI_ko ? (
+                                                                        <div key={index} style={{ position: 'relative', overflow: 'visible', display: 'inline-block' }}>
+                                                                            <div
+                                                                                className={`ribbon ${
+                                                                                     "ribbonRed"
+                                                                                }`}
+                                                                            >
+                                                                                <span>15% 할인</span>
+                                                                            </div>
+                                                                            <div
+                                                                                onClick={() => handleSelect(option)}
+                                                                                style={{
+                                                                                    width: '150px',
+                                                                                    height: '50px',
+                                                                                    display: 'flex',
+                                                                                    justifyContent: 'center',
+                                                                                    alignItems: 'center',
+                                                                                    border: '2px solid',
+                                                                                    borderColor: selectedOption === option ? 'green' : '#ccc',
+                                                                                    borderRadius: '8px',
+                                                                                    cursor: 'pointer',
+                                                                                    transition: 'border-color 0.3s ease',
+                                                                                    background: 'white',
+                                                                                }}
+                                                                            >
+                                                                                {option}
+                                                                            </div>
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div
+                                                                            key={index}
+                                                                            onClick={() => handleSelect(option)}
+                                                                            style={{
+                                                                                width: '150px',
+                                                                                height: '50px',
+                                                                                display: 'flex',
+                                                                                justifyContent: 'center',
+                                                                                alignItems: 'center',
+                                                                                border: '2px solid',
+                                                                                borderColor: selectedOption === option ? 'green' : '#ccc',
+                                                                                borderRadius: '8px',
+                                                                                cursor: 'pointer',
+                                                                                transition: 'border-color 0.3s ease',
+                                                                            }}
+                                                                        >
+                                                                            {option}
+                                                                        </div>
+                                                                    )
+                                                                )}
                                                             </div>
                                                         </td>
                                                     </tr>
