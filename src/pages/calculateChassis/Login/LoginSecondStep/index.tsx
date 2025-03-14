@@ -1,33 +1,17 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Button, Col, Form, Input, InputRef, notification, Switch, Tour, TourProps} from "antd";
-import SearchAddressPopUp from "../../../../component/SearchAddressPopUp";
+import {Button, InputRef, Switch, Tour, TourProps} from "antd";
 import axios from "axios";
 import {callFinalSocialSignUp} from "../../../../definition/apiPath";
 
 const LoginSecondStep = () => {
 
-    const [form] = Form.useForm();
-
     const urlParams = new URLSearchParams(window.location.search);
 
-    const [address, setAddress] = useState("");
-    const [addressZoneCode, setAddressZoneCode] = useState("");
-    const [remainAddress, setRemainAddress] = useState("");
-    const [addressBuildingNum, setAddressBuildingNum] = useState("");
-    const [isRemainAddressBlank, setIsRemainAddressBlank] = useState(false);
-
     const [isPushAlarmOn, setIsPushAlarmOn] = useState(false);
-
-    const [isAddressComplete, setIsAddressComplete] = useState(false);
 
     const [guideOpen, setGuideOpen] = useState<boolean>(false);
     const addressRef = useRef<InputRef>(null);
 
-
-    const formFields = [
-        { name: ['zipCode'], value: addressZoneCode },
-        { name: ['mainAddress'], value: address },
-    ];
 
     useEffect(() => {
         setGuideOpen(true);
@@ -55,28 +39,6 @@ const LoginSecondStep = () => {
         }
     ]
 
-    // 우편번호 검색 후 주소 클릭 시 실행될 함수
-    const handleAddress = (data:any) => {
-        setAddress(data.address); // 기본 주소
-        setAddressZoneCode(data.zonecode); // 우편번호
-        setAddressBuildingNum(data.buildingCode); // 빌딩번호
-        notification.destroy();
-    };
-
-    // 추가 주소 입력 시 처리 함수
-    const handleRemainAddressChange = (e: any) => {
-        setIsRemainAddressBlank(false);
-        setRemainAddress(e.target.value);
-    };
-
-    const completeAddress = () => {
-        if (!remainAddress) {
-            setIsRemainAddressBlank(true);
-            return;
-        }
-        setIsAddressComplete(true);
-    }
-
     const signupFinally = () => {
         const userEmail = urlParams.get('userEmail');
         const userPhoneNumber = urlParams.get('phoneNumber');
@@ -85,9 +47,6 @@ const LoginSecondStep = () => {
             {
                 userEmail: userEmail,
                 userPhoneNumber: userPhoneNumber,
-                address: address,
-                subAddress: remainAddress,
-                buildingNumber: addressBuildingNum,
                 isPushOn: isPushAlarmOn
             },
             {
@@ -110,24 +69,6 @@ const LoginSecondStep = () => {
             });
     }
 
-    const openToast = () => {
-        notification.open({
-            message: '고객님 주소',
-            description: (
-                <SearchAddressPopUp
-                    setAddress={handleAddress}
-                />
-            ),
-            placement: 'bottom',
-            closeIcon: <span style={{ fontSize: '16px' }}>X</span>
-        });
-    };
-
-    const handleAddressStates = () => {
-        openToast();
-        setGuideOpen(false);
-    }
-
 
     return (
         <div style={styles.container}>
@@ -141,77 +82,19 @@ const LoginSecondStep = () => {
             />
 
             <div style={styles.box}>
-                {!isAddressComplete && (
-                    address === "" ? (
-                        <>
-                            <h2>고객님 주소 입력</h2>
-                            <Input
-                                ref={addressRef}
-                                onClick={handleAddressStates}
-                                style={{width: "160px"}} readOnly
-                            />
-                        </>
-                    ) : (
-                        <>
-                            <h2>고객님 주소</h2>
-                            <br/>
-                            <Form form={form} fields={formFields}>
-                                <Col>
-                                    <Form.Item
-                                        name="zipCode"
-                                        label=""
-                                        style={{marginTop: '-10px'}}
-                                        rules={[{required: true, message: '⚠️ 주소는 필수 응답 항목입니다.'}]}
-                                    >
-                                        <Input
-                                            ref={addressRef}
-                                            onClick={handleAddressStates}
-                                            style={{width: "160px"}} readOnly
-                                        />
-                                    </Form.Item>
-                                </Col>
-                                <Col>
-                                    <Form.Item
-                                        name="mainAddress"
-                                    >
-                                        <Input
-                                            onClick={handleAddressStates}
-                                            style={{width: '300px'}}
-                                            readOnly
-                                        />
-                                    </Form.Item>
-                                </Col>
-                            </Form>
-                            <Input
-                                placeholder="상세 주소를 입력해주세요"
-                                value={remainAddress}
-                                onChange={handleRemainAddressChange}
-                                style={{
-                                    ...styles.input,
-                                    borderColor: isRemainAddressBlank ? 'red' : ''
-                                }}
-                            />
-
-                            <Button onClick={completeAddress} type="primary" style={styles.button}>확인</Button>
-                        </>
-                    )
-                )}
-
-                {isAddressComplete &&
-                    <>
-                        <h2>푸시알람 여부</h2>
-                        <div>
-                            <Switch
-                                checkedChildren="ON"
-                                unCheckedChildren="OFF"
-                                defaultChecked
-                                style={{width: '90px'}}
-                                onChange={setIsPushAlarmOn}
-                            />
-                        </div>
-                        <Button onClick={signupFinally} type="primary" style={styles.button1}>회원가입</Button>
-                    </>
-                }
+                <>
+                    <h2>푸시알람 여부</h2>
+                    <div>
+                        <Switch
+                            checkedChildren="ON"
+                            unCheckedChildren="OFF"
+                            defaultChecked
+                            style={{width: '90px'}}
+                            onChange={setIsPushAlarmOn}
+                        />
+                    </div>
+                    <Button onClick={signupFinally} type="primary" style={styles.button1}>회원가입</Button>
+                </>
             </div>
         </div>
     );
