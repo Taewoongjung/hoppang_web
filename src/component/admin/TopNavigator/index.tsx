@@ -19,6 +19,11 @@ const headerMenuItems = [
         key: '3',
         label: '📊 통계',
         path: '/admin/statistics'
+    },
+    {
+        key: '4',
+        label: '📺 광고',
+        path: '/admin/advertisement'
     }
 ]
 

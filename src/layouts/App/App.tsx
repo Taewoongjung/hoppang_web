@@ -19,6 +19,7 @@ const AdminLoginPage = loadable(() => import('../../pages/admin/Login'));
 const ChassisPriceDatabaseMainScreen = loadable(() => import('../../pages/admin/ChassisPriceDatabaseMainScreen'));
 const EstimatedDatabaseMainScreen = loadable(() => import('../../pages/admin/EstimatedDatabaseMainScreen'));
 const StatisticsMainScreen = loadable(() => import('../../pages/admin/StatisticsMainScreen'));
+const AdvertisementMainScreen = loadable(() => import('../../pages/admin/AdvertisementMainScreen'));
 
 // 랜딩 페이지
 const LandingPage = loadable(() => import('../../pages/landingPage'));
@@ -48,6 +49,7 @@ const App = () => {
                     <Route path="/admin/essentials/info" component={ChassisPriceDatabaseMainScreen}/>
                     <Route path="/admin/essentials/estimates/info" component={EstimatedDatabaseMainScreen}/>
                     <Route path="/admin/statistics" component={StatisticsMainScreen}/>
+                    <Route path="/admin/advertisement" component={AdvertisementMainScreen}/>
 
                     {/*OFFICIAL*/}
                     <Route path="/official" component={LandingPage}/>
