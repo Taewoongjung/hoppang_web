@@ -530,13 +530,13 @@ const CalculatorSecondStep = (props: {
                                         style={{
                                             marginTop: '50px',
                                             width: '100%',
-                                            maxWidth: '700px',       // 최대 너비 설정
-                                            boxSizing: 'border-box', // 넘침 방지
-                                            padding: '10px',         // 여백 추가
-                                            display: 'flex',         // 플렉스 사용
-                                            flexDirection: 'column', // 세로 정렬
-                                            alignItems: 'center',    // 수직 중앙 정렬
-                                            justifyContent: 'center' // 수평 중앙 정렬
+                                            maxWidth: '700px',
+                                            boxSizing: 'border-box',
+                                            padding: '10px',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
                                         }}
                                     >
                                         <InfoSection />
@@ -580,16 +580,16 @@ const styles: { [key: string]: React.CSSProperties } = {
         minWidth: '150px',
         padding: '10px 0',
         fontSize: '16px',
-        boxSizing: 'border-box', // 넘침 방지
+        boxSizing: 'border-box',
     },
     wrapperOfTitle: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        width: window.innerWidth > 768 ? '80%' : '100%',  // 화면 크기에 따라 너비 조정
+        width: window.innerWidth > 768 ? '80%' : '100%',
         textAlign: 'center',
-        padding: window.innerWidth > 768 ? '0 5%' : '0 2%',  // 좌우 여백 조정
-        boxSizing: 'border-box', // 넘침 방지
+        padding: window.innerWidth > 768 ? '0 5%' : '0 2%',
+        boxSizing: 'border-box',
     },
     title: {
         margin: 0,

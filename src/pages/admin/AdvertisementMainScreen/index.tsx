@@ -16,7 +16,7 @@ const AdvertisementMainScreen = () => {
                 <Content style={{ padding: '0 0px' }}>
                     <div style={{marginTop: '5%'}}>
                         <div style={{
-                            flexDirection: window.innerWidth < 600 ? 'column' : 'row', // 화면 크기에 따라 가로/세로 변경
+                            flexDirection: window.innerWidth < 600 ? 'column' : 'row',
                             gap: '3px',
                             justifyContent: 'center',
                             alignItems: 'center',
