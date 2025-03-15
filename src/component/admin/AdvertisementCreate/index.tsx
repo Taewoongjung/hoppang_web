@@ -1,54 +1,104 @@
-import React, { useRef, useState } from 'react';
-import {Divider, InputRef, Select, Space, Input, Button, Typography, Layout, Col, Row} from 'antd';
-import {PlusOutlined, CaretRightOutlined} from "@ant-design/icons";
+import React, { useState } from 'react';
+import {Select, Input, Button, Typography, Layout, Col, Row} from 'antd';
+import {CaretRightOutlined} from "@ant-design/icons";
 import {v4 as uuidv4} from 'uuid';
+import {createAdvertisementContent} from "../../../definition/Admin/apiPath";
+import axios from 'axios';
+import {formatDateTime} from "../../../util";
 
 const { Content } = Layout;
-
+const { TextArea } = Input;
 const { Text } = Typography;
 
 const AdvertisementCreate = () => {
 
-    let index = 0;
+    const items = ['네이버카페', '인스타'];
 
-    const [items, setItems] = useState(['네이버카페', '인스타']);
-    const [name, setName] = useState('');
-    const inputRef = useRef<InputRef>(null);
-
-    const [targetUrl, setTargetUrl] = useState('');
-    const [uuidOfTargetUrl, setUuidOfTargetUrl] = useState('');
-
+    const [targetPlatform, setTargetPlatform] = useState<string | undefined>();
+    const [targetUrl, setTargetUrl] = useState<string>('');
     const [generatedUrl, setGeneratedUrl] = useState('');
 
+    const [errorMessages, setErrorMessages] = useState<{ targetPlatform?: string; targetUrl?: string }>({});
+    const [customMemo, setCustomMemo] = useState('');
 
-    const resetGeneratedUrl = () => {
+
+    const allStatesReset = () => {
+        setTargetPlatform(undefined);
+        setTargetUrl('');
         setGeneratedUrl('');
-        setUuidOfTargetUrl('');
+        setCustomMemo('');
     }
 
-    const generateAdUrl = () => {
+    const validateInputs = () => {
+        const errors: { targetPlatform?: string; targetUrl?: string } = {};
+
+        if (!targetPlatform) errors.targetPlatform = "광고 타겟 플랫폼을 선택해주세요.";
+        if (!targetUrl.trim()) errors.targetUrl = "광고 할 주소를 입력해주세요.";
+
+        setErrorMessages(errors);
+
+        return Object.keys(errors).length === 0;
+    };
+
+    const resetGeneratedUrl = () => {
+        allStatesReset();
+    }
+
+    const generateAdUrl = async () => {
+        if (!validateInputs()) return;
         if (!generatedUrl) {
             const uuid = uuidv4();
 
             if (uuid) {
-                setUuidOfTargetUrl(uuid);
+                createContent(uuid);
                 setGeneratedUrl(`https://hoppang.store/official?adv_id=${uuid}`);
             }
         }
     }
 
-    const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setName(event.target.value);
+    const createContent = (uuidOfTargetUrl: any) => {
+
+        const now = new Date();
+        const utc = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
+        const koreaTimeDiff = 9 * 60 * 60 * 1000;
+        const korNow = new Date(utc+koreaTimeDiff);
+
+        axios.post(createAdvertisementContent,
+            {
+                advId: uuidOfTargetUrl,
+                targetPlatform: targetPlatform,
+                memo: createMemo(targetPlatform),
+                startedAt: formatDateTime(korNow)
+            },
+            {
+                withCredentials: true,
+                headers: {
+                    Authorization: localStorage.getItem("hoppang-admin-token"),
+                }
+            }).then((res) => {})
+            .catch((err) => {console.error("생성중 에러 발생 = ", err)})
+    }
+
+    const createMemo = (targetPlatform: any) => {
+
+        if (!customMemo) {
+            return targetPlatform + " - " + targetUrl;
+        }
+
+        return customMemo;
+    }
+
+    const handlePlatformChange = (value: string) => {
+        setTargetPlatform(value);
+        setErrorMessages((prev) => ({ ...prev, targetPlatform: undefined }));
     };
 
-    const addItem = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
-        e.preventDefault();
-        setItems([...items, name || `New item ${index++}`]);
-        setName('');
-        setTimeout(() => {
-            inputRef.current?.focus();
-        }, 0);
+    const handleUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setTargetUrl(event.target.value);
+        setErrorMessages((prev) => ({ ...prev, targetUrl: undefined }));
     };
+
+
 
     return (
         <>
@@ -59,32 +109,21 @@ const AdvertisementCreate = () => {
             <Content>
                 <Row style={{display: 'flex', height: '100%'}}>
                     <Col span={4} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                        <span style={{fontSize: '15px', fontWeight: 'bolder'}}>광고 타겟 플랫폼 :</span>
+                        <span style={{fontSize: '15px', fontWeight: 'bolder'}}>
+                            광고 타겟 플랫폼 :
+                            <span style={{ color: 'red', marginLeft: '4px' }}>*</span>
+                        </span>
                     </Col>
                     <Col>
                         <Select
                             style={{width: 280}}
                             placeholder="광고 플랫폼 설정 (네이버카페, 인스타 등..)"
-                            dropdownRender={(menu) => (
-                                <>
-                                    {menu}
-                                    <Divider style={{margin: '8px 0'}}/>
-                                    <Space style={{padding: '0 8px 4px'}}>
-                                        <Input
-                                            placeholder="그 외 기타 입력"
-                                            ref={inputRef}
-                                            value={name}
-                                            onChange={onNameChange}
-                                            onKeyDown={(e) => e.stopPropagation()}
-                                        />
-                                        <Button type="text" icon={<PlusOutlined/>} onClick={addItem}>
-                                            추가
-                                        </Button>
-                                    </Space>
-                                </>
-                            )}
-                            options={items.map((item) => ({label: item, value: item}))}
+                            value={targetPlatform}
+                            options={items.map((item) => ({ label: item, value: item }))}
+                            onChange={handlePlatformChange}
                         />
+                        <br/>
+                        {errorMessages.targetPlatform && <Text type="danger">{errorMessages.targetPlatform}</Text>}
                     </Col>
                 </Row>
 
@@ -92,10 +131,37 @@ const AdvertisementCreate = () => {
 
                 <Row style={{display: 'flex', height: '100%'}}>
                     <Col span={4} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                        <span style={{fontSize: '15px', fontWeight: 'bolder'}}>광고 할 주소 (url):</span>
+                        <span style={{fontSize: '15px', fontWeight: 'bolder'}}>
+                            광고 할 주소 (url) :
+                            <span style={{ color: 'red', marginLeft: '4px' }}>*</span>
+                        </span>
                     </Col>
                     <Col>
-                        <Input onChange={() => setTargetUrl}/>
+                        <Input
+                            placeholder={"https://..."}
+                            style={{width: 280}}
+                            value={targetUrl}
+                            onChange={handleUrlChange}
+                        />
+                        <br/>
+                        {errorMessages.targetUrl && <Text type="danger">{errorMessages.targetUrl}</Text>}
+                    </Col>
+                </Row>
+
+                <div style={{margin: '24px 0'}}/>
+
+                <Row style={{display: 'flex', height: '100%'}}>
+                    <Col span={4} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                        <span style={{fontSize: '15px', fontWeight: 'bolder'}}>광고에 대한 간단한 메모 (500자 까지) :</span>
+                    </Col>
+                    <Col>
+                        <TextArea
+                            value={customMemo}
+                            onChange={(e) => setCustomMemo(e.target.value)}
+                            placeholder="광고 하고자 하는 목적, 타겟, 정확히 어디에 광고 하는지..."
+                            autoSize={{ minRows: 3, maxRows: 7 }}
+                            maxLength={500}
+                        />
                     </Col>
                 </Row>
 
@@ -131,6 +197,5 @@ const AdvertisementCreate = () => {
         </>
     );
 };
-
 
 export default AdvertisementCreate;

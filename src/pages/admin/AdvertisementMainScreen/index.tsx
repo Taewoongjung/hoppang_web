@@ -25,6 +25,10 @@ const AdvertisementMainScreen = () => {
                             <Card style={{ marginBottom: '1%', borderRadius: '8px' }}>
                                 <AdvertisementCreate/>
                             </Card>
+
+                            <Card style={{ marginBottom: '1%', borderRadius: '8px' }}>
+
+                            </Card>
                         </div>
                     </div>
                 </Content>
@@ -33,6 +37,5 @@ const AdvertisementMainScreen = () => {
         </>
     );
 };
-
 
 export default AdvertisementMainScreen;
