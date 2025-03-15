@@ -224,7 +224,8 @@ const EstimationDetailPage = () => {
                 style={{
                     width: '100%',
                     maxWidth: '600px',
-                    margin: '0 auto'
+                    margin: '0 auto',
+                    marginBottom: '3%'
                 }}
                 footer={() => (
                     <>
