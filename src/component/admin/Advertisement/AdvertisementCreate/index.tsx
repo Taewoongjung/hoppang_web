@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import {Select, Input, Button, Typography, Layout, Col, Row} from 'antd';
 import {CaretRightOutlined} from "@ant-design/icons";
 import {v4 as uuidv4} from 'uuid';
-import {createAdvertisementContent} from "../../../definition/Admin/apiPath";
+import {createAdvertisementContent} from "../../../../definition/Admin/apiPath";
 import axios from 'axios';
-import {formatDateTime} from "../../../util";
+import {formatDateTime} from "../../../../util";
 
 const { Content } = Layout;
 const { TextArea } = Input;
@@ -102,14 +102,14 @@ const AdvertisementCreate = () => {
 
     return (
         <>
-            <Typography.Title level={1} style={{marginBottom: '4%'}}>
+            <Typography.Title level={1} style={{marginBottom: '2%'}}>
                 광고용 URL 생성
             </Typography.Title>
 
             <Content>
                 <Row style={{display: 'flex', height: '100%'}}>
                     <Col span={4} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                        <span style={{fontSize: '15px', fontWeight: 'bolder'}}>
+                        <span style={{fontSize: '20px', fontWeight: 'bolder'}}>
                             광고 타겟 플랫폼 :
                             <span style={{ color: 'red', marginLeft: '4px' }}>*</span>
                         </span>
@@ -131,7 +131,7 @@ const AdvertisementCreate = () => {
 
                 <Row style={{display: 'flex', height: '100%'}}>
                     <Col span={4} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                        <span style={{fontSize: '15px', fontWeight: 'bolder'}}>
+                        <span style={{fontSize: '20px', fontWeight: 'bolder'}}>
                             광고 할 주소 (url) :
                             <span style={{ color: 'red', marginLeft: '4px' }}>*</span>
                         </span>
@@ -152,7 +152,7 @@ const AdvertisementCreate = () => {
 
                 <Row style={{display: 'flex', height: '100%'}}>
                     <Col span={4} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                        <span style={{fontSize: '15px', fontWeight: 'bolder'}}>광고에 대한 간단한 메모 (500자 까지) :</span>
+                        <span style={{fontSize: '20px', fontWeight: 'bolder'}}>광고에 대한 간단한 메모 (500자 까지) :</span>
                     </Col>
                     <Col>
                         <TextArea
