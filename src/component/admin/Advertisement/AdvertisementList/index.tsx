@@ -28,7 +28,7 @@ const AdvertisementList = () => {
         axios.get(findAdvertisementContentWithClickCount + getQueryParam(), {
             withCredentials: true,
             headers: {
-                Authorization: localStorage.getItem("hoppang-admin-token") || '',
+                Authorization: localStorage.getItem("hoppang-admin-token"),
             },
         })
             .then((res) => {
@@ -59,8 +59,9 @@ const AdvertisementList = () => {
     const processData = (dataList: any[]) => {
         const formattedData = dataList.map(data => (
             {
+                key: data.advId,
+                advId: <span style={{fontWeight: "bolder"}}>{data.advId}</span>,
                 advChannel: data.advChannel,
-                advId: data.advId,
                 clickCount: data.clickCount,
                 startAt: data.startAt,
                 endAt: data.endAt || "미정",
@@ -80,7 +81,7 @@ const AdvertisementList = () => {
             return (
                 <>
                     <Badge status="error" text={<span style={{fontWeight:"bold"}}>광고중단</span>}/>
-                    &ensp;({startAt} - {endAt})
+                    <br/>({startAt} - {endAt})
                 </>
             );
         }
@@ -88,7 +89,7 @@ const AdvertisementList = () => {
         return (
             <>
                 <Badge status="processing" text={<span style={{fontWeight:"bold"}}>광고중</span>} />
-                &ensp;({startAt} - )
+                <br/>({startAt} - )
             </>
         )
     }
@@ -182,14 +183,15 @@ const AdvertisementList = () => {
             title: 'adv_id',
             dataIndex: 'advId',
             key: 'advId',
-            width: '30%',
+            width: '20%',
+            fixed: 'left',
             ...getColumnSearchProps('advId'),
         },
         {
             title: '광고 플랫폼',
             dataIndex: 'advChannel',
             key: 'advChannel',
-            width: '20%',
+            width: '10%',
             ...getColumnSearchProps('advChannel'),
         },
         {
@@ -202,6 +204,7 @@ const AdvertisementList = () => {
             title: '유저 클릭 횟수',
             dataIndex: 'clickCount',
             key: 'clickCount',
+            width: '10%',
             ...getColumnSearchProps('clickCount'),
         },
         {
@@ -250,6 +253,9 @@ const AdvertisementList = () => {
                 columns={columns}
                 dataSource={tableData}
                 pagination={{ pageSize: 15 }}
+                scroll={{ x: 1300, y: 650 }}
+                bordered
+                rowHoverable
             />
         </>
     );
