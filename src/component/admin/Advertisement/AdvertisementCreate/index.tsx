@@ -108,13 +108,12 @@ const AdvertisementCreate = () => {
 
             <Content>
                 <Row style={{display: 'flex', height: '100%'}}>
-                    <Col span={4} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                        <span style={{fontSize: '20px', fontWeight: 'bolder'}}>
-                            광고 타겟 플랫폼 :
-                            <span style={{ color: 'red', marginLeft: '4px' }}>*</span>
-                        </span>
-                    </Col>
-                    <Col>
+                    <div style={{fontSize: '20px', fontWeight: 'bolder'}}>
+                        광고 타겟 플랫폼 :
+                        <span style={{ color: 'red', marginLeft: '4px' }}>*</span>
+                    </div>
+                </Row>
+                <Row>
                         <Select
                             style={{width: 280}}
                             placeholder="광고 플랫폼 설정 (네이버카페, 인스타 등..)"
@@ -124,45 +123,40 @@ const AdvertisementCreate = () => {
                         />
                         <br/>
                         {errorMessages.targetPlatform && <Text type="danger">{errorMessages.targetPlatform}</Text>}
-                    </Col>
                 </Row>
 
                 <div style={{margin: '24px 0'}}/>
 
                 <Row style={{display: 'flex', height: '100%'}}>
-                    <Col span={4} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                        <span style={{fontSize: '20px', fontWeight: 'bolder'}}>
-                            광고 할 주소 (url) :
-                            <span style={{ color: 'red', marginLeft: '4px' }}>*</span>
-                        </span>
-                    </Col>
-                    <Col>
-                        <Input
-                            placeholder={"https://..."}
-                            style={{width: 280}}
-                            value={targetUrl}
-                            onChange={handleUrlChange}
-                        />
-                        <br/>
-                        {errorMessages.targetUrl && <Text type="danger">{errorMessages.targetUrl}</Text>}
-                    </Col>
+                    <span style={{fontSize: '20px', fontWeight: 'bolder'}}>
+                        광고 할 주소 (url) :
+                        <span style={{ color: 'red', marginLeft: '4px' }}>*</span>
+                    </span>
+                </Row>
+                <Row>
+                    <Input
+                        placeholder={"https://..."}
+                        style={{width: 280}}
+                        value={targetUrl}
+                        onChange={handleUrlChange}
+                    />
+                    <br/>
+                    {errorMessages.targetUrl && <Text type="danger">{errorMessages.targetUrl}</Text>}
                 </Row>
 
                 <div style={{margin: '24px 0'}}/>
 
                 <Row style={{display: 'flex', height: '100%'}}>
-                    <Col span={4} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                        <span style={{fontSize: '20px', fontWeight: 'bolder'}}>광고에 대한 간단한 메모 (500자 까지) :</span>
-                    </Col>
-                    <Col>
-                        <TextArea
-                            value={customMemo}
-                            onChange={(e) => setCustomMemo(e.target.value)}
-                            placeholder="광고 하고자 하는 목적, 타겟, 정확히 어디에 광고 하는지..."
-                            autoSize={{ minRows: 3, maxRows: 7 }}
-                            maxLength={500}
-                        />
-                    </Col>
+                    <span style={{fontSize: '20px', fontWeight: 'bolder'}}>광고에 대한 간단한 메모 (500자 까지) :</span>
+                </Row>
+                <Row>
+                    <TextArea
+                        value={customMemo}
+                        onChange={(e) => setCustomMemo(e.target.value)}
+                        placeholder="광고 하고자 하는 목적, 타겟, 정확히 어디에 광고 하는지..."
+                        autoSize={{ minRows: 3, maxRows: 7 }}
+                        maxLength={500}
+                    />
                 </Row>
 
                 <div style={{margin: '24px 0'}}/>

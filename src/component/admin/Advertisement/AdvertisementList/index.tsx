@@ -184,7 +184,6 @@ const AdvertisementList = () => {
             dataIndex: 'advId',
             key: 'advId',
             width: '20%',
-            fixed: 'left',
             ...getColumnSearchProps('advId'),
         },
         {
@@ -231,20 +230,18 @@ const AdvertisementList = () => {
             </Typography.Title>
 
             <Row style={{display: 'flex', height: '100%', marginBottom: '1%'}}>
-                <Col span={1} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                    <span style={{fontSize: '20px', fontWeight: 'bolder'}}>
-                        광고 필터:
-                    </span>
-                </Col>
-                <Col>
-                    <Radio.Group
-                        onChange={(e) => setIsOnAir(e.target.value)}
-                        options={options}
-                        defaultValue="all"
-                        optionType="button"
-                        buttonStyle="solid"
-                    />
-                </Col>
+                <span style={{fontSize: '20px', fontWeight: 'bolder'}}>
+                    광고 필터:
+                </span>
+            </Row>
+            <Row>
+                <Radio.Group
+                    onChange={(e) => setIsOnAir(e.target.value)}
+                    options={options}
+                    defaultValue="all"
+                    optionType="button"
+                    buttonStyle="solid"
+                />
             </Row>
 
             <hr/>
