@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { SearchOutlined } from '@ant-design/icons';
-import {InputRef, TableColumnsType, TableColumnType, Radio, Typography, Row, Col} from 'antd';
+import {InputRef, TableColumnsType, TableColumnType, Radio, Typography, Row} from 'antd';
 import {Badge, Button, Input, Space, Table} from 'antd';
 import type { FilterDropdownProps } from 'antd/es/table/interface';
 import {findAdvertisementContentWithClickCount} from "../../../../definition/Admin/apiPath";
@@ -40,10 +40,10 @@ const AdvertisementList = () => {
     },[isOnAir]);
 
     const getQueryParam = () => {
-        const limit = 15;
+        const limit = 50;
         const offset = 0;
 
-        let queryParam = '';
+        let queryParam =정 '';
         if (isOnAir === 'onAir') {
             queryParam = `?limit=${limit}&offset=${offset}&isOnAir=true`;
         } else if (isOnAir === 'offAir') {
@@ -249,7 +249,7 @@ const AdvertisementList = () => {
             <Table<DataType>
                 columns={columns}
                 dataSource={tableData}
-                pagination={{ pageSize: 15 }}
+                pagination={{ pageSize: 50 }}
                 scroll={{ x: 1300, y: 650 }}
                 bordered
                 rowHoverable
