@@ -43,7 +43,7 @@ const AdvertisementList = () => {
         const limit = 50;
         const offset = 0;
 
-        let queryParam =정 '';
+        let queryParam = '';
         if (isOnAir === 'onAir') {
             queryParam = `?limit=${limit}&offset=${offset}&isOnAir=true`;
         } else if (isOnAir === 'offAir') {
