@@ -32,7 +32,7 @@ interface MaterialDataType {
     key: React.Key;
     chassisType: string;
     standard: string;
-    price: string | undefined;
+    price: React.ReactNode | undefined;
 }
 
 const materialColumns: TableColumnsType<MaterialDataType> = [
@@ -145,6 +145,33 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
         });
     };
 
+    const getPrice = (item: any) => {
+        if (item.discountedPrice) {
+            return (
+                <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
+                    <span style={{fontSize: '12px', color: '#52c41a', fontWeight: 'bold'}}>
+                        -{item.discountedRate}%
+                    </span>
+                        <div style={{display: 'flex', alignItems: 'center'}}>
+                        <span style={{textDecoration: 'line-through', color: 'gray'}}>
+                            {addCommasToNumber(item.price)}
+                        </span>
+                            <span style={{margin: '0 5px'}}>→</span>
+                            <span style={{fontWeight: 'bold', color: '#f5222d'}}>
+                            {addCommasToNumber(item.discountedPrice)}
+                        </span>
+                        </div>
+                </div>
+            );
+        }
+
+        return (
+            <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
+                {addCommasToNumber(item.price) || 'N/A'}
+            </div>
+        );
+    }
+
     // 최초 첫 번째 결과 렌더링
     useEffect(() => {
 
@@ -166,7 +193,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
             key: index,
             chassisType: getLabelOfChassisType(item.chassisType),
             standard: `${item.width} x ${item.height}` || 'N/A',
-            price: addCommasToNumber(item.price) || 'N/A'
+            price: getPrice(item)
         }));
         setMaterialTableData1(formattedData);
 
@@ -252,7 +279,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 key: index,
                 chassisType: getLabelOfChassisType(item.chassisType),
                 standard: `${item.width} x ${item.height}` || 'N/A',
-                price: addCommasToNumber(item.price) || 'N/A'
+                price: getPrice(item)
             }));
 
             const additionalDataTypes = [
@@ -304,7 +331,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 key: index,
                 chassisType: getLabelOfChassisType(item.chassisType),
                 standard: `${item.width} x ${item.height}` || 'N/A',
-                price: addCommasToNumber(item.price) || 'N/A'
+                price: getPrice(item)
             }));
 
             const additionalDataTypes = [
