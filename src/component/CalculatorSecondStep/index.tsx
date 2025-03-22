@@ -257,7 +257,7 @@ const CalculatorSecondStep = (props: {
             style: {
                 position: 'fixed',
                 left: '50%',
-                bottom: '30px',
+                bottom: '-50px',
                 transform: 'translateX(-50%)',
             },
         });

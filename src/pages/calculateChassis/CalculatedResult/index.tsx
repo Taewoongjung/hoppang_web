@@ -469,7 +469,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
         return (
             <>
                 {discountedTotalPriceWithSurtax && totalPriceDiscountedAmount !== undefined ? (
-                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
                         <span style={{ textDecoration: 'line-through', color: 'gray', fontSize: 13 }}>
                             {addCommasToNumber(totalPriceWithSurtax)}
                         </span>
