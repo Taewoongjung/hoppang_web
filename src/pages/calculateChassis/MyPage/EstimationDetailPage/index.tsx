@@ -58,6 +58,9 @@ const EstimationDetailPage = () => {
     const [totalPrice, setTotalPrice] = useState('');
     const [calculatedCompanyType, setCalculatedCompanyType] = useState('');
     const [estimatedAt, setEstimatedAt] = useState();
+    const [totalPriceWithSurtax, setTotalPriceWithSurtax] = useState('');
+    const [totalPriceDiscountedAmount, setTotalPriceDiscountedAmount] = useState('');
+    const [discountedTotalPriceWithSurtax, setDiscountedTotalPriceWithSurtax] = useState('');
 
 
     useEffect(() => {
@@ -132,7 +135,13 @@ const EstimationDetailPage = () => {
             setWholePrice(addCommasToNumber(wholePrice));
 
             // @ts-ignore
-            setTotalPrice(addCommasToNumber(surtax + wholePrice));
+            setTotalPrice(addCommasToNumber(surtax + wholePrice)); // setTotalPriceWithSurtax
+
+            // @ts-ignore
+            setTotalPriceDiscountedAmount(addCommasToNumber(result.discountedAmount));
+
+            // @ts-ignore
+            setDiscountedTotalPriceWithSurtax(addCommasToNumber(result.discountedWholeCalculatedFeeWithSurtax));
 
         }).catch((err) => {
             console.error(err);
@@ -141,6 +150,33 @@ const EstimationDetailPage = () => {
 
 
     const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
+
+    const getTotalPriceWithSurtax = (
+        totalPriceWithSurtax: any,
+        totalPriceDiscountedAmount: any,
+        discountedTotalPriceWithSurtax: any
+    ) => {
+
+        return (
+            <>
+                {discountedTotalPriceWithSurtax && totalPriceDiscountedAmount !== undefined ? (
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+                        <span style={{ textDecoration: 'line-through', color: 'gray', fontSize: 13 }}>
+                            {addCommasToNumber(totalPriceWithSurtax)}
+                        </span>
+                        <span style={{ color: '#52c41a', fontSize: 13 }}>
+                            (-{totalPriceDiscountedAmount}원)
+                        </span>
+                        <span style={{ fontWeight: 'bold', color: '#f5222d' }}>
+                            {addCommasToNumber(discountedTotalPriceWithSurtax)}
+                        </span>
+                    </div>
+                ) : (
+                    addCommasToNumber(totalPriceWithSurtax)
+                )}
+            </>
+        );
+    };
 
 
     return (
@@ -236,8 +272,7 @@ const EstimationDetailPage = () => {
                             size="small"
                             style={{
                                 width: '100%',
-                                maxWidth: '600px',
-                                margin: '0 auto'
+                                maxWidth: '600px'
                             }}
                         >
                             <Descriptions.Item label="총 비용">
@@ -247,7 +282,15 @@ const EstimationDetailPage = () => {
                                 <Typography.Text type="warning">{surtax}</Typography.Text>
                             </Descriptions.Item>
                             <Descriptions.Item label="총 합계">
-                                <Typography.Text type="danger" strong>{totalPrice}</Typography.Text>
+                                <Typography.Text type="danger" strong>
+                                    {
+                                        getTotalPriceWithSurtax(
+                                            totalPrice,
+                                            totalPriceDiscountedAmount,
+                                            discountedTotalPriceWithSurtax
+                                        )
+                                    }
+                                </Typography.Text>
                             </Descriptions.Item>
                         </Descriptions>
                     </>

@@ -812,7 +812,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                         columns={additionalColumns}
                                                         dataSource={additionalTableData3}
                                                         size="middle"
-                                                        style={{width: '100%'}}
+                                                        style={{width: '100%', maxWidth: '600px'}}
                                                         footer={() => (
                                                             <Descriptions bordered column={1} size="small">
                                                                 <Descriptions.Item label="총 비용">
