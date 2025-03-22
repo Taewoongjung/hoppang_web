@@ -64,6 +64,10 @@ export const convertCompanyTypeKoToNormal = (targetCompanyType : string | undefi
 }
 
 export const addCommasToNumber = (number: any): string | undefined => {
+    if (number === null) {
+        return;
+    }
+
     return number?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 };
 

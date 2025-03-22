@@ -82,8 +82,10 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
     const [materialTableData1, setMaterialTableData1] = useState<MaterialDataType[]>([]);
     const [additionalTableData1, setAdditionalTableData1] = useState<AdditionalDataType[]>([]);
     const [surtax, setSurtax] = useState('');
-    const [wholePrice, setWholePrice] = useState('');
     const [totalPrice, setTotalPrice] = useState('');
+    const [totalPriceWithSurtax, setTotalPriceWithSurtax] = useState('');
+    const [totalPriceDiscountedAmount, setTotalPriceDiscountedAmount] = useState('');
+    const [discountedTotalPriceWithSurtax, setDiscountedTotalPriceWithSurtax] = useState('');
     const [firstCalculatedCompanyType, setFirstCalculatedCompanyType] = useState('');
     const [estimationId, setEstimationId] = useState();
 
@@ -93,8 +95,10 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
     const [materialTableData2, setMaterialTableData2] = useState<MaterialDataType[]>([]);
     const [additionalTableData2, setAdditionalTableData2] = useState<AdditionalDataType[]>([]);
     const [surtax2, setSurtax2] = useState('');
-    const [wholePrice2, setWholePrice2] = useState('');
     const [totalPrice2, setTotalPrice2] = useState('');
+    const [totalPriceWithSurtax2, setTotalPriceWithSurtax2] = useState('');
+    const [totalPriceDiscountedAmount2, setTotalPriceDiscountedAmount2] = useState('');
+    const [discountedTotalPriceWithSurtax2, setDiscountedTotalPriceWithSurtax2] = useState('');
     const [estimationId2, setEstimationId2] = useState();
 
     const [secondCalculatedCompanyType, setSecondCalculatedCompanyType] = useState('');
@@ -105,8 +109,10 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
     const [materialTableData3, setMaterialTableData3] = useState<MaterialDataType[]>([]);
     const [additionalTableData3, setAdditionalTableData3] = useState<AdditionalDataType[]>([]);
     const [surtax3, setSurtax3] = useState('');
-    const [wholePrice3, setWholePrice3] = useState('');
     const [totalPrice3, setTotalPrice3] = useState('');
+    const [totalPriceWithSurtax3, setTotalPriceWithSurtax3] = useState('');
+    const [totalPriceDiscountedAmount3, setTotalPriceDiscountedAmount3] = useState('');
+    const [discountedTotalPriceWithSurtax3, setDiscountedTotalPriceWithSurtax3] = useState('');
     const [estimationId3, setEstimationId3] = useState();
 
     const [thirdCalculatedCompanyType, setThirdCalculatedCompanyType] = useState('');
@@ -198,10 +204,16 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
         setMaterialTableData1(formattedData);
 
         // @ts-ignore
-        let wholePrice = result['wholeCalculatedFee'];
+        let wholePrice = result['wholeCalculatedFee']; // 총 금액
 
         // @ts-ignore
-        let surtax = result['surtax']; // 부가세
+        let surtax = result['surtax']; // 총 금액에 대한 부가세
+
+        // @ts-ignore
+        let discountedAmount = result['discountedWholeCalculatedFeeAmount']; // 할인 된 금액
+
+        // @ts-ignore
+        let discountedWholePriceWithSurtax = result['discountedWholeCalculatedFeeWithSurtax']; // 할인 된 총 금액
 
         // @ts-ignore
         let demolitionFee = result['demolitionFee']; // 철거비
@@ -249,11 +261,16 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
         setSurtax(addCommasToNumber(surtax));
 
         // @ts-ignore
-        setWholePrice(addCommasToNumber(wholePrice));
+        setTotalPrice(addCommasToNumber(wholePrice));
 
         // @ts-ignore
-        setTotalPrice(addCommasToNumber(surtax + wholePrice));
+        setTotalPriceWithSurtax(addCommasToNumber(surtax + wholePrice));
 
+        // @ts-ignore
+        setTotalPriceDiscountedAmount(addCommasToNumber(discountedAmount));
+
+        // @ts-ignore
+        setDiscountedTotalPriceWithSurtax(addCommasToNumber(discountedWholePriceWithSurtax));
     }, [result]);
 
 
@@ -294,13 +311,24 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
             ];
 
             setMaterialTableData2(formattedData);
+
             setAdditionalTableData2(additionalDataTypes);
+
             // @ts-ignore
-            setWholePrice2(addCommasToNumber(result2["wholeCalculatedFee"]));
+            setTotalPrice2(addCommasToNumber(result2["wholeCalculatedFee"]));
+
             // @ts-ignore
             setSurtax2(addCommasToNumber(result2["surtax"]));
+
             // @ts-ignore
-            setTotalPrice2(addCommasToNumber(result2["wholeCalculatedFee"] + result2["surtax"]));
+            setTotalPriceDiscountedAmount2(addCommasToNumber(result2['discountedWholeCalculatedFeeAmount']));
+
+            // @ts-ignore
+            setDiscountedTotalPriceWithSurtax2(addCommasToNumber(result2['discountedWholeCalculatedFeeWithSurtax']));
+
+            // @ts-ignore
+            setTotalPriceWithSurtax2(addCommasToNumber(result2["wholeCalculatedFee"] + result2["surtax"]));
+
             setIsReEstimation2(false);
         };
 
@@ -346,13 +374,26 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
             ];
 
             setMaterialTableData3(formattedData);
+
             setAdditionalTableData3(additionalDataTypes);
+
             // @ts-ignore
-            setWholePrice3(addCommasToNumber(result3.wholeCalculatedFee));
+            setTotalPrice3(addCommasToNumber(result3.wholeCalculatedFee));
+
             // @ts-ignore
             setSurtax3(addCommasToNumber(result3.surtax));
+
             // @ts-ignore
-            setTotalPrice3(addCommasToNumber(result3["wholeCalculatedFee"] + result3["surtax"]));
+            console.log("? = ", result3['discountedWholeCalculatedFeeAmount']);
+            // @ts-ignore
+            setTotalPriceDiscountedAmount3(addCommasToNumber(result3['discountedWholeCalculatedFeeAmount']));
+
+            // @ts-ignore
+            setDiscountedTotalPriceWithSurtax3(addCommasToNumber(result3['discountedWholeCalculatedFeeWithSurtax']));
+
+            // @ts-ignore
+            setTotalPriceWithSurtax3(addCommasToNumber(result3["wholeCalculatedFee"] + result3["surtax"]));
+
             setIsReEstimation3(false);
         };
 
@@ -418,6 +459,39 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 }
             });
     }
+
+    const getTotalPriceWithSurtax = (
+        totalPriceWithSurtax: any,
+        totalPriceDiscountedAmount: any,
+        discountedTotalPriceWithSurtax: any
+    ) => {
+        console.log("?? = ", discountedTotalPriceWithSurtax);
+
+        return (
+            <>
+                {discountedTotalPriceWithSurtax || discountedTotalPriceWithSurtax !== undefined ?
+                    <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
+                        <span style={{fontSize: '12px', color: '#52c41a', fontWeight: 'bold'}}>
+                            -{totalPriceDiscountedAmount}원 할인
+                        </span>
+                        <div style={{display: 'flex', alignItems: 'center'}}>
+                            <span style={{textDecoration: 'line-through', color: 'gray'}}>
+                                {addCommasToNumber(totalPriceWithSurtax)}
+                            </span>
+
+                            <span style={{margin: '0 5px', color: '#52c41a'}}>→</span>
+
+                            <span style={{fontWeight: 'bold', color: '#f5222d'}}>
+                                {addCommasToNumber(discountedTotalPriceWithSurtax)}
+                            </span>
+                        </div>
+                    </div>
+                    :
+                    addCommasToNumber(totalPriceWithSurtax)
+                }
+            </>
+        );
+    };
 
 
     return(
@@ -498,7 +572,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                             columns={materialColumns}
                                             dataSource={materialTableData1}
                                             size="middle"
-                                            style={{width:600}}
+                                            style={{width: 600}}
                                             pagination={false}
                                         />
                                         <br/>
@@ -508,17 +582,25 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                             columns={additionalColumns}
                                             dataSource={additionalTableData1}
                                             size="middle"
-                                            style={{width:500}}
+                                            style={{width: 500}}
                                             footer={() => (
                                                 <Descriptions bordered column={1} size="small">
                                                     <Descriptions.Item label="총 비용">
-                                                        <Typography.Text strong>{wholePrice}</Typography.Text>
+                                                        <Typography.Text strong>{totalPrice}</Typography.Text>
                                                     </Descriptions.Item>
                                                     <Descriptions.Item label="부가세">
                                                         <Typography.Text type="warning">{surtax}</Typography.Text>
                                                     </Descriptions.Item>
                                                     <Descriptions.Item label="총 합계">
-                                                        <Typography.Text type="danger" strong>{totalPrice}</Typography.Text>
+                                                        <Typography.Text type="danger" strong>
+                                                            {
+                                                                getTotalPriceWithSurtax(
+                                                                    totalPriceWithSurtax,
+                                                                    totalPriceDiscountedAmount,
+                                                                    discountedTotalPriceWithSurtax
+                                                                )
+                                                            }
+                                                        </Typography.Text>
                                                     </Descriptions.Item>
                                                 </Descriptions>
                                             )}
@@ -528,7 +610,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                         <Button
                                             type="primary"
                                             size="small"
-                                            style={{ width: '100%', maxWidth: '200px', marginBottom: '10px' }}
+                                            style={{width: '100%', maxWidth: '200px', marginBottom: '10px'}}
                                             ghost
                                             onClick={() => setIsInquiryModalOpen(true)}
                                         >
@@ -607,13 +689,21 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                         footer={() => (
                                                             <Descriptions bordered column={1} size="small">
                                                                 <Descriptions.Item label="총 비용">
-                                                                    <Typography.Text strong>{wholePrice2}</Typography.Text>
+                                                                    <Typography.Text strong>{totalPrice2}</Typography.Text>
                                                                 </Descriptions.Item>
                                                                 <Descriptions.Item label="부가세">
                                                                     <Typography.Text type="warning">{surtax2}</Typography.Text>
                                                                 </Descriptions.Item>
                                                                 <Descriptions.Item label="총 합계">
-                                                                    <Typography.Text type="danger" strong>{totalPrice2}</Typography.Text>
+                                                                    <Typography.Text type="danger" strong>
+                                                                        {
+                                                                            getTotalPriceWithSurtax(
+                                                                                totalPriceWithSurtax2,
+                                                                                totalPriceDiscountedAmount2,
+                                                                                discountedTotalPriceWithSurtax2
+                                                                            )
+                                                                        }
+                                                                    </Typography.Text>
                                                                 </Descriptions.Item>
                                                             </Descriptions>
                                                         )}
@@ -732,13 +822,21 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                         footer={() => (
                                                             <Descriptions bordered column={1} size="small">
                                                                 <Descriptions.Item label="총 비용">
-                                                                    <Typography.Text strong>{wholePrice3}</Typography.Text>
+                                                                    <Typography.Text strong>{totalPrice3}</Typography.Text>
                                                                 </Descriptions.Item>
                                                                 <Descriptions.Item label="부가세">
                                                                     <Typography.Text type="warning">{surtax3}</Typography.Text>
                                                                 </Descriptions.Item>
                                                                 <Descriptions.Item label="총 합계">
-                                                                    <Typography.Text type="danger" strong>{totalPrice3}</Typography.Text>
+                                                                    <Typography.Text type="danger" strong>
+                                                                        {
+                                                                            getTotalPriceWithSurtax(
+                                                                                totalPriceWithSurtax3,
+                                                                                totalPriceDiscountedAmount3,
+                                                                                discountedTotalPriceWithSurtax3
+                                                                            )
+                                                                        }
+                                                                    </Typography.Text>
                                                                 </Descriptions.Item>
                                                             </Descriptions>
                                                         )}
