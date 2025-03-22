@@ -465,11 +465,10 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
         totalPriceDiscountedAmount: any,
         discountedTotalPriceWithSurtax: any
     ) => {
-        console.log("?? = ", discountedTotalPriceWithSurtax);
 
         return (
             <>
-                {discountedTotalPriceWithSurtax || discountedTotalPriceWithSurtax !== undefined ?
+                {discountedTotalPriceWithSurtax || discountedTotalPriceWithSurtax !== undefined || totalPriceDiscountedAmount !== undefined ?
                     <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
                         <span style={{fontSize: '12px', color: '#52c41a', fontWeight: 'bold'}}>
                             -{totalPriceDiscountedAmount}원 할인
