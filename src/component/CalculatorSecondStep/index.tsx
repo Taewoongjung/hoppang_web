@@ -253,7 +253,13 @@ const CalculatorSecondStep = (props: {
                 />
             ),
             placement: 'bottom',
-            closeIcon: <span style={{ fontSize: '16px' }}>X</span>
+            closeIcon: <span style={{ fontSize: '16px' }}>X</span>,
+            style: {
+                position: 'fixed',
+                left: '50%',
+                bottom: '30px',
+                transform: 'translateX(-50%)',
+            },
         });
     };
 

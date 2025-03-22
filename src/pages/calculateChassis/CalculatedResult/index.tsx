@@ -468,26 +468,21 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
         return (
             <>
-                {discountedTotalPriceWithSurtax && totalPriceDiscountedAmount !== undefined ?
-                    <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-                        <span style={{fontSize: '12px', color: '#52c41a', fontWeight: 'bold'}}>
-                            -{totalPriceDiscountedAmount}원 할인
+                {discountedTotalPriceWithSurtax && totalPriceDiscountedAmount !== undefined ? (
+                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                        <span style={{ textDecoration: 'line-through', color: 'gray', fontSize: 13 }}>
+                            {addCommasToNumber(totalPriceWithSurtax)}
                         </span>
-                        <div style={{display: 'flex', alignItems: 'center'}}>
-                            <span style={{textDecoration: 'line-through', color: 'gray'}}>
-                                {addCommasToNumber(totalPriceWithSurtax)}
-                            </span>
-
-                            <span style={{margin: '0 5px', color: '#52c41a'}}>→</span>
-
-                            <span style={{fontWeight: 'bold', color: '#f5222d'}}>
-                                {addCommasToNumber(discountedTotalPriceWithSurtax)}
-                            </span>
-                        </div>
+                        <span style={{ color: '#52c41a', fontSize: 13 }}>
+                            (-{totalPriceDiscountedAmount}원)
+                        </span>
+                        <span style={{ fontWeight: 'bold', color: '#f5222d' }}>
+                            {addCommasToNumber(discountedTotalPriceWithSurtax)}
+                        </span>
                     </div>
-                    :
+                ) : (
                     addCommasToNumber(totalPriceWithSurtax)
-                }
+                )}
             </>
         );
     };
