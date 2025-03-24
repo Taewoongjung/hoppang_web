@@ -132,7 +132,7 @@ const EstimationHistory = () => {
                 <LeftOutlined />
             </div>
 
-            <Title level={1} style={{ textAlign: "center" }}>견적 이력</Title>
+            <Title className="container" level={1} style={{ textAlign: "center" }}>견적 이력</Title>
             {data.length > 0 ? (
                 <>
                     <List
@@ -184,7 +184,8 @@ const EstimationHistory = () => {
                     <GoToTopButton/>
                 </>
             ) : (
-                <div style={{ textAlign: "center", padding: "50px 0" }}>
+                <div className="container"
+                     style={{ textAlign: "center", padding: "50px 0" }}>
                     <Title level={4}>견적 내역이 없습니다.</Title>
                     <Text>새로운 견적을 등록해보세요!</Text>
                     <br />
