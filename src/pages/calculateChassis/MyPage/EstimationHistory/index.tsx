@@ -141,9 +141,10 @@ const EstimationHistory = () => {
                         renderItem={(item, index) => {
                             if (index === data.length - 1) {
                                 return (
-                                    <div className="container" ref={lastElementRef} key={item.estimationId}>
+                                    <div ref={lastElementRef} key={item.estimationId}>
                                         <List.Item>
                                             <Card
+                                                className="container"
                                                 style={{ borderRadius: 12, borderColor: "lightgrey" }}
                                                 onClick={() => clickEstimation(item.estimationId)}
                                             >
@@ -161,8 +162,9 @@ const EstimationHistory = () => {
                                 );
                             }
                             return (
-                                <List.Item className="container" key={item.estimationId}>
+                                <List.Item key={item.estimationId}>
                                     <Card
+                                        className="container"
                                         style={{ borderRadius: 12, borderColor: "lightgrey" }}
                                     >
                                         <Title level={5}>{item.estimationId}</Title>
