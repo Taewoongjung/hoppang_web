@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
+import './styles.css';
 import {callEstimationById} from "../../../../definition/apiPath";
 import {useParams} from "react-router-dom";
 import {Button, Descriptions, Divider, Table, TableColumnsType, Typography} from "antd";
@@ -58,7 +59,6 @@ const EstimationDetailPage = () => {
     const [totalPrice, setTotalPrice] = useState('');
     const [calculatedCompanyType, setCalculatedCompanyType] = useState('');
     const [estimatedAt, setEstimatedAt] = useState();
-    const [totalPriceWithSurtax, setTotalPriceWithSurtax] = useState('');
     const [totalPriceDiscountedAmount, setTotalPriceDiscountedAmount] = useState('');
     const [discountedTotalPriceWithSurtax, setDiscountedTotalPriceWithSurtax] = useState('');
 
@@ -181,15 +181,7 @@ const EstimationDetailPage = () => {
 
     return (
         <>
-            <div
-                onContextMenu={(e) => e.preventDefault()}
-                onTouchStart={(e) => (e.currentTarget.dataset.touchStartTime = String(e.timeStamp))}
-                onTouchEnd={(e) => {
-                    const start = parseFloat(e.currentTarget.dataset.touchStartTime || '0');
-                    if (e.timeStamp - start > 500) e.preventDefault();
-                }}
-                data-touch-start-time="0"
-            >
+            <div className="container">
                 <header
                     style={{
                         display: 'flex',

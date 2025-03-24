@@ -127,16 +127,7 @@ const EstimationHistory = () => {
 
 
     return (
-        <div
-            style={{ padding: 20 }}
-            onContextMenu={(e) => e.preventDefault()}
-            onTouchStart={(e) => (e.currentTarget.dataset.touchStartTime = String(e.timeStamp))}
-            onTouchEnd={(e) => {
-                const start = parseFloat(e.currentTarget.dataset.touchStartTime || '0');
-                if (e.timeStamp - start > 500) e.preventDefault();
-            }}
-            data-touch-start-time="0"
-        >
+        <div className="container">
             <div onClick={clickBackButton} style={{ color: "blue", marginRight: "80%", marginTop: '50px', marginBottom: '80px' }}>
                 <LeftOutlined />
             </div>
