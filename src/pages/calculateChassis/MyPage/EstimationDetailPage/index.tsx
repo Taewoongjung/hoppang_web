@@ -181,144 +181,153 @@ const EstimationDetailPage = () => {
 
     return (
         <>
-            <header
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    position: 'relative',
-                    height: 'auto',
-                    width: '100%',
-                    maxWidth: '600px',
-                    margin: '0 auto',
-                    padding: '10px 0',
-                    borderBottom: '1px solid #ddd',
-                    marginBottom: '8%'
+            <div
+                onContextMenu={(e) => e.preventDefault()}
+                onTouchStart={(e) => (e.currentTarget.dataset.touchStartTime = String(e.timeStamp))}
+                onTouchEnd={(e) => {
+                    const start = parseFloat(e.currentTarget.dataset.touchStartTime || '0');
+                    if (e.timeStamp - start > 500) e.preventDefault();
                 }}
+                data-touch-start-time="0"
             >
-                <div
+                <header
                     style={{
                         display: 'flex',
+                        flexDirection: 'column',
                         alignItems: 'center',
-                        justifyContent: 'space-between',
+                        position: 'relative',
+                        height: 'auto',
                         width: '100%',
                         maxWidth: '600px',
-                        padding: '0 10px'
+                        margin: '0 auto',
+                        padding: '10px 0',
+                        borderBottom: '1px solid #ddd',
+                        marginBottom: '8%'
                     }}
                 >
-                    <button
+                    <div
                         style={{
-                            fontSize: '18px',
-                            background: 'none',
-                            border: 'none',
-                            cursor: 'pointer',
-                            color: '#333',
                             display: 'flex',
-                            alignItems: 'center'
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            width: '100%',
+                            maxWidth: '600px',
+                            padding: '0 10px'
                         }}
-                        onClick={() => {
-                            window.location.href = '/mypage/estimation/histories';
-                        }}>
-                        <LeftOutlined style={{ fontSize: '20px', marginRight: '5px' }} />
-                    </button>
-                </div>
-
-                <div
-                    style={{
-                        textAlign: 'center',
-                        marginTop: '10px'
-                    }}
-                >
-                    <Typography.Title level={5} style={{ margin: 0 }}>
-                        {calculatedCompanyType} - 📋 {estimationId} (견적번호)
-                    </Typography.Title>
-                    <Typography.Text type="secondary" style={{ fontSize: '12px' }}>
-                        견적일: {estimatedAt}
-                    </Typography.Text>
-                </div>
-            </header>
-
-            <Divider orientation="center" style={{maxWidth: '600px', margin: '0 auto'}}>창호</Divider>
-            <Table
-                columns={materialColumns}
-                dataSource={materialTableData}
-                size="middle"
-                style={{
-                    width: '100%',
-                    maxWidth: '600px',
-                    margin: '0 auto'
-                }}
-                pagination={false}
-            />
-            <br/>
-
-            <Divider orientation="center">부가 비용</Divider>
-            <Table
-                columns={additionalColumns}
-                dataSource={additionalTableData}
-                size="middle"
-                style={{
-                    width: '100%',
-                    maxWidth: '600px',
-                    margin: '0 auto',
-                    marginBottom: '3%'
-                }}
-                footer={() => (
-                    <>
-                        <Divider orientation="center" style={{maxWidth: '600px', margin: '0 auto'}}>총 가격 정보</Divider>
-                        <Descriptions
-                            bordered
-                            column={1}
-                            size="small"
+                    >
+                        <button
                             style={{
-                                width: '100%',
-                                maxWidth: '600px'
+                                fontSize: '18px',
+                                background: 'none',
+                                border: 'none',
+                                cursor: 'pointer',
+                                color: '#333',
+                                display: 'flex',
+                                alignItems: 'center'
                             }}
-                        >
-                            <Descriptions.Item label="총 비용">
-                                <Typography.Text strong>{wholePrice}</Typography.Text>
-                            </Descriptions.Item>
-                            <Descriptions.Item label="부가세">
-                                <Typography.Text type="warning">{surtax}</Typography.Text>
-                            </Descriptions.Item>
-                            <Descriptions.Item label="총 합계">
-                                <Typography.Text type="danger" strong>
-                                    {
-                                        getTotalPriceWithSurtax(
-                                            totalPrice,
-                                            totalPriceDiscountedAmount,
-                                            discountedTotalPriceWithSurtax
-                                        )
-                                    }
-                                </Typography.Text>
-                            </Descriptions.Item>
-                        </Descriptions>
-                    </>
-                )}
-                pagination={false}
-            />
+                            onClick={() => {
+                                window.location.href = '/mypage/estimation/histories';
+                            }}>
+                            <LeftOutlined style={{ fontSize: '20px', marginRight: '5px' }} />
+                        </button>
+                    </div>
 
-            <Button
-                type="primary"
-                size="middle"
-                style={{
-                    display: 'block',
-                    width: '100%',
-                    maxWidth: '600px',
-                    margin: '0 auto 10px',
-                    textAlign: 'center'
-                }}
-                onClick={() => setIsInquiryModalOpen(true)}
-            >
-                해당 견적 문의하기
-            </Button>
+                    <div
+                        style={{
+                            textAlign: 'center',
+                            marginTop: '10px'
+                        }}
+                    >
+                        <Typography.Title level={5} style={{ margin: 0 }}>
+                            {calculatedCompanyType} - 📋 {estimationId} (견적번호)
+                        </Typography.Title>
+                        <Typography.Text type="secondary" style={{ fontSize: '12px' }}>
+                            견적일: {estimatedAt}
+                        </Typography.Text>
+                    </div>
+                </header>
 
-            <InquiryEstimatedChassis
-                estimationId={estimationId}
-                isInquiryModalOpen={isInquiryModalOpen}
-                setIsInquiryModalOpen={setIsInquiryModalOpen}
-            />
+                <Divider orientation="center" style={{maxWidth: '600px', margin: '0 auto'}}>창호</Divider>
+                <Table
+                    columns={materialColumns}
+                    dataSource={materialTableData}
+                    size="middle"
+                    style={{
+                        width: '100%',
+                        maxWidth: '600px',
+                        margin: '0 auto'
+                    }}
+                    pagination={false}
+                />
+                <br/>
 
+                <Divider orientation="center">부가 비용</Divider>
+                <Table
+                    columns={additionalColumns}
+                    dataSource={additionalTableData}
+                    size="middle"
+                    style={{
+                        width: '100%',
+                        maxWidth: '600px',
+                        margin: '0 auto',
+                        marginBottom: '3%'
+                    }}
+                    footer={() => (
+                        <>
+                            <Divider orientation="center" style={{maxWidth: '600px', margin: '0 auto'}}>총 가격 정보</Divider>
+                            <Descriptions
+                                bordered
+                                column={1}
+                                size="small"
+                                style={{
+                                    width: '100%',
+                                    maxWidth: '600px'
+                                }}
+                            >
+                                <Descriptions.Item label="총 비용">
+                                    <Typography.Text strong>{wholePrice}</Typography.Text>
+                                </Descriptions.Item>
+                                <Descriptions.Item label="부가세">
+                                    <Typography.Text type="warning">{surtax}</Typography.Text>
+                                </Descriptions.Item>
+                                <Descriptions.Item label="총 합계">
+                                    <Typography.Text type="danger" strong>
+                                        {
+                                            getTotalPriceWithSurtax(
+                                                totalPrice,
+                                                totalPriceDiscountedAmount,
+                                                discountedTotalPriceWithSurtax
+                                            )
+                                        }
+                                    </Typography.Text>
+                                </Descriptions.Item>
+                            </Descriptions>
+                        </>
+                    )}
+                    pagination={false}
+                />
+
+                <Button
+                    type="primary"
+                    size="middle"
+                    style={{
+                        display: 'block',
+                        width: '100%',
+                        maxWidth: '600px',
+                        margin: '0 auto 10px',
+                        textAlign: 'center'
+                    }}
+                    onClick={() => setIsInquiryModalOpen(true)}
+                >
+                    해당 견적 문의하기
+                </Button>
+
+                <InquiryEstimatedChassis
+                    estimationId={estimationId}
+                    isInquiryModalOpen={isInquiryModalOpen}
+                    setIsInquiryModalOpen={setIsInquiryModalOpen}
+                />
+            </div>
         </>
     );
 }
