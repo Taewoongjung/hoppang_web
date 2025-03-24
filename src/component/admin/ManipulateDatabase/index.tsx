@@ -103,8 +103,6 @@ const ManipulateDatabase = () => {
 
     // 최초 화면 렌더링할 때 불러오기
     useEffect(() => {
-        const companyType = mappedValueByCompany(curCompanyType);
-
         axios.get(findAllChassisPriceByCompanyTypeAndChassisType + `?companyType=HYUNDAI&chassisType=BalconySingle`, {
             withCredentials: true,
             headers: {
