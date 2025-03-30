@@ -2,17 +2,17 @@ import React from 'react';
 import loadable from "@loadable/component";
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-const CalculationInitialScreen = loadable(() => import('../../pages/calculateChassis/InitialScreen'));
-const CalculationScreen = loadable(() => import('../../pages/calculateChassis/CalculationScreen'));
-const MyPage = loadable(() => import('../../pages/calculateChassis/MyPage'));
-const LoginPage = loadable(() => import("../../pages/calculateChassis/Login"));
-const LoginFirstStepPage = loadable(() => import("../../pages/calculateChassis/Login/LoginFirstStep"));
-const LoginSecondStepPage = loadable(() => import("../../pages/calculateChassis/Login/LoginSecondStep"));
-const MyPageConfigPage  = loadable(() => import('../../pages/calculateChassis/MyPage/ConfigPage'));
-const MyPageAppConfigPage  = loadable(() => import('../../pages/calculateChassis/MyPage/ConfigPage/AppConfigPage'));
-const MyPageEstimationHistoriesPage = loadable(() => import('../../pages/calculateChassis/MyPage/EstimationHistory'));
-const EstimationDetailPage = loadable(() => import('../../pages/calculateChassis/MyPage/EstimationDetailPage'));
-const DuplicatedSsoLoginErrorPage = loadable(() => import('../../pages/calculateChassis/Login/DuplicateLoginPage'));
+const CalculationInitialScreen = loadable(() => import('../../pages/hoppangMainStream/InitialScreen'));
+const CalculationScreen = loadable(() => import('../../pages/hoppangMainStream/CalculationScreen'));
+const MyPage = loadable(() => import('../../pages/hoppangMainStream/MyPage'));
+const LoginPage = loadable(() => import("../../pages/hoppangMainStream/Login"));
+const LoginFirstStepPage = loadable(() => import("../../pages/hoppangMainStream/Login/LoginFirstStep"));
+const LoginSecondStepPage = loadable(() => import("../../pages/hoppangMainStream/Login/LoginSecondStep"));
+const MyPageConfigPage  = loadable(() => import('../../pages/hoppangMainStream/MyPage/ConfigPage'));
+const MyPageAppConfigPage  = loadable(() => import('../../pages/hoppangMainStream/MyPage/ConfigPage/AppConfigPage'));
+const MyPageEstimationHistoriesPage = loadable(() => import('../../pages/hoppangMainStream/MyPage/EstimationHistory'));
+const EstimationDetailPage = loadable(() => import('../../pages/hoppangMainStream/MyPage/EstimationDetailPage'));
+const DuplicatedSsoLoginErrorPage = loadable(() => import('../../pages/hoppangMainStream/Login/DuplicateLoginPage'));
 
 // 어드민
 const AdminLoginPage = loadable(() => import('../../pages/admin/Login'));

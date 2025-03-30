@@ -21,6 +21,11 @@ const BottomNavigator = () => {
                     <span className="nav-icon"><img src="/assets/BottomNav/my-info.png" alt="MyInfo"/></span>
                     마이
                 </a>
+                <a href="/mypage"
+                   className={location.pathname === '/mypage' ? 'active' : ''}>
+                    <span className="nav-icon"><img src="/assets/BottomNav/counsel.png" alt="MyInfo"/></span>
+                    상담
+                </a>
             </nav>
         </>
     )

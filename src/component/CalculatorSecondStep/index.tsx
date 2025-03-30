@@ -16,7 +16,7 @@ import {
 import RegisteringChassis, {CalculateResult} from "../../definition/interfaces";
 import {LeftOutlined} from "@ant-design/icons";
 import axios from "axios";
-import CalculatedResult from "../../pages/calculateChassis/CalculatedResult";
+import CalculatedResult from "../../pages/hoppangMainStream/CalculatedResult";
 import {calculateChassisCall, callMeData} from "../../definition/apiPath";
 import './styles.css';
 import {mappedValueByCompany} from "../../util";
