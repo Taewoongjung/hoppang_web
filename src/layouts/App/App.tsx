@@ -13,6 +13,7 @@ const MyPageAppConfigPage  = loadable(() => import('../../pages/hoppangMainStrea
 const MyPageEstimationHistoriesPage = loadable(() => import('../../pages/hoppangMainStream/MyPage/EstimationHistory'));
 const EstimationDetailPage = loadable(() => import('../../pages/hoppangMainStream/MyPage/EstimationDetailPage'));
 const DuplicatedSsoLoginErrorPage = loadable(() => import('../../pages/hoppangMainStream/Login/DuplicateLoginPage'));
+const CouncelMainScreen = loadable(() => import('../../pages/hoppangMainStream/Counsel'));
 
 // 어드민
 const AdminLoginPage = loadable(() => import('../../pages/admin/Login'));
@@ -38,6 +39,7 @@ const App = () => {
                     <Route path="/mypage/estimation/histories" component={MyPageEstimationHistoriesPage}/>
                     <Route path="/mypage/estimation/:estimationId" component={EstimationDetailPage}/>
                     <Route path="/mypage" component={MyPage}/>
+                    <Route path="/counsel" component={CouncelMainScreen}/>
 
                     <Route path="/login/duplicate" component={DuplicatedSsoLoginErrorPage}/>
                     <Route path="/login/second" component={LoginSecondStepPage}/>

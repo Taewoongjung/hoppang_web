@@ -1,0 +1,49 @@
+.choice-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 30px;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.choice-button {
+    width: 100%;
+    padding: 16px 24px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.choice-button.yes {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.choice-button.no {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.question-text {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.sub-text {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.5;
+    text-align: center;
+    margin-bottom: 24px;
+}
