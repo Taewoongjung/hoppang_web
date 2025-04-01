@@ -336,7 +336,7 @@ const CalculationScreen = () => {
                                                                     ) : (
                                                                         <div key={index} className="ribbon-container">
                                                                             <div
-                                                                                className={`ribbon ribbonRed`}
+                                                                                className={`ribbon ribbon-blue`}
                                                                                 style={{
                                                                                     display: 'flex',
                                                                                     alignItems: 'center',
