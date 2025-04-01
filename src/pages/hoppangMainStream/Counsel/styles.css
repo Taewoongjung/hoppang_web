@@ -28,8 +28,9 @@
 }
 
 .choice-button.no {
-    background-color: #e74c3c;
-    color: white;
+    background-color: #f2f2f2;
+    text-decoration: underline;
+    color: #333;
 }
 
 .question-text {
