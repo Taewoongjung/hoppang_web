@@ -39,6 +39,7 @@ const materialColumns: TableColumnsType<MaterialDataType> = [
     {
         title: '창호 종류',
         dataIndex: 'chassisType',
+        minWidth: 50
     },
     {
         title: '규격',
@@ -47,6 +48,7 @@ const materialColumns: TableColumnsType<MaterialDataType> = [
     {
         title: '금액',
         dataIndex: 'price',
+        minWidth: 100
     },
 ];
 
