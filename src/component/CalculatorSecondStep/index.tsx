@@ -253,8 +253,9 @@ const CalculatorSecondStep = (props: {
                 />
             ),
             placement: 'bottom',
-            closeIcon: <span style={{ fontSize: '16px' }}>X</span>,
+            closeIcon: <span style={{ fontSize: '20px' }}>✕</span>,
             style: {
+                backgroundColor: '#ffffff',
                 position: 'fixed',
                 left: '50%',
                 bottom: '-50px',

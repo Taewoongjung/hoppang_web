@@ -11,6 +11,7 @@ import BottomNavigator from "../../../component/BottomNavigator";
 import {GoToTopButton} from "../../../util/renderUtil";
 import {companyTypeOptionsString, HYUNDAI_ko} from "../../../definition/companyType";
 import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
+import TopBanner from "../../../component/Banner/TopBanner";
 
 const { Title } = Typography;
 
@@ -203,9 +204,9 @@ const CalculationScreen = () => {
                         <h1>호빵</h1>
                     </header>
                     <main className="app-main">
-                        {/*<aside className="banner">*/}
-                        {/*    <p>광고 베너 칸</p>*/}
-                        {/*</aside>*/}
+                        <aside className="top-banner">
+                            <TopBanner/>
+                        </aside>
                         <div className="content">
                             <Row>
                                 <div>
@@ -333,24 +334,67 @@ const CalculationScreen = () => {
                                                                             </div>
                                                                         </div>
                                                                     ) : (
-                                                                        <div
-                                                                            key={index}
-                                                                            onClick={() => handleSelect(option)}
-                                                                            style={{
-                                                                                width: '150px',
-                                                                                height: '50px',
-                                                                                display: 'flex',
-                                                                                justifyContent: 'center',
-                                                                                alignItems: 'center',
-                                                                                border: '2px solid',
-                                                                                borderColor: selectedOption === option ? 'green' : '#ccc',
-                                                                                borderRadius: '8px',
-                                                                                cursor: 'pointer',
-                                                                                transition: 'border-color 0.3s ease',
-                                                                                fontWeight: 600
-                                                                            }}
-                                                                        >
-                                                                            {option}
+                                                                        <div key={index} className="ribbon-container">
+                                                                            <div
+                                                                                className={`ribbon ribbonRed`}
+                                                                                style={{
+                                                                                    display: 'flex',
+                                                                                    alignItems: 'center',
+                                                                                    justifyContent: 'center',
+                                                                                    gap: '5px',
+                                                                                    backgroundColor: '#0063f6',
+                                                                                    color: 'white',
+                                                                                    fontWeight: 'bold',
+                                                                                    padding: '5px 10px',
+                                                                                    borderRadius: '5px',
+                                                                                    boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.3)',
+                                                                                    textAlign: 'center',
+                                                                                    zIndex: 10
+                                                                                }}
+                                                                            >
+                                                                                    <span style={{
+                                                                                        fontSize: '14px',
+                                                                                        letterSpacing: '1px',
+                                                                                        textTransform: 'uppercase'
+                                                                                    }}
+                                                                                    >
+                                                                                        할인중
+                                                                                    </span>
+                                                                                <div style={{
+                                                                                    width: '20px',
+                                                                                    height: '20px',
+                                                                                    backgroundColor: 'white',
+                                                                                    borderRadius: '50%',
+                                                                                    display: 'flex',
+                                                                                    alignItems: 'center',
+                                                                                    justifyContent: 'center'
+                                                                                }}>
+                                                                                    <img
+                                                                                        src="/assets/ChassisCalculator/discount_arrow.png"
+                                                                                        alt="discount_arrow"
+                                                                                        style={{ width: '14px', height: '14px' }}
+                                                                                    />
+                                                                                </div>
+                                                                            </div>
+                                                                            <div
+                                                                                key={index}
+                                                                                onClick={() => handleSelect(option)}
+                                                                                style={{
+                                                                                    width: '150px',
+                                                                                    height: '50px',
+                                                                                    display: 'flex',
+                                                                                    justifyContent: 'center',
+                                                                                    alignItems: 'center',
+                                                                                    border: '2px solid',
+                                                                                    borderColor: selectedOption === option ? 'green' : '#ccc',
+                                                                                    borderRadius: '8px',
+                                                                                    cursor: 'pointer',
+                                                                                    transition: 'border-color 0.3s ease',
+                                                                                    fontWeight: 600
+                                                                                }}
+                                                                            >
+                                                                                {option}
+                                                                            </div>
                                                                         </div>
                                                                     )
                                                                 )}
@@ -584,7 +628,7 @@ const CalculationScreen = () => {
                             {/*    </footer>*/}
                             {/*}*/}
                         </div>
-                        {/*<aside className="banner">*/}
+                        {/*<aside className="bottom-banner">*/}
                         {/*    <p>광고 베너 칸</p>*/}
                         {/*</aside>*/}
                     </main>

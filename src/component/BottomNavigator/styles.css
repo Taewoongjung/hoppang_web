@@ -9,7 +9,7 @@ nav {
     position: fixed;
     bottom: 0;
     width: 100%;
-    /*z-index: 1000; !* 항상 상단에 고정 *!*/
+    z-index: 1000; /* 항상 상단에 고정 */
     margin-top: 10%;
     user-select: none;
     -webkit-user-select: none;
