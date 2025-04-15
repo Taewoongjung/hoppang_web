@@ -346,6 +346,11 @@ const CalculatorSecondStep = (props: {
                                                 </Form.Item>
                                             </Col>
                                         </Form>
+                                        <div style={{marginTop:'35px', marginBottom:'30px'}}>
+                                            <div style={{color: 'grey', textDecorationLine: 'underline'}}>
+                                                *더 정확한 견적 결과를 위해 정확한 주소를 입력해주세요.
+                                            </div>
+                                        </div>
                                         {order < 6 &&
                                             <Button
                                                 onClick={handleSetAddressSector}
