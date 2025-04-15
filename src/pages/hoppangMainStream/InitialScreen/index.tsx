@@ -48,23 +48,23 @@ const InitialScreen = (props: {
     }
 
     const handleNotificationAgree = async () => {
-        await checkIfLoggedIn(); // 로그인 했는지 확인하기
-
-        try {
-            await mutate().then((user) => {
-                if (user.tel === '') {
-                    window.location.href = "/login/first?remainedProcess=true&userEmail=" + user.email;
-                    return;
-                } else {
-                    setGetStarted(!getStarted);
-                    setIsAgreed(!isAgreed);
-                    setOpenNotification(!openNotification);
+        // await checkIfLoggedIn(); // 로그인 했는지 확인하기
+        //
+        // try {
+        //     await mutate().then((user) => {
+        //         if (user.tel === '') {
+        //             window.location.href = "/login/first?remainedProcess=true&userEmail=" + user.email;
+        //             return;
+        //         } else {
+        //             setGetStarted(!getStarted);
+        //             setIsAgreed(!isAgreed);
+        //             setOpenNotification(!openNotification);
                     window.location.href = "/chassis/estimation/calculator";
-                }
-            });
-        } catch (error) {
-            console.error(error);
-        }
+        //         }
+        //     });
+        // } catch (error) {
+        //     console.error(error);
+        // }
     }
 
     const checkIfLoggedIn = () => {
@@ -199,9 +199,9 @@ const InitialScreen = (props: {
                         <h1>호빵</h1>
                     </header>
                     <main className="app-main">
-                        <aside className="top-banner">
-                            <TopBanner/>
-                        </aside>
+                        {/*<aside className="top-banner">*/}
+                        {/*    <TopBanner/>*/}
+                        {/*</aside>*/}
                         <div className="content">
                             <Row>
                                 <div>

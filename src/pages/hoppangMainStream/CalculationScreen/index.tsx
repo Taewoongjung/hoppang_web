@@ -204,9 +204,9 @@ const CalculationScreen = () => {
                         <h1>호빵</h1>
                     </header>
                     <main className="app-main">
-                        <aside className="top-banner">
-                            <TopBanner/>
-                        </aside>
+                        {/*<aside className="top-banner">*/}
+                        {/*    <TopBanner/>*/}
+                        {/*</aside>*/}
                         <div className="content">
                             <Row>
                                 <div>
@@ -273,46 +273,46 @@ const CalculationScreen = () => {
                                                                 {memoizedOptions.map((option, index) =>
                                                                     option === HYUNDAI_ko ? (
                                                                         <div key={index} className="ribbon-container">
-                                                                            <div
-                                                                                className={`ribbon ribbonRed`}
-                                                                                style={{
-                                                                                    display: 'flex',
-                                                                                    alignItems: 'center',
-                                                                                    justifyContent: 'center',
-                                                                                    gap: '5px',
-                                                                                    backgroundColor: '#D32F2F',
-                                                                                    color: 'white',
-                                                                                    fontWeight: 'bold',
-                                                                                    padding: '5px 10px',
-                                                                                    borderRadius: '5px',
-                                                                                    boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.3)',
-                                                                                    textAlign: 'center'
-                                                                                }}
-                                                                            >
-                                                                                <span style={{
-                                                                                    fontSize: '14px',
-                                                                                    letterSpacing: '1px',
-                                                                                    textTransform: 'uppercase'
-                                                                                }}
-                                                                                >
-                                                                                    할인중
-                                                                                </span>
-                                                                                <div style={{
-                                                                                    width: '20px',
-                                                                                    height: '20px',
-                                                                                    backgroundColor: 'white',
-                                                                                    borderRadius: '50%',
-                                                                                    display: 'flex',
-                                                                                    alignItems: 'center',
-                                                                                    justifyContent: 'center'
-                                                                                }}>
-                                                                                    <img
-                                                                                        src="/assets/ChassisCalculator/discount_arrow.png"
-                                                                                        alt="discount_arrow"
-                                                                                        style={{ width: '14px', height: '14px' }}
-                                                                                    />
-                                                                                </div>
-                                                                            </div>
+                                                                            {/*<div*/}
+                                                                            {/*    className={`ribbon ribbonRed`}*/}
+                                                                            {/*    style={{*/}
+                                                                            {/*        display: 'flex',*/}
+                                                                            {/*        alignItems: 'center',*/}
+                                                                            {/*        justifyContent: 'center',*/}
+                                                                            {/*        gap: '5px',*/}
+                                                                            {/*        backgroundColor: '#D32F2F',*/}
+                                                                            {/*        color: 'white',*/}
+                                                                            {/*        fontWeight: 'bold',*/}
+                                                                            {/*        padding: '5px 10px',*/}
+                                                                            {/*        borderRadius: '5px',*/}
+                                                                            {/*        boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.3)',*/}
+                                                                            {/*        textAlign: 'center'*/}
+                                                                            {/*    }}*/}
+                                                                            {/*>*/}
+                                                                            {/*    <span style={{*/}
+                                                                            {/*        fontSize: '14px',*/}
+                                                                            {/*        letterSpacing: '1px',*/}
+                                                                            {/*        textTransform: 'uppercase'*/}
+                                                                            {/*    }}*/}
+                                                                            {/*    >*/}
+                                                                            {/*        할인중*/}
+                                                                            {/*    </span>*/}
+                                                                            {/*    <div style={{*/}
+                                                                            {/*        width: '20px',*/}
+                                                                            {/*        height: '20px',*/}
+                                                                            {/*        backgroundColor: 'white',*/}
+                                                                            {/*        borderRadius: '50%',*/}
+                                                                            {/*        display: 'flex',*/}
+                                                                            {/*        alignItems: 'center',*/}
+                                                                            {/*        justifyContent: 'center'*/}
+                                                                            {/*    }}>*/}
+                                                                            {/*        <img*/}
+                                                                            {/*            src="/assets/ChassisCalculator/discount_arrow.png"*/}
+                                                                            {/*            alt="discount_arrow"*/}
+                                                                            {/*            style={{ width: '14px', height: '14px' }}*/}
+                                                                            {/*        />*/}
+                                                                            {/*    </div>*/}
+                                                                            {/*</div>*/}
                                                                             <div
                                                                                 onClick={() => handleSelect(option)}
                                                                                 style={{
@@ -335,47 +335,47 @@ const CalculationScreen = () => {
                                                                         </div>
                                                                     ) : (
                                                                         <div key={index} className="ribbon-container">
-                                                                            <div
-                                                                                className={`ribbon ribbon-blue`}
-                                                                                style={{
-                                                                                    display: 'flex',
-                                                                                    alignItems: 'center',
-                                                                                    justifyContent: 'center',
-                                                                                    gap: '5px',
-                                                                                    backgroundColor: '#0063f6',
-                                                                                    color: 'white',
-                                                                                    fontWeight: 'bold',
-                                                                                    padding: '5px 10px',
-                                                                                    borderRadius: '5px',
-                                                                                    boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.3)',
-                                                                                    textAlign: 'center',
-                                                                                    zIndex: 10
-                                                                                }}
-                                                                            >
-                                                                                    <span style={{
-                                                                                        fontSize: '14px',
-                                                                                        letterSpacing: '1px',
-                                                                                        textTransform: 'uppercase'
-                                                                                    }}
-                                                                                    >
-                                                                                        할인중
-                                                                                    </span>
-                                                                                <div style={{
-                                                                                    width: '20px',
-                                                                                    height: '20px',
-                                                                                    backgroundColor: 'white',
-                                                                                    borderRadius: '50%',
-                                                                                    display: 'flex',
-                                                                                    alignItems: 'center',
-                                                                                    justifyContent: 'center'
-                                                                                }}>
-                                                                                    <img
-                                                                                        src="/assets/ChassisCalculator/discount_arrow.png"
-                                                                                        alt="discount_arrow"
-                                                                                        style={{ width: '14px', height: '14px' }}
-                                                                                    />
-                                                                                </div>
-                                                                            </div>
+                                                                            {/*<div*/}
+                                                                            {/*    className={`ribbon ribbon-blue`}*/}
+                                                                            {/*    style={{*/}
+                                                                            {/*        display: 'flex',*/}
+                                                                            {/*        alignItems: 'center',*/}
+                                                                            {/*        justifyContent: 'center',*/}
+                                                                            {/*        gap: '5px',*/}
+                                                                            {/*        backgroundColor: '#0063f6',*/}
+                                                                            {/*        color: 'white',*/}
+                                                                            {/*        fontWeight: 'bold',*/}
+                                                                            {/*        padding: '5px 10px',*/}
+                                                                            {/*        borderRadius: '5px',*/}
+                                                                            {/*        boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.3)',*/}
+                                                                            {/*        textAlign: 'center',*/}
+                                                                            {/*        zIndex: 10*/}
+                                                                            {/*    }}*/}
+                                                                            {/*>*/}
+                                                                            {/*        <span style={{*/}
+                                                                            {/*            fontSize: '14px',*/}
+                                                                            {/*            letterSpacing: '1px',*/}
+                                                                            {/*            textTransform: 'uppercase'*/}
+                                                                            {/*        }}*/}
+                                                                            {/*        >*/}
+                                                                            {/*            할인중*/}
+                                                                            {/*        </span>*/}
+                                                                            {/*    <div style={{*/}
+                                                                            {/*        width: '20px',*/}
+                                                                            {/*        height: '20px',*/}
+                                                                            {/*        backgroundColor: 'white',*/}
+                                                                            {/*        borderRadius: '50%',*/}
+                                                                            {/*        display: 'flex',*/}
+                                                                            {/*        alignItems: 'center',*/}
+                                                                            {/*        justifyContent: 'center'*/}
+                                                                            {/*    }}>*/}
+                                                                            {/*        <img*/}
+                                                                            {/*            src="/assets/ChassisCalculator/discount_arrow.png"*/}
+                                                                            {/*            alt="discount_arrow"*/}
+                                                                            {/*            style={{ width: '14px', height: '14px' }}*/}
+                                                                            {/*        />*/}
+                                                                            {/*    </div>*/}
+                                                                            {/*</div>*/}
                                                                             <div
                                                                                 key={index}
                                                                                 onClick={() => handleSelect(option)}
