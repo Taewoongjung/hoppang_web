@@ -67,7 +67,7 @@ const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:a
                             type="primary"
                             onClick={() => handleInquiry('TEL')}
                         >
-                            <a href="tel:01029143611" style={{ color: 'inherit', textDecoration: 'none' }}>
+                            <a href="tel:01029133622" style={{ color: 'inherit', textDecoration: 'none' }}>
                                 전화상담하기
                             </a>
                         </Button>
