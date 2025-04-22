@@ -58,7 +58,7 @@ const InquiryEstimatedChassis = (props: { estimationId:any, isInquiryModalOpen:a
                 onCancel={() => setIsInquiryModalOpen(false)}
                 footer={[
                     <Popover
-                        content={<div>010-2914-3611</div>}
+                        content={<div>010-2913-3622</div>}
                         trigger="click"
                         key="phone"
                     >
