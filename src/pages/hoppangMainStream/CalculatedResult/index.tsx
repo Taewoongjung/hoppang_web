@@ -9,7 +9,8 @@ import {
     message,
     Descriptions,
     Typography,
-    Flex
+    Flex,
+    Modal
 } from 'antd';
 import {
     addCommasToNumber,
@@ -26,6 +27,9 @@ import useSWR from "swr";
 import fetcher from "../../../util/fetcher";
 import {GoToTopButton} from "../../../util/renderUtil";
 import InquiryEstimatedChassis from "../../../component/InquiryEstimatedChassis";
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+
+const { Text, Paragraph } = Typography;
 
 // 재료비
 interface MaterialDataType {
@@ -128,6 +132,9 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
     // 견적문의 관련 변수
     const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
+
+    // 추가 시공비 발생 여부에 따른 모달 표시 변수
+    const [laborFeeBelowMinimumSizeAlertModal, setLaborFeeBelowMinimumSizeAlertModal] = useState(false);
 
 
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
@@ -235,6 +242,10 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
         // @ts-ignore
         let customerFloor = result['customerFloor']; // 고객 층수
 
+        // @ts-ignore
+        let laborFee = result['laborFee']; // 시공비
+        let isLaborFeeBelowMinimumSize = laborFee && laborFee > 0; // 기본시공비 유무 여부
+
         const additionalDataTypes: AdditionalDataType[] = [];
         additionalDataTypes.push({
             key: 0,
@@ -257,6 +268,14 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
             price: addCommasToNumber((deliveryFee + freightTransportFee)) || 'N/A'
         });
 
+        if (isLaborFeeBelowMinimumSize) {
+            additionalDataTypes.push({
+                key: 4,
+                additionalPriceType: '시공비',
+                price: addCommasToNumber(laborFee) || 'N/A'
+            });
+        }
+
         setAdditionalTableData1(additionalDataTypes);
 
         // @ts-ignore
@@ -273,6 +292,11 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
         // @ts-ignore
         setDiscountedTotalPriceWithSurtax(addCommasToNumber(discountedWholePriceWithSurtax));
+
+        if (isLaborFeeBelowMinimumSize === true) {
+            setLaborFeeBelowMinimumSizeAlertModal(true);
+        }
+
     }, [result]);
 
 
@@ -301,6 +325,10 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 price: getPrice(item)
             }));
 
+            // @ts-ignore
+            let laborFee = result['laborFee']; // 시공비
+            let isLaborFeeBelowMinimumSize = laborFee && laborFee > 0; // 기본시공비 유무 여부
+
             const additionalDataTypes = [
                 // @ts-ignore
                 { key: 0, additionalPriceType: '철거비', price: addCommasToNumber(result2["demolitionFee"]) || 'N/A' },
@@ -311,6 +339,14 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 // @ts-ignore
                 { key: 3, additionalPriceType: '기타비용', price: addCommasToNumber(result2["deliveryFee"] + result2["freightTransportFee"]) || 'N/A' }
             ];
+
+            if (isLaborFeeBelowMinimumSize) {
+                additionalDataTypes.push({
+                    key: 4,
+                    additionalPriceType: '시공비',
+                    price: addCommasToNumber(laborFee) || 'N/A'
+                });
+            }
 
             setMaterialTableData2(formattedData);
 
@@ -364,6 +400,10 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 price: getPrice(item)
             }));
 
+            // @ts-ignore
+            let laborFee = result['laborFee']; // 시공비
+            let isLaborFeeBelowMinimumSize = laborFee && laborFee > 0; // 기본시공비 유무 여부
+
             const additionalDataTypes = [
                 // @ts-ignore
                 { key: 0, additionalPriceType: '철거비', price: addCommasToNumber(result3.demolitionFee) || 'N/A' },
@@ -375,6 +415,14 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 { key: 3, additionalPriceType: '기타비용', price: addCommasToNumber(result3.deliveryFee + result3.freightTransportFee) || 'N/A' }
             ];
 
+            if (isLaborFeeBelowMinimumSize) {
+                additionalDataTypes.push({
+                    key: 4,
+                    additionalPriceType: '시공비',
+                    price: addCommasToNumber(laborFee) || 'N/A'
+                });
+            }
+
             setMaterialTableData3(formattedData);
 
             setAdditionalTableData3(additionalDataTypes);
@@ -385,8 +433,6 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
             // @ts-ignore
             setSurtax3(addCommasToNumber(result3.surtax));
 
-            // @ts-ignore
-            console.log("? = ", result3['discountedWholeCalculatedFeeAmount']);
             // @ts-ignore
             setTotalPriceDiscountedAmount3(addCommasToNumber(result3['discountedWholeCalculatedFeeAmount']));
 
@@ -490,12 +536,12 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
     };
 
 
-    return(
+    return (
         <>
-            {isLoading && <OverlayLoadingPage word={"처리중"}/>}
+            {isLoading && <OverlayLoadingPage word={"견적중"}/>}
 
             {contextHolder}
-            <div style={{ marginBottom: '10%' }}>
+            <div style={{marginBottom: '10%'}}>
                 <Result
                     status="success"
                     title={`견적 완료`}
@@ -557,7 +603,11 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                             items={[{
                                 key: '1',
                                 label: (
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <div style={{
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center'
+                                    }}>
                                         <span>{`${mappedCompanyByValue(firstCalculatedCompanyType)} - 📋 ${estimationId} (견적번호)`}</span>
                                     </div>
                                 ),
@@ -653,7 +703,11 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                 {
                                     key: '2',
                                     label: (
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <div style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center'
+                                        }}>
                                             <span>
                                                 {secondCalculatedCompanyType !== ''
                                                     ? `${mappedCompanyByValue(secondCalculatedCompanyType)} - 📋 ${estimationId2} (견적번호)`
@@ -685,10 +739,12 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                         footer={() => (
                                                             <Descriptions bordered column={1} size="small">
                                                                 <Descriptions.Item label="총 비용">
-                                                                    <Typography.Text strong>{totalPrice2}</Typography.Text>
+                                                                    <Typography.Text
+                                                                        strong>{totalPrice2}</Typography.Text>
                                                                 </Descriptions.Item>
                                                                 <Descriptions.Item label="부가세">
-                                                                    <Typography.Text type="warning">{surtax2}</Typography.Text>
+                                                                    <Typography.Text
+                                                                        type="warning">{surtax2}</Typography.Text>
                                                                 </Descriptions.Item>
                                                                 <Descriptions.Item label="총 합계">
                                                                     <Typography.Text type="danger" strong>
@@ -709,7 +765,11 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                     {secondCalculatedCompanyType !== '' && (
                                                         <>
                                                             <Button type="primary" size="small"
-                                                                    style={{ width: '100%', maxWidth: '200px', marginBottom: '10px' }}
+                                                                    style={{
+                                                                        width: '100%',
+                                                                        maxWidth: '200px',
+                                                                        marginBottom: '10px'
+                                                                    }}
                                                                     ghost
                                                                     onClick={() => setIsInquiryModalOpen(true)}
                                                             >
@@ -786,7 +846,11 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                 {
                                     key: '3',
                                     label: (
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                        <div style={{
+                                            display: 'flex',
+                                            justifyContent: 'space-between',
+                                            alignItems: 'center'
+                                        }}>
                             <span>
                                 {thirdCalculatedCompanyType !== ''
                                     ? `${mappedCompanyByValue(thirdCalculatedCompanyType)} - 📋 ${estimationId3} (견적번호)`
@@ -818,10 +882,12 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                         footer={() => (
                                                             <Descriptions bordered column={1} size="small">
                                                                 <Descriptions.Item label="총 비용">
-                                                                    <Typography.Text strong>{totalPrice3}</Typography.Text>
+                                                                    <Typography.Text
+                                                                        strong>{totalPrice3}</Typography.Text>
                                                                 </Descriptions.Item>
                                                                 <Descriptions.Item label="부가세">
-                                                                    <Typography.Text type="warning">{surtax3}</Typography.Text>
+                                                                    <Typography.Text
+                                                                        type="warning">{surtax3}</Typography.Text>
                                                                 </Descriptions.Item>
                                                                 <Descriptions.Item label="총 합계">
                                                                     <Typography.Text type="danger" strong>
@@ -842,7 +908,11 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                                                     {thirdCalculatedCompanyType !== '' && (
                                                         <>
                                                             <Button type="primary" size="small"
-                                                                    style={{ width: '100%', maxWidth: '200px', marginBottom: '10px' }}
+                                                                    style={{
+                                                                        width: '100%',
+                                                                        maxWidth: '200px',
+                                                                        marginBottom: '10px'
+                                                                    }}
                                                                     ghost
                                                                     onClick={() => setIsInquiryModalOpen(true)}
                                                             >
@@ -891,8 +961,35 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
             </div>
 
             <GoToTopButton/>
+
+            <Modal
+                open={!isLoading && laborFeeBelowMinimumSizeAlertModal}
+                onCancel={() => setLaborFeeBelowMinimumSizeAlertModal(false)}
+                centered
+                closable={false}
+                footer={[
+                    <Button
+                        key="ok"
+                        type="primary"
+                        onClick={() => setLaborFeeBelowMinimumSizeAlertModal(false)}
+                        style={{ width: '100%' }}
+                    >
+                        확인했어요
+                    </Button>
+                ]}
+            >
+                <div style={{ textAlign: 'center', paddingTop: 16 }}>
+                    <ExclamationCircleOutlined style={{ fontSize: 40, color: '#faad14', marginBottom: 16 }} />
+                    <Paragraph style={{ fontSize: 16, fontWeight: 500, marginBottom: 0 }}>
+                        선택하신 샷시 크기가 최소 시공 기준보다 작아
+                    </Paragraph>
+                    <Paragraph style={{ fontSize: 16, fontWeight: 500 }}>
+                        <Text type="danger">기본 시공비가 추가로 발생했습니다.</Text>
+                    </Paragraph>
+                </div>
+            </Modal>
         </>
-    )
+    );
 }
 
 const styles: { [key: string]: React.CSSProperties } = {
