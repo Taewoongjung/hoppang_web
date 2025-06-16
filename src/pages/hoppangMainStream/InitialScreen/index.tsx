@@ -9,7 +9,6 @@ import axios from "axios";
 import { useParams } from 'react-router-dom';
 import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
 import BottomNavigator from "../../../component/BottomNavigator";
-import TopBanner from "../../../component/Banner/TopBanner";
 
 
 const InitialScreen = (props: {

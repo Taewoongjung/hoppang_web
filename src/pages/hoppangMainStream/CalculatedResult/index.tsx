@@ -10,7 +10,8 @@ import {
     Descriptions,
     Typography,
     Flex,
-    Modal
+    Modal,
+    Tooltip
 } from 'antd';
 import {
     addCommasToNumber,
@@ -25,9 +26,8 @@ import { CalculateResult } from 'src/definition/interfaces';
 import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
 import useSWR from "swr";
 import fetcher from "../../../util/fetcher";
-import {GoToTopButton} from "../../../util/renderUtil";
 import InquiryEstimatedChassis from "../../../component/InquiryEstimatedChassis";
-import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { ExclamationCircleOutlined, InfoCircleOutlined } from '@ant-design/icons';
 
 const { Text, Paragraph } = Typography;
 
@@ -60,8 +60,8 @@ const materialColumns: TableColumnsType<MaterialDataType> = [
 // 부가비용
 interface AdditionalDataType {
     key: React.Key;
-    additionalPriceType: string;
-    price: string | undefined;
+    additionalPriceType: React.ReactNode | string;
+    price: React.ReactNode | string | undefined;
 }
 
 const additionalColumns: TableColumnsType<AdditionalDataType> = [
@@ -271,8 +271,19 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
         if (isLaborFeeBelowMinimumSize) {
             additionalDataTypes.push({
                 key: 4,
-                additionalPriceType: '시공비',
-                price: addCommasToNumber(laborFee) || 'N/A'
+                additionalPriceType: (
+                    <span style={{ color: '#949393', fontStyle: 'italic' }}>
+                        시공비{' '}
+                        <Tooltip title="총합계에 이미 포함된 금액입니다.">
+                            <InfoCircleOutlined style={{ color: '#888' }} />
+                        </Tooltip>
+                    </span>
+                ),
+                price: (
+                    <span style={{ color: '#949393', fontStyle: 'italic' }}>
+                        {addCommasToNumber(laborFee) || 'N/A'}
+                    </span>
+                )
             });
         }
 
@@ -329,7 +340,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
             let laborFee = result['laborFee']; // 시공비
             let isLaborFeeBelowMinimumSize = laborFee && laborFee > 0; // 기본시공비 유무 여부
 
-            const additionalDataTypes = [
+            const additionalDataTypes: AdditionalDataType[] = [
                 // @ts-ignore
                 { key: 0, additionalPriceType: '철거비', price: addCommasToNumber(result2["demolitionFee"]) || 'N/A' },
                 // @ts-ignore
@@ -343,8 +354,19 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
             if (isLaborFeeBelowMinimumSize) {
                 additionalDataTypes.push({
                     key: 4,
-                    additionalPriceType: '시공비',
-                    price: addCommasToNumber(laborFee) || 'N/A'
+                    additionalPriceType: (
+                        <>
+                            시공비{' '}
+                            <Tooltip title="총합계에 이미 포함된 금액입니다.">
+                                <InfoCircleOutlined style={{ color: '#888' }} />
+                            </Tooltip>
+                        </>
+                    ),
+                    price: (
+                        <span style={{ color: '#949393', fontStyle: 'italic' }}>
+                            {addCommasToNumber(laborFee) || 'N/A'}
+                        </span>
+                    )
                 });
             }
 
@@ -404,7 +426,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
             let laborFee = result['laborFee']; // 시공비
             let isLaborFeeBelowMinimumSize = laborFee && laborFee > 0; // 기본시공비 유무 여부
 
-            const additionalDataTypes = [
+            const additionalDataTypes: AdditionalDataType[] = [
                 // @ts-ignore
                 { key: 0, additionalPriceType: '철거비', price: addCommasToNumber(result3.demolitionFee) || 'N/A' },
                 // @ts-ignore
@@ -418,8 +440,19 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
             if (isLaborFeeBelowMinimumSize) {
                 additionalDataTypes.push({
                     key: 4,
-                    additionalPriceType: '시공비',
-                    price: addCommasToNumber(laborFee) || 'N/A'
+                    additionalPriceType: (
+                        <>
+                            시공비{' '}
+                            <Tooltip title="총합계에 이미 포함된 금액입니다.">
+                                <InfoCircleOutlined style={{ color: '#888' }} />
+                            </Tooltip>
+                        </>
+                    ),
+                    price: (
+                        <span style={{ color: '#949393', fontStyle: 'italic' }}>
+                            {addCommasToNumber(laborFee) || 'N/A'}
+                        </span>
+                    )
                 });
             }
 
@@ -960,8 +993,6 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 </Flex>
             </div>
 
-            <GoToTopButton/>
-
             <Modal
                 open={!isLoading && laborFeeBelowMinimumSizeAlertModal}
                 onCancel={() => setLaborFeeBelowMinimumSizeAlertModal(false)}
@@ -986,6 +1017,21 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                     <Paragraph style={{ fontSize: 16, fontWeight: 500 }}>
                         <Text type="danger">기본 시공비가 추가로 발생했습니다.</Text>
                     </Paragraph>
+
+                    <div style={{ background: '#fafafa', padding: '16px 12px', marginTop: 24, borderRadius: 8, textAlign: 'left' }}>
+                        <Paragraph style={{ fontSize: 14, marginBottom: 4 }}>
+                            <Text strong>Q. 왜 작은 샷시는 기본 시공비가 붙나요?</Text>
+                        </Paragraph>
+                        <Paragraph style={{ fontSize: 14, color: '#555', margin: 0 }}>
+                            일반적으로 시공에는 최소 인건비가 존재합니다.
+                            <br />
+                            택배도 일정 금액 이상부터 무료배송이 되는 것처럼,
+                            <br />
+                            샷시도 일정 크기 이상이면 시공비가 포함되지만,
+                            <br />
+                            그보다 작을 경우 정책상 정해진 시공비 기준에 미치지 않아 추가 시공비가 발생할 수 있습니다.
+                        </Paragraph>
+                    </div>
                 </div>
             </Modal>
         </>

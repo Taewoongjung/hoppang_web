@@ -8,10 +8,8 @@ import CalculatorSecondStep from "../../../component/CalculatorSecondStep";
 import RegisteringChassis from "../../../definition/interfaces";
 import {DeleteOutlined, LeftOutlined, RightOutlined} from "@ant-design/icons";
 import BottomNavigator from "../../../component/BottomNavigator";
-import {GoToTopButton} from "../../../util/renderUtil";
 import {companyTypeOptionsString, HYUNDAI_ko} from "../../../definition/companyType";
 import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
-import TopBanner from "../../../component/Banner/TopBanner";
 
 const { Title } = Typography;
 
@@ -601,8 +599,6 @@ const CalculationScreen = () => {
                                                         </tr>
                                                     </tbody>
                                                 </table>
-
-                                                <GoToTopButton/>
                                             </>
                                         }
 
