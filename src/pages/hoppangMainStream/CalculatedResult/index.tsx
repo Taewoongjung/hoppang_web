@@ -85,7 +85,6 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
     const { result = [], requestCalculateObject } = props; // 기본값으로 빈 배열 설정
 
     // 첫 번째 결과 변수
-    const [laborToolTipVisible1, setLaborToolTipVisible1] = useState(false);
     const [materialTableData1, setMaterialTableData1] = useState<MaterialDataType[]>([]);
     const [additionalTableData1, setAdditionalTableData1] = useState<AdditionalDataType[]>([]);
     const [surtax, setSurtax] = useState('');
@@ -98,7 +97,6 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
 
     // 두 번째 결과 변수
-    const [laborToolTipVisible2, setLaborToolTipVisible2] = useState(false);
     const [result2, setResult2] = useState<[]>();
     const [materialTableData2, setMaterialTableData2] = useState<MaterialDataType[]>([]);
     const [additionalTableData2, setAdditionalTableData2] = useState<AdditionalDataType[]>([]);
@@ -113,7 +111,6 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
 
 
     // 세 번째 결과 변수
-    const [laborToolTipVisible3, setLaborToolTipVisible3] = useState(false);
     const [result3, setResult3] = useState<[]>();
     const [materialTableData3, setMaterialTableData3] = useState<MaterialDataType[]>([]);
     const [additionalTableData3, setAdditionalTableData3] = useState<AdditionalDataType[]>([]);
@@ -277,12 +274,8 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                 additionalPriceType: (
                     <span style={{ color: '#949393', fontStyle: 'italic' }}>
                         시공비{' '}
-                        <Tooltip
-                            title="총합계에 이미 포함된 금액입니다."
-                            open={laborToolTipVisible3}
-                            onOpenChange={() => handleToolTipOpen(true, 1)}
-                        >
-                            <InfoCircleOutlined style={{ color: '#888' }} />
+                        <Tooltip title="총합계에 이미 포함된 금액입니다.">
+                            <InfoCircleOutlined style={{ color: '#888' }}/>
                         </Tooltip>
                     </span>
                 ),
@@ -364,11 +357,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                     additionalPriceType: (
                         <>
                             시공비{' '}
-                            <Tooltip
-                                title="총합계에 이미 포함된 금액입니다."
-                                open={laborToolTipVisible3}
-                                onOpenChange={() => handleToolTipOpen(true, 2)}
-                            >
+                            <Tooltip title="총합계에 이미 포함된 금액입니다.">
                                 <InfoCircleOutlined style={{color: '#888'}}/>
                             </Tooltip>
                         </>
@@ -454,12 +443,8 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                     additionalPriceType: (
                         <>
                             시공비{' '}
-                            <Tooltip
-                                title="총합계에 이미 포함된 금액입니다."
-                                open={laborToolTipVisible3}
-                                onOpenChange={() => handleToolTipOpen(true, 3)}
-                            >
-                                <InfoCircleOutlined style={{ color: '#888' }} />
+                            <Tooltip title="총합계에 이미 포함된 금액입니다.">
+                                <InfoCircleOutlined style={{ color: '#888' }}/>
                             </Tooltip>
                         </>
                     ),
@@ -582,25 +567,6 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
             </>
         );
     };
-
-    const handleToolTipOpen = (open: boolean, index: number) => {
-        if (index === 3) {
-            setLaborToolTipVisible3(open);
-            setTimeout(() => {
-                setLaborToolTipVisible3(false);
-            }, 2000);
-        } else if (index === 2) {
-            setLaborToolTipVisible2(open);
-            setTimeout(() => {
-                setLaborToolTipVisible2(false);
-            }, 2000);
-        } else {
-            setLaborToolTipVisible1(open)
-            setTimeout(() => {
-                setLaborToolTipVisible1(false);
-            }, 2000);
-        }
-    }
 
 
     return (
