@@ -356,10 +356,12 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                     key: 4,
                     additionalPriceType: (
                         <>
-                            시공비{' '}
-                            <Tooltip title="총합계에 이미 포함된 금액입니다.">
-                                <InfoCircleOutlined style={{color: '#888'}}/>
-                            </Tooltip>
+                            <span style={{ color: '#949393', fontStyle: 'italic' }}>
+                                시공비{' '}
+                                <Tooltip title="총합계에 이미 포함된 금액입니다.">
+                                    <InfoCircleOutlined style={{color: '#888'}}/>
+                                </Tooltip>
+                            </span>
                         </>
                     ),
                     price: (
@@ -442,10 +444,12 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
                     key: 4,
                     additionalPriceType: (
                         <>
-                            시공비{' '}
-                            <Tooltip title="총합계에 이미 포함된 금액입니다.">
-                                <InfoCircleOutlined style={{ color: '#888' }}/>
-                            </Tooltip>
+                            <span style={{ color: '#949393', fontStyle: 'italic' }}>
+                                시공비{' '}
+                                <Tooltip title="총합계에 이미 포함된 금액입니다.">
+                                    <InfoCircleOutlined style={{color: '#888'}}/>
+                                </Tooltip>
+                            </span>
                         </>
                     ),
                     price: (
