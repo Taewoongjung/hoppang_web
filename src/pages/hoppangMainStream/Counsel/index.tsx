@@ -87,7 +87,7 @@ const Counsel = () => {
                             className="choice-button no"
                             onClick={directInquiry}
                         >
-                            🙋🏻‍♂ 바로 상담
+                            🙋🏻‍♂ 바로 상담하기
                         </button>
                     </div>
                 </div>
