@@ -44,6 +44,7 @@ const Counsel = () => {
 
     const isFromHoppangStore = (): boolean => {
         const referrer = document.referrer;
+        alert(referrer)
         return referrer.startsWith("https://hoppang.store/");
     }
 
