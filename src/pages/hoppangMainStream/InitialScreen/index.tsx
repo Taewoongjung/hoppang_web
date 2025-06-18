@@ -38,16 +38,14 @@ const InitialScreen = (props: {
     const [getStarted, setGetStarted] = useState(false);
 
     useEffect(() => {
+        let referrer = document.referrer;
+        alert(referrer)
+        let isFromHoppangStore = referrer.startsWith("https://hoppang.store/");
+
         if (!isMobile || !isFromHoppangStore) {
             window.location.href = "https://hoppang.store/official?adv_id=329263e0-5d61-4ade-baf9-7e34cc611828";
         }
     }, []);
-
-    const isFromHoppangStore = (): boolean => {
-        const referrer = document.referrer;
-        alert(referrer)
-        return referrer.startsWith("https://hoppang.store/");
-    }
 
     useEffect(() => {
         if (userData) {
