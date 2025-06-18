@@ -39,10 +39,9 @@ const InitialScreen = (props: {
 
     useEffect(() => {
         let referrer = document.referrer;
-        alert(referrer)
-        let isFromHoppangStore = referrer.startsWith("https://hoppang.store/");
+        let isFromRightPath = referrer.startsWith("");
 
-        if (!isMobile || !isFromHoppangStore) {
+        if (!isMobile || !isFromRightPath) {
             window.location.href = "https://hoppang.store/official?adv_id=329263e0-5d61-4ade-baf9-7e34cc611828";
         }
     }, []);
