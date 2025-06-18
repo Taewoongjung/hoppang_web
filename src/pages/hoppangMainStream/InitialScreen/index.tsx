@@ -9,6 +9,9 @@ import axios from "axios";
 import { useParams } from 'react-router-dom';
 import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
 import BottomNavigator from "../../../component/BottomNavigator";
+import {
+    isMobile,
+} from "react-device-detect";
 
 
 const InitialScreen = (props: {
@@ -35,6 +38,12 @@ const InitialScreen = (props: {
     const [isAgreed, setIsAgreed] = useState(false);
     const [openNotification, setOpenNotification] = useState(false);
     const [getStarted, setGetStarted] = useState(false);
+
+    useEffect(() => {
+        if (!isMobile) {
+            window.location.href = "https://hoppang.store/official?adv_id=329263e0-5d61-4ade-baf9-7e34cc611828";
+        }
+    }, []);
 
     useEffect(() => {
         if (userData) {
