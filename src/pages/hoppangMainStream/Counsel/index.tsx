@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import '../styles.css';
 import './styles.css';
 import BottomNavigator from "../../../component/BottomNavigator";
 import useSWR from "swr";
 import {callMeData} from "../../../definition/apiPath";
 import fetcher from "../../../util/fetcher";
+import {isMobile} from "react-device-detect";
 
 const useResponsiveStyles = () => {
 
@@ -34,6 +35,11 @@ const Counsel = () => {
 
     const styles = useResponsiveStyles();
 
+    useEffect(() => {
+        if (!isMobile) {
+            window.location.href = "https://hoppang.store/official?adv_id=329263e0-5d61-4ade-baf9-7e34cc611828";
+        }
+    }, []);
 
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
