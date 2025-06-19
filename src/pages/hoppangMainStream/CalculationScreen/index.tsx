@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useMemo} from 'react';
 import '../styles.css';
-import {Col, Row, message, Select, InputNumber, Button, Divider, List, Radio, Modal} from "antd";
+import {Col, Row, message, Select, InputNumber, Button, Divider, List, Modal, Tooltip} from "antd";
 import { Typography } from 'antd';
 import chassisTypeOptions from "../../../definition/chassisType";
 import {InputStatus} from "antd/es/_util/statusUtils";
@@ -43,6 +43,7 @@ const CalculationScreen = () => {
     const [current, setCurrent] = useState(0);
 
     const [isLoading, setIsLoading] = useState(true);
+    const [isToolTipOn, setIsToolTipOn] = useState(false);
 
     const success = (successMsg:string) => {
         messageApi.open({
@@ -229,7 +230,8 @@ const CalculationScreen = () => {
     const handleSelect = (option: any) => {
         setSelectedOption(option);
         setCompanyType(option);
-        setCurrent(current + 1)
+        setCurrent(current + 1);
+        setIsToolTipOn(true);
     };
 
     const handleUnitChange = (newUnit: string) => {
@@ -260,10 +262,12 @@ const CalculationScreen = () => {
     };
 
     const unitSelector = (
-        <Select defaultValue="mm" onChange={handleUnitChange}>
-            <Option value="mm">{Unit.MM}</Option>
-            <Option value="cm">{Unit.CM}</Option>
-        </Select>
+        <Tooltip title="단위를 선택할 수도 있어요!" open={isToolTipOn}>
+            <Select defaultValue="mm" onClick={() => setIsToolTipOn(false)} onChange={handleUnitChange}>
+                <Option value="mm">{Unit.MM}</Option>
+                <Option value="cm">{Unit.CM}</Option>
+            </Select>
+        </Tooltip>
     );
 
 
@@ -528,6 +532,11 @@ const CalculationScreen = () => {
                                                                     style={{ width: 200 }}
                                                                     value={chassisType}
                                                                     onChange={setChassisType}
+                                                                    onClick={() => {
+                                                                        if (isToolTipOn) {
+                                                                            setIsToolTipOn(false);
+                                                                        }
+                                                                    }}
                                                                     options={chassisTypeOptions}/>
                                                             </td>
                                                         </tr>
