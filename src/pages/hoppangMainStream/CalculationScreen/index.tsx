@@ -262,7 +262,11 @@ const CalculationScreen = () => {
     };
 
     const unitSelector = (
-        <Tooltip title="단위를 선택할 수도 있어요!" open={isToolTipOn}>
+        <Tooltip
+            title="mm 외 단위 선택도 가능합니다!"
+            placement="top"
+            open={isToolTipOn}
+        >
             <Select defaultValue="mm" onClick={() => setIsToolTipOn(false)} onChange={handleUnitChange}>
                 <Option value="mm">{Unit.MM}</Option>
                 <Option value="cm">{Unit.CM}</Option>
@@ -543,7 +547,7 @@ const CalculationScreen = () => {
                                                         <tr>
                                                             <td colSpan={2}>
                                                                 <div style={{ marginTop: '35px', textAlign: 'center' }}>
-                                                                    <div style={{color: 'grey', fontSize: 13, textDecorationLine: 'underline'}}>
+                                                                    <div style={{color: 'grey', fontSize: 14, textDecorationLine: 'underline'}}>
                                                                         *가로 세로 수치를&nbsp;
                                                                             {unit === Unit.MM && '10mm'}
                                                                             {unit === Unit.CM && '10cm'}
