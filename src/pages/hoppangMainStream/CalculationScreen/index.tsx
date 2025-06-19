@@ -534,11 +534,11 @@ const CalculationScreen = () => {
                                                         <tr>
                                                             <td colSpan={2}>
                                                                 <div style={{ marginTop: '35px', textAlign: 'center' }}>
-                                                                    <div style={{color: 'grey', textDecorationLine: 'underline'}}>
-                                                                    *가로 세로 수치를
-                                                                        {unit === Unit.MM && '10mm'}
-                                                                        {unit === Unit.CM && '10cm'}
-                                                                        단위로 작성 해주세요
+                                                                    <div style={{color: 'grey', fontSize: 13, textDecorationLine: 'underline'}}>
+                                                                        *가로 세로 수치를&nbsp;
+                                                                            {unit === Unit.MM && '10mm'}
+                                                                            {unit === Unit.CM && '10cm'}
+                                                                        &nbsp;단위로 작성 해주세요
                                                                     </div>
                                                                 </div>
                                                             </td>
