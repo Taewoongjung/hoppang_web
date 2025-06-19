@@ -39,9 +39,17 @@ const InitialScreen = (props: {
 
     useEffect(() => {
         let referrer = document.referrer;
-        let isFromRightPath = referrer.startsWith("https://hoppang.store");
+        let isFromSearchEngine =
+            referrer.includes("google.") ||
+            referrer.includes("naver.") ||
+            referrer.includes("daum.") ||
+            referrer.includes("bing.") ||
+            referrer.includes("search.yahoo.") ||
+            referrer.includes("instagram.com") ||
+            referrer.includes("facebook.com") ||
+            referrer.includes("youtube.com");
 
-        if (!isMobile || !isFromRightPath) {
+        if (!isMobile || isFromSearchEngine) {
             window.location.href = "https://hoppang.store/official?adv_id=329263e0-5d61-4ade-baf9-7e34cc611828";
         }
     }, []);
