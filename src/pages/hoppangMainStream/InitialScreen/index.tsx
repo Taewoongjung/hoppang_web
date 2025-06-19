@@ -41,7 +41,7 @@ const InitialScreen = (props: {
         let referrer = document.referrer;
         let isFromRightPath = referrer.startsWith("");
 
-        if (!isFromRightPath) {
+        if (!isMobile || !isFromRightPath) {
             window.location.href = "https://hoppang.store/official?adv_id=329263e0-5d61-4ade-baf9-7e34cc611828";
         }
     }, []);
