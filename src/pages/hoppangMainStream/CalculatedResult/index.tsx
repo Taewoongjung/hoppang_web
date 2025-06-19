@@ -28,6 +28,7 @@ import useSWR from "swr";
 import fetcher from "../../../util/fetcher";
 import InquiryEstimatedChassis from "../../../component/InquiryEstimatedChassis";
 import { ExclamationCircleOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { Unit } from 'src/definition/unit';
 
 const { Text, Paragraph } = Typography;
 
@@ -38,24 +39,6 @@ interface MaterialDataType {
     standard: string;
     price: React.ReactNode | undefined;
 }
-
-const materialColumns: TableColumnsType<MaterialDataType> = [
-    {
-        title: '창호 종류',
-        dataIndex: 'chassisType',
-        minWidth: 50
-    },
-    {
-        title: '규격',
-        dataIndex: 'standard',
-    },
-    {
-        title: '금액',
-        dataIndex: 'price',
-        minWidth: 100
-    },
-];
-
 
 // 부가비용
 interface AdditionalDataType {
@@ -76,13 +59,17 @@ const additionalColumns: TableColumnsType<AdditionalDataType> = [
 ];
 
 
-const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateResult }) => {
+const CalculatedResult = (props:{
+    result: [],
+    requestCalculateObject: CalculateResult,
+    selectedUnit: string
+}) => {
 
     const [isLoading, setIsLoading] = useState(false);
 
     const [messageApi, contextHolder] = message.useMessage();
 
-    const { result = [], requestCalculateObject } = props; // 기본값으로 빈 배열 설정
+    const { result = [], requestCalculateObject, selectedUnit } = props; // 기본값으로 빈 배열 설정
 
     // 첫 번째 결과 변수
     const [materialTableData1, setMaterialTableData1] = useState<MaterialDataType[]>([]);
@@ -160,6 +147,23 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
         });
     };
 
+    const materialColumns: TableColumnsType<MaterialDataType> = [
+        {
+            title: '창호 종류',
+            dataIndex: 'chassisType',
+            minWidth: 50
+        },
+        {
+            title: `규격 (${selectedUnit})`,
+            dataIndex: 'standard',
+        },
+        {
+            title: '금액',
+            dataIndex: 'price',
+            minWidth: 100
+        },
+    ];
+
     const getPrice = (item: any) => {
         if (item.discountedPrice) {
             return (
@@ -207,7 +211,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
         const formattedData = result['chassisPriceResultList'].map((item: any, index: number) => ({
             key: index,
             chassisType: getLabelOfChassisType(item.chassisType),
-            standard: `${item.width} x ${item.height}` || 'N/A',
+            standard: `${selectedUnit === Unit.CM ? item.width/10 : item.width} x ${selectedUnit === Unit.CM ? item.height/10 : item.height}` || 'N/A',
             price: getPrice(item)
         }));
         setMaterialTableData1(formattedData);
@@ -332,7 +336,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
             const formattedData = result2["chassisPriceResultList"].map((item, index) => ({
                 key: index,
                 chassisType: getLabelOfChassisType(item.chassisType),
-                standard: `${item.width} x ${item.height}` || 'N/A',
+                standard: `${selectedUnit === Unit.CM ? item.width/10 : item.width} x ${selectedUnit === Unit.CM ? item.height/10 : item.height}` || 'N/A',
                 price: getPrice(item)
             }));
 
@@ -420,7 +424,7 @@ const CalculatedResult = (props:{ result: [], requestCalculateObject: CalculateR
             const formattedData = result3.chassisPriceResultList.map((item, index) => ({
                 key: index,
                 chassisType: getLabelOfChassisType(item.chassisType),
-                standard: `${item.width} x ${item.height}` || 'N/A',
+                standard: `${selectedUnit === Unit.CM ? item.width/10 : item.width} x ${selectedUnit === Unit.CM ? item.height/10 : item.height}` || 'N/A',
                 price: getPrice(item)
             }));
 

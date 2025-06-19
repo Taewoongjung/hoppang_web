@@ -39,6 +39,7 @@ const InitialScreen = (props: {
 
     useEffect(() => {
         let referrer = document.referrer;
+
         let isFromSearchEngine =
             referrer.includes("google.") ||
             referrer.includes("naver.") ||

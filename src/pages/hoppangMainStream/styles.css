@@ -199,6 +199,16 @@ input, .ant-input-number, .ant-select-selector {
         padding: 2px 4px;    /* 셀 내부 여백 */
         vertical-align: middle;
     }
+
+    .caution {
+        background-color: #fff5f5;
+        border: 1px solid #ff6b6b;
+        padding: 15px;
+        margin-top: 20px;
+        max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 

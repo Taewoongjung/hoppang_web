@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useMemo} from 'react';
 import '../styles.css';
-import {Col, Row, message, Select, InputNumber, Button, Divider, List} from "antd";
+import {Col, Row, message, Select, InputNumber, Button, Divider, List, Radio, Modal} from "antd";
 import { Typography } from 'antd';
 import chassisTypeOptions from "../../../definition/chassisType";
 import {InputStatus} from "antd/es/_util/statusUtils";
@@ -10,8 +10,11 @@ import {DeleteOutlined, LeftOutlined, RightOutlined} from "@ant-design/icons";
 import BottomNavigator from "../../../component/BottomNavigator";
 import {companyTypeOptionsString, HYUNDAI_ko} from "../../../definition/companyType";
 import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
+import {Unit} from "../../../definition/unit";
 
+const { Option } = Select;
 const { Title } = Typography;
+
 
 const CalculationScreen = () => {
 
@@ -28,6 +31,7 @@ const CalculationScreen = () => {
     const [chassisType, setChassisType] = useState<string>('선택안함');
     const [width, setWidth] = useState<number | null>();
     const [height, setHeight] = useState<number | null>();
+    const [unit, setUnit] = useState<string>(Unit.MM);
 
     // 인풋 각각 입력 상태값
     const [companyTypeStatus, setCompanyTypeStatus] = useState<InputStatus>('');
@@ -154,11 +158,31 @@ const CalculationScreen = () => {
     const [isValidHeightMax, setIsValidHeightMax] = useState(true);
 
     const handleBlurWidth = (width:any) => {
-        if (width.target.value < 300) {
-            setIsValidWidthMin(false);
+
+        if (!width.target.value) {
+            setIsValidWidthMin(true);
+            setIsValidWidthMax(true);
             return;
-        } else if (width.target.value > 5000) {
+        }
+
+        let minimumWidth;
+        let maximumWidth;
+
+        if (unit === Unit.MM) {
+            minimumWidth = 300;
+            maximumWidth = 5000;
+        } else {
+            minimumWidth = 30;
+            maximumWidth = 500;
+        }
+
+        if (width.target.value < minimumWidth) {
+            setIsValidWidthMin(false);
+            setIsValidWidthMax(true);
+            return;
+        } else if (width.target.value > maximumWidth) {
             setIsValidWidthMax(false);
+            setIsValidWidthMin(true);
             return;
         }
         setIsValidWidthMin(true);
@@ -166,11 +190,30 @@ const CalculationScreen = () => {
     };
 
     const handleBlurHeight = (height:any) => {
-        if (height.target.value < 300) {
+
+        if (!height.target.value) {
+            setIsValidHeightMin(true);
+            setIsValidHeightMax(true);
+        }
+
+        let minimumHeight;
+        let maximumHeight;
+
+        if (unit === Unit.MM) {
+            minimumHeight = 300;
+            maximumHeight = 2600;
+        } else {
+            minimumHeight = 30;
+            maximumHeight = 260;
+        }
+
+        if (height.target.value < minimumHeight) {
             setIsValidHeightMin(false);
+            setIsValidHeightMax(true);
             return;
-        } else if (height.target.value > 2600) {
+        } else if (height.target.value > maximumHeight) {
             setIsValidHeightMax(false);
+            setIsValidHeightMin(true);
             return;
         }
         setIsValidHeightMin(true);
@@ -188,6 +231,40 @@ const CalculationScreen = () => {
         setCompanyType(option);
         setCurrent(current + 1)
     };
+
+    const handleUnitChange = (newUnit: string) => {
+        if (unit !== newUnit) {
+            if (registeredList.length > 0 || width || height) {
+                Modal.confirm({
+                    title: "단위 변경 시 기존 입력 및 리스트가 초기화됩니다.",
+                    okText: "변경",
+                    cancelText: "취소",
+                    onOk: () => {
+                        setUnit(newUnit);
+                        setChassisType('선택안함')
+                        setWidth(null);
+                        setHeight(null);
+                        setRegisteredList([]);
+                        setIsValidWidthMin(true);
+                        setIsValidWidthMax(true);
+                        setIsValidHeightMin(true);
+                        setIsValidHeightMax(true);
+                    }
+                });
+            } else{
+                setUnit(newUnit);
+            }
+        } else{
+            setUnit(newUnit);
+        }
+    };
+
+    const unitSelector = (
+        <Select defaultValue="mm" onChange={handleUnitChange}>
+            <Option value="mm">{Unit.MM}</Option>
+            <Option value="cm">{Unit.CM}</Option>
+        </Select>
+    );
 
 
     return (
@@ -449,15 +526,19 @@ const CalculationScreen = () => {
                                                                     status={chassisTypeStatus}
                                                                     defaultValue="창호 종류 선택"
                                                                     style={{ width: 200 }}
+                                                                    value={chassisType}
                                                                     onChange={setChassisType}
                                                                     options={chassisTypeOptions}/>
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td colSpan={2}>
-                                                                <div style={{marginTop:'46px'}}>
+                                                                <div style={{ marginTop: '35px', textAlign: 'center' }}>
                                                                     <div style={{color: 'grey', textDecorationLine: 'underline'}}>
-                                                                        *가로 세로 수치는 10mm 단위로 작성 해주세요
+                                                                    *가로 세로 수치를
+                                                                        {unit === Unit.MM && '10mm'}
+                                                                        {unit === Unit.CM && '10cm'}
+                                                                        단위로 작성 해주세요
                                                                     </div>
                                                                 </div>
                                                             </td>
@@ -467,7 +548,7 @@ const CalculationScreen = () => {
                                                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                                                     <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
                                                                     <Title level={4}>
-                                                                        창호 가로 (w) :
+                                                                        창호 가로 (W) :
                                                                     </Title>
                                                                 </div>
                                                             </td>
@@ -475,7 +556,8 @@ const CalculationScreen = () => {
                                                         <tr>
                                                             <td colSpan={2}>
                                                                 <InputNumber style={{ width: 200 }}
-                                                                             addonAfter="mm"
+                                                                             value={width}
+                                                                             addonAfter={unitSelector}
                                                                              min={0}
                                                                              status={widthStatus}
                                                                              onChange={setWidth}
@@ -483,8 +565,22 @@ const CalculationScreen = () => {
                                                                              inputMode="numeric"
                                                                              pattern="\d*"
                                                                 />
-                                                                {!isValidWidthMax && <div className="caution">입력 값이 너무 큽니다. 최대값은 5000mm 입니다.</div>}
-                                                                {!isValidWidthMin && <div className="caution">입력 값이 너무 작습니다. 최소값은 300mm 입니다.</div>}
+                                                                {!isValidWidthMax &&
+                                                                    <div className="caution">
+                                                                        입력 값이 너무 큽니다. 최대값은&nbsp;
+                                                                        {unit === Unit.MM && '5000mm'}
+                                                                        {unit === Unit.CM && '500cm'}
+                                                                        &nbsp;입니다.
+                                                                    </div>
+                                                                }
+                                                                {!isValidWidthMin &&
+                                                                    <div className="caution">
+                                                                        입력 값이 너무 작습니다. 최소값은&nbsp;
+                                                                        {unit === Unit.MM && '300mm'}
+                                                                        {unit === Unit.CM && '30cm'}
+                                                                        &nbsp;입니다.
+                                                                    </div>
+                                                                }
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -492,7 +588,7 @@ const CalculationScreen = () => {
                                                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                                                     <div style={{ color: 'red', fontSize: 16, marginTop: '10px' }}>*</div>
                                                                     <Title level={4}>
-                                                                        창호 세로 (h) :
+                                                                        창호 세로 (H) :
                                                                     </Title>
                                                                 </div>
                                                             </td>
@@ -500,7 +596,8 @@ const CalculationScreen = () => {
                                                         <tr>
                                                             <td colSpan={2}>
                                                                 <InputNumber style={{ width: 200 }}
-                                                                             addonAfter="mm"
+                                                                             value={height}
+                                                                             addonAfter={unit}
                                                                              min={0}
                                                                              status={heightStatus}
                                                                              onChange={setHeight}
@@ -508,8 +605,22 @@ const CalculationScreen = () => {
                                                                              inputMode="numeric"
                                                                              pattern="\d*"
                                                                 />
-                                                                {!isValidHeightMax && <div className="caution">입력 값이 너무 큽니다. 최대값은 2600mm 입니다.</div>}
-                                                                {!isValidHeightMin && <div className="caution">입력 값이 너무 작습니다. 최소값은 300mm 입니다.</div>}
+                                                                {!isValidHeightMax &&
+                                                                    <div className="caution">
+                                                                        입력 값이 너무 큽니다. 최대값은&nbsp;
+                                                                        {unit === Unit.MM && '2600mm'}
+                                                                        {unit === Unit.CM && '260cm'}
+                                                                        &nbsp;입니다.
+                                                                    </div>
+                                                                }
+                                                                {!isValidHeightMin &&
+                                                                    <div className="caution">
+                                                                        입력 값이 너무 작습니다. 최소값은&nbsp;
+                                                                        {unit === Unit.MM && '300mm'}
+                                                                        {unit === Unit.CM && '30cm'}
+                                                                        &nbsp;입니다.
+                                                                    </div>
+                                                                }
                                                             </td>
                                                         </tr>
 
@@ -529,9 +640,9 @@ const CalculationScreen = () => {
                                                                      style={{
                                                                          height: ContainerHeight,
                                                                          overflow: 'auto',
-                                                                         maxWidth: 350,       // 최대 너비 지정
-                                                                         width: '100%',       // 나머지는 화면에 맞게
-                                                                         margin: '0 auto',    // 수평 중앙 정렬
+                                                                         maxWidth: 350,
+                                                                         width: '100%',
+                                                                         margin: '0 auto',
                                                                          border: '1px solid grey',
                                                                          borderRadius: '5px'
                                                                      }}
@@ -584,10 +695,10 @@ const CalculationScreen = () => {
                                                                             size="large"
                                                                             onClick={CompleteOnFirstScreen}
                                                                             style={{
-                                                                                width: window.innerWidth > 768 ? '90%' : '40%',      // 화면 크기에 따라 유동적으로 조절
-                                                                                maxWidth: '400px',  // 버튼이 너무 길어지지 않도록 최대 너비 지정
-                                                                                minWidth: '150px',  // 너무 작아지지 않도록 최소 너비 지정
-                                                                                padding: '10px 0',   // 버튼 안 텍스트가 적절하게 정렬되도록 설정
+                                                                                width: window.innerWidth > 768 ? '90%' : '40%',
+                                                                                maxWidth: '400px',
+                                                                                minWidth: '150px',
+                                                                                padding: '10px 0',
                                                                                 fontSize: '16px'
                                                                             }}
                                                                         >
@@ -609,6 +720,7 @@ const CalculationScreen = () => {
                                                 companyType={companyType}
                                                 clickBackButton={clickBackButton}
                                                 setCurrent={setCurrent}
+                                                selectedUnit={unit}
                                             />
                                         }
                                     </Col>

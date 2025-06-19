@@ -1,8 +1,8 @@
 interface RegisteringChassis {
     index: number;
     chassisType: string;
-    width: number | undefined;
-    height: number | undefined;
+    width: number;
+    height: number;
 }
 
 export default RegisteringChassis;

@@ -25,6 +25,7 @@ import InfoSection from "../CalculationInfoSection";
 import SearchAddressPopUp from '../SearchAddressPopUp';
 import useSWR from "swr";
 import fetcher from "../../util/fetcher";
+import { Unit } from 'src/definition/unit';
 
 const { Title } = Typography;
 
@@ -32,7 +33,8 @@ const CalculatorSecondStep = (props: {
     registeredList: RegisteringChassis[],
     companyType: string,
     clickBackButton: () => void,
-    setCurrent: (s: number) => void
+    setCurrent: (s: number) => void,
+    selectedUnit: string
 }) => {
 
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
@@ -45,7 +47,7 @@ const CalculatorSecondStep = (props: {
 
     const [messageApi, contextHolder] = message.useMessage();
 
-    const {registeredList, companyType, clickBackButton, setCurrent} = props;
+    const {registeredList, companyType, clickBackButton, setCurrent, selectedUnit} = props;
 
     // 주소
     const [address, setAddress] = useState("");
@@ -122,8 +124,8 @@ const CalculatorSecondStep = (props: {
         const reqCalculateChassisPriceList = registeredList.map((item) => ({
             chassisType: item.chassisType,
             companyType: mappedValueByCompany(companyType),
-            width: item.width,
-            height: item.height,
+            width: selectedUnit === Unit.CM ? (item.width * 10) : item.width, // 단위가 cm 로 되어 있으면 mm로 변환 해서 견적 api 호출 해야 함
+            height: selectedUnit === Unit.CM ? (item.height * 10) : item.height, // 단위가 cm 로 되어 있으면 mm로 변환 해서 견적 api 호출 해야 함
             floorCustomerLiving,
             isScheduledForDemolition,
             isResident
@@ -573,8 +575,11 @@ const CalculatorSecondStep = (props: {
                         <tbody>
                         <tr>
                             <td colSpan={2}>
-                                <CalculatedResult result={calculatedChassisPriceResult}
-                                                  requestCalculateObject={requestCalculateObject}/>
+                                <CalculatedResult
+                                    result={calculatedChassisPriceResult}
+                                    requestCalculateObject={requestCalculateObject}
+                                    selectedUnit={selectedUnit}
+                                />
                             </td>
                         </tr>
                         </tbody>
