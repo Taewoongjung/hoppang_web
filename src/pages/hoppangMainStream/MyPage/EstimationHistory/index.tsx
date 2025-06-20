@@ -10,7 +10,7 @@ import fetcher from "../../../../util/fetcher";
 import axios from "axios";
 import {LeftOutlined} from "@ant-design/icons";
 import {GoToTopButton} from "../../../../util/renderUtil";
-
+import './styles.css';
 
 dayjs.extend(customParseFormat);
 
