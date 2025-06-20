@@ -166,6 +166,7 @@ const EstimationHistory = () => {
                                     <Card
                                         className="container"
                                         style={{ borderRadius: 12, borderColor: "lightgrey" }}
+                                        onClick={() => clickEstimation(item.estimationId)}
                                     >
                                         <Title level={5}>{item.estimationId}</Title>
                                         <Text strong>회사 유형: </Text><Text>{item.companyType}</Text><br/>
