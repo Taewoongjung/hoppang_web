@@ -198,7 +198,7 @@ const Counsel = () => {
     const [showLeftFade, setShowLeftFade] = useState(false);
     const [showRightFade, setShowRightFade] = useState(false);
     const styles = useResponsiveStyles(showLeftFade, showRightFade);
-    const [activeTab, setActiveTab] = useState<string>('서비스');
+    const [activeTab, setActiveTab] = useState<string>('견적');
     const tabHeaderRef = useRef<HTMLDivElement>(null);
     const [expandedFaqIndex, setExpandedFaqIndex] = useState<number | null>(null);
 
