@@ -1,3 +1,17 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f9f9f9; /* 배경색을 약간 회색으로 변경 */
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE 10+ */
+    user-select: none;
+    -webkit-user-select: none;
+}
+
 .choice-buttons {
     display: flex;
     flex-direction: column;
@@ -46,4 +60,12 @@
     line-height: 1.5;
     text-align: center;
     margin-bottom: 24px;
+}
+
+.scrollHidden {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+}
+.scrollHidden::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
 }

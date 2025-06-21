@@ -22,7 +22,7 @@ const BottomNavigator = () => {
                 <a href="/counsel"
                    className={location.pathname === '/counsel' ? 'active' : ''}>
                     <span className="nav-icon"><img src="/assets/BottomNav/counsel.png" alt="Counsel"/></span>
-                    상담
+                    고객센터
                 </a>
             </nav>
         </>
