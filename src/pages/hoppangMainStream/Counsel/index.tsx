@@ -398,7 +398,10 @@ const Counsel = () => {
                                             ? { ...styles.tab, ...styles.activeTab }
                                             : styles.tab
                                     }
-                                    onClick={() => setActiveTab(tab)}
+                                    onClick={() => {
+                                        setExpandedFaqIndex(null);
+                                        setActiveTab(tab);
+                                    }}
                                 >
                                     {tab}
                                 </button>
