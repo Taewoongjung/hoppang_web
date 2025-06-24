@@ -271,7 +271,7 @@ const InitialScreen = (props: {
                                                                 창호 견적 시작하기
                                                             </Button>
                                                             {
-                                                                (userData && (userData.id === 373 || userData.id === 21)) &&
+                                                                (userData && (userData.id === 373 || userData.id === 50 || userData.id === 21)) &&
                                                                 <Button
                                                                     onClick={() => window.location.href = "/test"}>테스트화면</Button>
                                                             }
