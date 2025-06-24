@@ -25,8 +25,8 @@ const AdvertisementMainScreen = loadable(() => import('../../pages/admin/Adverti
 // 랜딩 페이지
 const LandingPage = loadable(() => import('../../pages/landingPage'));
 
-const Test = loadable(() => import('../../pages/mobile/initial'));
-
+const InitialPageV2 = loadable(() => import('../../pages/mobile/initial'));
+const AgreementPage = loadable(() => import('../../pages/mobile/agreement'));
 
 const App = () => {
         return (
@@ -58,7 +58,9 @@ const App = () => {
                     {/*OFFICIAL*/}
                     <Route path="/official" component={LandingPage}/>
 
-                    <Route path="/test" component={Test}/>
+                    {/* TEST */}
+                    <Route path="/chassis/v2/calculator" component={InitialPageV2}/>
+                    <Route path="/calculator/agreement" component={AgreementPage}/>
 
             </Switch>
         );

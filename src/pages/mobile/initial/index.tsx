@@ -2,12 +2,18 @@ import React from 'react';
 import './styles.css';
 import BottomNavigator from "../../../component/V2/BottomNavigator";
 
-const SashExpertApp = () => {
+const Initial = () => {
 
     const services = [
         { id: 1, icon: '🏠', title: '샷시 견적', description: '샷시 견적 서비스' },
         { id: 2, icon: '🪟', title: '샷시 지식인', description: '궁금한 것을 물어보세요', highlight: true },
     ];
+
+    const handleServiceClick = (serviceTitle: string) => {
+        if (serviceTitle === '샷시 견적') {
+            window.location.href = '/calculator/agreement';
+        }
+    };
 
     const recentQuestions = [
         { id: 1, question: '이중창 설치 비용이 궁금해요', category: '설치', time: '2시간 전' },
@@ -55,6 +61,7 @@ const SashExpertApp = () => {
                             <div
                                 key={service.id}
                                 className={"service-card"}
+                                onClick={() => handleServiceClick(service.title)}
                             >
                                 <div className="service-icon">{service.icon}</div>
                                 <h4 className="service-title">{service.title}</h4>
@@ -92,4 +99,4 @@ const SashExpertApp = () => {
     );
 };
 
-export default SashExpertApp;
+export default Initial;
