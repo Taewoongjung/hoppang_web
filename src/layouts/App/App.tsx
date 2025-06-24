@@ -27,6 +27,8 @@ const LandingPage = loadable(() => import('../../pages/landingPage'));
 
 const InitialPageV2 = loadable(() => import('../../pages/mobile/initial'));
 const AgreementPage = loadable(() => import('../../pages/mobile/agreement'));
+const CalculationScreenV2 = loadable(() => import('../../pages/mobile/calculation'));
+const MobileCompaniesScreen = loadable(() => import('../../pages/mobile/companies'));
 
 const App = () => {
         return (
@@ -58,9 +60,11 @@ const App = () => {
                     {/*OFFICIAL*/}
                     <Route path="/official" component={LandingPage}/>
 
-                    {/* TEST */}
-                    <Route path="/chassis/v2/calculator" component={InitialPageV2}/>
-                    <Route path="/calculator/agreement" component={AgreementPage}/>
+                    {/* Mobile */}
+                    <Route exact path="/chassis/v2/calculator" component={InitialPageV2}/>
+                    <Route exact path="/calculator/agreement" component={AgreementPage}/>
+                    <Route exact path="/mobile/companies" component={MobileCompaniesScreen}/>
+                    <Route exact path="/v2/calculator" component={CalculationScreenV2}/>
 
             </Switch>
         );

@@ -6,7 +6,7 @@ const Agreement = () => {
     const history = useHistory();
 
     const handleAgree = () => {
-        history.push('/chassis/v2/calculator');
+        history.push('/v2/calculator');
     };
 
     const handleDisagree = () => {

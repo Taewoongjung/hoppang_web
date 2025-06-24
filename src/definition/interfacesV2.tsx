@@ -1,12 +1,10 @@
-interface RegisteringChassis {
+export interface RegisteringChassisV2 {
     index: number;
     chassisType: string;
     width: number;
     height: number;
+    companyType?: string;
 }
-
-export default RegisteringChassis;
-
 
 export interface CalculateResult {
     reqCalculateChassisPriceList: any[],
@@ -19,12 +17,4 @@ export interface CalculateResult {
     isExpanded: boolean,
     remainAddress: any,
     buildingNumber: any,
-}
-
-export interface RegisteringChassisV2 {
-    index: number;
-    chassisType: string;
-    width: number;
-    height: number;
-    companyType?: string;
 }

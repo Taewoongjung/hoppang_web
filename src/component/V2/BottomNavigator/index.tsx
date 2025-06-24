@@ -9,7 +9,8 @@ const BottomNavigator = () => {
     return (
         <nav className="bottom-nav">
             <button
-                className={`nav-item ${['/chassis/calculator', '/chassis/estimation/calculator'].includes(location.pathname) ? 'active' : ''}`}
+                className={`nav-item ${['/chassis/v2/calculator'].includes(location.pathname) ? 'active' : ''}`}
+                onClick={() => window.location.href = "/chassis/v2/calculator"}
             >
                 <span className="nav-icon">🏠</span>
                 <span className="nav-label">홈</span>
@@ -27,7 +28,7 @@ const BottomNavigator = () => {
                 <span className="nav-label">내정보</span>
             </button>
         </nav>
-    )
+    );
 }
 
 export default BottomNavigator;
