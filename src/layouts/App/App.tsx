@@ -25,6 +25,8 @@ const AdvertisementMainScreen = loadable(() => import('../../pages/admin/Adverti
 // 랜딩 페이지
 const LandingPage = loadable(() => import('../../pages/landingPage'));
 
+const Test = loadable(() => import('../../pages/mobile/initial'));
+
 
 const App = () => {
         return (
@@ -55,6 +57,8 @@ const App = () => {
 
                     {/*OFFICIAL*/}
                     <Route path="/official" component={LandingPage}/>
+
+                    <Route path="/test" component={Test}/>
 
             </Switch>
         );

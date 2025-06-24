@@ -1,0 +1,40 @@
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 430px;
+    background: white;
+    border-top: 1px solid #eee;
+    display: flex;
+    padding: 8px 0;
+    z-index: 100;
+}
+
+.nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    color: #9ca3af;
+}
+
+.nav-item.active {
+    color: #2563eb;
+}
+
+.nav-icon {
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+.nav-label {
+    font-size: 11px;
+    font-weight: 500;
+}

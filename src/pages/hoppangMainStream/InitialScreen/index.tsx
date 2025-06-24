@@ -175,7 +175,6 @@ const InitialScreen = (props: {
                     },
                     {withCredentials: true})
                     .then((res) => {
-                        console.log("소셜로그인 성공 = ", res.data);
 
                         const token = res.headers['authorization'];
                         localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
@@ -229,29 +228,35 @@ const InitialScreen = (props: {
                                         md={12}
                                         lg={10}
                                         xl={12}
-                                        style={{ textAlign: 'center' }}
+                                        style={{textAlign: 'center'}}
                                     >
 
-                                        { ( !getStarted && !secondStep && !isAgreed ) &&
+                                        {(!getStarted && !secondStep && !isAgreed) &&
                                             <table>
                                                 <tbody>
                                                 <tr>
                                                     <td colSpan={2}>
-                                                        <div style={{fontFamily: 'Cochin', color: 'grey', width: 500}}>
-                                                            안녕하세요, <strong style={{ color: '#444444'}}>호빵</strong>입니다.
+                                                        <div style={{
+                                                            fontFamily: 'Cochin',
+                                                            color: 'grey',
+                                                            width: 500,
+                                                            fontSize: '16px'
+                                                        }}>
+                                                            안녕하세요, <strong style={{color: '#444444'}}>호빵</strong>입니다.
                                                             <br/><br/>
 
                                                             전국 창호 가격의 기준을 세웁니다.<br/>
                                                             더 이상 비싸게 고민하지 마세요!
 
                                                             <br/><br/>
-                                                            <strong style={{ color: '#444444'}}>호</strong>구가 <strong style={{ color: '#444444'}}>빵</strong>명이 되는 그날까지.
+                                                            <strong style={{color: '#444444'}}>호</strong>구가 <strong
+                                                            style={{color: '#444444'}}>빵</strong>명이 되는 그날까지.
                                                         </div>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td colSpan={2}>
-                                                        <div style={{ marginTop: '7%' }}>
+                                                        <div style={{marginTop: '7%'}}>
                                                             <Button
                                                                 onClick={handleGetStarted}
                                                                 size={"small"}
@@ -265,6 +270,11 @@ const InitialScreen = (props: {
                                                             >
                                                                 창호 견적 시작하기
                                                             </Button>
+                                                            {
+                                                                (userData && (userData.id === 373 || userData.id === 21)) &&
+                                                                <Button
+                                                                    onClick={() => window.location.href = "/test"}>테스트화면</Button>
+                                                            }
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -277,7 +287,13 @@ const InitialScreen = (props: {
                                                     okText={"동의하고 견적 받기"}
                                                     cancelText={"미동의"}
                                                     onCancel={() => setOpenNotification(false)}
-                                                    cancelButtonProps={{ style: { backgroundColor: "#fff", color: "#000", border: "1px solid #000" } }}
+                                                    cancelButtonProps={{
+                                                        style: {
+                                                            backgroundColor: "#fff",
+                                                            color: "#000",
+                                                            border: "1px solid #000"
+                                                        }
+                                                    }}
                                                 >
                                                     <body className="modal-body">
                                                     <h1 className="modal-h1">호빵 소개</h1>
@@ -301,7 +317,9 @@ const InitialScreen = (props: {
                                                                 <ul>
                                                                     <li>사다리차 비용은 지역에 따라 상이할 수 있습니다.</li>
                                                                     <li>사다리차 사용이 불가능한 경우 추가 비용이 발생할 수 있습니다.</li>
-                                                                    <li>양중이 불가능한 상황이 있을 수 있습니다. (예: 시스템 창호, 도로 혼잡 지역의 거실창 등)</li>
+                                                                    <li>양중이 불가능한 상황이 있을 수 있습니다. (예: 시스템 창호, 도로 혼잡 지역의
+                                                                        거실창 등)
+                                                                    </li>
                                                                 </ul>
                                                             </li>
                                                         </ul>
