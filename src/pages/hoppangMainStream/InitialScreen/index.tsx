@@ -273,7 +273,7 @@ const InitialScreen = (props: {
                                                             {
                                                                 (userData && (userData.id === 373 || userData.id === 50 || userData.id === 21)) &&
                                                                 <Button
-                                                                    onClick={() => window.location.href = "/v2/chassis/calculator"}>테스트화면</Button>
+                                                                    onClick={() => window.location.href = "/chassis/v2/calculator"}>테스트화면</Button>
                                                             }
                                                         </div>
                                                     </td>
