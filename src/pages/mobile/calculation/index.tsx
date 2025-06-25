@@ -1,4 +1,4 @@
-import React, {useState, useMemo, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import axios from "axios";
 
@@ -17,7 +17,6 @@ const MobileCalculationScreen = () => {
 
     useEffect(() => {
         if (!companyType) {
-            alert('창호 회사를 먼저 선택해주세요.');
             history.push('/mobile/companies');
         }
     }, [companyType, history]);
