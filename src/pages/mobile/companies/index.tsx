@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { companyTypeOptionsString } from '../../../definition/companyType';
+
 import './styles.css';
 
+import ExitModal from "../../../component/V2/ExitModal";
+import { LeftOutlined } from '@ant-design/icons';
+
+
 const MobileCompaniesScreen = () => {
+
     const history = useHistory();
     const [selectedCompany, setSelectedCompany] = useState<string | null>(null);
     const [showExitModal, setShowExitModal] = useState(false);
@@ -22,28 +28,15 @@ const MobileCompaniesScreen = () => {
         setShowExitModal(true);
     };
 
-    const handleExitConfirm = () => {
-        history.push('/'); // 홈으로 이동
-    };
-
-    const handleExitCancel = () => {
-        setShowExitModal(false);
-    };
 
     return (
         <div className="app-container">
             <header className="app-header">
                 <div className="header-content">
-                    <div className="logo-container" onClick={() => history.push('/')}>
-                        <img src="/assets/hoppang-character.png" alt="Hoppang Logo" className="logo-img"/>
-                    </div>
-                    <div className="header-title">창호 회사 선택</div>
-                    <div
-                        className="header-title-exit"
-                        onClick={handleExitClick}
-                    >
-                        종료
-                    </div>
+                    <button className="back-button" onClick={handleExitClick}>
+                        <LeftOutlined/>
+                    </button>
+                    <div className="header-title">샷시 회사 선택</div>
                 </div>
             </header>
 
@@ -53,7 +46,7 @@ const MobileCompaniesScreen = () => {
                     <div className="step"></div>
                     <div className="step"></div>
                 </div>
-                <h2 className="main-title">어떤 브랜드의 창호로<br/>견적을 받아보시겠어요?</h2>
+                <h2 className="main-title">어떤 브랜드의 샷시로<br/>견적을 받아보시겠어요?</h2>
                 <p className="subtitle">원하시는 브랜드를 선택해주세요</p>
                 <div className="company-list">
                     {companyTypeOptionsString.map((company) => (
@@ -81,35 +74,8 @@ const MobileCompaniesScreen = () => {
                 </button>
             </footer>
 
-            {/* Exit Confirmation Modal */}
-            {showExitModal && (
-                <div className="modal-overlay">
-                    <div className="modal-container">
-                        <div className="modal-content">
-                            <div className="modal-icon">⚠️</div>
-                            <h3 className="modal-title">견적 받기를 종료하시겠어요?</h3>
-                            <p className="modal-message">
-                                지금까지 입력하신 정보가 모두 사라집니다.<br/>
-                                정말 종료하시겠어요?
-                            </p>
-                            <div className="modal-actions">
-                                <button
-                                    className="modal-button cancel"
-                                    onClick={handleExitCancel}
-                                >
-                                    계속하기
-                                </button>
-                                <button
-                                    className="modal-button confirm"
-                                    onClick={handleExitConfirm}
-                                >
-                                    종료하기
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
+            {/* 종료 모달 */}
+            {showExitModal && (<ExitModal setShowExitModal={setShowExitModal}/>)}
         </div>
     );
 };
