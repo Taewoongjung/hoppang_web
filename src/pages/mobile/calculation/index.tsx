@@ -1,29 +1,31 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import axios from "axios";
 
 import './styles.css';
+import './current1-styles.css';
 
 import chassisTypeOptions from "../../../definition/chassisType";
 import type { CalculateResult, RegisteringChassisV2 } from "../../../definition/interfaces";
 import {Unit} from "../../../definition/unit";
 import {calculateChassisCall} from "../../../definition/apiPath";
 import {mappedValueByCompany} from "../../../util";
+import {LeftOutlined} from "@ant-design/icons";
+import {companyTypeOptionsString} from "../../../definition/companyType";
+import ExitModal from "../../../component/V2/ExitModal";
+import {notification} from "antd";
+import SearchAddressPopUp from "../../../component/SearchAddressPopUp";
 
 const MobileCalculationScreen = () => {
     const history = useHistory();
-    const location = useLocation<{ companyType?: string }>();
-    const companyType = location.state?.companyType;
-
-    useEffect(() => {
-        if (!companyType) {
-            history.push('/mobile/companies');
-        }
-    }, [companyType, history]);
 
     // Screen State
-    const [currentStep, setCurrentStep] = useState(1);
+    const [currentStep, setCurrentStep] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
+
+    // Step 0: 샷시 회사 선택
+    const [selectedCompany, setSelectedCompany] = useState('');
+    const [showExitModal, setShowExitModal] = useState(false);
 
     // Step 1: Chassis Info
     const [registeredList, setRegisteredList] = useState<RegisteringChassisV2[]>([]);
@@ -32,9 +34,18 @@ const MobileCalculationScreen = () => {
     const [height, setHeight] = useState<number | string>('');
     const [unit, setUnit] = useState<string>(Unit.MM);
 
-    // Step 2: Additional Info
+    // Step 2: 주소
     const [address, setAddress] = useState("");
+    const [addressZoneCode, setAddressZoneCode] = useState("");
     const [remainAddress, setRemainAddress] = useState("");
+    const [addressBuildingNum, setAddressBuildingNum] = useState("");
+    const [sido, setSido] = useState("");
+    const [siGunGu, setSiGunGu] = useState("");
+    const [yupMyeonDong, setYupMyeonDong] = useState("");
+    const [bCode, setBCode] = useState("");
+    const [isApartment, setIsApartment] = useState(false);
+
+    // Step 3: 기타 추가 정보
     const [floor, setFloor] = useState<number | undefined>();
     const [isExpanded, setIsExpanded] = useState(false);
     const [isScheduledForDemolition, setIsScheduledForDemolition] = useState(true);
@@ -45,7 +56,7 @@ const MobileCalculationScreen = () => {
 
     const validateStep1 = () => {
         const newErrors: { [key: string]: string } = {};
-        if (chassisType === '선택안함') newErrors.chassisType = '창호 종류를 선택해주세요.';
+        if (chassisType === '선택안함') newErrors.chassisType = '샷시 종류를 선택해주세요.';
         if (!width) newErrors.width = '가로 길이를 입력해주세요.';
         if (!height) newErrors.height = '세로 길이를 입력해주세요.';
 
@@ -75,14 +86,14 @@ const MobileCalculationScreen = () => {
     };
 
     const handleRegisterChassis = () => {
-        if (!validateStep1() || !companyType) return;
+        if (!validateStep1() || !selectedCompany) return;
 
         const newItem: RegisteringChassisV2 = {
             index: registeredList.length > 0 ? Math.max(...registeredList.map(item => item.index)) + 1 : 1,
             chassisType: chassisType,
             width: Number(width),
             height: Number(height),
-            companyType: companyType,
+            companyType: selectedCompany,
         };
 
         setRegisteredList([...registeredList, newItem]);
@@ -99,7 +110,7 @@ const MobileCalculationScreen = () => {
     const handleUnitChange = (newUnit: string) => {
         if (unit === newUnit) return;
 
-        const isDirty = width || height || chassisType !== '선택안함' || registeredList.length > 0;
+        const isDirty = width || height || registeredList.length > 0;
         if (isDirty) {
             const isConfirmed = window.confirm('단위 변경 시 기존 입력 및 리스트가 초기화됩니다. 변경하시겠습니까?');
             if (!isConfirmed) {
@@ -116,7 +127,7 @@ const MobileCalculationScreen = () => {
     };
 
     const handleCalculate = () => {
-        if (!validateStep2() || !companyType) return;
+        if (!validateStep2() || !selectedCompany) return;
 
         setIsLoading(true);
 
@@ -160,7 +171,7 @@ const MobileCalculationScreen = () => {
                 history.push('/calculator/result', {
                     calculatedResult: response.data,
                     requestObject: resultData,
-                    companyType: companyType
+                    companyType: selectedCompany
                 });
             })
             .catch((error) => {
@@ -172,21 +183,89 @@ const MobileCalculationScreen = () => {
             });
     };
 
-    if (!companyType) {
-        return <div className="app-container loading-container">창호 회사 선택 페이지로 이동합니다.</div>;
-    }
+    const handleAddress = (newAddress:any) => {
+        setAddress(newAddress.address); // input 창에 주소 표시 전용
+        setAddressZoneCode(newAddress.zonecode); // 우편번호
+        setAddressBuildingNum(newAddress.buildingCode); // 빌딩번호
+        setSido(newAddress.sido); // 시도
+        setSiGunGu(newAddress.sigungu); // 시군구
+        setYupMyeonDong(newAddress.bname); // 읍면동
+        setBCode(newAddress.bcode); // 법정동코드
+
+        if (newAddress.apartment === "Y") {
+            setIsApartment(true) // 아파트 여부 (디폴트 false)
+        }
+
+        notification.destroy();
+    };
+
+    const openToast = () => {
+        notification.open({
+            message: '시공/견적 주소',
+            description: (
+                <SearchAddressPopUp
+                    setAddress={handleAddress}
+                />
+            ),
+            placement: 'bottom',
+            closeIcon: <span style={{ fontSize: '20px' }}>✕</span>,
+            style: {
+                backgroundColor: '#ffffff',
+                position: 'fixed',
+                left: '50%',
+                bottom: '-50px',
+                transform: 'translateX(-50%)',
+            },
+        });
+    };
 
     const renderContent = () => {
-        if (currentStep === 1) {
+        if (currentStep === 0) {
             return (
                 <>
+                    <div className="progress-indicator">
+                        <div className="step active"/>
+                        <div className="step"/>
+                        <div className="step"/>
+                        <div className="step"/>
+                    </div>
+                    <h2 className="main-title">어떤 브랜드의 샷시로<br/>견적을 받아보시겠어요?</h2>
+                    <p className="subtitle">원하시는 브랜드를 선택해주세요</p>
+
+                    <div className="company-list">
+                        {companyTypeOptionsString.map((company) => (
+                            <button
+                                key={company}
+                                className={`company-card ${selectedCompany === company ? 'selected' : ''}`}
+                                onClick={() => setSelectedCompany(company)}
+                            >
+                                <span className="company-name">{company}</span>
+                                {selectedCompany === company && (
+                                    <div className="check-icon">✓</div>
+                                )}
+                            </button>
+                        ))}
+                    </div>
+                </>
+            );
+        } else if (currentStep === 1) {
+            return (
+                <>
+                    <div className="progress-indicator">
+                        <div className="step done"/>
+                        <div className="step active"/>
+                        <div className="step"/>
+                        <div className="step"/>
+                    </div>
+                    <h2 className="main-title">견적받을 샷시의<br/>정보를 입력해주세요.</h2>
+
                     <div className="form-group">
-                        <label className="form-label">선택 된 창호 회사</label>
-                        <p className="company-display">{companyType}</p>
+                        <label className="form-label">선택 된 샷시 회사</label>
+                        <p className="company-display">{selectedCompany}</p>
                     </div>
 
                     <div className="form-group">
-                        <label className="form-label">창호 종류</label>
+                        <label className="form-label">샷시 종류</label>
                         <div className="select-container">
                             <select value={chassisType} onChange={(e) => setChassisType(e.target.value)} className={`custom-select ${errors.chassisType ? 'error' : ''}`}>
                                 <option value="선택안함" disabled>종류를 선택하세요</option>
@@ -222,7 +301,7 @@ const MobileCalculationScreen = () => {
 
                     <div className="list-section">
                         <h3 className="section-title">
-                            추가된 창호 목록
+                            추가된 샷시 목록
                             <span className="item-count">{registeredList.length}</span>
                         </h3>
                         {registeredList.length > 0 ? (
@@ -244,26 +323,47 @@ const MobileCalculationScreen = () => {
                             <div className="empty-state">
                                 <div className="empty-icon">📦</div>
                                 <div className="empty-text">
-                                    <p className="empty-title">아직 추가된 창호가 없어요</p>
-                                    <p className="empty-description">위에서 정보를 입력하고 추가해주세요.</p>
+                                    <p className="empty-title">아직 추가된 샷시가 없어요</p>
+                                    <p className="empty-description">위에서 샷시 정보를 입력하고 추가해주세요.</p>
                                 </div>
                             </div>
                         )}
                     </div>
                 </>
             );
-        } else {
+        } else if (currentStep === 2) {
             return (
                 <>
+                    <div className="progress-indicator">
+                        <div className="step done"/>
+                        <div className="step done"/>
+                        <div className="step active"/>
+                        <div className="step"/>
+                    </div>
+                    <h2 className="main-title">견적을 위한 추가정보를 입력해주세요.</h2>
+
                     <div className="form-group">
                         <label className="form-label">주소</label>
-                        <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="시/군/구 등 주소를 입력하세요" className={`custom-input ${errors.address ? 'error' : ''}`} />
+                        <input className="custom-input" readOnly onClick={openToast} />
                         {errors.address && <p className="error-message">{errors.address}</p>}
                     </div>
                      <div className="form-group">
                         <label className="form-label">상세주소</label>
                         <input type="text" value={remainAddress} onChange={(e) => setRemainAddress(e.target.value)} placeholder="상세주소를 입력하세요" className="custom-input" />
                     </div>
+                </>
+            );
+        } else if (currentStep === 3) {
+            return (
+                <>
+                    <div className="progress-indicator">
+                        <div className="step done"/>
+                        <div className="step done"/>
+                        <div className="step done"/>
+                        <div className="step active"/>
+                    </div>
+                    <h2 className="main-title">견적을 위한 추가정보를 입력해주세요.</h2>
+
                     <div className="form-group">
                         <label className="form-label">거주 층수</label>
                         <input type="number" value={floor || ''} onChange={(e) => setFloor(e.target.value ? Number(e.target.value) : undefined)} placeholder="예: 5" className={`custom-input ${errors.floor ? 'error' : ''}`} />
@@ -279,14 +379,14 @@ const MobileCalculationScreen = () => {
                     </div>
                     <div className="switch-group">
                         <span className="switch-label">철거 진행 여부</span>
-                         <label className="custom-switch">
+                        <label className="custom-switch">
                             <input type="checkbox" checked={isScheduledForDemolition} onChange={() => setIsScheduledForDemolition(!isScheduledForDemolition)} />
                             <span className="slider"></span>
                         </label>
                     </div>
                     <div className="switch-group">
                         <span className="switch-label">현재 거주 여부</span>
-                         <label className="custom-switch">
+                        <label className="custom-switch">
                             <input type="checkbox" checked={isResident} onChange={() => setIsResident(!isResident)} />
                             <span className="slider"></span>
                         </label>
@@ -296,31 +396,88 @@ const MobileCalculationScreen = () => {
         }
     };
 
+    const renderFooter = () => {
+        if (currentStep === 0) {
+            return (
+                <button
+                    className="button-primary"
+                    onClick={() => {
+                        if (!selectedCompany) {
+                            setErrors({general: '샷시 브랜드는 필수값 입니다.'});
+                            return;
+                        }
+                        setSelectedCompany(selectedCompany);
+                        setCurrentStep(1);
+                    }}
+                    disabled={!selectedCompany}
+                >
+                    다음
+                </button>
+            )
+        } else if (currentStep === 1) {
+            return (
+                <button
+                    className="button-primary"
+                    onClick={() => {
+                        if (registeredList.length === 0) {
+                            setErrors({general: '샷시를 하나 이상 추가해주세요.'});
+                            return;
+                        }
+                        setErrors({});
+                        setCurrentStep(2);
+                    }}
+                    disabled={registeredList.length === 0}
+                >
+                    다음
+                </button>
+            );
+        } else if (currentStep === 2) {
+            return (
+                <button
+                    className="button-primary"
+                    onClick={() => {
+                        if (registeredList.length === 0) {
+                            setErrors({general: '샷시를 하나 이상 추가해주세요.'});
+                            return;
+                        }
+                        setErrors({});
+                        setCurrentStep(3);
+                    }}
+                    disabled={registeredList.length === 0}
+                >
+                    다음
+                </button>
+            );
+        } else if (currentStep === 3) {
+            return (
+                <button className="button-primary" onClick={handleCalculate} disabled={isLoading}>
+                    {isLoading ? '계산중...' : '견적 계산하기'}
+                </button>
+            );
+        }
+    }
+
+
      return (
         <div className="app-container">
             {isLoading && <div className="loading-overlay"><span>견적을 계산중입니다...</span></div>}
+
             <header className="app-header">
                 <div className="header-content">
-                    {/*TODO 입력한 것들이 초기화 된다고 알리기*/}
-                    <button className="back-button" onClick={() => currentStep === 1 ? history.push('/mobile/companies') : setCurrentStep(1)}>‹</button>
+                    <button className="back-button" onClick={() => {
+                        if (currentStep < 1) {
+                            setShowExitModal(true);
+                            return;
+                        }
+                        setCurrentStep(currentStep - 1);
+                    }}>
+                        <LeftOutlined/>
+                    </button>
                     <div className="header-title">샷시 견적</div>
                 </div>
-
             </header>
 
             <main className="main-content">
-                <div className="progress-indicator">
-                    <div className="step done"></div>
-                    <div className="step active"></div>
-                    <div className="step"></div>
-                </div>
-                <h2 className="main-title">견적받을 창호의<br/>정보를 입력해주세요.</h2>
-
-                {/*<div className="tabs">*/}
-                {/*    <div className={`tab ${currentStep === 1 ? 'active' : ''}`} onClick={() => setCurrentStep(1)}>창호 정보</div>*/}
-                {/*    <div className={`tab ${currentStep === 2 ? 'active' : ''}`} onClick={() => setCurrentStep(2)}>추가 정보</div>*/}
-                {/*</div>*/}
-
                 <div className="form-content">
                     {renderContent()}
                 </div>
@@ -329,27 +486,11 @@ const MobileCalculationScreen = () => {
             </main>
 
             <footer className="footer-actions">
-                 {currentStep === 1 ? (
-                    <button
-                        className="button-primary"
-                        onClick={() => {
-                            if (registeredList.length === 0) {
-                                setErrors({ general: '창호를 하나 이상 추가해주세요.' });
-                                return;
-                            }
-                            setErrors({});
-                            setCurrentStep(2);
-                        }}
-                        disabled={registeredList.length === 0}
-                    >
-                        다음
-                    </button>
-                 ) : (
-                    <button className="button-primary" onClick={handleCalculate} disabled={isLoading}>
-                        {isLoading ? '계산중...' : '견적 계산하기'}
-                    </button>
-                 )}
+                {renderFooter()}
             </footer>
+
+            {/* 종료 모달 */}
+            {showExitModal && (<ExitModal setShowExitModal={setShowExitModal}/>)}
         </div>
     );
 };
