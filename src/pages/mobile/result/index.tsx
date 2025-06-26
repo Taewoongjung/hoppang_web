@@ -14,6 +14,8 @@ import {calculateChassisCall} from "../../../definition/apiPath";
 import {Unit} from "../../../definition/unit";
 import {InfoCircleOutlined} from "@ant-design/icons";
 import {Tooltip} from "antd";
+import InquiryEstimatedChassis from "../../../component/InquiryEstimatedChassis";
+import {HYUNDAI, KCC_GLASS, LX} from "../../../definition/companyType";
 
 
 const MobileResultScreen = () => {
@@ -22,7 +24,15 @@ const MobileResultScreen = () => {
 
     const [results, setResults] = useState<any[]>([]);
     const [requestObject, setRequestObject] = useState<any>(null);
+    const [inquiryEstimationId, setInquiryEstimationId] = useState();
+    const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
+
+    const [yetCalculatedCompanyList, setYetCalculatedCompanyList] = useState<string[]>([
+        HYUNDAI, LX, KCC_GLASS
+    ]);
+
     const [isLoading, setIsLoading] = useState(false);
+
     const [error, setError] = useState('');
 
 
@@ -35,7 +45,8 @@ const MobileResultScreen = () => {
         }
     }, [location, history]);
 
-    const getOtherEstimates = () => {
+    const getOtherEstimates = (estimatingCompany: string) => {
+        console.log("??? = ", estimatingCompany);
         if (!requestObject) return;
 
         const alreadyCalculatedCompanies = results.map(r => mappedCompanyByValue(r.company)) as string[];
@@ -44,10 +55,7 @@ const MobileResultScreen = () => {
             return;
         }
 
-        const firstCompany = mappedCompanyByValue(results[0].company);
-        const yetCalculatedCompanies = getYetCalculatedCompanyList(firstCompany || '')?.filter(c => !alreadyCalculatedCompanies.includes(c)) || [];
-
-        if (yetCalculatedCompanies.length === 0) {
+        if (yetCalculatedCompanyList.length === 0) {
             setError('더 이상 조회할 회사가 없습니다.');
             return;
         }
@@ -55,14 +63,19 @@ const MobileResultScreen = () => {
         setIsLoading(true);
         setError('');
 
-        const companyToFetchKo = yetCalculatedCompanies[0];
-        const companyToFetchValue = mappedValueByCompany(companyToFetchKo);
-
         const payload = {
-            ...requestObject,
+            zipCode: requestObject.zipCode,
+            state: requestObject.sido,
+            city: requestObject.siGunGu,
+            town: requestObject.yupMyeonDong,
+            bCode: requestObject.bCode,
+            remainAddress: requestObject.remainAddress,
+            buildingNumber: requestObject.buildingNumber,
+            isApartment: requestObject.isApartment,
+            isExpanded: requestObject.isExpanded,
             reqCalculateChassisPriceList: requestObject.reqCalculateChassisPriceList.map((item: any) => ({
                 ...item,
-                companyType: companyToFetchValue,
+                companyType: estimatingCompany,
             }))
         };
 
@@ -74,18 +87,30 @@ const MobileResultScreen = () => {
                 setResults(prev => [...prev, response.data]);
             })
             .catch(err => {
-                setError(err.response?.data?.message || `[${companyToFetchKo}] 견적을 받아오는데 실패했습니다.`);
+                setError(err.response?.data?.message || `[${mappedCompanyByValue(estimatingCompany)}] 견적을 받아오는데 실패했습니다.`);
             })
             .finally(() => {
                 setIsLoading(false);
             });
     };
 
+    // 추가 견적 받을 리스트 소거
+    useEffect(() => {
+        if (!results || results.length === 0) return;
+
+        const usedCompanies: string[] = results.map(r => r.company);
+
+        setYetCalculatedCompanyList(prev =>
+            prev.filter(company => !usedCompanies.includes(company))
+        );
+    }, [results]);
+
     const renderResultCard = (result: any, index: number) => {
         const companyName = mappedCompanyByValue(result.company);
         const totalDiscount = result.discountedWholeCalculatedFeeAmount;
         const totalDiscountWithSurtx = result.discountedWholeCalculatedFeeWithSurtax;
         const originalPrice = result.wholeCalculatedFee + result.surtax;
+
 
         return (
             <div className="result-card" key={index}>
@@ -199,6 +224,18 @@ const MobileResultScreen = () => {
                         )}
                     </div>
                 </div>
+
+                <div className="inquiry-section">
+                    <button
+                        className="button-primary"
+                        onClick={() => {
+                            setInquiryEstimationId(result.estimationId);
+                            setIsInquiryModalOpen(true);
+                        }}
+                    >
+                        해당 견적 문의
+                    </button>
+                </div>
             </div>
         );
     };
@@ -224,18 +261,43 @@ const MobileResultScreen = () => {
 
                 {results.map(renderResultCard)}
 
+                {/* 추가견적 받기 */}
+                {yetCalculatedCompanyList?.length > 0 && (
+                    <div className="extra-estimate-wrapper">
+                        <p className="extra-estimate-title">다른 회사도 비교해보세요 👀</p>
+                        <div className="company-estimate-options">
+                            {yetCalculatedCompanyList.map((company) => (
+                                <div className="company-estimate-card" key={company}>
+                                    <button
+                                        className="company-estimate-button"
+                                        onClick={() => getOtherEstimates(company)}
+                                        disabled={isLoading}
+                                    >
+                                        <div className="company-name">{mappedCompanyByValue(company)}</div>
+                                        <div className="cta-text">견적받기 →</div>
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+
                 {error && <p style={{color: 'red', textAlign: 'center', marginTop: '20px'}}>{error}</p>}
 
             </main>
 
-            <footer className="footer-actions">
-                <button className="button-secondary" onClick={getOtherEstimates} disabled={isLoading}>
-                    다른 회사 견적받기
-                </button>
-                <button className="button-primary" onClick={() => alert('견적 문의 기능은 준비중입니다.')}>
-                    견적 문의하기
-                </button>
-            </footer>
+            {/*<footer className="footer-actions">*/}
+            {/*    <button className="button-secondary" disabled={isLoading}>*/}
+            {/*        하이*/}
+            {/*    </button>*/}
+            {/*</footer>*/}
+
+            <InquiryEstimatedChassis
+                estimationId={inquiryEstimationId}
+                isInquiryModalOpen={isInquiryModalOpen}
+                setIsInquiryModalOpen={setIsInquiryModalOpen}
+            />
         </div>
     );
 };
