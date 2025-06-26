@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import axios from "axios";
 
 import './styles.css';
@@ -13,8 +13,8 @@ import {mappedValueByCompany} from "../../../util";
 import {LeftOutlined} from "@ant-design/icons";
 import {companyTypeOptionsString} from "../../../definition/companyType";
 import ExitModal from "../../../component/V2/ExitModal";
-import {notification} from "antd";
-import SearchAddressPopUp from "../../../component/SearchAddressPopUp";
+import AddressInputModal from "../../../component/V2/AddressInputModal";
+
 
 const MobileCalculationScreen = () => {
     const history = useHistory();
@@ -44,6 +44,7 @@ const MobileCalculationScreen = () => {
     const [yupMyeonDong, setYupMyeonDong] = useState("");
     const [bCode, setBCode] = useState("");
     const [isApartment, setIsApartment] = useState(false);
+    const [showAddressModal, setShowAddressModal] = useState(false);
 
     // Step 3: 기타 추가 정보
     const [floor, setFloor] = useState<number | undefined>();
@@ -183,7 +184,7 @@ const MobileCalculationScreen = () => {
             });
     };
 
-    const handleAddress = (newAddress:any) => {
+    const handleAddressSelect = (newAddress: any) => {
         setAddress(newAddress.address); // input 창에 주소 표시 전용
         setAddressZoneCode(newAddress.zonecode); // 우편번호
         setAddressBuildingNum(newAddress.buildingCode); // 빌딩번호
@@ -196,27 +197,10 @@ const MobileCalculationScreen = () => {
             setIsApartment(true) // 아파트 여부 (디폴트 false)
         }
 
-        notification.destroy();
-    };
-
-    const openToast = () => {
-        notification.open({
-            message: '시공/견적 주소',
-            description: (
-                <SearchAddressPopUp
-                    setAddress={handleAddress}
-                />
-            ),
-            placement: 'bottom',
-            closeIcon: <span style={{ fontSize: '20px' }}>✕</span>,
-            style: {
-                backgroundColor: '#ffffff',
-                position: 'fixed',
-                left: '50%',
-                bottom: '-50px',
-                transform: 'translateX(-50%)',
-            },
-        });
+        // 주소 선택 후 에러 클리어
+        if (errors.address) {
+            setErrors(prev => ({ ...prev, address: '' }));
+        }
     };
 
     const renderContent = () => {
@@ -287,12 +271,12 @@ const MobileCalculationScreen = () => {
                     <div className="size-inputs">
                         <div className="form-group">
                             <label className="form-label">가로 길이 ({unit})</label>
-                            <input type="number" value={width} onChange={(e) => setWidth(e.target.value)} placeholder="" className={`custom-input ${errors.width ? 'error' : ''}`} />
+                            <input type="number" inputMode="numeric" value={width} onChange={(e) => setWidth(e.target.value)} placeholder="" className={`custom-input ${errors.width ? 'error' : ''}`} />
                             {errors.width && <p className="error-message">{errors.width}</p>}
                         </div>
                         <div className="form-group">
                             <label className="form-label">세로 길이 ({unit})</label>
-                            <input type="number" value={height} onChange={(e) => setHeight(e.target.value)} placeholder="" className={`custom-input ${errors.height ? 'error' : ''}`} />
+                            <input type="number" inputMode="numeric" value={height} onChange={(e) => setHeight(e.target.value)} placeholder="" className={`custom-input ${errors.height ? 'error' : ''}`} />
                             {errors.height && <p className="error-message">{errors.height}</p>}
                         </div>
                     </div>
@@ -340,16 +324,44 @@ const MobileCalculationScreen = () => {
                         <div className="step active"/>
                         <div className="step"/>
                     </div>
-                    <h2 className="main-title">견적을 위한 추가정보를 입력해주세요.</h2>
+                    <h2 className="main-title">견적을 원하는 주소가 어디신가요?</h2>
 
                     <div className="form-group">
                         <label className="form-label">주소</label>
-                        <input className="custom-input" readOnly onClick={openToast} />
+                        <div
+                            className={`address-input-wrapper ${errors.address ? 'error' : ''}`}
+                            onClick={() => setShowAddressModal(true)}
+                        >
+                            <div className="address-input-content">
+                                {address ? (
+                                    <>
+                                        <div className="address-display">
+                                            <span className="address-text">{address}</span>
+                                            <span className="address-zone">({addressZoneCode})</span>
+                                        </div>
+                                        <div className="address-change-hint">주소 변경하기</div>
+                                    </>
+                                ) : (
+                                    <div className="address-placeholder">
+                                        <span className="address-placeholder-icon">🏠</span>
+                                        <span className="address-placeholder-text">주소를 검색해주세요</span>
+                                    </div>
+                                )}
+                                <div className="address-input-arrow">📍</div>
+                            </div>
+                        </div>
                         {errors.address && <p className="error-message">{errors.address}</p>}
                     </div>
-                     <div className="form-group">
+
+                    <div className="form-group">
                         <label className="form-label">상세주소</label>
-                        <input type="text" value={remainAddress} onChange={(e) => setRemainAddress(e.target.value)} placeholder="상세주소를 입력하세요" className="custom-input" />
+                        <input
+                            type="text"
+                            value={remainAddress}
+                            onChange={(e) => setRemainAddress(e.target.value)}
+                            placeholder="동, 호수 등 상세주소를 입력하세요"
+                            className="custom-input"
+                        />
                     </div>
                 </>
             );
@@ -366,8 +378,28 @@ const MobileCalculationScreen = () => {
 
                     <div className="form-group">
                         <label className="form-label">거주 층수</label>
-                        <input type="number" value={floor || ''} onChange={(e) => setFloor(e.target.value ? Number(e.target.value) : undefined)} placeholder="예: 5" className={`custom-input ${errors.floor ? 'error' : ''}`} />
+                        <input
+                            type="number"
+                            inputMode="numeric"
+                            value={floor || ''}
+                            onChange={(e) => setFloor(e.target.value ? Number(e.target.value) : undefined)}
+                            placeholder="예: 5"
+                            className={`custom-input ${errors.floor ? 'error' : ''}`}
+                        />
                         {errors.floor && <p className="error-message">{errors.floor}</p>}
+
+                        {/* 안내사항 추가 */}
+                        <div className="info-notice">
+                            <p className="info-text">
+                                *사다리차 작업 불가 시 가격 변동 및 작업 불가 가능성 있습니다.
+                            </p>
+                            <p className="info-text">
+                                *층수에 따라 가격이 변동됩니다. (사다리차 등)
+                            </p>
+                            <p className="info-text">
+                                *사다리차 대여 비용은 기본 2 시간으로 측정됩니다.
+                            </p>
+                        </div>
                     </div>
 
                     <div className="switch-group">
@@ -488,6 +520,14 @@ const MobileCalculationScreen = () => {
             <footer className="footer-actions">
                 {renderFooter()}
             </footer>
+
+            {/* 주소 입력 모달 */}
+            <AddressInputModal
+                isOpen={showAddressModal}
+                onClose={() => setShowAddressModal(false)}
+                onAddressSelect={handleAddressSelect}
+                currentAddress={address}
+            />
 
             {/* 종료 모달 */}
             {showExitModal && (<ExitModal setShowExitModal={setShowExitModal}/>)}

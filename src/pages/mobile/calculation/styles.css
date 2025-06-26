@@ -104,6 +104,14 @@ body {
     color: #1f2937;
 }
 
+.subtitle {
+    font-size: 1rem;
+    color: #6b7280;
+    margin-top: -15px;
+    margin-bottom: 32px;
+    text-align: center;
+}
+
 .form-content {
     display: flex;
     flex-direction: column;
@@ -151,6 +159,7 @@ body {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+    border-color: black;
 }
 
 .select-container {
@@ -328,6 +337,25 @@ body {
 
 .delete-button:active {
     transform: scale(0.95);
+}
+
+.info-notice {
+    margin-top: 12px;
+    padding: 16px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border-left: 3px solid #6c757d;
+}
+
+.info-text {
+    font-size: 13px;
+    color: #6c757d;
+    line-height: 1.4;
+    margin: 0 0 6px 0;
+}
+
+.info-text:last-child {
+    margin-bottom: 0;
 }
 
 /* Empty State */
@@ -548,4 +576,179 @@ input:checked + .slider:before {
     z-index: 200;
     color: white;
     font-size: 1.2rem;
+}
+
+/* 주소 부분 */
+.address-input-wrapper {
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.address-input-wrapper:hover {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.address-input-wrapper.error {
+    border-color: #ff4d4f;
+}
+
+.address-input-wrapper.error:hover {
+    border-color: #ff4d4f;
+    box-shadow: 0 0 0 3px rgba(255, 77, 79, 0.1);
+}
+
+.address-input-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 12px;
+}
+
+.address-display {
+    flex: 1;
+    text-align: left;
+}
+
+.address-text {
+    display: block;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.address-zone {
+    font-size: 14px;
+    color: #666;
+    font-weight: 400;
+}
+
+.address-change-hint {
+    font-size: 12px;
+    color: #667eea;
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+.address-placeholder {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+}
+
+.address-placeholder-icon {
+    font-size: 20px;
+}
+
+.address-placeholder-text {
+    font-size: 16px;
+    color: #999;
+    font-weight: 400;
+}
+
+.address-input-arrow {
+    font-size: 18px;
+    color: #667eea;
+    flex-shrink: 0;
+}
+
+/* 모바일 최적화 */
+@media (max-width: 768px) {
+    .address-input-wrapper {
+        padding: 14px;
+        min-height: 56px;
+    }
+
+    .address-text {
+        font-size: 15px;
+    }
+
+    .address-zone {
+        font-size: 13px;
+    }
+
+    .address-placeholder-text {
+        font-size: 15px;
+    }
+
+    .address-change-hint {
+        font-size: 11px;
+    }
+
+    .info-notice {
+        padding: 12px;
+        margin-top: 10px;
+    }
+
+    .info-text {
+        font-size: 12px;
+        line-height: 1.3;
+    }
+}
+
+/* 접근성 향상 */
+.address-input-wrapper:focus-within {
+    outline: 2px solid #667eea;
+    outline-offset: 2px;
+}
+
+/* 애니메이션 효과 */
+.address-input-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.address-input-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.address-input-wrapper:hover::before {
+    left: 100%;
+}
+
+/* 다크모드 지원 */
+@media (prefers-color-scheme: dark) {
+    .address-input-wrapper {
+        background: #2a2a2a;
+        border-color: #444;
+    }
+
+    .address-input-wrapper:hover {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    }
+
+    .address-text {
+        color: #fff;
+    }
+
+    .address-zone {
+        color: #ccc;
+    }
+
+    .address-placeholder-text {
+        color: #999;
+    }
+
+    .address-change-hint {
+        color: #8a9aff;
+    }
 }
