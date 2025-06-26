@@ -20,11 +20,3 @@ export interface CalculateResult {
     remainAddress: any,
     buildingNumber: any,
 }
-
-export interface RegisteringChassisV2 {
-    index: number;
-    chassisType: string;
-    width: number;
-    height: number;
-    companyType?: string;
-}

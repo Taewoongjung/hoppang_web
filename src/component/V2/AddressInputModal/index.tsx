@@ -4,14 +4,12 @@ import './styles.css';
 
 
 interface AddressInputModalProps {
-    isOpen: boolean;
     onClose: () => void;
     onAddressSelect: (addressData: any) => void;
     currentAddress?: string;
 }
 
 const AddressInputModal: React.FC<AddressInputModalProps> = ({
-    isOpen,
     onClose,
     onAddressSelect,
     currentAddress
@@ -26,9 +24,9 @@ const AddressInputModal: React.FC<AddressInputModalProps> = ({
         // Daum 우편번호 서비스 로드
         const script = document.createElement('script');
         script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
-        script.onload = () => {
+        script.onload = async () => {
             new (window as any).daum.Postcode({
-                oncomplete: function(data: any) {
+                oncomplete: async function (data: any) {
                     // 주소 데이터 가공
                     const addressData = {
                         address: data.address,
@@ -54,8 +52,6 @@ const AddressInputModal: React.FC<AddressInputModalProps> = ({
         };
         document.head.appendChild(script);
     };
-
-    if (!isOpen) return null;
 
 
     return (

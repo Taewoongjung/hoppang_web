@@ -6,18 +6,26 @@ import './styles.css';
 import './current1-styles.css';
 
 import chassisTypeOptions from "../../../definition/chassisType";
-import type { CalculateResult, RegisteringChassisV2 } from "../../../definition/interfaces";
+import type { RegisteringChassisV2 } from "../../../definition/interfacesV2";
 import {Unit} from "../../../definition/unit";
-import {calculateChassisCall} from "../../../definition/apiPath";
+import {calculateChassisCall, callMeData} from "../../../definition/apiPath";
 import {mappedValueByCompany} from "../../../util";
 import {LeftOutlined} from "@ant-design/icons";
 import {companyTypeOptionsString} from "../../../definition/companyType";
 import ExitModal from "../../../component/V2/ExitModal";
 import AddressInputModal from "../../../component/V2/AddressInputModal";
+import useSWR from "swr";
+import fetcher from "../../../util/fetcher";
+import {RegisterChassisPayload} from "../../../definition/interfacesV2";
 
 
 const MobileCalculationScreen = () => {
     const history = useHistory();
+
+    const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
+        dedupingInterval: 2000
+    });
+
 
     // Screen State
     const [currentStep, setCurrentStep] = useState(0);
@@ -35,16 +43,16 @@ const MobileCalculationScreen = () => {
     const [unit, setUnit] = useState<string>(Unit.MM);
 
     // Step 2: 주소
-    const [address, setAddress] = useState("");
-    const [addressZoneCode, setAddressZoneCode] = useState("");
-    const [remainAddress, setRemainAddress] = useState("");
-    const [addressBuildingNum, setAddressBuildingNum] = useState("");
-    const [sido, setSido] = useState("");
-    const [siGunGu, setSiGunGu] = useState("");
-    const [yupMyeonDong, setYupMyeonDong] = useState("");
-    const [bCode, setBCode] = useState("");
-    const [isApartment, setIsApartment] = useState(false);
-    const [showAddressModal, setShowAddressModal] = useState(false);
+    const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
+    const [address, setAddress] = useState<string>('');
+    const [addressZoneCode, setAddressZoneCode] = useState<string>('');
+    const [remainAddress, setRemainAddress] = useState<string>('');
+    const [addressBuildingNum, setAddressBuildingNum] = useState<string>('');
+    const [sido, setSido] = useState<string>('');
+    const [siGunGu, setSiGunGu] = useState<string>('');
+    const [yupMyeonDong, setYupMyeonDong] = useState<string>('');
+    const [bCode, setBCode] = useState<string>('');
+    const [isApartment, setIsApartment] = useState<boolean>(false);
 
     // Step 3: 기타 추가 정보
     const [floor, setFloor] = useState<number | undefined>();
@@ -127,7 +135,7 @@ const MobileCalculationScreen = () => {
         setUnit(newUnit);
     };
 
-    const handleCalculate = () => {
+    const handleCalculate = async () => {
         if (!validateStep2() || !selectedCompany) return;
 
         setIsLoading(true);
@@ -151,15 +159,15 @@ const MobileCalculationScreen = () => {
             return;
         }
 
-        const payload = {
-            zipCode: "12345",
-            sido: "서울특별시",
-            siGunGu: "강남구",
-            yupMyeonDong: "역삼동",
-            bCode: "1168010100",
+        const payload: RegisterChassisPayload = {
+            zipCode: addressZoneCode,
+            state: sido,
+            city: siGunGu,
+            town: yupMyeonDong,
+            bCode: bCode,
             remainAddress: remainAddress,
-            buildingNumber: "123-45",
-            isApartment: true,
+            buildingNumber: addressBuildingNum,
+            isApartment: isApartment,
             isExpanded: isExpanded,
             reqCalculateChassisPriceList
         };
@@ -168,15 +176,15 @@ const MobileCalculationScreen = () => {
             withCredentials: true,
             headers: { Authorization: localStorage.getItem("hoppang-token") },
         }).then((response) => {
-                const resultData: CalculateResult = payload;
+                const resultData: RegisterChassisPayload = payload;
                 history.push('/calculator/result', {
                     calculatedResult: response.data,
                     requestObject: resultData,
-                    companyType: selectedCompany
+                    companyType: selectedCompany,
+                    unit: unit
                 });
             })
             .catch((error) => {
-                console.error("Calculation failed:", error);
                 setErrors({ general: error.response?.data?.message || '견적 계산에 실패했습니다. 다시 시도해주세요.' });
             })
             .finally(() => {
@@ -522,12 +530,13 @@ const MobileCalculationScreen = () => {
             </footer>
 
             {/* 주소 입력 모달 */}
-            <AddressInputModal
-                isOpen={showAddressModal}
-                onClose={() => setShowAddressModal(false)}
-                onAddressSelect={handleAddressSelect}
-                currentAddress={address}
-            />
+            {showAddressModal &&
+                <AddressInputModal
+                    onClose={() => setShowAddressModal(false)}
+                    onAddressSelect={handleAddressSelect}
+                    currentAddress={address}
+                />
+            }
 
             {/* 종료 모달 */}
             {showExitModal && (<ExitModal setShowExitModal={setShowExitModal}/>)}
