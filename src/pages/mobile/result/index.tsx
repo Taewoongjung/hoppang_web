@@ -245,7 +245,7 @@ const MobileResultScreen = () => {
             {isLoading && <div className="loading-overlay"><span>견적을 계산중입니다...</span></div>}
             <header className="app-header">
                 <div className="header-content">
-                    <div className="logo-container" onClick={() => history.push('/')}>
+                    <div className="logo-container" onClick={() => history.push('/chassis/v2/calculator')}>
                         <img src="/assets/hoppang-character.png" alt="Hoppang Logo" className="logo-img"/>
                         <span className="logo-text">호빵</span>
                     </div>
