@@ -4,19 +4,17 @@ import axios from 'axios';
 import './styles.css';
 
 import {
-    getYetCalculatedCompanyList,
     addCommasToNumber,
     getLabelOfChassisType,
     mappedCompanyByValue,
-    mappedValueByCompany
 } from "../../../util";
 import {calculateChassisCall} from "../../../definition/apiPath";
 import {Unit} from "../../../definition/unit";
 import {InfoCircleOutlined} from "@ant-design/icons";
 import {Tooltip} from "antd";
-import InquiryEstimatedChassis from "../../../component/InquiryEstimatedChassis";
 import {HYUNDAI, KCC_GLASS, LX} from "../../../definition/companyType";
 import {RegisterChassisPayload} from "../../../definition/interfacesV2";
+import InquiryEstimateChassis from "../../../component/V2/InquiryEstimateChassis";
 
 
 const MobileResultScreen = () => {
@@ -27,6 +25,7 @@ const MobileResultScreen = () => {
     const [requestObject, setRequestObject] = useState<any>(null);
     const [inquiryEstimationId, setInquiryEstimationId] = useState();
     const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
+    const [inquiredList, setInquiredList] = useState<any[]>([]);
 
     const [yetCalculatedCompanyList, setYetCalculatedCompanyList] = useState<string[]>([
         HYUNDAI, LX, KCC_GLASS
@@ -162,7 +161,6 @@ const MobileResultScreen = () => {
                     <div className="cost-table">
                         <div className="cost-table-row">
                             <div className="cost-item-label">
-                                <span className="cost-icon">🔧</span>
                                 철거비
                             </div>
                             <div className="cost-item-value">{addCommasToNumber(result.demolitionFee)}원</div>
@@ -170,7 +168,6 @@ const MobileResultScreen = () => {
 
                         <div className="cost-table-row">
                             <div className="cost-item-label">
-                                <span className="cost-icon">🚛</span>
                                 사다리차비 ({result.customerFloor}층)
                             </div>
                             <div className="cost-item-value">{addCommasToNumber(result.ladderFee)}원</div>
@@ -178,7 +175,6 @@ const MobileResultScreen = () => {
 
                         <div className="cost-table-row">
                             <div className="cost-item-label">
-                                <span className="cost-icon">🛡️</span>
                                 보양비
                             </div>
                             <div className="cost-item-value">{addCommasToNumber(result.maintenanceFee)}원</div>
@@ -186,7 +182,6 @@ const MobileResultScreen = () => {
 
                         <div className="cost-table-row">
                             <div className="cost-item-label">
-                                <span className="cost-icon">📦</span>
                                 기타비용
                             </div>
                             <div className="cost-item-value">{addCommasToNumber(result.deliveryFee)}원</div>
@@ -194,15 +189,6 @@ const MobileResultScreen = () => {
 
                         <div className="cost-table-row">
                             <div className="cost-item-label">
-                                <span className="cost-icon">📄</span>
-                                부가세
-                            </div>
-                            <div className="cost-item-value">{addCommasToNumber(result.surtax)}원</div>
-                        </div>
-
-                        <div className="cost-table-row">
-                            <div className="cost-item-label">
-                                <span className="cost-icon">👷</span>
                                 시공비
                                 <div className="tooltip-container">
                                     <Tooltip title="총합계에 이미 포함된 금액입니다.">
@@ -213,10 +199,16 @@ const MobileResultScreen = () => {
                             <div className="cost-item-value">{addCommasToNumber(result.laborFee)}원</div>
                         </div>
 
+                        <div className="cost-table-row">
+                            <div className="cost-item-label">
+                                부가세
+                            </div>
+                            <div className="cost-item-value">{addCommasToNumber(result.surtax)}원</div>
+                        </div>
+
                         {totalDiscount > 0 && (
                             <div className="cost-table-row discount-row">
                                 <div className="cost-item-label">
-                                    <span className="cost-icon">💰</span>
                                     할인 금액
                                 </div>
                                 <div className="cost-item-value discount-value">-{addCommasToNumber(totalDiscount)}원</div>
@@ -226,15 +218,23 @@ const MobileResultScreen = () => {
                 </div>
 
                 <div className="inquiry-section">
-                    <button
-                        className="button-primary"
-                        onClick={() => {
-                            setInquiryEstimationId(result.estimationId);
-                            setIsInquiryModalOpen(true);
-                        }}
-                    >
-                        해당 견적 문의
-                    </button>
+                    {inquiredList.includes(result.estimationId) ?
+                        <button className="button-disabled" disabled>
+                            ✔ 문의 완료
+                        </button>
+
+                        :
+
+                        <button
+                            className="button-primary"
+                            onClick={() => {
+                                setInquiryEstimationId(result.estimationId);
+                                setIsInquiryModalOpen(true);
+                            }}
+                        >
+                            해당 견적 문의
+                        </button>
+                    }
                 </div>
             </div>
         );
@@ -293,10 +293,15 @@ const MobileResultScreen = () => {
             {/*    </button>*/}
             {/*</footer>*/}
 
-            <InquiryEstimatedChassis
+            <InquiryEstimateChassis
                 estimationId={inquiryEstimationId}
                 isInquiryModalOpen={isInquiryModalOpen}
                 setIsInquiryModalOpen={setIsInquiryModalOpen}
+                finishedInquiry={() => {
+                    setInquiredList(prev =>
+                        prev.includes(inquiryEstimationId) ? prev : [...prev, inquiryEstimationId]
+                    );
+                }}
             />
         </div>
     );

@@ -249,18 +249,6 @@ body {
     flex: 1;
 }
 
-.cost-icon {
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 6px;
-    filter: grayscale(0.2);
-}
-
 .cost-item-value {
     color: #1f2937;
     font-weight: 700;
@@ -403,6 +391,19 @@ body {
 .button-secondary {
     background: #e5e7eb;
     color: #374151;
+}
+
+.button-disabled {
+    width: 100%;
+    padding: 16px;
+    background-color: #e5e7eb;
+    color: #9ca3af;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: not-allowed;
+    position: relative;
 }
 
 .loading-overlay {

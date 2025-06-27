@@ -119,20 +119,17 @@ const MobileCalculationScreen = () => {
     const handleUnitChange = (newUnit: string) => {
         if (unit === newUnit) return;
 
-        const isDirty = width || height || registeredList.length > 0;
-        if (isDirty) {
-            const isConfirmed = window.confirm('단위 변경 시 기존 입력 및 리스트가 초기화됩니다. 변경하시겠습니까?');
-            if (!isConfirmed) {
-                return;
-            }
+        if (registeredList.length > 0) {
+            const updatedList = registeredList.map(item => ({
+                ...item,
+                width: newUnit === "cm" ? item.width / 10 : item.width * 10,
+                height: newUnit === "cm" ? item.height / 10 : item.height * 10,
+            }));
+
+            setRegisteredList(updatedList);
         }
 
-        setWidth('');
-        setHeight('');
-        setChassisType('선택안함');
-        setRegisteredList([]);
-        setErrors({});
-        setUnit(newUnit);
+        setUnit(newUnit); // 기존 단위를 업데이트
     };
 
     const handleCalculate = async () => {
