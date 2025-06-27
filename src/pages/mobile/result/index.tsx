@@ -16,6 +16,7 @@ import {InfoCircleOutlined} from "@ant-design/icons";
 import {Tooltip} from "antd";
 import InquiryEstimatedChassis from "../../../component/InquiryEstimatedChassis";
 import {HYUNDAI, KCC_GLASS, LX} from "../../../definition/companyType";
+import {RegisterChassisPayload} from "../../../definition/interfacesV2";
 
 
 const MobileResultScreen = () => {
@@ -46,7 +47,6 @@ const MobileResultScreen = () => {
     }, [location, history]);
 
     const getOtherEstimates = (estimatingCompany: string) => {
-        console.log("??? = ", estimatingCompany);
         if (!requestObject) return;
 
         const alreadyCalculatedCompanies = results.map(r => mappedCompanyByValue(r.company)) as string[];
@@ -63,11 +63,11 @@ const MobileResultScreen = () => {
         setIsLoading(true);
         setError('');
 
-        const payload = {
+        const payload: RegisterChassisPayload = {
             zipCode: requestObject.zipCode,
-            state: requestObject.sido,
-            city: requestObject.siGunGu,
-            town: requestObject.yupMyeonDong,
+            state: requestObject.state,
+            city: requestObject.city,
+            town: requestObject.town,
             bCode: requestObject.bCode,
             remainAddress: requestObject.remainAddress,
             buildingNumber: requestObject.buildingNumber,
