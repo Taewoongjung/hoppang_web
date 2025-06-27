@@ -38,19 +38,7 @@ const InitialScreen = (props: {
     const [getStarted, setGetStarted] = useState(false);
 
     useEffect(() => {
-        let referrer = document.referrer;
-
-        let isFromSearchEngine =
-            referrer.includes("google.") ||
-            referrer.includes("naver.") ||
-            referrer.includes("daum.") ||
-            referrer.includes("bing.") ||
-            referrer.includes("search.yahoo.") ||
-            referrer.includes("instagram.com") ||
-            referrer.includes("facebook.com") ||
-            referrer.includes("youtube.com");
-
-        if (!isMobile || isFromSearchEngine) {
+        if (!isMobile) {
             window.location.href = "https://hoppang.store/official?adv_id=329263e0-5d61-4ade-baf9-7e34cc611828";
         }
     }, []);
