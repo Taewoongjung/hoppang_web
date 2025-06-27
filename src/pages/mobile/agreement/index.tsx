@@ -1,9 +1,9 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import './styles.css';
-import axios from "axios/index";
+import axios from "axios";
 import {callMeData} from "../../../definition/apiPath";
-import useSWR from "swr/dist/core";
+import useSWR from "swr";
 import fetcher from "../../../util/fetcher";
 
 const Agreement = () => {
@@ -63,7 +63,6 @@ const Agreement = () => {
 
             {/* Main Content */}
             <main className="main-content">
-                {/* Hero Section */}
                 <section className="hero-section">
                     <div className="hero-content">
                         <h2 className="hero-title">샷시 견적 서비스를 시작하기 전에</h2>

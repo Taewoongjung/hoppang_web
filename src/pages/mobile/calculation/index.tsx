@@ -477,20 +477,20 @@ const MobileCalculationScreen = () => {
                     className="button-primary"
                     onClick={() => {
                         if (registeredList.length === 0) {
-                            setErrors({general: '샷시를 하나 이상 추가해주세요.'});
+                            setErrors({general: '주소를 입력해주세요.'});
                             return;
                         }
                         setErrors({});
                         setCurrentStep(3);
                     }}
-                    disabled={registeredList.length === 0}
+                    disabled={!address || !remainAddress}
                 >
                     다음
                 </button>
             );
         } else if (currentStep === 3) {
             return (
-                <button className="button-primary" onClick={handleCalculate} disabled={isLoading}>
+                <button className="button-primary" onClick={handleCalculate} disabled={!floor}>
                     {isLoading ? '계산중...' : '견적 계산하기'}
                 </button>
             );

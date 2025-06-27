@@ -554,13 +554,11 @@ input:checked + .slider:before {
     border-radius: 12px;
     font-size: 1.1rem;
     font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s;
 }
 
 .button-primary:disabled {
-    background-color: #d1d5db;
-    cursor: not-allowed;
+    background: #e5e7eb;
+    color: #374151;
 }
 
 .loading-overlay {
