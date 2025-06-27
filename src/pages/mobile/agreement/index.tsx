@@ -1,12 +1,47 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import './styles.css';
+import axios from "axios/index";
+import {callMeData} from "../../../definition/apiPath";
+import useSWR from "swr/dist/core";
+import fetcher from "../../../util/fetcher";
 
 const Agreement = () => {
+
     const history = useHistory();
 
-    const handleAgree = () => {
-        history.push('/v2/calculator');
+
+    const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
+        dedupingInterval: 2000
+    });
+
+    const checkIfLoggedIn = () => {
+        axios.get(callMeData, {
+            headers: {
+                withCredentials: true,
+                Authorization: localStorage.getItem("hoppang-token")
+            },
+        }).then((res) => {
+        }).catch((err) => {
+            history.push("/login?needed=true");
+        })
+    }
+
+    const handleAgree = async () => {
+        await checkIfLoggedIn(); // 로그인 했는지 확인하기
+
+        try {
+            await mutate().then((user) => {
+                if (user.tel === '') {
+                    history.push(`/login/first?remainedProcess=true&userEmail=${user.email}`);
+                    return;
+                } else {
+                    history.push('/v2/calculator');
+                }
+            });
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     const handleDisagree = () => {
