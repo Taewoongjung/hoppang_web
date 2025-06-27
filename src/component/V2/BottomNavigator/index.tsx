@@ -1,16 +1,20 @@
 import React from 'react';
 import './styles.css';
-import {useLocation} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 
-const BottomNavigator = () => {
+const BottomNavigator = (props:{userData:any}) => {
 
+    const history = useHistory();
     const location = useLocation();
+
+    const { userData } = props;
+
 
     return (
         <nav className="bottom-nav">
             <button
                 className={`nav-item ${['/chassis/v2/calculator'].includes(location.pathname) ? 'active' : ''}`}
-                onClick={() => window.location.href = "/chassis/v2/calculator"}
+                onClick={() => history.push("/chassis/v2/calculator")}
             >
                 <span className="nav-icon">🏠</span>
                 <span className="nav-label">홈</span>
@@ -21,12 +25,26 @@ const BottomNavigator = () => {
                 <span className="nav-icon">💬</span>
                 <span className="nav-label">지식인</span>
             </button>
-            <button
-                className={`nav-item $location.pathname === '/counsel' ? 'active' : ''}`}
-            >
-                <span className="nav-icon">👤</span>
-                <span className="nav-label">내정보</span>
-            </button>
+
+            {userData ?
+                <button
+                    className={`nav-item $location.pathname === '/mypage' ? 'active' : ''}`}
+                    onClick={() => history.push("/mypage")}
+                >
+                    <span className="nav-icon">👤</span>
+                    <span className="nav-label">마이</span>
+                </button>
+
+                :
+                
+                <button
+                    className={`nav-item $location.pathname === '/v2/login' ? 'active' : ''}`}
+                    onClick={() => history.push("/v2/login")}
+                >
+                    <span className="nav-icon">👤</span>
+                    <span className="nav-label">로그인</span>
+                </button>
+            }
         </nav>
     );
 }

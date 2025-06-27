@@ -1,8 +1,16 @@
 import React from 'react';
 import './styles.css';
 import BottomNavigator from "../../../component/V2/BottomNavigator";
+import useSWR from "swr";
+import {callMeData} from "../../../definition/apiPath";
+import fetcher from "../../../util/fetcher";
 
 const Initial = () => {
+
+    const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
+        dedupingInterval: 2000
+    });
+
 
     const services = [
         { id: 1, icon: '🏠', title: '샷시 견적', description: '샷시 견적 서비스' },
@@ -94,7 +102,7 @@ const Initial = () => {
             </main>
 
             {/* Bottom Navigation */}
-            <BottomNavigator/>
+            <BottomNavigator userData={userData}/>
         </div>
     );
 };
