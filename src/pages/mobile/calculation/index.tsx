@@ -30,7 +30,7 @@ const MobileCalculationScreen = () => {
 
     useEffect(() => {
         const handleBackMessage = (event: MessageEvent) => {
-            if (event.data === 'BACK_BUTTON') {
+            if (event.data === 'hardwareBackPress') {
                 setExitModalVisible(true);
             }
         };
