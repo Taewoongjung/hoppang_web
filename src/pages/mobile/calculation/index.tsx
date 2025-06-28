@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from "axios";
 
@@ -25,6 +25,21 @@ const MobileCalculationScreen = () => {
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
     });
+
+    const [isExitModalVisible, setExitModalVisible] = useState(false);
+
+    useEffect(() => {
+        const handleBackMessage = (event: MessageEvent) => {
+            if (event.data === 'BACK_BUTTON') {
+                setExitModalVisible(true);
+            }
+        };
+
+        window.addEventListener('message', handleBackMessage);
+        return () => {
+            window.removeEventListener('message', handleBackMessage);
+        };
+    }, []);
 
 
     // Screen State
@@ -536,7 +551,7 @@ const MobileCalculationScreen = () => {
             }
 
             {/* 종료 모달 */}
-            {showExitModal && (<ExitModal setShowExitModal={setShowExitModal}/>)}
+            {(isExitModalVisible || showExitModal) && (<ExitModal setShowExitModal={setShowExitModal}/>)}
         </div>
     );
 };
