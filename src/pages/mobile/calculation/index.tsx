@@ -27,19 +27,21 @@ const MobileCalculationScreen = () => {
     });
 
     const [isExitModalVisible, setExitModalVisible] = useState(false);
-
     useEffect(() => {
-        const handleBackMessage = (event: MessageEvent) => {
-            if (event.data === 'hardwareBackPress') {
-                setExitModalVisible(true);
+        // 뒤로가기 감지
+        const unblock = history.block((location: any, action: string) => {
+            if (action === 'POP') {
+                setExitModalVisible(true); // 상태만 바꾸고
+                return false; // 페이지 이동을 막음
             }
-        };
 
-        window.addEventListener('message', handleBackMessage);
+            return true; // 나머지는 허용
+        });
+
         return () => {
-            window.removeEventListener('message', handleBackMessage);
+            unblock(); // cleanup
         };
-    }, []);
+    }, [history]);
 
 
     // Screen State
