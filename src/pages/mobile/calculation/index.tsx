@@ -26,12 +26,13 @@ const MobileCalculationScreen = () => {
         dedupingInterval: 2000
     });
 
-    const [isExitModalVisible, setExitModalVisible] = useState(false);
+    const [showExitModal, setShowExitModal] = useState(false);
+
     useEffect(() => {
         // 뒤로가기 감지
         const unblock = history.block((location: any, action: string) => {
             if (action === 'POP') {
-                setExitModalVisible(true); // 상태만 바꾸고
+                setShowExitModal(true); // 상태만 바꾸고
                 return false; // 페이지 이동을 막음
             }
 
@@ -50,7 +51,6 @@ const MobileCalculationScreen = () => {
 
     // Step 0: 샷시 회사 선택
     const [selectedCompany, setSelectedCompany] = useState('');
-    const [showExitModal, setShowExitModal] = useState(false);
 
     // Step 1: Chassis Info
     const [registeredList, setRegisteredList] = useState<RegisteringChassisV2[]>([]);
@@ -553,7 +553,7 @@ const MobileCalculationScreen = () => {
             }
 
             {/* 종료 모달 */}
-            {(isExitModalVisible || showExitModal) && (<ExitModal setShowExitModal={setShowExitModal}/>)}
+            {showExitModal && (<ExitModal setShowExitModal={setShowExitModal}/>)}
         </div>
     );
 };
