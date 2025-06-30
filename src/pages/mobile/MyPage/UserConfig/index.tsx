@@ -220,7 +220,7 @@ const ConfigPage = () => {
                     <main className="config-main">
                         {/* General Settings */}
                         <section className="config-section">
-                            <h3 className="config-section-title">일반</h3>
+                            <h3 className="config-section-title">안내</h3>
                             <div className="config-menu-list">
                                 {menuItems.general.map((item, index) => renderMenuItem(item, `general-${index}`))}
                             </div>
@@ -228,7 +228,7 @@ const ConfigPage = () => {
 
                         {/* Account Settings */}
                         <section className="config-section">
-                            <h3 className="config-section-title">계정</h3>
+                            <h3 className="config-section-title">설정</h3>
                             <div className="config-menu-list">
                                 {menuItems.account.map((item, index) => renderMenuItem(item, `account-${index}`))}
                             </div>
@@ -237,7 +237,7 @@ const ConfigPage = () => {
                         {/* Danger Zone - Only show if logged in */}
                         {isLoggedIn && (
                             <section className="config-section danger-section">
-                                <h3 className="config-section-title danger-title">위험 구역</h3>
+                                <h3 className="config-section-title danger-title">계정</h3>
                                 <div className="config-menu-list">
                                     {menuItems.danger.map((item, index) => renderMenuItem(item, `danger-${index}`))}
                                 </div>
