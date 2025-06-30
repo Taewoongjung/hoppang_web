@@ -47,7 +47,7 @@ const MyPage = () => {
 
     const goToEstimationHistory = () => {
         mutate().then(() => {
-            window.location.href = '/mypage/estimation/histories';
+            window.location.href = '/v2/mypage/estimation/histories';
         })
     }
 
@@ -109,14 +109,13 @@ const MyPage = () => {
                                     <UserOutlined />
                                 </div>
                                 <div className="user-info">
-                                    <h2>안녕하세요! 👋</h2>
+                                    <h2>안녕하세요! 👋🏻&nbsp;</h2>
                                     <p><strong>{userData.name}</strong>님</p>
                                 </div>
                             </div>
                         </section>
                     )}
 
-                    {/* Services Section */}
                     {userData && (
                         <section className="services-section">
                             <h3 className="section-title">창호 서비스</h3>
@@ -143,8 +142,6 @@ const MyPage = () => {
                         </section>
                     )}
 
-                    {/* Customer Service Section - 현재 주석 처리되어 있지만 필요시 활성화 */}
-                    {/*
                     <section className="customer-service-section">
                         <h3 className="section-title">고객센터</h3>
                         <div className="menu-list">
@@ -164,7 +161,7 @@ const MyPage = () => {
                             </div>
                         </div>
                     </section>
-                    */}
+
                 </main>
 
                 <BottomNavigator userData={userData}/>

@@ -158,7 +158,7 @@ const ConfigPage = () => {
                                 </div>
                             </div>
 
-                            <div className="setting-divider"></div>
+                            <div className="setting-divider" />
 
                             <div className="setting-item">
                                 <div className="setting-content">

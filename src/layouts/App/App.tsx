@@ -32,6 +32,8 @@ const CalculationResultScreen = loadable(() => import('../../pages/mobile/result
 const LoginPageV2 = loadable(() => import('../../pages/mobile/Login'));
 const LoginFirstStepPageV2 = loadable(() => import('../../pages/mobile/LoginFirstStep'));
 const LoginSecondStepPageV2 = loadable(() => import('../../pages/mobile/LoginSecondStep'));
+
+const MyPageEstimationHistoriesPageV2 = loadable(() => import('../../pages/mobile/MyPage/EstimationHistory'));
 const AppConfigPageV2 = loadable(() => import('../../pages/mobile/MyPage/AppConfig'));
 const UserConfigPageV2 = loadable(() => import('../../pages/mobile/MyPage/UserConfig'));
 const MyPageV2 = loadable(() => import('../../pages/mobile/MyPage'));
@@ -73,6 +75,7 @@ const App = () => {
                     <Route exact path="/v2/calculator" component={CalculationScreenV2}/>
                     <Route exact path="/calculator/result" component={CalculationResultScreen}/>
 
+                    <Route exact path="/v2/mypage/estimation/histories" component={MyPageEstimationHistoriesPageV2}/>
                     <Route exact path="/v2/mypage/appconfig" component={AppConfigPageV2}/>
                     <Route exact path="/v2/mypage/userconfig" component={UserConfigPageV2}/>
                     <Route exact path="/v2/mypage" component={MyPageV2}/>
