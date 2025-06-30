@@ -30,6 +30,8 @@ const AgreementPage = loadable(() => import('../../pages/mobile/agreement'));
 const CalculationScreenV2 = loadable(() => import('../../pages/mobile/calculation'));
 const CalculationResultScreen = loadable(() => import('../../pages/mobile/result'));
 const LoginPageV2 = loadable(() => import('../../pages/mobile/Login'));
+const LoginFirstStepPageV2 = loadable(() => import('../../pages/mobile/LoginFirstStep'));
+const LoginSecondStepPageV2 = loadable(() => import('../../pages/mobile/LoginSecondStep'));
 
 
 const App = () => {
@@ -67,6 +69,8 @@ const App = () => {
                     <Route exact path="/calculator/agreement" component={AgreementPage}/>
                     <Route exact path="/v2/calculator" component={CalculationScreenV2}/>
                     <Route exact path="/calculator/result" component={CalculationResultScreen}/>
+                    <Route exact path="/v2/login/second" component={LoginSecondStepPageV2}/>
+                    <Route exact path="/v2/login/first" component={LoginFirstStepPageV2}/>
                     <Route exact path="/v2/login" component={LoginPageV2}/>
 
             </Switch>
