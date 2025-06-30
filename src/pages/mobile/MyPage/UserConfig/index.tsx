@@ -119,7 +119,7 @@ const ConfigPage = () => {
                 icon: <UserAddOutlined />,
                 title: '회원가입',
                 description: '호빵 서비스 가입하고 혜택 받기',
-                onClick: () => {window.location.href = '/login';},
+                onClick: () => {window.location.href = '/v2/login';},
                 iconColor: '#3b82f6',
                 bgColor: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)',
                 showWhen: 'notLoggedIn'
@@ -128,7 +128,7 @@ const ConfigPage = () => {
                 icon: <AppstoreOutlined />,
                 title: '앱 관리',
                 description: '앱 설정 및 알림 관리',
-                onClick: () => {window.location.href = '/mypage/config/app';},
+                onClick: () => {window.location.href = '/v2/mypage/appconfig';},
                 iconColor: '#8b5cf6',
                 bgColor: 'linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%)',
                 showWhen: 'loggedIn'
