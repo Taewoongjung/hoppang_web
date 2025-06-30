@@ -136,6 +136,15 @@ const ConfigPage = () => {
         ],
         danger: [
             {
+                icon: <LogoutOutlined />,
+                title: '로그아웃',
+                description: '현재 계정에서 안전하게 로그아웃',
+                onClick: handleLogOut,
+                iconColor: '#6b7280',
+                bgColor: 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)',
+                showWhen: 'loggedIn'
+            },
+            {
                 icon: <UserDeleteOutlined />,
                 title: '회원탈퇴',
                 description: '모든 데이터가 삭제되며 복구할 수 없습니다',
@@ -144,15 +153,6 @@ const ConfigPage = () => {
                 bgColor: 'linear-gradient(135deg, #fee2e2 0%, #fecaca 100%)',
                 showWhen: 'loggedIn',
                 isDanger: true
-            },
-            {
-                icon: <LogoutOutlined />,
-                title: '로그아웃',
-                description: '현재 계정에서 안전하게 로그아웃',
-                onClick: handleLogOut,
-                iconColor: '#6b7280',
-                bgColor: 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)',
-                showWhen: 'loggedIn'
             }
         ]
     };
@@ -218,7 +218,12 @@ const ConfigPage = () => {
 
                     {/* Main Content */}
                     <main className="config-main">
-                        {/* General Settings */}
+                        <section className="config-section">
+                            <div className="config-menu-list">
+                                {menuItems.account.map((item, index) => renderMenuItem(item, `account-${index}`))}
+                            </div>
+                        </section>
+
                         <section className="config-section">
                             <h3 className="config-section-title">안내</h3>
                             <div className="config-menu-list">
@@ -226,15 +231,6 @@ const ConfigPage = () => {
                             </div>
                         </section>
 
-                        {/* Account Settings */}
-                        <section className="config-section">
-                            <h3 className="config-section-title">설정</h3>
-                            <div className="config-menu-list">
-                                {menuItems.account.map((item, index) => renderMenuItem(item, `account-${index}`))}
-                            </div>
-                        </section>
-
-                        {/* Danger Zone - Only show if logged in */}
                         {isLoggedIn && (
                             <section className="config-section danger-section">
                                 <h3 className="config-section-title danger-title">계정</h3>
