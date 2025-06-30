@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import axios from 'axios';
+
 import './styles.css';
+import '../versatile-styles.css';
 
 import {
     addCommasToNumber,

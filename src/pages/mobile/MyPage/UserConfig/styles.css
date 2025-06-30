@@ -1,0 +1,360 @@
+/* Reset and Base Styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Container */
+.config-container {
+    max-width: 430px;
+    margin: 0 auto;
+    background: #f8f9fa;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Header Styles */
+.config-header {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    padding: 20px;
+    border-bottom: 1px solid #e5e7eb;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.config-header-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.config-back-button {
+    background: #f3f4f6;
+    border: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #374151;
+    font-size: 18px;
+    margin-top: 2px;
+}
+
+.config-back-button:hover {
+    background: #e5e7eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.config-back-button:active {
+    transform: translateY(0);
+}
+
+.config-title-container {
+    flex: 1;
+}
+
+.config-title {
+    font-size: 28px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+}
+
+.config-subtitle {
+    font-size: 15px;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+/* Main Content */
+.config-main {
+    padding: 24px 20px;
+    padding-bottom: 100px;
+}
+
+/* Section Styles */
+.config-section {
+    margin-bottom: 32px;
+}
+
+.config-section-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: #374151;
+    padding-left: 4px;
+    letter-spacing: -0.01em;
+}
+
+.danger-section .config-section-title {
+    color: #dc2626;
+}
+
+.config-menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Menu Item Styles */
+.config-menu-item {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.config-menu-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(252, 176, 128, 0.1) 0%, rgba(245, 158, 86, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.config-menu-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    border-color: #fcb080;
+}
+
+.config-menu-item:hover::before {
+    opacity: 1;
+}
+
+.config-menu-item:active {
+    transform: translateY(-1px);
+}
+
+/* Danger Item Specific Styles */
+.danger-item {
+    border: 2px solid #fee2e2;
+    background: linear-gradient(135deg, #fefefe 0%, #fef2f2 100%);
+}
+
+.danger-item:hover {
+    border-color: #fca5a5;
+    box-shadow: 0 8px 25px rgba(239, 68, 68, 0.15);
+}
+
+.danger-item::before {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(220, 38, 38, 0.05) 100%);
+}
+
+.config-menu-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+    z-index: 1;
+    position: relative;
+}
+
+.config-menu-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.config-menu-item:hover .config-menu-icon {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.config-menu-text {
+    flex: 1;
+}
+
+.config-menu-text h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+}
+
+.config-menu-text p {
+    font-size: 13px;
+    color: #6b7280;
+    line-height: 1.4;
+}
+
+.danger-item .config-menu-text h4 {
+    color: #dc2626;
+}
+
+.danger-item .config-menu-text p {
+    color: #991b1b;
+}
+
+.config-menu-arrow {
+    color: #9ca3af;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    z-index: 1;
+    position: relative;
+}
+
+.config-menu-item:hover .config-menu-arrow {
+    color: #6b7280;
+    transform: translateX(2px);
+}
+
+/* Responsive Design */
+@media (max-width: 375px) {
+    .config-header {
+        padding: 16px;
+    }
+
+    .config-title {
+        font-size: 24px;
+    }
+
+    .config-subtitle {
+        font-size: 14px;
+    }
+
+    .config-main {
+        padding: 20px 16px;
+        padding-bottom: 100px;
+    }
+
+    .config-menu-item {
+        padding: 16px;
+    }
+
+    .config-menu-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 18px;
+    }
+
+    .config-back-button {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.config-section {
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.config-section:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.config-section:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.config-section:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+/* Custom Modal Styles (if needed) */
+.ant-modal-content {
+    border-radius: 16px !important;
+    overflow: hidden;
+}
+
+.ant-modal-header {
+    border-bottom: 1px solid #f0f0f0 !important;
+    padding: 20px 24px 16px !important;
+}
+
+.ant-modal-body {
+    padding: 20px 24px !important;
+}
+
+.ant-modal-footer {
+    border-top: 1px solid #f0f0f0 !important;
+    padding: 16px 24px 20px !important;
+}
+
+/* Loading State Enhancement */
+.config-container.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+/* Focus States for Accessibility */
+.config-back-button:focus,
+.config-menu-item:focus {
+    outline: 2px solid #fcb080;
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .config-menu-item {
+        border: 2px solid #374151;
+    }
+
+    .config-menu-text h4 {
+        color: #000;
+    }
+
+    .config-menu-text p {
+        color: #374151;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .config-menu-item,
+    .config-back-button,
+    .config-menu-icon,
+    .config-menu-arrow {
+        transition: none;
+    }
+
+    .config-section {
+        animation: none;
+    }
+}

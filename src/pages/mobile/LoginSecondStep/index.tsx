@@ -3,7 +3,10 @@ import { Button, Switch, Card, Typography, Divider } from "antd";
 import { BellOutlined, MessageOutlined } from '@ant-design/icons';
 import axios from "axios";
 import { callFinalSocialSignUp } from "../../../definition/apiPath";
+
 import './styles.css';
+import '../versatile-styles.css';
+
 
 const { Text } = Typography;
 

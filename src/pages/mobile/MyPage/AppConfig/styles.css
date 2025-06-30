@@ -1,0 +1,373 @@
+/* Reset and Base Styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* Container */
+.config-container {
+    max-width: 430px;
+    margin: 0 auto;
+    background: #f8f9fa;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Header Styles */
+.config-header {
+    background: white;
+    padding: 16px 20px;
+    border-bottom: 1px solid #eee;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back-button {
+    background: #f8f9fa;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #6b7280;
+    font-size: 18px;
+}
+
+.back-button:hover {
+    background: #e5e7eb;
+    color: #374151;
+    transform: scale(1.05);
+}
+
+.page-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1f2937;
+    text-align: center;
+    flex: 1;
+}
+
+.header-spacer {
+    width: 40px;
+}
+
+/* Main Content */
+.config-main {
+    padding: 24px 20px;
+    padding-bottom: 60px;
+}
+
+/* Settings Section */
+.settings-section {
+    margin-bottom: 32px;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.section-header {
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 8px;
+}
+
+.section-description {
+    font-size: 14px;
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+/* Settings Card */
+.settings-card {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border: 1px solid #f1f5f9;
+    transition: all 0.3s ease;
+}
+
+/* Setting Item */
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.setting-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex: 1;
+}
+
+.setting-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    transition: all 0.3s ease;
+}
+
+.push-icon {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    color: #2563eb;
+}
+
+.talk-icon {
+    background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+    color: #f59e0b;
+}
+
+.setting-info {
+    flex: 1;
+}
+
+.setting-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 4px;
+}
+
+.setting-description {
+    font-size: 13px;
+    color: #6b7280;
+    line-height: 1.4;
+}
+
+.setting-control {
+    margin-left: 16px;
+}
+
+/* Custom Switch Styles */
+.custom-switch.ant-switch {
+    background-color: #e5e7eb;
+    border: none;
+    min-width: 52px;
+    height: 28px;
+}
+
+.custom-switch.ant-switch-checked {
+    background: linear-gradient(135deg, #fcb080, #f59e56);
+}
+
+.custom-switch.ant-switch:focus {
+    box-shadow: 0 0 0 2px rgba(245, 158, 86, 0.2);
+}
+
+.custom-switch.ant-switch-checked:focus {
+    box-shadow: 0 0 0 2px rgba(245, 158, 86, 0.3);
+}
+
+.custom-switch .ant-switch-handle {
+    width: 24px;
+    height: 24px;
+    top: 2px;
+}
+
+.custom-switch.ant-switch-checked .ant-switch-handle {
+    left: calc(100% - 24px - 2px);
+}
+
+/* Setting Divider */
+.setting-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, #e5e7eb, transparent);
+    margin: 0 -24px;
+}
+
+/* Information Section */
+.info-section {
+    animation: fadeInUp 0.6s ease-out 0.2s;
+    animation-fill-mode: both;
+}
+
+.info-card {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid #e0f2fe;
+}
+
+.info-header {
+    margin-bottom: 16px;
+}
+
+.info-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.info-header h3::before {
+    content: "💡";
+    font-size: 18px;
+}
+
+.info-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14px;
+    color: #475569;
+    line-height: 1.5;
+}
+
+.info-bullet {
+    width: 6px;
+    height: 6px;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    border-radius: 50%;
+    margin-top: 6px;
+    flex-shrink: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 375px) {
+    .config-main {
+        padding: 20px 16px;
+        padding-bottom: 60px;
+    }
+
+    .settings-card {
+        padding: 20px;
+    }
+
+    .setting-item {
+        padding: 16px 0;
+    }
+
+    .setting-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+
+    .setting-title {
+        font-size: 15px;
+    }
+
+    .setting-description {
+        font-size: 12px;
+    }
+
+    .custom-switch.ant-switch {
+        min-width: 48px;
+        height: 26px;
+    }
+
+    .custom-switch .ant-switch-handle {
+        width: 22px;
+        height: 22px;
+    }
+
+    .custom-switch.ant-switch-checked .ant-switch-handle {
+        left: calc(100% - 22px - 2px);
+    }
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Loading State */
+.custom-switch.ant-switch-loading .ant-switch-loading-icon {
+    color: #f59e56;
+}
+
+/* Focus States for Accessibility */
+.back-button:focus,
+.custom-switch:focus {
+    outline: 2px solid #fcb080;
+    outline-offset: 2px;
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+    .config-container {
+        background: #111827;
+    }
+
+    .config-header {
+        background: #1f2937;
+        border-color: #374151;
+    }
+
+    .page-title {
+        color: #f9fafb;
+    }
+
+    .section-title {
+        color: #f9fafb;
+    }
+
+    .section-description {
+        color: #9ca3af;
+    }
+
+    .settings-card {
+        background: #1f2937;
+        border-color: #374151;
+    }
+
+    .setting-title {
+        color: #f9fafb;
+    }
+
+    .setting-description {
+        color: #9ca3af;
+    }
+
+    .info-card {
+        background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+        border-color: #374151;
+    }
+
+    .info-header h3 {
+        color: #f9fafb;
+    }
+
+    .info-item {
+        color: #d1d5db;
+    }
+}

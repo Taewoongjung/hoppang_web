@@ -1,5 +1,8 @@
 import React from 'react';
+
 import './styles.css';
+import '../versatile-styles.css';
+
 import BottomNavigator from "../../../component/V2/BottomNavigator";
 import useSWR from "swr";
 import {callMeData} from "../../../definition/apiPath";

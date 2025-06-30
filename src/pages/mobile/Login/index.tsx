@@ -1,5 +1,8 @@
 import React, {useEffect, useState} from 'react';
+
 import './styles.css';
+import '../versatile-styles.css';
+
 import axios from "axios";
 import {LeftOutlined} from "@ant-design/icons";
 import {appleLogin, googleLogin, kakaoLogin} from "../../../definition/apiPath";

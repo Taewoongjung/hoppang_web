@@ -1,6 +1,9 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+
 import './styles.css';
+import '../versatile-styles.css';
+
 import axios from "axios";
 import {callMeData} from "../../../definition/apiPath";
 import useSWR from "swr";
@@ -57,7 +60,6 @@ const Agreement = () => {
                         <img src="/assets/hoppang-character.png" alt="Hoppang Logo" className="logo-img" />
                         <span className="logo-text">호빵</span>
                     </div>
-                    <div className="agreement-header-title">샷시 견적 안내</div>
                 </div>
             </header>
 

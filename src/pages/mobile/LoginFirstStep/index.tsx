@@ -5,6 +5,8 @@ import { callMeData, callVerifyPhoneNumber } from "../../../definition/apiPath";
 import useSWR from "swr";
 import fetcher from "../../../util/fetcher";
 import './styles.css';
+import '../versatile-styles.css';
+
 
 const VALIDATION_SENT_MESSAGE = (
     <>

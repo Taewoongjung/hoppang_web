@@ -1,15 +1,3 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    user-select: none;
-    -webkit-user-select: none;
-}
-
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background-color: #f8f9fa;
@@ -62,12 +50,6 @@ body {
     background: linear-gradient(to right, #fcb080, #f59e56);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-}
-
-.agreement-header-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #1f2937;
 }
 
 /* Main Content */

@@ -32,6 +32,9 @@ const CalculationResultScreen = loadable(() => import('../../pages/mobile/result
 const LoginPageV2 = loadable(() => import('../../pages/mobile/Login'));
 const LoginFirstStepPageV2 = loadable(() => import('../../pages/mobile/LoginFirstStep'));
 const LoginSecondStepPageV2 = loadable(() => import('../../pages/mobile/LoginSecondStep'));
+const AppConfigPageV2 = loadable(() => import('../../pages/mobile/MyPage/AppConfig'));
+const UserConfigPageV2 = loadable(() => import('../../pages/mobile/MyPage/UserConfig'));
+const MyPageV2 = loadable(() => import('../../pages/mobile/MyPage'));
 
 
 const App = () => {
@@ -64,11 +67,16 @@ const App = () => {
                     {/*OFFICIAL*/}
                     <Route path="/official" component={LandingPage}/>
 
-                    {/* Mobile */}
+                    {/* V2 */}
                     <Route exact path="/chassis/v2/calculator" component={InitialPageV2}/>
                     <Route exact path="/calculator/agreement" component={AgreementPage}/>
                     <Route exact path="/v2/calculator" component={CalculationScreenV2}/>
                     <Route exact path="/calculator/result" component={CalculationResultScreen}/>
+
+                    <Route exact path="/v2/mypage/appconfig" component={AppConfigPageV2}/>
+                    <Route exact path="/v2/mypage/userconfig" component={UserConfigPageV2}/>
+                    <Route exact path="/v2/mypage" component={MyPageV2}/>
+
                     <Route exact path="/v2/login/second" component={LoginSecondStepPageV2}/>
                     <Route exact path="/v2/login/first" component={LoginFirstStepPageV2}/>
                     <Route exact path="/v2/login" component={LoginPageV2}/>

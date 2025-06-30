@@ -1,13 +1,3 @@
-* {
-    box-sizing: border-box;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    user-select: none;
-    -webkit-user-select: none;
-}
-
 .login-container {
     max-width: 430px;
     margin: 0 auto;

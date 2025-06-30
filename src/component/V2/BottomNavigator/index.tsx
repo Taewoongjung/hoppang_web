@@ -28,15 +28,15 @@ const BottomNavigator = (props:{userData:any}) => {
 
             {userData ?
                 <button
-                    className={`nav-item $location.pathname === '/mypage' ? 'active' : ''}`}
-                    onClick={() => history.push("/mypage")}
+                    className={`nav-item  ${location.pathname === '/v2/mypage' ? 'active' : ''}`}
+                    onClick={() => history.push("/v2/mypage")}
                 >
                     <span className="nav-icon">👤</span>
                     <span className="nav-label">마이</span>
                 </button>
 
                 :
-                
+
                 <button
                     className={`nav-item $location.pathname === '/v2/login' ? 'active' : ''}`}
                     onClick={() => history.push("/v2/login")}
