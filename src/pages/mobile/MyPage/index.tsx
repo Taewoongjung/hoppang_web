@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import './styles.css';
 import '../versatile-styles.css';
 
-import { RightOutlined, UserOutlined, HistoryOutlined, SettingOutlined, HeartOutlined, StarOutlined } from '@ant-design/icons';
+import { RightOutlined, UserOutlined, HistoryOutlined, SettingOutlined } from '@ant-design/icons';
 import useSWR from "swr";
 import {callMeData} from "../../../definition/apiPath";
 import fetcher from "../../../util/fetcher";

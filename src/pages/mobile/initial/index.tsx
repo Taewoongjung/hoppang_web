@@ -142,7 +142,6 @@ const Initial = () => {
     ];
 
     return (
-        <>
         <div className="app-container">
             {/* Header */}
             <header className="app-header">
@@ -270,7 +269,7 @@ const Initial = () => {
             </main>
 
             {/* Footer - 조건부 표시 */}
-            <footer className={`page-footer ${isFooterVisible ? 'show' : 'hide'}`}>
+            <footer>
                 <div className="footer-content">
                     <div className="footer-logo-section">
                         <div className="footer-logo">
@@ -314,7 +313,6 @@ const Initial = () => {
                 isVisible={isBottomNavVisible}
             />
         </div>
-        </>
     );
 };
 

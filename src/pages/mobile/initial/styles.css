@@ -11,7 +11,6 @@ body {
     background: #f8f9fa;
     min-height: 100vh;
     position: relative;
-    overflow-x: hidden;
 }
 
 /* Header Styles */
@@ -89,10 +88,10 @@ body {
 .hero-section {
     background: linear-gradient(135deg, #ffeb9c 10%, #f7e0bc 60%, #fff4e5 100%);
     padding: 40px 20px;
-    margin: 20px;
-    border-radius: 20px;
+    /*margin: 20px;*/
+    /*border-radius: 20px;*/
     color: #5c4a3b;
-    position: relative;
+    position: sticky;
     overflow: hidden;
     animation: slideInUp 0.8s ease-out;
 }
@@ -581,4 +580,19 @@ body {
 .see-all-btn:focus {
     outline: 2px solid #fcb080;
     outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+
+    .logo-character {
+        animation: none;
+    }
 }
