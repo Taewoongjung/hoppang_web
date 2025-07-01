@@ -14,7 +14,6 @@ const Initial = () => {
         dedupingInterval: 2000
     });
 
-    const [isExpertChatOpen, setIsExpertChatOpen] = useState(false);
     const [isBottomNavVisible, setIsBottomNavVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -75,7 +74,7 @@ const Initial = () => {
         if (serviceTitle === '샷시 견적') {
             window.location.href = '/calculator/agreement';
         } else if (serviceTitle === '샷시 지식인') {
-            setIsExpertChatOpen(true);
+
         }
     };
 
@@ -125,7 +124,7 @@ const Initial = () => {
                             <p className="hero-subtitle">견적부터 설치까지, 모든 과정을 도와드립니다</p>
                             <button
                                 className="cta-button"
-                                onClick={() => setIsExpertChatOpen(true)}
+                                onClick={() => {}}
                             >
                                 <span className="cta-icon">💬</span>
                                 전문가에게 질문하기
@@ -234,7 +233,7 @@ const Initial = () => {
                         <span className="footer-separator">|</span>
                         <button
                             className="footer-link"
-                            onClick={() => setIsExpertChatOpen(true)}
+                            onClick={() => {}}
                         >
                             고객센터
                         </button>
@@ -250,51 +249,6 @@ const Initial = () => {
                     </div>
                 </div>
             </footer>
-
-            {/* Expert Chat Modal */}
-            {isExpertChatOpen && (
-                <div className="expert-modal-overlay" onClick={() => setIsExpertChatOpen(false)}>
-                    <div className="expert-modal" onClick={(e) => e.stopPropagation()}>
-                        <div className="modal-header">
-                            <h3>샷시 전문가와 상담</h3>
-                            <button
-                                className="modal-close-btn"
-                                onClick={() => setIsExpertChatOpen(false)}
-                            >
-                                ✕
-                            </button>
-                        </div>
-                        <div className="modal-content">
-                            <div className="expert-intro">
-                                <div className="expert-avatar">👨‍🔧</div>
-                                <div className="expert-info">
-                                    <h4>샷시 전문가 김호빵</h4>
-                                    <p>15년 경력의 창호 전문가입니다</p>
-                                </div>
-                            </div>
-                            <div className="chat-options">
-                                <button
-                                    className="chat-option"
-                                    onClick={() => window.open("https://pf.kakao.com/_dbxezn", "_blank")}
-                                >
-                                    <span className="option-icon">💬</span>
-                                    <div className="option-text">
-                                        <h5>카카오톡 상담</h5>
-                                        <p>빠른 답변을 받아보세요</p>
-                                    </div>
-                                </button>
-                                <button className="chat-option">
-                                    <span className="option-icon">📞</span>
-                                    <div className="option-text">
-                                        <h5>전화 상담</h5>
-                                        <p>직접 통화로 상담받기</p>
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
 
             {/* Bottom Navigation */}
             <BottomNavigator
