@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './styles.css';
 import '../versatile-styles.css';
@@ -13,8 +13,66 @@ const Initial = () => {
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
     });
+    
+    const [isBottomNavVisible, setIsBottomNavVisible] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
+    const [scrollDirection, setScrollDirection] = useState('up');
 
-    const [isExpertChatOpen, setIsExpertChatOpen] = useState(false);
+    // 디바운싱을 위한 타이머 ref
+    const scrollTimer = React.useRef<NodeJS.Timeout | null>(null);
+
+    // 스크롤 이벤트 핸들러
+    useEffect(() => {
+        const handleScroll = () => {
+            // 디바운싱으로 성능 최적화
+            if (scrollTimer.current) {
+                clearTimeout(scrollTimer.current);
+            }
+
+            scrollTimer.current = setTimeout(() => {
+                const currentScrollY = window.scrollY;
+                const documentHeight = document.documentElement.scrollHeight;
+                const windowHeight = window.innerHeight;
+                const scrollPercent = (currentScrollY / (documentHeight - windowHeight)) * 100;
+
+                const scrollThreshold = 200; // 200px 이상 스크롤하면 숨김
+                const showThreshold = 50; // 50px 이상 위로 스크롤하면 다시 표시
+                const footerThreshold = 75; // 스크롤 75% 지점에서 Footer 표시
+
+                // 스크롤 방향 감지
+                const currentDirection = currentScrollY > lastScrollY ? 'down' : 'up';
+                setScrollDirection(currentDirection);
+
+                // 페이지 하단 근처 (75% 이상)에서는 무조건 Footer 표시, BottomNav 숨김
+                if (scrollPercent > footerThreshold || currentScrollY > (documentHeight - windowHeight - 100)) {
+                    setIsBottomNavVisible(false);
+                }
+                // 맨 위 근처에서는 무조건 BottomNav 표시
+                else if (currentScrollY < 100) {
+                    setIsBottomNavVisible(true);
+                }
+                // 아래로 스크롤할 때 (일정 거리 이상)
+                else if (currentDirection === 'down' && currentScrollY > scrollThreshold && (currentScrollY - lastScrollY) > 5) {
+                    setIsBottomNavVisible(false);
+                }
+                // 위로 스크롤할 때 (일정 거리 이상)
+                else if (currentDirection === 'up' && (lastScrollY - currentScrollY) > showThreshold) {
+                    setIsBottomNavVisible(true);
+                }
+
+                setLastScrollY(currentScrollY);
+            }, 10); // 10ms 디바운싱
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            if (scrollTimer.current) {
+                clearTimeout(scrollTimer.current);
+            }
+        };
+    }, [lastScrollY]);
 
     const services = [
         {
@@ -39,7 +97,7 @@ const Initial = () => {
         if (serviceTitle === '샷시 견적') {
             window.location.href = '/calculator/agreement';
         } else if (serviceTitle === '샷시 지식인') {
-            setIsExpertChatOpen(true);
+            
         }
     };
 
@@ -89,7 +147,6 @@ const Initial = () => {
                             <p className="hero-subtitle">견적부터 설치까지, 모든 과정을 도와드립니다</p>
                             <button
                                 className="cta-button"
-                                onClick={() => setIsExpertChatOpen(true)}
                             >
                                 <span className="cta-icon">💬</span>
                                 전문가에게 질문하기
@@ -177,53 +234,49 @@ const Initial = () => {
                 </section>
             </main>
 
-            {/* Expert Chat Modal */}
-            {isExpertChatOpen && (
-                <div className="expert-modal-overlay" onClick={() => setIsExpertChatOpen(false)}>
-                    <div className="expert-modal" onClick={(e) => e.stopPropagation()}>
-                        <div className="modal-header">
-                            <h3>샷시 전문가와 상담</h3>
-                            <button
-                                className="modal-close-btn"
-                                onClick={() => setIsExpertChatOpen(false)}
-                            >
-                                ✕
-                            </button>
+            {/* Footer - BottomNav가 숨겨졌을 때만 표시 */}
+            <footer className={`page-footer ${!isBottomNavVisible ? 'show' : 'hide'}`}>
+                <div className="footer-content">
+                    <div className="footer-logo-section">
+                        <div className="footer-logo">
+                            <img src="/assets/hoppang-character.png" alt="Hoppang" className="footer-logo-img" />
+                            <span className="footer-logo-text">호빵</span>
                         </div>
-                        <div className="modal-content">
-                            <div className="expert-intro">
-                                <div className="expert-avatar">👨‍🔧</div>
-                                <div className="expert-info">
-                                    <h4>샷시 전문가 김호빵</h4>
-                                    <p>15년 경력의 창호 전문가입니다</p>
-                                </div>
-                            </div>
-                            <div className="chat-options">
-                                <button
-                                    className="chat-option"
-                                    onClick={() => window.open("https://pf.kakao.com/_dbxezn", "_blank")}
-                                >
-                                    <span className="option-icon">💬</span>
-                                    <div className="option-text">
-                                        <h5>카카오톡 상담</h5>
-                                        <p>빠른 답변을 받아보세요</p>
-                                    </div>
-                                </button>
-                                <button className="chat-option">
-                                    <span className="option-icon">📞</span>
-                                    <div className="option-text">
-                                        <h5>전화 상담</h5>
-                                        <p>직접 통화로 상담받기</p>
-                                    </div>
-                                </button>
-                            </div>
+                        <p className="footer-tagline">신뢰할 수 있는 샷시 전문 플랫폼</p>
+                    </div>
+
+                    <div className="footer-links">
+                        <button
+                            className="footer-link"
+                            onClick={() => window.open("https://pf.kakao.com/_dbxezn", "_blank")}
+                        >
+                            <span className="footer-link-icon">💼</span>
+                            <span>비즈니스 문의</span>
+                        </button>
+                        <button
+                            className="footer-link"
+                        >
+                            <span className="footer-link-icon">🎧</span>
+                            <span>고객센터</span>
+                        </button>
+                    </div>
+
+                    <div className="footer-bottom">
+                        <p className="footer-copyright">© 2024 호빵. All rights reserved.</p>
+                        <div className="footer-meta">
+                            <span>개인정보처리방침</span>
+                            <span className="footer-separator">|</span>
+                            <span>이용약관</span>
                         </div>
                     </div>
                 </div>
-            )}
-
-            {/* Bottom Navigation */}
-            <BottomNavigator userData={userData}/>
+            </footer>
+            
+            {/* Bottom Navigation - 조건부 렌더링 */}
+            <BottomNavigator
+                userData={userData}
+                isVisible={isBottomNavVisible}
+            />
         </div>
     );
 };

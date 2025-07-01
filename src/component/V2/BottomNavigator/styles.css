@@ -1,3 +1,162 @@
+/* 기존 styles.css에 추가할 Footer 스타일 */
+
+/* Main Content 패딩 조정 */
+.main-content {
+    padding-bottom: 120px; /* BottomNav와 Footer를 위한 공간 */
+}
+
+/* Page Footer */
+.page-footer {
+    background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+    color: #f9fafb;
+    padding: 40px 20px 20px;
+    position: relative;
+    z-index: 50;
+    border-top: 1px solid #374151;
+    /* 애니메이션 추가 */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+}
+
+.page-footer.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    animation: slideInUp 0.4s ease-out;
+}
+
+.page-footer.hide {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+}
+
+.footer-content {
+    max-width: 390px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+/* Footer Logo Section */
+.footer-logo-section {
+    text-align: center;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.footer-logo-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    filter: brightness(1.1);
+}
+
+.footer-logo-text {
+    font-size: 24px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #fcb080, #f59e56);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.footer-tagline {
+    font-size: 14px;
+    color: #9ca3af;
+    margin: 0;
+    font-weight: 500;
+}
+
+/* Footer Links */
+.footer-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.footer-link {
+    background: rgba(55, 65, 81, 0.7);
+    border: 1px solid #4b5563;
+    border-radius: 16px;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    color: #f9fafb;
+    backdrop-filter: blur(10px);
+}
+
+.footer-link:hover {
+    background: rgba(252, 176, 128, 0.1);
+    border-color: #fcb080;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(252, 176, 128, 0.15);
+}
+
+.footer-link-icon {
+    font-size: 24px;
+    margin-bottom: 4px;
+}
+
+.footer-link span:last-child {
+    font-size: 14px;
+    font-weight: 600;
+    color: inherit;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+    text-align: center;
+    padding-top: 24px;
+    border-top: 1px solid #374151;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.footer-copyright {
+    font-size: 12px;
+    color: #6b7280;
+    margin: 0;
+    font-weight: 500;
+}
+
+.footer-meta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+.footer-separator {
+    color: #4b5563;
+}
+
+.footer-meta span:not(.footer-separator) {
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.footer-meta span:not(.footer-separator):hover {
+    color: #fcb080;
+}
+
+/* BottomNavigator 애니메이션 스타일 */
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -10,6 +169,21 @@
     display: flex;
     padding: 8px 0;
     z-index: 100;
+    /* 애니메이션 추가 */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+}
+
+.bottom-nav.visible {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.bottom-nav.hidden {
+    transform: translateX(-50%) translateY(100%);
+    opacity: 0;
+    pointer-events: none;
 }
 
 .nav-item {
@@ -21,20 +195,171 @@
     background: none;
     border: none;
     cursor: pointer;
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
     color: #9ca3af;
+    border-radius: 8px;
+    margin: 0 2px;
+}
+
+.nav-item:hover {
+    background: rgba(252, 176, 128, 0.1);
+    color: #fcb080;
+    transform: translateY(-1px);
 }
 
 .nav-item.active {
-    color: #2563eb;
+    color: #fcb080;
+    background: rgba(252, 176, 128, 0.1);
+}
+
+.nav-item.active:hover {
+    background: rgba(252, 176, 128, 0.15);
 }
 
 .nav-icon {
     font-size: 20px;
     margin-bottom: 4px;
+    transition: transform 0.2s ease;
+}
+
+.nav-item:hover .nav-icon {
+    transform: scale(1.1);
+}
+
+.nav-item.active .nav-icon {
+    transform: scale(1.05);
 }
 
 .nav-label {
     font-size: 11px;
     font-weight: 500;
+    transition: font-weight 0.2s ease;
+}
+
+.nav-item.active .nav-label {
+    font-weight: 600;
+}
+
+/* 스크롤 애니메이션 개선 */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideOutDown {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 375px) {
+    .page-footer {
+        padding: 32px 16px 16px;
+    }
+
+    .footer-content {
+        gap: 24px;
+    }
+
+    .footer-logo-img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .footer-logo-text {
+        font-size: 20px;
+    }
+
+    .footer-tagline {
+        font-size: 13px;
+    }
+
+    .footer-links {
+        gap: 12px;
+    }
+
+    .footer-link {
+        padding: 16px 12px;
+    }
+
+    .footer-link-icon {
+        font-size: 20px;
+    }
+
+    .footer-link span:last-child {
+        font-size: 13px;
+    }
+
+    .main-content {
+        padding-bottom: 100px;
+    }
+}
+
+/* 다크 모드에서 Footer 스타일 조정 */
+@media (prefers-color-scheme: dark) {
+    .page-footer {
+        background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+        border-top-color: #1e293b;
+    }
+
+    .footer-link {
+        background: rgba(30, 41, 59, 0.7);
+        border-color: #334155;
+    }
+
+    .footer-link:hover {
+        background: rgba(252, 176, 128, 0.15);
+        border-color: #fcb080;
+    }
+
+    .footer-bottom {
+        border-top-color: #1e293b;
+    }
+
+    .footer-separator {
+        color: #334155;
+    }
+}
+
+/* 접근성 개선 */
+.footer-link:focus {
+    outline: 2px solid #fcb080;
+    outline-offset: 2px;
+}
+
+/* 푸터 호버 효과 강화 */
+.footer-link:hover .footer-link-icon {
+    transform: scale(1.1);
+    transition: transform 0.2s ease;
+}
+
+/* 스크롤 성능 최적화 */
+.page-footer {
+    will-change: transform;
+    contain: layout;
+}
+
+/* 터치 디바이스 최적화 */
+@media (hover: none) and (pointer: coarse) {
+    .footer-link:hover {
+        transform: none;
+        background: rgba(252, 176, 128, 0.1);
+    }
+
+    .footer-link:active {
+        transform: scale(0.95);
+        transition: transform 0.1s ease;
+    }
 }

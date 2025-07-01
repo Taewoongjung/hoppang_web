@@ -2,16 +2,17 @@ import React from 'react';
 import './styles.css';
 import {useHistory, useLocation} from "react-router-dom";
 
-const BottomNavigator = (props:{userData:any}) => {
+interface BottomNavigatorProps {
+    userData: any;
+    isVisible?: boolean; // 새로 추가된 prop
+}
 
+const BottomNavigator: React.FC<BottomNavigatorProps> = ({ userData, isVisible = true }) => {
     const history = useHistory();
     const location = useLocation();
 
-    const { userData } = props;
-
-
     return (
-        <nav className="bottom-nav">
+        <nav className={`bottom-nav ${isVisible ? 'visible' : 'hidden'}`}>
             <button
                 className={`nav-item ${['/chassis/v2/calculator'].includes(location.pathname) ? 'active' : ''}`}
                 onClick={() => history.push("/chassis/v2/calculator")}
@@ -28,17 +29,15 @@ const BottomNavigator = (props:{userData:any}) => {
 
             {userData ?
                 <button
-                    className={`nav-item  ${location.pathname === '/v2/mypage' ? 'active' : ''}`}
+                    className={`nav-item ${location.pathname === '/v2/mypage' ? 'active' : ''}`}
                     onClick={() => history.push("/v2/mypage")}
                 >
                     <span className="nav-icon">👤</span>
                     <span className="nav-label">마이</span>
                 </button>
-
                 :
-
                 <button
-                    className={`nav-item $location.pathname === '/v2/login' ? 'active' : ''}`}
+                    className={`nav-item ${location.pathname === '/v2/login' ? 'active' : ''}`}
                     onClick={() => history.push("/v2/login")}
                 >
                     <span className="nav-icon">👤</span>
