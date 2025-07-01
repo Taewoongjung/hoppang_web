@@ -191,14 +191,14 @@ const MobileCalculationScreen = () => {
             withCredentials: true,
             headers: { Authorization: localStorage.getItem("hoppang-token") },
         }).then((response) => {
-                const resultData: RegisterChassisPayload = payload;
-                history.push('/calculator/result', {
-                    calculatedResult: response.data,
-                    requestObject: resultData,
-                    companyType: selectedCompany,
-                    unit: unit
-                });
-            })
+            const resultData: RegisterChassisPayload = payload;
+            history.push('/calculator/result', {
+                calculatedResult: response.data,
+                requestObject: resultData,
+                companyType: selectedCompany,
+                unit: unit
+            });
+        })
             .catch((error) => {
                 setErrors({ general: error.response?.data?.message || '견적 계산에 실패했습니다. 다시 시도해주세요.' });
             })
@@ -236,8 +236,12 @@ const MobileCalculationScreen = () => {
                         <div className="step"/>
                         <div className="step"/>
                     </div>
-                    <h2 className="main-title">어떤 브랜드의 샷시로<br/>견적을 받아보시겠어요?</h2>
-                    <p className="subtitle">원하시는 브랜드를 선택해주세요</p>
+
+                    <div className="step-header">
+                        <div className="step-icon">🏭</div>
+                        <h2 className="main-title">어떤 브랜드의 샷시로 견적을 받아보시겠어요?</h2>
+                        <p className="subtitle">원하시는 브랜드를 선택해주세요</p>
+                    </div>
 
                     <div className="company-list">
                         {companyTypeOptionsString.map((company) => (
@@ -264,47 +268,88 @@ const MobileCalculationScreen = () => {
                         <div className="step"/>
                         <div className="step"/>
                     </div>
-                    <h2 className="main-title">견적받을 샷시의<br/>정보를 입력해주세요.</h2>
 
-                    <div className="form-group">
-                        <label className="form-label">선택 된 샷시 회사</label>
-                        <p className="company-display">{selectedCompany}</p>
+                    <div className="step-header">
+                        <div className="step-icon">📏</div>
+                        <h2 className="main-title">견적받을 샷시의 정보를 입력해주세요</h2>
                     </div>
 
-                    <div className="form-group">
-                        <label className="form-label">샷시 종류</label>
-                        <div className="select-container">
-                            <select value={chassisType} onChange={(e) => setChassisType(e.target.value)} className={`custom-select ${errors.chassisType ? 'error' : ''}`}>
-                                <option value="선택안함" disabled>종류를 선택하세요</option>
-                                {chassisTypeOptions.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
-                            </select>
-                            <span className="select-arrow">▼</span>
+                    <div className="form-content">
+                        <div className="info-card">
+                            <div className="info-label">선택된 브랜드</div>
+                            <div className="company-display">{selectedCompany}</div>
                         </div>
-                        {errors.chassisType && <p className="error-message">{errors.chassisType}</p>}
-                    </div>
 
-                    <div className="form-group">
-                        <label className="form-label">사이즈 단위</label>
-                        <div className="unit-toggle">
-                            <button className={`unit-button ${unit === Unit.MM ? 'active' : ''}`} onClick={() => handleUnitChange(Unit.MM)}>mm</button>
-                            <button className={`unit-button ${unit === Unit.CM ? 'active' : ''}`} onClick={() => handleUnitChange(Unit.CM)}>cm</button>
-                        </div>
-                    </div>
-
-                    <div className="size-inputs">
                         <div className="form-group">
-                            <label className="form-label">가로 길이 ({unit})</label>
-                            <input type="number" inputMode="numeric" value={width} onChange={(e) => setWidth(e.target.value)} placeholder="" className={`custom-input ${errors.width ? 'error' : ''}`} />
-                            {errors.width && <p className="error-message">{errors.width}</p>}
+                            <label className="form-label">샷시 종류</label>
+                            <div className="select-container">
+                                <select
+                                    value={chassisType}
+                                    onChange={(e) => setChassisType(e.target.value)}
+                                    className={`custom-select ${errors.chassisType ? 'error' : ''}`}
+                                >
+                                    <option value="선택안함" disabled>종류를 선택하세요</option>
+                                    {chassisTypeOptions.map((option) =>
+                                        <option key={option.value} value={option.value}>
+                                            {option.label}
+                                        </option>
+                                    )}
+                                </select>
+                                <span className="select-arrow">▼</span>
+                            </div>
+                            {errors.chassisType && <p className="error-message">{errors.chassisType}</p>}
                         </div>
-                        <div className="form-group">
-                            <label className="form-label">세로 길이 ({unit})</label>
-                            <input type="number" inputMode="numeric" value={height} onChange={(e) => setHeight(e.target.value)} placeholder="" className={`custom-input ${errors.height ? 'error' : ''}`} />
-                            {errors.height && <p className="error-message">{errors.height}</p>}
-                        </div>
-                    </div>
 
-                    <button className="add-button" onClick={handleRegisterChassis}>+ 추가하기</button>
+                        <div className="form-group">
+                            <label className="form-label">사이즈 단위</label>
+                            <div className="unit-toggle">
+                                <button
+                                    className={`unit-button ${unit === Unit.MM ? 'active' : ''}`}
+                                    onClick={() => handleUnitChange(Unit.MM)}
+                                >
+                                    mm
+                                </button>
+                                <button
+                                    className={`unit-button ${unit === Unit.CM ? 'active' : ''}`}
+                                    onClick={() => handleUnitChange(Unit.CM)}
+                                >
+                                    cm
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="size-inputs">
+                            <div className="form-group">
+                                <label className="form-label">가로 길이 ({unit})</label>
+                                <input
+                                    type="number"
+                                    inputMode="numeric"
+                                    value={width}
+                                    onChange={(e) => setWidth(e.target.value)}
+                                    placeholder=""
+                                    className={`custom-input ${errors.width ? 'error' : ''}`}
+                                />
+                                {errors.width && <p className="error-message">{errors.width}</p>}
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">세로 길이 ({unit})</label>
+                                <input
+                                    type="number"
+                                    inputMode="numeric"
+                                    value={height}
+                                    onChange={(e) => setHeight(e.target.value)}
+                                    placeholder=""
+                                    className={`custom-input ${errors.height ? 'error' : ''}`}
+                                />
+                                {errors.height && <p className="error-message">{errors.height}</p>}
+                            </div>
+                        </div>
+
+                        <button className="add-button" onClick={handleRegisterChassis}>
+                            <span className="add-icon">+</span>
+                            추가하기
+                        </button>
+                    </div>
 
                     <div className="list-section">
                         <h3 className="section-title">
@@ -318,11 +363,18 @@ const MobileCalculationScreen = () => {
                                         <div className="item-content">
                                             <div className="item-icon">🪟</div>
                                             <div className="item-details">
-                                                <span className="item-chassis">{chassisTypeOptions.find(o => o.value === item.chassisType)?.label}</span>
-                                                <span className="item-size">{item.width}{unit} x {item.height}{unit}</span>
+                                                <span className="item-chassis">
+                                                    {chassisTypeOptions.find(o => o.value === item.chassisType)?.label}
+                                                </span>
+                                                <span className="item-size">{item.width}{unit} × {item.height}{unit}</span>
                                             </div>
                                         </div>
-                                        <button onClick={() => deleteRegisteredChassis(item.index)} className="delete-button">×</button>
+                                        <button
+                                            onClick={() => deleteRegisteredChassis(item.index)}
+                                            className="delete-button"
+                                        >
+                                            ×
+                                        </button>
                                     </div>
                                 ))}
                             </div>
@@ -331,7 +383,7 @@ const MobileCalculationScreen = () => {
                                 <div className="empty-icon">📦</div>
                                 <div className="empty-text">
                                     <p className="empty-title">아직 추가된 샷시가 없어요</p>
-                                    <p className="empty-description">위에서 샷시 정보를 입력하고 추가해주세요.</p>
+                                    <p className="empty-description">위에서 샷시 정보를 입력하고 추가해주세요</p>
                                 </div>
                             </div>
                         )}
@@ -347,44 +399,50 @@ const MobileCalculationScreen = () => {
                         <div className="step active"/>
                         <div className="step"/>
                     </div>
-                    <h2 className="main-title">견적을 원하는 주소가 어디신가요?</h2>
 
-                    <div className="form-group">
-                        <label className="form-label">주소</label>
-                        <div
-                            className={`address-input-wrapper ${errors.address ? 'error' : ''}`}
-                            onClick={() => setShowAddressModal(true)}
-                        >
-                            <div className="address-input-content">
-                                {address ? (
-                                    <>
-                                        <div className="address-display">
-                                            <span className="address-text">{address}</span>
-                                            <span className="address-zone">({addressZoneCode})</span>
-                                        </div>
-                                        <div className="address-change-hint">주소 변경하기</div>
-                                    </>
-                                ) : (
-                                    <div className="address-placeholder">
-                                        <span className="address-placeholder-icon">🏠</span>
-                                        <span className="address-placeholder-text">주소를 검색해주세요</span>
-                                    </div>
-                                )}
-                                <div className="address-input-arrow">📍</div>
-                            </div>
-                        </div>
-                        {errors.address && <p className="error-message">{errors.address}</p>}
+                    <div className="step-header">
+                        <div className="step-icon">🏠</div>
+                        <h2 className="main-title">견적을 원하는 주소가 어디신가요?</h2>
                     </div>
 
-                    <div className="form-group">
-                        <label className="form-label">상세주소</label>
-                        <input
-                            type="text"
-                            value={remainAddress}
-                            onChange={(e) => setRemainAddress(e.target.value)}
-                            placeholder="동, 호수 등 상세주소를 입력하세요"
-                            className="custom-input"
-                        />
+                    <div className="form-content">
+                        <div className="form-group">
+                            <label className="form-label">주소</label>
+                            <div
+                                className={`address-input-wrapper ${errors.address ? 'error' : ''}`}
+                                onClick={() => setShowAddressModal(true)}
+                            >
+                                <div className="address-input-content">
+                                    {address ? (
+                                        <>
+                                            <div className="address-display">
+                                                <span className="address-text">{address}</span>
+                                                <span className="address-zone">({addressZoneCode})</span>
+                                            </div>
+                                            <div className="address-change-hint">주소 변경하기</div>
+                                        </>
+                                    ) : (
+                                        <div className="address-placeholder">
+                                            <span className="address-placeholder-icon">🏠</span>
+                                            <span className="address-placeholder-text">주소를 검색해주세요</span>
+                                        </div>
+                                    )}
+                                    <div className="address-input-arrow">📍</div>
+                                </div>
+                            </div>
+                            {errors.address && <p className="error-message">{errors.address}</p>}
+                        </div>
+
+                        <div className="form-group">
+                            <label className="form-label">상세주소</label>
+                            <input
+                                type="text"
+                                value={remainAddress}
+                                onChange={(e) => setRemainAddress(e.target.value)}
+                                placeholder="동, 호수 등 상세주소를 입력하세요"
+                                className="custom-input"
+                            />
+                        </div>
                     </div>
                 </>
             );
@@ -397,54 +455,87 @@ const MobileCalculationScreen = () => {
                         <div className="step done"/>
                         <div className="step active"/>
                     </div>
-                    <h2 className="main-title">견적을 위한 추가정보를 입력해주세요.</h2>
 
-                    <div className="form-group">
-                        <label className="form-label">거주 층수</label>
-                        <input
-                            type="number"
-                            inputMode="numeric"
-                            value={floor || ''}
-                            onChange={(e) => setFloor(e.target.value ? Number(e.target.value) : undefined)}
-                            placeholder="예: 5"
-                            className={`custom-input ${errors.floor ? 'error' : ''}`}
-                        />
-                        {errors.floor && <p className="error-message">{errors.floor}</p>}
+                    <div className="step-header">
+                        <div className="step-icon">⚙️</div>
+                        <h2 className="main-title">견적을 위한 추가정보를 입력해주세요</h2>
+                    </div>
 
-                        {/* 안내사항 추가 */}
-                        <div className="info-notice">
-                            <p className="info-text">
-                                *사다리차 작업 불가 시 가격 변동 및 작업 불가 가능성 있습니다.
-                            </p>
-                            <p className="info-text">
-                                *층수에 따라 가격이 변동됩니다. (사다리차 등)
-                            </p>
-                            <p className="info-text">
-                                *사다리차 대여 비용은 기본 2 시간으로 측정됩니다.
-                            </p>
+                    <div className="form-content">
+                        <div className="form-group">
+                            <label className="form-label">거주 층수</label>
+                            <input
+                                type="number"
+                                inputMode="numeric"
+                                value={floor || ''}
+                                onChange={(e) => setFloor(e.target.value ? Number(e.target.value) : undefined)}
+                                placeholder="예: 5"
+                                className={`custom-input ${errors.floor ? 'error' : ''}`}
+                            />
+                            {errors.floor && <p className="error-message">{errors.floor}</p>}
+
+                            <div className="info-notice">
+                                <div className="notice-item">
+                                    <span className="notice-dot"></span>
+                                    <span>사다리차 작업 불가 시 가격 변동 및 작업 불가 가능성 있습니다</span>
+                                </div>
+                                <div className="notice-item">
+                                    <span className="notice-dot"></span>
+                                    <span>층수에 따라 가격이 변동됩니다 (사다리차 등)</span>
+                                </div>
+                                <div className="notice-item">
+                                    <span className="notice-dot"></span>
+                                    <span>사다리차 대여 비용은 기본 2시간으로 측정됩니다</span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="switch-group">
-                        <span className="switch-label">발코니 확장 여부</span>
-                        <label className="custom-switch">
-                            <input type="checkbox" checked={isExpanded} onChange={() => setIsExpanded(!isExpanded)} />
-                            <span className="slider"></span>
-                        </label>
-                    </div>
-                    <div className="switch-group">
-                        <span className="switch-label">철거 진행 여부</span>
-                        <label className="custom-switch">
-                            <input type="checkbox" checked={isScheduledForDemolition} onChange={() => setIsScheduledForDemolition(!isScheduledForDemolition)} />
-                            <span className="slider"></span>
-                        </label>
-                    </div>
-                    <div className="switch-group">
-                        <span className="switch-label">현재 거주 여부</span>
-                        <label className="custom-switch">
-                            <input type="checkbox" checked={isResident} onChange={() => setIsResident(!isResident)} />
-                            <span className="slider"></span>
-                        </label>
+                        <div className="options-section">
+                            <div className="switch-group">
+                                <div className="switch-info">
+                                    <span className="switch-label">발코니 확장 여부</span>
+                                    <span className="switch-description">확장된 발코니인지 선택해주세요</span>
+                                </div>
+                                <label className="custom-switch">
+                                    <input
+                                        type="checkbox"
+                                        checked={isExpanded}
+                                        onChange={() => setIsExpanded(!isExpanded)}
+                                    />
+                                    <span className="slider"></span>
+                                </label>
+                            </div>
+
+                            <div className="switch-group">
+                                <div className="switch-info">
+                                    <span className="switch-label">철거 진행 여부</span>
+                                    <span className="switch-description">기존 창호 철거가 필요한지 선택해주세요</span>
+                                </div>
+                                <label className="custom-switch">
+                                    <input
+                                        type="checkbox"
+                                        checked={isScheduledForDemolition}
+                                        onChange={() => setIsScheduledForDemolition(!isScheduledForDemolition)}
+                                    />
+                                    <span className="slider"></span>
+                                </label>
+                            </div>
+
+                            <div className="switch-group">
+                                <div className="switch-info">
+                                    <span className="switch-label">현재 거주 여부</span>
+                                    <span className="switch-description">현재 거주 중인 곳인지 선택해주세요</span>
+                                </div>
+                                <label className="custom-switch">
+                                    <input
+                                        type="checkbox"
+                                        checked={isResident}
+                                        onChange={() => setIsResident(!isResident)}
+                                    />
+                                    <span className="slider"></span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </>
             );
@@ -458,7 +549,7 @@ const MobileCalculationScreen = () => {
                     className="button-primary"
                     onClick={() => {
                         if (!selectedCompany) {
-                            setErrors({general: '샷시 브랜드는 필수값 입니다.'});
+                            setErrors({general: '샷시 브랜드를 선택해주세요'});
                             return;
                         }
                         setSelectedCompany(selectedCompany);
@@ -466,7 +557,7 @@ const MobileCalculationScreen = () => {
                     }}
                     disabled={!selectedCompany}
                 >
-                    다음
+                    다음 단계로
                 </button>
             )
         } else if (currentStep === 1) {
@@ -475,7 +566,7 @@ const MobileCalculationScreen = () => {
                     className="button-primary"
                     onClick={() => {
                         if (registeredList.length === 0) {
-                            setErrors({general: '샷시를 하나 이상 추가해주세요.'});
+                            setErrors({general: '샷시를 하나 이상 추가해주세요'});
                             return;
                         }
                         setErrors({});
@@ -483,7 +574,7 @@ const MobileCalculationScreen = () => {
                     }}
                     disabled={registeredList.length === 0}
                 >
-                    다음
+                    다음 단계로
                 </button>
             );
         } else if (currentStep === 2) {
@@ -491,8 +582,8 @@ const MobileCalculationScreen = () => {
                 <button
                     className="button-primary"
                     onClick={() => {
-                        if (registeredList.length === 0) {
-                            setErrors({general: '주소를 입력해주세요.'});
+                        if (!address || !remainAddress) {
+                            setErrors({general: '주소와 상세주소를 모두 입력해주세요'});
                             return;
                         }
                         setErrors({});
@@ -500,22 +591,41 @@ const MobileCalculationScreen = () => {
                     }}
                     disabled={!address || !remainAddress}
                 >
-                    다음
+                    다음 단계로
                 </button>
             );
         } else if (currentStep === 3) {
             return (
-                <button className="button-primary" onClick={handleCalculate} disabled={!floor}>
-                    {isLoading ? '계산중...' : '견적 계산하기'}
+                <button
+                    className="button-primary calculate-button"
+                    onClick={handleCalculate}
+                    disabled={!floor || isLoading}
+                >
+                    {isLoading ? (
+                        <>
+                            <span className="loading-spinner"></span>
+                            견적 계산중...
+                        </>
+                    ) : (
+                        <>
+                            견적 계산하기
+                        </>
+                    )}
                 </button>
             );
         }
     }
 
-
-     return (
+    return (
         <div className="app-container">
-            {isLoading && <div className="loading-overlay"><span>견적을 계산중입니다...</span></div>}
+            {isLoading && (
+                <div className="loading-overlay">
+                    <div className="loading-content">
+                        <div className="loading-spinner"></div>
+                        <span>견적을 계산중입니다...</span>
+                    </div>
+                </div>
+            )}
 
             <header className="app-header">
                 <div className="header-content">
@@ -537,7 +647,12 @@ const MobileCalculationScreen = () => {
                     {renderContent()}
                 </div>
 
-                {errors.general && <p className="error-message general-error">{errors.general}</p>}
+                {errors.general && (
+                    <div className="error-banner">
+                        <span className="error-icon">⚠️</span>
+                        <span>{errors.general}</span>
+                    </div>
+                )}
             </main>
 
             <footer className="footer-actions">

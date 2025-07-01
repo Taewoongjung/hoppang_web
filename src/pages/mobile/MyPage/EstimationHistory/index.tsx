@@ -103,7 +103,7 @@ const EstimationHistory = () => {
         if (!estimationId) {
             return;
         }
-        return window.location.href = "/mypage/estimation/" + estimationId;
+        return window.location.href = "/v2/mypage/estimation/" + estimationId;
     }
 
     const formatPrice = (price: number) => {

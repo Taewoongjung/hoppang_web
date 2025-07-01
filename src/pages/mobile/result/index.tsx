@@ -17,6 +17,7 @@ import {Tooltip} from "antd";
 import {HYUNDAI, KCC_GLASS, LX} from "../../../definition/companyType";
 import {RegisterChassisPayload} from "../../../definition/interfacesV2";
 import InquiryEstimateChassis from "../../../component/V2/InquiryEstimateChassis";
+import ExitModal from "../../../component/V2/ExitModal";
 
 
 const MobileResultScreen = () => {
@@ -34,8 +35,9 @@ const MobileResultScreen = () => {
     ]);
 
     const [isLoading, setIsLoading] = useState(false);
-
     const [error, setError] = useState('');
+
+    const [showExitModal, setShowExitModal] = useState(false);
 
 
     useEffect(() => {
@@ -106,127 +108,122 @@ const MobileResultScreen = () => {
         );
     }, [results]);
 
+    const handleNewEstimate = () => {
+        history.push('/calculator/agreement');
+    };
+
     const renderResultCard = (result: any, index: number) => {
         const companyName = mappedCompanyByValue(result.company);
         const totalDiscount = result.discountedWholeCalculatedFeeAmount;
         const totalDiscountWithSurtx = result.discountedWholeCalculatedFeeWithSurtax;
         const originalPrice = result.wholeCalculatedFee + result.surtax;
 
-
         return (
             <div className="result-card" key={index}>
+                {/* Company Header */}
                 <div className="company-header">
-                    <span className="company-name">{companyName}</span>
+                    <div className="company-badge">
+                        <span className="company-name">{companyName}</span>
+                    </div>
                 </div>
 
+                {/* Price Summary */}
                 <div className="price-summary">
-                    <div className="price-label">최종 견적 금액</div>
-                    <div className="total-price">{addCommasToNumber(originalPrice)}원</div>
+                    <div className="price-label">총 견적 금액</div>
+                    <div className="total-price">
+                        {addCommasToNumber(originalPrice)}
+                        <span className="price-unit">원</span>
+                    </div>
                     {totalDiscount > 0 && (
-                        <div className="original-price">{addCommasToNumber(originalPrice)}원</div>
+                        <div className="discount-info">
+                            <span className="original-price">{addCommasToNumber(originalPrice)}원</span>
+                            <span className="discount-badge">-{addCommasToNumber(totalDiscount)}원 할인</span>
+                        </div>
                     )}
                 </div>
 
-                <div className="details-section">
-                    <div className="materials-header">
-                        <div className="materials-icon">🏗️</div>
-                        <div className="details-title">재료비</div>
+                {/* Materials Section */}
+                <div className="section">
+                    <div className="section-header">
+                        <h3 className="section-title">창호 항목</h3>
                     </div>
-                    <div className="materials-grid">
+                    <div className="materials-list">
                         {result.chassisPriceResultList.map((item: any, idx: number) => {
                             const isCm = location.state.unit === Unit.CM;
                             const width = isCm ? item.width / 10 : item.width;
                             const height = isCm ? item.height / 10 : item.height;
 
                             return (
-                                <div className="material-card" key={idx}>
-                                    <div className="material-type">
-                                        <span className="material-type-label">{getLabelOfChassisType(item.chassisType)}</span>
-                                    </div>
-                                    <div className="material-specs">
-                                        <div className="spec-item">
-                                            <span className="spec-icon">📏</span>
-                                            <span className="spec-value">{width}{location.state.unit} × {height}{location.state.unit}</span>
-                                        </div>
+                                <div className="material-item" key={idx}>
+                                    <div className="material-info">
+                                        <span className="material-type">
+                                            {getLabelOfChassisType(item.chassisType)}
+                                        </span>
+                                        <span className="material-size">
+                                            {width}{location.state.unit} × {height}{location.state.unit}
+                                        </span>
                                     </div>
                                     <div className="material-price">
-                                        <span className="price-amount">{addCommasToNumber(item.price)}원</span>
+                                        {addCommasToNumber(item.price)}원
                                     </div>
                                 </div>
                             );
                         })}
                     </div>
+                </div>
 
-                    <hr className="section-divider"/>
-
-                    <div className="details-title" style={{marginTop: '20px'}}>부가 비용</div>
-                    <div className="cost-table">
-                        <div className="cost-table-row">
-                            <div className="cost-item-label">
-                                철거비
-                            </div>
-                            <div className="cost-item-value">{addCommasToNumber(result.demolitionFee)}원</div>
+                {/* Additional Costs Section */}
+                <div className="section">
+                    <div className="section-header">
+                        <h3 className="section-title">부가 비용</h3>
+                    </div>
+                    <div className="cost-list">
+                        <div className="cost-item">
+                            <span className="cost-label">철거비</span>
+                            <span className="cost-value">{addCommasToNumber(result.demolitionFee)}원</span>
                         </div>
-
-                        <div className="cost-table-row">
-                            <div className="cost-item-label">
-                                사다리차비 ({result.customerFloor}층)
-                            </div>
-                            <div className="cost-item-value">{addCommasToNumber(result.ladderFee)}원</div>
+                        <div className="cost-item">
+                            <span className="cost-label">사다리차비 ({result.customerFloor}층)</span>
+                            <span className="cost-value">{addCommasToNumber(result.ladderFee)}원</span>
                         </div>
-
-                        <div className="cost-table-row">
-                            <div className="cost-item-label">
-                                보양비
-                            </div>
-                            <div className="cost-item-value">{addCommasToNumber(result.maintenanceFee)}원</div>
+                        <div className="cost-item">
+                            <span className="cost-label">보양비</span>
+                            <span className="cost-value">{addCommasToNumber(result.maintenanceFee)}원</span>
                         </div>
-
-                        <div className="cost-table-row">
-                            <div className="cost-item-label">
-                                기타비용
-                            </div>
-                            <div className="cost-item-value">{addCommasToNumber(result.deliveryFee)}원</div>
+                        <div className="cost-item">
+                            <span className="cost-label">기타비용</span>
+                            <span className="cost-value">{addCommasToNumber(result.deliveryFee)}원</span>
                         </div>
-
-                        <div className="cost-table-row">
-                            <div className="cost-item-label">
-                                시공비
-                                <div className="tooltip-container">
-                                    <Tooltip title="총합계에 이미 포함된 금액입니다.">
-                                        <InfoCircleOutlined style={{ color: '#888' }}/>
-                                    </Tooltip>
-                                </div>
+                        <div className="cost-item">
+                            <div className="cost-label-with-info">
+                                <span>시공비</span>
+                                <Tooltip title="총합계에 이미 포함된 금액입니다.">
+                                    <InfoCircleOutlined className="info-icon"/>
+                                </Tooltip>
                             </div>
-                            <div className="cost-item-value">{addCommasToNumber(result.laborFee)}원</div>
+                            <span className="cost-value">{addCommasToNumber(result.laborFee)}원</span>
                         </div>
-
-                        <div className="cost-table-row">
-                            <div className="cost-item-label">
-                                부가세
-                            </div>
-                            <div className="cost-item-value">{addCommasToNumber(result.surtax)}원</div>
+                        <div className="cost-item">
+                            <span className="cost-label">부가세</span>
+                            <span className="cost-value">{addCommasToNumber(result.surtax)}원</span>
                         </div>
-
                         {totalDiscount > 0 && (
-                            <div className="cost-table-row discount-row">
-                                <div className="cost-item-label">
-                                    할인 금액
-                                </div>
-                                <div className="cost-item-value discount-value">-{addCommasToNumber(totalDiscount)}원</div>
+                            <div className="cost-item discount-item">
+                                <span className="cost-label">할인 금액</span>
+                                <span className="cost-value discount-value">-{addCommasToNumber(totalDiscount)}원</span>
                             </div>
                         )}
                     </div>
                 </div>
 
-                <div className="inquiry-section">
-                    {inquiredList.includes(result.estimationId) ?
-                        <button className="button-disabled" disabled>
-                            ✔ 문의 완료
+                {/* Action Button */}
+                <div className="action-section">
+                    {inquiredList.includes(result.estimationId) ? (
+                        <button className="button-completed" disabled>
+                            <span className="check-icon">✓</span>
+                            문의 완료
                         </button>
-
-                        :
-
+                    ) : (
                         <button
                             className="button-primary"
                             onClick={() => {
@@ -234,9 +231,9 @@ const MobileResultScreen = () => {
                                 setIsInquiryModalOpen(true);
                             }}
                         >
-                            해당 견적 문의
+                            이 견적으로 문의하기
                         </button>
-                    }
+                    )}
                 </div>
             </div>
         );
@@ -244,10 +241,18 @@ const MobileResultScreen = () => {
 
     return (
         <div className="app-container">
-            {isLoading && <div className="loading-overlay"><span>견적을 계산중입니다...</span></div>}
+            {isLoading && (
+                <div className="loading-overlay">
+                    <div className="loading-content">
+                        <div className="loading-spinner"></div>
+                        <span>견적을 계산중입니다...</span>
+                    </div>
+                </div>
+            )}
+
             <header className="app-header">
                 <div className="header-content">
-                    <div className="logo-container" onClick={() => history.push('/chassis/v2/calculator')}>
+                    <div className="logo-container" onClick={() => setShowExitModal(true)}>
                         <img src="/assets/hoppang-character.png" alt="Hoppang Logo" className="logo-img"/>
                         <span className="logo-text">호빵</span>
                     </div>
@@ -257,43 +262,53 @@ const MobileResultScreen = () => {
 
             <main className="main-content">
                 <div className="result-header">
-                    <h2 className="result-title">샷시 견적 결과</h2>
-                    <p className="result-subtitle">선택하신 조건의 예상 견적입니다.</p>
+                    <h2 className="result-title">견적 계산 완료</h2>
+                    <p className="result-subtitle">선택하신 조건에 맞는 예상 견적입니다</p>
                 </div>
 
                 {results.map(renderResultCard)}
 
-                {/* 추가견적 받기 */}
+                {/* Additional Estimates */}
                 {yetCalculatedCompanyList?.length > 0 && (
-                    <div className="extra-estimate-wrapper">
-                        <p className="extra-estimate-title">다른 회사도 비교해보세요 👀</p>
-                        <div className="company-estimate-options">
+                    <div className="additional-estimates">
+                        <div className="additional-header">
+                            <h3 className="additional-title">다른 브랜드도 비교해보세요</h3>
+                            <p className="additional-subtitle">더 나은 조건을 찾아보세요</p>
+                        </div>
+                        <div className="company-options">
                             {yetCalculatedCompanyList.map((company) => (
-                                <div className="company-estimate-card" key={company}>
-                                    <button
-                                        className="company-estimate-button"
-                                        onClick={() => getOtherEstimates(company)}
-                                        disabled={isLoading}
-                                    >
-                                        <div className="company-name">{mappedCompanyByValue(company)}</div>
-                                        <div className="cta-text">견적받기 →</div>
-                                    </button>
-                                </div>
+                                <button
+                                    key={company}
+                                    className="company-option"
+                                    onClick={() => getOtherEstimates(company)}
+                                    disabled={isLoading}
+                                >
+                                    <span className="company-option-name">{mappedCompanyByValue(company)}</span>
+                                    <span className="company-option-action">견적받기 →</span>
+                                </button>
                             ))}
                         </div>
                     </div>
                 )}
 
+                {error && (
+                    <div className="error-banner">
+                        <span className="error-icon">⚠️</span>
+                        <span>{error}</span>
+                    </div>
+                )}
 
-                {error && <p style={{color: 'red', textAlign: 'center', marginTop: '20px'}}>{error}</p>}
-
+                {/* New Estimate Button */}
+                <div className="new-estimate-section">
+                    <button
+                        className="button-new-estimate"
+                        onClick={handleNewEstimate}
+                    >
+                        <span className="new-estimate-icon">🔄</span>
+                        다시 견적 받으러 가기
+                    </button>
+                </div>
             </main>
-
-            {/*<footer className="footer-actions">*/}
-            {/*    <button className="button-secondary" disabled={isLoading}>*/}
-            {/*        하이*/}
-            {/*    </button>*/}
-            {/*</footer>*/}
 
             <InquiryEstimateChassis
                 estimationId={inquiryEstimationId}
@@ -305,6 +320,8 @@ const MobileResultScreen = () => {
                     );
                 }}
             />
+
+            {showExitModal && (<ExitModal setShowExitModal={setShowExitModal}/>)}
         </div>
     );
 };

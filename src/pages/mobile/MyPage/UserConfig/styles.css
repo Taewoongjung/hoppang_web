@@ -1,4 +1,4 @@
-/* Reset and Base Styles */
+/* Improved Settings ConfigPage Styles */
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background-color: #f8f9fa;
@@ -18,66 +18,52 @@ body {
 
 /* Header Styles */
 .config-header {
-    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-    padding: 20px;
-    border-bottom: 1px solid #e5e7eb;
+    background: white;
+    padding: 16px 20px;
+    border-bottom: 1px solid #eee;
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
 .config-header-content {
     display: flex;
-    align-items: flex-start;
-    gap: 16px;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .config-back-button {
-    background: #f3f4f6;
+    background: #f8f9fa;
     border: none;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s ease;
-    color: #374151;
+    color: #6b7280;
     font-size: 18px;
-    margin-top: 2px;
 }
 
 .config-back-button:hover {
     background: #e5e7eb;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.config-back-button:active {
-    transform: translateY(0);
-}
-
-.config-title-container {
-    flex: 1;
+    color: #374151;
 }
 
 .config-title {
-    font-size: 28px;
-    font-weight: 800;
-    background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 4px;
-    letter-spacing: -0.02em;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+    text-align: center;
+    flex: 1;
 }
 
-.config-subtitle {
-    font-size: 15px;
-    color: #6b7280;
-    font-weight: 500;
+.header-spacer {
+    width: 40px;
 }
 
 /* Main Content */
@@ -86,18 +72,93 @@ body {
     padding-bottom: 100px;
 }
 
+/* Hero Section */
+.settings-hero {
+    margin-bottom: 32px;
+    animation: slideInUp 0.8s ease-out;
+}
+
+.hero-card {
+    background: linear-gradient(135deg, #ffeb9c 10%, #f7e0bc 60%, #fff4e5 100%);
+    border-radius: 20px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -30%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.hero-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-icon {
+    width: 56px;
+    height: 56px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #f59e56;
+    font-size: 24px;
+    box-shadow: 0 4px 16px rgba(245, 158, 86, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.hero-text h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #5c4a3b;
+    margin: 0 0 4px 0;
+}
+
+.hero-text p {
+    font-size: 14px;
+    color: #8b7355;
+    margin: 0;
+}
+
 /* Section Styles */
 .config-section {
     margin-bottom: 32px;
+    animation: slideInUp 0.8s ease-out;
+}
+
+.config-section:nth-child(2) { animation-delay: 0.1s; }
+.config-section:nth-child(3) { animation-delay: 0.2s; }
+.config-section:nth-child(4) { animation-delay: 0.3s; }
+.config-section:nth-child(5) { animation-delay: 0.4s; }
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.section-icon {
+    font-size: 18px;
 }
 
 .config-section-title {
     font-size: 16px;
     font-weight: 700;
-    margin-bottom: 16px;
+    margin: 0;
     color: #374151;
-    padding-left: 4px;
-    letter-spacing: -0.01em;
 }
 
 .danger-section .config-section-title {
@@ -119,8 +180,8 @@ body {
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     border: 2px solid transparent;
     position: relative;
     overflow: hidden;
@@ -130,32 +191,26 @@ body {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(252, 176, 128, 0.1) 0%, rgba(245, 158, 86, 0.1) 100%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(252, 176, 128, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.config-menu-item:hover::before {
+    left: 100%;
 }
 
 .config-menu-item:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-    border-color: #fcb080;
-}
-
-.config-menu-item:hover::before {
-    opacity: 1;
-}
-
-.config-menu-item:active {
-    transform: translateY(-1px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    border-color: rgba(252, 176, 128, 0.3);
 }
 
 /* Danger Item Specific Styles */
 .danger-item {
-    border: 2px solid #fee2e2;
+    border: 1px solid #fee2e2;
     background: linear-gradient(135deg, #fefefe 0%, #fef2f2 100%);
 }
 
@@ -165,7 +220,7 @@ body {
 }
 
 .danger-item::before {
-    background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(220, 38, 38, 0.05) 100%);
+    background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.05), transparent);
 }
 
 .config-menu-content {
@@ -173,25 +228,39 @@ body {
     align-items: center;
     gap: 16px;
     flex: 1;
-    z-index: 1;
     position: relative;
+    z-index: 2;
 }
 
-.config-menu-icon {
+.config-menu-icon-wrapper {
+    position: relative;
     width: 52px;
     height: 52px;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.config-menu-item:hover .config-menu-icon {
+.config-menu-emoji {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 22px;
+    z-index: 3;
+}
+
+.config-menu-icon-bg {
+    width: 100%;
+    height: 100%;
+    border-radius: 14px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.config-menu-item:hover .config-menu-icon-bg {
     transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 .config-menu-text {
@@ -202,14 +271,14 @@ body {
     font-size: 16px;
     font-weight: 600;
     color: #1f2937;
-    margin-bottom: 4px;
-    letter-spacing: -0.01em;
+    margin: 0 0 4px 0;
 }
 
 .config-menu-text p {
     font-size: 13px;
     color: #6b7280;
     line-height: 1.4;
+    margin: 0;
 }
 
 .danger-item .config-menu-text h4 {
@@ -224,103 +293,174 @@ body {
     color: #9ca3af;
     font-size: 14px;
     transition: all 0.3s ease;
-    z-index: 1;
     position: relative;
+    z-index: 2;
 }
 
 .config-menu-item:hover .config-menu-arrow {
     color: #6b7280;
-    transform: translateX(2px);
+    transform: translateX(4px);
+}
+
+/* App Info Section */
+.app-info-section {
+    animation: slideInUp 0.8s ease-out 0.5s both;
+}
+
+.app-info-card {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid #e0f2fe;
+}
+
+.app-character img {
+    width: 40px;
+    height: 40px;
+    filter: drop-shadow(0 2px 8px rgba(14, 165, 233, 0.3));
+}
+
+.app-info-text h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 0 0 4px 0;
+}
+
+.app-info-text p {
+    font-size: 12px;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Modal Styles */
+.withdraw-modal .ant-modal-content {
+    border-radius: 20px !important;
+    overflow: hidden;
+}
+
+.modal-title {
+    text-align: center;
+    padding: 10px 0;
+}
+
+.modal-warning-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.modal-title-text {
+    font-size: 18px;
+    font-weight: bold;
+    color: #ef4444;
+}
+
+.modal-content {
+    text-align: center;
+    padding: 20px 24px;
+}
+
+.modal-warning-box {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+    padding: 16px;
+    margin: 16px 0;
+}
+
+.modal-warning-box p {
+    margin: 0;
+    color: #991b1b;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.modal-warning-box strong {
+    font-weight: 700;
+}
+
+.modal-confirmation {
+    color: #6b7280;
+    font-size: 14px;
+    margin: 12px 0 0 0;
+}
+
+.modal-danger-button {
+    border-radius: 8px !important;
+    height: 40px !important;
+    font-weight: 600 !important;
+}
+
+.modal-cancel-button {
+    border-radius: 8px !important;
+    height: 40px !important;
+    font-weight: 600 !important;
 }
 
 /* Responsive Design */
 @media (max-width: 375px) {
-    .config-header {
-        padding: 16px;
-    }
-
-    .config-title {
-        font-size: 24px;
-    }
-
-    .config-subtitle {
-        font-size: 14px;
-    }
-
     .config-main {
         padding: 20px 16px;
         padding-bottom: 100px;
+    }
+
+    .hero-card {
+        padding: 20px;
+    }
+
+    .hero-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+    }
+
+    .hero-text h2 {
+        font-size: 18px;
     }
 
     .config-menu-item {
         padding: 16px;
     }
 
-    .config-menu-icon {
+    .config-menu-icon-wrapper {
         width: 44px;
         height: 44px;
+    }
+
+    .config-menu-emoji {
         font-size: 18px;
     }
 
     .config-back-button {
-        width: 40px;
-        height: 40px;
+        width: 36px;
+        height: 36px;
         font-size: 16px;
+    }
+
+    .app-info-card {
+        padding: 16px;
+    }
+
+    .app-character img {
+        width: 36px;
+        height: 36px;
     }
 }
 
-/* Animation */
-@keyframes fadeInUp {
+/* Animations */
+@keyframes slideInUp {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px);
     }
     to {
         opacity: 1;
         transform: translateY(0);
     }
-}
-
-.config-section {
-    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.config-section:nth-child(1) {
-    animation-delay: 0.1s;
-}
-
-.config-section:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.config-section:nth-child(3) {
-    animation-delay: 0.3s;
-}
-
-/* Custom Modal Styles (if needed) */
-.ant-modal-content {
-    border-radius: 16px !important;
-    overflow: hidden;
-}
-
-.ant-modal-header {
-    border-bottom: 1px solid #f0f0f0 !important;
-    padding: 20px 24px 16px !important;
-}
-
-.ant-modal-body {
-    padding: 20px 24px !important;
-}
-
-.ant-modal-footer {
-    border-top: 1px solid #f0f0f0 !important;
-    padding: 16px 24px 20px !important;
-}
-
-/* Loading State Enhancement */
-.config-container.loading {
-    pointer-events: none;
-    opacity: 0.7;
 }
 
 /* Focus States for Accessibility */
@@ -349,12 +489,74 @@ body {
 @media (prefers-reduced-motion: reduce) {
     .config-menu-item,
     .config-back-button,
-    .config-menu-icon,
+    .config-menu-icon-bg,
     .config-menu-arrow {
         transition: none;
     }
 
     .config-section {
         animation: none;
+    }
+
+    .config-menu-item::before {
+        transition: none;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .config-container {
+        background: #111827;
+    }
+
+    .config-header {
+        background: #1f2937;
+        border-color: #374151;
+    }
+
+    .config-title {
+        color: #f9fafb;
+    }
+
+    .hero-card {
+        background: linear-gradient(135deg, #374151 0%, #1f2937 100%);
+    }
+
+    .hero-text h2 {
+        color: #f9fafb;
+    }
+
+    .hero-text p {
+        color: #d1d5db;
+    }
+
+    .config-section-title {
+        color: #f9fafb;
+    }
+
+    .config-menu-item {
+        background: #1f2937;
+        border-color: #374151;
+    }
+
+    .config-menu-text h4 {
+        color: #f9fafb;
+    }
+
+    .config-menu-text p {
+        color: #9ca3af;
+    }
+
+    .app-info-card {
+        background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+        border-color: #374151;
+    }
+
+    .app-info-text h4 {
+        color: #f9fafb;
+    }
+
+    .app-info-text p {
+        color: #d1d5db;
     }
 }

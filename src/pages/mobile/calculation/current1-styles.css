@@ -1,8 +1,9 @@
-
+/* Company List Styles - Fixed Clipping Issues */
 .company-list {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 16px;
+    padding: 8px; /* 추가 패딩으로 transform 공간 확보 */
 }
 
 .company-card {
@@ -10,63 +11,76 @@
     border: 2px solid #e5e7eb;
     border-radius: 16px;
     padding: 20px 24px;
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 600;
     color: #374151;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-align: left;
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: relative;
     overflow: hidden;
+    /* 그림자가 잘리지 않도록 마진 추가 */
+    margin: 4px;
+    /* transform을 위한 공간 확보 */
+    transform-origin: center;
+    backface-visibility: hidden; /* 부드러운 애니메이션을 위해 */
 }
 
 .company-card::before {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(59, 130, 246, 0.1) 100%);
-    opacity: 0;
-    transition: opacity 0.2s ease;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(252, 176, 128, 0.1), transparent);
+    transition: left 0.6s ease;
+    z-index: 1;
 }
 
 .company-card:hover::before {
-    opacity: 1;
+    left: 100%;
 }
 
 .company-card:hover {
-    border-color: #93c5fd;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    border-color: #fcb080;
+    transform: translateY(-4px) scale(1.02); /* 살짝 확대 효과 추가 */
+    box-shadow: 0 12px 32px rgba(245, 158, 86, 0.2);
+    z-index: 10; /* 다른 카드 위로 올라오도록 */
 }
 
 .company-card.selected {
-    border-color: #3b82f6;
-    background-color: #eff6ff;
-    color: #1d4ed8;
-    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
+    border-color: #f59e56;
+    background: linear-gradient(135deg, #fff4e5 0%, #fef3c7 100%);
+    color: #92400e;
+    box-shadow: 0 8px 25px rgba(245, 158, 86, 0.25);
     transform: translateY(-2px);
+    z-index: 5;
 }
 
 .company-card.selected::before {
     opacity: 0;
 }
 
+.company-card.selected:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 16px 40px rgba(245, 158, 86, 0.3);
+}
+
 .company-name {
     flex: 1;
-    z-index: 1;
+    z-index: 2;
     position: relative;
+    transition: color 0.3s ease;
 }
 
 .check-icon {
-    width: 24px;
-    height: 24px;
-    background-color: #3b82f6;
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #fcb080, #f59e56);
     color: white;
     border-radius: 50%;
     display: flex;
@@ -74,7 +88,144 @@
     justify-content: center;
     font-size: 14px;
     font-weight: bold;
-    animation: scaleIn 0.2s ease-in-out;
-    z-index: 1;
+    animation: scaleIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 2;
     position: relative;
+    box-shadow: 0 4px 12px rgba(245, 158, 86, 0.4);
+    transition: all 0.3s ease;
+}
+
+.company-card:hover .check-icon {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(245, 158, 86, 0.5);
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.2) rotate(10deg);
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+/* 부모 컨테이너 수정 - form-content에 overflow 방지 */
+.form-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    /* overflow: visible; */ /* 기본값이지만 명시적으로 설정 */
+    position: relative;
+    z-index: 1;
+}
+
+/* main-content 수정 */
+.main-content {
+    flex: 1;
+    padding: 24px 20px 120px;
+    overflow: visible; /* 중요: 컨텐츠가 잘리지 않도록 */
+    position: relative;
+}
+
+/* app-container 수정 */
+.app-container {
+    max-width: 430px;
+    margin: 0 auto;
+    background: #f8f9fa;
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden; /* 좌우 스크롤만 숨김 */
+    overflow-y: auto; /* 세로 스크롤은 허용 */
+}
+
+/* 추가: 선택된 카드의 텍스트 강조 */
+.company-card.selected .company-name {
+    font-weight: 700;
+    color: #92400e;
+}
+
+/* 호버 상태에서 텍스트 색상 변화 */
+.company-card:hover:not(.selected) .company-name {
+    color: #f59e56;
+}
+
+/* 반응형 디자인 개선 */
+@media (max-width: 375px) {
+    .company-list {
+        gap: 12px;
+        padding: 6px;
+    }
+
+    .company-card {
+        padding: 16px 20px;
+        margin: 3px;
+        font-size: 15px;
+    }
+
+    .company-card:hover {
+        transform: translateY(-3px) scale(1.01);
+        box-shadow: 0 8px 24px rgba(245, 158, 86, 0.2);
+    }
+
+    .check-icon {
+        width: 24px;
+        height: 24px;
+        font-size: 12px;
+    }
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+    .company-card {
+        background: #374151;
+        border-color: #4b5563;
+        color: #f9fafb;
+    }
+
+    .company-card:hover {
+        border-color: #fcb080;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .company-card.selected {
+        background: linear-gradient(135deg, #451a03 0%, #92400e 100%);
+        border-color: #f59e56;
+        color: #fed7aa;
+    }
+
+    .company-card:hover:not(.selected) .company-name {
+        color: #fcb080;
+    }
+}
+
+/* 접근성 개선 */
+.company-card:focus {
+    outline: 3px solid #fcb080;
+    outline-offset: 2px;
+    border-color: #f59e56;
+}
+
+.company-card:focus:not(:hover) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(245, 158, 86, 0.15);
+}
+
+/* 터치 디바이스 최적화 */
+@media (hover: none) and (pointer: coarse) {
+    .company-card:hover {
+        transform: none;
+        box-shadow: 0 4px 12px rgba(245, 158, 86, 0.15);
+    }
+
+    .company-card:active {
+        transform: translateY(-2px) scale(0.98);
+        transition: all 0.1s ease;
+    }
 }

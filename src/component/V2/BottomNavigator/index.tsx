@@ -22,7 +22,7 @@ const BottomNavigator = (props:{userData:any}) => {
             <button
                 className={`nav-item ${location.pathname === '/mypage' ? 'active' : ''}`}
             >
-                <span className="nav-icon">💬</span>
+                <span className="nav-icon">💬&nbsp;</span>
                 <span className="nav-label">지식인</span>
             </button>
 

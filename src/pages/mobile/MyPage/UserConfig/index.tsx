@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import './styles.css';
 import '../../versatile-styles.css';
 
-import {ArrowLeftOutlined, UserAddOutlined, AppstoreOutlined, UserDeleteOutlined, LogoutOutlined, RightOutlined, PushpinOutlined} from "@ant-design/icons";
+import {ArrowLeftOutlined, UserAddOutlined, AppstoreOutlined, UserDeleteOutlined, LogoutOutlined, RightOutlined, PushpinOutlined, SettingOutlined} from "@ant-design/icons";
 import { Modal } from 'antd';
 import axios from 'axios';
 import {callMeData, callWithdrawUser} from "../../../../definition/apiPath";
@@ -106,6 +106,7 @@ const ConfigPage = () => {
         general: [
             {
                 icon: <PushpinOutlined />,
+                emoji: '📋',
                 title: '개인정보 처리방침',
                 description: '개인정보 수집 및 이용에 대한 안내',
                 onClick: showEngPolicyModal,
@@ -117,6 +118,7 @@ const ConfigPage = () => {
         account: [
             {
                 icon: <UserAddOutlined />,
+                emoji: '👋',
                 title: '회원가입',
                 description: '호빵 서비스 가입하고 혜택 받기',
                 onClick: () => {window.location.href = '/v2/login';},
@@ -126,6 +128,7 @@ const ConfigPage = () => {
             },
             {
                 icon: <AppstoreOutlined />,
+                emoji: '⚙️',
                 title: '앱 관리',
                 description: '앱 설정 및 알림 관리',
                 onClick: () => {window.location.href = '/v2/mypage/appconfig';},
@@ -137,6 +140,7 @@ const ConfigPage = () => {
         danger: [
             {
                 icon: <LogoutOutlined />,
+                emoji: '👋',
                 title: '로그아웃',
                 description: '현재 계정에서 안전하게 로그아웃',
                 onClick: handleLogOut,
@@ -146,6 +150,7 @@ const ConfigPage = () => {
             },
             {
                 icon: <UserDeleteOutlined />,
+                emoji: '⚠️',
                 title: '회원탈퇴',
                 description: '모든 데이터가 삭제되며 복구할 수 없습니다',
                 onClick: () => setWithdrawUserModal(true),
@@ -173,14 +178,12 @@ const ConfigPage = () => {
                 onClick={item.onClick}
             >
                 <div className="config-menu-content">
-                    <div
-                        className="config-menu-icon"
-                        style={{
-                            background: item.bgColor,
-                            color: item.iconColor
-                        }}
-                    >
-                        {item.icon}
+                    <div className="config-menu-icon-wrapper">
+                        <div className="config-menu-emoji">{item.emoji}</div>
+                        <div
+                            className="config-menu-icon-bg"
+                            style={{ background: item.bgColor }}
+                        ></div>
                     </div>
                     <div className="config-menu-text">
                         <h4>{item.title}</h4>
@@ -209,44 +212,83 @@ const ConfigPage = () => {
                             >
                                 <ArrowLeftOutlined />
                             </button>
-                            <div className="config-title-container">
-                                <h1 className="config-title">설정</h1>
-                                <p className="config-subtitle">계정 및 앱 설정을 관리하세요</p>
-                            </div>
+                            <h1 className="config-title">설정</h1>
+                            <div className="header-spacer"></div>
                         </div>
                     </header>
 
                     {/* Main Content */}
                     <main className="config-main">
+                        {/* Hero Section */}
+                        <section className="settings-hero">
+                            <div className="hero-card">
+                                <div className="hero-content">
+                                    <div className="hero-icon">
+                                        <SettingOutlined />
+                                    </div>
+                                    <div className="hero-text">
+                                        <h2>계정 설정</h2>
+                                        <p>호빵과 함께 더 나은 경험을 만들어보세요</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Account Section */}
                         <section className="config-section">
+                            <div className="section-header">
+                                <div className="section-icon">👤</div>
+                                <h3 className="config-section-title">계정 관리</h3>
+                            </div>
                             <div className="config-menu-list">
                                 {menuItems.account.map((item, index) => renderMenuItem(item, `account-${index}`))}
                             </div>
                         </section>
 
+                        {/* General Section */}
                         <section className="config-section">
-                            <h3 className="config-section-title">안내</h3>
+                            <div className="section-header">
+                                <div className="section-icon">📖</div>
+                                <h3 className="config-section-title">안내</h3>
+                            </div>
                             <div className="config-menu-list">
                                 {menuItems.general.map((item, index) => renderMenuItem(item, `general-${index}`))}
                             </div>
                         </section>
 
+                        {/* Danger Section */}
                         {isLoggedIn && (
                             <section className="config-section danger-section">
-                                <h3 className="config-section-title danger-title">계정</h3>
+                                <div className="section-header">
+                                    <div className="section-icon">🚨</div>
+                                    <h3 className="config-section-title danger-title">계정 관리</h3>
+                                </div>
                                 <div className="config-menu-list">
                                     {menuItems.danger.map((item, index) => renderMenuItem(item, `danger-${index}`))}
                                 </div>
                             </section>
                         )}
+
+                        {/* App Info */}
+                        <section className="app-info-section">
+                            <div className="app-info-card">
+                                <div className="app-character">
+                                    <img src="/assets/hoppang-character.png" alt="Hoppang Character" />
+                                </div>
+                                <div className="app-info-text">
+                                    <h4>호빵 v2.0</h4>
+                                    <p>더 나은 서비스를 위해 지속적으로 개선하고 있습니다</p>
+                                </div>
+                            </div>
+                        </section>
                     </main>
 
                     {/* Withdraw Confirmation Modal */}
                     <Modal
                         title={
-                            <div style={{ textAlign: 'center', padding: '10px 0' }}>
-                                <div style={{ fontSize: '24px', marginBottom: '8px' }}>⚠️</div>
-                                <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#ef4444' }}>
+                            <div className="modal-title">
+                                <div className="modal-warning-icon">⚠️</div>
+                                <div className="modal-title-text">
                                     정말로 탈퇴하시겠습니까?
                                 </div>
                             </div>
@@ -259,48 +301,24 @@ const ConfigPage = () => {
                         onCancel={() => setWithdrawUserModal(false)}
                         okButtonProps={{
                             danger: true,
-                            style: {
-                                borderRadius: '8px',
-                                height: '40px',
-                                fontWeight: '600'
-                            }
+                            className: 'modal-danger-button'
                         }}
                         cancelButtonProps={{
-                            style: {
-                                borderRadius: '8px',
-                                height: '40px',
-                                fontWeight: '600'
-                            }
+                            className: 'modal-cancel-button'
                         }}
-                        bodyStyle={{
-                            textAlign: 'center',
-                            padding: '20px 24px'
-                        }}
+                        className="withdraw-modal"
                     >
-                        <div style={{
-                            background: '#fef2f2',
-                            border: '1px solid #fecaca',
-                            borderRadius: '12px',
-                            padding: '16px',
-                            margin: '16px 0'
-                        }}>
-                            <p style={{
-                                margin: 0,
-                                color: '#991b1b',
-                                fontSize: '15px',
-                                lineHeight: '1.5'
-                            }}>
-                                회원 탈퇴 후 <strong>모든 유저 데이터가 영구적으로 삭제</strong>되며,
-                                <br />이는 <strong>복구할 수 없습니다</strong>.
+                        <div className="modal-content">
+                            <div className="modal-warning-box">
+                                <p>
+                                    회원 탈퇴 후 <strong>모든 유저 데이터가 영구적으로 삭제</strong>되며,
+                                    <br />이는 <strong>복구할 수 없습니다</strong>.
+                                </p>
+                            </div>
+                            <p className="modal-confirmation">
+                                정말로 계속하시겠습니까?
                             </p>
                         </div>
-                        <p style={{
-                            color: '#6b7280',
-                            fontSize: '14px',
-                            margin: '12px 0 0 0'
-                        }}>
-                            정말로 계속하시겠습니까?
-                        </p>
                     </Modal>
                 </div>
             }
