@@ -1,18 +1,29 @@
-/* 기존 styles.css에 추가할 Footer 스타일 */
-
-/* Main Content 패딩 조정 */
-.main-content {
-    padding-bottom: 120px; /* BottomNav와 Footer를 위한 공간 */
+/* Safe Area 전역 설정 */
+:root {
+    /* Safe Area 변수 정의 */
+    --safe-area-inset-top: env(safe-area-inset-top, 0px);
+    --safe-area-inset-right: env(safe-area-inset-right, 0px);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-area-inset-left: env(safe-area-inset-left, 0px);
 }
 
-/* Page Footer */
+/* 기존 styles.css에 추가할 Footer 스타일 */
+
+/* Main Content 패딩 조정 - Safe Area 고려 */
+.main-content {
+    /* BottomNav 높이 + Safe Area를 고려한 패딩 */
+    padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px));
+}
+
+/* Page Footer - 미니멀 디자인 */
 .page-footer {
-    background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-    color: #f9fafb;
-    padding: 40px 20px 20px;
+    background: rgba(249, 250, 251, 0.95);
+    color: #6b7280;
+    padding: 32px 20px 24px;
     position: relative;
     z-index: 50;
-    border-top: 1px solid #374151;
+    border-top: 1px solid #e5e7eb;
+    backdrop-filter: blur(10px);
     /* 애니메이션 추가 */
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 0;
@@ -38,10 +49,11 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 20px;
+    text-align: center;
 }
 
-/* Footer Logo Section */
+/* Footer Logo Section - 더 컴팩트하게 */
 .footer-logo-section {
     text-align: center;
 }
@@ -50,19 +62,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    margin-bottom: 12px;
+    gap: 10px;
+    margin-bottom: 8px;
 }
 
 .footer-logo-img {
-    width: 40px;
-    height: 40px;
+    width: 28px;
+    height: 28px;
     object-fit: contain;
-    filter: brightness(1.1);
+    opacity: 0.8;
 }
 
 .footer-logo-text {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 700;
     background: linear-gradient(135deg, #fcb080, #f59e56);
     -webkit-background-clip: text;
@@ -71,50 +83,47 @@
 }
 
 .footer-tagline {
-    font-size: 14px;
+    font-size: 13px;
     color: #9ca3af;
     margin: 0;
-    font-weight: 500;
+    font-weight: 400;
+    opacity: 0.8;
 }
 
-/* Footer Links */
+/* Footer Links - 담백한 스타일 */
 .footer-links {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 16px;
+    margin: 24px 0;
 }
 
 .footer-link {
-    background: rgba(55, 65, 81, 0.7);
-    border: 1px solid #4b5563;
-    border-radius: 16px;
-    padding: 20px 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: none;
+    border: none;
+    color: #9ca3af;
+    font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
-    color: #f9fafb;
-    backdrop-filter: blur(10px);
+    transition: color 0.2s ease;
+    padding: 8px 0;
+    text-decoration: none;
 }
 
 .footer-link:hover {
-    background: rgba(252, 176, 128, 0.1);
-    border-color: #fcb080;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(252, 176, 128, 0.15);
+    color: #fcb080;
 }
 
-.footer-link-icon {
-    font-size: 24px;
-    margin-bottom: 4px;
+.footer-link:focus {
+    outline: none;
+    color: #fcb080;
 }
 
-.footer-link span:last-child {
-    font-size: 14px;
-    font-weight: 600;
-    color: inherit;
+.footer-separator {
+    color: #4b5563;
+    font-size: 12px;
+    user-select: none;
 }
 
 /* Footer Bottom */
@@ -156,7 +165,7 @@
     color: #fcb080;
 }
 
-/* BottomNavigator 애니메이션 스타일 */
+/* BottomNavigator 애니메이션 스타일 + Safe Area 대응 */
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -167,9 +176,17 @@
     background: white;
     border-top: 1px solid #eee;
     display: flex;
-    padding: 8px 0;
     z-index: 100;
-    /* 애니메이션 추가 */
+
+    /* Safe Area 대응 - 핵심 추가! */
+    padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+
+    /* 구형 브라우저 대응 */
+    padding-bottom: 8px;
+    padding-bottom: max(8px, constant(safe-area-inset-bottom));
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+
+    /* 애니메이션 */
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     will-change: transform;
 }
@@ -181,7 +198,8 @@
 }
 
 .bottom-nav.hidden {
-    transform: translateX(-50%) translateY(100%);
+    /* Safe Area를 고려한 숨김 애니메이션 */
+    transform: translateX(-50%) translateY(calc(100% + env(safe-area-inset-bottom, 0px)));
     opacity: 0;
     pointer-events: none;
 }
