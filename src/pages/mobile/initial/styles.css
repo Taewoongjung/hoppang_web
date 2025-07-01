@@ -475,6 +475,161 @@ body {
     transform: translateX(2px);
 }
 
+/* Footer Container */
+footer {
+    background: #ffffff;
+    border-top: 1px solid #e5e7eb;
+    padding: 48px 20px 32px;
+    margin-top: 60px;
+    color: #374151;
+}
+
+.footer-content {
+    max-width: 430px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+/* Logo Section */
+.footer-logo-section {
+    text-align: center;
+}
+
+.footer-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    transition: transform 0.2s ease;
+}
+
+.footer-logo:hover {
+    transform: translateY(-1px);
+}
+
+.footer-logo-img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+}
+
+.footer-logo-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #fcb080, #f59e56);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.footer-tagline {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+/* Footer Links */
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.footer-link {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    color: #374151;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.footer-link:hover {
+    background: #fcb080;
+    border-color: #fcb080;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(252, 176, 128, 0.25);
+}
+
+.footer-link:active {
+    transform: translateY(0);
+}
+
+/* Footer Bottom */
+.footer-bottom {
+    border-top: 1px solid #f3f4f6;
+    padding-top: 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.footer-copyright {
+    font-size: 13px;
+    color: #9ca3af;
+    margin: 0;
+    font-weight: 400;
+}
+
+.footer-meta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+    color: #9ca3af;
+    flex-wrap: wrap;
+}
+
+.footer-meta span {
+    cursor: pointer;
+    transition: color 0.2s ease;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.footer-meta span:not(.footer-separator):hover {
+    color: #fcb080;
+    background: rgba(252, 176, 128, 0.1);
+}
+
+.footer-separator {
+    color: #d1d5db !important;
+    cursor: default !important;
+    user-select: none;
+}
+
+.footer-separator:hover {
+    color: #d1d5db !important;
+    background: transparent !important;
+}
+
+/* Focus States for Accessibility */
+.footer-link:focus {
+    outline: 2px solid #fcb080;
+    outline-offset: 2px;
+}
+
+.footer-meta span:focus {
+    outline: 2px solid #fcb080;
+    outline-offset: 2px;
+}
+
 /* Animations */
 @keyframes slideInUp {
     from {
@@ -543,29 +698,35 @@ body {
         font-size: 16px;
     }
 
-    .question-item {
-        padding: 12px;
+    footer {
+        padding: 40px 16px 24px;
+        margin-top: 48px;
     }
 
-    .question-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 16px;
+    .footer-content {
+        gap: 32px;
     }
 
-    .expert-modal {
-        width: 95%;
-        margin: 0 10px;
+    .footer-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
     }
 
-    .modal-content {
-        padding: 20px;
+    .footer-link {
+        width: 100%;
+        max-width: 240px;
+        justify-content: center;
     }
 
-    .expert-avatar {
-        width: 48px;
-        height: 48px;
-        font-size: 20px;
+    .footer-bottom {
+        gap: 12px;
+        padding-top: 20px;
+    }
+
+    .footer-meta {
+        flex-direction: column;
+        gap: 8px;
     }
 }
 
@@ -590,6 +751,12 @@ body {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+    }
+
+    .footer-logo,
+    .footer-link,
+    .footer-meta span {
+        transition: none;
     }
 
     .logo-character {
