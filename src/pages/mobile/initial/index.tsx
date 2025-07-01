@@ -17,38 +17,59 @@ const Initial = () => {
     const [isBottomNavVisible, setIsBottomNavVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
 
-    // 스크롤 처리
+    // 디바운싱을 위한 타이머 ref
+    const scrollTimer = React.useRef<NodeJS.Timeout | null>(null);
+
+    // 스크롤 이벤트 핸들러
     useEffect(() => {
-        let ticking = false;
-
         const handleScroll = () => {
-            if (!ticking) {
-                requestAnimationFrame(() => {
-                    const currentScrollY = window.scrollY;
-                    const scrollDiff = currentScrollY - lastScrollY;
-
-                    // 최소 스크롤 거리 (5px) - 의도적인 스크롤만 감지
-                    if (Math.abs(scrollDiff) > 5) {
-                        // 맨 위 근처(50px 이내)에서는 항상 보이기
-                        if (currentScrollY < 50) {
-                            setIsBottomNavVisible(true);
-                        } else {
-                            // 스크롤 방향에 따라 단순하게 처리
-                            setIsBottomNavVisible(scrollDiff < 0);
-                        }
-
-                        setLastScrollY(currentScrollY);
-                    }
-
-                    ticking = false;
-                });
-                ticking = true;
+            // 디바운싱으로 성능 최적화
+            if (scrollTimer.current) {
+                clearTimeout(scrollTimer.current);
             }
+
+            scrollTimer.current = setTimeout(() => {
+                const currentScrollY = window.scrollY;
+                const documentHeight = document.documentElement.scrollHeight;
+                const windowHeight = window.innerHeight;
+                const scrollPercent = (currentScrollY / (documentHeight - windowHeight)) * 100;
+
+                const scrollThreshold = 200; // 200px 이상 스크롤하면 숨김
+                const showThreshold = 50; // 50px 이상 위로 스크롤하면 다시 표시
+                const footerThreshold = 75; // 스크롤 75% 지점에서 Footer 표시
+
+                // 스크롤 방향 감지
+                const currentDirection = currentScrollY > lastScrollY ? 'down' : 'up';
+
+                // 페이지 하단 근처 (75% 이상)에서는 무조건 Footer 표시, BottomNav 숨김
+                if (scrollPercent > footerThreshold || currentScrollY > (documentHeight - windowHeight - 100)) {
+                    setIsBottomNavVisible(false);
+                }
+                // 맨 위 근처에서는 무조건 BottomNav 표시
+                else if (currentScrollY < 100) {
+                    setIsBottomNavVisible(true);
+                }
+                // 아래로 스크롤할 때 (일정 거리 이상)
+                else if (currentDirection === 'down' && currentScrollY > scrollThreshold && (currentScrollY - lastScrollY) > 5) {
+                    setIsBottomNavVisible(false);
+                }
+                // 위로 스크롤할 때 (일정 거리 이상)
+                else if (currentDirection === 'up' && (lastScrollY - currentScrollY) > showThreshold) {
+                    setIsBottomNavVisible(true);
+                }
+
+                setLastScrollY(currentScrollY);
+            }, 10); // 10ms 디바운싱
         };
 
         window.addEventListener('scroll', handleScroll, { passive: true });
 
-        return () => window.removeEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            if (scrollTimer.current) {
+                clearTimeout(scrollTimer.current);
+            }
+        };
     }, [lastScrollY]);
 
     const services = [
@@ -124,7 +145,6 @@ const Initial = () => {
                             <p className="hero-subtitle">견적부터 설치까지, 모든 과정을 도와드립니다</p>
                             <button
                                 className="cta-button"
-                                onClick={() => {}}
                             >
                                 <span className="cta-icon">💬</span>
                                 전문가에게 질문하기
@@ -228,14 +248,12 @@ const Initial = () => {
                             className="footer-link"
                             onClick={() => window.open("https://pf.kakao.com/_dbxezn", "_blank")}
                         >
-                            비즈니스 문의
+                            <span>비즈니스 문의</span>
                         </button>
-                        <span className="footer-separator">|</span>
                         <button
                             className="footer-link"
-                            onClick={() => {}}
                         >
-                            고객센터
+                            <span>고객센터</span>
                         </button>
                     </div>
 
@@ -250,7 +268,7 @@ const Initial = () => {
                 </div>
             </footer>
 
-            {/* Bottom Navigation */}
+            {/* Bottom Navigation - 조건부 렌더링 */}
             <BottomNavigator
                 userData={userData}
                 isVisible={isBottomNavVisible}
