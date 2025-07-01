@@ -13,66 +13,140 @@ const Initial = () => {
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
     });
-    
+
+    const [isExpertChatOpen, setIsExpertChatOpen] = useState(false);
     const [isBottomNavVisible, setIsBottomNavVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
-    const [scrollDirection, setScrollDirection] = useState('up');
+    const [isScrolling, setIsScrolling] = useState(false);
+    const [isInitialized, setIsInitialized] = useState(false);
 
-    // 디바운싱을 위한 타이머 ref
-    const scrollTimer = React.useRef<NodeJS.Timeout | null>(null);
-
-    // 스크롤 이벤트 핸들러
+    // 초기화 useEffect - 스크롤 문제 해결
     useEffect(() => {
-        const handleScroll = () => {
-            // 디바운싱으로 성능 최적화
-            if (scrollTimer.current) {
-                clearTimeout(scrollTimer.current);
-            }
+        // DOM이 완전히 로드된 후 초기화
+        const initializeScroll = () => {
+            // 스크롤 위치 초기화
+            const currentScroll = window.scrollY;
+            setLastScrollY(currentScroll);
 
-            scrollTimer.current = setTimeout(() => {
-                const currentScrollY = window.scrollY;
-                const documentHeight = document.documentElement.scrollHeight;
-                const windowHeight = window.innerHeight;
-                const scrollPercent = (currentScrollY / (documentHeight - windowHeight)) * 100;
+            // body 스크롤 설정 확인 및 수정
+            document.body.style.overflow = 'auto';
+            document.body.style.setProperty('overscroll-behavior', 'contain');
+            document.documentElement.style.overflow = 'auto';
 
-                const scrollThreshold = 200; // 200px 이상 스크롤하면 숨김
-                const showThreshold = 50; // 50px 이상 위로 스크롤하면 다시 표시
-                const footerThreshold = 75; // 스크롤 75% 지점에서 Footer 표시
+            // iOS Safari 스크롤 문제 해결
+            document.body.style.setProperty('webkitOverflowScrolling', 'touch');
+            document.body.style.touchAction = 'pan-y';
 
-                // 스크롤 방향 감지
-                const currentDirection = currentScrollY > lastScrollY ? 'down' : 'up';
-                setScrollDirection(currentDirection);
-
-                // 페이지 하단 근처 (75% 이상)에서는 무조건 Footer 표시, BottomNav 숨김
-                if (scrollPercent > footerThreshold || currentScrollY > (documentHeight - windowHeight - 100)) {
-                    setIsBottomNavVisible(false);
-                }
-                // 맨 위 근처에서는 무조건 BottomNav 표시
-                else if (currentScrollY < 100) {
-                    setIsBottomNavVisible(true);
-                }
-                // 아래로 스크롤할 때 (일정 거리 이상)
-                else if (currentDirection === 'down' && currentScrollY > scrollThreshold && (currentScrollY - lastScrollY) > 5) {
-                    setIsBottomNavVisible(false);
-                }
-                // 위로 스크롤할 때 (일정 거리 이상)
-                else if (currentDirection === 'up' && (lastScrollY - currentScrollY) > showThreshold) {
-                    setIsBottomNavVisible(true);
-                }
-
-                setLastScrollY(currentScrollY);
-            }, 10); // 10ms 디바운싱
+            // 초기화 완료
+            setIsInitialized(true);
         };
 
-        window.addEventListener('scroll', handleScroll, { passive: true });
+        // DOM 로드 대기
+        if (document.readyState === 'complete') {
+            initializeScroll();
+        } else {
+            const handleLoad = () => {
+                setTimeout(initializeScroll, 100);
+            };
+            window.addEventListener('load', handleLoad);
+            document.addEventListener('DOMContentLoaded', handleLoad);
+
+            return () => {
+                window.removeEventListener('load', handleLoad);
+                document.removeEventListener('DOMContentLoaded', handleLoad);
+            };
+        }
+    }, []);
+
+    // 스크롤 이벤트 핸들러 - 완전히 개선된 버전
+    useEffect(() => {
+        // 초기화되지 않았으면 스크롤 리스너 등록하지 않음
+        if (!isInitialized) return;
+
+        let ticking = false;
+        let scrollEndTimer: NodeJS.Timeout | null = null;
+
+        const handleScroll = () => {
+            // 스크롤 상태 시작
+            setIsScrolling(true);
+            if (scrollEndTimer) {
+                clearTimeout(scrollEndTimer);
+            }
+
+            // requestAnimationFrame으로 성능 최적화
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const currentScrollY = window.scrollY;
+                    const documentHeight = document.documentElement.scrollHeight;
+                    const windowHeight = window.innerHeight;
+                    const maxScroll = Math.max(documentHeight - windowHeight, 1);
+                    const scrollPercent = Math.min((currentScrollY / maxScroll) * 100, 100);
+
+                    // 스크롤 방향과 거리 계산
+                    const scrollDiff = currentScrollY - lastScrollY;
+                    const isScrollingDown = scrollDiff > 0;
+                    const isScrollingUp = scrollDiff < 0;
+                    const scrollDistance = Math.abs(scrollDiff);
+
+                    // 임계값 설정 (더 관대하게)
+                    const minScrollDistance = 8; // 최소 스크롤 거리
+                    const hideThreshold = 120; // 숨김 임계값
+                    const showThreshold = 25; // 표시 임계값
+                    const footerThreshold = 80; // Footer 표시 임계값
+
+                    // 조건 단순화 및 명확화
+                    if (scrollPercent > footerThreshold) {
+                        // 하단 80% 이상에서는 Footer 표시
+                        setIsBottomNavVisible(false);
+                    } else if (currentScrollY < 30) {
+                        // 최상단 30px 이내에서는 항상 BottomNav 표시
+                        setIsBottomNavVisible(true);
+                    } else if (isScrollingDown && scrollDistance > minScrollDistance && currentScrollY > hideThreshold) {
+                        // 아래로 스크롤: 충분한 거리 + 임계값 초과
+                        setIsBottomNavVisible(false);
+                    } else if (isScrollingUp && scrollDistance > showThreshold) {
+                        // 위로 스크롤: 충분한 거리
+                        setIsBottomNavVisible(true);
+                    }
+
+                    setLastScrollY(currentScrollY);
+                    ticking = false;
+                });
+                ticking = true;
+            }
+
+            // 스크롤 종료 감지 (150ms 후)
+            scrollEndTimer = setTimeout(() => {
+                setIsScrolling(false);
+            }, 150);
+        };
+
+        // 패시브 리스너로 성능 최적화
+        window.addEventListener('scroll', handleScroll, {
+            passive: true,
+            capture: false
+        });
 
         return () => {
             window.removeEventListener('scroll', handleScroll);
-            if (scrollTimer.current) {
-                clearTimeout(scrollTimer.current);
+            if (scrollEndTimer) {
+                clearTimeout(scrollEndTimer);
             }
         };
-    }, [lastScrollY]);
+    }, [lastScrollY, isInitialized]);
+
+    // 스크롤 상태에 따른 body 클래스 관리
+    useEffect(() => {
+        if (isScrolling) {
+            document.body.classList.add('scrolling');
+        } else {
+            document.body.classList.remove('scrolling');
+        }
+
+        return () => {
+            document.body.classList.remove('scrolling');
+        };
+    }, [isScrolling]);
 
     const services = [
         {
@@ -97,7 +171,7 @@ const Initial = () => {
         if (serviceTitle === '샷시 견적') {
             window.location.href = '/calculator/agreement';
         } else if (serviceTitle === '샷시 지식인') {
-            
+            setIsExpertChatOpen(true);
         }
     };
 
@@ -114,7 +188,7 @@ const Initial = () => {
     ];
 
     return (
-        <div className="app-container">
+        <div className="app-container" data-scroll-initialized={isInitialized}>
             {/* Header */}
             <header className="app-header">
                 <div className="header-content">
@@ -147,6 +221,7 @@ const Initial = () => {
                             <p className="hero-subtitle">견적부터 설치까지, 모든 과정을 도와드립니다</p>
                             <button
                                 className="cta-button"
+                                onClick={() => setIsExpertChatOpen(true)}
                             >
                                 <span className="cta-icon">💬</span>
                                 전문가에게 질문하기
@@ -250,14 +325,14 @@ const Initial = () => {
                             className="footer-link"
                             onClick={() => window.open("https://pf.kakao.com/_dbxezn", "_blank")}
                         >
-                            <span className="footer-link-icon">💼</span>
-                            <span>비즈니스 문의</span>
+                            비즈니스 문의
                         </button>
+                        <span className="footer-separator">|</span>
                         <button
                             className="footer-link"
+                            onClick={() => setIsExpertChatOpen(true)}
                         >
-                            <span className="footer-link-icon">🎧</span>
-                            <span>고객센터</span>
+                            고객센터
                         </button>
                     </div>
 
@@ -271,7 +346,52 @@ const Initial = () => {
                     </div>
                 </div>
             </footer>
-            
+
+            {/* Expert Chat Modal */}
+            {isExpertChatOpen && (
+                <div className="expert-modal-overlay" onClick={() => setIsExpertChatOpen(false)}>
+                    <div className="expert-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h3>샷시 전문가와 상담</h3>
+                            <button
+                                className="modal-close-btn"
+                                onClick={() => setIsExpertChatOpen(false)}
+                            >
+                                ✕
+                            </button>
+                        </div>
+                        <div className="modal-content">
+                            <div className="expert-intro">
+                                <div className="expert-avatar">👨‍🔧</div>
+                                <div className="expert-info">
+                                    <h4>샷시 전문가 김호빵</h4>
+                                    <p>15년 경력의 창호 전문가입니다</p>
+                                </div>
+                            </div>
+                            <div className="chat-options">
+                                <button
+                                    className="chat-option"
+                                    onClick={() => window.open("https://pf.kakao.com/_dbxezn", "_blank")}
+                                >
+                                    <span className="option-icon">💬</span>
+                                    <div className="option-text">
+                                        <h5>카카오톡 상담</h5>
+                                        <p>빠른 답변을 받아보세요</p>
+                                    </div>
+                                </button>
+                                <button className="chat-option">
+                                    <span className="option-icon">📞</span>
+                                    <div className="option-text">
+                                        <h5>전화 상담</h5>
+                                        <p>직접 통화로 상담받기</p>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Bottom Navigation - 조건부 렌더링 */}
             <BottomNavigator
                 userData={userData}

@@ -4,7 +4,7 @@ import {useHistory, useLocation} from "react-router-dom";
 
 interface BottomNavigatorProps {
     userData: any;
-    isVisible?: boolean; // 새로 추가된 prop
+    isVisible?: boolean;
 }
 
 const BottomNavigator: React.FC<BottomNavigatorProps> = ({ userData, isVisible = true }) => {
