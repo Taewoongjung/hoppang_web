@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 import './styles.css';
 import '../versatile-styles.css';
@@ -15,62 +15,92 @@ const Initial = () => {
     });
 
     const [isBottomNavVisible, setIsBottomNavVisible] = useState(true);
+    const [isFooterVisible, setIsFooterVisible] = useState(false);
     const [lastScrollY, setLastScrollY] = useState(0);
 
     // 디바운싱을 위한 타이머 ref
-    const scrollTimer = React.useRef<NodeJS.Timeout | null>(null);
+    const scrollTimer = useRef<NodeJS.Timeout | null>(null);
+    const ticking = useRef(false);
 
-    // 스크롤 이벤트 핸들러
-    useEffect(() => {
-        const handleScroll = () => {
-            // 디바운싱으로 성능 최적화
-            if (scrollTimer.current) {
-                clearTimeout(scrollTimer.current);
-            }
-
-            scrollTimer.current = setTimeout(() => {
+    // 개선된 스크롤 이벤트 핸들러
+    const handleScroll = useCallback(() => {
+        if (!ticking.current) {
+            requestAnimationFrame(() => {
                 const currentScrollY = window.scrollY;
                 const documentHeight = document.documentElement.scrollHeight;
                 const windowHeight = window.innerHeight;
-                const scrollPercent = (currentScrollY / (documentHeight - windowHeight)) * 100;
+                const scrollableHeight = documentHeight - windowHeight;
+                const scrollPercent = scrollableHeight > 0 ? (currentScrollY / scrollableHeight) * 100 : 0;
 
-                const scrollThreshold = 200; // 200px 이상 스크롤하면 숨김
+                // 스크롤 임계값 설정
+                const scrollThreshold = 150; // 150px 이상 스크롤하면 숨김
                 const showThreshold = 50; // 50px 이상 위로 스크롤하면 다시 표시
-                const footerThreshold = 75; // 스크롤 75% 지점에서 Footer 표시
+                const footerThreshold = 70; // 스크롤 70% 지점에서 Footer 표시
+                const bottomThreshold = 95; // 95% 이상에서는 무조건 Footer 표시
 
-                // 스크롤 방향 감지
-                const currentDirection = currentScrollY > lastScrollY ? 'down' : 'up';
+                // 스크롤 방향 및 속도 감지
+                const scrollDirection = currentScrollY > lastScrollY ? 'down' : 'up';
+                const scrollDelta = Math.abs(currentScrollY - lastScrollY);
 
-                // 페이지 하단 근처 (75% 이상)에서는 무조건 Footer 표시, BottomNav 숨김
-                if (scrollPercent > footerThreshold || currentScrollY > (documentHeight - windowHeight - 100)) {
+                // Footer 표시 로직
+                if (scrollPercent >= bottomThreshold ||
+                    (scrollPercent >= footerThreshold && currentScrollY > scrollableHeight - 200)) {
+                    setIsFooterVisible(true);
                     setIsBottomNavVisible(false);
                 }
-                // 맨 위 근처에서는 무조건 BottomNav 표시
+                // 페이지 상단 근처에서는 Footer 숨김, BottomNav 표시
                 else if (currentScrollY < 100) {
+                    setIsFooterVisible(false);
                     setIsBottomNavVisible(true);
                 }
-                // 아래로 스크롤할 때 (일정 거리 이상)
-                else if (currentDirection === 'down' && currentScrollY > scrollThreshold && (currentScrollY - lastScrollY) > 5) {
-                    setIsBottomNavVisible(false);
-                }
-                // 위로 스크롤할 때 (일정 거리 이상)
-                else if (currentDirection === 'up' && (lastScrollY - currentScrollY) > showThreshold) {
-                    setIsBottomNavVisible(true);
+                // 중간 영역에서의 BottomNav 표시/숨김 로직
+                else {
+                    setIsFooterVisible(false);
+
+                    // 아래로 빠르게 스크롤할 때
+                    if (scrollDirection === 'down' &&
+                        currentScrollY > scrollThreshold &&
+                        scrollDelta > 5) {
+                        setIsBottomNavVisible(false);
+                    }
+                    // 위로 스크롤할 때
+                    else if (scrollDirection === 'up' && scrollDelta > showThreshold) {
+                        setIsBottomNavVisible(true);
+                    }
                 }
 
                 setLastScrollY(currentScrollY);
-            }, 10); // 10ms 디바운싱
+                ticking.current = false;
+            });
+            ticking.current = true;
+        }
+    }, [lastScrollY]);
+
+    // 디바운스된 스크롤 이벤트 등록
+    useEffect(() => {
+        const debouncedHandleScroll = () => {
+            if (scrollTimer.current) {
+                clearTimeout(scrollTimer.current);
+            }
+
+            scrollTimer.current = setTimeout(handleScroll, 10);
         };
 
-        window.addEventListener('scroll', handleScroll, { passive: true });
+        window.addEventListener('scroll', debouncedHandleScroll, {
+            passive: true,
+            capture: false
+        });
+
+        // 초기 상태 설정
+        handleScroll();
 
         return () => {
-            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('scroll', debouncedHandleScroll);
             if (scrollTimer.current) {
                 clearTimeout(scrollTimer.current);
             }
         };
-    }, [lastScrollY]);
+    }, [handleScroll]);
 
     const services = [
         {
@@ -95,7 +125,7 @@ const Initial = () => {
         if (serviceTitle === '샷시 견적') {
             window.location.href = '/calculator/agreement';
         } else if (serviceTitle === '샷시 지식인') {
-
+            // 샷시 지식인 로직 추가
         }
     };
 
@@ -112,6 +142,7 @@ const Initial = () => {
     ];
 
     return (
+        <>
         <div className="app-container">
             {/* Header */}
             <header className="app-header">
@@ -145,6 +176,9 @@ const Initial = () => {
                             <p className="hero-subtitle">견적부터 설치까지, 모든 과정을 도와드립니다</p>
                             <button
                                 className="cta-button"
+                                onClick={() => {
+                                    // 전문가 질문 로직 추가
+                                }}
                             >
                                 <span className="cta-icon">💬</span>
                                 전문가에게 질문하기
@@ -213,7 +247,10 @@ const Initial = () => {
                             <span className="title-icon">❓</span>
                             최근 질문
                         </h3>
-                        <button className="see-all-btn" style={{alignContent: 'right', alignItems: 'right'}}>전체보기</button>
+                        <button className="see-all-btn">
+                            <span>전체보기</span>
+                            <span className="see-all-arrow">→</span>
+                        </button>
                     </div>
                     <div className="questions-list">
                         {recentQuestions.map((q) => (
@@ -230,10 +267,13 @@ const Initial = () => {
                         ))}
                     </div>
                 </section>
+
+                {/* Content Spacer for better scroll experience */}
+                <div style={{ height: '100px' }}></div>
             </main>
 
-            {/* Footer - BottomNav가 숨겨졌을 때만 표시 */}
-            <footer className={`page-footer ${!isBottomNavVisible ? 'show' : 'hide'}`}>
+            {/* Footer - 조건부 표시 */}
+            <footer className={`page-footer ${isFooterVisible ? 'show' : 'hide'}`}>
                 <div className="footer-content">
                     <div className="footer-logo-section">
                         <div className="footer-logo">
@@ -252,6 +292,9 @@ const Initial = () => {
                         </button>
                         <button
                             className="footer-link"
+                            onClick={() => {
+                                // 고객센터 로직 추가
+                            }}
                         >
                             <span>고객센터</span>
                         </button>
@@ -260,9 +303,9 @@ const Initial = () => {
                     <div className="footer-bottom">
                         <p className="footer-copyright">© 2024 호빵. All rights reserved.</p>
                         <div className="footer-meta">
-                            <span>개인정보처리방침</span>
+                            <span onClick={() => {/* 개인정보처리방침 로직 */}}>개인정보처리방침</span>
                             <span className="footer-separator">|</span>
-                            <span>이용약관</span>
+                            <span onClick={() => {/* 이용약관 로직 */}}>이용약관</span>
                         </div>
                     </div>
                 </div>
@@ -274,6 +317,7 @@ const Initial = () => {
                 isVisible={isBottomNavVisible}
             />
         </div>
+        </>
     );
 };
 
