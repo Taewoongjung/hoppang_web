@@ -267,9 +267,6 @@ const Initial = () => {
                         ))}
                     </div>
                 </section>
-
-                {/* Content Spacer for better scroll experience */}
-                <div style={{ height: '100px' }}></div>
             </main>
 
             {/* Footer - 조건부 표시 */}
