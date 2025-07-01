@@ -446,32 +446,6 @@
     }
 }
 
-/* Dark mode support (if needed) */
-@media (prefers-color-scheme: dark) {
-    .estimation-history-container {
-        background: #1f2937;
-        color: #f9fafb;
-    }
-
-    .estimation-header {
-        background: #374151;
-        border-bottom-color: #4b5563;
-    }
-
-    .estimation-card {
-        background: #374151;
-        border-color: #4b5563;
-    }
-
-    .header-title h1 {
-        color: #f9fafb;
-    }
-
-    .info-value, .empty-content h3 {
-        color: #f9fafb;
-    }
-}
-
 /* Accessibility improvements */
 @media (prefers-reduced-motion: reduce) {
     .estimation-card,

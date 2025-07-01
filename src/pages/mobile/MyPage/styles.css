@@ -595,40 +595,6 @@ body {
     outline-offset: 2px;
 }
 
-/* Dark mode support (future enhancement) */
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #111827;
-        color: #f9fafb;
-    }
-
-    .mypage-container {
-        background: #111827;
-    }
-
-    .mypage-header {
-        background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-        border-bottom-color: #374151;
-    }
-
-    .user-welcome,
-    .menu-item {
-        background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-        border-color: #374151;
-    }
-
-    .menu-text h4,
-    .welcome-message h2,
-    .section-title {
-        color: #f9fafb;
-    }
-
-    .menu-text p,
-    .user-name {
-        color: #9ca3af;
-    }
-}
-
 /* High contrast mode support */
 @media (prefers-contrast: high) {
     .login-card,

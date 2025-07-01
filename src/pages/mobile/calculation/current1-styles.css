@@ -181,30 +181,6 @@
     }
 }
 
-/* 다크 모드 지원 */
-@media (prefers-color-scheme: dark) {
-    .company-card {
-        background: #374151;
-        border-color: #4b5563;
-        color: #f9fafb;
-    }
-
-    .company-card:hover {
-        border-color: #fcb080;
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
-    }
-
-    .company-card.selected {
-        background: linear-gradient(135deg, #451a03 0%, #92400e 100%);
-        border-color: #f59e56;
-        color: #fed7aa;
-    }
-
-    .company-card:hover:not(.selected) .company-name {
-        color: #fcb080;
-    }
-}
-
 /* 접근성 개선 */
 .company-card:focus {
     outline: 3px solid #fcb080;
