@@ -6,6 +6,10 @@
     -ms-overflow-style: none;
     user-select: none;
     -webkit-user-select: none;
+
+    -webkit-text-size-adjust: 100% !important;  /* iOS Safari */
+    -ms-text-size-adjust: 100% !important;      /* IE/Edge */
+    text-size-adjust: 100% !important;          /* 표준 */
 }
 
 *::-webkit-scrollbar {
