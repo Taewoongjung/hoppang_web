@@ -1,7 +1,6 @@
 * {
     box-sizing: border-box;
     overflow-x: hidden;
-    overflow-y: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
     user-select: none;
@@ -14,19 +13,4 @@
 
 *::-webkit-scrollbar {
     display: none;
-}
-
-@media (prefers-reduced-motion: reduce), (max-width: 768px) {
-    *, *::before, *::after {
-        animation: none !important;
-        transition: none !important;
-    }
-
-    .window-icon,
-    .hero-section,
-    .services-section,
-    .tips-section,
-    .questions-section {
-        animation: none !important;
-    }
 }
