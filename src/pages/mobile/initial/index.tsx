@@ -17,136 +17,40 @@ const Initial = () => {
     const [isExpertChatOpen, setIsExpertChatOpen] = useState(false);
     const [isBottomNavVisible, setIsBottomNavVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
-    const [isScrolling, setIsScrolling] = useState(false);
-    const [isInitialized, setIsInitialized] = useState(false);
 
-    // 초기화 useEffect - 스크롤 문제 해결
+    // 스크롤 처리
     useEffect(() => {
-        // DOM이 완전히 로드된 후 초기화
-        const initializeScroll = () => {
-            // 스크롤 위치 초기화
-            const currentScroll = window.scrollY;
-            setLastScrollY(currentScroll);
-
-            // body 스크롤 설정 확인 및 수정
-            document.body.style.overflow = 'auto';
-            document.body.style.setProperty('overscroll-behavior', 'contain');
-            document.documentElement.style.overflow = 'auto';
-
-            // iOS Safari 스크롤 문제 해결
-            document.body.style.setProperty('webkitOverflowScrolling', 'touch');
-            document.body.style.touchAction = 'pan-y';
-
-            // 초기화 완료
-            setIsInitialized(true);
-        };
-
-        // DOM 로드 대기
-        if (document.readyState === 'complete') {
-            initializeScroll();
-        } else {
-            const handleLoad = () => {
-                setTimeout(initializeScroll, 100);
-            };
-            window.addEventListener('load', handleLoad);
-            document.addEventListener('DOMContentLoaded', handleLoad);
-
-            return () => {
-                window.removeEventListener('load', handleLoad);
-                document.removeEventListener('DOMContentLoaded', handleLoad);
-            };
-        }
-    }, []);
-
-    // 스크롤 이벤트 핸들러 - 완전히 개선된 버전
-    useEffect(() => {
-        // 초기화되지 않았으면 스크롤 리스너 등록하지 않음
-        if (!isInitialized) return;
-
         let ticking = false;
-        let scrollEndTimer: NodeJS.Timeout | null = null;
 
         const handleScroll = () => {
-            // 스크롤 상태 시작
-            setIsScrolling(true);
-            if (scrollEndTimer) {
-                clearTimeout(scrollEndTimer);
-            }
-
-            // requestAnimationFrame으로 성능 최적화
             if (!ticking) {
                 requestAnimationFrame(() => {
                     const currentScrollY = window.scrollY;
-                    const documentHeight = document.documentElement.scrollHeight;
-                    const windowHeight = window.innerHeight;
-                    const maxScroll = Math.max(documentHeight - windowHeight, 1);
-                    const scrollPercent = Math.min((currentScrollY / maxScroll) * 100, 100);
-
-                    // 스크롤 방향과 거리 계산
                     const scrollDiff = currentScrollY - lastScrollY;
-                    const isScrollingDown = scrollDiff > 0;
-                    const isScrollingUp = scrollDiff < 0;
-                    const scrollDistance = Math.abs(scrollDiff);
 
-                    // 임계값 설정 (더 관대하게)
-                    const minScrollDistance = 8; // 최소 스크롤 거리
-                    const hideThreshold = 120; // 숨김 임계값
-                    const showThreshold = 25; // 표시 임계값
-                    const footerThreshold = 80; // Footer 표시 임계값
+                    // 최소 스크롤 거리 (5px) - 의도적인 스크롤만 감지
+                    if (Math.abs(scrollDiff) > 5) {
+                        // 맨 위 근처(50px 이내)에서는 항상 보이기
+                        if (currentScrollY < 50) {
+                            setIsBottomNavVisible(true);
+                        } else {
+                            // 스크롤 방향에 따라 단순하게 처리
+                            setIsBottomNavVisible(scrollDiff < 0);
+                        }
 
-                    // 조건 단순화 및 명확화
-                    if (scrollPercent > footerThreshold) {
-                        // 하단 80% 이상에서는 Footer 표시
-                        setIsBottomNavVisible(false);
-                    } else if (currentScrollY < 30) {
-                        // 최상단 30px 이내에서는 항상 BottomNav 표시
-                        setIsBottomNavVisible(true);
-                    } else if (isScrollingDown && scrollDistance > minScrollDistance && currentScrollY > hideThreshold) {
-                        // 아래로 스크롤: 충분한 거리 + 임계값 초과
-                        setIsBottomNavVisible(false);
-                    } else if (isScrollingUp && scrollDistance > showThreshold) {
-                        // 위로 스크롤: 충분한 거리
-                        setIsBottomNavVisible(true);
+                        setLastScrollY(currentScrollY);
                     }
 
-                    setLastScrollY(currentScrollY);
                     ticking = false;
                 });
                 ticking = true;
             }
-
-            // 스크롤 종료 감지 (150ms 후)
-            scrollEndTimer = setTimeout(() => {
-                setIsScrolling(false);
-            }, 150);
         };
 
-        // 패시브 리스너로 성능 최적화
-        window.addEventListener('scroll', handleScroll, {
-            passive: true,
-            capture: false
-        });
+        window.addEventListener('scroll', handleScroll, { passive: true });
 
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-            if (scrollEndTimer) {
-                clearTimeout(scrollEndTimer);
-            }
-        };
-    }, [lastScrollY, isInitialized]);
-
-    // 스크롤 상태에 따른 body 클래스 관리
-    useEffect(() => {
-        if (isScrolling) {
-            document.body.classList.add('scrolling');
-        } else {
-            document.body.classList.remove('scrolling');
-        }
-
-        return () => {
-            document.body.classList.remove('scrolling');
-        };
-    }, [isScrolling]);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [lastScrollY]);
 
     const services = [
         {
@@ -188,7 +92,7 @@ const Initial = () => {
     ];
 
     return (
-        <div className="app-container" data-scroll-initialized={isInitialized}>
+        <div className="app-container">
             {/* Header */}
             <header className="app-header">
                 <div className="header-content">
@@ -392,7 +296,7 @@ const Initial = () => {
                 </div>
             )}
 
-            {/* Bottom Navigation - 조건부 렌더링 */}
+            {/* Bottom Navigation */}
             <BottomNavigator
                 userData={userData}
                 isVisible={isBottomNavVisible}
