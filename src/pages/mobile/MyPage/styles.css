@@ -244,8 +244,6 @@ body {
 .quick-actions-section {
     margin-bottom: 32px;
     animation: slideInUp 0.8s ease-out 0.2s both;
-    color: #333;
-    /* 호버 효과를 위한 패딩 추가 */
     padding: 8px;
     margin: 24px -8px 40px -8px;
 }
@@ -363,7 +361,6 @@ body {
     border: 1px solid #f1f5f9;
     position: relative;
     overflow: hidden;
-    /* 호버 시 확대를 위한 transform-origin 설정 */
     transform-origin: center;
     isolation: isolate;
 }
@@ -386,8 +383,6 @@ body {
 
 .menu-item:hover {
     transform: translateY(-4px) scale(1.01);
-    box-shadow: 0 16px 50px rgba(0,0,0,0.15);
-    border-color: rgba(252, 176, 128, 0.3);
 }
 
 .menu-content {
@@ -476,7 +471,6 @@ body {
 }
 
 .menu-item:hover .menu-arrow {
-    color: #6b7280;
     transform: translateX(4px);
 }
 
@@ -492,10 +486,6 @@ body {
 .support-item {
     background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
     border: 1px solid rgba(254, 243, 199, 0.8);
-}
-
-.support-item:hover {
-    border-color: rgba(245, 158, 86, 0.4);
 }
 
 /* App Info Section */
