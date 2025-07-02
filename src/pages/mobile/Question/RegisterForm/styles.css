@@ -63,9 +63,8 @@ body {
     width: 40px;
 }
 
-/* Main Content */
 .form-main {
-    padding-bottom: 120px; /* 바텀 네비게이션 공간 확보 */
+    padding-bottom: 120px;
 }
 
 /* Hero Section */
@@ -243,7 +242,6 @@ body {
     transition: all 0.3s ease;
     font-family: inherit;
     box-sizing: border-box;
-    /* 포커스 시 shadow가 잘리지 않도록 여백 확보 */
     margin: 0;
     position: relative;
     z-index: 1;
@@ -257,7 +255,6 @@ body {
     box-shadow:
             0 0 0 3px rgba(252, 176, 128, 0.12),
             0 2px 8px rgba(252, 176, 128, 0.15);
-    /* transform 완전 제거 - 레이아웃 시프트 방지 */
     z-index: 2;
 }
 
@@ -278,7 +275,6 @@ body {
     resize: none;
     min-height: 120px;
     box-sizing: border-box;
-    /* 포커스 시 shadow가 잘리지 않도록 여백 확보 */
     margin: 0;
     position: relative;
     z-index: 1;
@@ -716,12 +712,6 @@ body {
         padding: 16px 20px;
         font-size: 15px;
     }
-}
-
-/* Focus States for Accessibility - 수정된 포커스 스타일 */
-.back-btn:focus {
-    outline: 2px solid #fcb080;
-    outline-offset: 2px;
 }
 
 .category-btn:focus {

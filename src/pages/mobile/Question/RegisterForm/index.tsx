@@ -6,10 +6,28 @@ import fetcher from "../../../../util/fetcher";
 
 import './styles.css';
 import '../../versatile-styles.css';
+import QuestionRegisterFormExitModal from "../../../../component/V2/Modal/QuestionRegisterFormExitModal";
 
 
 const QuestionRegisterForm = () => {
     const history = useHistory();
+
+    useEffect(() => {
+        // 뒤로가기 감지
+        const unblock = history.block((location: any, action: string) => {
+            if (action === 'POP') {
+                setShowExitModal(true); // 상태만 바꾸고
+                return false; // 페이지 이동을 막음
+            }
+
+            return true; // 나머지는 허용
+        });
+
+        return () => {
+            unblock(); // cleanup
+        };
+    }, [history]);
+
     const [formData, setFormData] = useState({
         category: '',
         title: '',
@@ -22,6 +40,7 @@ const QuestionRegisterForm = () => {
     const [errors, setErrors] = useState<{[key: string]: string}>({});
     const fileInputRef = useRef<HTMLInputElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+    const [showExitModal, setShowExitModal] = useState(false);
 
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
@@ -107,7 +126,7 @@ const QuestionRegisterForm = () => {
                 <div className="header-content">
                     <button
                         className="back-btn"
-                        onClick={() => history.goBack()}
+                        onClick={() => setShowExitModal(true)}
                     >
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -293,6 +312,8 @@ const QuestionRegisterForm = () => {
                     </button>
                 </section>
             </main>
+
+            {showExitModal && <QuestionRegisterFormExitModal setShowExitModal={setShowExitModal}/>}
         </div>
     );
 };
