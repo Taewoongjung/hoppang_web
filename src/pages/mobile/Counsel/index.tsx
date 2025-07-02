@@ -37,7 +37,7 @@ const Counsel = () => {
 
     useEffect(() => {
         if (!isMobile) {
-            // window.location.href = "https://hoppang.store/official?adv_id=329263e0-5d61-4ade-baf9-7e34cc611828";
+            window.location.href = "https://hoppang.store/official?adv_id=329263e0-5d61-4ade-baf9-7e34cc611828";
         }
     }, []);
 

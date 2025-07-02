@@ -84,7 +84,7 @@ const App = () => {
                     <Route exact path="/v2/mypage/appconfig" component={AppConfigPageV2}/>
                     <Route exact path="/v2/mypage/userconfig" component={UserConfigPageV2}/>
                     <Route exact path="/v2/mypage" component={MyPageV2}/>
-                <Route exact path="/v2/counsel" component={CounselV2}/>
+                    <Route exact path="/v2/counsel" component={CounselV2}/>
 
                     <Route exact path="/v2/login/second" component={LoginSecondStepPageV2}/>
                     <Route exact path="/v2/login/first" component={LoginFirstStepPageV2}/>
