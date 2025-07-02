@@ -13,7 +13,7 @@ import {calculateChassisCall, callMeData} from "../../../definition/apiPath";
 import {mappedValueByCompany} from "../../../util";
 import {LeftOutlined} from "@ant-design/icons";
 import {companyTypeOptionsString} from "../../../definition/companyType";
-import ExitModal from "../../../component/V2/ExitModal";
+import ExitModal from "../../../component/V2/CalculationExitModal";
 import AddressInputModal from "../../../component/V2/AddressInputModal";
 import useSWR from "swr";
 import fetcher from "../../../util/fetcher";

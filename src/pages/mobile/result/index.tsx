@@ -17,7 +17,7 @@ import {Tooltip} from "antd";
 import {HYUNDAI, KCC_GLASS, LX} from "../../../definition/companyType";
 import {RegisterChassisPayload} from "../../../definition/interfacesV2";
 import InquiryEstimateChassis from "../../../component/V2/InquiryEstimateChassis";
-import ExitModal from "../../../component/V2/ExitModal";
+import ExitModal from "../../../component/V2/CalculationExitModal";
 
 
 const MobileResultScreen = () => {
