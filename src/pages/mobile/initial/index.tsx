@@ -331,7 +331,7 @@ const Initial = () => {
                             <button
                                 className="cta-button"
                                 onClick={() => {
-                                    // 전문가 질문 로직 추가
+                                    history.push("/qna/register");
                                 }}
                             >
                                 <span className="cta-icon">💬&nbsp;</span>

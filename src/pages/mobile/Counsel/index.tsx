@@ -45,14 +45,6 @@ const Counsel = () => {
         dedupingInterval: 2000
     });
 
-    const chassisEstimatedHistories = () => {
-        if (userData) {
-            window.location.href = "/mypage/estimation/histories";
-        } else {
-            window.location.href = "/login";
-        }
-    }
-
     const directInquiry = () => {
         const kakaoWebLink = 'https://pf.kakao.com/_dbxezn/chat';
         const kakaoAppLink = 'kakaotalk://plusfriend/chat/_dbxezn';
