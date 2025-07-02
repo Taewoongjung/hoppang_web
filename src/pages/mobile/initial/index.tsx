@@ -9,6 +9,14 @@ import {callMeData} from "../../../definition/apiPath";
 import fetcher from "../../../util/fetcher";
 import {useHistory} from "react-router-dom";
 
+// Cordova 타입 정의
+declare global {
+    interface Window {
+        device?: any;
+        cordova?: any;
+    }
+}
+
 const Initial = () => {
     const history = useHistory();
 
@@ -17,63 +25,142 @@ const Initial = () => {
     }, []);
 
     useEffect(() => {
-        // 브라우저 뒤로가기 완전 차단
-        const blockBackNavigation = () => {
-            // 현재 페이지를 히스토리에 다시 푸시하여 뒤로가기를 무효화
-            history.push(window.location.pathname + window.location.search);
+        // 모바일 웹앱 뒤로가기 완전 차단
+        const preventBackNavigation = () => {
+            // 현재 URL을 히스토리에 계속 푸시하여 뒤로가기 무력화
+            window.history.pushState(null, '', window.location.href);
         };
 
-        // popstate 이벤트 리스너 (브라우저 뒤로가기/앞으로가기)
+        // 페이지 로드 시 히스토리 스택에 더미 엔트리 추가
+        preventBackNavigation();
+
+        // popstate 이벤트 리스너 (모든 기기의 뒤로가기)
         const handlePopState = (event: PopStateEvent) => {
+            // 이벤트 전파 중단
             event.preventDefault();
-            blockBackNavigation();
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+
+            // 즉시 현재 페이지로 다시 이동
+            preventBackNavigation();
+
+            // 추가 안전장치: 짧은 지연 후 다시 푸시
+            setTimeout(() => {
+                preventBackNavigation();
+            }, 0);
+
+            return false;
         };
 
-        // 페이지 로드 시 현재 상태를 히스토리에 추가
-        blockBackNavigation();
-
-        // 이벤트 리스너 등록
-        window.addEventListener('popstate', handlePopState);
+        // 이벤트 리스너 등록 (캡처 및 버블링 단계 모두)
+        window.addEventListener('popstate', handlePopState, true); // 캡처 단계
+        window.addEventListener('popstate', handlePopState, false); // 버블링 단계
 
         // React Router의 history 차단
         const unblock = history.block((location: any, action: string) => {
             if (action === 'POP') {
                 // POP 액션(뒤로가기/앞으로가기) 완전 차단
+                preventBackNavigation();
                 return false;
             }
             return true;
         });
 
-        // 키보드 단축키 차단 (Alt+Left, Backspace 등)
+        // 키보드 단축키 차단
         const handleKeyDown = (event: KeyboardEvent) => {
             // Alt + ← (Alt + Left Arrow)
-            if (event.altKey && event.key === 'ArrowLeft') {
+            if (event.altKey && (event.key === 'ArrowLeft' || event.keyCode === 37)) {
                 event.preventDefault();
+                event.stopPropagation();
                 return false;
             }
             // Alt + → (Alt + Right Arrow)
-            if (event.altKey && event.key === 'ArrowRight') {
+            if (event.altKey && (event.key === 'ArrowRight' || event.keyCode === 39)) {
                 event.preventDefault();
+                event.stopPropagation();
                 return false;
             }
             // Backspace (input이나 textarea가 아닌 경우)
-            if (event.key === 'Backspace') {
+            if (event.key === 'Backspace' || event.keyCode === 8) {
                 const target = event.target as HTMLElement;
                 if (target.tagName !== 'INPUT' &&
                     target.tagName !== 'TEXTAREA' &&
                     !target.isContentEditable) {
                     event.preventDefault();
+                    event.stopPropagation();
                     return false;
                 }
             }
         };
 
-        document.addEventListener('keydown', handleKeyDown);
+        // 키보드 이벤트 리스너 등록
+        document.addEventListener('keydown', handleKeyDown, true);
+        document.addEventListener('keyup', handleKeyDown, true);
+
+        // Android 백 버튼 차단 (Cordova/PhoneGap 환경)
+        const handleDeviceBackButton = (event: Event) => {
+            event.preventDefault();
+            preventBackNavigation();
+            return false;
+        };
+
+        // Cordova 환경 체크 (타입 안전하게)
+        const isCordovaApp = typeof window !== 'undefined' &&
+            (window.device !== undefined || window.cordova !== undefined);
+
+        if (isCordovaApp) {
+            document.addEventListener('backbutton', handleDeviceBackButton, false);
+        }
+
+        // 페이지 가시성 변경 시에도 히스토리 보호
+        const handleVisibilityChange = () => {
+            if (!document.hidden) {
+                preventBackNavigation();
+            }
+        };
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+
+        // beforeunload 이벤트로 추가 보호
+        const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+            preventBackNavigation();
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        // hashchange 이벤트 차단
+        const handleHashChange = (event: HashChangeEvent) => {
+            event.preventDefault();
+            preventBackNavigation();
+            return false;
+        };
+
+        window.addEventListener('hashchange', handleHashChange);
+
+        // 주기적으로 히스토리 상태 확인 및 보호
+        const historyProtectionInterval = setInterval(() => {
+            preventBackNavigation();
+        }, 100);
 
         // 클린업 함수
         return () => {
-            window.removeEventListener('popstate', handlePopState);
-            document.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('popstate', handlePopState, true);
+            window.removeEventListener('popstate', handlePopState, false);
+            document.removeEventListener('keydown', handleKeyDown, true);
+            document.removeEventListener('keyup', handleKeyDown, true);
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+            window.removeEventListener('hashchange', handleHashChange);
+
+            // Cordova 환경 체크 후 이벤트 제거
+            const isCordovaApp = typeof window !== 'undefined' &&
+                (window.device !== undefined || window.cordova !== undefined);
+
+            if (isCordovaApp) {
+                document.removeEventListener('backbutton', handleDeviceBackButton, false);
+            }
+
+            clearInterval(historyProtectionInterval);
             unblock();
         };
     }, [history]);
