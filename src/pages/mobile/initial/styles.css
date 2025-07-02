@@ -552,10 +552,6 @@ footer {
     gap: 6px;
 }
 
-.footer-link:active {
-    transform: translateY(0);
-}
-
 /* Footer Bottom */
 .footer-bottom {
     border-top: 1px solid #f3f4f6;

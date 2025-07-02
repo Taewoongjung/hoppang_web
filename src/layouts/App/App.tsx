@@ -25,6 +25,7 @@ const AdvertisementMainScreen = loadable(() => import('../../pages/admin/Adverti
 // 랜딩 페이지
 const LandingPage = loadable(() => import('../../pages/landingPage'));
 
+// V2 버전
 const InitialPageV2 = loadable(() => import('../../pages/mobile/initial'));
 const AgreementPage = loadable(() => import('../../pages/mobile/agreement'));
 const CalculationScreenV2 = loadable(() => import('../../pages/mobile/calculation'));
@@ -38,6 +39,8 @@ const MyPageEstimationHistoriesPageV2 = loadable(() => import('../../pages/mobil
 const AppConfigPageV2 = loadable(() => import('../../pages/mobile/MyPage/AppConfig'));
 const UserConfigPageV2 = loadable(() => import('../../pages/mobile/MyPage/UserConfig'));
 const MyPageV2 = loadable(() => import('../../pages/mobile/MyPage'));
+
+const CounselV2 = loadable(() => import('../../pages/mobile/Counsel'));
 
 
 const App = () => {
@@ -81,11 +84,11 @@ const App = () => {
                     <Route exact path="/v2/mypage/appconfig" component={AppConfigPageV2}/>
                     <Route exact path="/v2/mypage/userconfig" component={UserConfigPageV2}/>
                     <Route exact path="/v2/mypage" component={MyPageV2}/>
+                <Route exact path="/v2/counsel" component={CounselV2}/>
 
                     <Route exact path="/v2/login/second" component={LoginSecondStepPageV2}/>
                     <Route exact path="/v2/login/first" component={LoginFirstStepPageV2}/>
                     <Route exact path="/v2/login" component={LoginPageV2}/>
-
             </Switch>
         );
 }

@@ -435,20 +435,20 @@ const Initial = () => {
                     </div>
 
                     <div className="footer-links">
-                        <button
+                        <div
                             className="footer-link"
                             onClick={() => window.open("https://pf.kakao.com/_dbxezn", "_blank")}
                         >
                             <span>비즈니스 문의</span>
-                        </button>
-                        <button
+                        </div>
+                        <div
                             className="footer-link"
                             onClick={() => {
-                                // 고객센터 로직 추가
+                                history.push("/v2/counsel");
                             }}
                         >
                             <span>고객센터</span>
-                        </button>
+                        </div>
                     </div>
 
                     <div className="footer-bottom">
