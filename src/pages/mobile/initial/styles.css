@@ -556,14 +556,6 @@ footer {
     gap: 6px;
 }
 
-.footer-link:hover {
-    background: #fcb080;
-    border-color: #fcb080;
-    color: white;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(252, 176, 128, 0.25);
-}
-
 .footer-link:active {
     transform: translateY(0);
 }
@@ -600,11 +592,6 @@ footer {
     transition: color 0.2s ease;
     padding: 4px 8px;
     border-radius: 4px;
-}
-
-.footer-meta span:not(.footer-separator):hover {
-    color: #fcb080;
-    background: rgba(252, 176, 128, 0.1);
 }
 
 .footer-separator {
