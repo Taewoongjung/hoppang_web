@@ -17,15 +17,63 @@ const Initial = () => {
     }, []);
 
     useEffect(() => {
-        // 뒤로가기 감지
+        // 브라우저 뒤로가기 완전 차단
+        const blockBackNavigation = () => {
+            // 현재 페이지를 히스토리에 다시 푸시하여 뒤로가기를 무효화
+            history.push(window.location.pathname + window.location.search);
+        };
+
+        // popstate 이벤트 리스너 (브라우저 뒤로가기/앞으로가기)
+        const handlePopState = (event: PopStateEvent) => {
+            event.preventDefault();
+            blockBackNavigation();
+        };
+
+        // 페이지 로드 시 현재 상태를 히스토리에 추가
+        blockBackNavigation();
+
+        // 이벤트 리스너 등록
+        window.addEventListener('popstate', handlePopState);
+
+        // React Router의 history 차단
         const unblock = history.block((location: any, action: string) => {
             if (action === 'POP') {
+                // POP 액션(뒤로가기/앞으로가기) 완전 차단
                 return false;
             }
             return true;
         });
 
+        // 키보드 단축키 차단 (Alt+Left, Backspace 등)
+        const handleKeyDown = (event: KeyboardEvent) => {
+            // Alt + ← (Alt + Left Arrow)
+            if (event.altKey && event.key === 'ArrowLeft') {
+                event.preventDefault();
+                return false;
+            }
+            // Alt + → (Alt + Right Arrow)
+            if (event.altKey && event.key === 'ArrowRight') {
+                event.preventDefault();
+                return false;
+            }
+            // Backspace (input이나 textarea가 아닌 경우)
+            if (event.key === 'Backspace') {
+                const target = event.target as HTMLElement;
+                if (target.tagName !== 'INPUT' &&
+                    target.tagName !== 'TEXTAREA' &&
+                    !target.isContentEditable) {
+                    event.preventDefault();
+                    return false;
+                }
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+
+        // 클린업 함수
         return () => {
+            window.removeEventListener('popstate', handlePopState);
+            document.removeEventListener('keydown', handleKeyDown);
             unblock();
         };
     }, [history]);
