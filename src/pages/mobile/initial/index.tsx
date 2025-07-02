@@ -401,10 +401,9 @@ const Initial = () => {
                             <span className="title-icon">❓</span>
                             최근 질문
                         </h3>
-                        <button className="see-all-btn">
+                        <div className="see-all-btn">
                             <span>전체보기</span>
-                            <span className="see-all-arrow">→</span>
-                        </button>
+                        </div>
                     </div>
                     <div className="questions-list">
                         {recentQuestions.map((q) => (
