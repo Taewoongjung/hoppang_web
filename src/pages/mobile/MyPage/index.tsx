@@ -9,8 +9,25 @@ import {callMeData} from "../../../definition/apiPath";
 import fetcher from "../../../util/fetcher";
 import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
 import BottomNavigator from "../../../component/V2/BottomNavigator";
+import {useHistory} from "react-router-dom";
 
 const MyPage = () => {
+    const history = useHistory();
+
+    useEffect(() => {
+        // 뒤로가기 감지
+        const unblock = history.block((location: any, action: string) => {
+            if (action === 'POP') {
+                return false;
+            }
+            return true;
+        });
+
+        return () => {
+            unblock();
+        };
+    }, [history]);
+
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
     });

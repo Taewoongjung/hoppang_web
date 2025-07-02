@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
 
 import './styles.css';
@@ -13,6 +13,20 @@ const Agreement = () => {
 
     const history = useHistory();
 
+    useEffect(() => {
+        // 뒤로가기 감지
+        const unblock = history.block((location: any, action: string) => {
+            if (action === 'POP') {
+                history.push('/chassis/v2/calculator');
+            }
+
+            return true;
+        });
+
+        return () => {
+            unblock();
+        };
+    }, [history]);
 
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000

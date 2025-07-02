@@ -17,10 +17,11 @@ import {Tooltip} from "antd";
 import {HYUNDAI, KCC_GLASS, LX} from "../../../definition/companyType";
 import {RegisterChassisPayload} from "../../../definition/interfacesV2";
 import InquiryEstimateChassis from "../../../component/V2/InquiryEstimateChassis";
-import ExitModal from "../../../component/V2/CalculationExitModal";
+import CalculationResultExitModal from "../../../component/V2/Modal/CalculationResultExitModal";
 
 
 const MobileResultScreen = () => {
+
     const history = useHistory();
     const location = useLocation<any>();
 
@@ -39,6 +40,22 @@ const MobileResultScreen = () => {
 
     const [showExitModal, setShowExitModal] = useState(false);
 
+
+    useEffect(() => {
+        // 뒤로가기 감지
+        const unblock = history.block((location: any, action: string) => {
+            if (action === 'POP') {
+                setShowExitModal(true);
+                return false;
+            }
+
+            return true;
+        });
+
+        return () => {
+            unblock();
+        };
+    }, [history]);
 
     useEffect(() => {
         if (location.state && location.state.calculatedResult) {
@@ -304,7 +321,6 @@ const MobileResultScreen = () => {
                         className="button-new-estimate"
                         onClick={handleNewEstimate}
                     >
-                        <span className="new-estimate-icon">🔄</span>
                         다시 견적 받으러 가기
                     </button>
                 </div>
@@ -321,7 +337,7 @@ const MobileResultScreen = () => {
                 }}
             />
 
-            {showExitModal && (<ExitModal setShowExitModal={setShowExitModal}/>)}
+            {showExitModal && (<CalculationResultExitModal setShowExitModal={setShowExitModal}/>)}
         </div>
     );
 };

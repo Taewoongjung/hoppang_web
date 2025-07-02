@@ -7,8 +7,28 @@ import BottomNavigator from "../../../component/V2/BottomNavigator";
 import useSWR from "swr";
 import {callMeData} from "../../../definition/apiPath";
 import fetcher from "../../../util/fetcher";
+import {useHistory} from "react-router-dom";
 
 const Initial = () => {
+    const history = useHistory();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+    useEffect(() => {
+        // 뒤로가기 감지
+        const unblock = history.block((location: any, action: string) => {
+            if (action === 'POP') {
+                return false;
+            }
+            return true;
+        });
+
+        return () => {
+            unblock();
+        };
+    }, [history]);
 
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
@@ -179,7 +199,7 @@ const Initial = () => {
                                     // 전문가 질문 로직 추가
                                 }}
                             >
-                                <span className="cta-icon">💬</span>
+                                <span className="cta-icon">💬&nbsp;</span>
                                 전문가에게 질문하기
                             </button>
                         </div>

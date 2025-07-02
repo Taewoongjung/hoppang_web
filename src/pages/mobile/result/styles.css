@@ -507,17 +507,6 @@ body {
     box-shadow: 0 8px 25px rgba(71, 85, 105, 0.15);
 }
 
-.new-estimate-icon {
-    font-size: 18px;
-    position: relative;
-    z-index: 2;
-    transition: transform 0.3s ease;
-}
-
-.button-new-estimate:hover .new-estimate-icon {
-    transform: rotate(180deg);
-}
-
 /* Error Banner */
 .error-banner {
     background: linear-gradient(135deg, #fee2e2, #fecaca);

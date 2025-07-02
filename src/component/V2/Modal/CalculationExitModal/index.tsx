@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import './styles.css';
 
-const ExitModal = (props:{
+const CalculationExitModal = (props:{
     setShowExitModal: (f: boolean) => void
 }) => {
 
@@ -51,4 +51,4 @@ const ExitModal = (props:{
     )
 }
 
-export default ExitModal;
+export default CalculationExitModal;

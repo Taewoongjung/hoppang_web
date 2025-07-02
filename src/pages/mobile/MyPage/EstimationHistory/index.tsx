@@ -13,6 +13,7 @@ import {GoToTopButton} from "../../../../util/renderUtil";
 
 import './styles.css';
 import '../../versatile-styles.css';
+import {useHistory} from "react-router-dom";
 
 dayjs.extend(customParseFormat);
 
@@ -25,6 +26,24 @@ interface Estimation {
 }
 
 const EstimationHistory = () => {
+
+    const history = useHistory();
+
+    useEffect(() => {
+        // 뒤로가기 감지
+        const unblock = history.block((location: any, action: string) => {
+            if (action === 'POP') {
+                history.push('/v2/mypage');
+                return false;
+            }
+            return true;
+        });
+
+        return () => {
+            unblock();
+        };
+    }, [history]);
+
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
     });

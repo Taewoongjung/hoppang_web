@@ -13,7 +13,7 @@ import {calculateChassisCall, callMeData} from "../../../definition/apiPath";
 import {mappedValueByCompany} from "../../../util";
 import {LeftOutlined} from "@ant-design/icons";
 import {companyTypeOptionsString} from "../../../definition/companyType";
-import ExitModal from "../../../component/V2/CalculationExitModal";
+import CalculationExitModal from "../../../component/V2/Modal/CalculationExitModal";
 import AddressInputModal from "../../../component/V2/AddressInputModal";
 import useSWR from "swr";
 import fetcher from "../../../util/fetcher";
@@ -21,6 +21,7 @@ import {RegisterChassisPayload} from "../../../definition/interfacesV2";
 
 
 const MobileCalculationScreen = () => {
+
     const history = useHistory();
 
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
@@ -669,7 +670,7 @@ const MobileCalculationScreen = () => {
             }
 
             {/* 종료 모달 */}
-            {showExitModal && (<ExitModal setShowExitModal={setShowExitModal}/>)}
+            {showExitModal && (<CalculationExitModal setShowExitModal={setShowExitModal}/>)}
         </div>
     );
 };
