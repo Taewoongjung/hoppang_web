@@ -90,6 +90,10 @@ const InquiryEstimateChassis = (props: {
         handleInquiry('TEL_CONSULT');
     };
 
+    const handleClose = () => {
+        setIsInquiryModalOpen(false);
+    };
+
     const inquiryOptions = [
         {
             id: 'kakao',
@@ -128,11 +132,11 @@ const InquiryEstimateChassis = (props: {
             {contextHolder}
             <Modal
                 open={isInquiryModalOpen}
-                onCancel={() => setIsInquiryModalOpen(false)}
+                onCancel={handleClose}
                 footer={null}
                 width={360}
                 centered
-                closeIcon={<CloseOutlined style={{ color: '#666', fontSize: '16px' }} />}
+                closeIcon={null} // 기본 닫기 버튼 제거
                 styles={{
                     content: {
                         padding: 0,
@@ -145,8 +149,48 @@ const InquiryEstimateChassis = (props: {
                     background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                     padding: '24px 20px',
                     textAlign: 'center',
-                    color: 'white'
+                    color: 'white',
+                    position: 'relative'
                 }}>
+                    {/* 우측 상단 닫기 버튼 */}
+                    <button
+                        onClick={handleClose}
+                        disabled={isProcessing}
+                        style={{
+                            position: 'absolute',
+                            top: '16px',
+                            right: '16px',
+                            width: '32px',
+                            height: '32px',
+                            borderRadius: '50%',
+                            border: 'none',
+                            background: 'rgba(255, 255, 255, 0.2)',
+                            color: 'white',
+                            cursor: isProcessing ? 'not-allowed' : 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '14px',
+                            transition: 'all 0.3s ease',
+                            backdropFilter: 'blur(10px)',
+                            opacity: isProcessing ? 0.5 : 1
+                        }}
+                        onMouseEnter={(e) => {
+                            if (!isProcessing) {
+                                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.3)';
+                                e.currentTarget.style.transform = 'scale(1.1)';
+                            }
+                        }}
+                        onMouseLeave={(e) => {
+                            if (!isProcessing) {
+                                e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)';
+                                e.currentTarget.style.transform = 'scale(1)';
+                            }
+                        }}
+                    >
+                        <CloseOutlined />
+                    </button>
+
                     <div style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '8px' }}>
                         💬 견적 상담 받기
                     </div>
@@ -264,6 +308,45 @@ const InquiryEstimateChassis = (props: {
                             문의를 접수하고 있습니다...
                         </div>
                     )}
+
+                    {/* 하단 닫기 버튼 */}
+                    <div style={{
+                        display: 'flex',
+                        gap: '12px',
+                        marginTop: '20px'
+                    }}>
+                        <button
+                            onClick={handleClose}
+                            disabled={isProcessing}
+                            style={{
+                                flex: 1,
+                                padding: '14px',
+                                borderRadius: '12px',
+                                border: '1px solid #dee2e6',
+                                background: '#fff',
+                                color: '#6c757d',
+                                fontSize: '14px',
+                                fontWeight: '500',
+                                cursor: isProcessing ? 'not-allowed' : 'pointer',
+                                transition: 'all 0.2s ease',
+                                opacity: isProcessing ? 0.5 : 1
+                            }}
+                            onMouseEnter={(e) => {
+                                if (!isProcessing) {
+                                    e.currentTarget.style.background = '#f8f9fa';
+                                    e.currentTarget.style.borderColor = '#adb5bd';
+                                }
+                            }}
+                            onMouseLeave={(e) => {
+                                if (!isProcessing) {
+                                    e.currentTarget.style.background = '#fff';
+                                    e.currentTarget.style.borderColor = '#dee2e6';
+                                }
+                            }}
+                        >
+                            나중에 하기
+                        </button>
+                    </div>
 
                     <div style={{
                         textAlign: 'center',
