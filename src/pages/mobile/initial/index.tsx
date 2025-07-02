@@ -278,9 +278,9 @@ const Initial = () => {
 
     const handleServiceClick = (serviceTitle: string) => {
         if (serviceTitle === '샷시 견적') {
-            window.location.href = '/calculator/agreement';
+            history.push('/calculator/agreement');
         } else if (serviceTitle === '샷시 지식인') {
-            // 샷시 지식인 로직 추가
+            history.push('/question/board');
         }
     };
 
@@ -331,7 +331,7 @@ const Initial = () => {
                             <button
                                 className="cta-button"
                                 onClick={() => {
-                                    history.push("/qna/register");
+                                    history.push("/question/register");
                                 }}
                             >
                                 <span className="cta-icon">💬&nbsp;</span>

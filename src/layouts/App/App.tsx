@@ -40,7 +40,8 @@ const AppConfigPageV2 = loadable(() => import('../../pages/mobile/MyPage/AppConf
 const UserConfigPageV2 = loadable(() => import('../../pages/mobile/MyPage/UserConfig'));
 const MyPageV2 = loadable(() => import('../../pages/mobile/MyPage'));
 
-const QuestionRegisterForm = loadable(() => import('../../pages/mobile/Question/RegisterForm'));
+const QuestionBoardPage = loadable(() => import('../../pages/mobile/Question/Board'));
+const QuestionRegisterFormPage = loadable(() => import('../../pages/mobile/Question/RegisterForm'));
 
 const CounselV2 = loadable(() => import('../../pages/mobile/Counsel'));
 
@@ -81,7 +82,8 @@ const App = () => {
                     <Route exact path="/v2/calculator" component={CalculationScreenV2}/>
                     <Route exact path="/calculator/result" component={CalculationResultScreen}/>
 
-                    <Route exact path="/qna/register" component={QuestionRegisterForm}/>
+                    <Route exact path="/question/board" component={QuestionBoardPage}/>
+                    <Route exact path="/question/register" component={QuestionRegisterFormPage}/>
 
                     <Route exact path="/v2/mypage/estimation/histories" component={MyPageEstimationHistoriesPageV2}/>
                     <Route exact path="/v2/mypage/estimation/:estimationId" component={MyPageEstimationDetailPageV2}/>
