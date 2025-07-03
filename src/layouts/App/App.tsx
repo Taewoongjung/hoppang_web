@@ -73,7 +73,7 @@ const App = () => {
                     <Route path="/admin/statistics" component={StatisticsMainScreen}/>
                     <Route path="/admin/advertisement" component={AdvertisementMainScreen}/>
 
-                    {/*OFFICIAL*/}
+                    {/* OFFICIAL */}
                     <Route path="/official" component={LandingPage}/>
 
                     {/* V2 */}

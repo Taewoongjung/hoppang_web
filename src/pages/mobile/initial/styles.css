@@ -166,7 +166,6 @@ body {
 .window-icon {
     font-size: 60px;
     opacity: 0.8;
-    animation: float 3s ease-in-out infinite;
 }
 
 .floating-elements {

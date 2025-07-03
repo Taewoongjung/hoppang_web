@@ -8,6 +8,7 @@ import useSWR from "swr";
 import {callMeData} from "../../../definition/apiPath";
 import fetcher from "../../../util/fetcher";
 import {useHistory} from "react-router-dom";
+import Hammer from 'hammerjs';
 
 // Cordova 타입 정의
 declare global {
@@ -25,145 +26,58 @@ const Initial = () => {
     }, []);
 
     useEffect(() => {
-        // 모바일 웹앱 뒤로가기 완전 차단
-        const preventBackNavigation = () => {
-            // 현재 URL을 히스토리에 계속 푸시하여 뒤로가기 무력화
+        // Hammer.js 설정 (위 코드와 동일)
+        const hammer = new Hammer(document.body, {
+            recognizers: [
+                [Hammer.Swipe, { direction: Hammer.DIRECTION_HORIZONTAL }],
+                [Hammer.Pan, { direction: Hammer.DIRECTION_HORIZONTAL }]
+            ]
+        });
+
+        const preventNavigation = (e: HammerInput) => {
+            if (e.srcEvent && typeof e.srcEvent.preventDefault === 'function') {
+                e.srcEvent.preventDefault();
+                e.srcEvent.stopPropagation?.();
+                e.srcEvent.stopImmediatePropagation?.();
+            }
             window.history.pushState(null, '', window.location.href);
         };
 
-        // 페이지 로드 시 히스토리 스택에 더미 엔트리 추가
-        preventBackNavigation();
-
-        // popstate 이벤트 리스너 (모든 기기의 뒤로가기)
-        const handlePopState = (event: PopStateEvent) => {
-            // 이벤트 전파 중단
-            event.preventDefault();
-            event.stopPropagation();
-            event.stopImmediatePropagation();
-
-            // 즉시 현재 페이지로 다시 이동
-            preventBackNavigation();
-
-            // 추가 안전장치: 짧은 지연 후 다시 푸시
-            setTimeout(() => {
-                preventBackNavigation();
-            }, 0);
-
-            return false;
-        };
-
-        // 이벤트 리스너 등록 (캡처 및 버블링 단계 모두)
-        window.addEventListener('popstate', handlePopState, true); // 캡처 단계
-        window.addEventListener('popstate', handlePopState, false); // 버블링 단계
-
-        // React Router의 history 차단
-        const unblock = history.block((location: any, action: string) => {
-            if (action === 'POP') {
-                // POP 액션(뒤로가기/앞으로가기) 완전 차단
-                preventBackNavigation();
-                return false;
+        hammer.on('swipeleft swiperight panstart panmove panend', (e) => {
+            if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+                preventNavigation(e);
             }
-            return true;
         });
 
-        // 키보드 단축키 차단
-        const handleKeyDown = (event: KeyboardEvent) => {
-            // Alt + ← (Alt + Left Arrow)
-            if (event.altKey && (event.key === 'ArrowLeft' || event.keyCode === 37)) {
-                event.preventDefault();
-                event.stopPropagation();
-                return false;
-            }
-            // Alt + → (Alt + Right Arrow)
-            if (event.altKey && (event.key === 'ArrowRight' || event.keyCode === 39)) {
-                event.preventDefault();
-                event.stopPropagation();
-                return false;
-            }
-            // Backspace (input이나 textarea가 아닌 경우)
-            if (event.key === 'Backspace' || event.keyCode === 8) {
-                const target = event.target as HTMLElement;
-                if (target.tagName !== 'INPUT' &&
-                    target.tagName !== 'TEXTAREA' &&
-                    !target.isContentEditable) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    return false;
-                }
+        // 네이티브 터치 이벤트도 추가 차단
+        let startX = 0;
+        let startY = 0;
+
+        const handleTouchStart = (e: TouchEvent) => {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        };
+
+        const handleTouchMove = (e: TouchEvent) => {
+            const deltaX = Math.abs(e.touches[0].clientX - startX);
+            const deltaY = Math.abs(e.touches[0].clientY - startY);
+
+            // 수평 스와이프 감지 시 차단
+            if (deltaX > deltaY && deltaX > 30) {
+                e.preventDefault();
+                e.stopPropagation();
             }
         };
 
-        // 키보드 이벤트 리스너 등록
-        document.addEventListener('keydown', handleKeyDown, true);
-        document.addEventListener('keyup', handleKeyDown, true);
+        document.addEventListener('touchstart', handleTouchStart, { passive: false });
+        document.addEventListener('touchmove', handleTouchMove, { passive: false });
 
-        // Android 백 버튼 차단 (Cordova/PhoneGap 환경)
-        const handleDeviceBackButton = (event: Event) => {
-            event.preventDefault();
-            preventBackNavigation();
-            return false;
-        };
-
-        // Cordova 환경 체크 (타입 안전하게)
-        const isCordovaApp = typeof window !== 'undefined' &&
-            (window.device !== undefined || window.cordova !== undefined);
-
-        if (isCordovaApp) {
-            document.addEventListener('backbutton', handleDeviceBackButton, false);
-        }
-
-        // 페이지 가시성 변경 시에도 히스토리 보호
-        const handleVisibilityChange = () => {
-            if (!document.hidden) {
-                preventBackNavigation();
-            }
-        };
-
-        document.addEventListener('visibilitychange', handleVisibilityChange);
-
-        // beforeunload 이벤트로 추가 보호
-        const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-            preventBackNavigation();
-        };
-
-        window.addEventListener('beforeunload', handleBeforeUnload);
-
-        // hashchange 이벤트 차단
-        const handleHashChange = (event: HashChangeEvent) => {
-            event.preventDefault();
-            preventBackNavigation();
-            return false;
-        };
-
-        window.addEventListener('hashchange', handleHashChange);
-
-        // 주기적으로 히스토리 상태 확인 및 보호
-        const historyProtectionInterval = setInterval(() => {
-            preventBackNavigation();
-        }, 100);
-
-        // 클린업 함수
         return () => {
-            window.removeEventListener('popstate', handlePopState, true);
-            window.removeEventListener('popstate', handlePopState, false);
-            document.removeEventListener('keydown', handleKeyDown, true);
-            document.removeEventListener('keyup', handleKeyDown, true);
-            document.removeEventListener('visibilitychange', handleVisibilityChange);
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-            window.removeEventListener('hashchange', handleHashChange);
-
-            // Cordova 환경 체크 후 이벤트 제거
-            const isCordovaApp = typeof window !== 'undefined' &&
-                (window.device !== undefined || window.cordova !== undefined);
-
-            if (isCordovaApp) {
-                document.removeEventListener('backbutton', handleDeviceBackButton, false);
-            }
-
-            clearInterval(historyProtectionInterval);
-            unblock();
+            hammer.destroy();
+            document.removeEventListener('touchstart', handleTouchStart);
+            document.removeEventListener('touchmove', handleTouchMove);
         };
-    }, [history]);
+    }, []);
 
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
