@@ -26,52 +26,130 @@ const Initial = () => {
     }, []);
 
     useEffect(() => {
-        const hammer = new Hammer(document.body, {
-            recognizers: [
-                [Hammer.Swipe, { direction: Hammer.DIRECTION_HORIZONTAL }],
-                [Hammer.Pan, { direction: Hammer.DIRECTION_HORIZONTAL }]
-            ]
-        });
-
-        const preventNavigation = (e: HammerInput) => {
-            e.srcEvent?.preventDefault?.();
-            e.srcEvent?.stopPropagation?.();
-            e.srcEvent?.stopImmediatePropagation?.();
-
-            // 현재 위치를 히스토리에 다시 push해서 뒤로가기를 무효화
-            history.pushState(null, '', window.location.href);
-        };
-
-        hammer.on('swipeleft swiperight panstart panmove panend', (e) => {
-            if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-                preventNavigation(e);
-            }
-        });
-
-        let startX = 0, startY = 0;
+        // 기존 코드는 유지하고 추가
+        // 더 강력한 터치 이벤트 차단
+        let startX = 0;
+        let startY = 0;
+        let startTime = 0;
+        let isSwipeBlocked = false;
 
         const handleTouchStart = (e: TouchEvent) => {
             startX = e.touches[0].clientX;
             startY = e.touches[0].clientY;
+            startTime = Date.now();
+            isSwipeBlocked = false;
         };
 
         const handleTouchMove = (e: TouchEvent) => {
-            const deltaX = Math.abs(e.touches[0].clientX - startX);
-            const deltaY = Math.abs(e.touches[0].clientY - startY);
+            const currentX = e.touches[0].clientX;
+            const currentY = e.touches[0].clientY;
+            const deltaX = currentX - startX;
+            const deltaY = currentY - startY;
+            const absDeltaX = Math.abs(deltaX);
+            const absDeltaY = Math.abs(deltaY);
 
-            if (deltaX > deltaY && deltaX > 30) {
+            // 수평 스와이프 감지 (뒤로가기 제스처)
+            if (absDeltaX > absDeltaY && absDeltaX > 10) {
+                isSwipeBlocked = true;
                 e.preventDefault();
                 e.stopPropagation();
+                e.stopImmediatePropagation();
+
+                // 히스토리 보호
+                window.history.pushState(null, '', window.location.href);
             }
         };
 
-        document.addEventListener('touchstart', handleTouchStart, { passive: false });
-        document.addEventListener('touchmove', handleTouchMove, { passive: false });
+        const handleTouchEnd = (e: TouchEvent) => {
+            if (isSwipeBlocked) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+
+                // 강제로 현재 페이지 유지
+                window.history.pushState(null, '', window.location.href);
+            }
+        };
+
+        // 이벤트 리스너 등록 (passive: false로 설정하여 preventDefault 가능하게)
+        document.addEventListener('touchstart', handleTouchStart, { passive: false, capture: true });
+        document.addEventListener('touchmove', handleTouchMove, { passive: false, capture: true });
+        document.addEventListener('touchend', handleTouchEnd, { passive: false, capture: true });
+
+        // 추가: 마우스 이벤트도 차단 (데스크톱에서 테스트용)
+        let mouseStartX = 0;
+        const handleMouseDown = (e: MouseEvent) => {
+            mouseStartX = e.clientX;
+        };
+
+        const handleMouseMove = (e: MouseEvent) => {
+            if (e.buttons === 1) { // 마우스 버튼이 눌린 상태
+                const deltaX = Math.abs(e.clientX - mouseStartX);
+                if (deltaX > 50) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.history.pushState(null, '', window.location.href);
+                }
+            }
+        };
+
+        document.addEventListener('mousedown', handleMouseDown, { passive: false, capture: true });
+        document.addEventListener('mousemove', handleMouseMove, { passive: false, capture: true });
 
         return () => {
-            hammer.destroy();
-            document.removeEventListener('touchstart', handleTouchStart);
-            document.removeEventListener('touchmove', handleTouchMove);
+            document.removeEventListener('touchstart', handleTouchStart, { capture: true });
+            document.removeEventListener('touchmove', handleTouchMove, { capture: true });
+            document.removeEventListener('touchend', handleTouchEnd, { capture: true });
+            document.removeEventListener('mousedown', handleMouseDown, { capture: true });
+            document.removeEventListener('mousemove', handleMouseMove, { capture: true });
+        };
+    }, []);
+
+    useEffect(() => {
+        // 위의 터치 이벤트 코드 + 아래 추가
+
+        // CSS로 터치 액션 차단
+        const style = document.createElement('style');
+        style.textContent = `
+        * {
+            touch-action: pan-y !important;
+            -webkit-touch-callout: none !important;
+            -webkit-user-select: none !important;
+            -khtml-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+            user-select: none !important;
+        }
+        
+        body {
+            overscroll-behavior-x: none !important;
+            overscroll-behavior-y: auto !important;
+        }
+    `;
+        document.head.appendChild(style);
+
+        // 더 공격적인 히스토리 보호
+        const createHistoryBarrier = () => {
+            for (let i = 0; i < 50; i++) {
+                window.history.pushState(
+                    { preventBack: true, index: i, timestamp: Date.now() },
+                    '',
+                    window.location.href
+                );
+            }
+        };
+
+        createHistoryBarrier();
+
+        // 주기적으로 히스토리 보호 (더 자주)
+        const historyInterval = setInterval(() => {
+            createHistoryBarrier();
+        }, 50);
+
+        return () => {
+            // 기존 cleanup + 추가
+            document.head.removeChild(style);
+            clearInterval(historyInterval);
         };
     }, []);
 
