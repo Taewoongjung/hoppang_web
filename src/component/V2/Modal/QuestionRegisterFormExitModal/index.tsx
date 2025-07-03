@@ -3,15 +3,21 @@ import { useHistory } from 'react-router-dom';
 import './styles.css';
 
 const QuestionRegisterFormExitModal = (props:{
+    from: any | null
     setShowExitModal: (f: boolean) => void
 }) => {
 
-    const {setShowExitModal} = props;
+    const { from, setShowExitModal } = props;
 
     const history = useHistory();
 
     const handleExitConfirm = () => {
-        history.push('/chassis/v2/calculator');
+        if (from === 'initial') {
+            history.push('/chassis/v2/calculator');
+            return;
+        }
+
+        history.push('/question/board');
     };
 
     const handleExitCancel = () => {

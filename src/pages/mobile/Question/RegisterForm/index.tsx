@@ -11,8 +11,10 @@ import QuestionRegisterFormExitModal from "../../../../component/V2/Modal/Questi
 
 const QuestionRegisterForm = () => {
     const history = useHistory();
+    const urlParams = new URLSearchParams(window.location.search);
 
     useEffect(() => {
+        console.log("??? = ", urlParams.get('from'));
         // 뒤로가기 감지
         const unblock = history.block((location: any, action: string) => {
             if (action === 'POP') {
@@ -313,7 +315,12 @@ const QuestionRegisterForm = () => {
                 </section>
             </main>
 
-            {showExitModal && <QuestionRegisterFormExitModal setShowExitModal={setShowExitModal}/>}
+            {showExitModal &&
+                <QuestionRegisterFormExitModal
+                    from={urlParams.get('from')}
+                    setShowExitModal={setShowExitModal}
+                />
+            }
         </div>
     );
 };
