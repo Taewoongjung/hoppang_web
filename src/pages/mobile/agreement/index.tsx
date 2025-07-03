@@ -14,10 +14,15 @@ const Agreement = () => {
     const history = useHistory();
 
     useEffect(() => {
-        // 뒤로가기 감지
         const unblock = history.block((location: any, action: string) => {
             if (action === 'POP') {
-                history.push('/chassis/v2/calculator');
+                const currentPath = window.location.pathname;
+
+                if (currentPath === '/calculator/result') {
+                    history.push('/chassis/v2/calculator');
+                } else {
+                    history.push('/chassis/v2/calculator');
+                }
             }
 
             return true;
