@@ -259,7 +259,7 @@ const InitialScreen = (props: {
                                                                 창호 견적 시작하기
                                                             </Button>
                                                             {
-                                                                (userData && (userData.name === '정태웅' ||userData.id === 20 || userData.id === 50 || userData.id === 21)) &&
+                                                                (userData && (userData.name === '정태웅' || userData.id === 20 || userData.id === 50 || userData.id === 21 || userData.id === 64)) &&
                                                                 <Button
                                                                     onClick={() => window.location.href = "/chassis/v2/calculator"}>테스트화면</Button>
                                                             }
