@@ -91,6 +91,7 @@ body {
 
 /* Result Card */
 .result-card {
+    position: relative;
     background: white;
     border-radius: 20px;
     padding: 24px;
@@ -98,6 +99,22 @@ body {
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     border: 1px solid #f1f5f9;
     transition: all 0.3s ease;
+}
+
+.result-card.has-inquiry {
+    border-color: #bbf7d0;
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
+}
+
+.result-card.has-inquiry::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #10b981, #059669);
+    border-radius: 20px 20px 0 0;
 }
 
 .result-card:hover {
@@ -111,8 +128,10 @@ body {
 }
 
 .company-badge {
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    justify-content: space-between;
+    width: 100%;
     background: linear-gradient(135deg, #ffeb9c 10%, #f7e0bc 60%, #fff4e5 100%);
     padding: 12px 20px;
     border-radius: 25px;
@@ -125,6 +144,18 @@ body {
     color: #92400e;
 }
 
+.inquiry-indicator {
+    font-size: 12px;
+    color: #059669;
+    background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+    border: 1px solid #86efac;
+    animation: indicatorPulse 2s ease-in-out infinite;
+    white-space: nowrap;
+}
+
 /* Price Summary */
 .price-summary {
     text-align: center;
@@ -133,6 +164,17 @@ body {
     border-radius: 16px;
     margin-bottom: 32px;
     border: 1px solid #e2e8f0;
+}
+
+@keyframes indicatorPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+    }
 }
 
 .price-label {
@@ -400,7 +442,6 @@ body {
     background: white;
     border: 2px solid #e5e7eb;
     border-radius: 12px;
-    cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
     justify-content: space-between;
@@ -409,24 +450,12 @@ body {
     overflow: hidden;
 }
 
-.company-option::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(252, 176, 128, 0.1), transparent);
-    transition: left 0.6s ease;
-}
-
 .company-option:hover::before {
     left: 100%;
 }
 
 .company-option:hover {
     border-color: #fcb080;
-    transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(245, 158, 86, 0.15);
 }
 
@@ -450,11 +479,6 @@ body {
     font-weight: 500;
     position: relative;
     z-index: 2;
-    transition: transform 0.3s ease;
-}
-
-.company-option:hover .company-option-action {
-    transform: translateX(4px);
 }
 
 /* New Estimate Section */
@@ -618,8 +642,316 @@ body {
 
 /* Focus States for Accessibility */
 .button-primary:focus,
-.company-option:focus,
 .button-new-estimate:focus {
     outline: 2px solid #fcb080;
     outline-offset: 2px;
+}
+
+/* 문의 상태 컨테이너 */
+.inquiry-status-container {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+    text-align: center;
+    padding: 16px;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    animation: statusContainerAppear 0.6s ease-out;
+}
+
+.inquiry-status-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inquiry-status-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 18px;
+    background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+    border: 2px solid #86efac;
+    border-radius: 20px;
+    color: #059669;
+    font-weight: 600;
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+    animation: statusBadgeAppear 0.5s ease-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.inquiry-status-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0% { left: -100%; }
+    50% { left: 100%; }
+    100% { left: 100%; }
+}
+
+.status-icon {
+    font-size: 16px;
+    color: #10b981;
+}
+
+.status-text {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.inquiry-status-message {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* 버튼 스타일 개선 */
+.button-primary {
+    width: 100%;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #fcb080, #f59e56);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(245, 158, 86, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.button-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(245, 158, 86, 0.4);
+}
+
+.button-secondary {
+    width: 100%;
+    padding: 12px 20px;
+    background: white;
+    color: #6b7280;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    position: relative;
+    overflow: hidden;
+}
+
+.button-secondary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(245, 158, 86, 0.1), transparent);
+    transition: left 0.6s ease;
+}
+
+.button-secondary:hover::before {
+    left: 100%;
+}
+
+.button-secondary:hover {
+    border-color: #fcb080;
+    color: #f59e56;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(245, 158, 86, 0.15);
+}
+
+.button-icon {
+    font-size: 14px;
+    transition: transform 0.3s ease;
+}
+
+.button-secondary:hover .button-icon {
+    transform: scale(1.1);
+}
+
+/* 애니메이션 */
+@keyframes statusBadgeAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(-8px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* 상태 변경 애니메이션 */
+.inquiry-status-container {
+    animation: statusContainerAppear 0.6s ease-out;
+}
+
+@keyframes statusContainerAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 반응형 디자인 - 문의 상태 */
+@media (max-width: 375px) {
+    .company-badge {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+        padding: 12px 16px;
+    }
+
+    .inquiry-indicator {
+        font-size: 11px;
+        padding: 3px 8px;
+        align-self: flex-end;
+    }
+
+    .inquiry-status-badge {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+
+    .inquiry-methods {
+        gap: 6px;
+    }
+
+    .inquiry-method {
+        padding: 4px 8px;
+        font-size: 11px;
+    }
+
+    .method-text {
+        font-size: 10px;
+    }
+
+    .inquiry-status-message {
+        font-size: 12px;
+    }
+
+    .button-secondary {
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+}
+
+/* 문의 완료 상태 특별 효과 */
+.inquiry-status-badge {
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes shimmer {
+    0% {
+        left: -100%;
+    }
+    50% {
+        left: 100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+/* 문의 방법 표시 개선 */
+.inquiry-methods {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+}
+
+.inquiry-method {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    font-size: 12px;
+    color: #64748b;
+    transition: all 0.3s ease;
+}
+
+.inquiry-method.completed {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+    border-color: #bbf7d0;
+    color: #059669;
+    box-shadow: 0 2px 6px rgba(16, 185, 129, 0.1);
+    animation: methodComplete 0.5s ease-out;
+}
+
+@keyframes methodComplete {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.inquiry-method.completed:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+
+.method-icon {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.method-text {
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 1;
+}
+
+/* 상태 전환 효과 */
+.result-card .action-section {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.result-card .action-section.transitioning {
+    opacity: 0.7;
+    transform: scale(0.98);
+}
+
+.result-card .action-section.transitioned {
+    opacity: 1;
+    transform: scale(1);
 }

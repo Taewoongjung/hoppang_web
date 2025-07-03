@@ -41,7 +41,6 @@ const Initial = () => {
     });
 
     const [isBottomNavVisible, setIsBottomNavVisible] = useState(true);
-    const [isFooterVisible, setIsFooterVisible] = useState(false);
     const [lastScrollY, setLastScrollY] = useState(0);
 
     // 디바운싱을 위한 타이머 ref
@@ -71,18 +70,14 @@ const Initial = () => {
                 // Footer 표시 로직
                 if (scrollPercent >= bottomThreshold ||
                     (scrollPercent >= footerThreshold && currentScrollY > scrollableHeight - 200)) {
-                    setIsFooterVisible(true);
                     setIsBottomNavVisible(false);
                 }
                 // 페이지 상단 근처에서는 Footer 숨김, BottomNav 표시
                 else if (currentScrollY < 100) {
-                    setIsFooterVisible(false);
                     setIsBottomNavVisible(true);
                 }
                 // 중간 영역에서의 BottomNav 표시/숨김 로직
                 else {
-                    setIsFooterVisible(false);
-
                     // 아래로 빠르게 스크롤할 때
                     if (scrollDirection === 'down' &&
                         currentScrollY > scrollThreshold &&

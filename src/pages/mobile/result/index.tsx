@@ -20,8 +20,17 @@ import InquiryEstimateChassis from "../../../component/V2/InquiryEstimateChassis
 import CalculationResultExitModal from "../../../component/V2/Modal/CalculationResultExitModal";
 
 
-const MobileResultScreen = () => {
+interface InquiryStatus {
+    kakao: boolean;
+    call: boolean;
+    callback: boolean;
+}
 
+interface EstimationInquiryStatus {
+    [estimationId: string]: InquiryStatus;
+}
+
+const MobileResultScreen = () => {
     const history = useHistory();
     const location = useLocation<any>();
 
@@ -29,7 +38,9 @@ const MobileResultScreen = () => {
     const [requestObject, setRequestObject] = useState<any>(null);
     const [inquiryEstimationId, setInquiryEstimationId] = useState();
     const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
-    const [inquiredList, setInquiredList] = useState<any[]>([]);
+
+    // 📌 기존의 단순 배열 대신 개별 견적별 문의 상태 관리
+    const [inquiryStatuses, setInquiryStatuses] = useState<EstimationInquiryStatus>({});
 
     const [yetCalculatedCompanyList, setYetCalculatedCompanyList] = useState<string[]>([
         HYUNDAI, LX, KCC_GLASS
@@ -37,18 +48,56 @@ const MobileResultScreen = () => {
 
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
-
     const [showExitModal, setShowExitModal] = useState(false);
 
+    // 📌 문의 완료 핸들러 - 특정 견적의 특정 문의 방식 업데이트
+    const handleInquiryComplete = (estimationId: any, inquiryTypes: string[]) => {
+        setInquiryStatuses(prev => {
+            const currentStatus = prev[estimationId] || { kakao: false, call: false, callback: false };
+            const updatedStatus = { ...currentStatus };
 
+            // 완료된 문의 타입들을 true로 설정
+            inquiryTypes.forEach(type => {
+                if (type in updatedStatus) {
+                    updatedStatus[type as keyof InquiryStatus] = true;
+                }
+            });
+
+            return {
+                ...prev,
+                [estimationId]: updatedStatus
+            };
+        });
+    };
+
+    // 📌 특정 견적의 문의 상태 확인 헬퍼 함수
+    const getInquiryStatus = (estimationId: any) => {
+        const status = inquiryStatuses[estimationId];
+        if (!status) {
+            return {
+                hasAnyInquiry: false,
+                completedCount: 0,
+                inquiryStatus: { kakao: false, call: false, callback: false }
+            };
+        }
+
+        const completedCount = Object.values(status).filter(Boolean).length;
+        const hasAnyInquiry = completedCount > 0;
+
+        return {
+            hasAnyInquiry,
+            completedCount,
+            inquiryStatus: status
+        };
+    };
+
+    // 기존 useEffect들 유지...
     useEffect(() => {
-        // 뒤로가기 감지
         const unblock = history.block((location: any, action: string) => {
             if (action === 'POP') {
                 setShowExitModal(true);
                 return false;
             }
-
             return true;
         });
 
@@ -66,6 +115,7 @@ const MobileResultScreen = () => {
         }
     }, [location, history]);
 
+    // 기존 getOtherEstimates 함수 유지...
     const getOtherEstimates = (estimatingCompany: string) => {
         if (!requestObject) return;
 
@@ -114,7 +164,6 @@ const MobileResultScreen = () => {
             });
     };
 
-    // 추가 견적 받을 리스트 소거
     useEffect(() => {
         if (!results || results.length === 0) return;
 
@@ -129,11 +178,15 @@ const MobileResultScreen = () => {
         history.push('/calculator/agreement');
     };
 
+    // 📌 수정된 renderResultCard - 개별 견적 상태 반영
     const renderResultCard = (result: any, index: number) => {
         const companyName = mappedCompanyByValue(result.company);
         const totalDiscount = result.discountedWholeCalculatedFeeAmount;
         const totalDiscountWithSurtx = result.discountedWholeCalculatedFeeWithSurtax;
         const originalPrice = result.wholeCalculatedFee + result.surtax;
+
+        // 📌 현재 견적의 문의 상태 확인
+        const { hasAnyInquiry, completedCount, inquiryStatus } = getInquiryStatus(result.estimationId);
 
         return (
             <div className="result-card" key={index}>
@@ -141,6 +194,12 @@ const MobileResultScreen = () => {
                 <div className="company-header">
                     <div className="company-badge">
                         <span className="company-name">{companyName}</span>
+                        {/* 📌 문의 상태 표시 추가 */}
+                        {hasAnyInquiry && (
+                            <span className="inquiry-indicator">
+                                ✓ 문의완료({completedCount})
+                            </span>
+                        )}
                     </div>
                 </div>
 
@@ -233,14 +292,59 @@ const MobileResultScreen = () => {
                     </div>
                 </div>
 
-                {/* Action Button */}
+                {/* 📌 개별 견적별 Action Section */}
                 <div className="action-section">
-                    {inquiredList.includes(result.estimationId) ? (
-                        <button className="button-completed" disabled>
-                            <span className="check-icon">✓</span>
-                            문의 완료
-                        </button>
+                    {hasAnyInquiry ? (
+                        // 문의 완료 상태 - 개별 견적
+                        <div className="inquiry-status-container">
+                            <div className="inquiry-status-header">
+                                <div className="inquiry-status-badge">
+                                    <span className="status-icon">✓</span>
+                                    <span className="status-text">
+                                        문의 완료 ({completedCount}개 방법)
+                                    </span>
+                                </div>
+                            </div>
+
+                            {/* 📌 완료된 문의 방법 표시 */}
+                            <div className="inquiry-methods">
+                                {inquiryStatus.kakao && (
+                                    <div className="inquiry-method completed">
+                                        <span className="method-icon">💬</span>
+                                        <span className="method-text">카카오톡</span>
+                                    </div>
+                                )}
+                                {inquiryStatus.call && (
+                                    <div className="inquiry-method completed">
+                                        <span className="method-icon">📞</span>
+                                        <span className="method-text">전화연결</span>
+                                    </div>
+                                )}
+                                {inquiryStatus.callback && (
+                                    <div className="inquiry-method completed">
+                                        <span className="method-icon">📋</span>
+                                        <span className="method-text">상담신청</span>
+                                    </div>
+                                )}
+                            </div>
+
+                            <p className="inquiry-status-message">
+                                담당자가 빠르게 연락드릴 예정입니다
+                            </p>
+
+                            <button
+                                className="button-secondary"
+                                onClick={() => {
+                                    setInquiryEstimationId(result.estimationId);
+                                    setIsInquiryModalOpen(true);
+                                }}
+                            >
+                                <span className="button-icon">💬</span>
+                                추가 문의하기
+                            </button>
+                        </div>
                     ) : (
+                        // 기본 상태 - 개별 견적
                         <button
                             className="button-primary"
                             onClick={() => {
@@ -248,6 +352,7 @@ const MobileResultScreen = () => {
                                 setIsInquiryModalOpen(true);
                             }}
                         >
+                            <span className="button-icon">💬</span>
                             이 견적으로 문의하기
                         </button>
                     )}
@@ -326,15 +431,21 @@ const MobileResultScreen = () => {
                 </div>
             </main>
 
+            {/* 📌 개별 견적 상태를 전달하는 모달 */}
             <InquiryEstimateChassis
                 estimationId={inquiryEstimationId}
                 isInquiryModalOpen={isInquiryModalOpen}
                 setIsInquiryModalOpen={setIsInquiryModalOpen}
-                finishedInquiry={() => {
-                    setInquiredList(prev =>
-                        prev.includes(inquiryEstimationId) ? prev : [...prev, inquiryEstimationId]
-                    );
+                finishedInquiry={(inquiryTypes: string[]) => {
+                    if (inquiryEstimationId) {
+                        handleInquiryComplete(inquiryEstimationId, inquiryTypes);
+                    }
                 }}
+                // 📌 현재 견적의 기존 문의 상태 전달
+                initialInquiryStatus={inquiryEstimationId ?
+                    getInquiryStatus(inquiryEstimationId).inquiryStatus :
+                    { kakao: false, call: false, callback: false }
+                }
             />
 
             {showExitModal && (<CalculationResultExitModal setShowExitModal={setShowExitModal}/>)}
