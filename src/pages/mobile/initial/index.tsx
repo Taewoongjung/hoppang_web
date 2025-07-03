@@ -26,7 +26,6 @@ const Initial = () => {
     }, []);
 
     useEffect(() => {
-        // Hammer.js 설정 (위 코드와 동일)
         const hammer = new Hammer(document.body, {
             recognizers: [
                 [Hammer.Swipe, { direction: Hammer.DIRECTION_HORIZONTAL }],
@@ -35,12 +34,12 @@ const Initial = () => {
         });
 
         const preventNavigation = (e: HammerInput) => {
-            if (e.srcEvent && typeof e.srcEvent.preventDefault === 'function') {
-                e.srcEvent.preventDefault();
-                e.srcEvent.stopPropagation?.();
-                e.srcEvent.stopImmediatePropagation?.();
-            }
-            window.history.pushState(null, '', window.location.href);
+            e.srcEvent?.preventDefault?.();
+            e.srcEvent?.stopPropagation?.();
+            e.srcEvent?.stopImmediatePropagation?.();
+
+            // 현재 위치를 히스토리에 다시 push해서 뒤로가기를 무효화
+            history.pushState(null, '', window.location.href);
         };
 
         hammer.on('swipeleft swiperight panstart panmove panend', (e) => {
@@ -49,9 +48,7 @@ const Initial = () => {
             }
         });
 
-        // 네이티브 터치 이벤트도 추가 차단
-        let startX = 0;
-        let startY = 0;
+        let startX = 0, startY = 0;
 
         const handleTouchStart = (e: TouchEvent) => {
             startX = e.touches[0].clientX;
@@ -62,7 +59,6 @@ const Initial = () => {
             const deltaX = Math.abs(e.touches[0].clientX - startX);
             const deltaY = Math.abs(e.touches[0].clientY - startY);
 
-            // 수평 스와이프 감지 시 차단
             if (deltaX > deltaY && deltaX > 30) {
                 e.preventDefault();
                 e.stopPropagation();
