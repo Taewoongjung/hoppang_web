@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import BottomNavigator from "../../../../component/V2/BottomNavigator";
 import useSWR from "swr";
-import {callMeData} from "../../../../definition/apiPath";
+import {callBoards, callMeData} from "../../../../definition/apiPath";
 import fetcher from "../../../../util/fetcher";
 
 import './styles.css';
 import '../../versatile-styles.css';
+import axios from "axios";
 
 interface Question {
     id: number;
@@ -23,30 +24,39 @@ interface Question {
     imageCount?: number;
 }
 
+interface Category {
+    id: string;
+    name: string;
+}
+
 const QuestionsBoard = () => {
     const history = useHistory();
     const [selectedCategory, setSelectedCategory] = useState<string>('all');
     const [sortBy, setSortBy] = useState<'latest' | 'popular' | 'unanswered'>('latest');
     const [searchQuery, setSearchQuery] = useState('');
+    const [categories, setCategories] = useState<Category[]>([]);
 
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
     });
 
-    const categories = [
-        { id: 'all', label: '전체', count: 156 },
-        { id: 'estimate', label: '견적 문의', count: 45 },
-        { id: 'installation', label: '설치/시공', count: 38 },
-        { id: 'maintenance', label: '관리/수리', count: 32 },
-        { id: 'product', label: '제품 정보', count: 28 },
-        { id: 'etc', label: '기타', count: 13 }
-    ];
+    useEffect(() => {
+        axios.get(callBoards)
+            .then((res) => {
+                const originalList: Category[] = res.data;
+                const withAll = [{ id: "0", name: "전체" }, ...originalList];
+                setCategories(withAll);
+            })
+            .catch((err) => {
+                console.error("Failed to fetch categories:", err);
+            });
+    }, []);
 
     // 더미 데이터 - 실제로는 API에서 가져올 데이터
     const mockQuestions: Question[] = [
         {
             id: 1,
-            category: 'estimate',
+            category: '1',
             title: '아파트 거실 이중창 설치 비용이 얼마나 드나요?',
             content: '30평대 아파트 거실에 이중창을 설치하려고 하는데, 대략적인 비용이 궁금합니다. 현재 단창으로 되어있고...',
             author: '김민수',
@@ -60,7 +70,7 @@ const QuestionsBoard = () => {
         },
         {
             id: 2,
-            category: 'maintenance',
+            category: '2',
             title: '창문에 결로 현상이 계속 생기는데 해결 방법이 있을까요?',
             content: '겨울마다 창문에 물방울이 맺혀서 고민입니다. 특히 아침에 일어나면 창틀이 젖어있어요...',
             author: '익명',
@@ -74,7 +84,7 @@ const QuestionsBoard = () => {
         },
         {
             id: 3,
-            category: 'installation',
+            category: '3',
             title: '샷시 교체 시 공사 기간은 보통 얼마나 걸리나요?',
             content: '전체 집 샷시를 교체하려고 하는데, 공사 기간이 얼마나 걸리는지 궁금합니다.',
             author: '박영희',
@@ -88,7 +98,7 @@ const QuestionsBoard = () => {
         },
         {
             id: 4,
-            category: 'product',
+            category: '4',
             title: '방음이 잘 되는 샷시 브랜드 추천해주세요',
             content: '길가에 집이 있어서 소음이 심합니다. 방음 효과가 좋은 샷시로 교체하고 싶어요.',
             author: '이철수',
@@ -102,7 +112,7 @@ const QuestionsBoard = () => {
         },
         {
             id: 5,
-            category: 'estimate',
+            category: '5',
             title: '샷시 견적서를 받았는데 적정한 가격인지 확인해주세요',
             content: '3개 업체에서 견적을 받았는데 가격 차이가 많이 나서 어떤 게 적정한지 모르겠어요...',
             author: '익명',
@@ -150,7 +160,7 @@ const QuestionsBoard = () => {
 
     const getCategoryLabel = (categoryId: string) => {
         const category = categories.find(cat => cat.id === categoryId);
-        return category ? category.label : '기타';
+        return category ? category.name : '기타';
     };
 
     const handleQuestionClick = (questionId: number) => {
@@ -242,8 +252,8 @@ const QuestionsBoard = () => {
                                 className={`category-tab ${selectedCategory === category.id ? 'active' : ''}`}
                                 onClick={() => setSelectedCategory(category.id)}
                             >
-                                <span className="category-label">{category.label}</span>
-                                <span className="category-count">{category.count}</span>
+                                <span className="category-label">{category.name}</span>
+                                {/*<span className="category-count">{category.count}</span>*/}
                             </button>
                         ))}
                     </div>

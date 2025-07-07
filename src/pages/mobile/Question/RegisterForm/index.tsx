@@ -1,20 +1,24 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import useSWR from "swr";
-import {callMeData} from "../../../../definition/apiPath";
+import {callBoards, callMeData} from "../../../../definition/apiPath";
 import fetcher from "../../../../util/fetcher";
 
 import './styles.css';
 import '../../versatile-styles.css';
 import QuestionRegisterFormExitModal from "../../../../component/V2/Modal/QuestionRegisterFormExitModal";
+import axios from "axios";
 
+interface Category {
+    id: string;
+    name: string;
+}
 
 const QuestionRegisterForm = () => {
     const history = useHistory();
     const urlParams = new URLSearchParams(window.location.search);
 
     useEffect(() => {
-        console.log("??? = ", urlParams.get('from'));
         // 뒤로가기 감지
         const unblock = history.block((location: any, action: string) => {
             if (action === 'POP') {
@@ -38,6 +42,7 @@ const QuestionRegisterForm = () => {
         isAnonymous: false
     });
 
+    const [categories, setCategories] = useState<Category[]>([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errors, setErrors] = useState<{[key: string]: string}>({});
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -48,13 +53,15 @@ const QuestionRegisterForm = () => {
         dedupingInterval: 2000
     });
 
-    const categories = [
-        { id: 'estimate', label: '견적 문의' },
-        { id: 'installation', label: '설치/시공' },
-        { id: 'maintenance', label: '관리/수리' },
-        { id: 'product', label: '제품 정보' },
-        { id: 'etc', label: '기타' }
-    ];
+    useEffect(() => {
+        axios.get(callBoards)
+            .then((res) => {
+                setCategories(res.data);
+            })
+            .catch((err) => {
+                console.error("Failed to fetch categories:", err);
+            });
+    }, []);
 
     // 자동 높이 조절
     useEffect(() => {
@@ -166,7 +173,7 @@ const QuestionRegisterForm = () => {
                                         className={`category-btn ${formData.category === category.id ? 'active' : ''}`}
                                         onClick={() => handleInputChange('category', category.id)}
                                     >
-                                        {category.label}
+                                        {category.name}
                                     </button>
                                 ))}
                             </div>
