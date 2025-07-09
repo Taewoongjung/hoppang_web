@@ -20,6 +20,7 @@ export const callEstimationHistories = `https://hoppang.store/api/customers/chas
 export const callEstimationById = `https://hoppang.store/api/customers/chassis/{estimationId}`;
 export const callBoards = `https://hoppang.store/api/boards`;
 export const callBoardsPosts = `https://hoppang.store/api/boards/posts`;
+export const callBoardsPostsById = `https://hoppang.store/api/boards/posts/{postId}`;
 
 // dev
 // export const kakaoLogin = `http://localhost:7070/api/kakao/auth`;
