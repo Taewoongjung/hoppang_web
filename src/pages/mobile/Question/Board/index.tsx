@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import BottomNavigator from "../../../../component/V2/BottomNavigator";
-import useSWR from "swr";
-import {callBoards, callMeData} from "../../../../definition/apiPath";
-import fetcher from "../../../../util/fetcher";
 
 import './styles.css';
 import '../../versatile-styles.css';
-import axios from "axios";
+import axios from 'axios';
+import {callBoards, callBoardsPosts} from "../../../../definition/apiPath";
+import {useHistory} from "react-router-dom";
+import { truncateContent } from 'src/util';
 
 interface Question {
     id: number;
@@ -25,128 +23,32 @@ interface Question {
 }
 
 interface Category {
-    id: string;
+    id: any;
     name: string;
 }
 
 const QuestionsBoard = () => {
-    const history = useHistory();
-    const [selectedCategory, setSelectedCategory] = useState<string>('all');
-    const [sortBy, setSortBy] = useState<'latest' | 'popular' | 'unanswered'>('latest');
-    const [searchQuery, setSearchQuery] = useState('');
-    const [categories, setCategories] = useState<Category[]>([]);
 
-    const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
-        dedupingInterval: 2000
-    });
+    const history = useHistory();
 
     useEffect(() => {
-        axios.get(callBoards + "?limit=")
-            .then((res) => {
-                const originalList: Category[] = res.data;
-                const withAll = [{ id: "0", name: "전체" }, ...originalList];
-                setCategories(withAll);
-            })
-            .catch((err) => {
-                console.error("Failed to fetch categories:", err);
-            });
+        fetchCategory();
     }, []);
 
-    // 더미 데이터 - 실제로는 API에서 가져올 데이터
-    const mockQuestions: Question[] = [
-        {
-            id: 1,
-            category: '1',
-            title: '아파트 거실 이중창 설치 비용이 얼마나 드나요?',
-            content: '30평대 아파트 거실에 이중창을 설치하려고 하는데, 대략적인 비용이 궁금합니다. 현재 단창으로 되어있고...',
-            author: '김민수',
-            isAnonymous: false,
-            createdAt: '2024-07-02T09:30:00Z',
-            answersCount: 3,
-            viewCount: 127,
-            isAnswered: true,
-            tags: ['이중창', '아파트', '거실'],
-            imageCount: 2
-        },
-        {
-            id: 2,
-            category: '2',
-            title: '창문에 결로 현상이 계속 생기는데 해결 방법이 있을까요?',
-            content: '겨울마다 창문에 물방울이 맺혀서 고민입니다. 특히 아침에 일어나면 창틀이 젖어있어요...',
-            author: '익명',
-            isAnonymous: true,
-            createdAt: '2024-07-01T14:22:00Z',
-            answersCount: 5,
-            viewCount: 89,
-            isAnswered: true,
-            tags: ['결로', '방수', '겨울'],
-            imageCount: 1
-        },
-        {
-            id: 3,
-            category: '3',
-            title: '샷시 교체 시 공사 기간은 보통 얼마나 걸리나요?',
-            content: '전체 집 샷시를 교체하려고 하는데, 공사 기간이 얼마나 걸리는지 궁금합니다.',
-            author: '박영희',
-            isAnonymous: false,
-            createdAt: '2024-07-01T11:15:00Z',
-            answersCount: 0,
-            viewCount: 45,
-            isAnswered: false,
-            tags: ['교체', '공사기간'],
-            imageCount: 0
-        },
-        {
-            id: 4,
-            category: '4',
-            title: '방음이 잘 되는 샷시 브랜드 추천해주세요',
-            content: '길가에 집이 있어서 소음이 심합니다. 방음 효과가 좋은 샷시로 교체하고 싶어요.',
-            author: '이철수',
-            isAnonymous: false,
-            createdAt: '2024-06-30T16:45:00Z',
-            answersCount: 7,
-            viewCount: 203,
-            isAnswered: true,
-            tags: ['방음', '브랜드', '추천'],
-            imageCount: 0
-        },
-        {
-            id: 5,
-            category: '5',
-            title: '샷시 견적서를 받았는데 적정한 가격인지 확인해주세요',
-            content: '3개 업체에서 견적을 받았는데 가격 차이가 많이 나서 어떤 게 적정한지 모르겠어요...',
-            author: '익명',
-            isAnonymous: true,
-            createdAt: '2024-06-30T10:20:00Z',
-            answersCount: 2,
-            viewCount: 156,
-            isAnswered: false,
-            tags: ['견적서', '가격비교'],
-            imageCount: 3
-        }
-    ];
+    const [allQuestions, setAllQuestions] = useState<Question[]>([]);
+    const [allQuestionsCount, setAllQuestionsCount] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState('all');
+    const [isRefreshing, setIsRefreshing] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [pullDistance, setPullDistance] = useState(0);
+    const [touchStartY, setTouchStartY] = useState(0);
 
-    const [questions, setQuestions] = useState<Question[]>(mockQuestions);
+    const limit = 20;
+    const offset = (currentPage - 1) * limit;
 
-    const filteredQuestions = questions.filter(question => {
-        const matchesCategory = selectedCategory === 'all' || question.category === selectedCategory;
-        const matchesSearch = question.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            question.content.toLowerCase().includes(searchQuery.toLowerCase());
-        return matchesCategory && matchesSearch;
-    });
-
-    const sortedQuestions = [...filteredQuestions].sort((a, b) => {
-        switch (sortBy) {
-            case 'popular':
-                return b.viewCount - a.viewCount;
-            case 'unanswered':
-                return a.isAnswered ? 1 : -1;
-            case 'latest':
-            default:
-                return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-        }
-    });
-
+    // 시간 포맷팅 함수
     const formatTimeAgo = (dateString: string) => {
         const now = new Date();
         const date = new Date(dateString);
@@ -159,178 +61,357 @@ const QuestionsBoard = () => {
     };
 
     const getCategoryLabel = (categoryId: string) => {
+        if (!categories) {
+            return;
+        }
+
         const category = categories.find(cat => cat.id === categoryId);
         return category ? category.name : '기타';
     };
 
-    const handleQuestionClick = (questionId: number) => {
-        // history.push(`/v2/questions/${questionId}`);
+    const fetchCategory = async () => {
+        const apiCall = () => {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    axios.get(callBoards)
+                        .then((res) => {
+                            if (!res.data) {
+                                console.error("No categories data");
+                                return;
+                            }
+
+                            const categories: Category[] = res.data.map((category: any) => ({
+                                id: category.id,
+                                name: category.name
+                            }));
+
+                            setCategories([
+                                { id: "all", name: "전체" },
+                                ...categories
+                            ]);
+                        })
+                        .catch((err) => {
+                            console.error("Failed to fetch categories:", err);
+                        });
+                }, 300);
+            });
+        };
+
+        const res: any = await apiCall();
+        setCategories(res);
     };
 
-    const handleWriteQuestion = () => {
-        history.push('/question/boards/posts/register');
+    const fetchQuestions = async () => {
+        setIsLoading(true);
+        try {
+            const apiCall = () => {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+
+                        let categoryId = selectedCategory === 'all' ? '' : selectedCategory;
+
+                        axios.get(`${callBoardsPosts}?limit=${limit}&offset=${offset}&boardIdList=${categoryId}`)
+                            .then((res) => {
+                                const posts = res.data.postsList;
+                                const questions: Question[] = posts.map((post: any) => ({
+                                    id: post.id,
+                                    category: post.boardId,
+                                    title: post.title,
+                                    content: post.contents,
+                                    author: post.authorName,
+                                    createdAt: new Date(post.createdAt).toISOString(),
+                                    answersCount: Math.floor(Math.random() * 10),
+                                    viewCount: Math.floor(Math.random() * 500) + 20,
+                                    isAnswered: Math.random() > 0.3
+                                }));
+
+                                resolve({
+                                    postsList: questions,
+                                    count: res.data.count
+                                });
+                            })
+                            .catch((err) => {
+                                console.error("게시글 조회 실패", err);
+                            });
+                    }, 500);
+                });
+            };
+
+            const res: any = await apiCall();
+            setAllQuestions(res.postsList);
+            setAllQuestionsCount(res.count);
+        } catch (err) {
+            console.error("게시글 조회 실패", err);
+        } finally {
+            setIsLoading(false);
+        }
     };
+
+    // 카테고리 선택 핸들러
+    const handleCategorySelect = (categoryId: string) => {
+        setSelectedCategory(categoryId);
+        setCurrentPage(1); // 카테고리 변경 시 첫 페이지로 이동
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    // 페이지 변경 시 데이터 로드
+    useEffect(() => {
+        fetchQuestions();
+    }, [offset, selectedCategory]);
+
+
+    // 페이지네이션 (필터링된 결과 기준)
+    const totalPages = Math.ceil(allQuestionsCount / limit);
+    const paginatedQuestions = allQuestions.slice((currentPage - 1) * limit, currentPage * limit);
+
+    // Pull to refresh 핸들러
+    const handleTouchStart = (e: React.TouchEvent) => {
+        if (window.scrollY === 0) {
+            setTouchStartY(e.touches[0].clientY);
+        }
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        if (window.scrollY === 0 && touchStartY > 0) {
+            const currentY = e.touches[0].clientY;
+            const distance = Math.max(0, currentY - touchStartY);
+            setPullDistance(Math.min(distance, 80));
+        }
+    };
+
+    const handleTouchEnd = async () => {
+        if (pullDistance > 60) {
+            setIsRefreshing(true);
+            await fetchQuestions();
+            setIsRefreshing(false);
+        }
+        setPullDistance(0);
+        setTouchStartY(0);
+    };
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const handleRegisterPost = () => {
+        history.push('/question/boards/posts/register');
+    }
+
+    const handlePostDetail = (postId: number) => {
+        history.push(`/question/boards/posts/${postId}`);
+    };
+
+    const renderPagination = () => {
+        if (totalPages <= 1) return null;
+
+        const pages = [];
+        const maxVisible = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+
+        if (endPage - startPage + 1 < maxVisible) {
+            startPage = Math.max(1, endPage - maxVisible + 1);
+        }
+
+        // 이전 페이지
+        pages.push(
+            <button
+                key="prev"
+                className={`pagination-btn ${currentPage === 1 ? 'disabled' : ''}`}
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+            >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+            </button>
+        );
+
+        // 첫 페이지
+        if (startPage > 1) {
+            pages.push(
+                <button key={1} className="pagination-btn" onClick={() => handlePageChange(1)}>
+                    1
+                </button>
+            );
+            if (startPage > 2) {
+                pages.push(<span key="start-ellipsis" className="pagination-ellipsis">...</span>);
+            }
+        }
+
+        // 페이지 번호들
+        for (let i = startPage; i <= endPage; i++) {
+            pages.push(
+                <button
+                    key={i}
+                    className={`pagination-btn ${i === currentPage ? 'active' : ''}`}
+                    onClick={() => handlePageChange(i)}
+                >
+                    {i}
+                </button>
+            );
+        }
+
+        // 마지막 페이지
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                pages.push(<span key="end-ellipsis" className="pagination-ellipsis">...</span>);
+            }
+            pages.push(
+                <button key={totalPages} className="pagination-btn" onClick={() => handlePageChange(totalPages)}>
+                    {totalPages}
+                </button>
+            );
+        }
+
+        // 다음 페이지
+        pages.push(
+            <button
+                key="next"
+                className={`pagination-btn ${currentPage === totalPages ? 'disabled' : ''}`}
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+            >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+            </button>
+        );
+
+        return pages;
+    };
+
+    const handGoBack = () => {
+        history.push('/chassis/v2/calculator');
+    }
+
 
     return (
-        <div className="questions-container">
+        <div className="questions-container"
+             onTouchStart={handleTouchStart}
+             onTouchMove={handleTouchMove}
+             onTouchEnd={handleTouchEnd}>
+
+            {/* Pull to refresh indicator */}
+            {(pullDistance > 0 || isRefreshing) && (
+                <div className="pull-refresh-indicator" style={{ height: `${pullDistance}px` }}>
+                    <div className="pull-refresh-content">
+                        {isRefreshing ? (
+                            <div className="refresh-spinner">
+                                <svg className="spinner" width="20" height="20" viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" strokeLinecap="round" strokeDasharray="31.416" strokeDashoffset="31.416">
+                                        <animate attributeName="stroke-dasharray" dur="2s" values="0 31.416;15.708 15.708;0 31.416" repeatCount="indefinite"/>
+                                        <animate attributeName="stroke-dashoffset" dur="2s" values="0;-15.708;-31.416" repeatCount="indefinite"/>
+                                    </circle>
+                                </svg>
+                                <span>새로고침 중...</span>
+                            </div>
+                        ) : (
+                            <div className="pull-refresh-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ transform: `rotate(${pullDistance * 2}deg)` }}>
+                                    <path d="M1 4V10H7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                    <path d="M3.51 15A9 9 0 1 0 6 5.3L1 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                                <span>{pullDistance > 60 ? '놓아서 새로고침' : '아래로 당겨서 새로고침'}</span>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+
             {/* Header */}
-            <header className="questions-header">
+            <header className="header">
                 <div className="header-content">
-                    <button
-                        className="back-btn"
-                        onClick={() => history.goBack()}
-                    >
+                    <button className="back-btn" onClick={handGoBack}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                     </button>
                     <div className="header-title">샷시 지식인</div>
-                    <div className="header-spacer"></div>
+                    <div style={{ width: '40px' }}></div>
                 </div>
             </header>
 
             {/* Main Content */}
-            <main className="questions-main">
-                {/* Stats Section */}
-                <section className="stats-section">
-                    <div className="stats-card">
-                        <div className="stats-icon">🤔</div>
-                        <div className="stats-content">
-                            <h2 className="stats-title">함께 만드는 샷시 지식</h2>
-                            <p className="stats-subtitle">전문가와 사용자들이 함께 답변하는 공간</p>
-                            <div className="stats-numbers">
-                                <div className="stat-item">
-                                    <span className="stat-number">156</span>
-                                    <span className="stat-label">질문</span>
-                                </div>
-                                <div className="stat-item">
-                                    <span className="stat-number">342</span>
-                                    <span className="stat-label">답변</span>
-                                </div>
-                                <div className="stat-item">
-                                    <span className="stat-number">89%</span>
-                                    <span className="stat-label">해결률</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            <main>
+                {/* Intro Section */}
+                <section className="intro-section">
+                    <h2 className="intro-title">샷시 전문가들과 함께하는 Q&A</h2>
+                    <p className="intro-subtitle">궁금한 점을 물어보고 전문가의 답변을 받아보세요</p>
                 </section>
 
-                {/* Search & Filter Section */}
+                {/* Category Filter Section */}
                 <section className="filter-section">
-                    {/* Search Bar */}
-                    <div className="search-container">
-                        <div className="search-input-wrapper">
-                            <svg className="search-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM19 19L14.65 14.65" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
-                            <input
-                                type="text"
-                                placeholder="궁금한 내용을 검색해보세요"
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="search-input"
-                            />
-                            {searchQuery && (
-                                <button
-                                    className="search-clear"
-                                    onClick={() => setSearchQuery('')}
-                                >
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                        <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                                    </svg>
-                                </button>
-                            )}
-                        </div>
+                    <div className="category-filter-header">
+                        <h3 className="filter-title">카테고리</h3>
+                        <div className="filter-subtitle">원하는 분야를 선택해보세요</div>
                     </div>
 
-                    {/* Category Tabs */}
                     <div className="category-tabs">
-                        {categories.map((category) => (
+                        {Array.isArray(categories) && categories.map((category) => (
                             <button
                                 key={category.id}
                                 className={`category-tab ${selectedCategory === category.id ? 'active' : ''}`}
-                                onClick={() => setSelectedCategory(category.id)}
+                                onClick={() => handleCategorySelect(category.id)}
                             >
-                                <span className="category-label">{category.name}</span>
-                                {/*<span className="category-count">{category.count}</span>*/}
+                                <div className="category-content">
+                                    <span className="category-name">{category.name}</span>
+                                </div>
                             </button>
                         ))}
-                    </div>
-
-                    {/* Sort Options */}
-                    <div className="sort-container">
-                        <div className="sort-buttons">
-                            <button
-                                className={`sort-btn ${sortBy === 'latest' ? 'active' : ''}`}
-                                onClick={() => setSortBy('latest')}
-                            >
-                                최신순
-                            </button>
-                            <button
-                                className={`sort-btn ${sortBy === 'popular' ? 'active' : ''}`}
-                                onClick={() => setSortBy('popular')}
-                            >
-                                인기순
-                            </button>
-                            <button
-                                className={`sort-btn ${sortBy === 'unanswered' ? 'active' : ''}`}
-                                onClick={() => setSortBy('unanswered')}
-                            >
-                                미해결
-                            </button>
-                        </div>
                     </div>
                 </section>
 
                 {/* Questions List */}
                 <section className="questions-list-section">
                     <div className="questions-count">
-                        총 <strong>{sortedQuestions.length}개</strong>의 질문
+                        <div className="count-main">
+                            <span className="selected-category-name">
+                                {getCategoryLabel(selectedCategory)}
+                            </span>
+                            <strong>{allQuestionsCount}개</strong>의 질문
+                        </div>
+                        <span className="page-info">
+                            {currentPage}페이지 / {totalPages}페이지
+                        </span>
                     </div>
 
-                    <div className="questions-list">
-                        {sortedQuestions.map((question) => (
+                    {isLoading && (
+                        <div className="loading-indicator">
+                            <div className="loading-spinner"></div>
+                            <span>로딩 중...</span>
+                        </div>
+                    )}
+
+                    <div className={`questions-list ${isLoading ? 'loading' : ''}`}>
+                        {paginatedQuestions.map((question) => (
                             <div
                                 key={question.id}
                                 className="question-card"
-                                onClick={() => handleQuestionClick(question.id)}
+                                onClick={() => handlePostDetail(question.id)}
                             >
                                 <div className="question-header">
                                     <div className="question-meta">
-                                        <span className={`category-badge ${question.category}`}>
+                                        <span className="category-badge">
                                             {getCategoryLabel(question.category)}
                                         </span>
                                         <span className="question-time">
                                             {formatTimeAgo(question.createdAt)}
                                         </span>
                                     </div>
-                                    <div className="question-status">
-                                        {question.isAnswered ? (
-                                            <span className="status-answered">해결됨</span>
-                                        ) : (
-                                            <span className="status-pending">답변대기</span>
-                                        )}
-                                    </div>
                                 </div>
 
                                 <h3 className="question-title">{question.title}</h3>
 
-                                <p className="question-preview">{question.content}</p>
-
-                                {question.tags && question.tags.length > 0 && (
-                                    <div className="question-tags">
-                                        {question.tags.map((tag, index) => (
-                                            <span key={index} className="tag">#{tag}</span>
-                                        ))}
-                                    </div>
-                                )}
+                                <p className="question-preview">{truncateContent(question.content)}</p>
 
                                 <div className="question-footer">
                                     <div className="question-author">
                                         <span className="author-icon">👤</span>
                                         <span className="author-name">
-                                            {question.isAnonymous ? '익명' : question.author}
+                                            {question.author}
                                         </span>
                                         {question.imageCount && question.imageCount > 0 && (
                                             <span className="image-indicator">
@@ -360,34 +441,57 @@ const QuestionsBoard = () => {
                         ))}
                     </div>
 
-                    {sortedQuestions.length === 0 && (
+                    {allQuestions.length === 0 && !isLoading && (
                         <div className="empty-state">
                             <div className="empty-icon">🔍</div>
-                            <h3 className="empty-title">검색 결과가 없습니다</h3>
+                            <h3 className="empty-title">
+                                {selectedCategory === 'all'
+                                    ? '아직 질문이 없습니다'
+                                    : `${getCategoryLabel(selectedCategory)} 질문이 없습니다`
+                                }
+                            </h3>
                             <p className="empty-description">
-                                다른 키워드로 검색하거나<br />
-                                새로운 질문을 등록해보세요
+                                {selectedCategory === 'all'
+                                    ? '첫 번째 질문을 등록해보세요!'
+                                    : '다른 카테고리를 선택하거나 첫 번째 질문을 등록해보세요!'
+                                }
                             </p>
-                            <button className="empty-action-btn" onClick={handleWriteQuestion}>
-                                질문하기
-                            </button>
+                            <div className="empty-actions">
+                                {selectedCategory !== 'all' && (
+                                    <button
+                                        className="empty-secondary-btn"
+                                        onClick={() => handleCategorySelect('all')}
+                                    >
+                                        전체 보기
+                                    </button>
+                                )}
+                                <button
+                                    className="empty-action-btn"
+                                    onClick={handleRegisterPost}
+                                >
+                                    질문하기
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Pagination */}
+                    {totalPages > 1 && !isLoading && (
+                        <div className="pagination-container">
+                            <div className="pagination">
+                                {renderPagination()}
+                            </div>
                         </div>
                     )}
                 </section>
             </main>
 
             {/* Floating Write Button */}
-            <button className="floating-write-btn" onClick={handleWriteQuestion}>
+            <button className="floating-write-btn" onClick={handleRegisterPost}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <path d="M12 4V20M4 12H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
             </button>
-
-            {/* Bottom Navigation */}
-            <BottomNavigator
-                userData={userData}
-                isVisible={true}
-            />
         </div>
     );
 };

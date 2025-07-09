@@ -7,6 +7,7 @@ import axios from "axios";
 
 import './styles.css';
 import '../../versatile-styles.css';
+import {formatTimeAgo} from "../../../../util";
 
 interface QuestionDetail {
     id: number;
@@ -97,22 +98,22 @@ const QuestionDetail = () => {
         // }, 1000);
     }, [postId]);
 
-    const formatDate = (dateString: string) => {
-        const date = new Date(dateString);
-        const now = new Date();
-        const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
-
-        if (diffInHours < 1) return '방금 전';
-        if (diffInHours < 24) return `${diffInHours}시간 전`;
-        if (diffInHours < 48) return '어제';
-        if (diffInHours < 168) return `${Math.floor(diffInHours / 24)}일 전`;
-
-        return date.toLocaleDateString('ko-KR', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
-    };
+    // const formatDate = (dateString: string) => {
+    //     const date = new Date(dateString);
+    //     const now = new Date();
+    //     const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
+    //
+    //     if (diffInHours < 1) return '방금 전';
+    //     if (diffInHours < 24) return `${diffInHours}시간 전`;
+    //     if (diffInHours < 48) return '어제';
+    //     if (diffInHours < 168) return `${Math.floor(diffInHours / 24)}일 전`;
+    //
+    //     return date.toLocaleDateString('ko-KR', {
+    //         year: 'numeric',
+    //         month: 'long',
+    //         day: 'numeric'
+    //     });
+    // };
 
     const handleLike = async (answerId: number) => {
         // 좋아요 처리 로직
@@ -225,7 +226,7 @@ const QuestionDetail = () => {
                                     {question.boardName}
                                 </span>
                                 <span className="question-time">
-                                    {formatDate(question.createdAt)}
+                                    {formatTimeAgo(question.createdAt)}
                                 </span>
                             </div>
                         </div>
@@ -310,7 +311,7 @@ const QuestionDetail = () => {
                                         </div>
                                     </div>
                                     <div className="answer-time">
-                                        {formatDate(answer.createdAt)}
+                                        {formatTimeAgo(answer.createdAt)}
                                     </div>
                                 </div>
 

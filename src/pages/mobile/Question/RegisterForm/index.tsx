@@ -6,6 +6,7 @@ import fetcher from "../../../../util/fetcher";
 
 import './styles.css';
 import '../../versatile-styles.css';
+
 import QuestionRegisterFormExitModal from "../../../../component/V2/Modal/QuestionRegisterFormExitModal";
 import axios from "axios";
 
