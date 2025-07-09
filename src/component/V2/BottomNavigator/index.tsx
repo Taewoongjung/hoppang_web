@@ -21,8 +21,8 @@ const BottomNavigator: React.FC<BottomNavigatorProps> = ({ userData, isVisible =
                 <span className="nav-label">홈</span>
             </button>
             <button
-                className={`nav-item ${location.pathname === '/question/board' ? 'active' : ''}`}
-                onClick={() => history.push("/question/board")}
+                className={`nav-item ${location.pathname === '/question/boards' ? 'active' : ''}`}
+                onClick={() => history.push("/question/boards")}
             >
                 <span className="nav-icon">💬&nbsp;</span>
                 <span className="nav-label">지식인</span>

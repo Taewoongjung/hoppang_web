@@ -17,7 +17,7 @@ const QuestionRegisterFormExitModal = (props:{
             return;
         }
 
-        history.push('/question/board');
+        history.push('/question/boards');
     };
 
     const handleExitCancel = () => {

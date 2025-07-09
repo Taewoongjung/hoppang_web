@@ -146,7 +146,7 @@ const Initial = () => {
         if (serviceTitle === '샷시 견적') {
             history.push('/calculator/agreement');
         } else if (serviceTitle === '샷시 지식인') {
-            history.push('/question/board');
+            history.push('/question/boards');
         }
     };
 
@@ -197,7 +197,7 @@ const Initial = () => {
                             <button
                                 className="cta-button"
                                 onClick={() => {
-                                    window.location.href = "/question/register?from=initial";
+                                    window.location.href = "/question/boards/posts/register?from=initial";
                                 }}
                             >
                                 <span className="cta-icon">💬&nbsp;</span>

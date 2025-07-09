@@ -41,7 +41,7 @@ const QuestionsBoard = () => {
     });
 
     useEffect(() => {
-        axios.get(callBoards)
+        axios.get(callBoards + "?limit=")
             .then((res) => {
                 const originalList: Category[] = res.data;
                 const withAll = [{ id: "0", name: "전체" }, ...originalList];
@@ -168,7 +168,7 @@ const QuestionsBoard = () => {
     };
 
     const handleWriteQuestion = () => {
-        history.push('/question/register');
+        history.push('/question/boards/posts/register');
     };
 
     return (

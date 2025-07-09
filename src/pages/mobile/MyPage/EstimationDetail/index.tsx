@@ -82,12 +82,15 @@ const EstimationDetailPage = () => {
     useEffect(() => {
         if(!estimationId) return;
 
-        axios.get(callEstimationById.replace("{estimationId}", estimationId), {
-            withCredentials: true,
-            headers: {
-                Authorization: localStorage.getItem("hoppang-token"),
+        axios.get(
+            callEstimationById.replace("{estimationId}", estimationId),
+            {
+                withCredentials: true,
+                headers: {
+                    Authorization: localStorage.getItem("hoppang-token"),
+                }
             }
-        }).then((res) => {
+        ).then((res) => {
             const result = res.data;
 
             setEstimatedAt(result.createdAt);

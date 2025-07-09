@@ -53,6 +53,11 @@ body {
     color: #374151;
 }
 
+.back-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .header-title {
     font-size: 18px;
     font-weight: 700;
@@ -65,6 +70,205 @@ body {
 
 .form-main {
     padding-bottom: 120px;
+}
+
+/* Success Container Styles */
+.success-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    position: relative;
+    background: linear-gradient(135deg, #ffeb9c 10%, #f7e0bc 60%, #fff4e5 100%);
+    overflow: hidden;
+}
+
+.success-animation {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    animation: successSlideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.success-icon {
+    margin-bottom: 32px;
+    position: relative;
+    display: inline-block;
+}
+
+.checkmark {
+    animation: checkmarkScale 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+}
+
+.checkmark svg {
+    filter: drop-shadow(0 8px 32px rgba(16, 185, 129, 0.3));
+}
+
+.checkmark svg circle {
+    stroke-dasharray: 176;
+    stroke-dashoffset: 176;
+    animation: checkmarkCircle 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s both;
+}
+
+.checkmark svg path {
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: checkmarkPath 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.6s both;
+}
+
+.success-content {
+    max-width: 280px;
+    margin: 0 auto;
+}
+
+.success-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 16px 0;
+    line-height: 1.3;
+}
+
+.success-message {
+    font-size: 16px;
+    color: #5c4a3b;
+    margin: 0 0 32px 0;
+    line-height: 1.5;
+}
+
+.success-note {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.note-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.note-text {
+    font-size: 14px;
+    color: #5c4a3b;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* Success Confetti Animation */
+.success-confetti {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.confetti {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    animation: confettiFall 3s linear infinite;
+}
+
+.confetti:nth-child(1) {
+    background: #f59e56;
+    left: 10%;
+    animation-delay: 0s;
+    animation-duration: 2.5s;
+}
+
+.confetti:nth-child(2) {
+    background: #fcb080;
+    left: 30%;
+    animation-delay: 0.3s;
+    animation-duration: 3s;
+}
+
+.confetti:nth-child(3) {
+    background: #10B981;
+    left: 50%;
+    animation-delay: 0.6s;
+    animation-duration: 2.8s;
+}
+
+.confetti:nth-child(4) {
+    background: #3B82F6;
+    left: 70%;
+    animation-delay: 0.9s;
+    animation-duration: 3.2s;
+}
+
+.confetti:nth-child(5) {
+    background: #EF4444;
+    left: 90%;
+    animation-delay: 1.2s;
+    animation-duration: 2.7s;
+}
+
+/* Error Alert Styles */
+.error-section {
+    padding: 20px;
+    animation: errorSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.error-alert {
+    background: #fef2f2;
+    border: 2px solid #fecaca;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.1);
+    position: relative;
+}
+
+.error-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+    animation: errorShake 0.5s ease-in-out;
+}
+
+.error-content {
+    flex: 1;
+}
+
+.error-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #dc2626;
+    margin-bottom: 4px;
+}
+
+.error-message {
+    font-size: 14px;
+    color: #991b1b;
+    line-height: 1.4;
+}
+
+.error-close {
+    background: none;
+    border: none;
+    color: #dc2626;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.error-close:hover {
+    background: rgba(220, 38, 38, 0.1);
 }
 
 /* Hero Section */
@@ -157,7 +361,6 @@ body {
     padding: 28px 24px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     border: 1px solid #f1f5f9;
-    /* 포커스 요소가 잘리지 않도록 충분한 여백 제공 */
     margin: 10px 0;
     overflow: visible;
 }
@@ -165,7 +368,6 @@ body {
 .form-group {
     margin-bottom: 32px;
     position: relative;
-    /* 포커스 시 shadow가 잘리지 않도록 여백 확보 */
     padding: 6px 0;
 }
 
@@ -180,7 +382,7 @@ body {
     font-size: 16px;
     font-weight: 600;
     color: #1f2937;
-    margin-bottom: 16px; /* 입력창과 더 넉넉한 간격 */
+    margin-bottom: 16px;
     text-align: left;
     position: relative;
 }
@@ -197,12 +399,11 @@ body {
     font-weight: 400;
 }
 
-/* Category Grid - 더 담백하게 */
+/* Category Grid */
 .category-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
-    /* 카테고리 버튼들도 포커스 시 잘리지 않도록 */
     padding: 6px 0;
 }
 
@@ -251,11 +452,16 @@ body {
     outline: none;
     border-color: #fcb080;
     background: white;
-    /* 부드러운 glow 효과 - 잘리지 않는 크기로 조정 */
     box-shadow:
             0 0 0 3px rgba(252, 176, 128, 0.12),
             0 2px 8px rgba(252, 176, 128, 0.15);
     z-index: 2;
+}
+
+.form-input:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #f3f4f6;
 }
 
 .form-input.error {
@@ -284,12 +490,16 @@ body {
     outline: none;
     border-color: #fcb080;
     background: white;
-    /* 부드러운 glow 효과 - 잘리지 않는 크기로 조정 */
     box-shadow:
             0 0 0 3px rgba(252, 176, 128, 0.12),
             0 2px 8px rgba(252, 176, 128, 0.15);
-    /* transform 완전 제거 - 레이아웃 시프트 방지 */
     z-index: 2;
+}
+
+.form-textarea:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #f3f4f6;
 }
 
 .form-textarea.error {
@@ -308,7 +518,6 @@ body {
 /* Image Upload */
 .image-upload-area {
     margin-bottom: 16px;
-    /* 이미지 업로드 영역도 여백 확보 */
     padding: 6px 0;
 }
 
@@ -329,7 +538,7 @@ body {
     z-index: 1;
 }
 
-.image-upload-btn:hover {
+.image-upload-btn:hover:not(:disabled) {
     border-color: #fcb080;
     background: #fefbf7;
 }
@@ -405,7 +614,6 @@ body {
 .options-container {
     display: flex;
     flex-direction: column;
-    /* 체크박스 영역도 여백 확보 */
     padding: 6px 0;
 }
 
@@ -438,6 +646,11 @@ body {
 
 .checkbox-label input[type="checkbox"] {
     display: none;
+}
+
+.checkbox-label input[type="checkbox"]:disabled + .checkbox-custom {
+    opacity: 0.5;
+    cursor: not-allowed;
 }
 
 .checkbox-custom {
@@ -557,11 +770,11 @@ body {
     transition: left 0.6s ease;
 }
 
-.submit-btn:hover::before {
+.submit-btn:hover:not(:disabled)::before {
     left: 100%;
 }
 
-.submit-btn:hover {
+.submit-btn:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 12px 35px rgba(245, 158, 86, 0.5);
 }
@@ -573,7 +786,7 @@ body {
             0 0 0 3px rgba(252, 176, 128, 0.3);
 }
 
-.submit-btn:active {
+.submit-btn:active:not(:disabled) {
     transform: translateY(0);
 }
 
@@ -583,9 +796,18 @@ body {
     transform: none;
 }
 
-.submit-btn.loading {
+.submit-btn.submitting {
     background: linear-gradient(135deg, #d1d5db, #9ca3af);
     box-shadow: 0 4px 12px rgba(156, 163, 175, 0.3);
+}
+
+.submit-btn.error {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+}
+
+.submit-btn.error:hover:not(:disabled) {
+    box-shadow: 0 12px 35px rgba(239, 68, 68, 0.5);
 }
 
 .submit-icon {
@@ -601,12 +823,12 @@ body {
     animation: spin 1s linear infinite;
 }
 
+/* Keyframe Animations */
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
 
-/* Animations */
 @keyframes slideInUp {
     from {
         opacity: 0;
@@ -616,6 +838,77 @@ body {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+@keyframes successSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes checkmarkScale {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes checkmarkCircle {
+    0% {
+        stroke-dashoffset: 176;
+    }
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes checkmarkPath {
+    0% {
+        stroke-dashoffset: 48;
+    }
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes errorSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes errorShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
 }
 
 /* Responsive Design */
@@ -647,19 +940,16 @@ body {
 
     .form-card {
         padding: 24px 20px;
-        /* 모바일에서도 여백 유지 */
         margin: 8px 0;
     }
 
     .form-group {
         margin-bottom: 28px;
-        /* 모바일에서도 포커스 여백 유지 */
         padding: 4px 0;
     }
 
     .category-grid {
         grid-template-columns: 1fr;
-        /* 모바일에서도 여백 유지 */
         padding: 4px 0;
     }
 
@@ -674,7 +964,6 @@ body {
     }
 
     .image-upload-area {
-        /* 모바일에서도 여백 유지 */
         padding: 4px 0;
     }
 
@@ -687,7 +976,6 @@ body {
     }
 
     .options-container {
-        /* 모바일에서도 여백 유지 */
         padding: 4px 0;
     }
 
@@ -712,20 +1000,44 @@ body {
         padding: 16px 20px;
         font-size: 15px;
     }
-}
 
-.category-btn:focus {
-    outline: 2px solid #fcb080;
-    outline-offset: 2px;
-    box-shadow: 0 0 0 1px rgba(252, 176, 128, 0.2);
-}
+    .error-section {
+        padding: 16px;
+    }
 
-/* input과 textarea의 포커스는 이미 위에서 정의됨 */
+    .error-alert {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .success-container {
+        padding: 32px 16px;
+    }
+
+    .success-title {
+        font-size: 20px;
+    }
+
+    .success-message {
+        font-size: 14px;
+    }
+
+    .success-note {
+        padding: 16px;
+        gap: 8px;
+    }
+
+    .note-text {
+        font-size: 13px;
+    }
+}
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
     .form-card,
-    .submit-notice {
+    .submit-notice,
+    .error-alert,
+    .success-note {
         border: 2px solid currentColor;
     }
 
@@ -754,6 +1066,24 @@ body {
     }
 
     .loading-spinner {
+        animation: none;
+    }
+
+    .success-animation {
+        animation: none;
+    }
+
+    .checkmark {
+        animation: none;
+    }
+
+    .checkmark svg circle,
+    .checkmark svg path {
+        animation: none;
+        stroke-dashoffset: 0;
+    }
+
+    .confetti {
         animation: none;
     }
 }

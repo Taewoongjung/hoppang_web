@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import useSWR from "swr";
-import {callBoards, callMeData} from "../../../../definition/apiPath";
+import {callBoards, callBoardsPosts, callMeData} from "../../../../definition/apiPath";
 import fetcher from "../../../../util/fetcher";
 
 import './styles.css';
@@ -13,6 +13,15 @@ interface Category {
     id: string;
     name: string;
 }
+
+interface RegisterPost {
+    boardId: number | string;
+    title: string;
+    contents: string;
+    isAnonymous: boolean;
+}
+
+type SubmitState = 'idle' | 'submitting' | 'success' | 'error';
 
 const QuestionRegisterForm = () => {
     const history = useHistory();
@@ -43,8 +52,9 @@ const QuestionRegisterForm = () => {
     });
 
     const [categories, setCategories] = useState<Category[]>([]);
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitState, setSubmitState] = useState<SubmitState>('idle');
     const [errors, setErrors] = useState<{[key: string]: string}>({});
+    const [submitError, setSubmitError] = useState<string>('');
     const fileInputRef = useRef<HTMLInputElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const [showExitModal, setShowExitModal] = useState(false);
@@ -54,6 +64,7 @@ const QuestionRegisterForm = () => {
     });
 
     useEffect(() => {
+        mutate();
         axios.get(callBoards)
             .then((res) => {
                 setCategories(res.data);
@@ -75,6 +86,10 @@ const QuestionRegisterForm = () => {
         setFormData(prev => ({ ...prev, [field]: value }));
         if (errors[field]) {
             setErrors(prev => ({ ...prev, [field]: '' }));
+        }
+        // 에러 상태에서 입력 시 에러 메시지 제거
+        if (submitError) {
+            setSubmitError('');
         }
     };
 
@@ -113,20 +128,103 @@ const QuestionRegisterForm = () => {
 
     const handleSubmit = async () => {
         if (!validateForm()) return;
+        if (submitState === 'submitting') return;
 
-        setIsSubmitting(true);
+        setSubmitState('submitting');
+        setSubmitError('');
+
         try {
-            // API 호출 로직
-            await new Promise(resolve => setTimeout(resolve, 1500)); // 임시 딜레이
+            let payload: RegisterPost = {
+                boardId: formData.category,
+                title: formData.title,
+                contents: formData.content,
+                isAnonymous: formData.isAnonymous
+            }
 
-            // 성공 시 질문 목록 페이지로 이동
-            history.push('/v2/questions');
+            const response = await axios.post(
+                callBoardsPosts,
+                payload,
+                {
+                    withCredentials: true,
+                    headers: { Authorization: localStorage.getItem("hoppang-token") }
+                }
+            );
+
+            if (response.data.createdPostId !== null) {
+                // 성공 처리
+                setSubmitState('success');
+
+                // 성공 애니메이션을 보여준 후 페이지 이동
+                setTimeout(() => {
+                    history.push(`/question/boards/posts/${response.data.createdPostId}`);
+                }, 2000);
+            }
         } catch (error) {
-            alert('질문 등록에 실패했습니다. 다시 시도해주세요.');
-        } finally {
-            setIsSubmitting(false);
+            console.error('Submit error:', error);
+            setSubmitState('error');
+
+            // 에러 메시지 설정
+            if (error.response?.status === 401) {
+                setSubmitError('로그인이 필요합니다. 다시 로그인해주세요.');
+            } else if (error.response?.status === 400) {
+                setSubmitError('입력 정보를 다시 확인해주세요.');
+            } else if (error.response?.status >= 500) {
+                setSubmitError('서버에 일시적인 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+            } else {
+                setSubmitError('질문 등록에 실패했습니다. 네트워크 상태를 확인하고 다시 시도해주세요.');
+            }
+
+            // 3초 후 에러 상태 초기화
+            setTimeout(() => {
+                setSubmitState('idle');
+            }, 3000);
         }
     };
+
+    const handleRetry = () => {
+        setSubmitState('idle');
+        setSubmitError('');
+    };
+
+    // 성공 상태일 때 성공 화면 렌더링
+    if (submitState === 'success') {
+        return (
+            <div className="question-form-container">
+                <div className="success-container">
+                    <div className="success-animation">
+                        <div className="success-icon">
+                            <div className="checkmark">
+                                <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                                    <circle cx="30" cy="30" r="28" fill="#10B981" stroke="#ffffff" strokeWidth="4"/>
+                                    <path d="M18 30l8 8 16-16" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div className="success-content">
+                            <h1 className="success-title">질문이 등록되었어요! 🎉</h1>
+                            <p className="success-message">
+                                전문가가 검토 후 24시간 내에<br />
+                                정성스러운 답변을 드릴게요
+                            </p>
+                            <div className="success-note">
+                                <div className="note-icon">💡</div>
+                                <div className="note-text">
+                                    질문 목록에서 답변 상태를 확인할 수 있어요
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="success-confetti">
+                        <div className="confetti"></div>
+                        <div className="confetti"></div>
+                        <div className="confetti"></div>
+                        <div className="confetti"></div>
+                        <div className="confetti"></div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="question-form-container">
@@ -136,6 +234,7 @@ const QuestionRegisterForm = () => {
                     <button
                         className="back-btn"
                         onClick={() => setShowExitModal(true)}
+                        disabled={submitState === 'submitting'}
                     >
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -157,9 +256,30 @@ const QuestionRegisterForm = () => {
                     <p className="hero-subtitle">샷시 전문가들이 친절하게 답변해드려요</p>
                 </section>
 
+                {/* Error Alert */}
+                {submitError && (
+                    <section className="error-section">
+                        <div className="error-alert">
+                            <div className="error-icon">⚠️</div>
+                            <div className="error-content">
+                                <div className="error-title">등록 실패</div>
+                                <div className="error-message">{submitError}</div>
+                            </div>
+                            <button
+                                className="error-close"
+                                onClick={() => setSubmitError('')}
+                            >
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </section>
+                )}
+
                 {/* Form Section */}
                 <section className="form-section">
-                    <div className="form-card">
+                    <div className={`form-card ${submitState === 'submitting' ? 'submitting' : ''}`}>
                         {/* Category Selection */}
                         <div className="form-group">
                             <label className="form-label required">
@@ -172,6 +292,7 @@ const QuestionRegisterForm = () => {
                                         type="button"
                                         className={`category-btn ${formData.category === category.id ? 'active' : ''}`}
                                         onClick={() => handleInputChange('category', category.id)}
+                                        disabled={submitState === 'submitting'}
                                     >
                                         {category.name}
                                     </button>
@@ -193,6 +314,7 @@ const QuestionRegisterForm = () => {
                                 value={formData.title}
                                 onChange={(e) => handleInputChange('title', e.target.value)}
                                 maxLength={100}
+                                disabled={submitState === 'submitting'}
                             />
                             {errors.title && <span className="error-text">{errors.title}</span>}
                         </div>
@@ -211,63 +333,67 @@ const QuestionRegisterForm = () => {
                                 onChange={(e) => handleInputChange('content', e.target.value)}
                                 maxLength={1000}
                                 rows={6}
+                                disabled={submitState === 'submitting'}
                             />
                             {errors.content && <span className="error-text">{errors.content}</span>}
                         </div>
 
-                        {/* Image Upload */}
-                        <div className="form-group">
-                            <label className="form-label">
-                                사진 첨부
-                                <span className="optional-text">(선택사항, 최대 3장)</span>
-                            </label>
+                        {/*
+                            @TODO S3 붙인후 적용
+                            Image Upload
+                         */}
+                        {/*<div className="form-group">*/}
+                        {/*    <label className="form-label">*/}
+                        {/*        사진 첨부*/}
+                        {/*        <span className="optional-text">(선택사항, 최대 3장)</span>*/}
+                        {/*    </label>*/}
 
-                            <div className="image-upload-area">
-                                <button
-                                    type="button"
-                                    className="image-upload-btn"
-                                    onClick={() => fileInputRef.current?.click()}
-                                    disabled={formData.images.length >= 3}
-                                >
-                                    <span className="upload-icon">📸</span>
-                                    <span className="upload-text">
-                                        {formData.images.length > 0 ? '사진 추가' : '사진 선택'}
-                                    </span>
-                                </button>
+                        {/*    <div className="image-upload-area">*/}
+                        {/*        <button*/}
+                        {/*            type="button"*/}
+                        {/*            className="image-upload-btn"*/}
+                        {/*            onClick={() => fileInputRef.current?.click()}*/}
+                        {/*            disabled={formData.images.length >= 3}*/}
+                        {/*        >*/}
+                        {/*            <span className="upload-icon">📸</span>*/}
+                        {/*            <span className="upload-text">*/}
+                        {/*                {formData.images.length > 0 ? '사진 추가' : '사진 선택'}*/}
+                        {/*            </span>*/}
+                        {/*        </button>*/}
 
-                                <input
-                                    ref={fileInputRef}
-                                    type="file"
-                                    accept="image/*"
-                                    multiple
-                                    onChange={handleImageUpload}
-                                    style={{ display: 'none' }}
-                                />
-                            </div>
+                        {/*        <input*/}
+                        {/*            ref={fileInputRef}*/}
+                        {/*            type="file"*/}
+                        {/*            accept="image/*"*/}
+                        {/*            multiple*/}
+                        {/*            onChange={handleImageUpload}*/}
+                        {/*            style={{ display: 'none' }}*/}
+                        {/*        />*/}
+                        {/*    </div>*/}
 
-                            {formData.images.length > 0 && (
-                                <div className="image-preview-grid">
-                                    {formData.images.map((file, index) => (
-                                        <div key={index} className="image-preview">
-                                            <img
-                                                src={URL.createObjectURL(file)}
-                                                alt={`미리보기 ${index + 1}`}
-                                                className="preview-img"
-                                            />
-                                            <button
-                                                type="button"
-                                                className="remove-image-btn"
-                                                onClick={() => removeImage(index)}
-                                            >
-                                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                    <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
+                        {/*    {formData.images.length > 0 && (*/}
+                        {/*        <div className="image-preview-grid">*/}
+                        {/*            {formData.images.map((file, index) => (*/}
+                        {/*                <div key={index} className="image-preview">*/}
+                        {/*                    <img*/}
+                        {/*                        src={URL.createObjectURL(file)}*/}
+                        {/*                        alt={`미리보기 ${index + 1}`}*/}
+                        {/*                        className="preview-img"*/}
+                        {/*                    />*/}
+                        {/*                    <button*/}
+                        {/*                        type="button"*/}
+                        {/*                        className="remove-image-btn"*/}
+                        {/*                        onClick={() => removeImage(index)}*/}
+                        {/*                    >*/}
+                        {/*                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">*/}
+                        {/*                            <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>*/}
+                        {/*                        </svg>*/}
+                        {/*                    </button>*/}
+                        {/*                </div>*/}
+                        {/*            ))}*/}
+                        {/*        </div>*/}
+                        {/*    )}*/}
+                        {/*</div>*/}
 
                         {/* Anonymous Option */}
                         <div className="form-group">
@@ -277,6 +403,7 @@ const QuestionRegisterForm = () => {
                                         type="checkbox"
                                         checked={formData.isAnonymous}
                                         onChange={(e) => handleInputChange('isAnonymous', e.target.checked)}
+                                        disabled={submitState === 'submitting'}
                                     />
                                     <span className="checkbox-custom"></span>
                                     <span className="checkbox-text">
@@ -303,14 +430,19 @@ const QuestionRegisterForm = () => {
                     </div>
 
                     <button
-                        className={`submit-btn ${isSubmitting ? 'loading' : ''}`}
-                        onClick={handleSubmit}
-                        disabled={isSubmitting}
+                        className={`submit-btn ${submitState}`}
+                        onClick={submitState === 'error' ? handleRetry : handleSubmit}
+                        disabled={submitState === 'submitting'}
                     >
-                        {isSubmitting ? (
+                        {submitState === 'submitting' ? (
                             <>
                                 <span className="loading-spinner"></span>
                                 질문 등록 중...
+                            </>
+                        ) : submitState === 'error' ? (
+                            <>
+                                <span className="submit-icon">🔄</span>
+                                다시 시도하기
                             </>
                         ) : (
                             <>
