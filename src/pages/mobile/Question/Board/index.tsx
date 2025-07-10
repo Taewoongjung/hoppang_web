@@ -61,7 +61,7 @@ const QuestionsBoard = () => {
     };
 
     const getCategoryLabel = (categoryId: string) => {
-        if (!categories) {
+        if (!categories || !categoryId) {
             return;
         }
 
