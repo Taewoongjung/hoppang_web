@@ -335,7 +335,6 @@
 
 .question-card:hover {
     border-color: #fcb080;
-    transform: translateY(-4px);
     box-shadow: 0 12px 32px rgba(252, 176, 128, 0.2);
 }
 

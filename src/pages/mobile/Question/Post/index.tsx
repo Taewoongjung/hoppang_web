@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import useSWR from "swr";
-import {callBoardsPostsById, callMeData} from "../../../../definition/apiPath";
+import {callBoardsPostsById, callMeData, callPostsReply} from "../../../../definition/apiPath";
 import fetcher from "../../../../util/fetcher";
 import axios from "axios";
 
 import './styles.css';
 import '../../versatile-styles.css';
 import {formatTimeAgo} from "../../../../util";
+
 
 interface QuestionDetail {
     id: number;
@@ -20,67 +21,82 @@ interface QuestionDetail {
     lastModified: string;
 }
 
-interface Answer {
+interface Reply {
     id: number;
-    content: string;
+    contents: string;
     authorName: string;
-    isExpert: boolean;
+    isPostOwner: boolean;
     createdAt: string;
     likes: number;
     isLiked: boolean;
 }
 
-const QuestionDetail = () => {
+const PostDetail = () => {
     const history = useHistory();
 
     const { postId } = useParams<{ postId: string }>();
 
     const [question, setQuestion] = useState<QuestionDetail | null>(null);
-    const [answers, setAnswers] = useState<Answer[]>([]);
+    const [replies, setReplies] = useState<Reply[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string>('');
-    const [answerContent, setAnswerContent] = useState('');
-    const [isSubmittingAnswer, setIsSubmittingAnswer] = useState(false);
+    const [replyContent, setReplyContent] = useState('');
+    const [isSubmittingReply, setIsSubmittingReply] = useState(false);
 
-    const { data: userData, error: userError } = useSWR(callMeData, fetcher, {
+    const { data: userData, error: userError, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
     });
 
-    // 더미 데이터 - 실제로는 API에서 가져올 데이터
-    const mockQuestion: QuestionDetail = {
-        id: 1,
-        boardName: "견적문의",
-        registerName: "홍길동",
-        title: "아파트 거실 이중창 설치 비용이 얼마나 드나요?",
-        contents: "30평대 아파트 거실에 이중창을 설치하려고 하는데, 대략적인 비용이 궁금합니다. 현재 단창으로 되어있고, 크기는 가로 3미터, 세로 2미터 정도입니다.\n\n겨울에 추위도 많이 들어오고 결로 현상도 심해서 이중창 설치를 고려하고 있습니다. 품질 좋은 제품으로 설치하면 대략 어느 정도 비용이 들까요?\n\n또한 공사 기간은 얼마나 걸리는지도 궁금합니다. 주말에만 공사가 가능한데 가능한지요?",
-        isAnonymous: "F",
-        createdAt: "2025-07-07T22:17:35.351371",
-        lastModified: "2025-07-07T22:38:45.407974"
-    };
+    const fetchReplies = async (queryParam:any) => {
+        try {
+            const apiCall = (queryParam:any) => {
+                return new Promise((resolve) => {
+                    axios.get(
+                        callPostsReply.replace("{postId}", postId) + queryParam,
+                        { withCredentials: true }
+                    ).then((res) => {
+                        const replies = res.data.postReplyList || [];
 
-    const mockAnswers: Answer[] = [
-        {
-            id: 1,
-            content: "30평대 아파트 거실 이중창 설치 비용은 평균적으로 100~150만원 정도 소요됩니다. 크기가 가로 3미터, 세로 2미터라면 약 6㎡ 정도의 면적이므로 중간 정도의 비용이 예상됩니다.\n\n품질에 따라 가격이 달라지는데:\n- 일반형: 80~120만원\n- 고급형: 120~180만원\n- 프리미엄: 180~250만원\n\n공사 기간은 보통 1~2일 정도이며, 주말 시공도 가능합니다. 다만 소음 발생으로 인해 아파트 관리사무소와 사전 협의가 필요합니다.",
-            authorName: "김샷시",
-            isExpert: true,
-            createdAt: "2025-07-07T23:30:15.123456",
-            likes: 12,
-            isLiked: false
-        },
-        {
-            id: 2,
-            content: "저도 비슷한 상황에서 이중창 설치했는데, 140만원 정도 들었어요. 브랜드는 KCC창호로 했습니다. 결로 현상이 정말 많이 개선되었고, 방음 효과도 좋아졌습니다.\n\n주말 시공 가능하지만 추가 비용이 있을 수 있으니 미리 문의해보세요.",
-            authorName: "경험자123",
-            isExpert: false,
-            createdAt: "2025-07-08T08:15:42.789012",
-            likes: 5,
-            isLiked: true
+                        const repliesResult: Reply[] = replies.map((reply: any) => ({
+                            id: reply.id,
+                            contents: reply.contents,
+                            authorName: reply.registerName,
+                            isPostOwner: reply.isOwner,
+                            createdAt: reply.createdAt,
+                            likes: 0, // 백엔드 응답에 없으므로 기본값
+                            isLiked: false // 마찬가지로 기본값 설정
+                        }));
+
+                        resolve({
+                            replies: repliesResult
+                        })
+                    }).catch((err) => {
+                        setError(err);
+                    });
+                })
+            }
+
+            const res: any = await apiCall(queryParam);
+            setReplies(res.replies);
+
+        } catch (err) {
+            console.error("댓글 조회 실패", err);
         }
-    ];
+    }
 
+    // 포스팅 연관 댓글 조회
     useEffect(() => {
-        // 실제로는 API 호출
+        if (!userData) return;
+
+        let currentUserId = userData.id;
+        let queryParam = currentUserId ? `?loggedInUserId=${currentUserId}` : ``;
+
+        fetchReplies(queryParam);
+
+    }, [userData, postId]);
+
+    // 포스팅 상세 조회
+    useEffect(() => {
         axios.get(
             callBoardsPostsById.replace("{postId}", postId),
             {
@@ -89,35 +105,14 @@ const QuestionDetail = () => {
         ).then((res) => {
             setQuestion(res.data);
             setLoading(false);
-        })
-
-        // 더미 데이터로 시뮬레이션
-        // setTimeout(() => {
-            // setQuestion(mockQuestion);
-            setAnswers(mockAnswers);
-        // }, 1000);
+        }).catch((err) => {
+            setError(err);
+        });
     }, [postId]);
-
-    // const formatDate = (dateString: string) => {
-    //     const date = new Date(dateString);
-    //     const now = new Date();
-    //     const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
-    //
-    //     if (diffInHours < 1) return '방금 전';
-    //     if (diffInHours < 24) return `${diffInHours}시간 전`;
-    //     if (diffInHours < 48) return '어제';
-    //     if (diffInHours < 168) return `${Math.floor(diffInHours / 24)}일 전`;
-    //
-    //     return date.toLocaleDateString('ko-KR', {
-    //         year: 'numeric',
-    //         month: 'long',
-    //         day: 'numeric'
-    //     });
-    // };
 
     const handleLike = async (answerId: number) => {
         // 좋아요 처리 로직
-        setAnswers(prev =>
+        setReplies(prev =>
             prev.map(answer =>
                 answer.id === answerId
                     ? {
@@ -130,26 +125,47 @@ const QuestionDetail = () => {
         );
     };
 
-    const handleSubmitAnswer = async () => {
-        if (!answerContent.trim()) return;
-        if (isSubmittingAnswer) return;
+    const handleSubmitReply = async () => {
+        if (!replyContent.trim()) return;
+        if (isSubmittingReply) return;
 
-        setIsSubmittingAnswer(true);
+        setIsSubmittingReply(true);
 
         try {
-            // 더미 응답 추가
-            const newAnswer: Answer = {
-                id: answers.length + 1,
-                content: answerContent,
-                authorName: userData?.name || "익명",
-                isExpert: false,
-                createdAt: new Date().toISOString(),
-                likes: 0,
-                isLiked: false
-            };
+            mutate()
+                .then(() => {
+                    axios.post(
+                        callPostsReply.replace("{postId}", postId),
+                        {
+                            contents: replyContent,
+                            rootReplyId: null
+                        },
+                        {
+                            withCredentials: true,
+                            headers: {
+                                Authorization: localStorage.getItem("hoppang-token"),
+                            }
+                        }
+                    ).then((res) => {
+                        let currentUserId = userData.id;
+                        let queryParam = currentUserId ? `?loggedInUserId=${currentUserId}` : ``;
 
-            setAnswers(prev => [...prev, newAnswer]);
-            setAnswerContent('');
+                        fetchReplies(queryParam);
+
+                        const newReplyId = res.data.createdReplyId;
+                        setTimeout(() => {
+                            const target = document.getElementById(`reply-${newReplyId}`);
+                            if (target) {
+                                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        }, 100);
+                    });
+            })
+                .catch(() => {
+                    console.error("댓글을 달기 위해서는 로그인 해주세요.");
+                });
+
+            setReplyContent('');
 
             // 답변 영역으로 스크롤
             setTimeout(() => {
@@ -162,7 +178,7 @@ const QuestionDetail = () => {
         } catch (error) {
             console.error('답변 등록 실패:', error);
         } finally {
-            setIsSubmittingAnswer(false);
+            setIsSubmittingReply(false);
         }
     };
 
@@ -231,11 +247,15 @@ const QuestionDetail = () => {
                             </div>
                         </div>
 
-                        <h1 className="question-title">{question.title}</h1>
+                        <h1 className="question-title">
+                            {question.title.split('\n').map((line, index) => (
+                                <p key={index} style={{ wordBreak: 'break-word' }}>{line}</p>
+                            ))}
+                        </h1>
 
                         <div className="question-content">
                             {question.contents.split('\n').map((line, index) => (
-                                <p key={index}>{line}</p>
+                                <p key={index} style={{ wordBreak: 'break-word' }}>{line}</p>
                             ))}
                         </div>
 
@@ -250,7 +270,7 @@ const QuestionDetail = () => {
                                     <span className="author-name">
                                         {question.isAnonymous === 'T' ? '익명' : question.registerName}
                                     </span>
-                                    <span className="author-role">질문자</span>
+                                    <span className="author-role">작성자</span>
                                 </div>
                             </div>
 
@@ -274,27 +294,27 @@ const QuestionDetail = () => {
                 </section>
 
                 {/* Answers Section */}
-                <section id="answers-section" className="answers-section">
-                    <div className="answers-header">
-                        <h2 className="answers-title">
-                            답변 <span className="answers-count">{answers.length}</span>
+                <section id="replies-section" className="replies-section">
+                    <div className="replies-header">
+                        <h2 className="replies-title">
+                            답변 <span className="replies-count">{replies.length}</span>
                         </h2>
-                        <div className="answers-sort">
+                        <div className="replies-sort">
                             <button className="sort-btn active">최신순</button>
                             <button className="sort-btn">추천순</button>
                         </div>
                     </div>
 
-                    <div className="answers-list">
-                        {answers.map((answer) => (
-                            <div key={answer.id} className="answer-card">
-                                <div className="answer-header">
-                                    <div className="answer-author">
-                                        <div className="author-avatar">
-                                            {answer.isExpert ? (
-                                                <div className="expert-badge">
-                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                        <path d="M8 1l2 4 4.5.5-3.5 3 1 4.5L8 11l-4 2 1-4.5-3.5-3L6 5l2-4Z" fill="currentColor"/>
+                    <div className="replies-list">
+                        {replies.map((reply) => (
+                            <div key={reply.id} id={`reply-${reply.id}`} className="reply-card">
+                                <div className="reply-header">
+                                    <div className="reply-author">
+                                        <div className="reply-avatar">
+                                            {reply.isPostOwner ? (
+                                                <div className="owner-badge">
+                                                    <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+                                                        <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a4 4 0 0 1 8 0v2H6v-2Z" stroke="currentColor" strokeWidth="1.5"/>
                                                     </svg>
                                                 </div>
                                             ) : (
@@ -304,35 +324,35 @@ const QuestionDetail = () => {
                                             )}
                                         </div>
                                         <div className="author-info">
-                                            <span className="author-name">{answer.authorName}</span>
+                                            <span className="author-name">{reply.authorName}</span>
                                             <span className="author-role">
-                                                {answer.isExpert ? '전문가' : '일반사용자'}
+                                                {reply.isPostOwner ? '작성자' : '일반사용자'}
                                             </span>
                                         </div>
                                     </div>
-                                    <div className="answer-time">
-                                        {formatTimeAgo(answer.createdAt)}
+                                    <div className="reply-time">
+                                        {formatTimeAgo(reply.createdAt)}
                                     </div>
                                 </div>
 
-                                <div className="answer-content">
-                                    {answer.content.split('\n').map((line, index) => (
-                                        <p key={index}>{line}</p>
+                                <div className="reply-content">
+                                    {reply.contents.split('\n').map((line, index) => (
+                                        <p key={index} style={{ wordBreak: 'break-word' }}>{line}</p>
                                     ))}
                                 </div>
 
-                                <div className="answer-actions">
+                                <div className="reply-actions">
                                     <button
-                                        className={`like-btn ${answer.isLiked ? 'liked' : ''}`}
-                                        onClick={() => handleLike(answer.id)}
+                                        className={`like-btn ${reply.isLiked ? 'liked' : ''}`}
+                                        onClick={() => handleLike(reply.id)}
                                     >
                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                             <path d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
                                                   stroke="currentColor"
                                                   strokeWidth="1.5"
-                                                  fill={answer.isLiked ? 'currentColor' : 'none'}/>
+                                                  fill={reply.isLiked ? 'currentColor' : 'none'}/>
                                         </svg>
-                                        <span>{answer.likes}</span>
+                                        <span>{reply.likes}</span>
                                     </button>
                                     <button className="reply-btn">
                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -345,18 +365,18 @@ const QuestionDetail = () => {
                         ))}
                     </div>
 
-                    {answers.length === 0 && (
-                        <div className="no-answers">
-                            <div className="no-answers-icon">💭</div>
+                    {replies.length === 0 && (
+                        <div className="no-replies">
+                            <div className="no-replies-icon">💭</div>
                             <h3>아직 답변이 없습니다</h3>
                             <p>첫 번째 답변을 남겨주세요!</p>
                         </div>
                     )}
                 </section>
 
-                {/* Answer Form */}
-                <section className="answer-form-section">
-                    <div className="answer-form-card">
+                {/* Reply Form */}
+                <section className="reply-form-section">
+                    <div className="reply-form-card">
                         <div className="form-header">
                             <h3>답변 작성</h3>
                             <span className="form-subtitle">도움이 되는 답변을 작성해주세요</span>
@@ -364,25 +384,25 @@ const QuestionDetail = () => {
 
                         <div className="form-content">
                             <textarea
-                                className="answer-textarea"
+                                className="reply-textarea"
                                 placeholder="전문적이고 도움이 되는 답변을 작성해주세요.&#10;&#10;• 구체적인 정보와 경험을 바탕으로 답변해주세요&#10;• 정확한 정보를 제공해주세요&#10;• 친절하고 이해하기 쉽게 설명해주세요"
-                                value={answerContent}
-                                onChange={(e) => setAnswerContent(e.target.value)}
+                                value={replyContent}
+                                onChange={(e) => setReplyContent(e.target.value)}
                                 rows={6}
                                 maxLength={1000}
                             />
                             <div className="char-count">
-                                {answerContent.length}/1000
+                                {replyContent.length}/1000
                             </div>
                         </div>
 
                         <div className="form-actions">
                             <button
-                                className={`submit-answer-btn ${isSubmittingAnswer ? 'submitting' : ''}`}
-                                onClick={handleSubmitAnswer}
-                                disabled={!answerContent.trim() || isSubmittingAnswer}
+                                className={`submit-reply-btn ${isSubmittingReply ? 'submitting' : ''}`}
+                                onClick={handleSubmitReply}
+                                disabled={!replyContent.trim() || isSubmittingReply}
                             >
-                                {isSubmittingAnswer ? (
+                                {isSubmittingReply ? (
                                     <>
                                         <span className="loading-spinner"></span>
                                         답변 등록 중...
@@ -404,4 +424,4 @@ const QuestionDetail = () => {
     );
 };
 
-export default QuestionDetail;
+export default PostDetail;

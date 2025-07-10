@@ -21,6 +21,7 @@ export const callEstimationById = `https://hoppang.store/api/customers/chassis/{
 export const callBoards = `https://hoppang.store/api/boards`;
 export const callBoardsPosts = `https://hoppang.store/api/boards/posts`;
 export const callBoardsPostsById = `https://hoppang.store/api/boards/posts/{postId}`;
+export const callPostsReply = `https://hoppang.store/api/boards/posts/{postId}/replies`;
 
 // dev
 // export const kakaoLogin = `http://localhost:7070/api/kakao/auth`;
@@ -45,3 +46,4 @@ export const callBoardsPostsById = `https://hoppang.store/api/boards/posts/{post
 // export const callBoards = `http://localhost:7070/api/boards`;
 // export const callBoardsPosts = `http://localhost:7070/api/boards/posts`;
 // export const callBoardsPostsById = `http://localhost:7070/api/boards/posts/{postId}`;
+// export const callPostsReply = `http://localhost:7070/api/boards/posts/{postId}/replies`;
