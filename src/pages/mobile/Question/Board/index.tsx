@@ -9,7 +9,7 @@ import { truncateContent } from 'src/util';
 
 interface Question {
     id: number;
-    category: string;
+    category: any;
     title: string;
     content: string;
     author: string;
@@ -60,7 +60,7 @@ const QuestionsBoard = () => {
         return `${Math.floor(diffInHours / 24)}일 전`;
     };
 
-    const getCategoryLabel = (categoryId: string) => {
+    const getCategoryLabel = (categoryId: any) => {
         if (!categories || !categoryId) {
             return;
         }
