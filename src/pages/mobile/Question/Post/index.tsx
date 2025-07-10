@@ -169,7 +169,7 @@ const PostDetail = () => {
 
             // 답변 영역으로 스크롤
             setTimeout(() => {
-                const answersSection = document.getElementById('answers-section');
+                const answersSection = document.getElementById('replies-section');
                 if (answersSection) {
                     answersSection.scrollIntoView({ behavior: 'smooth' });
                 }
@@ -293,7 +293,7 @@ const PostDetail = () => {
                     </div>
                 </section>
 
-                {/* Answers Section */}
+                {/* Replies Section */}
                 <section id="replies-section" className="replies-section">
                     <div className="replies-header">
                         <h2 className="replies-title">

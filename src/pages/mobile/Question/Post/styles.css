@@ -496,7 +496,7 @@
     margin: 0;
 }
 
-/* Answer Form Section */
+/* Reply Form Section */
 .reply-form-section {
     /*padding: 20px;*/
     animation: slideInUp 0.8s ease-out 0.2s both;
@@ -632,17 +632,17 @@
     }
 
     .question-section,
-    .answers-section,
-    .answer-form-section {
+    .replies-section,
+    .reply-form-section {
         padding: 16px;
     }
 
     .question-card,
-    .answer-form-card {
+    .reply-form-card {
         padding: 20px;
     }
 
-    .answer-card {
+    .reply-card {
         padding: 16px;
     }
 
@@ -654,7 +654,7 @@
         font-size: 15px;
     }
 
-    .answer-content {
+    .reply-content {
         font-size: 14px;
     }
 
@@ -674,11 +674,11 @@
         align-items: flex-start;
     }
 
-    .no-answers {
+    .no-replies {
         padding: 40px 16px;
     }
 
-    .no-answers-icon {
+    .no-replies-icon {
         font-size: 40px;
     }
 
@@ -708,8 +708,8 @@
 /* High contrast mode support */
 @media (prefers-contrast: high) {
     .question-card,
-    .answer-card,
-    .answer-form-card {
+    .reply-card,
+    .reply-form-card {
         border: 2px solid currentColor;
     }
 
