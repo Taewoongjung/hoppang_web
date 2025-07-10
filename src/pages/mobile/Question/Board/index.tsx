@@ -39,7 +39,7 @@ const QuestionsBoard = () => {
     const [allQuestionsCount, setAllQuestionsCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [categories, setCategories] = useState<Category[]>([]);
-    const [selectedCategory, setSelectedCategory] = useState('all');
+    const [selectedCategory, setSelectedCategory] = useState(0);
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [pullDistance, setPullDistance] = useState(0);
@@ -65,6 +65,10 @@ const QuestionsBoard = () => {
             return;
         }
 
+        if (categoryId === '0') {
+            return;
+        }
+
         const category = categories.find(cat => cat.id === categoryId);
         return category ? category.name : '기타';
     };
@@ -86,7 +90,7 @@ const QuestionsBoard = () => {
                             }));
 
                             setCategories([
-                                { id: "all", name: "전체" },
+                                { id: 0, name: "전체" },
                                 ...categories
                             ]);
                         })
@@ -108,7 +112,7 @@ const QuestionsBoard = () => {
                 return new Promise((resolve) => {
                     setTimeout(() => {
 
-                        let categoryId = selectedCategory === 'all' ? '' : selectedCategory;
+                        let categoryId = selectedCategory === 0 ? '' : selectedCategory;
 
                         axios.get(`${callBoardsPosts}?limit=${limit}&offset=${offset}&boardIdList=${categoryId}`)
                             .then((res) => {
@@ -148,7 +152,7 @@ const QuestionsBoard = () => {
     };
 
     // 카테고리 선택 핸들러
-    const handleCategorySelect = (categoryId: string) => {
+    const handleCategorySelect = (categoryId: any) => {
         setSelectedCategory(categoryId);
         setCurrentPage(1); // 카테고리 변경 시 첫 페이지로 이동
 
@@ -161,9 +165,8 @@ const QuestionsBoard = () => {
     }, [offset, selectedCategory]);
 
 
-    // 페이지네이션 (필터링된 결과 기준)
+    // 페이지네이션
     const totalPages = Math.ceil(allQuestionsCount / limit);
-    const paginatedQuestions = allQuestions.slice((currentPage - 1) * limit, currentPage * limit);
 
     // Pull to refresh 핸들러
     const handleTouchStart = (e: React.TouchEvent) => {
@@ -350,7 +353,7 @@ const QuestionsBoard = () => {
                     </div>
 
                     <div className="category-tabs">
-                        {Array.isArray(categories) && categories.map((category) => (
+                        {categories.map((category) => (
                             <button
                                 key={category.id}
                                 className={`category-tab ${selectedCategory === category.id ? 'active' : ''}`}
@@ -386,7 +389,7 @@ const QuestionsBoard = () => {
                     )}
 
                     <div className={`questions-list ${isLoading ? 'loading' : ''}`}>
-                        {paginatedQuestions.map((question) => (
+                        {allQuestions.map((question) => (
                             <div
                                 key={question.id}
                                 className="question-card"
@@ -445,22 +448,22 @@ const QuestionsBoard = () => {
                         <div className="empty-state">
                             <div className="empty-icon">🔍</div>
                             <h3 className="empty-title">
-                                {selectedCategory === 'all'
+                                {selectedCategory === 0
                                     ? '아직 질문이 없습니다'
                                     : `${getCategoryLabel(selectedCategory)} 질문이 없습니다`
                                 }
                             </h3>
                             <p className="empty-description">
-                                {selectedCategory === 'all'
+                                {selectedCategory === 0
                                     ? '첫 번째 질문을 등록해보세요!'
                                     : '다른 카테고리를 선택하거나 첫 번째 질문을 등록해보세요!'
                                 }
                             </p>
                             <div className="empty-actions">
-                                {selectedCategory !== 'all' && (
+                                {selectedCategory !== 0 && (
                                     <button
                                         className="empty-secondary-btn"
-                                        onClick={() => handleCategorySelect('all')}
+                                        onClick={() => handleCategorySelect(0)}
                                     >
                                         전체 보기
                                     </button>
