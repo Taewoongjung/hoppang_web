@@ -14,6 +14,7 @@ interface QuestionDetail {
     id: number;
     boardName: string;
     registerName: string;
+    registerId: string;
     title: string;
     contents: string;
     isAnonymous: string;
@@ -25,6 +26,7 @@ interface Reply {
     id: number;
     contents: string;
     authorName: string;
+    authorId: string;
     isPostOwner: boolean;
     createdAt: string;
     likes: number;
@@ -61,6 +63,7 @@ const PostDetail = () => {
                             id: reply.id,
                             contents: reply.contents,
                             authorName: reply.registerName,
+                            authorId: reply.registerId,
                             isPostOwner: reply.isOwner,
                             createdAt: reply.createdAt,
                             likes: 0, // 백엔드 응답에 없으므로 기본값
@@ -326,7 +329,7 @@ const PostDetail = () => {
                                         <div className="author-info">
                                             <span className="author-name">{reply.authorName}</span>
                                             <span className="author-role">
-                                                {reply.isPostOwner ? '작성자' : '일반사용자'}
+                                                {reply.authorId === question.registerId ? '작성자' : '일반사용자'}
                                             </span>
                                         </div>
                                     </div>
