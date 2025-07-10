@@ -330,7 +330,6 @@
     background: white;
     border-radius: 16px;
     padding: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     border: 1px solid #f1f5f9;
     transition: all 0.3s ease;
     position: relative;
