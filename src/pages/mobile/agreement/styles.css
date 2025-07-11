@@ -59,9 +59,9 @@ body {
 
 /* Hero Section */
 .hero-section {
-    background: linear-gradient(135deg, #ffeb9c 10%, #f7e0bc 60%, #fff4e5 100%);
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f8fafc 100%);
     padding: 30px 20px;
-    color: #5c4a3b;
+    color: #334155;
     display: flex;
     justify-content: space-between;
     align-items: center;

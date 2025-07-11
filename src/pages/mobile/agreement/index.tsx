@@ -67,7 +67,7 @@ const Agreement = () => {
     };
 
     const handleDisagree = () => {
-        history.goBack();
+        window.location.href = "/chassis/v2/calculator";
     };
 
     return (
