@@ -22,15 +22,34 @@ interface QuestionDetail {
     lastModified: string;
 }
 
+interface ChildReply {
+    id: number;
+    postId: number;
+    rootReplyId: number;
+    contents: string;
+    registerId: number;
+    registerName: string;
+    anonymous: boolean;
+    revised: boolean;
+    createdAt: string;
+}
+
 interface Reply {
     id: number;
+    postId: number;
     contents: string;
-    authorName: string;
-    authorId: string;
-    isPostOwner: boolean;
+    registerId: number;
+    registerName: string;
+    anonymous: boolean;
+    revised: boolean;
     createdAt: string;
+    postsChildReplyList: ChildReply[];
+    // UI state properties
     likes: number;
     isLiked: boolean;
+    isPostOwner: boolean;
+    authorName: string;
+    authorId: string;
 }
 
 const PostDetail = () => {
@@ -45,6 +64,12 @@ const PostDetail = () => {
     const [replyContent, setReplyContent] = useState('');
     const [isSubmittingReply, setIsSubmittingReply] = useState(false);
 
+    // 대댓글 관련 상태
+    const [childReplyContent, setChildReplyContent] = useState<{[key: number]: string}>({});
+    const [isSubmittingChildReply, setIsSubmittingChildReply] = useState<{[key: number]: boolean}>({});
+    const [showChildReplyForm, setShowChildReplyForm] = useState<{[key: number]: boolean}>({});
+    const [expandedReplies, setExpandedReplies] = useState<{[key: number]: boolean}>({});
+
     const { data: userData, error: userError, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
     });
@@ -57,15 +82,22 @@ const PostDetail = () => {
                         callPostsReply.replace("{postId}", postId) + queryParam,
                         { withCredentials: true }
                     ).then((res) => {
-                        const replies = res.data.postReplyList || [];
+                        const replies = res.data.postsReplyList || [];
 
                         const repliesResult: Reply[] = replies.map((reply: any) => ({
                             id: reply.id,
+                            postId: reply.postId,
                             contents: reply.contents,
-                            authorName: reply.registerName,
-                            authorId: reply.registerId,
-                            isPostOwner: reply.isOwner,
+                            registerId: reply.registerId,
+                            registerName: reply.registerName,
+                            anonymous: reply.anonymous,
+                            revised: reply.revised,
                             createdAt: reply.createdAt,
+                            postsChildReplyList: reply.postsChildReplyList || [],
+                            // UI state mapping
+                            authorName: reply.registerName,
+                            authorId: reply.registerId.toString(),
+                            isPostOwner: reply.registerId.toString() === question?.registerId,
                             likes: 0, // 백엔드 응답에 없으므로 기본값
                             isLiked: false // 마찬가지로 기본값 설정
                         }));
@@ -82,6 +114,15 @@ const PostDetail = () => {
             const res: any = await apiCall(queryParam);
             setReplies(res.replies);
 
+            // 대댓글이 있는 경우 자동으로 확장
+            const autoExpand: {[key: number]: boolean} = {};
+            res.replies.forEach((reply: Reply) => {
+                if (reply.postsChildReplyList && reply.postsChildReplyList.length > 0) {
+                    autoExpand[reply.id] = true;
+                }
+            });
+            setExpandedReplies(autoExpand);
+
         } catch (err) {
             console.error("댓글 조회 실패", err);
         }
@@ -89,14 +130,14 @@ const PostDetail = () => {
 
     // 포스팅 연관 댓글 조회
     useEffect(() => {
-        if (!userData) return;
+        if (!userData || !question) return;
 
         let currentUserId = userData.id;
         let queryParam = currentUserId ? `?loggedInUserId=${currentUserId}` : ``;
 
         fetchReplies(queryParam);
 
-    }, [userData, postId]);
+    }, [userData, postId, question]);
 
     // 포스팅 상세 조회
     useEffect(() => {
@@ -163,7 +204,7 @@ const PostDetail = () => {
                             }
                         }, 100);
                     });
-            })
+                })
                 .catch(() => {
                     console.error("댓글을 달기 위해서는 로그인 해주세요.");
                 });
@@ -183,6 +224,87 @@ const PostDetail = () => {
         } finally {
             setIsSubmittingReply(false);
         }
+    };
+
+    // 대댓글 제출 핸들러
+    const handleSubmitChildReply = async (parentReplyId: number) => {
+        const content = childReplyContent[parentReplyId];
+        if (!content?.trim()) return;
+        if (isSubmittingChildReply[parentReplyId]) return;
+
+        setIsSubmittingChildReply(prev => ({ ...prev, [parentReplyId]: true }));
+
+        try {
+            await mutate();
+
+            const response = await axios.post(
+                callPostsReply.replace("{postId}", postId),
+                {
+                    contents: content,
+                    rootReplyId: parentReplyId
+                },
+                {
+                    withCredentials: true,
+                    headers: {
+                        Authorization: localStorage.getItem("hoppang-token"),
+                    }
+                }
+            );
+
+            // 댓글 목록 새로고침
+            let currentUserId = userData.id;
+            let queryParam = currentUserId ? `?loggedInUserId=${currentUserId}` : ``;
+            await fetchReplies(queryParam);
+
+            // 대댓글 입력 폼 초기화 및 숨기기
+            setChildReplyContent(prev => ({ ...prev, [parentReplyId]: '' }));
+            setShowChildReplyForm(prev => ({ ...prev, [parentReplyId]: false }));
+
+            // 해당 댓글 확장
+            setExpandedReplies(prev => ({ ...prev, [parentReplyId]: true }));
+
+            // 새 대댓글로 스크롤
+            const newReplyId = response.data.createdReplyId;
+            setTimeout(() => {
+                const target = document.getElementById(`child-reply-${newReplyId}`);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 100);
+
+        } catch (error) {
+            console.error('대댓글 등록 실패:', error);
+        } finally {
+            setIsSubmittingChildReply(prev => ({ ...prev, [parentReplyId]: false }));
+        }
+    };
+
+    // 대댓글 폼 토글
+    const toggleChildReplyForm = (replyId: number) => {
+        setShowChildReplyForm(prev => ({
+            ...prev,
+            [replyId]: !prev[replyId]
+        }));
+
+        // 폼을 닫을 때 내용도 초기화
+        if (showChildReplyForm[replyId]) {
+            setChildReplyContent(prev => ({ ...prev, [replyId]: '' }));
+        }
+    };
+
+    // 대댓글 목록 토글
+    const toggleChildReplies = (replyId: number) => {
+        setExpandedReplies(prev => ({
+            ...prev,
+            [replyId]: !prev[replyId]
+        }));
+    };
+
+    // 총 댓글 수 계산 (댓글 + 대댓글)
+    const getTotalReplyCount = () => {
+        return replies.reduce((total, reply) => {
+            return total + 1 + (reply.postsChildReplyList?.length || 0);
+        }, 0);
     };
 
     if (loading) {
@@ -300,7 +422,7 @@ const PostDetail = () => {
                 <section id="replies-section" className="replies-section">
                     <div className="replies-header">
                         <h2 className="replies-title">
-                            답변 <span className="replies-count">{replies.length}</span>
+                            답변 <span className="replies-count">{getTotalReplyCount()}</span>
                         </h2>
                         <div className="replies-sort">
                             <button className="sort-btn active">최신순</button>
@@ -310,60 +432,184 @@ const PostDetail = () => {
 
                     <div className="replies-list">
                         {replies.map((reply) => (
-                            <div key={reply.id} id={`reply-${reply.id}`} className="reply-card">
-                                <div className="reply-header">
-                                    <div className="reply-author">
-                                        <div className="reply-avatar">
-                                            {reply.authorId === question.registerId ? (
-                                                <div className="owner-badge">
-                                                    <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
-                                                        <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a4 4 0 0 1 8 0v2H6v-2Z" stroke="currentColor" strokeWidth="1.5"/>
+                            <div key={reply.id} className="reply-thread">
+                                {/* 메인 댓글 */}
+                                <div id={`reply-${reply.id}`} className="reply-card">
+                                    <div className="reply-header">
+                                        <div className="reply-author">
+                                            <div className="reply-avatar">
+                                                {reply.authorId === question.registerId ? (
+                                                    <div className="owner-badge">
+                                                        <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+                                                            <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a4 4 0 0 1 8 0v2H6v-2Z" stroke="currentColor" strokeWidth="1.5"/>
+                                                        </svg>
+                                                    </div>
+                                                ) : (
+                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                        <path d="M8 7a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 13a3 3 0 0 1 6 0v1H5v-1Z" stroke="currentColor" strokeWidth="1.5"/>
                                                     </svg>
-                                                </div>
-                                            ) : (
+                                                )}
+                                            </div>
+                                            <div className="author-info">
+                                                <span className="author-name">{reply.authorName}</span>
+                                                <span className="author-role">
+                                                    {reply.authorId === question.registerId ? '작성자' : '일반사용자'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="reply-time">
+                                            {formatTimeAgo(reply.createdAt)}
+                                        </div>
+                                    </div>
+
+                                    <div className="reply-content">
+                                        {reply.contents.split('\n').map((line, index) => (
+                                            <p key={index} style={{ wordBreak: 'break-word' }}>{line}</p>
+                                        ))}
+                                    </div>
+
+                                    <div className="reply-actions">
+                                        <button
+                                            className={`like-btn ${reply.isLiked ? 'liked' : ''}`}
+                                            onClick={() => handleLike(reply.id)}
+                                        >
+                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                <path d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
+                                                      stroke="currentColor"
+                                                      strokeWidth="1.5"
+                                                      fill={reply.isLiked ? 'currentColor' : 'none'}/>
+                                            </svg>
+                                            <span>{reply.likes}</span>
+                                        </button>
+                                        <button
+                                            className={`reply-btn ${showChildReplyForm[reply.id] ? 'active' : ''}`}
+                                            onClick={() => toggleChildReplyForm(reply.id)}
+                                        >
+                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                <path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                            </svg>
+                                            <span>답글</span>
+                                        </button>
+
+                                        {/* 대댓글 수 및 토글 버튼 */}
+                                        {reply.postsChildReplyList && reply.postsChildReplyList.length > 0 && (
+                                            <button
+                                                className="child-replies-toggle"
+                                                onClick={() => toggleChildReplies(reply.id)}
+                                            >
+                                                <svg
+                                                    width="16"
+                                                    height="16"
+                                                    viewBox="0 0 16 16"
+                                                    fill="none"
+                                                    className={expandedReplies[reply.id] ? 'rotated' : ''}
+                                                >
+                                                    <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                                </svg>
+                                                <span>답글 {reply.postsChildReplyList.length}개</span>
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* 대댓글 입력 폼 */}
+                                {showChildReplyForm[reply.id] && (
+                                    <div className="child-reply-form">
+                                        <div className="child-reply-form-content">
+                                            <div className="child-reply-avatar">
                                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                                     <path d="M8 7a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 13a3 3 0 0 1 6 0v1H5v-1Z" stroke="currentColor" strokeWidth="1.5"/>
                                                 </svg>
-                                            )}
-                                        </div>
-                                        <div className="author-info">
-                                            <span className="author-name">{reply.authorName}</span>
-                                            <span className="author-role">
-                                                {reply.authorId === question.registerId ? '작성자' : '일반사용자'}
-                                            </span>
+                                            </div>
+                                            <div className="child-reply-input-container">
+                                                <textarea
+                                                    className="child-reply-textarea"
+                                                    placeholder={`${reply.authorName}님에게 답글 작성...`}
+                                                    value={childReplyContent[reply.id] || ''}
+                                                    onChange={(e) => setChildReplyContent(prev => ({
+                                                        ...prev,
+                                                        [reply.id]: e.target.value
+                                                    }))}
+                                                    rows={3}
+                                                    maxLength={500}
+                                                />
+                                                <div className="child-reply-actions">
+                                                    <div className="char-count-small">
+                                                        {(childReplyContent[reply.id] || '').length}/500
+                                                    </div>
+                                                    <div className="child-reply-buttons">
+                                                        <button
+                                                            className="cancel-child-reply-btn"
+                                                            onClick={() => toggleChildReplyForm(reply.id)}
+                                                        >
+                                                            취소
+                                                        </button>
+                                                        <button
+                                                            className={`submit-child-reply-btn ${isSubmittingChildReply[reply.id] ? 'submitting' : ''}`}
+                                                            onClick={() => handleSubmitChildReply(reply.id)}
+                                                            disabled={!childReplyContent[reply.id]?.trim() || isSubmittingChildReply[reply.id]}
+                                                        >
+                                                            {isSubmittingChildReply[reply.id] ? (
+                                                                <>
+                                                                    <span className="loading-spinner-small"></span>
+                                                                    등록 중...
+                                                                </>
+                                                            ) : (
+                                                                '답글 등록'
+                                                            )}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="reply-time">
-                                        {formatTimeAgo(reply.createdAt)}
+                                )}
+
+                                {/* 대댓글 목록 */}
+                                {expandedReplies[reply.id] && reply.postsChildReplyList && reply.postsChildReplyList.length > 0 && (
+                                    <div className="child-replies-container">
+                                        {reply.postsChildReplyList.map((childReply) => (
+                                            <div key={childReply.id} id={`child-reply-${childReply.id}`} className="child-reply-card">
+                                                <div className="child-reply-connector">
+                                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                        <path d="M5 5v6a4 4 0 0 0 4 4h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                                    </svg>
+                                                </div>
+                                                <div className="child-reply-content-wrapper">
+                                                    <div className="child-reply-header">
+                                                        <div className="child-reply-author">
+                                                            <div className="child-reply-avatar">
+                                                                {childReply.registerId.toString() === question.registerId ? (
+                                                                    <div className="owner-badge-small">
+                                                                        <svg width="12" height="12" viewBox="0 0 20 20" fill="none">
+                                                                            <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a4 4 0 0 1 8 0v2H6v-2Z" stroke="currentColor" strokeWidth="1.5"/>
+                                                                        </svg>
+                                                                    </div>
+                                                                ) : (
+                                                                    <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                                                                        <path d="M8 7a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 13a3 3 0 0 1 6 0v1H5v-1Z" stroke="currentColor" strokeWidth="1.5"/>
+                                                                    </svg>
+                                                                )}
+                                                            </div>
+                                                            <span className="child-reply-author-name">{childReply.registerName}</span>
+                                                            {childReply.registerId.toString() === question.registerId && (
+                                                                <span className="author-badge-small">작성자</span>
+                                                            )}
+                                                        </div>
+                                                        <span className="child-reply-time">
+                                                            {formatTimeAgo(childReply.createdAt)}
+                                                        </span>
+                                                    </div>
+                                                    <div className="child-reply-text">
+                                                        {childReply.contents.split('\n').map((line, index) => (
+                                                            <p key={index} style={{ wordBreak: 'break-word' }}>{line}</p>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
-                                </div>
-
-                                <div className="reply-content">
-                                    {reply.contents.split('\n').map((line, index) => (
-                                        <p key={index} style={{ wordBreak: 'break-word' }}>{line}</p>
-                                    ))}
-                                </div>
-
-                                <div className="reply-actions">
-                                    <button
-                                        className={`like-btn ${reply.isLiked ? 'liked' : ''}`}
-                                        onClick={() => handleLike(reply.id)}
-                                    >
-                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                            <path d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
-                                                  stroke="currentColor"
-                                                  strokeWidth="1.5"
-                                                  fill={reply.isLiked ? 'currentColor' : 'none'}/>
-                                        </svg>
-                                        <span>{reply.likes}</span>
-                                    </button>
-                                    <button className="reply-btn">
-                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                            <path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                                        </svg>
-                                        <span>답글</span>
-                                    </button>
-                                </div>
+                                )}
                             </div>
                         ))}
                     </div>
