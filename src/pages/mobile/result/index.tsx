@@ -378,7 +378,6 @@ const MobileResultScreen = () => {
                         <img src="/assets/hoppang-character.png" alt="Hoppang Logo" className="logo-img"/>
                         <span className="logo-text">호빵</span>
                     </div>
-                    <div className="header-title">견적 결과</div>
                 </div>
             </header>
 

@@ -1,86 +1,57 @@
-/* Company List Styles - Fixed Clipping Issues */
+/* Company List Styles - Tone on Tone Design */
 .company-list {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 16px;
-    padding: 8px; /* 추가 패딩으로 transform 공간 확보 */
+    gap: 12px;
+    padding: 0;
 }
 
 .company-card {
-    background-color: #fff;
-    border: 2px solid #e5e7eb;
-    border-radius: 16px;
+    background-color: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
     padding: 20px 24px;
     font-size: 16px;
     font-weight: 600;
-    color: #374151;
+    color: #475569;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s ease;
     text-align: left;
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: relative;
     overflow: hidden;
-    /* 그림자가 잘리지 않도록 마진 추가 */
-    margin: 4px;
-    /* transform을 위한 공간 확보 */
-    transform-origin: center;
-    backface-visibility: hidden; /* 부드러운 애니메이션을 위해 */
-}
-
-.company-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(252, 176, 128, 0.1), transparent);
-    transition: left 0.6s ease;
-    z-index: 1;
-}
-
-.company-card:hover::before {
-    left: 100%;
 }
 
 .company-card:hover {
-    border-color: #fcb080;
-    transform: translateY(-4px) scale(1.02); /* 살짝 확대 효과 추가 */
-    box-shadow: 0 12px 32px rgba(245, 158, 86, 0.2);
-    z-index: 10; /* 다른 카드 위로 올라오도록 */
+    border-color: #cbd5e1;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .company-card.selected {
-    border-color: #f59e56;
-    background: linear-gradient(135deg, #fff4e5 0%, #fef3c7 100%);
-    color: #92400e;
-    box-shadow: 0 8px 25px rgba(245, 158, 86, 0.25);
-    transform: translateY(-2px);
-    z-index: 5;
-}
-
-.company-card.selected::before {
-    opacity: 0;
+    border-color: #6366f1;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    color: #1e40af;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
 }
 
 .company-card.selected:hover {
-    transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 16px 40px rgba(245, 158, 86, 0.3);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.2);
 }
 
 .company-name {
     flex: 1;
     z-index: 2;
     position: relative;
-    transition: color 0.3s ease;
+    transition: color 0.2s ease;
 }
 
 .check-icon {
     width: 28px;
     height: 28px;
-    background: linear-gradient(135deg, #fcb080, #f59e56);
+    background: #6366f1;
     color: white;
     border-radius: 50%;
     display: flex;
@@ -88,38 +59,34 @@
     justify-content: center;
     font-size: 14px;
     font-weight: bold;
-    animation: scaleIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    animation: scaleIn 0.3s ease;
     z-index: 2;
     position: relative;
-    box-shadow: 0 4px 12px rgba(245, 158, 86, 0.4);
-    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+    transition: all 0.2s ease;
 }
 
 .company-card:hover .check-icon {
-    transform: scale(1.1);
-    box-shadow: 0 6px 16px rgba(245, 158, 86, 0.5);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
 }
 
 @keyframes scaleIn {
     0% {
-        transform: scale(0) rotate(-180deg);
+        transform: scale(0);
         opacity: 0;
     }
-    70% {
-        transform: scale(1.2) rotate(10deg);
-    }
     100% {
-        transform: scale(1) rotate(0deg);
+        transform: scale(1);
         opacity: 1;
     }
 }
 
-/* 부모 컨테이너 수정 - form-content에 overflow 방지 */
+/* 부모 컨테이너 수정 */
 .form-content {
     display: flex;
     flex-direction: column;
     gap: 24px;
-    /* overflow: visible; */ /* 기본값이지만 명시적으로 설정 */
     position: relative;
     z-index: 1;
 }
@@ -128,7 +95,7 @@
 .main-content {
     flex: 1;
     padding: 24px 20px 120px;
-    overflow: visible; /* 중요: 컨텐츠가 잘리지 않도록 */
+    overflow: visible;
     position: relative;
 }
 
@@ -136,42 +103,40 @@
 .app-container {
     max-width: 430px;
     margin: 0 auto;
-    background: #f8f9fa;
+    background: #f8fafc;
     min-height: 100vh;
     position: relative;
     display: flex;
     flex-direction: column;
-    overflow-x: hidden; /* 좌우 스크롤만 숨김 */
-    overflow-y: auto; /* 세로 스크롤은 허용 */
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
-/* 추가: 선택된 카드의 텍스트 강조 */
+/* 선택된 카드의 텍스트 강조 */
 .company-card.selected .company-name {
     font-weight: 700;
-    color: #92400e;
+    color: #1e40af;
 }
 
 /* 호버 상태에서 텍스트 색상 변화 */
 .company-card:hover:not(.selected) .company-name {
-    color: #f59e56;
+    color: #6366f1;
 }
 
 /* 반응형 디자인 개선 */
 @media (max-width: 375px) {
     .company-list {
-        gap: 12px;
-        padding: 6px;
+        gap: 10px;
     }
 
     .company-card {
         padding: 16px 20px;
-        margin: 3px;
         font-size: 15px;
     }
 
     .company-card:hover {
-        transform: translateY(-3px) scale(1.01);
-        box-shadow: 0 8px 24px rgba(245, 158, 86, 0.2);
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     }
 
     .check-icon {
@@ -183,25 +148,25 @@
 
 /* 접근성 개선 */
 .company-card:focus {
-    outline: 3px solid #fcb080;
-    outline-offset: 2px;
-    border-color: #f59e56;
+    outline: 2px solid #6366f1;
+    outline-offset: -2px;
+    border-color: #6366f1;
 }
 
 .company-card:focus:not(:hover) {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(245, 158, 86, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
 }
 
 /* 터치 디바이스 최적화 */
 @media (hover: none) and (pointer: coarse) {
     .company-card:hover {
         transform: none;
-        box-shadow: 0 4px 12px rgba(245, 158, 86, 0.15);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     }
 
     .company-card:active {
-        transform: translateY(-2px) scale(0.98);
+        transform: translateY(-1px) scale(0.98);
         transition: all 0.1s ease;
     }
 }

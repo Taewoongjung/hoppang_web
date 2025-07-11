@@ -9,13 +9,14 @@ import {callMeData} from "../../../definition/apiPath";
 import fetcher from "../../../util/fetcher";
 import {useHistory} from "react-router-dom";
 
-// Cordova 타입 정의
+
 declare global {
     interface Window {
         device?: any;
         cordova?: any;
     }
 }
+
 
 const Initial = () => {
     const history = useHistory();
@@ -126,33 +127,33 @@ const Initial = () => {
     const services = [
         {
             id: 1,
-            icon: '🏠',
-            title: '샷시 견적',
+            icon: '📋',
+            title: '창호 견적',
             description: '맞춤형 견적을 받아보세요',
-            gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-            highlight: false
+            color: '#6366f1',
+            bgColor: '#f0f9ff'
         },
         {
             id: 2,
-            icon: '🪟',
-            title: '샷시 지식인',
+            icon: '💬',
+            title: '커뮤니티',
             description: '궁금한 것을 물어보세요',
-            gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-            highlight: true
+            color: '#8b5cf6',
+            bgColor: '#faf5ff'
         },
     ];
 
     const handleServiceClick = (serviceTitle: string) => {
-        if (serviceTitle === '샷시 견적') {
+        if (serviceTitle === '창호 견적') {
             history.push('/calculator/agreement');
-        } else if (serviceTitle === '샷시 지식인') {
+        } else if (serviceTitle === '커뮤니티') {
             history.push('/question/boards');
         }
     };
 
     const recentQuestions = [
         { id: 1, question: '이중창 설치 비용이 궁금해요', category: '설치', time: '2시간 전' },
-        { id: 2, question: '샷시 교체 시기는 언제인가요?', category: '교체', time: '4시간 전' },
+        { id: 2, question: '창호 교체 시기는 언제인가요?', category: '교체', time: '4시간 전' },
         { id: 3, question: '결로 현상 해결 방법', category: '수리', time: '6시간 전' },
     ];
 
@@ -192,7 +193,7 @@ const Initial = () => {
                 <section className="hero-section">
                     <div className="hero-content">
                         <div className="hero-text">
-                            <h2 className="hero-title">샷시 전문가와 함께하세요</h2>
+                            <h2 className="hero-title">창호 전문가와 함께하세요</h2>
                             <p className="hero-subtitle">견적부터 설치까지, 모든 과정을 도와드립니다</p>
                             <button
                                 className="cta-button"
@@ -200,41 +201,38 @@ const Initial = () => {
                                     window.location.href = "/question/boards/posts/register?from=initial";
                                 }}
                             >
-                                <span className="cta-icon">💬&nbsp;</span>
+                                <span className="cta-icon">💬</span>
                                 전문가에게 질문하기
                             </button>
                         </div>
                         <div className="hero-illustration">
                             <div className="window-icon">🪟</div>
-                            <div className="floating-elements">
-                                <span className="float-element" style={{animationDelay: '0s'}}>✨</span>
-                                <span className="float-element" style={{animationDelay: '1s'}}>🏠</span>
-                                <span className="float-element" style={{animationDelay: '2s'}}>💡</span>
-                            </div>
                         </div>
                     </div>
                 </section>
 
                 {/* Services Grid */}
                 <section className="services-section">
-                    <div className="section-header">
-                        <h3 className="section-title">
-                            서비스
-                        </h3>
-                    </div>
                     <div className="services-grid">
                         {services.map((service) => (
                             <div
                                 key={service.id}
-                                className={`service-card ${service.highlight ? 'highlight' : ''}`}
-                                style={{ background: service.gradient }}
+                                className="service-card"
                                 onClick={() => handleServiceClick(service.title)}
                             >
+                                <div className="service-icon-wrapper" style={{ backgroundColor: service.bgColor }}>
+                                    <span className="service-icon" style={{ color: service.color }}>
+                                        {service.icon}
+                                    </span>
+                                </div>
                                 <div className="service-content">
-                                    <div className="service-icon">{service.icon}</div>
                                     <h4 className="service-title">{service.title}</h4>
                                     <p className="service-description">{service.description}</p>
-                                    {service.highlight && <div className="highlight-badge">NEW</div>}
+                                </div>
+                                <div className="service-arrow">
+                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                        <path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                    </svg>
                                 </div>
                             </div>
                         ))}
@@ -253,8 +251,10 @@ const Initial = () => {
                         {quickTips.map((tip, index) => (
                             <div key={index} className="tip-card">
                                 <div className="tip-icon">{tip.icon}</div>
-                                <h4 className="tip-title">{tip.title}</h4>
-                                <p className="tip-content">{tip.content}</p>
+                                <div className="tip-content-wrapper">
+                                    <h4 className="tip-title">{tip.title}</h4>
+                                    <p className="tip-content">{tip.content}</p>
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -267,13 +267,16 @@ const Initial = () => {
                             <span className="title-icon">❓</span>
                             최근 질문
                         </h3>
-                        <div className="see-all-btn">
+                        <div className="see-all-btn" onClick={() => history.push('/question/boards')}>
                             <span>전체보기</span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
                         </div>
                     </div>
                     <div className="questions-list">
                         {recentQuestions.map((q) => (
-                            <div key={q.id} className="question-item">
+                            <div key={q.id} className="question-item" onClick={() => history.push('/question/boards')}>
                                 <div className="question-content">
                                     <div className="question-meta">
                                         <span className="question-category">{q.category}</span>
@@ -281,7 +284,11 @@ const Initial = () => {
                                     </div>
                                     <p className="question-text">{q.question}</p>
                                 </div>
-                                <button className="question-arrow">→</button>
+                                <div className="question-arrow">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                    </svg>
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -296,7 +303,7 @@ const Initial = () => {
                             <img src="/assets/hoppang-character.png" alt="Hoppang" className="footer-logo-img" />
                             <span className="footer-logo-text">호빵</span>
                         </div>
-                        <p className="footer-tagline">신뢰할 수 있는 샷시 전문 플랫폼</p>
+                        <p className="footer-tagline">신뢰할 수 있는 창호 전문 플랫폼</p>
                     </div>
 
                     <div className="footer-links">

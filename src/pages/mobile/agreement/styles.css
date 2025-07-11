@@ -46,7 +46,7 @@ body {
 .logo-text {
     font-size: 1.25rem;
     font-weight: bold;
-    background: linear-gradient(to right, #fcb080, #f59e56);
+    background: #6366f1;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }

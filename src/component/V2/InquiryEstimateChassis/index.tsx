@@ -15,7 +15,7 @@ interface InquiryEstimateChassisProps {
     isInquiryModalOpen: boolean;
     setIsInquiryModalOpen: (open: boolean) => void;
     finishedInquiry: (inquiryTypes: string[]) => void;
-    initialInquiryStatus?: InquiryStatus; // 📌 초기 상태 prop 추가
+    initialInquiryStatus?: InquiryStatus;
 }
 
 const InquiryEstimateChassis: React.FC<InquiryEstimateChassisProps> = ({
@@ -145,7 +145,7 @@ const InquiryEstimateChassis: React.FC<InquiryEstimateChassisProps> = ({
             id: 'kakao',
             title: '카카오톡 상담',
             subtitle: '빠르고 편리한 채팅 상담',
-            icon: <img src="/assets/Sso/kakao-logo.png" alt="Kakao" style={{ width: '24px', height: '24px' }} />,
+            icon: <img src="/assets/Sso/kakao-logo.png" alt="Kakao" style={{ width: '43px', height: '43px' }} />,
             bgColor: '#FEE500',
             action: handleKakaoInquiry,
             description: '실시간 채팅으로 빠른 답변',
@@ -156,7 +156,7 @@ const InquiryEstimateChassis: React.FC<InquiryEstimateChassisProps> = ({
             id: 'call',
             title: '바로 전화하기',
             subtitle: '부담 없이 연락주세요',
-            icon: <img src="/assets/Counsel/tel-logo.png" alt="전화" style={{ width: '24px', height: '24px' }} />,
+            icon: <img src="/assets/Counsel/tel-logo.png" alt="전화" style={{ width: '27px', height: '27px' }} />,
             bgColor: '#A7F3D0',
             action: handlePhoneCall,
             description: '지금 바로 통화 연결',
@@ -167,7 +167,7 @@ const InquiryEstimateChassis: React.FC<InquiryEstimateChassisProps> = ({
             id: 'callback',
             title: '전화 상담 신청',
             subtitle: '담당자가 직접 연락드려요',
-            icon: <img src="/assets/Counsel/counselor-hoppang-character.png" alt="상담신청" style={{ width: '24px', height: '24px' }} />,
+            icon: <img src="/assets/Counsel/counselor-hoppang-character.png" alt="상담신청" style={{ width: '34px', height: '34px' }} />,
             bgColor: '#FFF7E6',
             action: handlePhoneConsult,
             description: '원하는 시간에 상담 가능',

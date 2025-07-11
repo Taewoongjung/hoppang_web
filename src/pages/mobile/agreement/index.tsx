@@ -79,6 +79,18 @@ const Agreement = () => {
                         <img src="/assets/hoppang-character.png" alt="Hoppang Logo" className="logo-img" />
                         <span className="logo-text">호빵</span>
                     </div>
+                    <div className="header-greeting">
+                        {userData ? (
+                            <span className="user-greeting">안녕하세요, <strong>{userData.name}</strong>님! 👋🏻</span>
+                        ) : (
+                            <button
+                                className="login-btn"
+                                onClick={() => window.location.href = '/v2/login'}
+                            >
+                                로그인
+                            </button>
+                        )}
+                    </div>
                 </div>
             </header>
 
