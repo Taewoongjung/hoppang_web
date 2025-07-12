@@ -611,7 +611,7 @@ body {
 .quick-action-card:focus,
 .settings-btn:focus {
     outline: 2px solid #3b82f6;
-    outline-offset: 2px;
+    outline-offset: -2px;
 }
 
 /* High contrast mode support */

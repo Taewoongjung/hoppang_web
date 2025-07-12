@@ -570,7 +570,7 @@ footer {
 .see-all-btn:focus,
 .footer-link:focus {
     outline: 2px solid #6366f1;
-    outline-offset: 2px;
+    outline-offset: -2px;
 }
 
 /* Responsive Design */

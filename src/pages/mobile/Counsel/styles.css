@@ -627,8 +627,8 @@ body {
 .contact-card:focus,
 .tab-button:focus,
 .faq-question:focus {
-    /*outline: 2px solid #fcb080;*/
-    outline-offset: 2px;
+    outline: 2px solid #fcb080;
+    outline-offset: -2px;
 }
 
 /* High contrast mode support */

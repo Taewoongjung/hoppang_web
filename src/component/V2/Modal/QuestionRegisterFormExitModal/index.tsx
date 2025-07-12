@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import './styles.css';
 
 const QuestionRegisterFormExitModal = (props:{
@@ -9,15 +8,13 @@ const QuestionRegisterFormExitModal = (props:{
 
     const { from, setShowExitModal } = props;
 
-    const history = useHistory();
-
     const handleExitConfirm = () => {
         if (from === 'initial') {
-            history.push('/chassis/v2/calculator');
+            window.location.href = '/chassis/v2/calculator';
             return;
         }
 
-        history.push('/question/boards');
+        window.location.href = '/question/boards';
     };
 
     const handleExitCancel = () => {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import useSWR from "swr";
 import {callBoardsPostsById, callMeData, callPostsReply} from "../../../../definition/apiPath";
 import fetcher from "../../../../util/fetcher";
@@ -53,8 +53,6 @@ interface Reply {
 }
 
 const PostDetail = () => {
-    const history = useHistory();
-
     const { postId } = useParams<{ postId: string }>();
 
     const [question, setQuestion] = useState<QuestionDetail | null>(null);
@@ -338,7 +336,7 @@ const PostDetail = () => {
                 <div className="header-content">
                     <button
                         className="back-btn"
-                        onClick={() => history.push("/question/boards")}
+                        onClick={() => window.location.href= "/question/boards"}
                     >
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

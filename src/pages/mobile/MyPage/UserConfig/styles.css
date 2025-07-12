@@ -467,7 +467,7 @@ body {
 .config-back-button:focus,
 .config-menu-item:focus {
     outline: 2px solid #fcb080;
-    outline-offset: 2px;
+    outline-offset: -2px;
 }
 
 /* High contrast mode support */

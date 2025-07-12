@@ -21,6 +21,7 @@ interface Question {
     tags?: string[];
     imageCount?: number;
     boardType?: string;
+    isPinned?: boolean;
 }
 
 interface Category {
@@ -54,7 +55,6 @@ const QuestionsBoard = () => {
     const [searchQuery, setSearchQuery] = useState('');
 
     const limit = 20;
-    const offset = (currentPage - 1) * limit;
 
     // 게시판 타입 정의
     const boardTypes: BoardType[] = [
@@ -97,9 +97,10 @@ const QuestionsBoard = () => {
         }
     };
 
-    const fetchQuestions = async () => {
+    const fetchQuestions = async (page: number = 1, resetData: boolean = true) => {
         setIsLoading(true);
         try {
+            const offset = (page - 1) * limit;
             await new Promise(resolve => setTimeout(resolve, 300)); // 시뮬레이션
 
             const res = await axios.get(`${callBoardsPosts}?limit=${limit}&offset=${offset}&boardType=${selectedBoardType}&search=${searchQuery}`);
@@ -116,9 +117,10 @@ const QuestionsBoard = () => {
                 isAnswered: Math.random() > 0.3,
                 boardType: post.boardType || 'question',
                 isPinned: post.isPinned || false,
-                imageCount: Math.random() > 0.7 ? Math.floor(Math.random() * 3) + 1 : 0
+                imageCount: null
             }));
 
+            // 🔥 핵심 수정: 항상 새 데이터로 교체 (기존 데이터에 추가하지 않음)
             setAllQuestions(questions);
             setAllQuestionsCount(res.data.count);
         } catch (err) {
@@ -131,14 +133,37 @@ const QuestionsBoard = () => {
     // 게시판 타입 선택 핸들러
     const handleBoardTypeSelect = (boardTypeId: string) => {
         setSelectedBoardType(boardTypeId);
-        setCurrentPage(1);
+        setCurrentPage(1); // 페이지 리셋
+        setAllQuestions([]); // 🔥 데이터 초기화
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // 페이지 변경 시 데이터 로드
+    // 검색 핸들러
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        setCurrentPage(1); // 페이지 리셋
+        setAllQuestions([]); // 🔥 데이터 초기화
+    };
+
+    // 페이지 변경 핸들러
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     useEffect(() => {
-        fetchQuestions();
-    }, [selectedBoardType, searchQuery, currentPage]);
+        // 게시판 타입이나 검색어 변경 시 첫 페이지로 리셋
+        setCurrentPage(1);
+        setAllQuestions([]);
+        fetchQuestions(1, true);
+    }, [selectedBoardType, searchQuery]);
+
+    // 페이지 변경만 처리하는 별도 useEffect
+    useEffect(() => {
+        if (currentPage >= 1) {
+            fetchQuestions(currentPage, true);
+        }
+    }, [currentPage]);
 
     // Pull to refresh 핸들러
     const handleTouchStart = (e: React.TouchEvent) => {
@@ -158,7 +183,7 @@ const QuestionsBoard = () => {
     const handleTouchEnd = async () => {
         if (pullDistance > 60) {
             setIsRefreshing(true);
-            await fetchQuestions();
+            await fetchQuestions(currentPage, true);
             setIsRefreshing(false);
         }
         setPullDistance(0);
@@ -166,28 +191,99 @@ const QuestionsBoard = () => {
     };
 
     const handleRegisterPost = () => {
-        history.push(`/question/boards/posts/register?boardType=${selectedBoardType}`);
+        window.location.href = `/question/boards/posts/register?boardType=${selectedBoardType}`;
     }
 
     const handlePostDetail = (postId: number) => {
-        history.push(`/question/boards/posts/${postId}`);
-    };
-
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
-        setCurrentPage(1);
-    };
-
-    const handleLoadMore = () => {
-        setCurrentPage(prev => prev + 1);
+        window.location.href = `/question/boards/posts/${postId}`;
     };
 
     const handGoBack = () => {
-        history.push('/chassis/v2/calculator');
+        window.location.href = '/chassis/v2/calculator';
     }
 
     const totalPages = Math.ceil(allQuestionsCount / limit);
-    const hasMore = currentPage < totalPages;
+
+    // 페이지네이션 렌더링 함수
+    const renderPagination = () => {
+        if (totalPages <= 1) return null;
+
+        const pages = [];
+        const maxVisible = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+
+        if (endPage - startPage + 1 < maxVisible) {
+            startPage = Math.max(1, endPage - maxVisible + 1);
+        }
+
+        // 이전 페이지
+        pages.push(
+            <button
+                key="prev"
+                className={`pagination-btn ${currentPage === 1 ? 'disabled' : ''}`}
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+            >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+            </button>
+        );
+
+        // 첫 페이지
+        if (startPage > 1) {
+            pages.push(
+                <button key={1} className="pagination-btn" onClick={() => handlePageChange(1)}>
+                    1
+                </button>
+            );
+            if (startPage > 2) {
+                pages.push(<span key="start-ellipsis" className="pagination-ellipsis">...</span>);
+            }
+        }
+
+        // 페이지 번호들
+        for (let i = startPage; i <= endPage; i++) {
+            pages.push(
+                <button
+                    key={i}
+                    className={`pagination-btn ${i === currentPage ? 'active' : ''}`}
+                    onClick={() => handlePageChange(i)}
+                >
+                    {i}
+                </button>
+            );
+        }
+
+        // 마지막 페이지
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                pages.push(<span key="end-ellipsis" className="pagination-ellipsis">...</span>);
+            }
+            pages.push(
+                <button key={totalPages} className="pagination-btn" onClick={() => handlePageChange(totalPages)}>
+                    {totalPages}
+                </button>
+            );
+        }
+
+        // 다음 페이지
+        pages.push(
+            <button
+                key="next"
+                className={`pagination-btn ${currentPage === totalPages ? 'disabled' : ''}`}
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+            >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+            </button>
+        );
+
+        return pages;
+    };
 
     return (
         <div className="questions-container"
@@ -277,7 +373,7 @@ const QuestionsBoard = () => {
 
             {/* Questions List */}
             <main className="questions-list-section">
-                {isLoading && currentPage === 1 && (
+                {isLoading && (
                     <div className="loading-indicator">
                         <div className="loading-spinner"></div>
                         <span>로딩 중...</span>
@@ -288,17 +384,12 @@ const QuestionsBoard = () => {
                     {allQuestions.map((question) => (
                         <div
                             key={question.id}
-                            className={`question-item`}
+                            className="question-item"
                             onClick={() => handlePostDetail(question.id)}
                         >
                             <div className="question-main">
                                 <div className="question-header">
-                                <h3 className="question-title">{question.title}</h3>
-                                    <div className="question-badges">
-                                        {/*{question.imageCount && question.imageCount > 0 && (*/}
-                                        {/*    <span className="image-badge">[{question.imageCount}]</span>*/}
-                                        {/*)}*/}
-                                    </div>
+                                    <h3 className="question-title">{question.title}</h3>
                                     <div className="question-meta">
                                         <span className="question-author">{question.author}</span>
                                         <span className="question-time">{formatTimeAgo(question.createdAt)}</span>
@@ -306,17 +397,16 @@ const QuestionsBoard = () => {
                                         <span className="question-stats">추천 {question.answersCount}</span>
                                     </div>
                                 </div>
-                                <hr style={{ borderTop: '3px darkGrey' }} />
                             </div>
-                            {/*{question.imageCount && question.imageCount > 0 && (*/}
-                            {/*    <div className="question-thumbnail">*/}
-                            {/*        <div className="thumbnail-placeholder">*/}
-                            {/*            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">*/}
-                            {/*                <path d="M21 19V5C21 3.9 20.1 3 19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19ZM8.5 13.5L11 16.51L14.5 12L19 18H5L8.5 13.5Z" fill="currentColor"/>*/}
-                            {/*            </svg>*/}
-                            {/*        </div>*/}
-                            {/*    </div>*/}
-                            {/*)}*/}
+                            {question.imageCount && question.imageCount > 0 && (
+                                <div className="question-thumbnail">
+                                    <div className="thumbnail-placeholder">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M21 19V5C21 3.9 20.1 3 19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19ZM8.5 13.5L11 16.51L14.5 12L19 18H5L8.5 13.5Z" fill="currentColor"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>
@@ -347,23 +437,12 @@ const QuestionsBoard = () => {
                     </div>
                 )}
 
-                {/* Load More Button */}
-                {hasMore && allQuestions.length > 0 && (
-                    <div className="load-more-container">
-                        <button
-                            className="load-more-btn"
-                            onClick={handleLoadMore}
-                            disabled={isLoading}
-                        >
-                            {isLoading ? (
-                                <>
-                                    <div className="loading-spinner-small"></div>
-                                    로딩 중...
-                                </>
-                            ) : (
-                                '더보기'
-                            )}
-                        </button>
+                {/* Pagination */}
+                {totalPages > 1 && !isLoading && (
+                    <div className="pagination-container">
+                        <div className="pagination">
+                            {renderPagination()}
+                        </div>
                     </div>
                 )}
             </main>
