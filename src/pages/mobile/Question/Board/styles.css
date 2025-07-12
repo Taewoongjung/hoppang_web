@@ -637,7 +637,6 @@
 .empty-action-btn:focus,
 .load-more-btn:focus,
 .back-btn:focus {
-    outline: 2px solid #6366f1;
     outline-offset: -2px;
 }
 

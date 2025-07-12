@@ -285,7 +285,6 @@
 
 /* 접근성 지원 */
 .modal-button:focus {
-    outline: 2px solid #6366f1;
     outline-offset: -2px;
 }
 

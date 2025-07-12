@@ -995,7 +995,6 @@
 .submit-reply-btn:focus,
 .submit-child-reply-btn:focus,
 .cancel-child-reply-btn:focus {
-    outline: 2px solid #6366f1;
     outline-offset: -2px;
 }
 

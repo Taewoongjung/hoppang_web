@@ -317,69 +317,9 @@
     }
 }
 
-/* 다크 모드 대응 */
-@media (prefers-color-scheme: dark) {
-    .page-footer {
-        background: rgba(15, 23, 42, 0.95);
-        border-top-color: #334155;
-    }
-
-    .footer-logo-text {
-        color: #6366f1;
-    }
-
-    .footer-tagline {
-        color: #64748b;
-    }
-
-    .footer-link {
-        color: #64748b;
-    }
-
-    .footer-link:hover {
-        color: #6366f1;
-    }
-
-    .footer-bottom {
-        border-top-color: #334155;
-    }
-
-    .footer-separator {
-        color: #475569;
-    }
-
-    .footer-copyright {
-        color: #64748b;
-    }
-
-    .footer-meta {
-        color: #64748b;
-    }
-
-    .bottom-nav {
-        background: rgba(15, 23, 42, 0.95);
-        border-top-color: #334155;
-    }
-
-    .nav-item {
-        color: #64748b;
-    }
-
-    .nav-item:hover {
-        background: rgba(99, 102, 241, 0.15);
-        color: #6366f1;
-    }
-
-    .nav-item.active {
-        color: #6366f1;
-        background: rgba(99, 102, 241, 0.15);
-    }
-}
-
 /* 접근성 개선 */
 .footer-link:focus,
 .nav-item:focus {
-    outline: 2px solid #6366f1;
     outline-offset: -2px;
 }
 

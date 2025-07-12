@@ -1,8 +1,8 @@
-/* Modern Counsel Page Styles */
+/* Modern Counsel Page Styles - Tone on Tone */
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #f8f9fa;
-    color: #333;
+    background-color: #f8fafc;
+    color: #334155;
     line-height: 1.6;
     margin: 0;
     padding: 0;
@@ -11,7 +11,7 @@ body {
 .counsel-container {
     max-width: 430px;
     margin: 0 auto;
-    background: #f8f9fa;
+    background: #f8fafc;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
@@ -21,11 +21,12 @@ body {
 .counsel-header {
     background: white;
     padding: 16px 20px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #e2e8f0;
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    backdrop-filter: blur(10px);
 }
 
 .header-content {
@@ -49,10 +50,7 @@ body {
 .logo-text {
     font-size: 1.5rem;
     font-weight: 700;
-    background: linear-gradient(to right, #fcb080, #f59e56);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #6366f1;
 }
 
 /* Main Content */
@@ -62,23 +60,12 @@ body {
 
 /* Hero Section */
 .hero-section {
-    background: linear-gradient(135deg, #ffeb9c 10%, #f7e0bc 60%, #fff4e5 100%);
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
     padding: 40px 20px;
-    color: #5c4a3b;
+    color: #1e293b;
     position: relative;
     overflow: hidden;
-    animation: slideInUp 0.8s ease-out;
-}
-
-.hero-section::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -30%;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
-    border-radius: 50%;
+    border: 1px solid #e0f2fe;
 }
 
 .hero-content {
@@ -93,12 +80,12 @@ body {
 .hero-icon {
     width: 64px;
     height: 64px;
-    background: rgba(255, 255, 255, 0.9);
+    background: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 8px 32px rgba(245, 158, 86, 0.3);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     flex-shrink: 0;
 }
 
@@ -117,21 +104,22 @@ body {
     font-weight: 700;
     margin: 0 0 8px 0;
     line-height: 1.3;
+    color: #1e293b;
 }
 
 .hero-subtitle {
     font-size: 15px;
-    opacity: 0.9;
     margin: 0;
     line-height: 1.4;
+    color: #64748b;
 }
 
 .operating-hours {
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
     padding: 20px;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     position: relative;
     z-index: 2;
 }
@@ -150,18 +138,18 @@ body {
 .hours-main {
     font-size: 16px;
     font-weight: 600;
-    color: #1f2937;
+    color: #1e293b;
     margin-bottom: 2px;
 }
 
 .hours-sub {
     font-size: 14px;
-    color: #6b7280;
+    color: #64748b;
 }
 
 .hours-notice {
     font-size: 13px;
-    color: #6b7280;
+    color: #64748b;
     margin: 0;
     line-height: 1.5;
 }
@@ -174,7 +162,7 @@ body {
 .section-title {
     font-size: 18px;
     font-weight: 700;
-    color: #1f2937;
+    color: #1e293b;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -187,7 +175,7 @@ body {
 
 /* Contact Section */
 .contact-section {
-    animation: slideInUp 0.8s ease-out 0.1s both;
+    margin-bottom: 24px;
 }
 
 .contact-methods {
@@ -199,43 +187,32 @@ body {
 
 .contact-card {
     background: white;
-    border-radius: 20px;
+    border-radius: 16px;
     padding: 24px;
     display: flex;
     align-items: center;
     gap: 20px;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    border: 1px solid #f1f5f9;
     position: relative;
     overflow: hidden;
 }
 
-.contact-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(252, 176, 128, 0.1), transparent);
-    transition: left 0.6s ease;
-}
-
-.contact-card:hover::before {
-    left: 100%;
+.contact-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    border-color: #e2e8f0;
 }
 
 .contact-card.primary {
-    background: linear-gradient(135deg, #fff9e6 0%, #fef3c7 100%);
-    border-color: rgba(245, 158, 86, 0.2);
+    background: #fef3c7;
+    border-color: #fed7aa;
 }
 
 .contact-icon {
     width: 64px;
     height: 64px;
-    border-radius: 16px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -245,13 +222,11 @@ body {
 }
 
 .contact-icon.kakao {
-    background: linear-gradient(135deg, #fee500, #ffeb3b);
-    box-shadow: 0 4px 16px rgba(254, 229, 0, 0.3);
+    background: #fee500;
 }
 
 .contact-icon.phone {
-    background: linear-gradient(135deg, #4285f4, #1976d2);
-    box-shadow: 0 4px 16px rgba(66, 133, 244, 0.3);
+    background: #6366f1;
 }
 
 .icon-img {
@@ -269,40 +244,40 @@ body {
 .contact-title {
     font-size: 17px;
     font-weight: 600;
-    color: #1f2937;
+    color: #1e293b;
     margin: 0 0 6px 0;
 }
 
 .contact-description {
     font-size: 14px;
-    color: #6b7280;
+    color: #64748b;
     margin: 0;
     line-height: 1.4;
 }
 
 .contact-arrow {
     font-size: 18px;
-    color: #9ca3af;
-    transition: all 0.3s ease;
+    color: #94a3b8;
+    transition: all 0.2s ease;
     position: relative;
     z-index: 2;
 }
 
 .contact-card:hover .contact-arrow {
-    color: #6b7280;
+    color: #6366f1;
     transform: translateX(4px);
 }
 
 /* FAQ Section */
 .faq-section {
-    animation: slideInUp 0.8s ease-out 0.2s both;
+    margin-bottom: 24px;
 }
 
 .faq-container {
     background: white;
-    border-radius: 20px;
+    border-radius: 16px;
     margin: 0 20px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border: 1px solid #f1f5f9;
     overflow: hidden;
 }
 
@@ -350,24 +325,23 @@ body {
     text-align: center;
     font-size: 15px;
     font-weight: 600;
-    color: #6b7280;
+    color: #64748b;
     background: none;
     border: none;
     border-bottom: 2px solid transparent;
-    cursor: pointer;
     white-space: nowrap;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     position: relative;
 }
 
 .tab-button:hover {
-    color: #374151;
+    color: #1e293b;
     background: #f8fafc;
 }
 
 .tab-button.active {
-    color: #f59e56;
-    border-bottom-color: #f59e56;
+    color: #6366f1;
+    border-bottom-color: #6366f1;
     background: white;
 }
 
@@ -378,7 +352,7 @@ body {
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, #fcb080, #f59e56);
+    background: #6366f1;
 }
 
 .faq-content {
@@ -387,7 +361,7 @@ body {
 
 .faq-item {
     border-bottom: 1px solid #f1f5f9;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .faq-item:last-child {
@@ -395,10 +369,10 @@ body {
 }
 
 .faq-item:hover {
-    background: #fafbfc;
+    background: #f8fafc;
     margin: 0 -24px;
     padding: 0 24px;
-    border-radius: 12px;
+    border-radius: 8px;
 }
 
 .faq-question {
@@ -407,34 +381,33 @@ body {
     background: none;
     border: none;
     text-align: left;
-    cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 16px;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .faq-question:hover {
-    color: #f59e56;
+    color: #6366f1;
 }
 
 .question-text {
     font-size: 15px;
     font-weight: 500;
-    color: #1f2937;
+    color: #1e293b;
     line-height: 1.5;
     flex: 1;
-    transition: color 0.3s ease;
+    transition: color 0.2s ease;
 }
 
 .faq-question:hover .question-text {
-    color: #f59e56;
+    color: #6366f1;
 }
 
 .question-arrow {
-    color: #9ca3af;
-    transition: all 0.3s ease;
+    color: #94a3b8;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -446,43 +419,32 @@ body {
 
 .faq-question.expanded .question-arrow {
     transform: rotate(180deg);
-    background: linear-gradient(135deg, #fcb080, #f59e56);
+    background: #6366f1;
     color: white;
 }
 
 .faq-question:hover .question-arrow {
-    background: linear-gradient(135deg, #fcb080, #f59e56);
+    background: #6366f1;
     color: white;
 }
 
 .faq-answer {
     padding: 0 0 24px 0;
-    animation: slideDown 0.4s ease-out;
+    animation: slideDown 0.3s ease-out;
 }
 
 .faq-answer p {
     font-size: 14px;
-    color: #6b7280;
+    color: #64748b;
     line-height: 1.6;
     margin: 0;
     padding: 16px 20px;
     background: #f8fafc;
-    border-radius: 12px;
-    border-left: 4px solid #fcb080;
+    border-radius: 8px;
+    border-left: 4px solid #6366f1;
 }
 
 /* Animations */
-@keyframes slideInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 @keyframes slideDown {
     from {
         opacity: 0;
@@ -493,24 +455,6 @@ body {
         opacity: 1;
         max-height: 200px;
         transform: translateY(0);
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-6px);
     }
 }
 
@@ -627,7 +571,6 @@ body {
 .contact-card:focus,
 .tab-button:focus,
 .faq-question:focus {
-    outline: 2px solid #fcb080;
     outline-offset: -2px;
 }
 
@@ -652,14 +595,6 @@ body {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
-    }
-
-    .hero-section::before {
-        animation: none;
-    }
-
-    .contact-card::before {
-        transition: none;
     }
 }
 
@@ -686,8 +621,8 @@ body {
     right: 24px;
     width: 16px;
     height: 16px;
-    border: 2px solid #e5e7eb;
-    border-top: 2px solid #fcb080;
+    border: 2px solid #e2e8f0;
+    border-top: 2px solid #6366f1;
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -697,7 +632,7 @@ body {
     100% { transform: rotate(360deg); }
 }
 
-/* Enhanced hover effects for better UX */
+/* Enhanced hover effects */
 .contact-icon {
     position: relative;
 }
@@ -712,7 +647,7 @@ body {
     background: linear-gradient(45deg, rgba(255,255,255,0.2), transparent);
     border-radius: inherit;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.2s ease;
 }
 
 .contact-card:hover .contact-icon::after {
@@ -732,8 +667,8 @@ body {
     left: 50%;
     width: 0;
     height: 2px;
-    background: linear-gradient(90deg, #fcb080, #f59e56);
-    transition: all 0.3s ease;
+    background: #6366f1;
+    transition: all 0.2s ease;
     transform: translateX(-50%);
 }
 

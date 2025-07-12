@@ -561,7 +561,6 @@ body {
 .login-card:focus,
 .quick-action-card:focus,
 .settings-btn:focus {
-    outline: 2px solid #6366f1;
     outline-offset: -2px;
 }
 

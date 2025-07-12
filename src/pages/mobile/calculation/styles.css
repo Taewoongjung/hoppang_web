@@ -858,6 +858,5 @@ input:checked + .slider:before {
 .add-button:focus,
 .button-primary:focus,
 .address-input-wrapper:focus {
-    outline: 2px solid #6366f1;
     outline-offset: -2px;
 }

@@ -703,7 +703,6 @@ body {
 .button-secondary:focus,
 .button-new-estimate:focus,
 .company-option:focus {
-    outline: 2px solid #6366f1;
     outline-offset: -2px;
 }
 
