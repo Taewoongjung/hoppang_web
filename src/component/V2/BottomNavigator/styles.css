@@ -7,24 +7,21 @@
     --safe-area-inset-left: env(safe-area-inset-left, 0px);
 }
 
-/* 기존 styles.css에 추가할 Footer 스타일 */
-
 /* Main Content 패딩 조정 - Safe Area 고려 */
 .main-content {
     /* BottomNav 높이 + Safe Area를 고려한 패딩 */
     padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px));
 }
 
-/* Page Footer - 미니멀 디자인 */
+/* Page Footer - 톤온톤 디자인 */
 .page-footer {
-    background: rgba(249, 250, 251, 0.95);
-    color: #6b7280;
+    background: rgba(248, 250, 252, 0.95);
+    color: #64748b;
     padding: 32px 20px 24px;
     position: relative;
     z-index: 50;
-    border-top: 1px solid #e5e7eb;
+    border-top: 1px solid #e2e8f0;
     backdrop-filter: blur(10px);
-    /* 애니메이션 추가 */
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 0;
     transform: translateY(20px);
@@ -53,7 +50,7 @@
     text-align: center;
 }
 
-/* Footer Logo Section - 더 컴팩트하게 */
+/* Footer Logo Section */
 .footer-logo-section {
     text-align: center;
 }
@@ -76,21 +73,18 @@
 .footer-logo-text {
     font-size: 18px;
     font-weight: 700;
-    background: linear-gradient(135deg, #fcb080, #f59e56);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #6366f1;
 }
 
 .footer-tagline {
     font-size: 13px;
-    color: #9ca3af;
+    color: #94a3b8;
     margin: 0;
     font-weight: 400;
     opacity: 0.8;
 }
 
-/* Footer Links - 담백한 스타일 */
+/* Footer Links */
 .footer-links {
     display: flex;
     justify-content: center;
@@ -102,7 +96,7 @@
 .footer-link {
     background: none;
     border: none;
-    color: #9ca3af;
+    color: #94a3b8;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
@@ -112,16 +106,16 @@
 }
 
 .footer-link:hover {
-    color: #fcb080;
+    color: #6366f1;
 }
 
 .footer-link:focus {
     outline: none;
-    color: #fcb080;
+    color: #6366f1;
 }
 
 .footer-separator {
-    color: #4b5563;
+    color: #cbd5e1;
     font-size: 12px;
     user-select: none;
 }
@@ -130,7 +124,7 @@
 .footer-bottom {
     text-align: center;
     padding-top: 24px;
-    border-top: 1px solid #374151;
+    border-top: 1px solid #e2e8f0;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -138,7 +132,7 @@
 
 .footer-copyright {
     font-size: 12px;
-    color: #6b7280;
+    color: #64748b;
     margin: 0;
     font-weight: 500;
 }
@@ -149,11 +143,7 @@
     align-items: center;
     gap: 8px;
     font-size: 11px;
-    color: #9ca3af;
-}
-
-.footer-separator {
-    color: #4b5563;
+    color: #94a3b8;
 }
 
 .footer-meta span:not(.footer-separator) {
@@ -162,10 +152,10 @@
 }
 
 .footer-meta span:not(.footer-separator):hover {
-    color: #fcb080;
+    color: #6366f1;
 }
 
-/* BottomNavigator 애니메이션 스타일 + Safe Area 대응 */
+/* BottomNavigator - 톤온톤 디자인 */
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -174,11 +164,12 @@
     width: 100%;
     max-width: 430px;
     background: white;
-    border-top: 1px solid #eee;
+    border-top: 1px solid #e2e8f0;
     display: flex;
     z-index: 100;
+    backdrop-filter: blur(10px);
 
-    /* Safe Area 대응 - 핵심 추가! */
+    /* Safe Area 대응 */
     padding: 8px 0 max(8px, env(safe-area-inset-bottom));
 
     /* 구형 브라우저 대응 */
@@ -214,24 +205,24 @@
     border: none;
     cursor: pointer;
     transition: all 0.2s ease;
-    color: #9ca3af;
+    color: #94a3b8;
     border-radius: 8px;
     margin: 0 2px;
 }
 
 .nav-item:hover {
-    background: rgba(252, 176, 128, 0.1);
-    color: #fcb080;
+    background: rgba(99, 102, 241, 0.1);
+    color: #6366f1;
     transform: translateY(-1px);
 }
 
 .nav-item.active {
-    color: #fcb080;
-    background: rgba(252, 176, 128, 0.1);
+    color: #6366f1;
+    background: rgba(99, 102, 241, 0.1);
 }
 
 .nav-item.active:hover {
-    background: rgba(252, 176, 128, 0.15);
+    background: rgba(99, 102, 241, 0.15);
 }
 
 .nav-icon {
@@ -258,7 +249,7 @@
     font-weight: 600;
 }
 
-/* 스크롤 애니메이션 개선 */
+/* 스크롤 애니메이션 */
 @keyframes slideInUp {
     from {
         opacity: 0;
@@ -292,16 +283,16 @@
     }
 
     .footer-logo-img {
-        width: 36px;
-        height: 36px;
+        width: 24px;
+        height: 24px;
     }
 
     .footer-logo-text {
-        font-size: 20px;
+        font-size: 16px;
     }
 
     .footer-tagline {
-        font-size: 13px;
+        font-size: 12px;
     }
 
     .footer-links {
@@ -309,55 +300,90 @@
     }
 
     .footer-link {
-        padding: 16px 12px;
-    }
-
-    .footer-link-icon {
-        font-size: 20px;
-    }
-
-    .footer-link span:last-child {
+        padding: 6px 0;
         font-size: 13px;
     }
 
     .main-content {
         padding-bottom: 100px;
     }
+
+    .nav-icon {
+        font-size: 18px;
+    }
+
+    .nav-label {
+        font-size: 10px;
+    }
 }
 
-/* 다크 모드에서 Footer 스타일 조정 */
+/* 다크 모드 대응 */
 @media (prefers-color-scheme: dark) {
     .page-footer {
-        background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
-        border-top-color: #1e293b;
+        background: rgba(15, 23, 42, 0.95);
+        border-top-color: #334155;
+    }
+
+    .footer-logo-text {
+        color: #6366f1;
+    }
+
+    .footer-tagline {
+        color: #64748b;
     }
 
     .footer-link {
-        background: rgba(30, 41, 59, 0.7);
-        border-color: #334155;
+        color: #64748b;
     }
 
     .footer-link:hover {
-        background: rgba(252, 176, 128, 0.15);
-        border-color: #fcb080;
+        color: #6366f1;
     }
 
     .footer-bottom {
-        border-top-color: #1e293b;
+        border-top-color: #334155;
     }
 
     .footer-separator {
-        color: #334155;
+        color: #475569;
+    }
+
+    .footer-copyright {
+        color: #64748b;
+    }
+
+    .footer-meta {
+        color: #64748b;
+    }
+
+    .bottom-nav {
+        background: rgba(15, 23, 42, 0.95);
+        border-top-color: #334155;
+    }
+
+    .nav-item {
+        color: #64748b;
+    }
+
+    .nav-item:hover {
+        background: rgba(99, 102, 241, 0.15);
+        color: #6366f1;
+    }
+
+    .nav-item.active {
+        color: #6366f1;
+        background: rgba(99, 102, 241, 0.15);
     }
 }
 
 /* 접근성 개선 */
-.footer-link:focus {
-    outline: 2px solid #fcb080;
+.footer-link:focus,
+.nav-item:focus {
+    outline: 2px solid #6366f1;
     outline-offset: 2px;
 }
 
-/* 푸터 호버 효과 강화 */
+/* 푸터 호버 효과 */
 .footer-link:hover .footer-link-icon {
     transform: scale(1.1);
     transition: transform 0.2s ease;
@@ -369,15 +395,62 @@
     contain: layout;
 }
 
+.bottom-nav {
+    will-change: transform;
+    contain: layout;
+}
+
 /* 터치 디바이스 최적화 */
 @media (hover: none) and (pointer: coarse) {
     .footer-link:hover {
         transform: none;
-        background: rgba(252, 176, 128, 0.1);
+        background: rgba(99, 102, 241, 0.1);
     }
 
     .footer-link:active {
         transform: scale(0.95);
         transition: transform 0.1s ease;
+    }
+
+    .nav-item:hover {
+        transform: none;
+    }
+
+    .nav-item:active {
+        transform: scale(0.95);
+        transition: transform 0.1s ease;
+    }
+}
+
+/* 추가 개선사항 */
+.bottom-nav {
+    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.nav-item {
+    position: relative;
+}
+
+.nav-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: #6366f1;
+    transition: all 0.2s ease;
+    transform: translateX(-50%);
+    border-radius: 0 0 2px 2px;
+}
+
+.nav-item.active::before {
+    width: 24px;
+}
+
+/* 사파리 safe area 추가 지원 */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+    .bottom-nav {
+        padding-bottom: max(8px, env(safe-area-inset-bottom));
     }
 }

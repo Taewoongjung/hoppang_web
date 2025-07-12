@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 
 import './styles.css';
 import '../../versatile-styles.css';
 import axios from 'axios';
-import {callBoards, callBoardsPosts} from "../../../../definition/apiPath";
-import {useHistory} from "react-router-dom";
-import { truncateContent } from 'src/util';
+import {callBoards, callBoardsPosts, callMeData} from "../../../../definition/apiPath";
+import BottomNavigator from "../../../../component/V2/BottomNavigator";
+import useSWR from "swr";
+import fetcher from "../../../../util/fetcher";
 
 interface Question {
     id: number;
@@ -37,7 +38,10 @@ interface BoardType {
 }
 
 const QuestionsBoard = () => {
-    const history = useHistory();
+
+    const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
+        dedupingInterval: 2000
+    });
 
     useEffect(() => {
         fetchCategory();
@@ -65,6 +69,89 @@ const QuestionsBoard = () => {
         { id: 'tips', name: '꿀팁', color: '#f59e0b' },
         { id: 'event', name: '이벤트', color: '#8b5cf6' }
     ];
+
+    const [isBottomNavVisible, setIsBottomNavVisible] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
+
+    // 디바운싱을 위한 타이머 ref
+    const scrollTimer = useRef<NodeJS.Timeout | null>(null);
+    const ticking = useRef(false);
+
+    // 개선된 스크롤 이벤트 핸들러
+    const handleScroll = useCallback(() => {
+        if (!ticking.current) {
+            requestAnimationFrame(() => {
+                const currentScrollY = window.scrollY;
+                const documentHeight = document.documentElement.scrollHeight;
+                const windowHeight = window.innerHeight;
+                const scrollableHeight = documentHeight - windowHeight;
+                const scrollPercent = scrollableHeight > 0 ? (currentScrollY / scrollableHeight) * 100 : 0;
+
+                // 스크롤 임계값 설정
+                const scrollThreshold = 150; // 150px 이상 스크롤하면 숨김
+                const showThreshold = 50; // 50px 이상 위로 스크롤하면 다시 표시
+                const footerThreshold = 70; // 스크롤 70% 지점에서 Footer 표시
+                const bottomThreshold = 95; // 95% 이상에서는 무조건 Footer 표시
+
+                // 스크롤 방향 및 속도 감지
+                const scrollDirection = currentScrollY > lastScrollY ? 'down' : 'up';
+                const scrollDelta = Math.abs(currentScrollY - lastScrollY);
+
+                // Footer 표시 로직
+                if (scrollPercent >= bottomThreshold ||
+                    (scrollPercent >= footerThreshold && currentScrollY > scrollableHeight - 200)) {
+                    setIsBottomNavVisible(false);
+                }
+                // 페이지 상단 근처에서는 Footer 숨김, BottomNav 표시
+                else if (currentScrollY < 100) {
+                    setIsBottomNavVisible(true);
+                }
+                // 중간 영역에서의 BottomNav 표시/숨김 로직
+                else {
+                    // 아래로 빠르게 스크롤할 때
+                    if (scrollDirection === 'down' &&
+                        currentScrollY > scrollThreshold &&
+                        scrollDelta > 5) {
+                        setIsBottomNavVisible(false);
+                    }
+                    // 위로 스크롤할 때
+                    else if (scrollDirection === 'up' && scrollDelta > showThreshold) {
+                        setIsBottomNavVisible(true);
+                    }
+                }
+
+                setLastScrollY(currentScrollY);
+                ticking.current = false;
+            });
+            ticking.current = true;
+        }
+    }, [lastScrollY]);
+
+    // 디바운스된 스크롤 이벤트 등록
+    useEffect(() => {
+        const debouncedHandleScroll = () => {
+            if (scrollTimer.current) {
+                clearTimeout(scrollTimer.current);
+            }
+
+            scrollTimer.current = setTimeout(handleScroll, 10);
+        };
+
+        window.addEventListener('scroll', debouncedHandleScroll, {
+            passive: true,
+            capture: false
+        });
+
+        // 초기 상태 설정
+        handleScroll();
+
+        return () => {
+            window.removeEventListener('scroll', debouncedHandleScroll);
+            if (scrollTimer.current) {
+                clearTimeout(scrollTimer.current);
+            }
+        };
+    }, [handleScroll]);
 
     // 시간 포맷팅 함수
     const formatTimeAgo = (dateString: string) => {
@@ -459,6 +546,12 @@ const QuestionsBoard = () => {
                     <path d="M12 4V20M4 12H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
             </button>
+
+            {/* Bottom Navigation - 조건부 렌더링 */}
+            <BottomNavigator
+                userData={userData}
+                isVisible={isBottomNavVisible}
+            />
         </div>
     );
 };

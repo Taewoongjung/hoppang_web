@@ -42,7 +42,7 @@ const BottomNavigator: React.FC<BottomNavigatorProps> = ({ userData, isVisible =
                     onClick={() => history.push("/v2/login")}
                 >
                     <span className="nav-icon">👤</span>
-                    <span className="nav-label">로그인</span>
+                    <span className="nav-label">마이</span>
                 </button>
             }
         </nav>
