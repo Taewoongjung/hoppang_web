@@ -10,7 +10,7 @@ import '../../versatile-styles.css';
 import {formatTimeAgo} from "../../../../util";
 
 
-interface QuestionDetail {
+interface PostDetail {
     id: number;
     boardName: string;
     registerName: string;
@@ -44,7 +44,7 @@ interface Reply {
     revised: boolean;
     createdAt: string;
     postsChildReplyList: ChildReply[];
-    // UI state properties
+
     likes: number;
     isLiked: boolean;
     isPostOwner: boolean;
@@ -55,7 +55,7 @@ interface Reply {
 const PostDetail = () => {
     const { postId } = useParams<{ postId: string }>();
 
-    const [question, setQuestion] = useState<QuestionDetail | null>(null);
+    const [post, setPost] = useState<PostDetail | null>(null);
     const [replies, setReplies] = useState<Reply[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string>('');
@@ -92,10 +92,10 @@ const PostDetail = () => {
                             revised: reply.revised,
                             createdAt: reply.createdAt,
                             postsChildReplyList: reply.postsChildReplyList || [],
-                            // UI state mapping
+
                             authorName: reply.registerName,
                             authorId: reply.registerId.toString(),
-                            isPostOwner: reply.registerId.toString() === question?.registerId,
+                            isPostOwner: reply.registerId.toString() === post?.registerId,
                             likes: 0, // 백엔드 응답에 없으므로 기본값
                             isLiked: false // 마찬가지로 기본값 설정
                         }));
@@ -128,14 +128,14 @@ const PostDetail = () => {
 
     // 포스팅 연관 댓글 조회
     useEffect(() => {
-        if (!userData || !question) return;
+        if (!userData || !post) return;
 
         let currentUserId = userData.id;
         let queryParam = currentUserId ? `?loggedInUserId=${currentUserId}` : ``;
 
         fetchReplies(queryParam);
 
-    }, [userData, postId, question]);
+    }, [userData, postId, post]);
 
     // 포스팅 상세 조회
     useEffect(() => {
@@ -145,7 +145,7 @@ const PostDetail = () => {
                 withCredentials: true,
             }
         ).then((res) => {
-            setQuestion(res.data);
+            setPost(res.data);
             setLoading(false);
         }).catch((err) => {
             setError(err);
@@ -316,7 +316,7 @@ const PostDetail = () => {
         );
     }
 
-    if (error || !question) {
+    if (error || !post) {
         return (
             <div className="question-detail-container">
                 <div className="error-container">
@@ -362,22 +362,22 @@ const PostDetail = () => {
                         <div className="question-header">
                             <div className="question-meta">
                                 <span className="category-badge">
-                                    {question.boardName}
+                                    {post.boardName}
                                 </span>
                                 <span className="question-time">
-                                    {formatTimeAgo(question.createdAt)}
+                                    {formatTimeAgo(post.createdAt)}
                                 </span>
                             </div>
                         </div>
 
                         <h1 className="question-title">
-                            {question.title.split('\n').map((line, index) => (
+                            {post.title.split('\n').map((line, index) => (
                                 <p key={index} style={{ wordBreak: 'break-word' }}>{line}</p>
                             ))}
                         </h1>
 
                         <div className="question-content">
-                            {question.contents.split('\n').map((line, index) => (
+                            {post.contents.split('\n').map((line, index) => (
                                 <p key={index} style={{ wordBreak: 'break-word' }}>{line}</p>
                             ))}
                         </div>
@@ -391,7 +391,7 @@ const PostDetail = () => {
                                 </div>
                                 <div className="author-info">
                                     <span className="author-name">
-                                        {question.isAnonymous === 'T' ? '익명' : question.registerName}
+                                        {post.isAnonymous === 'T' ? '익명' : post.registerName}
                                     </span>
                                     <span className="author-role">작성자</span>
                                 </div>
@@ -436,7 +436,7 @@ const PostDetail = () => {
                                     <div className="reply-header">
                                         <div className="reply-author">
                                             <div className="reply-avatar">
-                                                {reply.authorId === question.registerId ? (
+                                                {reply.authorId === post.registerId ? (
                                                     <div className="owner-badge">
                                                         <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
                                                             <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a4 4 0 0 1 8 0v2H6v-2Z" stroke="currentColor" strokeWidth="1.5"/>
@@ -451,7 +451,7 @@ const PostDetail = () => {
                                             <div className="author-info">
                                                 <span className="author-name">{reply.authorName}</span>
                                                 <span className="author-role">
-                                                    {reply.authorId === question.registerId ? '작성자' : '일반사용자'}
+                                                    {reply.authorId === post.registerId ? '작성자' : '일반사용자'}
                                                 </span>
                                             </div>
                                         </div>
@@ -577,7 +577,7 @@ const PostDetail = () => {
                                                     <div className="child-reply-header">
                                                         <div className="child-reply-author">
                                                             <div className="child-reply-avatar">
-                                                                {childReply.registerId.toString() === question.registerId ? (
+                                                                {childReply.registerId.toString() === post.registerId ? (
                                                                     <div className="owner-badge-small">
                                                                         <svg width="12" height="12" viewBox="0 0 20 20" fill="none">
                                                                             <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a4 4 0 0 1 8 0v2H6v-2Z" stroke="currentColor" strokeWidth="1.5"/>
@@ -590,7 +590,7 @@ const PostDetail = () => {
                                                                 )}
                                                             </div>
                                                             <span className="child-reply-author-name">{childReply.registerName}</span>
-                                                            {childReply.registerId.toString() === question.registerId && (
+                                                            {childReply.registerId.toString() === post.registerId && (
                                                                 <span className="author-badge-small">작성자</span>
                                                             )}
                                                         </div>
