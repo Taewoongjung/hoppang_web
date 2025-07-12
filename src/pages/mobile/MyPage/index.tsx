@@ -80,20 +80,34 @@ const MyPage = () => {
         }
     ];
 
-    const quickActions = [
+    // 🔥 사용자 니즈 기반 빠른 서비스 재구성
+    const quickServices = [
         {
-            icon: '🏠',
-            title: '새 견적',
-            description: '샷시 견적받기',
+            icon: '🪟',
+            title: '견적 받기',
+            subtitle: '무료 · 즉시',
             onClick: () => window.location.href = '/calculator/agreement',
-            gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+            isPrimary: true
+        },
+        {
+            icon: '📋',
+            title: '내 견적',
+            subtitle: userData ? '이력 확인' : '로그인 필요',
+            onClick: userData ? goToEstimationHistory : () => window.location.href = '/login',
+            isDisabled: !userData
         },
         {
             icon: '💬',
-            title: '문의하기',
-            description: '카카오톡 상담',
+            title: '질문하기',
+            subtitle: '커뮤니티',
+            onClick: () => history.push('/question/boards')
+        },
+        {
+            icon: '📞',
+            title: '상담하기',
+            subtitle: '카톡 · 5분',
             onClick: () => window.open("https://pf.kakao.com/_dbxezn", "_blank"),
-            gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'
+            hasNotification: true
         }
     ];
 
@@ -156,29 +170,31 @@ const MyPage = () => {
                         </section>
                     )}
 
-                    {/* Quick Actions for logged in users */}
-                    {userData && (
-                        <section className="quick-actions-section">
-                            <h3 className="section-title">
-                                <span className="title-icon">⚡</span>
-                                빠른 서비스
-                            </h3>
-                            <div className="quick-actions-grid">
-                                {quickActions.map((action, index) => (
-                                    <div
-                                        key={index}
-                                        className="quick-action-card"
-                                        style={{ background: action.gradient }}
-                                        onClick={action.onClick}
-                                    >
-                                        <div className="action-icon">{action.icon}</div>
-                                        <h4 className="action-title">{action.title}</h4>
-                                        <p className="action-description">{action.description}</p>
+                    {/* 🔥 완전히 새로운 빠른 서비스 섹션 */}
+                    <section className="quick-services-section">
+                        <h3 className="section-title">
+                            <span className="title-icon">⚡</span>
+                            빠른 서비스
+                        </h3>
+                        <div className="quick-services-grid">
+                            {quickServices.map((service, index) => (
+                                <div
+                                    key={index}
+                                    className={`quick-service-item ${service.isPrimary ? 'primary' : ''} ${service.isDisabled ? 'disabled' : ''}`}
+                                    onClick={service.isDisabled ? undefined : service.onClick}
+                                >
+                                    {service.hasNotification && (
+                                        <div className="notification-dot"></div>
+                                    )}
+                                    <div className="service-icon">{service.icon}</div>
+                                    <div className="service-text">
+                                        <div className="service-title">{service.title}</div>
+                                        <div className="service-subtitle">{service.subtitle}</div>
                                     </div>
-                                ))}
-                            </div>
-                        </section>
-                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </section>
 
                     {/* Services Section for logged in users */}
                     {userData && (
@@ -213,34 +229,6 @@ const MyPage = () => {
                             </div>
                         </section>
                     )}
-
-                    {/* Customer Service Section */}
-                    <section className="customer-service-section">
-                        <h3 className="section-title">
-                            <span className="title-icon">🎧</span>
-                            고객센터
-                        </h3>
-                        <div className="menu-list">
-                            <div className="menu-item support-item" onClick={() => window.open("https://pf.kakao.com/_dbxezn", "_blank")}>
-                                <div className="menu-content">
-                                    <div className="menu-icon-wrapper">
-                                        <div className="menu-emoji">💬</div>
-                                        <div className="menu-icon-bg support-bg"></div>
-                                    </div>
-                                    <div className="menu-text">
-                                        <h4>카카오톡 문의하기</h4>
-                                        <p>빠른 상담을 받아보세요</p>
-                                        <div className="response-time">
-                                            <span className="time-badge">평균 답변시간 5분</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="menu-arrow">
-                                    <RightOutlined />
-                                </div>
-                            </div>
-                        </div>
-                    </section>
 
                     {/* App Info Section */}
                     <section className="app-info-section">
