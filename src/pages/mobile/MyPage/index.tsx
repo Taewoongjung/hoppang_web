@@ -80,34 +80,30 @@ const MyPage = () => {
         }
     ];
 
-    // 🔥 사용자 니즈 기반 빠른 서비스 재구성
     const quickServices = [
         {
             icon: '🪟',
             title: '견적 받기',
-            subtitle: '무료 · 즉시',
-            onClick: () => window.location.href = '/calculator/agreement',
-            isPrimary: true
-        },
-        {
-            icon: '📋',
-            title: '내 견적',
-            subtitle: userData ? '이력 확인' : '로그인 필요',
-            onClick: userData ? goToEstimationHistory : () => window.location.href = '/login',
-            isDisabled: !userData
+            subtitle: userData ? '무료 · 즉시' : '로그인 필요',
+            onClick: () => {
+                userData ? window.location.href = '/calculator/agreement' : window.location.href = '/login' },
+            isPrimary: true,
+            isDisabled: false
         },
         {
             icon: '💬',
             title: '질문하기',
             subtitle: '커뮤니티',
-            onClick: () => history.push('/question/boards')
+            onClick: () => history.push('/question/boards'),
+            isDisabled: false
         },
         {
             icon: '📞',
             title: '상담하기',
             subtitle: '카톡 · 5분',
             onClick: () => window.open("https://pf.kakao.com/_dbxezn", "_blank"),
-            hasNotification: true
+            hasNotification: true,
+            isDisabled: false
         }
     ];
 
