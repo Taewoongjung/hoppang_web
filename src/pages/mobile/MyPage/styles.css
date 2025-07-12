@@ -59,7 +59,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     transition: all 0.2s ease;
     color: #64748b;
     font-size: 18px;
@@ -85,7 +84,6 @@ body {
     background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
     border-radius: 16px;
     padding: 24px;
-    cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
     justify-content: space-between;
@@ -227,7 +225,6 @@ body {
     align-items: center;
     padding: 16px 12px;
     border-radius: 12px;
-    cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
     background: #f8fafc;
@@ -336,7 +333,6 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    cursor: pointer;
     transition: all 0.2s ease;
     border: 1px solid #f1f5f9;
     position: relative;

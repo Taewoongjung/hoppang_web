@@ -38,7 +38,6 @@
     justify-content: center;
     transition: all 0.2s ease;
     color: #64748b;
-    cursor: pointer;
 }
 
 .back-btn:hover {
@@ -68,7 +67,6 @@
     justify-content: center;
     transition: all 0.2s ease;
     color: #64748b;
-    cursor: pointer;
 }
 
 .share-btn:hover {
@@ -127,7 +125,6 @@
     border-radius: 8px;
     font-weight: 600;
     transition: all 0.2s ease;
-    cursor: pointer;
 }
 
 .error-container button:hover {
@@ -260,7 +257,6 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    cursor: pointer;
 }
 
 .action-btn:hover {
@@ -324,7 +320,6 @@
     font-size: 12px;
     color: #64748b;
     font-weight: 500;
-    cursor: pointer;
 }
 
 .sort-btn:hover {
@@ -456,7 +451,6 @@
     gap: 6px;
     padding: 6px 12px;
     border-radius: 6px;
-    cursor: pointer;
 }
 
 .like-btn:hover {
@@ -480,7 +474,6 @@
     gap: 6px;
     padding: 6px 12px;
     border-radius: 6px;
-    cursor: pointer;
 }
 
 .reply-btn:hover {
@@ -507,7 +500,6 @@
     border-radius: 6px;
     margin-left: auto;
     font-weight: 500;
-    cursor: pointer;
 }
 
 .child-replies-toggle:hover {
@@ -610,7 +602,6 @@
     font-size: 12px;
     color: #64748b;
     transition: all 0.2s ease;
-    cursor: pointer;
 }
 
 .cancel-child-reply-btn:hover {
@@ -630,7 +621,6 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    cursor: pointer;
 }
 
 .submit-child-reply-btn:hover:not(:disabled) {
@@ -875,7 +865,6 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    cursor: pointer;
 }
 
 .submit-reply-btn:hover:not(:disabled) {

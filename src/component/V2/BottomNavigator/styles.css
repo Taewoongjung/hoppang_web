@@ -380,7 +380,7 @@
 .footer-link:focus,
 .nav-item:focus {
     outline: 2px solid #6366f1;
-    outline-offset: 2px;
+    outline-offset: -2px;
 }
 
 /* 푸터 호버 효과 */
