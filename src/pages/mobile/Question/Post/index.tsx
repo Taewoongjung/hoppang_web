@@ -27,7 +27,7 @@ interface ChildReply {
     postId: number;
     rootReplyId: number;
     contents: string;
-    registerId: number;
+    registerId: string;
     registerName: string;
     anonymous: boolean;
     revised: boolean;
@@ -38,7 +38,7 @@ interface Reply {
     id: number;
     postId: number;
     contents: string;
-    registerId: number;
+    registerId: string;
     registerName: string;
     anonymous: boolean;
     revised: boolean;
@@ -436,7 +436,7 @@ const PostDetail = () => {
                                     <div className="reply-header">
                                         <div className="reply-author">
                                             <div className="reply-avatar">
-                                                {reply.authorId === post.registerId ? (
+                                                {reply.registerId === post.registerId ? (
                                                     <div className="owner-badge">
                                                         <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
                                                             <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a4 4 0 0 1 8 0v2H6v-2Z" stroke="currentColor" strokeWidth="1.5"/>
