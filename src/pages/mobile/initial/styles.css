@@ -331,6 +331,7 @@ body {
 
 /* Questions Section */
 .questions-section {
+    margin-top: 10%;
     padding: 0 20px 30px;
     animation: slideInUp 0.8s ease-out 0.3s both;
 }
@@ -480,8 +481,8 @@ footer {
 }
 
 .footer-link {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
+    background: white;
+    border: 1px solid white;
     color: #475569;
     padding: 10px 16px;
     border-radius: 8px;

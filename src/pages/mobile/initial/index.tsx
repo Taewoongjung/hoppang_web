@@ -198,11 +198,12 @@ const Initial = () => {
                             <button
                                 className="cta-button"
                                 onClick={() => {
-                                    window.location.href = "/question/boards/posts/register?from=initial";
+                                    userData ?
+                                        window.location.href = "/question/boards/posts/register?from=initial" : window.location.href = "/v2/login";
                                 }}
                             >
                                 <span className="cta-icon">💬</span>
-                                전문가에게 질문하기
+                                {!userData && '로그인 하고'} 전문가에게 질문하기
                             </button>
                         </div>
                         <div className="hero-illustration">
@@ -324,7 +325,7 @@ const Initial = () => {
                     </div>
 
                     <div className="footer-bottom">
-                        <p className="footer-copyright">© 2024 호빵. All rights reserved.</p>
+                        <p className="footer-copyright">© 2025 호빵. All rights reserved.</p>
                         <div className="footer-meta">
                             <span onClick={() => {/* 개인정보처리방침 로직 */}}>개인정보처리방침</span>
                             <span className="footer-separator">|</span>

@@ -45,7 +45,7 @@ const Agreement = () => {
             },
         }).then((res) => {
         }).catch((err) => {
-            history.push("/login?needed=true");
+            history.push("/v2/login?needed=true");
         })
     }
 
@@ -55,10 +55,10 @@ const Agreement = () => {
         try {
             await mutate().then((user) => {
                 if (user.tel === '') {
-                    history.push(`/login/first?remainedProcess=true&userEmail=${user.email}`);
+                    window.location.href = `/v2/login/first?remainedProcess=true&userEmail=${user.email}`;
                     return;
                 } else {
-                    history.push('/v2/calculator');
+                    window.location.href = '/v2/calculator';
                 }
             });
         } catch (error) {
