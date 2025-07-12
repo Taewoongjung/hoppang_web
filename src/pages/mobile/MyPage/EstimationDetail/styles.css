@@ -450,7 +450,7 @@ body {
 
 .table-container::-webkit-scrollbar-thumb {
     background: #cbd5e1;
-    border-radius: -2px;
+    border-radius: 2px;
 }
 
 .table-container::-webkit-scrollbar-thumb:hover {
@@ -460,6 +460,5 @@ body {
 /* Focus states for accessibility */
 .back-btn:focus,
 .inquiry-button:focus {
-    outline: 2px solid #6366f1;
-    outline-offset: 2px;
+    outline-offset: -2px;
 }

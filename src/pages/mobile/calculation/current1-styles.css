@@ -149,7 +149,6 @@
 /* 접근성 개선 */
 .company-card:focus {
     outline-offset: -2px;
-    border-color: #6366f1;
 }
 
 .company-card:focus:not(:hover) {
