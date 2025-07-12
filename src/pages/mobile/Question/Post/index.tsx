@@ -49,7 +49,6 @@ interface Reply {
     isLiked: boolean;
     isPostOwner: boolean;
     authorName: string;
-    authorId: string;
 }
 
 const PostDetail = () => {
@@ -94,7 +93,6 @@ const PostDetail = () => {
                             postsChildReplyList: reply.postsChildReplyList || [],
 
                             authorName: reply.registerName,
-                            authorId: reply.registerId.toString(),
                             isPostOwner: reply.registerId.toString() === post?.registerId,
                             likes: 0, // 백엔드 응답에 없으므로 기본값
                             isLiked: false // 마찬가지로 기본값 설정
@@ -451,7 +449,7 @@ const PostDetail = () => {
                                             <div className="author-info">
                                                 <span className="author-name">{reply.authorName}</span>
                                                 <span className="author-role">
-                                                    {reply.authorId === post.registerId ? '작성자' : '일반사용자'}
+                                                    {reply.registerId === post.registerId ? '작성자' : '일반사용자'}
                                                 </span>
                                             </div>
                                         </div>
