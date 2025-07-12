@@ -25,7 +25,7 @@ const BottomNavigator: React.FC<BottomNavigatorProps> = ({ userData, isVisible =
                 onClick={() => history.push("/question/boards")}
             >
                 <span className="nav-icon">💬&nbsp;</span>
-                <span className="nav-label">지식인</span>
+                <span className="nav-label">커뮤니티</span>
             </button>
 
             {userData ?
