@@ -1,15 +1,15 @@
-/* EstimationDetailPage Styles */
+/* EstimationDetailPage Styles - Tone on Tone */
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #f8f9fa;
-    color: #333;
+    background-color: #f8fafc;
+    color: #334155;
     line-height: 1.6;
 }
 
 .estimation-container {
     max-width: 430px;
     margin: 0 auto;
-    background: #f8f9fa;
+    background: #f8fafc;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
@@ -19,11 +19,12 @@ body {
 .estimation-header {
     background: white;
     padding: 16px 20px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #e2e8f0;
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    backdrop-filter: blur(10px);
 }
 
 .header-content {
@@ -33,7 +34,7 @@ body {
 }
 
 .back-btn {
-    background: #f8f9fa;
+    background: #f8fafc;
     border: none;
     width: 40px;
     height: 40px;
@@ -43,19 +44,19 @@ body {
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s ease;
-    color: #6b7280;
+    color: #64748b;
     font-size: 18px;
 }
 
 .back-btn:hover {
-    background: #e5e7eb;
-    color: #374151;
+    background: #f1f5f9;
+    color: #475569;
 }
 
 .header-title h1 {
     font-size: 18px;
     font-weight: 700;
-    color: #1f2937;
+    color: #1e293b;
     margin: 0;
 }
 
@@ -71,12 +72,11 @@ body {
 
 /* Info Card */
 .info-card {
-    background: linear-gradient(135deg, #ffeb9c 10%, #f7e0bc 60%, #fff4e5 100%);
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
     border-radius: 16px;
     padding: 24px;
     margin-bottom: 24px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    animation: fadeInUp 0.6s ease-out;
+    border: 1px solid #e0f2fe;
 }
 
 .info-header {
@@ -88,14 +88,13 @@ body {
 .info-icon {
     width: 56px;
     height: 56px;
-    background: rgba(255, 255, 255, 0.9);
+    background: #6366f1;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #f59e56;
+    color: white;
     font-size: 24px;
-    box-shadow: 0 4px 12px rgba(245, 158, 86, 0.3);
 }
 
 .info-details {
@@ -105,20 +104,20 @@ body {
 .company-name {
     font-size: 20px;
     font-weight: 700;
-    color: #5c4a3b;
+    color: #1e293b;
     margin: 0 0 8px 0;
 }
 
 .estimation-id {
     font-size: 14px;
-    color: #8b7355;
+    color: #64748b;
     margin: 0 0 4px 0;
     font-weight: 500;
 }
 
 .estimation-date {
     font-size: 13px;
-    color: #8b7355;
+    color: #64748b;
     margin: 0;
     opacity: 0.8;
 }
@@ -126,17 +125,17 @@ body {
 /* Section Cards */
 .section-card {
     background: white;
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 20px;
     margin-bottom: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    animation: fadeInUp 0.6s ease-out;
-    transition: all 0.3s ease;
+    border: 1px solid #f1f5f9;
+    transition: all 0.2s ease;
 }
 
 .section-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-color: #e2e8f0;
 }
 
 .section-header {
@@ -149,7 +148,8 @@ body {
 .section-icon {
     width: 40px;
     height: 40px;
-    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
     border-radius: 12px;
     display: flex;
     align-items: center;
@@ -160,15 +160,15 @@ body {
 .section-title {
     font-size: 16px;
     font-weight: 600;
-    color: #1f2937;
+    color: #1e293b;
     margin: 0;
 }
 
 /* Table Container */
 .table-container {
-    border-radius: 12px;
+    border-radius: 8px;
     overflow: hidden;
-    border: 1px solid #f3f4f6;
+    border: 1px solid #f1f5f9;
 }
 
 .table-container .ant-table {
@@ -176,7 +176,7 @@ body {
 }
 
 .table-container .ant-table-tbody > tr > td {
-    border-bottom: 1px solid #f9fafb;
+    border-bottom: 1px solid #f8fafc;
     padding: 12px 16px;
     background: #fafbfc;
     transition: all 0.2s ease;
@@ -193,15 +193,12 @@ body {
 /* Price Summary Card */
 .price-summary-card {
     background: white;
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 20px;
     margin-bottom: 24px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    animation: fadeInUp 0.6s ease-out;
-    animation-delay: 0.2s;
-    border: 2px solid transparent;
-    background-clip: padding-box;
+    border: 2px solid #6366f1;
     position: relative;
+    overflow: hidden;
 }
 
 .price-summary-card::before {
@@ -210,19 +207,14 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    border-radius: 16px;
-    padding: 2px;
-    background: linear-gradient(135deg, #fcb080, #f59e56);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: subtract;
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask-composite: subtract;
+    height: 4px;
+    background: #6366f1;
 }
 
 .price-icon {
-    background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
-    color: #f59e56;
+    background: #f0f9ff;
+    border-color: #e0f2fe;
+    color: #6366f1;
 }
 
 .price-breakdown {
@@ -240,18 +232,18 @@ body {
 
 .price-label {
     font-size: 14px;
-    color: #6b7280;
+    color: #64748b;
     font-weight: 500;
 }
 
 .price-value {
     font-size: 14px;
     font-weight: 600;
-    color: #1f2937;
+    color: #1e293b;
 }
 
 .base-price {
-    color: #f59e56;
+    color: #6366f1;
 }
 
 .tax-price {
@@ -260,21 +252,22 @@ body {
 
 .price-divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent, #e5e7eb, transparent);
+    background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
     margin: 4px 0;
 }
 
 .total-item {
     padding: 16px 20px;
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
     margin-top: 8px;
 }
 
 .total-label {
     font-size: 16px;
     font-weight: 700;
-    color: #1f2937;
+    color: #1e293b;
 }
 
 /* Price Display */
@@ -287,7 +280,7 @@ body {
 
 .original-price {
     text-decoration: line-through;
-    color: #9ca3af;
+    color: #94a3b8;
     font-size: 13px;
     font-weight: 500;
 }
@@ -298,7 +291,8 @@ body {
     font-weight: 600;
     background: #d1fae5;
     padding: 2px 8px;
-    border-radius: 12px;
+    border-radius: 8px;
+    border: 1px solid #bbf7d0;
 }
 
 .final-price {
@@ -309,20 +303,18 @@ body {
 
 /* Inquiry Section */
 .inquiry-section {
-    animation: fadeInUp 0.6s ease-out;
-    animation-delay: 0.3s;
+    margin-top: 24px;
 }
 
 .inquiry-button {
     width: 100%;
     height: 56px;
-    border-radius: 16px;
+    border-radius: 12px;
     font-size: 16px;
     font-weight: 600;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: none;
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-    transition: all 0.3s ease;
+    background: #6366f1 !important;
+    border: none !important;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -330,13 +322,40 @@ body {
 }
 
 .inquiry-button:hover {
+    background: #5855eb !important;
     transform: translateY(-2px);
-    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.5);
-    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3) !important;
 }
 
 .inquiry-button:active {
     transform: translateY(0);
+}
+
+/* Table Style Overrides */
+.table-container .ant-table-tbody > tr > td:first-child {
+    color: #1e293b;
+    font-weight: 500;
+}
+
+.table-container .ant-table-tbody > tr > td:nth-child(2) {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.table-container .ant-table-tbody > tr > td:last-child {
+    color: #6366f1;
+    font-weight: 600;
+}
+
+/* Additional table styling for different sections */
+.section-card:nth-child(3) .table-container .ant-table-tbody > tr > td:first-child {
+    color: #1e293b;
+    font-weight: 500;
+}
+
+.section-card:nth-child(3) .table-container .ant-table-tbody > tr > td:last-child {
+    color: #64748b;
+    font-weight: 600;
 }
 
 /* Responsive Design */
@@ -372,46 +391,51 @@ body {
         height: 48px;
         font-size: 15px;
     }
-}
 
-/* Animation */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    .back-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
     }
 }
 
 /* Ant Design Table Overrides */
 .ant-table-wrapper {
-    border-radius: 12px;
+    border-radius: 8px;
     overflow: hidden;
 }
 
 .ant-table {
-    border-radius: 12px;
+    border-radius: 8px;
 }
 
 .ant-table-thead > tr > th {
     background: #f8fafc;
-    border-bottom: 1px solid #e5e7eb;
-    color: #374151;
+    border-bottom: 1px solid #e2e8f0;
+    color: #1e293b;
     font-weight: 600;
     font-size: 13px;
     padding: 12px 16px;
 }
 
 .ant-table-tbody > tr > td {
-    border-bottom: 1px solid #f3f4f6;
+    border-bottom: 1px solid #f1f5f9;
     font-size: 14px;
 }
 
 .ant-table-tbody > tr:last-child > td {
     border-bottom: none;
+}
+
+/* Button overrides for Ant Design */
+.ant-btn-primary {
+    background: #6366f1 !important;
+    border-color: #6366f1 !important;
+}
+
+.ant-btn-primary:hover {
+    background: #5855eb !important;
+    border-color: #5855eb !important;
 }
 
 /* Custom scrollbar for mobile */
@@ -426,9 +450,16 @@ body {
 
 .table-container::-webkit-scrollbar-thumb {
     background: #cbd5e1;
-    border-radius: 2px;
+    border-radius: -2px;
 }
 
 .table-container::-webkit-scrollbar-thumb:hover {
     background: #94a3b8;
+}
+
+/* Focus states for accessibility */
+.back-btn:focus,
+.inquiry-button:focus {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
 }

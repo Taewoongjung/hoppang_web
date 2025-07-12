@@ -1,8 +1,8 @@
-/* 견적 이력 페이지 전용 스타일 */
+/* 견적 이력 페이지 전용 스타일 - Tone on Tone */
 .estimation-history-container {
     max-width: 430px;
     margin: 0 auto;
-    background: #f8f9fa;
+    background: #f8fafc;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
@@ -13,11 +13,12 @@
 .estimation-header {
     background: white;
     padding: 16px 20px 20px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #e2e8f0;
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    backdrop-filter: blur(10px);
 }
 
 .header-content {
@@ -27,7 +28,7 @@
 }
 
 .back-btn {
-    background: #f8f9fa;
+    background: #f8fafc;
     border: none;
     width: 40px;
     height: 40px;
@@ -37,30 +38,26 @@
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s ease;
-    color: #6b7280;
+    color: #64748b;
     font-size: 16px;
 }
 
 .back-btn:hover {
-    background: #e5e7eb;
-    color: #374151;
-    transform: scale(1.05);
+    background: #f1f5f9;
+    color: #475569;
+    transform: scale(1.02);
 }
 
 .header-title h1 {
     font-size: 24px;
     font-weight: 700;
-    color: #1f2937;
+    color: #1e293b;
     margin: 0 0 4px 0;
-    background: linear-gradient(to right, #fcb080, #f59e56);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
 }
 
 .header-title p {
     font-size: 14px;
-    color: #6b7280;
+    color: #64748b;
     margin: 0;
 }
 
@@ -76,26 +73,25 @@
 }
 
 .summary-card {
-    background: linear-gradient(135deg, #ffeb9c 10%, #f7e0bc 60%, #fff4e5 100%);
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
     border-radius: 16px;
     padding: 20px;
     display: flex;
     align-items: center;
     gap: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    animation: fadeInUp 0.6s ease-out;
+    border: 1px solid #e0f2fe;
 }
 
 .summary-icon {
     font-size: 32px;
     width: 56px;
     height: 56px;
-    background: rgba(255, 255, 255, 0.9);
+    background: white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 .summary-text {
@@ -107,12 +103,12 @@
 .summary-count {
     font-size: 24px;
     font-weight: 700;
-    color: #5c4a3b;
+    color: #1e293b;
 }
 
 .summary-label {
     font-size: 14px;
-    color: #8b7355;
+    color: #64748b;
     opacity: 0.9;
 }
 
@@ -125,28 +121,17 @@
 
 .estimation-card {
     background: white;
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 20px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    border: 2px solid transparent;
-    animation: fadeInUp 0.6s ease-out;
-    animation-fill-mode: both;
+    transition: all 0.2s ease;
+    border: 1px solid #f1f5f9;
 }
 
 .estimation-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.12);
-    border-color: #fcb080;
-}
-
-.estimation-card:nth-child(odd) {
-    animation-delay: 0.1s;
-}
-
-.estimation-card:nth-child(even) {
-    animation-delay: 0.2s;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    border-color: #e2e8f0;
 }
 
 /* Card Header */
@@ -156,7 +141,7 @@
     align-items: center;
     margin-bottom: 16px;
     padding-bottom: 12px;
-    border-bottom: 1px solid #f3f4f6;
+    border-bottom: 1px solid #f1f5f9;
 }
 
 .estimation-id {
@@ -167,25 +152,26 @@
 
 .id-label {
     font-size: 12px;
-    color: #9ca3af;
+    color: #94a3b8;
     font-weight: 500;
 }
 
 .id-number {
     font-size: 16px;
     font-weight: 700;
-    color: #f59e56;
+    color: #6366f1;
 }
 
 .estimation-date {
     display: flex;
     align-items: center;
     gap: 6px;
-    color: #6b7280;
+    color: #64748b;
     font-size: 13px;
     background: #f8fafc;
     padding: 6px 12px;
     border-radius: 8px;
+    border: 1px solid #f1f5f9;
 }
 
 .estimation-date .anticon {
@@ -216,27 +202,27 @@
 
 .info-label {
     font-size: 12px;
-    color: #9ca3af;
+    color: #94a3b8;
     font-weight: 500;
 }
 
 .info-value {
     font-size: 14px;
-    color: #374151;
+    color: #1e293b;
     font-weight: 500;
     line-height: 1.4;
 }
 
 .address-text {
     font-size: 13px;
-    color: #6b7280;
+    color: #64748b;
 }
 
 /* Price Section */
 .price-section {
     margin-top: 16px;
     padding-top: 16px;
-    border-top: 1px solid #f3f4f6;
+    border-top: 1px solid #f1f5f9;
 }
 
 .price-container {
@@ -245,7 +231,8 @@
     gap: 12px;
     background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
     padding: 16px;
-    border-radius: 12px;
+    border-radius: 8px;
+    border: 1px solid #d1fae5;
 }
 
 .price-icon {
@@ -284,7 +271,7 @@
 }
 
 .detail-btn {
-    background: linear-gradient(135deg, #fcb080, #f59e56);
+    background: #6366f1;
     color: white;
     border: none;
     padding: 10px 16px;
@@ -296,12 +283,11 @@
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
-    box-shadow: 0 2px 8px rgba(245, 158, 86, 0.3);
 }
 
 .detail-btn:hover {
+    background: #5855eb;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(245, 158, 86, 0.4);
 }
 
 .detail-btn .anticon {
@@ -316,7 +302,6 @@
     justify-content: center;
     padding: 60px 20px;
     text-align: center;
-    animation: fadeInUp 0.8s ease-out;
 }
 
 .empty-illustration {
@@ -332,33 +317,32 @@
 .empty-content h3 {
     font-size: 20px;
     font-weight: 700;
-    color: #374151;
+    color: #1e293b;
     margin-bottom: 8px;
 }
 
 .empty-content p {
     font-size: 14px;
-    color: #6b7280;
+    color: #64748b;
     margin-bottom: 32px;
     line-height: 1.5;
 }
 
 .create-estimation-btn {
-    background: linear-gradient(135deg, #fcb080, #f59e56);
+    background: #6366f1;
     color: white;
     border: none;
     padding: 16px 32px;
-    border-radius: 12px;
+    border-radius: 8px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 16px rgba(245, 158, 86, 0.3);
+    transition: all 0.2s ease;
 }
 
 .create-estimation-btn:hover {
+    background: #5855eb;
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(245, 158, 86, 0.4);
 }
 
 /* Loading State */
@@ -373,29 +357,17 @@
 
 .loading-container p {
     margin-top: 16px;
-    color: #6b7280;
+    color: #64748b;
     font-size: 14px;
 }
 
-/* Animations */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Loading Spinner Override */
+.loading-container .ant-spin .ant-spin-dot {
+    color: #6366f1;
 }
 
-@keyframes pulse {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
+.loading-container .ant-spin .ant-spin-dot-item {
+    background-color: #6366f1;
 }
 
 /* Responsive Design */
@@ -439,9 +411,9 @@
         font-size: 16px;
     }
 
-    .info-icon {
-        width: 32px;
-        height: 32px;
+    .back-btn {
+        width: 36px;
+        height: 36px;
         font-size: 14px;
     }
 }
@@ -454,7 +426,6 @@
     .detail-btn,
     .create-estimation-btn {
         transition: none;
-        animation: none;
     }
 }
 
@@ -463,6 +434,24 @@
 .detail-btn:focus,
 .create-estimation-btn:focus,
 .estimation-card:focus {
-    outline: 2px solid #fcb080;
-    outline-offset: 2px;
+    outline: 2px solid #6366f1;
+    outline-offset: -2px;
+}
+
+/* Custom scrollbar */
+.estimation-history-container::-webkit-scrollbar {
+    width: 4px;
+}
+
+.estimation-history-container::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.estimation-history-container::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 2px;
+}
+
+.estimation-history-container::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
 }

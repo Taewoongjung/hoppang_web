@@ -1,8 +1,8 @@
-/* Improved Settings ConfigPage Styles */
+/* Improved Settings ConfigPage Styles - Tone on Tone */
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #f8f9fa;
-    color: #333;
+    background-color: #f8fafc;
+    color: #334155;
     line-height: 1.6;
 }
 
@@ -10,7 +10,7 @@ body {
 .config-container {
     max-width: 430px;
     margin: 0 auto;
-    background: #f8f9fa;
+    background: #f8fafc;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
@@ -20,11 +20,12 @@ body {
 .config-header {
     background: white;
     padding: 16px 20px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #e2e8f0;
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    backdrop-filter: blur(10px);
 }
 
 .config-header-content {
@@ -34,7 +35,7 @@ body {
 }
 
 .config-back-button {
-    background: #f8f9fa;
+    background: #f8fafc;
     border: none;
     width: 40px;
     height: 40px;
@@ -44,19 +45,19 @@ body {
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s ease;
-    color: #6b7280;
+    color: #64748b;
     font-size: 18px;
 }
 
 .config-back-button:hover {
-    background: #e5e7eb;
-    color: #374151;
+    background: #f1f5f9;
+    color: #475569;
 }
 
 .config-title {
     font-size: 18px;
     font-weight: 700;
-    color: #1f2937;
+    color: #1e293b;
     margin: 0;
     text-align: center;
     flex: 1;
@@ -75,26 +76,15 @@ body {
 /* Hero Section */
 .settings-hero {
     margin-bottom: 32px;
-    animation: slideInUp 0.8s ease-out;
 }
 
 .hero-card {
-    background: linear-gradient(135deg, #ffeb9c 10%, #f7e0bc 60%, #fff4e5 100%);
-    border-radius: 20px;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-radius: 16px;
     padding: 24px;
     position: relative;
     overflow: hidden;
-}
-
-.hero-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -30%;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
-    border-radius: 50%;
+    border: 1px solid #e0f2fe;
 }
 
 .hero-content {
@@ -108,40 +98,32 @@ body {
 .hero-icon {
     width: 56px;
     height: 56px;
-    background: rgba(255, 255, 255, 0.9);
+    background: #6366f1;
     border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #f59e56;
+    color: white;
     font-size: 24px;
-    box-shadow: 0 4px 16px rgba(245, 158, 86, 0.3);
-    backdrop-filter: blur(10px);
 }
 
 .hero-text h2 {
     font-size: 20px;
     font-weight: 700;
-    color: #5c4a3b;
+    color: #1e293b;
     margin: 0 0 4px 0;
 }
 
 .hero-text p {
     font-size: 14px;
-    color: #8b7355;
+    color: #64748b;
     margin: 0;
 }
 
 /* Section Styles */
 .config-section {
     margin-bottom: 32px;
-    animation: slideInUp 0.8s ease-out;
 }
-
-.config-section:nth-child(2) { animation-delay: 0.1s; }
-.config-section:nth-child(3) { animation-delay: 0.2s; }
-.config-section:nth-child(4) { animation-delay: 0.3s; }
-.config-section:nth-child(5) { animation-delay: 0.4s; }
 
 .section-header {
     display: flex;
@@ -158,11 +140,11 @@ body {
     font-size: 16px;
     font-weight: 700;
     margin: 0;
-    color: #374151;
+    color: #1e293b;
 }
 
 .danger-section .config-section-title {
-    color: #dc2626;
+    color: #ef4444;
 }
 
 .config-menu-list {
@@ -174,53 +156,33 @@ body {
 /* Menu Item Styles */
 .config-menu-item {
     background: white;
-    border-radius: 16px;
+    border-radius: 12px;
     padding: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    border: 1px solid #f1f5f9;
     position: relative;
     overflow: hidden;
 }
 
-.config-menu-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(252, 176, 128, 0.1), transparent);
-    transition: left 0.6s ease;
-}
-
-.config-menu-item:hover::before {
-    left: 100%;
-}
-
 .config-menu-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
-    border-color: rgba(252, 176, 128, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-color: #e2e8f0;
 }
 
 /* Danger Item Specific Styles */
 .danger-item {
     border: 1px solid #fee2e2;
-    background: linear-gradient(135deg, #fefefe 0%, #fef2f2 100%);
+    background: #fefefe;
 }
 
 .danger-item:hover {
     border-color: #fca5a5;
-    box-shadow: 0 8px 25px rgba(239, 68, 68, 0.15);
-}
-
-.danger-item::before {
-    background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.05), transparent);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
 }
 
 .config-menu-content {
@@ -228,14 +190,12 @@ body {
     align-items: center;
     gap: 16px;
     flex: 1;
-    position: relative;
-    z-index: 2;
 }
 
 .config-menu-icon-wrapper {
     position: relative;
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
 }
 
 .config-menu-emoji {
@@ -243,24 +203,41 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 22px;
+    font-size: 20px;
     z-index: 3;
 }
 
 .config-menu-icon-bg {
     width: 100%;
     height: 100%;
-    border-radius: 14px;
+    border-radius: 12px;
     position: absolute;
     top: 0;
     left: 0;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0;
 }
 
 .config-menu-item:hover .config-menu-icon-bg {
-    transform: scale(1.05);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: scale(1.02);
+    border-color: #cbd5e1;
+}
+
+/* 각 메뉴별 아이콘 배경 색상 오버라이드 */
+.config-menu-item:nth-child(1) .config-menu-icon-bg {
+    background: #f0f9ff !important;
+    border-color: #e0f2fe !important;
+}
+
+.config-menu-item:nth-child(2) .config-menu-icon-bg {
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+}
+
+.danger-item .config-menu-icon-bg {
+    background: #fee2e2 !important;
+    border-color: #fecaca !important;
 }
 
 .config-menu-text {
@@ -270,63 +247,64 @@ body {
 .config-menu-text h4 {
     font-size: 16px;
     font-weight: 600;
-    color: #1f2937;
+    color: #1e293b;
     margin: 0 0 4px 0;
 }
 
 .config-menu-text p {
     font-size: 13px;
-    color: #6b7280;
+    color: #64748b;
     line-height: 1.4;
     margin: 0;
 }
 
 .danger-item .config-menu-text h4 {
-    color: #dc2626;
+    color: #ef4444;
 }
 
 .danger-item .config-menu-text p {
-    color: #991b1b;
+    color: #dc2626;
 }
 
 .config-menu-arrow {
-    color: #9ca3af;
+    color: #94a3b8;
     font-size: 14px;
-    transition: all 0.3s ease;
-    position: relative;
-    z-index: 2;
+    transition: all 0.2s ease;
 }
 
 .config-menu-item:hover .config-menu-arrow {
-    color: #6b7280;
+    color: #6366f1;
     transform: translateX(4px);
+}
+
+.danger-item:hover .config-menu-arrow {
+    color: #ef4444;
 }
 
 /* App Info Section */
 .app-info-section {
-    animation: slideInUp 0.8s ease-out 0.5s both;
+    margin-top: 40px;
 }
 
 .app-info-card {
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-    border-radius: 16px;
+    background: #f8fafc;
+    border-radius: 12px;
     padding: 20px;
     display: flex;
     align-items: center;
     gap: 16px;
-    border: 1px solid #e0f2fe;
+    border: 1px solid #e2e8f0;
 }
 
 .app-character img {
     width: 40px;
     height: 40px;
-    filter: drop-shadow(0 2px 8px rgba(14, 165, 233, 0.3));
 }
 
 .app-info-text h4 {
     font-size: 15px;
     font-weight: 600;
-    color: #0f172a;
+    color: #1e293b;
     margin: 0 0 4px 0;
 }
 
@@ -339,7 +317,7 @@ body {
 
 /* Modal Styles */
 .withdraw-modal .ant-modal-content {
-    border-radius: 20px !important;
+    border-radius: 16px !important;
     overflow: hidden;
 }
 
@@ -367,7 +345,7 @@ body {
 .modal-warning-box {
     background: #fef2f2;
     border: 1px solid #fecaca;
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 16px;
     margin: 16px 0;
 }
@@ -384,7 +362,7 @@ body {
 }
 
 .modal-confirmation {
-    color: #6b7280;
+    color: #64748b;
     font-size: 14px;
     margin: 12px 0 0 0;
 }
@@ -393,12 +371,28 @@ body {
     border-radius: 8px !important;
     height: 40px !important;
     font-weight: 600 !important;
+    background: #ef4444 !important;
+    border-color: #ef4444 !important;
+}
+
+.modal-danger-button:hover {
+    background: #dc2626 !important;
+    border-color: #dc2626 !important;
 }
 
 .modal-cancel-button {
     border-radius: 8px !important;
     height: 40px !important;
     font-weight: 600 !important;
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+    color: #64748b !important;
+}
+
+.modal-cancel-button:hover {
+    background: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+    color: #475569 !important;
 }
 
 /* Responsive Design */
@@ -427,12 +421,12 @@ body {
     }
 
     .config-menu-icon-wrapper {
-        width: 44px;
-        height: 44px;
+        width: 40px;
+        height: 40px;
     }
 
     .config-menu-emoji {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .config-back-button {
@@ -451,29 +445,17 @@ body {
     }
 }
 
-/* Animations */
-@keyframes slideInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 /* Focus States for Accessibility */
 .config-back-button:focus,
 .config-menu-item:focus {
-    outline: 2px solid #fcb080;
+    outline: 2px solid #6366f1;
     outline-offset: -2px;
 }
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
     .config-menu-item {
-        border: 2px solid #374151;
+        border: 2px solid #1e293b;
     }
 
     .config-menu-text h4 {
@@ -481,24 +463,14 @@ body {
     }
 
     .config-menu-text p {
-        color: #374151;
+        color: #1e293b;
     }
 }
 
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-    .config-menu-item,
-    .config-back-button,
-    .config-menu-icon-bg,
-    .config-menu-arrow {
-        transition: none;
-    }
-
-    .config-section {
-        animation: none;
-    }
-
-    .config-menu-item::before {
-        transition: none;
-    }
+/* Smooth transitions */
+.config-menu-item,
+.config-back-button,
+.config-menu-icon-bg,
+.config-menu-arrow {
+    transition: all 0.2s ease;
 }

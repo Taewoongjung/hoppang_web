@@ -94,7 +94,7 @@ const MyPage = () => {
             icon: '💬',
             title: '질문하기',
             subtitle: '커뮤니티',
-            onClick: () => history.push('/question/boards'),
+            onClick: () => window.location.href = '/question/boards',
             isDisabled: false
         },
         {

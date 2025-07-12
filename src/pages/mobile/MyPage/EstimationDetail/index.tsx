@@ -143,6 +143,7 @@ const EstimationDetailPage = () => {
             setTotalPrice(addCommasToNumber(surtax + wholePrice));
             setTotalPriceDiscountedAmount(addCommasToNumber(result.discountedAmount));
             setDiscountedTotalPriceWithSurtax(addCommasToNumber(result.discountedWholeCalculatedFeeWithSurtax));
+            window.scrollTo({ top: 0 });
 
         }).catch((err) => {
             console.error(err);

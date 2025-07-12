@@ -1,8 +1,8 @@
-/* Improved ConfigPage Styles */
+/* Improved ConfigPage Styles - Tone on Tone */
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: #f8f9fa;
-    color: #333;
+    background-color: #f8fafc;
+    color: #334155;
     line-height: 1.6;
 }
 
@@ -10,7 +10,7 @@ body {
 .config-container {
     max-width: 430px;
     margin: 0 auto;
-    background: #f8f9fa;
+    background: #f8fafc;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
@@ -20,11 +20,12 @@ body {
 .config-header {
     background: white;
     padding: 16px 20px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #e2e8f0;
     position: sticky;
     top: 0;
     z-index: 100;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    backdrop-filter: blur(10px);
 }
 
 .header-content {
@@ -34,7 +35,7 @@ body {
 }
 
 .back-button {
-    background: #f8f9fa;
+    background: #f8fafc;
     border: none;
     width: 40px;
     height: 40px;
@@ -44,13 +45,13 @@ body {
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s ease;
-    color: #6b7280;
+    color: #64748b;
     font-size: 18px;
 }
 
 .back-button:hover {
-    background: #e5e7eb;
-    color: #374151;
+    background: #f1f5f9;
+    color: #475569;
 }
 
 .header-title {
@@ -61,14 +62,14 @@ body {
 .page-title {
     font-size: 18px;
     font-weight: 700;
-    color: #1f2937;
+    color: #1e293b;
     margin: 0 0 2px 0;
     line-height: 1.3;
 }
 
 .page-subtitle {
     font-size: 12px;
-    color: #6b7280;
+    color: #64748b;
     margin: 0;
 }
 
@@ -85,27 +86,16 @@ body {
 /* Hero Section */
 .hero-section {
     margin-bottom: 32px;
-    animation: slideInUp 0.8s ease-out;
 }
 
 .hero-content {
-    background: linear-gradient(135deg, #ffeb9c 10%, #f7e0bc 60%, #fff4e5 100%);
-    border-radius: 20px;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-radius: 16px;
     padding: 32px 24px;
     text-align: center;
     position: relative;
     overflow: hidden;
-}
-
-.hero-content::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -30%;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
-    border-radius: 50%;
+    border: 1px solid #e0f2fe;
 }
 
 .hero-icon {
@@ -117,22 +107,20 @@ body {
 .icon-wrapper {
     width: 64px;
     height: 64px;
-    background: rgba(255, 255, 255, 0.9);
+    background: #6366f1;
     border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto;
-    color: #f59e56;
+    color: white;
     font-size: 28px;
-    box-shadow: 0 8px 24px rgba(245, 158, 86, 0.3);
-    backdrop-filter: blur(10px);
 }
 
 .hero-title {
     font-size: 22px;
     font-weight: 700;
-    color: #5c4a3b;
+    color: #1e293b;
     margin: 0 0 8px 0;
     position: relative;
     z-index: 2;
@@ -140,7 +128,7 @@ body {
 
 .hero-description {
     font-size: 15px;
-    color: #8b7355;
+    color: #64748b;
     margin: 0;
     position: relative;
     z-index: 2;
@@ -165,35 +153,34 @@ body {
 .section-title {
     font-size: 18px;
     font-weight: 700;
-    color: #1f2937;
+    color: #1e293b;
     margin: 0 0 4px 0;
 }
 
 .section-description {
     font-size: 13px;
-    color: #6b7280;
+    color: #64748b;
     margin: 0;
 }
 
 /* Settings Section */
 .settings-section {
     margin-bottom: 24px;
-    animation: slideInUp 0.8s ease-out 0.1s both;
 }
 
 /* Settings Card */
 .settings-card {
     background: white;
-    border-radius: 20px;
+    border-radius: 16px;
     padding: 24px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     border: 1px solid #f1f5f9;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
 }
 
 .settings-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-color: #e2e8f0;
 }
 
 /* Setting Item */
@@ -216,20 +203,20 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 24px;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     flex-shrink: 0;
 }
 
 .push-icon {
-    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-    color: #2563eb;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    background: #f0f9ff;
+    color: #6366f1;
+    border: 1px solid #e0f2fe;
 }
 
 .talk-icon {
-    background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+    background: #fef3c7;
     color: #f59e0b;
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+    border: 1px solid #fed7aa;
 }
 
 .setting-info {
@@ -239,13 +226,13 @@ body {
 .setting-title {
     font-size: 16px;
     font-weight: 600;
-    color: #1f2937;
+    color: #1e293b;
     margin: 0 0 6px 0;
 }
 
 .setting-description {
     font-size: 14px;
-    color: #6b7280;
+    color: #64748b;
     line-height: 1.4;
     margin: 0 0 12px 0;
 }
@@ -257,19 +244,19 @@ body {
 }
 
 .feature-tag {
-    background: linear-gradient(135deg, #eff6ff, #dbeafe);
-    color: #1d4ed8;
+    background: #f0f9ff;
+    color: #6366f1;
     font-size: 11px;
     font-weight: 600;
     padding: 4px 10px;
-    border-radius: 12px;
-    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    border: 1px solid #e0f2fe;
 }
 
 .feature-tag.kakao {
-    background: linear-gradient(135deg, #fef3c7, #fed7aa);
-    color: #92400e;
-    border-color: #fcd34d;
+    background: #fef3c7;
+    color: #f59e0b;
+    border-color: #fed7aa;
 }
 
 .setting-control {
@@ -281,31 +268,29 @@ body {
 
 /* Custom Switch Styles */
 .custom-switch.ant-switch {
-    background-color: #e5e7eb;
+    background-color: #e2e8f0;
     border: none;
     min-width: 56px;
     height: 32px;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .custom-switch.ant-switch-checked {
-    background: linear-gradient(135deg, #fcb080, #f59e56);
-    box-shadow: 0 4px 12px rgba(245, 158, 86, 0.4);
+    background: #6366f1;
 }
 
 .custom-switch.ant-switch:focus {
-    box-shadow: 0 0 0 2px rgba(245, 158, 86, 0.2);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
 }
 
 .custom-switch.ant-switch-checked:focus {
-    box-shadow: 0 0 0 2px rgba(245, 158, 86, 0.3), 0 4px 12px rgba(245, 158, 86, 0.4);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.3);
 }
 
 .custom-switch .ant-switch-handle {
     width: 28px;
     height: 28px;
     top: 2px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .custom-switch.ant-switch-checked .ant-switch-handle {
@@ -320,16 +305,14 @@ body {
     font-size: 11px;
     font-weight: 600;
     padding: 4px 8px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    opacity: 0;
-    transform: translateY(-10px);
-    animation: fadeInUp 0.4s ease-out 0.3s forwards;
+    border-radius: 6px;
+    transition: all 0.2s ease;
 }
 
 .status-indicator.active {
-    background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+    background: #dcfce7;
     color: #059669;
+    border: 1px solid #bbf7d0;
 }
 
 .status-indicator .anticon {
@@ -339,22 +322,20 @@ body {
 /* Setting Divider */
 .setting-divider {
     height: 1px;
-    background: linear-gradient(to right, transparent, #e5e7eb, transparent);
+    background: #f1f5f9;
     margin: 0 -24px;
 }
 
 /* Information Section */
 .info-section {
     margin-bottom: 24px;
-    animation: slideInUp 0.8s ease-out 0.2s both;
 }
 
 .info-card {
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-    border-radius: 16px;
+    background: #f8fafc;
+    border-radius: 12px;
     padding: 20px;
-    border: 1px solid #e0f2fe;
-    box-shadow: 0 2px 12px rgba(14, 165, 233, 0.1);
+    border: 1px solid #e2e8f0;
 }
 
 .info-header {
@@ -367,19 +348,20 @@ body {
 .info-icon {
     width: 40px;
     height: 40px;
-    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+    background: #f0f9ff;
+    border: 1px solid #e0f2fe;
     border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #1d4ed8;
+    color: #6366f1;
     font-size: 18px;
 }
 
 .info-header h3 {
     font-size: 16px;
     font-weight: 600;
-    color: #0f172a;
+    color: #1e293b;
     margin: 0;
 }
 
@@ -404,15 +386,15 @@ body {
 }
 
 .info-bullet.push {
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    background: #6366f1;
 }
 
 .info-bullet.talk {
-    background: linear-gradient(135deg, #f59e0b, #d97706);
+    background: #f59e0b;
 }
 
 .info-bullet.setting {
-    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    background: #8b5cf6;
 }
 
 .info-text {
@@ -425,38 +407,27 @@ body {
 .info-text strong {
     font-size: 13px;
     font-weight: 600;
-    color: #1f2937;
+    color: #1e293b;
 }
 
 .info-text span {
     font-size: 12px;
-    color: #6b7280;
+    color: #64748b;
     line-height: 1.4;
 }
 
 /* Tips Section */
 .tips-section {
-    animation: slideInUp 0.8s ease-out 0.3s both;
+    margin-bottom: 24px;
 }
 
 .tips-card {
-    background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
-    border-radius: 16px;
+    background: #fffbeb;
+    border-radius: 12px;
     padding: 20px;
-    border: 1px solid #fcd34d;
+    border: 1px solid #fed7aa;
     position: relative;
     overflow: hidden;
-}
-
-.tips-card::before {
-    content: '';
-    position: absolute;
-    top: -20px;
-    right: -20px;
-    width: 80px;
-    height: 80px;
-    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
-    border-radius: 50%;
 }
 
 .tips-header {
@@ -549,52 +520,37 @@ body {
     .custom-switch.ant-switch-checked .ant-switch-handle {
         left: calc(100% - 26px - 2px);
     }
-}
 
-/* Animations */
-@keyframes slideInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    .back-button {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
     }
 }
 
 /* Loading State */
 .custom-switch.ant-switch-loading .ant-switch-loading-icon {
-    color: #f59e56;
+    color: #6366f1;
 }
 
 /* Focus States for Accessibility */
 .back-button:focus,
 .custom-switch:focus {
-    outline: 2px solid #fcb080;
-    outline-offset: 2px;
+    outline: 2px solid #6366f1;
+    outline-offset: -2px;
 }
 
 /* Hover Effects */
 .setting-item:hover .setting-icon {
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 
 .push-icon:hover {
-    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+    background: #dbeafe;
+    border-color: #bfdbfe;
 }
 
 .talk-icon:hover {
-    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
+    background: #fed7aa;
+    border-color: #fdba74;
 }

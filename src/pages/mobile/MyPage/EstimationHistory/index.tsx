@@ -122,7 +122,7 @@ const EstimationHistory = () => {
         if (!estimationId) {
             return;
         }
-        return window.location.href = "/v2/mypage/estimation/" + estimationId;
+        return history.push("/v2/mypage/estimation/" + estimationId);
     }
 
     const formatPrice = (price: number) => {
