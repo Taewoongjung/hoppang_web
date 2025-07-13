@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import useSWR from "swr";
-import {callBoardsPostsById, callMeData, callPostsReply} from "../../../../definition/apiPath";
+import {callBoardsPostsById, callMeData, callPostsReply, callPostsReplyLike} from "../../../../definition/apiPath";
 import fetcher from "../../../../util/fetcher";
 import axios from "axios";
 
 import './styles.css';
 import '../../versatile-styles.css';
 import {formatTimeAgo} from "../../../../util";
+import CommunityLoginModal from "../../../../component/V2/Modal/CommunityLoginRequiredModal";
 
 
 interface PostDetail {
@@ -32,6 +33,8 @@ interface ChildReply {
     anonymous: boolean;
     revised: boolean;
     createdAt: string;
+    likes: number;
+    isLiked: boolean;
 }
 
 interface Reply {
@@ -44,10 +47,8 @@ interface Reply {
     revised: boolean;
     createdAt: string;
     postsChildReplyList: ChildReply[];
-
     likes: number;
     isLiked: boolean;
-    isPostOwner: boolean;
     authorName: string;
 }
 
@@ -67,6 +68,9 @@ const PostDetail = () => {
     const [showChildReplyForm, setShowChildReplyForm] = useState<{[key: number]: boolean}>({});
     const [expandedReplies, setExpandedReplies] = useState<{[key: number]: boolean}>({});
 
+    const [showLoginModal, setShowLoginModal] = useState(false);
+    const [loginModalStatus, setLoginModalStatus] = useState<'question' | 'reply' | 'like' | 'general' | ''>('');
+
     const { data: userData, error: userError, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
     });
@@ -85,16 +89,15 @@ const PostDetail = () => {
                             id: reply.id,
                             postId: reply.postId,
                             contents: reply.contents,
+                            registerId: reply.registerId.toString(),
                             registerName: reply.registerName,
                             anonymous: reply.anonymous,
                             revised: reply.revised,
                             createdAt: reply.createdAt,
                             postsChildReplyList: reply.postsChildReplyList || [],
-
                             authorName: reply.registerName,
-                            isPostOwner: reply.registerId.toString() === post?.registerId,
-                            likes: 0, // 백엔드 응답에 없으므로 기본값
-                            isLiked: false // 마찬가지로 기본값 설정
+                            likes: reply.likes,
+                            isLiked: reply.liked
                         }));
 
                         resolve({
@@ -149,19 +152,68 @@ const PostDetail = () => {
         });
     }, [postId]);
 
-    const handleLike = async (answerId: number) => {
-        // 좋아요 처리 로직
+    const handleLike = async (replyId: any, isLiked: boolean) => {
+        if (!userData) {
+            setShowLoginModal(true);
+            setLoginModalStatus('like');
+            return;
+        }
+
+        // 좋아요 처리 로직 - 루트 댓글과 대댓글 모두 처리
         setReplies(prev =>
-            prev.map(answer =>
-                answer.id === answerId
-                    ? {
-                        ...answer,
-                        isLiked: !answer.isLiked,
-                        likes: answer.isLiked ? answer.likes - 1 : answer.likes + 1
+            prev.map(reply => {
+                // 루트 댓글 좋아요 처리
+                if (reply.id === replyId) {
+                    return {
+                        ...reply,
+                        isLiked: !reply.isLiked,
+                        likes: reply.isLiked ? reply.likes - 1 : reply.likes + 1
+                    };
+                }
+
+                // 대댓글 좋아요 처리
+                if (reply.postsChildReplyList && reply.postsChildReplyList.length > 0) {
+                    const updatedChildReplies = reply.postsChildReplyList.map(childReply => {
+                        if (childReply.id === replyId) {
+                            return {
+                                ...childReply,
+                                isLiked: !childReply.isLiked,
+                                likes: childReply.isLiked ? childReply.likes - 1 : childReply.likes + 1
+                            };
+                        }
+                        return childReply;
+                    });
+
+                    // 대댓글이 변경된 경우에만 루트 댓글 업데이트
+                    if (updatedChildReplies !== reply.postsChildReplyList) {
+                        return {
+                            ...reply,
+                            postsChildReplyList: updatedChildReplies
+                        };
                     }
-                    : answer
-            )
+                }
+
+                return reply;
+            })
         );
+
+        if (isLiked) {
+            // 좋아요 비활성화
+            axios.delete(
+                callPostsReplyLike.replace("{replyId}", replyId),
+                {
+                    withCredentials: true,
+                    headers: {Authorization: localStorage.getItem("hoppang-token")},
+                });
+        } else {
+            // 좋아요 활성화
+            axios.patch(
+                callPostsReplyLike.replace("{replyId}", replyId),{},
+                {
+                    withCredentials: true,
+                    headers: {Authorization: localStorage.getItem("hoppang-token")},
+            });
+        }
     };
 
     const handleSubmitReply = async () => {
@@ -433,7 +485,7 @@ const PostDetail = () => {
                                     <div className="reply-header">
                                         <div className="reply-author">
                                             <div className="reply-avatar">
-                                                {reply.isPostOwner ? (
+                                                {reply.registerId === post.registerId.toString() ? (
                                                     <div className="owner-badge">
                                                         <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
                                                             <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a4 4 0 0 1 8 0v2H6v-2Z" stroke="currentColor" strokeWidth="1.5"/>
@@ -447,9 +499,9 @@ const PostDetail = () => {
                                             </div>
                                             <div className="author-info">
                                                 <span className="author-name">{reply.authorName}</span>
-                                                <span className="author-role">
-                                                    {reply.isPostOwner ? '작성자' : '일반사용자'}
-                                                </span>
+                                                {/*<span className="author-role">*/}
+                                                {/*    {reply.registerId === post.registerId.toString() ? '작성자' : '일반사용자'}*/}
+                                                {/*</span>*/}
                                             </div>
                                         </div>
                                         <div className="reply-time">
@@ -466,7 +518,7 @@ const PostDetail = () => {
                                     <div className="reply-actions">
                                         <button
                                             className={`like-btn ${reply.isLiked ? 'liked' : ''}`}
-                                            onClick={() => handleLike(reply.id)}
+                                            onClick={() => handleLike(reply.id, reply.isLiked)}
                                         >
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                                 <path d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
@@ -574,7 +626,7 @@ const PostDetail = () => {
                                                     <div className="child-reply-header">
                                                         <div className="child-reply-author">
                                                             <div className="child-reply-avatar">
-                                                                {childReply.registerId.toString() === post.registerId ? (
+                                                                {childReply.registerId.toString() === post.registerId.toString() ? (
                                                                     <div className="owner-badge-small">
                                                                         <svg width="12" height="12" viewBox="0 0 20 20" fill="none">
                                                                             <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a4 4 0 0 1 8 0v2H6v-2Z" stroke="currentColor" strokeWidth="1.5"/>
@@ -599,6 +651,21 @@ const PostDetail = () => {
                                                         {childReply.contents.split('\n').map((line, index) => (
                                                             <p key={index} style={{ wordBreak: 'break-word' }}>{line}</p>
                                                         ))}
+                                                    </div>
+
+                                                    <div className="child-reply-actions">
+                                                        <button
+                                                            className={`like-btn ${childReply.isLiked ? 'liked' : ''}`}
+                                                            onClick={() => handleLike(childReply.id, childReply.isLiked)}
+                                                        >
+                                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                                <path d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
+                                                                      stroke="currentColor"
+                                                                      strokeWidth="1.5"
+                                                                      fill={childReply.isLiked ? 'currentColor' : 'none'}/>
+                                                            </svg>
+                                                            <span>{childReply.likes || 0}</span>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -664,6 +731,8 @@ const PostDetail = () => {
                     </div>
                 </section>
             </main>
+
+            {showLoginModal && <CommunityLoginModal setShowLoginModal={setShowLoginModal} action={loginModalStatus}/>}
         </div>
     );
 };

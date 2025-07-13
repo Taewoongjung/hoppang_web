@@ -448,8 +448,8 @@
     color: #64748b;
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
+    gap: 8px;
+    padding: 8px 12px;
     border-radius: 6px;
 }
 
@@ -485,6 +485,38 @@
     background: #f0f9ff;
     color: #6366f1;
 }
+
+.child-reply-actions {
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 12px;
+    margin-top: 8px;
+    border-top: 1px solid #f8fafc;
+}
+
+.child-reply-actions {
+    background: none;
+    border: none;
+    transition: all 0.2s ease;
+    font-size: 13px;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+
+.child-reply-actions .like-btn:hover {
+    background: #f8fafc;
+    color: #6366f1;
+}
+
+.child-reply-actions .like-btn.liked {
+    color: #ef4444;
+    background: #fef2f2;
+}
+
 
 /* Child Replies Toggle Button */
 .child-replies-toggle {
@@ -980,6 +1012,17 @@
     .child-replies-toggle {
         margin-left: 0;
     }
+
+    .child-reply-actions {
+        padding-top: 10px;
+        margin-top: 6px;
+    }
+
+    .child-reply-actions .like-btn {
+        padding: 4px 8px;
+        font-size: 12px;
+        gap: 4px;
+    }
 }
 
 /* Focus States for Accessibility */
@@ -990,6 +1033,8 @@
 .like-btn:focus,
 .reply-btn:focus,
 .child-replies-toggle:focus,
+.child-reply-actions,
+.like-btn:focus,
 .child-reply-textarea:focus,
 .reply-textarea:focus,
 .submit-reply-btn:focus,
