@@ -220,7 +220,11 @@ const PostDetail = () => {
 
     const handleSubmitReply = async () => {
         if (!replyContent.trim()) return;
-        if (isSubmittingReply) return;
+        if (!userData) {
+            setShowLoginModal(true);
+            setLoginModalStatus('reply');
+        }
+        if (isSubmittingReply) {}return;
 
         setIsSubmittingReply(true);
 
