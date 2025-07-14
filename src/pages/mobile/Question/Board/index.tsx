@@ -282,7 +282,13 @@ const QuestionsBoard = () => {
     }
 
     const handlePostDetail = (postId: number) => {
-        window.location.href = `/question/boards/posts/${postId}?loggedInUserId=${userData.id}`;
+
+        let queryParam;
+        if (userData) {
+            queryParam = `?loggedInUserId=${userData.id}`;
+        }
+
+        window.location.href = `/question/boards/posts/${postId}${queryParam}`;
     };
 
     const handGoBack = () => {
