@@ -7,6 +7,7 @@ import {callBoards, callBoardsPosts, callMeData} from "../../../../definition/ap
 import BottomNavigator from "../../../../component/V2/BottomNavigator";
 import useSWR from "swr";
 import fetcher from "../../../../util/fetcher";
+import CommunityLoginModal from "../../../../component/V2/Modal/CommunityLoginRequiredModal";
 
 interface Question {
     id: number;
@@ -77,7 +78,10 @@ const QuestionsBoard = () => {
     const scrollTimer = useRef<NodeJS.Timeout | null>(null);
     const ticking = useRef(false);
 
-    // 개선된 스크롤 이벤트 핸들러
+    const [showLoginModal, setShowLoginModal] = useState(false);
+    const [loginModalStatus, setLoginModalStatus] = useState<'question' | 'reply' | 'like' | 'general' | ''>('');
+
+    // 스크롤 이벤트 핸들러
     const handleScroll = useCallback(() => {
         if (!ticking.current) {
             requestAnimationFrame(() => {
@@ -278,7 +282,12 @@ const QuestionsBoard = () => {
     };
 
     const handleRegisterPost = () => {
-        window.location.href = `/question/boards/posts/register?boardType=${selectedBoardType}`;
+        if (!userData) {
+            setShowLoginModal(true);
+            setLoginModalStatus('question');
+        } else {
+            window.location.href = `/question/boards/posts/register?boardType=${selectedBoardType}`;
+        }
     }
 
     const handlePostDetail = (postId: number) => {
@@ -552,6 +561,8 @@ const QuestionsBoard = () => {
                     <path d="M12 4V20M4 12H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                 </svg>
             </button>
+
+            {showLoginModal && <CommunityLoginModal setShowLoginModal={setShowLoginModal} action={loginModalStatus}/>}
 
             {/* Bottom Navigation - 조건부 렌더링 */}
             <BottomNavigator
