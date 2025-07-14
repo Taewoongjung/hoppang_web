@@ -21,6 +21,7 @@ interface PostDetail {
     isAnonymous: string;
     createdAt: string;
     lastModified: string;
+    viewCount: string;
 }
 
 interface ChildReply {
@@ -54,6 +55,8 @@ interface Reply {
 
 const PostDetail = () => {
     const { postId } = useParams<{ postId: string }>();
+
+    const searchParams = new URLSearchParams(window.location.search);
 
     const [post, setPost] = useState<PostDetail | null>(null);
     const [replies, setReplies] = useState<Reply[]>([]);
@@ -141,8 +144,14 @@ const PostDetail = () => {
 
     // 포스팅 상세 조회
     useEffect(() => {
+
+        let queryParam = '';
+        if (searchParams.get('loggedInUserId')) {
+            queryParam = "?loggedInUserId=" + searchParams.get('loggedInUserId');
+        }
+
         axios.get(
-            callBoardsPostsById.replace("{postId}", postId),
+            callBoardsPostsById.replace("{postId}", postId) + queryParam,
             {
                 withCredentials: true,
             }
@@ -218,13 +227,12 @@ const PostDetail = () => {
         }
     };
 
-    const handleSubmitReply = async () => {
+    const handleSubmitReply = () => {
         if (!replyContent.trim()) return;
         if (!userData) {
             setShowLoginModal(true);
             setLoginModalStatus('reply');
         }
-        if (isSubmittingReply) {}return;
 
         setIsSubmittingReply(true);
 
@@ -458,7 +466,7 @@ const PostDetail = () => {
                                         <path d="M8 1v6l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
                                         <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5"/>
                                     </svg>
-                                    <span>조회 24</span>
+                                    <span>{post.viewCount}</span>
                                 </div>
                                 <button className="action-btn">
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">

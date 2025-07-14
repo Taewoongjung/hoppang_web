@@ -290,14 +290,12 @@ const QuestionsBoard = () => {
         }
     }
 
-    const handlePostDetail = (postId: number) => {
-
-        let queryParam = '';
+    const handlePostDetail = async (postId: number) => {
         if (userData) {
-            queryParam = `?loggedInUserId=${userData.id}`;
+            window.location.href = `/question/boards/posts/${postId}?loggedInUserId=${userData.id}`;
+        } else {
+            window.location.href = `/question/boards/posts/${postId}`;
         }
-
-        window.location.href = `/question/boards/posts/${postId}${queryParam}`;
     };
 
     const handGoBack = () => {
