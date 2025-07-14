@@ -128,10 +128,12 @@ const PostDetail = () => {
 
     // 포스팅 연관 댓글 조회
     useEffect(() => {
-        if (!userData || !post) return;
+        if (!post) return;
 
-        let currentUserId = userData.id;
-        let queryParam = currentUserId ? `?loggedInUserId=${currentUserId}` : ``;
+        let queryParam = ``;
+        if (userData) {
+            queryParam = `?loggedInUserId=${userData.id}`;
+        }
 
         fetchReplies(queryParam);
 

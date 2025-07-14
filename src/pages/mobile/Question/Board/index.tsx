@@ -283,7 +283,7 @@ const QuestionsBoard = () => {
 
     const handlePostDetail = (postId: number) => {
 
-        let queryParam;
+        let queryParam = '';
         if (userData) {
             queryParam = `?loggedInUserId=${userData.id}`;
         }
