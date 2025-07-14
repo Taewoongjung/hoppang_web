@@ -99,12 +99,6 @@
     border-radius: 2px 0 0 2px;
 }
 
-.info-card:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    border-color: #cbd5e1;
-}
-
 .info-icon {
     font-size: 24px;
     margin-right: 16px;
@@ -149,12 +143,6 @@
     border-radius: 8px;
     border: 1px solid rgba(99, 102, 241, 0.1);
     transition: all 0.2s ease;
-}
-
-.benefit-item:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.1);
-    border-color: rgba(99, 102, 241, 0.2);
 }
 
 .benefit-icon {
@@ -213,7 +201,6 @@
     border-radius: 8px;
     font-weight: 600;
     font-size: 15px;
-    cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
     display: flex;
@@ -239,12 +226,6 @@
     color: white;
     border: 1px solid transparent;
     order: 1;
-}
-
-.modal-button.secondary:hover {
-    background: #5855eb;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
 .modal-button.confirm {
