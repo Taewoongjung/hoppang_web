@@ -204,7 +204,7 @@ const QuestionsBoard = () => {
                 author: post.authorName,
                 createdAt: new Date(post.createdAt).toISOString(),
                 answersCount: Math.floor(Math.random() * 10),
-                viewCount: Math.floor(Math.random() * 500) + 20,
+                viewCount: post.viewCount,
                 isAnswered: Math.random() > 0.3,
                 boardType: post.boardType || 'question',
                 isPinned: post.isPinned || false,
