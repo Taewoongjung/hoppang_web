@@ -76,7 +76,7 @@
 
 /* Main Content */
 .detail-main {
-    padding: 0 0 100px 0; /* 하단 액션 바 공간 확보 */
+    padding: 0 0 60px 0;
 }
 
 /* Loading & Error States */
@@ -241,10 +241,11 @@
     color: #64748b;
 }
 
+/* Question Actions - 기존 위치에 추천과 북마크 버튼 추가 */
 .question-actions {
     display: flex;
-    justify-content: flex-start;
     align-items: center;
+    gap: 8px;
 }
 
 .view-count {
@@ -253,147 +254,78 @@
     gap: 6px;
     font-size: 12px;
     color: #64748b;
-    background: #f8fafc;
+    /*background: #f8fafc;*/
     padding: 6px 10px;
     border-radius: 6px;
-    border: 1px solid #e2e8f0;
+    /*border: 1px solid #e2e8f0;*/
 }
 
-.view-count svg {
-    opacity: 0.7;
-}
-
-/* Post Action Bar - 하단 액션 바 */
-.post-action-bar {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 430px;
-    background: white;
-    border-top: 1px solid #e2e8f0;
-    padding: 12px 20px;
-    padding-bottom: max(12px, env(safe-area-inset-bottom));
+.post-like-btn {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    z-index: 95;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.08);
-    backdrop-filter: blur(10px);
-}
-
-.action-bar-btn {
-    display: flex;
-    flex-direction: column;
     align-items: center;
     gap: 4px;
     padding: 8px 12px;
-    border: none;
-    background: none;
-    border-radius: 12px;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    min-width: 70px;
-    position: relative;
-}
-
-.action-bar-btn span {
-    font-size: 11px;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #64748b;
+    font-size: 12px;
     font-weight: 500;
     transition: all 0.2s ease;
+    cursor: pointer;
 }
 
-.action-bar-btn svg {
-    transition: all 0.2s ease;
-}
-
-/* 좋아요/추천 버튼 */
-.like-action {
-    color: #64748b;
-}
-
-.like-action:hover {
-    background: rgba(239, 68, 68, 0.1);
+.post-like-btn:hover {
+    background: #fef2f2;
+    border-color: #fca5a5;
     color: #ef4444;
 }
 
-.like-action.active {
-    color: #ef4444;
-    background: rgba(239, 68, 68, 0.1);
+.post-like-btn.active {
+    background: #ef4444;
+    border-color: #ef4444;
+    color: white;
 }
 
-.like-action.active svg {
-    animation: heartBeat 0.6s ease-in-out;
-}
-
-/* 북마크 버튼 */
-.bookmark-action {
-    color: #64748b;
-}
-
-.bookmark-action:hover {
-    background: rgba(59, 130, 246, 0.1);
-    color: #3b82f6;
-}
-
-.bookmark-action.active {
-    color: #3b82f6;
-    background: rgba(59, 130, 246, 0.1);
-}
-
-.bookmark-action.active svg {
-    animation: bookmarkSave 0.4s ease-in-out;
-}
-
-/* 공유 버튼 */
-.share-action {
-    color: #64748b;
-}
-
-.share-action:hover {
-    background: rgba(99, 102, 241, 0.1);
-    color: #6366f1;
-}
-
-.share-action:active {
-    transform: scale(0.95);
-}
-
-/* 버튼 그룹 시각적 구분 */
-.action-bar-btn + .action-bar-btn {
-    position: relative;
-}
-
-.action-bar-btn + .action-bar-btn::before {
-    content: '';
-    position: absolute;
-    left: -10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 1px;
-    height: 20px;
-    background: #f1f5f9;
-    opacity: 0.5;
-}
-
-/* 액션 바 호버 효과 */
-.action-bar-btn:hover {
-    transform: translateY(-2px);
-}
-
-.action-bar-btn:active {
-    transform: translateY(0) scale(0.98);
-}
-
-/* 숫자 카운터 스타일 */
-.like-action span {
+.post-like-btn .count {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 11px;
     font-weight: 600;
+    min-width: 16px;
+    text-align: center;
 }
 
-.like-action.active span {
-    color: #ef4444;
-    font-weight: 700;
+.post-like-btn.active .count {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.post-bookmark-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.post-bookmark-btn:hover {
+    background: #f0f9ff;
+    border-color: #93c5fd;
+    color: #3b82f6;
+}
+
+.post-bookmark-btn.active {
+    background: #3b82f6;
+    border-color: #3b82f6;
+    color: white;
 }
 
 /* Replies Section */
@@ -570,18 +502,18 @@
     color: #64748b;
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
+    gap: 10px;
+    padding: 10px 16px;
     border-radius: 6px;
     min-width: 64px;
     justify-content: flex-start;
-    box-sizing: border-box;
 }
 
 .like-btn svg {
     flex-shrink: 0;
     width: 16px;
     height: 16px;
+    display: block;
 }
 
 .like-btn span {
@@ -1086,47 +1018,10 @@
     100% { transform: rotate(360deg); }
 }
 
-@keyframes heartBeat {
-    0% { transform: scale(1); }
-    30% { transform: scale(1.3); }
-    60% { transform: scale(1.1); }
-    100% { transform: scale(1); }
-}
-
-@keyframes bookmarkSave {
-    0% { transform: scale(1) rotate(0deg); }
-    50% { transform: scale(1.2) rotate(3deg); }
-    100% { transform: scale(1) rotate(0deg); }
-}
-
 /* Responsive Design */
 @media (max-width: 375px) {
     .detail-main {
-        padding-bottom: 80px;
-    }
-
-    .post-action-bar {
-        padding: 10px 16px;
-        padding-bottom: max(10px, env(safe-area-inset-bottom));
-    }
-
-    .action-bar-btn {
-        min-width: 60px;
-        padding: 6px 8px;
-    }
-
-    .action-bar-btn svg {
-        width: 18px;
-        height: 18px;
-    }
-
-    .action-bar-btn span {
-        font-size: 10px;
-    }
-
-    .action-bar-btn + .action-bar-btn::before {
-        left: -8px;
-        height: 16px;
+        padding-bottom: 40px;
     }
 
     .question-section,
@@ -1217,6 +1112,17 @@
         font-size: 12px;
         gap: 4px;
     }
+
+    .post-like-btn,
+    .post-bookmark-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+
+    .post-like-btn .count {
+        font-size: 10px;
+        padding: 1px 4px;
+    }
 }
 
 /* Focus States for Accessibility */
@@ -1231,56 +1137,30 @@
 .submit-reply-btn:focus,
 .submit-child-reply-btn:focus,
 .cancel-child-reply-btn:focus,
-.action-bar-btn:focus {
+.post-like-btn:focus,
+.post-bookmark-btn:focus {
     outline-offset: -2px;
 }
 
 /* 고대비 모드 지원 */
 @media (prefers-contrast: high) {
-    .post-action-bar {
-        border-top: 2px solid currentColor;
-    }
-
-    .action-bar-btn {
-        border: 2px solid transparent;
-    }
-
-    .action-bar-btn:hover,
-    .action-bar-btn.active {
-        border-color: currentColor;
-    }
-
     .question-card,
     .reply-form-card,
-    .reply-thread {
+    .reply-thread,
+    .post-like-btn,
+    .post-bookmark-btn {
         border: 2px solid currentColor;
     }
 }
 
 /* 모션 감소 모드 */
 @media (prefers-reduced-motion: reduce) {
-    .action-bar-btn {
-        transition: none;
-    }
-
-    .like-action.active svg,
-    .bookmark-action.active svg {
-        animation: none;
-    }
-
     *,
     *::before,
     *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
-    }
-}
-
-/* Safe Area 지원 */
-@supports (padding-bottom: env(safe-area-inset-bottom)) {
-    .post-action-bar {
-        padding-bottom: max(12px, env(safe-area-inset-bottom));
     }
 }
 

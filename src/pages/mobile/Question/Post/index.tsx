@@ -268,25 +268,6 @@ const PostDetail = () => {
         // API 호출 로직 추가
     };
 
-    // 공유 핸들러
-    const handleShare = async () => {
-        if (navigator.share) {
-            try {
-                await navigator.share({
-                    title: post?.title || '',
-                    text: post?.contents.substring(0, 100) + '...' || '',
-                    url: window.location.href
-                });
-            } catch (error) {
-                console.log('공유 취소됨');
-            }
-        } else {
-            // 폴백: 클립보드에 복사
-            navigator.clipboard.writeText(window.location.href);
-            alert('링크가 클립보드에 복사되었습니다!');
-        }
-    };
-
     const handleSubmitReply = () => {
         if (!replyContent.trim()) return;
         if (!userData) {
@@ -465,6 +446,15 @@ const PostDetail = () => {
                             <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                     </button>
+                    <div className="header-title">질문 상세</div>
+                    <div className="header-actions">
+                        <button className="share-btn">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M15 6.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM15 18.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" stroke="currentColor" strokeWidth="1.5"/>
+                                <path d="M7.5 10.5L12.5 7.5M7.5 10.5L12.5 16.5" stroke="currentColor" strokeWidth="1.5"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </header>
 
@@ -481,6 +471,13 @@ const PostDetail = () => {
                                 <span className="question-time">
                                     {formatTimeAgo(post.createdAt)}
                                 </span>
+                            </div>
+                            <div className="view-count">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M1 8s3-5 7-5 7 5 7 5-3 5-7 5-7-5-7-5z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                                    <circle cx="8" cy="8" r="3" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                                </svg>
+                                <span>조회 {post.viewCount}</span>
                             </div>
                         </div>
 
@@ -512,13 +509,32 @@ const PostDetail = () => {
                             </div>
 
                             <div className="question-actions">
-                                <div className="view-count">
+                                <button
+                                    className={`post-like-btn ${postLiked ? 'active' : ''}`}
+                                    onClick={handlePostLike}
+                                >
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                        <path d="M1 8s3-5 7-5 7 5 7 5-3 5-7 5-7-5-7-5z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-                                        <circle cx="8" cy="8" r="3" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                                        <path d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
+                                              stroke="currentColor"
+                                              strokeWidth="1.5"
+                                              fill={postLiked ? 'currentColor' : 'none'}/>
                                     </svg>
-                                    <span>조회 {post.viewCount}</span>
-                                </div>
+                                    <span>추천</span>
+                                    <span className="count">{postLikes}</span>
+                                </button>
+
+                                <button
+                                    className={`post-bookmark-btn ${isBookmarked ? 'active' : ''}`}
+                                    onClick={handleBookmark}
+                                >
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                        <path d="M3 2v12l5-3 5 3V2a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1z"
+                                              stroke="currentColor"
+                                              strokeWidth="1.5"
+                                              fill={isBookmarked ? 'currentColor' : 'none'}/>
+                                    </svg>
+                                    <span>북마크</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -591,7 +607,7 @@ const PostDetail = () => {
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                                 <path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                                             </svg>
-                                            <span>답글</span>
+                                            <span>⮑ 답글</span>
                                         </button>
 
                                         {/* 대댓글 수 및 토글 버튼 */}
@@ -641,7 +657,6 @@ const PostDetail = () => {
                                                         {(childReplyContent[reply.id] || '').length}/500
                                                     </div>
                                                     <div className="child-reply-buttons">
-                                                        &nbsp;
                                                         <button
                                                             className="cancel-child-reply-btn"
                                                             onClick={() => toggleChildReplyForm(reply.id)}
@@ -788,43 +803,6 @@ const PostDetail = () => {
                     </div>
                 </section>
             </main>
-
-            {/* Post Action Bar */}
-            <div className="post-action-bar">
-                <button
-                    className={`action-bar-btn like-action ${postLiked ? 'active' : ''}`}
-                    onClick={handlePostLike}
-                >
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path d="M10 17.5s-5-3.125-7.5-6.875a4.375 4.375 0 0 1 8.75-4.375 4.375 4.375 0 0 1 8.75 4.375C20 14.375 10 17.5 10 17.5Z"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              fill={postLiked ? 'currentColor' : 'none'}/>
-                    </svg>
-                    <span>추천 {postLikes}</span>
-                </button>
-
-                <button
-                    className={`action-bar-btn bookmark-action ${isBookmarked ? 'active' : ''}`}
-                    onClick={handleBookmark}
-                >
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path d="M4 3v14l6-4 6 4V3a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1z"
-                              stroke="currentColor"
-                              strokeWidth="1.5"
-                              fill={isBookmarked ? 'currentColor' : 'none'}/>
-                    </svg>
-                    <span>북마크</span>
-                </button>
-
-                <button className="action-bar-btn share-action" onClick={handleShare}>
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path d="M15 6.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM15 18.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" stroke="currentColor" strokeWidth="1.5"/>
-                        <path d="M7.5 10.5L12.5 7.5M7.5 10.5L12.5 16.5" stroke="currentColor" strokeWidth="1.5"/>
-                    </svg>
-                    <span>공유하기</span>
-                </button>
-            </div>
 
             {showLoginModal && <CommunityLoginModal setShowLoginModal={setShowLoginModal} action={loginModalStatus}/>}
         </div>
