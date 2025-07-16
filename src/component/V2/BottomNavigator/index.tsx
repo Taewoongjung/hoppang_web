@@ -1,6 +1,6 @@
 import React from 'react';
 import './styles.css';
-import {useHistory, useLocation} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 
 interface BottomNavigatorProps {
     userData: any;
@@ -8,21 +8,20 @@ interface BottomNavigatorProps {
 }
 
 const BottomNavigator: React.FC<BottomNavigatorProps> = ({ userData, isVisible = true }) => {
-    const history = useHistory();
     const location = useLocation();
 
     return (
         <nav className={`bottom-nav ${isVisible ? 'visible' : 'hidden'}`}>
             <button
                 className={`nav-item ${['/chassis/v2/calculator'].includes(location.pathname) ? 'active' : ''}`}
-                onClick={() => history.push("/chassis/v2/calculator")}
+                onClick={() => window.location.href ="/chassis/v2/calculator"}
             >
                 <span className="nav-icon">🏠</span>
                 <span className="nav-label">홈</span>
             </button>
             <button
                 className={`nav-item ${location.pathname === '/question/boards' ? 'active' : ''}`}
-                onClick={() => history.push("/question/boards")}
+                onClick={() => window.location.href ="/question/boards"}
             >
                 <span className="nav-icon">💬&nbsp;</span>
                 <span className="nav-label">커뮤니티</span>
@@ -31,7 +30,7 @@ const BottomNavigator: React.FC<BottomNavigatorProps> = ({ userData, isVisible =
             {userData ?
                 <button
                     className={`nav-item ${location.pathname === '/v2/mypage' ? 'active' : ''}`}
-                    onClick={() => history.push("/v2/mypage")}
+                    onClick={() => window.location.href ="/v2/mypage"}
                 >
                     <span className="nav-icon">👤</span>
                     <span className="nav-label">마이</span>
@@ -39,7 +38,7 @@ const BottomNavigator: React.FC<BottomNavigatorProps> = ({ userData, isVisible =
                 :
                 <button
                     className={`nav-item ${location.pathname === '/v2/login' ? 'active' : ''}`}
-                    onClick={() => history.push("/v2/login")}
+                    onClick={() => window.location.href ="/v2/login"}
                 >
                     <span className="nav-icon">👤</span>
                     <span className="nav-label">마이</span>

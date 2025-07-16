@@ -295,7 +295,7 @@ const Initial = () => {
                             <span className="title-icon">❓</span>
                             최근 질문
                         </h3>
-                        <div className="see-all-btn" onClick={() => history.push('/question/boards')}>
+                        <div className="see-all-btn" onClick={() => window.location.href ='/question/boards'}>
                             <span>전체보기</span>
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                 <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -306,7 +306,7 @@ const Initial = () => {
                         {recentPosts.map((q) => (
                             <div key={q.id}
                                  className="question-item"
-                                 onClick={() => history.push(`/question/boards/posts/${q.id}`)
+                                 onClick={() => window.location.href =`/question/boards/posts/${q.id}`
                             }>
                                 <div className="question-content">
                                     <p className="question-text">{q.title}</p>
@@ -356,7 +356,7 @@ const Initial = () => {
                         <div
                             className="footer-link"
                             onClick={() => {
-                                history.push("/v2/counsel");
+                                window.location.href ="/v2/counsel";
                             }}
                         >
                             <span>고객센터</span>
