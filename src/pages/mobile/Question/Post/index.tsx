@@ -641,6 +641,7 @@ const PostDetail = () => {
                                                         {(childReplyContent[reply.id] || '').length}/500
                                                     </div>
                                                     <div className="child-reply-buttons">
+                                                        &nbsp;
                                                         <button
                                                             className="cancel-child-reply-btn"
                                                             onClick={() => toggleChildReplyForm(reply.id)}
