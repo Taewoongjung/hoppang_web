@@ -163,7 +163,7 @@ const PostDetail = () => {
         });
     }, [postId]);
 
-    const handleLike = async (replyId: any, isLiked: boolean) => {
+    const handleReplyLike = async (replyId: any, isLiked: boolean) => {
         if (!userData) {
             setShowLoginModal(true);
             setLoginModalStatus('like');
@@ -368,6 +368,11 @@ const PostDetail = () => {
         }, 0);
     };
 
+    const handleBackToList = () => {
+        window.location.href = "/question/boards";
+    };
+
+
     if (loading) {
         return (
             <div className="question-detail-container">
@@ -399,7 +404,7 @@ const PostDetail = () => {
                 <div className="header-content">
                     <button
                         className="back-btn"
-                        onClick={() => window.location.href= "/question/boards"}
+                        onClick={handleBackToList}
                     >
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -532,7 +537,7 @@ const PostDetail = () => {
                                     <div className="reply-actions">
                                         <button
                                             className={`like-btn ${reply.isLiked ? 'liked' : ''}`}
-                                            onClick={() => handleLike(reply.id, reply.isLiked)}
+                                            onClick={() => handleReplyLike(reply.id, reply.isLiked)}
                                         >
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                                 <path d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
@@ -670,7 +675,7 @@ const PostDetail = () => {
                                                     <div className="child-reply-actions">
                                                         <button
                                                             className={`like-btn ${childReply.isLiked ? 'liked' : ''}`}
-                                                            onClick={() => handleLike(childReply.id, childReply.isLiked)}
+                                                            onClick={() => handleReplyLike(childReply.id, childReply.isLiked)}
                                                         >
                                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                                                 <path d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
