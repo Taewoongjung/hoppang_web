@@ -8,23 +8,7 @@ import BottomNavigator from "../../../../component/V2/BottomNavigator";
 import useSWR from "swr";
 import fetcher from "../../../../util/fetcher";
 import CommunityLoginModal from "../../../../component/V2/Modal/CommunityLoginRequiredModal";
-
-interface Question {
-    id: number;
-    category: any;
-    title: string;
-    content: string;
-    author: string;
-    isAnonymous: boolean;
-    createdAt: string;
-    answersCount: number;
-    viewCount: number;
-    isAnswered: boolean;
-    tags?: string[];
-    imageCount?: number;
-    boardType?: string;
-    isPinned?: boolean;
-}
+import { Question } from '../interface';
 
 interface Category {
     id: any;
@@ -203,7 +187,7 @@ const QuestionsBoard = () => {
                 content: post.contents,
                 author: post.authorName,
                 createdAt: new Date(post.createdAt).toISOString(),
-                answersCount: Math.floor(Math.random() * 10),
+                replyCount: post.replyCount,
                 viewCount: post.viewCount,
                 isAnswered: Math.random() > 0.3,
                 boardType: post.boardType || 'question',
@@ -211,7 +195,7 @@ const QuestionsBoard = () => {
                 imageCount: null
             }));
 
-            // 🔥 핵심 수정: 항상 새 데이터로 교체 (기존 데이터에 추가하지 않음)
+            // 항상 새 데이터로 교체 (기존 데이터에 추가하지 않음)
             setAllQuestions(questions);
             setAllQuestionsCount(res.data.count);
         } catch (err) {
@@ -492,9 +476,16 @@ const QuestionsBoard = () => {
                                     <h3 className="question-title">{question.title}</h3>
                                     <div className="question-meta">
                                         <span className="question-author">{question.author}</span>
-                                        <span className="question-time">{formatTimeAgo(question.createdAt)}</span>
-                                        <span className="question-stats">조회 {question.viewCount}</span>
-                                        <span className="question-stats">추천 {question.answersCount}</span>
+                                        <span className="question-time">| {formatTimeAgo(question.createdAt)}</span>
+                                        <span className="question-stats">| 조회 {question.viewCount} |</span>
+                                        {question.replyCount > 0 && (
+                                            <span className="replies-count">
+                                                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                                                    <path d="M8 1C11.866 1 15 4.134 15 8C15 11.866 11.866 15 8 15C6.674 15 5.431 14.612 4.378 13.934L1 15L2.066 11.622C1.388 10.569 1 9.326 1 8C1 4.134 4.134 1 8 1Z" stroke="currentColor" strokeWidth="1.2" fill="none"/>
+                                                </svg>
+                                                &nbsp;{question.replyCount}
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
                             </div>

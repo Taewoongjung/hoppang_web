@@ -5,9 +5,11 @@ import '../versatile-styles.css';
 
 import BottomNavigator from "../../../component/V2/BottomNavigator";
 import useSWR from "swr";
-import {callMeData} from "../../../definition/apiPath";
+import {callMeData, callRecentPosts} from "../../../definition/apiPath";
 import fetcher from "../../../util/fetcher";
 import {useHistory} from "react-router-dom";
+import axios from "axios";
+import {Question} from "../Question/interface";
 
 
 declare global {
@@ -21,8 +23,46 @@ declare global {
 const Initial = () => {
     const history = useHistory();
 
+    const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
+        dedupingInterval: 2000
+    });
+
+    const [isBottomNavVisible, setIsBottomNavVisible] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
+    const [recentPosts, setRecentPosts] = useState<Question[]>([]);
+
+
     useEffect(() => {
+        const token = localStorage.getItem("hoppang-token");
+
+        if (token && token !== "undefined") {
+            mutate();
+        }
+
         window.scrollTo(0, 0);
+
+        axios.get(callRecentPosts)
+            .then((res) => {
+                const post = res.data.map((post: any) => ({
+                    id: post.id,
+                    category: post.boardName,
+                    title: post.title,
+                    content: post.contents,
+                    author: post.authorName,
+                    createdAt: post.createdTime,
+                    replyCount: post.replyCount,
+                    viewCount: post.viewCount,
+                    isAnswered: Math.random() > 0.3,
+                    boardType: post.boardType || 'question',
+                    isPinned: post.isPinned || false,
+                    imageCount: null
+                }));
+
+                console.log(post);
+
+                setRecentPosts(post);
+            })
+
     }, []);
 
     useEffect(()=>{
@@ -35,14 +75,6 @@ const Initial = () => {
 
         return () => window.removeEventListener('popstate', preventGoBack);
     }, [])
-
-
-    const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
-        dedupingInterval: 2000
-    });
-
-    const [isBottomNavVisible, setIsBottomNavVisible] = useState(true);
-    const [lastScrollY, setLastScrollY] = useState(0);
 
     // 디바운싱을 위한 타이머 ref
     const scrollTimer = useRef<NodeJS.Timeout | null>(null);
@@ -151,17 +183,12 @@ const Initial = () => {
         }
     };
 
-    const recentQuestions = [
-        { id: 1, question: '이중창 설치 비용이 궁금해요', category: '설치', time: '2시간 전' },
-        { id: 2, question: '창호 교체 시기는 언제인가요?', category: '교체', time: '4시간 전' },
-        { id: 3, question: '결로 현상 해결 방법', category: '수리', time: '6시간 전' },
-    ];
-
     const quickTips = [
         { title: '창호 교체 시기', content: '10-15년마다 교체하는 것이 좋습니다', icon: '📅' },
         { title: '단열 효과', content: '이중창으로 난방비를 30% 절약하세요', icon: '🔥' },
         { title: '방음 효과', content: '소음을 50% 이상 차단할 수 있습니다', icon: '🔇' }
     ];
+
 
     return (
         <div className="app-container">
@@ -276,14 +303,26 @@ const Initial = () => {
                         </div>
                     </div>
                     <div className="questions-list">
-                        {recentQuestions.map((q) => (
-                            <div key={q.id} className="question-item" onClick={() => history.push('/question/boards')}>
+                        {recentPosts.map((q) => (
+                            <div key={q.id}
+                                 className="question-item"
+                                 onClick={() => history.push(`/question/boards/posts/${q.id}`)
+                            }>
                                 <div className="question-content">
+                                    <p className="question-text">{q.title}</p>
                                     <div className="question-meta">
                                         <span className="question-category">{q.category}</span>
-                                        <span className="question-time">{q.time}</span>
+                                        <span className="question-element">{q.createdAt}</span>
+                                        <span className="question-element">| 조회 {q.viewCount} |</span>
+                                        {q.replyCount > 0 && (
+                                            <span className="question-element">
+                                                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                                                    <path d="M8 1C11.866 1 15 4.134 15 8C15 11.866 11.866 15 8 15C6.674 15 5.431 14.612 4.378 13.934L1 15L2.066 11.622C1.388 10.569 1 9.326 1 8C1 4.134 4.134 1 8 1Z" stroke="currentColor" strokeWidth="1.2" fill="none"/>
+                                                </svg>
+                                                &nbsp;{q.replyCount}
+                                            </span>
+                                        )}
                                     </div>
-                                    <p className="question-text">{q.question}</p>
                                 </div>
                                 <div className="question-arrow">
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
