@@ -55,7 +55,6 @@ interface Reply {
 
 const PostDetail = () => {
     const { postId } = useParams<{ postId: string }>();
-
     const searchParams = new URLSearchParams(window.location.search);
 
     const [post, setPost] = useState<PostDetail | null>(null);
@@ -70,6 +69,11 @@ const PostDetail = () => {
     const [isSubmittingChildReply, setIsSubmittingChildReply] = useState<{[key: number]: boolean}>({});
     const [showChildReplyForm, setShowChildReplyForm] = useState<{[key: number]: boolean}>({});
     const [expandedReplies, setExpandedReplies] = useState<{[key: number]: boolean}>({});
+
+    // 게시물 액션 상태
+    const [postLiked, setPostLiked] = useState(false);
+    const [postLikes, setPostLikes] = useState(0);
+    const [isBookmarked, setIsBookmarked] = useState(false);
 
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [loginModalStatus, setLoginModalStatus] = useState<'question' | 'reply' | 'like' | 'general' | ''>('');
@@ -144,7 +148,6 @@ const PostDetail = () => {
 
     // 포스팅 상세 조회
     useEffect(() => {
-
         let queryParam = '';
         if (searchParams.get('loggedInUserId')) {
             queryParam = "?loggedInUserId=" + searchParams.get('loggedInUserId');
@@ -163,7 +166,7 @@ const PostDetail = () => {
         });
     }, [postId]);
 
-    const handleReplyLike = async (replyId: any, isLiked: boolean) => {
+    const handleLike = async (replyId: any, isLiked: boolean) => {
         if (!userData) {
             setShowLoginModal(true);
             setLoginModalStatus('like');
@@ -223,7 +226,64 @@ const PostDetail = () => {
                 {
                     withCredentials: true,
                     headers: {Authorization: localStorage.getItem("hoppang-token")},
-            });
+                });
+        }
+    };
+
+    // 게시물 좋아요 핸들러
+    const handlePostLike = async () => {
+        if (!userData) {
+            setShowLoginModal(true);
+            setLoginModalStatus('like');
+            return;
+        }
+
+        // 낙관적 업데이트
+        setPostLiked(prev => !prev);
+        setPostLikes(prev => postLiked ? prev - 1 : prev + 1);
+
+        // API 호출 (실제 구현 시 사용)
+        try {
+            // if (postLiked) {
+            //     await axios.delete(`/api/posts/${postId}/like`);
+            // } else {
+            //     await axios.post(`/api/posts/${postId}/like`);
+            // }
+        } catch (error) {
+            // 에러 시 롤백
+            setPostLiked(prev => !prev);
+            setPostLikes(prev => postLiked ? prev + 1 : prev - 1);
+        }
+    };
+
+    // 북마크 핸들러
+    const handleBookmark = async () => {
+        if (!userData) {
+            setShowLoginModal(true);
+            setLoginModalStatus('general');
+            return;
+        }
+
+        setIsBookmarked(prev => !prev);
+        // API 호출 로직 추가
+    };
+
+    // 공유 핸들러
+    const handleShare = async () => {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: post?.title || '',
+                    text: post?.contents.substring(0, 100) + '...' || '',
+                    url: window.location.href
+                });
+            } catch (error) {
+                console.log('공유 취소됨');
+            }
+        } else {
+            // 폴백: 클립보드에 복사
+            navigator.clipboard.writeText(window.location.href);
+            alert('링크가 클립보드에 복사되었습니다!');
         }
     };
 
@@ -368,11 +428,6 @@ const PostDetail = () => {
         }, 0);
     };
 
-    const handleBackToList = () => {
-        window.location.href = "/question/boards";
-    };
-
-
     if (loading) {
         return (
             <div className="question-detail-container">
@@ -404,21 +459,12 @@ const PostDetail = () => {
                 <div className="header-content">
                     <button
                         className="back-btn"
-                        onClick={handleBackToList}
+                        onClick={() => window.location.href= "/question/boards"}
                     >
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                     </button>
-                    <div className="header-title">질문 상세</div>
-                    <div className="header-actions">
-                        <button className="share-btn">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <path d="M15 6.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM15 18.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" stroke="currentColor" strokeWidth="1.5"/>
-                                <path d="M7.5 10.5L12.5 7.5M7.5 10.5L12.5 16.5" stroke="currentColor" strokeWidth="1.5"/>
-                            </svg>
-                        </button>
-                    </div>
                 </div>
             </header>
 
@@ -466,19 +512,13 @@ const PostDetail = () => {
                             </div>
 
                             <div className="question-actions">
-                                <div className="search-count">
+                                <div className="view-count">
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                        <path d="M8 1v6l3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-                                        <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.5"/>
+                                        <path d="M1 8s3-5 7-5 7 5 7 5-3 5-7 5-7-5-7-5z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                                        <circle cx="8" cy="8" r="3" stroke="currentColor" strokeWidth="1.5" fill="none"/>
                                     </svg>
-                                    <span>{post.viewCount}</span>
+                                    <span>조회 {post.viewCount}</span>
                                 </div>
-                                <button className="action-btn">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                        <path d="M8 1l2.5 5L16 6.5l-4 4 1 5.5L8 13l-5 3 1-5.5-4-4L5.5 6 8 1Z" stroke="currentColor" strokeWidth="1.5"/>
-                                    </svg>
-                                    <span>북마크</span>
-                                </button>
                             </div>
                         </div>
                     </div>
@@ -518,9 +558,6 @@ const PostDetail = () => {
                                             </div>
                                             <div className="author-info">
                                                 <span className="author-name">{reply.authorName}</span>
-                                                {/*<span className="author-role">*/}
-                                                {/*    {reply.registerId === post.registerId.toString() ? '작성자' : '일반사용자'}*/}
-                                                {/*</span>*/}
                                             </div>
                                         </div>
                                         <div className="reply-time">
@@ -537,7 +574,7 @@ const PostDetail = () => {
                                     <div className="reply-actions">
                                         <button
                                             className={`like-btn ${reply.isLiked ? 'liked' : ''}`}
-                                            onClick={() => handleReplyLike(reply.id, reply.isLiked)}
+                                            onClick={() => handleLike(reply.id, reply.isLiked)}
                                         >
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                                 <path d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
@@ -675,7 +712,7 @@ const PostDetail = () => {
                                                     <div className="child-reply-actions">
                                                         <button
                                                             className={`like-btn ${childReply.isLiked ? 'liked' : ''}`}
-                                                            onClick={() => handleReplyLike(childReply.id, childReply.isLiked)}
+                                                            onClick={() => handleLike(childReply.id, childReply.isLiked)}
                                                         >
                                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                                                 <path d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
@@ -750,6 +787,43 @@ const PostDetail = () => {
                     </div>
                 </section>
             </main>
+
+            {/* Post Action Bar */}
+            <div className="post-action-bar">
+                <button
+                    className={`action-bar-btn like-action ${postLiked ? 'active' : ''}`}
+                    onClick={handlePostLike}
+                >
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M10 17.5s-5-3.125-7.5-6.875a4.375 4.375 0 0 1 8.75-4.375 4.375 4.375 0 0 1 8.75 4.375C20 14.375 10 17.5 10 17.5Z"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              fill={postLiked ? 'currentColor' : 'none'}/>
+                    </svg>
+                    <span>추천 {postLikes}</span>
+                </button>
+
+                <button
+                    className={`action-bar-btn bookmark-action ${isBookmarked ? 'active' : ''}`}
+                    onClick={handleBookmark}
+                >
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M4 3v14l6-4 6 4V3a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1z"
+                              stroke="currentColor"
+                              strokeWidth="1.5"
+                              fill={isBookmarked ? 'currentColor' : 'none'}/>
+                    </svg>
+                    <span>북마크</span>
+                </button>
+
+                <button className="action-bar-btn share-action" onClick={handleShare}>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M15 6.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM15 18.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" stroke="currentColor" strokeWidth="1.5"/>
+                        <path d="M7.5 10.5L12.5 7.5M7.5 10.5L12.5 16.5" stroke="currentColor" strokeWidth="1.5"/>
+                    </svg>
+                    <span>공유하기</span>
+                </button>
+            </div>
 
             {showLoginModal && <CommunityLoginModal setShowLoginModal={setShowLoginModal} action={loginModalStatus}/>}
         </div>
