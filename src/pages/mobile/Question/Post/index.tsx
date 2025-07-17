@@ -604,9 +604,6 @@ const PostDetail = () => {
                                             className={`reply-btn ${showChildReplyForm[reply.id] ? 'active' : ''}`}
                                             onClick={() => toggleChildReplyForm(reply.id)}
                                         >
-                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                <path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                                            </svg>
                                             <span>⮑ 답글</span>
                                         </button>
 
