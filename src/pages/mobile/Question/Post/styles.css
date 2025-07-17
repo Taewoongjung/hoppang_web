@@ -341,19 +341,19 @@
 }
 
 .replies-title {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 700;
     color: #1e293b;
     margin: 0;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
 
 .replies-count {
     background: #6366f1;
     color: white;
-    font-size: 14px;
+    font-size: 11px;
     padding: 4px 8px;
     border-radius: 6px;
     min-width: 20px;
