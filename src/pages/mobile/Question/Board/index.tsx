@@ -10,7 +10,13 @@ import fetcher from "../../../../util/fetcher";
 import CommunityLoginModal from "../../../../component/V2/Modal/CommunityLoginRequiredModal";
 import { Question } from '../interface';
 
-interface Category {
+interface Board {
+    id: any;
+    name: string;
+    branchBoards: BranchBoard[]
+}
+
+interface BranchBoard {
     id: any;
     name: string;
 }
@@ -35,7 +41,7 @@ const QuestionsBoard = () => {
     const [allQuestions, setAllQuestions] = useState<Question[]>([]);
     const [allQuestionsCount, setAllQuestionsCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
-    const [categories, setCategories] = useState<Category[]>([]);
+    const [boards, setBoards] = useState<Board[]>([]);
     const [selectedBoardType, setSelectedBoardType] = useState('all');
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -64,6 +70,31 @@ const QuestionsBoard = () => {
 
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [loginModalStatus, setLoginModalStatus] = useState<'question' | 'reply' | 'like' | 'general' | ''>('');
+
+    const getBoardNames = (boardId: number | string): { rootName?: string; branchName?: string } => {
+        const result: { rootName?: string; branchName?: string } = {};
+
+        for (const board of boards) {
+            // branch에서 먼저 찾기
+            const branchBoard = board.branchBoards.find(
+                branch => String(branch.id) === String(boardId)
+            );
+
+            if (branchBoard) {
+                result.branchName = branchBoard.name;
+                result.rootName = board.name; // branch가 있으면 root는 부모 board
+                return result; // 둘 다 찾았으면 여기서 끝내도 됨
+            }
+
+            // branch에 없으면 root에서 찾기
+            if (String(board.id) === String(boardId)) {
+                result.rootName = board.name;
+                return result;
+            }
+        }
+
+        return result;
+    };
 
     // 스크롤 이벤트 핸들러
     const handleScroll = useCallback(() => {
@@ -161,11 +192,12 @@ const QuestionsBoard = () => {
         try {
             const res = await axios.get(callBoards);
             if (res.data) {
-                const categories: Category[] = res.data.map((category: any) => ({
+                const boards: Board[] = res.data.map((category: any) => ({
                     id: category.id,
-                    name: category.name
+                    name: category.name,
+                    branchBoards: category.branchBoards
                 }));
-                setCategories(categories);
+                setBoards(boards);
             }
         } catch (err) {
             console.error("Failed to fetch categories:", err);
@@ -191,7 +223,6 @@ const QuestionsBoard = () => {
                 viewCount: post.viewCount,
                 isAnswered: Math.random() > 0.3,
                 boardType: post.boardType || 'question',
-                isPinned: post.isPinned || false,
                 imageCount: null
             }));
 
@@ -369,6 +400,82 @@ const QuestionsBoard = () => {
         return pages;
     };
 
+    // 게시물 배지 렌더링 함수
+    const renderQuestionBadges = (question: Question) => {
+        const badges = [];
+
+        // 카테고리 배지 (전체 탭에서만 표시하고, 카테고리가 있는 경우)
+        if (selectedBoardType === 'all' && question.category) {
+            const categoryNames = getBoardNames(question.category);
+            console.log("?@@ = ", categoryNames);
+            if (categoryNames.rootName) {
+                badges.push(
+                    <span
+                        key="board-type"
+                        className="board-type-badge"
+                        style={{ backgroundColor: boardTypes.find(type => type.name === categoryNames.rootName)?.color }}
+                    >
+                    {categoryNames.rootName}
+                </span>
+                );
+            }
+            if (categoryNames.branchName) {
+                badges.push(
+                    <span
+                        key="category"
+                        className="category-badge"
+                    >
+                        {categoryNames.branchName}
+                    </span>
+                );
+            }
+        }
+
+        // 이미지 배지
+        if (question.imageCount && question.imageCount > 0) {
+            badges.push(
+                <span key="image" className="image-badge">
+                    <svg width="10" height="10" viewBox="0 0 16 16" fill="none">
+                        <path d="M14 2H2C1.45 2 1 2.45 1 3V13C1 13.55 1.45 14 2 14H14C14.55 14 15 13.55 15 13V3C15 2.45 14.55 2 14 2ZM5 10.5L7 12.5L10 8.5L14 12H2L5 10.5Z" fill="currentColor"/>
+                    </svg>
+                    {question.imageCount}
+                </span>
+            );
+        }
+
+        return badges;
+    };
+
+    // // 답변 완료 배지 렌더링 함수
+    // const renderAnsweredBadge = (question: Question) => {
+    //     if (question.isAnswered) {
+    //         return (
+    //             <span className="answered-badge">
+    //                 <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+    //                     <path d="M13.5 4.5L6 12L2.5 8.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+    //                 </svg>
+    //                 답변완료
+    //             </span>
+    //         );
+    //     }
+    //     return null;
+    // };
+
+    // 댓글 수 렌더링 함수
+    const renderRepliesCount = (question: Question) => {
+        if (question.replyCount > 0) {
+            return (
+                <span className="replies-count">
+                    <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                        <path d="M8 1C11.866 1 15 4.134 15 8C15 11.866 11.866 15 8 15C6.674 15 5.431 14.612 4.378 13.934L1 15L2.066 11.622C1.388 10.569 1 9.326 1 8C1 4.134 4.134 1 8 1Z" stroke="currentColor" strokeWidth="1.2" fill="none"/>
+                    </svg>
+                    {question.replyCount}
+                </span>
+            );
+        }
+        return null;
+    };
+
     return (
         <div className="questions-container"
              onTouchStart={handleTouchStart}
@@ -468,24 +575,21 @@ const QuestionsBoard = () => {
                     {allQuestions.map((question) => (
                         <div
                             key={question.id}
-                            className="question-item"
+                            className={`question-item`}
                             onClick={() => handlePostDetail(question.id)}
                         >
                             <div className="question-main">
                                 <div className="question-header">
+                                    <div className="question-badges">
+                                        {renderQuestionBadges(question)}
+                                        {/*{renderAnsweredBadge(question)}*/}
+                                    </div>
                                     <h3 className="question-title">{question.title}</h3>
                                     <div className="question-meta">
                                         <span className="question-author">{question.author}</span>
                                         <span className="question-time">| {formatTimeAgo(question.createdAt)}</span>
-                                        <span className="question-stats">| 조회 {question.viewCount} |</span>
-                                        {question.replyCount > 0 && (
-                                            <span className="replies-count">
-                                                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                                                    <path d="M8 1C11.866 1 15 4.134 15 8C15 11.866 11.866 15 8 15C6.674 15 5.431 14.612 4.378 13.934L1 15L2.066 11.622C1.388 10.569 1 9.326 1 8C1 4.134 4.134 1 8 1Z" stroke="currentColor" strokeWidth="1.2" fill="none"/>
-                                                </svg>
-                                                &nbsp;{question.replyCount}
-                                            </span>
-                                        )}
+                                        <span className="question-stats">| 조회 {question.viewCount}</span>
+                                        {renderRepliesCount(question)}
                                     </div>
                                 </div>
                             </div>

@@ -11,6 +11,4 @@ export interface Question {
     isAnswered: boolean;
     tags?: string[];
     imageCount?: number;
-    boardType?: string;
-    isPinned?: boolean;
 }
