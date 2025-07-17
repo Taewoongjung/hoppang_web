@@ -23,6 +23,7 @@ interface PostDetail {
     lastModified: string;
     viewCount: string;
     likeCount: string;
+    didILiked: boolean;
 }
 
 interface ChildReply {
@@ -511,7 +512,7 @@ const PostDetail = () => {
 
                             <div className="question-actions">
                                 <button
-                                    className={`post-like-btn ${postLiked ? 'active' : ''}`}
+                                    className={`post-like-btn ${post.didILiked ? 'active' : ''}`}
                                     onClick={handlePostLike}
                                 >
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
