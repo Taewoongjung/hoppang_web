@@ -22,6 +22,7 @@ interface PostDetail {
     createdAt: string;
     lastModified: string;
     viewCount: string;
+    likeCount: string;
 }
 
 interface ChildReply {
@@ -520,7 +521,7 @@ const PostDetail = () => {
                                               fill={postLiked ? 'currentColor' : 'none'}/>
                                     </svg>
                                     <span>추천</span>
-                                    <span className="count">{postLikes}</span>
+                                    <span className="count">{post.likeCount}</span>
                                 </button>
 
                                 <button
