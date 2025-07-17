@@ -227,6 +227,7 @@
 .author-info {
     display: flex;
     flex-direction: column;
+    width: 120px;
     gap: 2px;
 }
 
@@ -272,7 +273,6 @@
     font-size: 12px;
     font-weight: 500;
     transition: all 0.2s ease;
-    cursor: pointer;
 }
 
 .post-like-btn:hover {
@@ -307,25 +307,16 @@
     gap: 4px;
     padding: 8px 12px;
     border-radius: 20px;
-    border: 1px solid #e2e8f0;
+    border: white;
     background: white;
     color: #64748b;
     font-size: 12px;
     font-weight: 500;
     transition: all 0.2s ease;
-    cursor: pointer;
-}
-
-.post-bookmark-btn:hover {
-    background: #f0f9ff;
-    border-color: #93c5fd;
-    color: #3b82f6;
 }
 
 .post-bookmark-btn.active {
-    background: #3b82f6;
-    border-color: #3b82f6;
-    color: white;
+    color: #3b82f6;
 }
 
 /* Replies Section */

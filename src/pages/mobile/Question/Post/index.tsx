@@ -502,13 +502,20 @@ const PostDetail = () => {
                                     {formatTimeAgo(post.createdAt)}
                                 </span>
                             </div>
-                            <div className="view-count">
+
+                            {/*북마크*/}
+                            <button
+                                className={`post-bookmark-btn ${isBookmarked ? 'active' : ''}`}
+                                onClick={handleBookmark}
+                            >
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M1 8s3-5 7-5 7 5 7 5-3 5-7 5-7-5-7-5z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-                                    <circle cx="8" cy="8" r="3" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                                    <path d="M3 2v12l5-3 5 3V2a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1z"
+                                          stroke="currentColor"
+                                          strokeWidth="1.5"
+                                          fill={isBookmarked ? 'currentColor' : 'none'}/>
                                 </svg>
-                                <span>조회 {post.viewCount}</span>
-                            </div>
+                                <span>북마크</span>
+                            </button>
                         </div>
 
                         <h1 className="question-title">
@@ -521,6 +528,14 @@ const PostDetail = () => {
                             {post.contents.split('\n').map((line, index) => (
                                 <p key={index} style={{ wordBreak: 'break-word' }}>{line}</p>
                             ))}
+                        </div>
+
+                        <div className="view-count">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M1 8s3-5 7-5 7 5 7 5-3 5-7 5-7-5-7-5z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                                <circle cx="8" cy="8" r="3" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                            </svg>
+                            <span>조회 {post.viewCount}</span>
                         </div>
 
                         <div className="question-footer">
@@ -551,19 +566,6 @@ const PostDetail = () => {
                                     </svg>
                                     <span>추천</span>
                                     <span className="count">{postLikes}</span>
-                                </button>
-
-                                <button
-                                    className={`post-bookmark-btn ${isBookmarked ? 'active' : ''}`}
-                                    onClick={handleBookmark}
-                                >
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                        <path d="M3 2v12l5-3 5 3V2a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1z"
-                                              stroke="currentColor"
-                                              strokeWidth="1.5"
-                                              fill={isBookmarked ? 'currentColor' : 'none'}/>
-                                    </svg>
-                                    <span>북마크</span>
                                 </button>
                             </div>
                         </div>
