@@ -171,9 +171,14 @@ const PostDetail = () => {
                 withCredentials: true,
             }
         ).then((res) => {
-            setPost(res.data);
+
+            const post = res.data;
+
             setLoading(false);
-            setPostLikes(res.data.likeCount);
+            setPostLikes(post.likeCount);
+            setPostLiked(post.didILiked)
+            setPost(post);
+
         }).catch((err) => {
             setError(err);
         });
@@ -535,7 +540,7 @@ const PostDetail = () => {
 
                             <div className="question-actions">
                                 <button
-                                    className={`post-like-btn ${(postLiked || post.didILiked) ? 'active' : ''}`}
+                                    className={`post-like-btn ${postLiked ? 'active' : ''}`}
                                     onClick={handlePostLike}
                                 >
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
