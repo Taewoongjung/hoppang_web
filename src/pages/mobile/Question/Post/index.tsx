@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import useSWR from "swr";
-import {callBoardsPostsById, callMeData, callPostsReply, callPostsReplyLike} from "../../../../definition/apiPath";
+import {
+    callBoardsPostsById,
+    callBoardsPostsLike,
+    callMeData,
+    callPostsReply,
+    callPostsReplyLike
+} from "../../../../definition/apiPath";
 import fetcher from "../../../../util/fetcher";
 import axios from "axios";
 
@@ -155,6 +161,10 @@ const PostDetail = () => {
             queryParam = "?loggedInUserId=" + searchParams.get('loggedInUserId');
         }
 
+        if (userData && queryParam === '') {
+            queryParam = "?loggedInUserId=" + userData.id;
+        }
+
         axios.get(
             callBoardsPostsById.replace("{postId}", postId) + queryParam,
             {
@@ -163,6 +173,7 @@ const PostDetail = () => {
         ).then((res) => {
             setPost(res.data);
             setLoading(false);
+            setPostLikes(res.data.likeCount);
         }).catch((err) => {
             setError(err);
         });
@@ -240,21 +251,32 @@ const PostDetail = () => {
             return;
         }
 
-        // 낙관적 업데이트
-        setPostLiked(prev => !prev);
-        setPostLikes(prev => postLiked ? prev - 1 : prev + 1);
+        const prevLiked = postLiked;
+        const nextLiked = !prevLiked;
 
-        // API 호출 (실제 구현 시 사용)
+        // 낙관적 업데이트
+        setPostLiked(nextLiked);
+        setPostLikes(prev => prev + (nextLiked ? 1 : -1));
+
         try {
-            // if (postLiked) {
-            //     await axios.delete(`/api/posts/${postId}/like`);
-            // } else {
-            //     await axios.post(`/api/posts/${postId}/like`);
-            // }
+            const apiUrl = callBoardsPostsLike.replace("{postId}", postId);
+
+            if (nextLiked) {
+                await axios.patch(apiUrl, {}, {
+                    withCredentials: true,
+                    headers: { Authorization: localStorage.getItem("hoppang-token") },
+                });
+            } else {
+                await axios.delete(apiUrl, {
+                    withCredentials: true,
+                    headers: { Authorization: localStorage.getItem("hoppang-token") },
+                });
+            }
+
         } catch (error) {
-            // 에러 시 롤백
-            setPostLiked(prev => !prev);
-            setPostLikes(prev => postLiked ? prev + 1 : prev - 1);
+            // 롤백
+            setPostLiked(prevLiked);
+            setPostLikes(prev => prev + (prevLiked ? 1 : -1));
         }
     };
 
@@ -411,6 +433,7 @@ const PostDetail = () => {
         }, 0);
     };
 
+
     if (loading) {
         return (
             <div className="question-detail-container">
@@ -512,7 +535,7 @@ const PostDetail = () => {
 
                             <div className="question-actions">
                                 <button
-                                    className={`post-like-btn ${post.didILiked ? 'active' : ''}`}
+                                    className={`post-like-btn ${postLiked ? 'active' : ''}`}
                                     onClick={handlePostLike}
                                 >
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -522,7 +545,7 @@ const PostDetail = () => {
                                               fill={postLiked ? 'currentColor' : 'none'}/>
                                     </svg>
                                     <span>추천</span>
-                                    <span className="count">{post.likeCount}</span>
+                                    <span className="count">{postLikes}</span>
                                 </button>
 
                                 <button
