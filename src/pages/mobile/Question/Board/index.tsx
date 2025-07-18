@@ -54,11 +54,11 @@ const QuestionsBoard = () => {
     // 게시판 타입 정의
     const boardTypes: BoardType[] = [
         { id: 'all', name: '전체', color: '#6366f1' },
-        { id: 'notice', name: '공지사항', color: '#ef4444' },
-        { id: 'question', name: '질문', color: '#3b82f6' },
-        { id: 'free', name: '자유', color: '#10b981' },
-        { id: 'tips', name: '꿀팁', color: '#f59e0b' },
-        { id: 'event', name: '이벤트', color: '#8b5cf6' }
+        { id: '1', name: '공지사항', color: '#ef4444' },
+        { id: '2', name: '질문', color: '#3b82f6' },
+        { id: '3', name: '자유', color: '#10b981' },
+        { id: '4', name: '꿀팁', color: '#f59e0b' },
+        { id: '10', name: '이벤트', color: '#8b5cf6' }
     ];
 
     const [isBottomNavVisible, setIsBottomNavVisible] = useState(true);
@@ -221,7 +221,9 @@ const QuestionsBoard = () => {
             const offset = (page - 1) * limit;
             await new Promise(resolve => setTimeout(resolve, 300)); // 시뮬레이션
 
-            const res = await axios.get(`${callBoardsPosts}?limit=${limit}&offset=${offset}&boardIdList=${selectedBoardType}&searchWord=${searchQuery}`);
+            const boardId = selectedBoardType === 'all' ? '' : selectedBoardType;
+
+            const res = await axios.get(`${callBoardsPosts}?limit=${limit}&offset=${offset}&boardIdList=${boardId}&searchWord=${searchQuery}`);
             const posts = res.data.postsList;
             const questions: Question[] = posts.map((post: any) => ({
                 id: post.id,
@@ -422,7 +424,6 @@ const QuestionsBoard = () => {
         // 카테고리 배지 (전체 탭에서만 표시하고, 카테고리가 있는 경우)
         if (selectedBoardType === 'all' && question.category) {
             const categoryNames = getBoardNames(question.category);
-            console.log("?@@ = ", categoryNames);
             if (categoryNames.rootName) {
                 badges.push(
                     <span
