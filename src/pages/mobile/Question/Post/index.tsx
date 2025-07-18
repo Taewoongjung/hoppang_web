@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 import useSWR from "swr";
 import {
     callBoardsPostsById,
@@ -31,6 +31,7 @@ interface PostDetail {
     likeCount: string;
     didILiked: boolean;
     didIBookmarked: boolean;
+    revised: boolean;
 }
 
 interface ChildReply {
@@ -62,8 +63,58 @@ interface Reply {
     authorName: string;
 }
 
+// 삭제 확인 모달 컴포넌트
+const DeleteConfirmModal: React.FC<{
+    isOpen: boolean;
+    onClose: () => void;
+    onConfirm: () => void;
+    isDeleting: boolean;
+}> = ({ isOpen, onClose, onConfirm, isDeleting }) => {
+    if (!isOpen) return null;
+
+    return (
+        <div className="modal-overlay">
+            <div className="delete-modal">
+                <div className="delete-modal-content">
+                    <h3>댓글 삭제</h3>
+                    <p>정말로 이 댓글을 삭제하시겠습니까?</p>
+                    <div className="delete-modal-actions">
+                        <button
+                            className="cancel-btn"
+                            onClick={onClose}
+                            disabled={isDeleting}
+                        >
+                            취소
+                        </button>
+                        <button
+                            className={`delete-btn ${isDeleting ? 'deleting' : ''}`}
+                            onClick={onConfirm}
+                            disabled={isDeleting}
+                            style={{
+                                background: "#ef4444",
+                                color: "white",
+                                borderRadius: "6px"
+                            }}
+                        >
+                            {isDeleting ? (
+                                <>
+                                    <span className="loading-spinner-small"></span>
+                                    삭제 중...
+                                </>
+                            ) : (
+                                '삭제'
+                            )}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const PostDetail = () => {
     const { postId } = useParams<{ postId: string }>();
+    const history = useHistory();
     const searchParams = new URLSearchParams(window.location.search);
 
     const [post, setPost] = useState<PostDetail | null>(null);
@@ -73,11 +124,25 @@ const PostDetail = () => {
     const [replyContent, setReplyContent] = useState('');
     const [isSubmittingReply, setIsSubmittingReply] = useState(false);
 
+    // 게시글 수정 관련
+    const [editingPost, setEditingPost] = useState(false);
+
     // 대댓글 관련 상태
     const [childReplyContent, setChildReplyContent] = useState<{[key: number]: string}>({});
     const [isSubmittingChildReply, setIsSubmittingChildReply] = useState<{[key: number]: boolean}>({});
     const [showChildReplyForm, setShowChildReplyForm] = useState<{[key: number]: boolean}>({});
     const [expandedReplies, setExpandedReplies] = useState<{[key: number]: boolean}>({});
+
+    // 수정 관련 상태
+    const [editingReplyId, setEditingReplyId] = useState<number | null>(null);
+    const [editingContent, setEditingContent] = useState('');
+    const [isSubmittingEdit, setIsSubmittingEdit] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+
+    // 삭제 관련 상태
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deletingReplyId, setDeletingReplyId] = useState<number | null>(null);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     // 게시물 액션 상태
     const [postLiked, setPostLiked] = useState(false);
@@ -252,6 +317,12 @@ const PostDetail = () => {
                 });
         }
     };
+
+    // 게시물 수정 핸들러
+    const handlePostEdit = () => {
+        setEditingPost(true);
+        history.push(`/question/boards/posts/register?revisingPostId=${postId}&from=postEdit`);
+    }
 
     // 게시물 좋아요 핸들러
     const handlePostLike = async () => {
@@ -437,6 +508,103 @@ const PostDetail = () => {
         }
     };
 
+    // 댓글 수정 시작
+    const handleEditReply = (replyId: number, currentContent: string) => {
+        setIsEditing(true);
+        setEditingReplyId(replyId);
+        setEditingContent(currentContent);
+    };
+
+    // 댓글 수정 취소
+    const handleCancelEdit = () => {
+        setIsEditing(false);
+        setEditingReplyId(null);
+        setEditingContent('');
+    };
+
+    // 댓글 수정 제출
+    const handleSubmitEdit = async (replyId: number) => {
+        if (!editingContent.trim()) return;
+        if (isSubmittingEdit) return;
+
+        setIsSubmittingEdit(true);
+
+        try {
+            await axios.put(
+                callPostsReply.replace("{postId}", postId) + `/${replyId}`,
+                {
+                    contents: editingContent
+                },
+                {
+                    withCredentials: true,
+                    headers: {
+                        Authorization: localStorage.getItem("hoppang-token"),
+                    }
+                }
+            );
+
+            // 댓글 목록 새로고침
+            let currentUserId = userData.id;
+            let queryParam = currentUserId ? `?loggedInUserId=${currentUserId}` : ``;
+            await fetchReplies(queryParam);
+
+            // 수정 모드 종료
+            setIsEditing(false);
+            setEditingReplyId(null);
+            setEditingContent('');
+
+        } catch (error) {
+            console.error('댓글 수정 실패:', error);
+        } finally {
+            setIsSubmittingEdit(false);
+        }
+    };
+
+    // 댓글 삭제 시작
+    const handleDeleteReply = (replyId: number) => {
+        setDeletingReplyId(replyId);
+        setShowDeleteModal(true);
+    };
+
+    // 댓글 삭제 확인
+    const handleConfirmDelete = async () => {
+        if (!deletingReplyId) return;
+
+        setIsDeleting(true);
+
+        try {
+            await axios.delete(
+                callPostsReply.replace("{postId}", postId) + `/${deletingReplyId}`,
+                {
+                    withCredentials: true,
+                    headers: {
+                        Authorization: localStorage.getItem("hoppang-token"),
+                    }
+                }
+            );
+
+            // 댓글 목록 새로고침
+            let currentUserId = userData.id;
+            let queryParam = currentUserId ? `?loggedInUserId=${currentUserId}` : ``;
+            await fetchReplies(queryParam);
+
+            // 모달 닫기
+            setShowDeleteModal(false);
+            setDeletingReplyId(null);
+
+        } catch (error) {
+            console.error('댓글 삭제 실패:', error);
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
+    // 모달 닫기
+    const handleCloseDeleteModal = () => {
+        setShowDeleteModal(false);
+        setDeletingReplyId(null);
+    };
+
     // 대댓글 폼 토글
     const toggleChildReplyForm = (replyId: number) => {
         setShowChildReplyForm(prev => ({
@@ -463,6 +631,11 @@ const PostDetail = () => {
         return replies.reduce((total, reply) => {
             return total + 1 + (reply.postsChildReplyList?.length || 0);
         }, 0);
+    };
+
+    // 댓글 작성자 확인
+    const canEditReply = (reply: Reply | ChildReply) => {
+        return userData && (userData.id.toString() === reply.registerId || userData.id === reply.registerId);
     };
 
 
@@ -497,18 +670,22 @@ const PostDetail = () => {
                 <div className="header-content">
                     <button
                         className="back-btn"
-                        onClick={() => window.location.href= "/question/boards"}
+                        onClick={() => window.location.href = "/question/boards"}
                     >
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                  strokeLinejoin="round"/>
                         </svg>
                     </button>
                     <div className="header-title">질문 상세</div>
                     <div className="header-actions">
                         <button className="share-btn">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <path d="M15 6.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM15 18.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" stroke="currentColor" strokeWidth="1.5"/>
-                                <path d="M7.5 10.5L12.5 7.5M7.5 10.5L12.5 16.5" stroke="currentColor" strokeWidth="1.5"/>
+                                <path
+                                    d="M15 6.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM15 18.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"
+                                    stroke="currentColor" strokeWidth="1.5"/>
+                                <path d="M7.5 10.5L12.5 7.5M7.5 10.5L12.5 16.5" stroke="currentColor"
+                                      strokeWidth="1.5"/>
                             </svg>
                         </button>
                     </div>
@@ -547,29 +724,48 @@ const PostDetail = () => {
 
                         <h1 className="question-title">
                             {post.title.split('\n').map((line, index) => (
-                                <p key={index} style={{ wordBreak: 'break-word' }}>{line}</p>
+                                <p key={index} style={{wordBreak: 'break-word'}}>{line}</p>
                             ))}
                         </h1>
 
                         <div className="question-content">
                             {post.contents.split('\n').map((line, index) => (
-                                <p key={index} style={{ wordBreak: 'break-word' }}>{line}</p>
+                                <p key={index} style={{wordBreak: 'break-word'}}>{line}</p>
                             ))}
                         </div>
 
                         <div className="view-count">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                <path d="M1 8s3-5 7-5 7 5 7 5-3 5-7 5-7-5-7-5z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                                <path d="M1 8s3-5 7-5 7 5 7 5-3 5-7 5-7-5-7-5z" stroke="currentColor" strokeWidth="1.5"
+                                      fill="none"/>
                                 <circle cx="8" cy="8" r="3" stroke="currentColor" strokeWidth="1.5" fill="none"/>
                             </svg>
                             <span>조회 {post.viewCount}</span>
                         </div>
 
+                        {replies.length === 0 &&
+                            <div className="reply-actions-menu">
+                                <button
+                                    className="edit-btn"
+                                    onClick={() => handlePostEdit()}
+                                >
+                                    편집
+                                </button>
+                                <button
+                                    className="delete-btn"
+                                    // onClick={() => handleDeleteReply(reply.id)}
+                                >
+                                    삭제
+                                </button>
+                            </div>
+                        }
+
                         <div className="question-footer">
                             <div className="question-author">
                                 <div className="author-avatar">
                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                        <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a4 4 0 0 1 8 0v2H6v-2Z" stroke="currentColor" strokeWidth="1.5"/>
+                                        <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a4 4 0 0 1 8 0v2H6v-2Z"
+                                              stroke="currentColor" strokeWidth="1.5"/>
                                     </svg>
                                 </div>
                                 <div className="author-info">
@@ -586,10 +782,11 @@ const PostDetail = () => {
                                     onClick={handlePostLike}
                                 >
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                        <path d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
-                                              stroke="currentColor"
-                                              strokeWidth="1.5"
-                                              fill={postLiked ? 'currentColor' : 'none'}/>
+                                        <path
+                                            d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
+                                            stroke="currentColor"
+                                            strokeWidth="1.5"
+                                            fill={postLiked ? 'currentColor' : 'none'}/>
                                     </svg>
                                     <span>추천</span>
                                     <span className="count">{postLikes}</span>
@@ -645,12 +842,16 @@ const PostDetail = () => {
                                                 {reply.registerId === post.registerId.toString() ? (
                                                     <div className="owner-badge">
                                                         <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
-                                                            <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a4 4 0 0 1 8 0v2H6v-2Z" stroke="currentColor" strokeWidth="1.5"/>
+                                                            <path
+                                                                d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a4 4 0 0 1 8 0v2H6v-2Z"
+                                                                stroke="currentColor" strokeWidth="1.5"/>
                                                         </svg>
                                                     </div>
                                                 ) : (
                                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                        <path d="M8 7a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 13a3 3 0 0 1 6 0v1H5v-1Z" stroke="currentColor" strokeWidth="1.5"/>
+                                                        <path
+                                                            d="M8 7a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 13a3 3 0 0 1 6 0v1H5v-1Z"
+                                                            stroke="currentColor" strokeWidth="1.5"/>
                                                     </svg>
                                                 )}
                                             </div>
@@ -658,16 +859,83 @@ const PostDetail = () => {
                                                 <span className="author-name">{reply.authorName}</span>
                                             </div>
                                         </div>
-                                        <div className="reply-time">
-                                            {formatTimeAgo(reply.createdAt)}
+                                        <div className="reply-meta">
+                                            <div className="reply-time">
+                                                {formatTimeAgo(reply.createdAt)}
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <div className="reply-content">
-                                        {reply.contents.split('\n').map((line, index) => (
-                                            <p key={index} style={{ wordBreak: 'break-word' }}>{line}</p>
-                                        ))}
-                                    </div>
+                                    {/* 수정 모드 */}
+                                    {editingReplyId === reply.id ? (
+                                        <div className="edit-reply-form">
+                                            <textarea
+                                                className="edit-textarea"
+                                                value={editingContent}
+                                                onChange={(e) => setEditingContent(e.target.value)}
+                                                rows={4}
+                                                maxLength={1000}
+                                            />
+                                            <div className="edit-actions">
+                                                <div className="char-count-small">
+                                                    {editingContent.length}/1000
+                                                </div>
+                                                <div className="edit-buttons">
+                                                    <button
+                                                        className="cancel-edit-btn"
+                                                        onClick={handleCancelEdit}
+                                                    >
+                                                        취소
+                                                    </button>
+                                                    <button
+                                                        className={`submit-edit-btn ${isSubmittingEdit ? 'submitting' : ''}`}
+                                                        onClick={() => handleSubmitEdit(reply.id)}
+                                                        disabled={!editingContent.trim() || isSubmittingEdit}
+                                                    >
+                                                        {isSubmittingEdit ? (
+                                                            <>
+                                                                <span className="loading-spinner-small"></span>
+                                                                수정 중...
+                                                            </>
+                                                        ) : (
+                                                            '수정 완료'
+                                                        )}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <div className="reply-content">
+                                            {reply.contents.split('\n').map((line, index) => (
+                                                <p key={index} style={{wordBreak: 'break-word'}}>
+                                                    {line}
+
+                                                    &nbsp;
+
+                                                    {reply.revised && (
+                                                        <span className="edited-indicator">[편집됨]</span>
+                                                    )}
+                                                </p>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {(canEditReply(reply) && !isEditing) && (
+                                        <div className="reply-actions-menu">
+                                            <button
+                                                className="edit-btn"
+                                                onClick={() => handleEditReply(reply.id, reply.contents)}
+                                            >
+                                                편집
+                                            </button>
+                                            <button
+                                                className="delete-btn"
+                                                onClick={() => handleDeleteReply(reply.id)}
+                                            >
+                                                삭제
+                                            </button>
+                                        </div>
+                                    )}
 
                                     <div className="reply-actions">
                                         <button
@@ -675,10 +943,11 @@ const PostDetail = () => {
                                             onClick={() => handleLike(reply.id, reply.isLiked)}
                                         >
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                <path d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
-                                                      stroke="currentColor"
-                                                      strokeWidth="1.5"
-                                                      fill={reply.isLiked ? 'currentColor' : 'none'}/>
+                                                <path
+                                                    d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
+                                                    stroke="currentColor"
+                                                    strokeWidth="1.5"
+                                                    fill={reply.isLiked ? 'currentColor' : 'none'}/>
                                             </svg>
                                             <span>{reply.likes}</span>
                                         </button>
@@ -702,7 +971,8 @@ const PostDetail = () => {
                                                     fill="none"
                                                     className={expandedReplies[reply.id] ? 'rotated' : ''}
                                                 >
-                                                    <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                                    <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5"
+                                                          strokeLinecap="round" strokeLinejoin="round"/>
                                                 </svg>
                                                 <span>답글 {reply.postsChildReplyList.length}개</span>
                                             </button>
@@ -716,7 +986,9 @@ const PostDetail = () => {
                                         <div className="child-reply-form-content">
                                             <div className="child-reply-avatar">
                                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                    <path d="M8 7a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 13a3 3 0 0 1 6 0v1H5v-1Z" stroke="currentColor" strokeWidth="1.5"/>
+                                                    <path
+                                                        d="M8 7a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 13a3 3 0 0 1 6 0v1H5v-1Z"
+                                                        stroke="currentColor" strokeWidth="1.5"/>
                                                 </svg>
                                             </div>
                                             <div className="child-reply-input-container">
@@ -767,10 +1039,13 @@ const PostDetail = () => {
                                 {expandedReplies[reply.id] && reply.postsChildReplyList && reply.postsChildReplyList.length > 0 && (
                                     <div className="child-replies-container">
                                         {reply.postsChildReplyList.map((childReply) => (
-                                            <div key={childReply.id} id={`child-reply-${childReply.id}`} className="child-reply-card">
+                                            <div key={childReply.id} id={`child-reply-${childReply.id}`}
+                                                 className="child-reply-card">
                                                 <div className="child-reply-connector">
                                                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                                        <path d="M5 5v6a4 4 0 0 0 4 4h6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                                        <path d="M5 5v6a4 4 0 0 0 4 4h6" stroke="currentColor"
+                                                              strokeWidth="1.5" strokeLinecap="round"
+                                                              strokeLinejoin="round"/>
                                                     </svg>
                                                 </div>
                                                 <div className="child-reply-content-wrapper">
@@ -779,30 +1054,89 @@ const PostDetail = () => {
                                                             <div className="child-reply-avatar">
                                                                 {childReply.registerId.toString() === post.registerId.toString() ? (
                                                                     <div className="owner-badge-small">
-                                                                        <svg width="12" height="12" viewBox="0 0 20 20" fill="none">
-                                                                            <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a4 4 0 0 1 8 0v2H6v-2Z" stroke="currentColor" strokeWidth="1.5"/>
+                                                                        <svg width="12" height="12" viewBox="0 0 20 20"
+                                                                             fill="none">
+                                                                            <path
+                                                                                d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a4 4 0 0 1 8 0v2H6v-2Z"
+                                                                                stroke="currentColor"
+                                                                                strokeWidth="1.5"/>
                                                                         </svg>
                                                                     </div>
                                                                 ) : (
-                                                                    <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                                                                        <path d="M8 7a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 13a3 3 0 0 1 6 0v1H5v-1Z" stroke="currentColor" strokeWidth="1.5"/>
+                                                                    <svg width="12" height="12" viewBox="0 0 16 16"
+                                                                         fill="none">
+                                                                        <path
+                                                                            d="M8 7a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 13a3 3 0 0 1 6 0v1H5v-1Z"
+                                                                            stroke="currentColor" strokeWidth="1.5"/>
                                                                     </svg>
                                                                 )}
                                                             </div>
-                                                            <span className="child-reply-author-name">{childReply.registerName}</span>
-                                                            {childReply.registerId.toString() === post.registerId && (
-                                                                <span className="author-badge-small">작성자</span>
-                                                            )}
+                                                            <div className="child-reply-author-info">
+                                                                <span
+                                                                    className="child-reply-author-name">{childReply.registerName}</span>
+                                                            </div>
                                                         </div>
-                                                        <span className="child-reply-time">
-                                                            {formatTimeAgo(childReply.createdAt)}
-                                                        </span>
+                                                        <div className="child-reply-meta">
+                                                            <span className="child-reply-time">
+                                                                {formatTimeAgo(childReply.createdAt)}
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                    <div className="child-reply-text">
-                                                        {childReply.contents.split('\n').map((line, index) => (
-                                                            <p key={index} style={{ wordBreak: 'break-word' }}>{line}</p>
-                                                        ))}
-                                                    </div>
+
+                                                    {/* 대댓글 수정 모드 */}
+                                                    {editingReplyId === childReply.id ? (
+                                                        <div className="edit-reply-form">
+                                                            <textarea
+                                                                className="edit-textarea"
+                                                                value={editingContent}
+                                                                onChange={(e) => setEditingContent(e.target.value)}
+                                                                rows={3}
+                                                                maxLength={500}
+                                                            />
+                                                            <div className="edit-actions">
+                                                                <div className="char-count-small">
+                                                                    {editingContent.length}/500
+                                                                </div>
+                                                                <div className="edit-buttons">
+                                                                    <button
+                                                                        className="cancel-edit-btn"
+                                                                        onClick={handleCancelEdit}
+                                                                    >
+                                                                        취소
+                                                                    </button>
+                                                                    <button
+                                                                        className={`submit-edit-btn ${isSubmittingEdit ? 'submitting' : ''}`}
+                                                                        onClick={() => handleSubmitEdit(childReply.id)}
+                                                                        disabled={!editingContent.trim() || isSubmittingEdit}
+                                                                    >
+                                                                        {isSubmittingEdit ? (
+                                                                            <>
+                                                                                <span
+                                                                                    className="loading-spinner-small"></span>
+                                                                                수정 중...
+                                                                            </>
+                                                                        ) : (
+                                                                            '수정 완료'
+                                                                        )}
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="child-reply-text">
+                                                            {childReply.contents.split('\n').map((line, index) => (
+                                                                <p key={index} style={{wordBreak: 'break-word'}}>
+                                                                    {line}
+
+                                                                    &nbsp;
+
+                                                                    {childReply.revised && (
+                                                                        <span className="edited-indicator">[편집됨]</span>
+                                                                    )}
+                                                                </p>
+                                                            ))}
+                                                        </div>
+                                                    )}
 
                                                     <div className="child-reply-actions">
                                                         <button
@@ -810,13 +1144,31 @@ const PostDetail = () => {
                                                             onClick={() => handleLike(childReply.id, childReply.isLiked)}
                                                         >
                                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                                <path d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
-                                                                      stroke="currentColor"
-                                                                      strokeWidth="1.5"
-                                                                      fill={childReply.isLiked ? 'currentColor' : 'none'}/>
+                                                                <path
+                                                                    d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
+                                                                    stroke="currentColor"
+                                                                    strokeWidth="1.5"
+                                                                    fill={childReply.isLiked ? 'currentColor' : 'none'}/>
                                                             </svg>
                                                             <span>{childReply.likes || 0}</span>
                                                         </button>
+
+                                                        {(canEditReply(childReply) && !isEditing) && (
+                                                            <div className="child-reply-actions-menu">
+                                                                <button
+                                                                    className="edit-btn"
+                                                                    onClick={() => handleEditReply(childReply.id, childReply.contents)}
+                                                                >
+                                                                    편집
+                                                                </button>
+                                                                <button
+                                                                    className="delete-btn"
+                                                                    onClick={() => handleDeleteReply(childReply.id)}
+                                                                >
+                                                                    삭제
+                                                                </button>
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
@@ -872,7 +1224,8 @@ const PostDetail = () => {
                                 ) : (
                                     <>
                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                            <path d="M15 1L1 8l4 2 2 4 8-13Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                            <path d="M15 1L1 8l4 2 2 4 8-13Z" stroke="currentColor" strokeWidth="1.5"
+                                                  strokeLinecap="round" strokeLinejoin="round"/>
                                         </svg>
                                         답변 등록
                                     </>
@@ -882,6 +1235,14 @@ const PostDetail = () => {
                     </div>
                 </section>
             </main>
+
+            {/* 삭제 확인 모달 */}
+            <DeleteConfirmModal
+                isOpen={showDeleteModal}
+                onClose={handleCloseDeleteModal}
+                onConfirm={handleConfirmDelete}
+                isDeleting={isDeleting}
+            />
 
             {showLoginModal && <CommunityLoginModal setShowLoginModal={setShowLoginModal} action={loginModalStatus}/>}
         </div>

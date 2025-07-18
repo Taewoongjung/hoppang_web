@@ -175,6 +175,13 @@
     gap: 4px;
 }
 
+.edited-indicator {
+    font-size: 11px;
+    color: #94a3b8;
+    border-radius: 4px;
+    /*margin-left: 8px;*/
+}
+
 .question-title {
     font-size: 22px;
     font-weight: 700;
@@ -303,7 +310,7 @@
     gap: 4px;
     padding: 8px 12px;
     border-radius: 20px;
-    border: white;
+    border: none;
     background: white;
     color: #64748b;
     font-size: 12px;
@@ -454,9 +461,109 @@
     color: #64748b;
 }
 
+.reply-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .reply-time {
     font-size: 12px;
     color: #94a3b8;
+}
+
+/* Reply Actions Menu */
+.reply-actions-menu {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.edit-btn, .delete-btn {
+    background: none;
+    border: none;
+    padding: 6px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    color: #64748b;
+}
+
+/* Edit Reply Form */
+.edit-reply-form {
+    margin-bottom: 16px;
+}
+
+.edit-textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    background: white;
+    font-family: inherit;
+    resize: none;
+    min-height: 80px;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+    transition: all 0.2s ease;
+}
+
+.edit-textarea:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.edit-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.edit-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.cancel-edit-btn {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #64748b;
+    transition: all 0.2s ease;
+}
+
+.cancel-edit-btn:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+.submit-edit-btn {
+    background: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.submit-edit-btn:hover:not(:disabled) {
+    background: #5855eb;
+}
+
+.submit-edit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.submit-edit-btn.submitting {
+    background: #94a3b8;
 }
 
 .reply-content {
@@ -643,8 +750,12 @@
 
 .child-reply-actions {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: flex-end;
+}
+
+.child-reply-actions-menu {
+    display: flex;
+    margin-left: auto;
 }
 
 .child-reply-buttons {
@@ -774,6 +885,12 @@
     justify-content: center;
 }
 
+.child-reply-author-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
 .child-reply-author-name {
     font-size: 14px;
     font-weight: 600;
@@ -787,6 +904,12 @@
     padding: 2px 6px;
     border-radius: 4px;
     font-weight: 600;
+}
+
+.child-reply-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .child-reply-time {
@@ -856,6 +979,104 @@
 .child-reply-actions .like-btn.liked {
     color: #ef4444;
     background: #fef2f2;
+}
+
+/* Delete Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.delete-modal {
+    background: white;
+    border-radius: 12px;
+    padding: 0;
+    max-width: 320px;
+    width: 90%;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    animation: modalShow 0.3s ease-out;
+}
+
+@keyframes modalShow {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.delete-modal-content {
+    padding: 24px;
+}
+
+.delete-modal-content h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 12px 0;
+}
+
+.delete-modal-content p {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0 0 24px 0;
+    line-height: 1.5;
+}
+
+.delete-modal-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.cancel-btn {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #64748b;
+    transition: all 0.2s ease;
+}
+
+.cancel-btn:hover:not(:disabled) {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+.cancel-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.delete-btn {
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.delete-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.delete-btn.deleting {
+    background: #94a3b8;
 }
 
 /* No Reply State */
@@ -1110,6 +1331,18 @@
         font-size: 10px;
         padding: 1px 4px;
     }
+
+    .reply-actions-menu {
+        gap: 2px;
+    }
+
+    .edit-btn, .delete-btn {
+        padding: 4px;
+    }
+
+    .delete-modal {
+        width: 95%;
+    }
 }
 
 /* Focus States for Accessibility */
@@ -1125,7 +1358,14 @@
 .submit-child-reply-btn:focus,
 .cancel-child-reply-btn:focus,
 .post-like-btn:focus,
-.post-bookmark-btn:focus {
+.post-bookmark-btn:focus,
+.edit-btn:focus,
+.delete-btn:focus,
+.edit-textarea:focus,
+.submit-edit-btn:focus,
+.cancel-edit-btn:focus,
+.cancel-btn:focus,
+.delete-btn:focus {
     outline-offset: -2px;
 }
 
@@ -1135,7 +1375,8 @@
     .reply-form-card,
     .reply-thread,
     .post-like-btn,
-    .post-bookmark-btn {
+    .post-bookmark-btn,
+    .delete-modal {
         border: 2px solid currentColor;
     }
 }

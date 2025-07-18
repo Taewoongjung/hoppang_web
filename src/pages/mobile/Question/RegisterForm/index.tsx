@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import useSWR from "swr";
-import {callBoards, callBoardsPosts, callMeData} from "../../../../definition/apiPath";
+import {callBoards, callBoardsPosts, callBoardsPostsById, callMeData} from "../../../../definition/apiPath";
 import fetcher from "../../../../util/fetcher";
 
 import './styles.css';
@@ -9,11 +9,8 @@ import '../../versatile-styles.css';
 
 import QuestionRegisterFormExitModal from "../../../../component/V2/Modal/QuestionRegisterFormExitModal";
 import axios from "axios";
+import {Board} from "../interface";
 
-interface Category {
-    id: string;
-    name: string;
-}
 
 interface RegisterPost {
     boardId: number | string;
@@ -52,26 +49,77 @@ const QuestionRegisterForm = () => {
         isAnonymous: false
     });
 
-    const [categories, setCategories] = useState<Category[]>([]);
+    // 카테고리 선택 관련 상태
+    const [selectedMainCategory, setSelectedMainCategory] = useState<number | null>(null);
+    const [showBranchSelection, setShowBranchSelection] = useState(false);
+
+    const fetchRevisingPost = (revisingPostId: any, userId: any) => {
+        axios.get(
+            callBoardsPostsById.replace("{postId}", revisingPostId),
+            {
+                withCredentials: true,
+                headers: {Authorization: localStorage.getItem("hoppang-token")},
+            }
+        ).then((res) => {
+
+            const post = res.data;
+
+            if (post.registerId !== userId) {
+                window.location.href = '/question/boards';
+                alert("잘못된 접근입니다.");
+            }
+            setFormData(
+                {
+                    category: post.boardId,
+                    title: post.title,
+                    content: post.contents,
+                    images: [] as File[],
+                    isAnonymous: post.isAnonymous !== 'F',
+                }
+            );
+        });
+    }
+
+    const [boards, setBoards] = useState<Board[]>([]);
     const [submitState, setSubmitState] = useState<SubmitState>('idle');
     const [errors, setErrors] = useState<{[key: string]: string}>({});
     const [submitError, setSubmitError] = useState<string>('');
     const fileInputRef = useRef<HTMLInputElement>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
     const [showExitModal, setShowExitModal] = useState(false);
+    const [isEditing, setIsEditing] = useState<boolean>(urlParams.get('from') === 'postEdit');
 
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
     });
 
     useEffect(() => {
-        mutate();
-        axios.get(callBoards)
-            .then((res) => {
-                setCategories(res.data);
+        mutate()
+            .then((user) => {
+                axios.get(callBoards)
+                    .then((res) => {
+                        const boards: Board[] = res.data.map((category: any) => ({
+                            id: category.id,
+                            name: category.name,
+                            branchBoards: category.branchBoards
+                        }));
+
+                        setBoards(boards);
+                    })
+                    .catch((err) => {
+                        console.error("Failed to fetch categories:", err);
+                    });
+
+                const revisingPostId = urlParams.get('revisingPostId');
+                if (revisingPostId) {
+                    fetchRevisingPost(
+                        revisingPostId,
+                        user.id
+                    );
+                }
             })
             .catch((err) => {
-                console.error("Failed to fetch categories:", err);
+                window.location.href = '/v2/login';
             });
     }, []);
 
@@ -92,6 +140,55 @@ const QuestionRegisterForm = () => {
         if (submitError) {
             setSubmitError('');
         }
+    };
+
+    // 메인 카테고리 선택 핸들러
+    const handleMainCategorySelect = (categoryId: number) => {
+        const selectedBoard = boards.find(board => board.id === categoryId);
+
+        if (selectedBoard?.branchBoards && selectedBoard.branchBoards.length > 0) {
+            // 브랜치가 있는 경우
+            setSelectedMainCategory(categoryId);
+            setShowBranchSelection(true);
+            // 카테고리 초기화 (브랜치 선택 필요)
+            handleInputChange('category', '');
+        } else {
+            // 브랜치가 없는 경우 바로 선택
+            setSelectedMainCategory(null);
+            setShowBranchSelection(false);
+            handleInputChange('category', categoryId.toString());
+        }
+    };
+
+    // 브랜치 카테고리 선택 핸들러
+    const handleBranchCategorySelect = (branchId: number) => {
+        handleInputChange('category', branchId.toString());
+    };
+
+    // 브랜치 선택 취소
+    const handleBackToMainCategory = () => {
+        setSelectedMainCategory(null);
+        setShowBranchSelection(false);
+        handleInputChange('category', '');
+    };
+
+    // 선택된 카테고리 이름 가져오기
+    const getSelectedCategoryName = () => {
+        if (!formData.category) return '';
+
+        for (const board of boards) {
+            if (board.id.toString() === formData.category.toString()) {
+                return board.name;
+            }
+            if (board.branchBoards) {
+                for (const branch of board.branchBoards) {
+                    if (branch.id.toString() === formData.category.toString()) {
+                        return `${board.name} > ${branch.name}`;
+                    }
+                }
+            }
+        }
+        return '';
     };
 
     const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -135,31 +232,53 @@ const QuestionRegisterForm = () => {
         setSubmitError('');
 
         try {
-            let payload: RegisterPost = {
-                boardId: formData.category,
-                title: formData.title,
-                contents: formData.content,
-                isAnonymous: formData.isAnonymous
-            }
+            await mutate()
+                .then(async (user) => {
+                    let payload: RegisterPost = {
+                        boardId: formData.category,
+                        title: formData.title,
+                        contents: formData.content,
+                        isAnonymous: formData.isAnonymous
+                    }
 
-            const response = await axios.post(
-                callBoardsPosts,
-                payload,
-                {
-                    withCredentials: true,
-                    headers: { Authorization: localStorage.getItem("hoppang-token") }
-                }
-            );
+                    const editTargetPostId = urlParams.get('revisingPostId');
 
-            if (response.data.createdPostId !== null) {
-                // 성공 처리
-                setSubmitState('success');
+                    if (isEditing && editTargetPostId !== null) {
+                        // 글 수정
+                        const response = await axios.put(
+                            callBoardsPostsById.replace("{postId}", editTargetPostId),
+                            payload,
+                            {
+                                withCredentials: true,
+                                headers: {Authorization: localStorage.getItem("hoppang-token")}
+                            }
+                        );
 
-                // 성공 애니메이션을 보여준 후 페이지 이동
-                setTimeout(() => {
-                    history.push(`/question/boards/posts/${response.data.createdPostId}`);
-                }, 2000);
-            }
+                        if (response.data === true) {
+                            window.location.href = `/question/boards/posts/${editTargetPostId}?loggedInUserId=${user.id}`;
+                        }
+                    } else {
+                        // 글 등록
+                        const response = await axios.post(
+                            callBoardsPosts,
+                            payload,
+                            {
+                                withCredentials: true,
+                                headers: {Authorization: localStorage.getItem("hoppang-token")}
+                            }
+                        );
+
+                        if (response.data.createdPostId !== null) {
+                            // 성공 처리
+                            setSubmitState('success');
+
+                            // 성공 애니메이션을 보여준 후 페이지 이동
+                            setTimeout(() => {
+                                history.push(`/question/boards/posts/${response.data.createdPostId}`);
+                            }, 2000);
+                        }
+                    }
+                });
         } catch (error) {
             console.error('Submit error:', error);
             setSubmitState('error');
@@ -241,7 +360,7 @@ const QuestionRegisterForm = () => {
                             <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                     </button>
-                    <div className="header-title">질문하기</div>
+                    <div className="header-title">{isEditing ? '수정하기' : '질문하기' }</div>
                     <div className="header-spacer"></div>
                 </div>
             </header>
@@ -286,19 +405,121 @@ const QuestionRegisterForm = () => {
                             <label className="form-label required">
                                 카테고리
                             </label>
-                            <div className="category-grid">
-                                {categories.map((category) => (
+
+                            {/* 선택된 카테고리 표시 */}
+                            {formData.category && (
+                                <div className="selected-category-info">
+                                    <div className="selected-category-content">
+                                        <div className="selected-category-icon">✅&nbsp;</div>
+                                        <div className="selected-category-text">
+                                            <div className="selected-main">선택완료</div>
+                                            <div className="selected-path">{getSelectedCategoryName()}</div>
+                                        </div>
+                                    </div>
                                     <button
-                                        key={category.id}
                                         type="button"
-                                        className={`category-btn ${formData.category === category.id ? 'active' : ''}`}
-                                        onClick={() => handleInputChange('category', category.id)}
+                                        className="change-category-btn"
+                                        onClick={() => {
+                                            setSelectedMainCategory(null);
+                                            setShowBranchSelection(false);
+                                            handleInputChange('category', '');
+                                        }}
                                         disabled={submitState === 'submitting'}
                                     >
-                                        {category.name}
+                                        변경
                                     </button>
-                                ))}
-                            </div>
+                                </div>
+                            )}
+
+                            {/* 카테고리 선택 UI */}
+                            {!formData.category && (
+                                <div className="category-selection-container">
+                                    {/* 메인 카테고리 선택 */}
+                                    {!showBranchSelection && (
+                                        <div className="main-category-section">
+                                            <div className="category-section-title">
+                                                <span className="section-icon">📂</span>
+                                                카테고리를 선택해주세요
+                                            </div>
+                                            <div className="category-grid">
+                                                {boards.map((category) => (
+                                                    <button
+                                                        key={category.id}
+                                                        type="button"
+                                                        className={`category-btn ${
+                                                            category.branchBoards && category.branchBoards.length > 0 ? 'has-branches' : ''
+                                                        }`}
+                                                        onClick={() => handleMainCategorySelect(category.id)}
+                                                        disabled={submitState === 'submitting'}
+                                                    >
+                                                        <div className="category-content">
+                                                            <span className="category-name">{category.name}</span>
+                                                            {category.branchBoards && category.branchBoards.length > 0 && (
+                                                                <div className="category-meta">
+                                                                    <span className="branch-count">
+                                                                        {category.branchBoards.length}개 세부 항목
+                                                                    </span>
+                                                                    <svg className="category-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                                        <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                                                    </svg>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* 브랜치 카테고리 선택 */}
+                                    {showBranchSelection && selectedMainCategory && (
+                                        <div className="branch-category-section">
+                                            <div className="branch-navigation">
+                                                <button
+                                                    type="button"
+                                                    className="back-to-main-btn"
+                                                    onClick={handleBackToMainCategory}
+                                                    disabled={submitState === 'submitting'}
+                                                >
+                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                        <path d="M10 4L6 8l4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                                    </svg>
+                                                    <span>이전</span>
+                                                </button>
+                                                <div className="breadcrumb">
+                                                    <span className="breadcrumb-main">
+                                                        {boards.find(b => b.id === selectedMainCategory)?.name}
+                                                    </span>
+                                                    <span className="breadcrumb-separator"> ⮕ </span>
+                                                    <span className="breadcrumb-sub">세부 카테고리 선택</span>
+                                                </div>
+                                            </div>
+
+                                            <div className="branch-category-grid">
+                                                {boards
+                                                    .find(b => b.id === selectedMainCategory)
+                                                    ?.branchBoards?.map((branch) => (
+                                                        <button
+                                                            key={branch.id}
+                                                            type="button"
+                                                            className="branch-category-btn"
+                                                            onClick={() => handleBranchCategorySelect(branch.id)}
+                                                            disabled={submitState === 'submitting'}
+                                                        >
+                                                            <div className="branch-indicator"></div>
+                                                            <span className="branch-name">{branch.name}</span>
+                                                            <svg className="select-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                                                <circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="1.5"/>
+                                                                <path d="M7 10l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                                            </svg>
+                                                        </button>
+                                                    ))}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
                             {errors.category && <span className="error-text">{errors.category}</span>}
                         </div>
 
@@ -338,63 +559,6 @@ const QuestionRegisterForm = () => {
                             />
                             {errors.content && <span className="error-text">{errors.content}</span>}
                         </div>
-
-                        {/*
-                            @TODO S3 붙인후 적용
-                            Image Upload
-                         */}
-                        {/*<div className="form-group">*/}
-                        {/*    <label className="form-label">*/}
-                        {/*        사진 첨부*/}
-                        {/*        <span className="optional-text">(선택사항, 최대 3장)</span>*/}
-                        {/*    </label>*/}
-
-                        {/*    <div className="image-upload-area">*/}
-                        {/*        <button*/}
-                        {/*            type="button"*/}
-                        {/*            className="image-upload-btn"*/}
-                        {/*            onClick={() => fileInputRef.current?.click()}*/}
-                        {/*            disabled={formData.images.length >= 3}*/}
-                        {/*        >*/}
-                        {/*            <span className="upload-icon">📸</span>*/}
-                        {/*            <span className="upload-text">*/}
-                        {/*                {formData.images.length > 0 ? '사진 추가' : '사진 선택'}*/}
-                        {/*            </span>*/}
-                        {/*        </button>*/}
-
-                        {/*        <input*/}
-                        {/*            ref={fileInputRef}*/}
-                        {/*            type="file"*/}
-                        {/*            accept="image/*"*/}
-                        {/*            multiple*/}
-                        {/*            onChange={handleImageUpload}*/}
-                        {/*            style={{ display: 'none' }}*/}
-                        {/*        />*/}
-                        {/*    </div>*/}
-
-                        {/*    {formData.images.length > 0 && (*/}
-                        {/*        <div className="image-preview-grid">*/}
-                        {/*            {formData.images.map((file, index) => (*/}
-                        {/*                <div key={index} className="image-preview">*/}
-                        {/*                    <img*/}
-                        {/*                        src={URL.createObjectURL(file)}*/}
-                        {/*                        alt={`미리보기 ${index + 1}`}*/}
-                        {/*                        className="preview-img"*/}
-                        {/*                    />*/}
-                        {/*                    <button*/}
-                        {/*                        type="button"*/}
-                        {/*                        className="remove-image-btn"*/}
-                        {/*                        onClick={() => removeImage(index)}*/}
-                        {/*                    >*/}
-                        {/*                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">*/}
-                        {/*                            <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>*/}
-                        {/*                        </svg>*/}
-                        {/*                    </button>*/}
-                        {/*                </div>*/}
-                        {/*            ))}*/}
-                        {/*        </div>*/}
-                        {/*    )}*/}
-                        {/*</div>*/}
 
                         {/* Anonymous Option */}
                         <div className="form-group">
@@ -438,7 +602,7 @@ const QuestionRegisterForm = () => {
                         {submitState === 'submitting' ? (
                             <>
                                 <span className="loading-spinner"></span>
-                                질문 등록 중...
+                                {isEditing ? '수정 완료 중...' : '질문 등록 중...'}
                             </>
                         ) : submitState === 'error' ? (
                             <>
@@ -448,7 +612,7 @@ const QuestionRegisterForm = () => {
                         ) : (
                             <>
                                 <span className="submit-icon">🚀</span>
-                                질문 등록하기
+                                {isEditing ? '수정 완료' : '질문 등록하기'}
                             </>
                         )}
                     </button>

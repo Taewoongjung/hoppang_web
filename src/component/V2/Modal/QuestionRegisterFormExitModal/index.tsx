@@ -28,7 +28,12 @@ const QuestionRegisterFormExitModal = (props:{
                 <div className="modal-container">
                     <div className="modal-content">
                         <div className="modal-icon">⚠️</div>
-                        <h3 className="modal-title">질문하기를 종료하시겠어요?</h3>
+                        <h3 className="modal-title">
+                            {from === 'postEdit' ?
+                                '수정을 종료하시겠어요?' :
+                                '질문하기를 종료하시겠어요?'
+                            }
+                        </h3>
                         <p className="modal-message">
                             지금까지 입력하신 정보가 모두 사라집니다.<br/>
                             정말 종료하시겠어요?
@@ -51,7 +56,7 @@ const QuestionRegisterFormExitModal = (props:{
                 </div>
             </div>
         </>
-    )
+    );
 }
 
 export default QuestionRegisterFormExitModal;

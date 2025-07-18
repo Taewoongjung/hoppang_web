@@ -12,3 +12,14 @@ export interface Question {
     tags?: string[];
     imageCount?: number;
 }
+
+export interface Board {
+    id: any;
+    name: string;
+    branchBoards: BranchBoard[]
+}
+
+export interface BranchBoard {
+    id: any;
+    name: string;
+}

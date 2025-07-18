@@ -8,18 +8,7 @@ import BottomNavigator from "../../../../component/V2/BottomNavigator";
 import useSWR from "swr";
 import fetcher from "../../../../util/fetcher";
 import CommunityLoginModal from "../../../../component/V2/Modal/CommunityLoginRequiredModal";
-import { Question } from '../interface';
-
-interface Board {
-    id: any;
-    name: string;
-    branchBoards: BranchBoard[]
-}
-
-interface BranchBoard {
-    id: any;
-    name: string;
-}
+import { Question, Board } from '../interface';
 
 // 게시판 타입 정의
 interface BoardType {
