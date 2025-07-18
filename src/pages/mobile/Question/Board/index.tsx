@@ -408,7 +408,7 @@ const QuestionsBoard = () => {
         const badges = [];
 
         // 카테고리 배지 (전체 탭에서만 표시하고, 카테고리가 있는 경우)
-        if (selectedBoardType === 'all' && question.category) {
+        if ((selectedBoardType === 'all' || selectedBoardType === '2' ) && question.category) {
             const categoryNames = getBoardNames(question.category);
             if (categoryNames.rootName) {
                 badges.push(
