@@ -211,9 +211,22 @@ const QuestionsBoard = () => {
             const offset = (page - 1) * limit;
             await new Promise(resolve => setTimeout(resolve, 300)); // 시뮬레이션
 
-            const boardId = selectedBoardType === 'all' ? '' : selectedBoardType;
+            let boardIds = '';
 
-            const res = await axios.get(`${callBoardsPosts}?limit=${limit}&offset=${offset}&boardIdList=${boardId}&searchWord=${searchQuery}`);
+            if (selectedBoardType !== 'all') {
+                boardIds = selectedBoardType;
+
+                if (selectedBoardType === '2') {
+                    const targetBoard = boards.find(board => String(board.id) === '2');
+
+                    if (targetBoard) {
+                        const branchIds = targetBoard.branchBoards.map(branch => branch.id);
+                        boardIds = [targetBoard.id, ...branchIds].join(',');
+                    }
+                }
+            }
+
+            const res = await axios.get(`${callBoardsPosts}?limit=${limit}&offset=${offset}&boardIdList=${boardIds}&searchWord=${searchQuery}`);
             const posts = res.data.postsList;
             const questions: Question[] = posts.map((post: any) => ({
                 id: post.id,
