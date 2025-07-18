@@ -606,8 +606,31 @@ const PostDetail = () => {
                             답변 <span className="replies-count">{getTotalReplyCount()}</span>
                         </h2>
                         <div className="replies-sort">
-                            <button className="sort-btn active" onClick={() => setReplyOrderType('')}>최신순</button>
-                            <button className="sort-btn" onClick={() => setReplyOrderType('LIKE_DESC')}>추천순</button>
+                            <button
+                                className={`sort-btn ${replyOrderType === '' ? 'active' : ''}`}
+                                onClick={() => {
+                                    setLoading(true);
+                                    setTimeout(() => {
+                                        setLoading(false);
+                                        setReplyOrderType('')
+                                    }, 150);
+                                }}
+                            >
+                                최신순
+                            </button>
+
+                            <button
+                                className={`sort-btn ${replyOrderType === 'LIKE_DESC' ? 'active' : ''}`}
+                                onClick={() => {
+                                    setLoading(true);
+                                    setTimeout(() => {
+                                        setReplyOrderType('LIKE_DESC')
+                                        setLoading(false);
+                                    }, 150);
+                                }}
+                            >
+                                추천순
+                            </button>
                         </div>
                     </div>
 
