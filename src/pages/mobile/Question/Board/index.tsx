@@ -197,7 +197,18 @@ const QuestionsBoard = () => {
                     name: category.name,
                     branchBoards: category.branchBoards
                 }));
+
+                // boardTypes의 id 업데이트
+                const updatedBoardTypes = boardTypes.map(bt => {
+                    if (bt.id === 'all') return bt;
+
+                    const matchedBoard = boards.find(b => b.name === bt.name);
+                    return matchedBoard ? { ...bt, id: matchedBoard.id } : bt;
+                });
+
+                // 필요에 따라 상태로도 업데이트 가능
                 setBoards(boards);
+                console.log("Updated boardTypes:", updatedBoardTypes);
             }
         } catch (err) {
             console.error("Failed to fetch categories:", err);
@@ -210,7 +221,7 @@ const QuestionsBoard = () => {
             const offset = (page - 1) * limit;
             await new Promise(resolve => setTimeout(resolve, 300)); // 시뮬레이션
 
-            const res = await axios.get(`${callBoardsPosts}?limit=${limit}&offset=${offset}&boardType=${selectedBoardType}&searchWord=${searchQuery}`);
+            const res = await axios.get(`${callBoardsPosts}?limit=${limit}&offset=${offset}&boardIdList=${selectedBoardType}&searchWord=${searchQuery}`);
             const posts = res.data.postsList;
             const questions: Question[] = posts.map((post: any) => ({
                 id: post.id,
@@ -240,7 +251,9 @@ const QuestionsBoard = () => {
     const handleBoardTypeSelect = (boardTypeId: string) => {
         setSelectedBoardType(boardTypeId);
         setCurrentPage(1); // 페이지 리셋
-        setAllQuestions([]); // 데이터 초기화
+        if (boardTypeId) {
+            fetchQuestions(currentPage, true);
+        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
