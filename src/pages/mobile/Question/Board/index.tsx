@@ -210,7 +210,7 @@ const QuestionsBoard = () => {
             const offset = (page - 1) * limit;
             await new Promise(resolve => setTimeout(resolve, 300)); // 시뮬레이션
 
-            const res = await axios.get(`${callBoardsPosts}?limit=${limit}&offset=${offset}&boardType=${selectedBoardType}&search=${searchQuery}`);
+            const res = await axios.get(`${callBoardsPosts}?limit=${limit}&offset=${offset}&boardType=${selectedBoardType}&searchWord=${searchQuery}`);
             const posts = res.data.postsList;
             const questions: Question[] = posts.map((post: any) => ({
                 id: post.id,
@@ -240,7 +240,7 @@ const QuestionsBoard = () => {
     const handleBoardTypeSelect = (boardTypeId: string) => {
         setSelectedBoardType(boardTypeId);
         setCurrentPage(1); // 페이지 리셋
-        setAllQuestions([]); // 🔥 데이터 초기화
+        setAllQuestions([]); // 데이터 초기화
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -248,7 +248,9 @@ const QuestionsBoard = () => {
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         setCurrentPage(1); // 페이지 리셋
-        setAllQuestions([]); // 🔥 데이터 초기화
+        if (searchQuery !== '') {
+            fetchQuestions(currentPage, true);
+        }
     };
 
     // 페이지 변경 핸들러
