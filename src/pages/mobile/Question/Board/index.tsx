@@ -225,7 +225,6 @@ const QuestionsBoard = () => {
                 replyCount: post.replyCount,
                 viewCount: post.viewCount,
                 isAnswered: Math.random() > 0.3,
-                boardType: post.boardType || 'question',
                 imageCount: null
             }));
 
@@ -243,9 +242,6 @@ const QuestionsBoard = () => {
     const handleBoardTypeSelect = (boardTypeId: string) => {
         setSelectedBoardType(boardTypeId);
         setCurrentPage(1); // 페이지 리셋
-        if (boardTypeId) {
-            fetchQuestions(currentPage, true);
-        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
