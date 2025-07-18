@@ -198,17 +198,7 @@ const QuestionsBoard = () => {
                     branchBoards: category.branchBoards
                 }));
 
-                // boardTypes의 id 업데이트
-                const updatedBoardTypes = boardTypes.map(bt => {
-                    if (bt.id === 'all') return bt;
-
-                    const matchedBoard = boards.find(b => b.name === bt.name);
-                    return matchedBoard ? { ...bt, id: matchedBoard.id } : bt;
-                });
-
-                // 필요에 따라 상태로도 업데이트 가능
                 setBoards(boards);
-                console.log("Updated boardTypes:", updatedBoardTypes);
             }
         } catch (err) {
             console.error("Failed to fetch categories:", err);
