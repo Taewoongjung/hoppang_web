@@ -4,7 +4,7 @@ import useSWR from "swr";
 import {
     callBoardsPostsById,
     callBoardsPostsLike,
-    callMeData,
+    callMeData, callPostsBookmark,
     callPostsReply,
     callPostsReplyLike
 } from "../../../../definition/apiPath";
@@ -30,6 +30,7 @@ interface PostDetail {
     viewCount: string;
     likeCount: string;
     didILiked: boolean;
+    didIBookmarked: boolean;
 }
 
 interface ChildReply {
@@ -176,7 +177,8 @@ const PostDetail = () => {
 
             setLoading(false);
             setPostLikes(post.likeCount);
-            setPostLiked(post.didILiked)
+            setPostLiked(post.didILiked);
+            setIsBookmarked(post.didIBookmarked);
             setPost(post);
 
         }).catch((err) => {
@@ -293,8 +295,30 @@ const PostDetail = () => {
             return;
         }
 
-        setIsBookmarked(prev => !prev);
-        // API 호출 로직 추가
+        const prevBookmared = isBookmarked;
+        const nextBookmared = !isBookmarked;
+
+        try {
+            const apiUrl = callPostsBookmark.replace("{postId}", postId);
+
+            if (nextBookmared) {
+                axios.patch(apiUrl, {}, {
+                    withCredentials: true,
+                    headers: {Authorization: localStorage.getItem("hoppang-token")},
+                });
+            } else {
+                axios.delete(apiUrl, {
+                    withCredentials: true,
+                    headers: {Authorization: localStorage.getItem("hoppang-token")},
+                });
+            }
+
+            setIsBookmarked(nextBookmared);
+
+        } catch (error) {
+            // 롤백
+            setIsBookmarked(prevBookmared);
+        }
     };
 
     const handleSubmitReply = () => {
