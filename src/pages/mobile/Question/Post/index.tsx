@@ -83,6 +83,7 @@ const PostDetail = () => {
     const [postLiked, setPostLiked] = useState(false);
     const [postLikes, setPostLikes] = useState(0);
     const [isBookmarked, setIsBookmarked] = useState(false);
+    const [replyOrderType, setReplyOrderType] = useState('');
 
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [loginModalStatus, setLoginModalStatus] = useState<'question' | 'reply' | 'like' | 'general' | ''>('');
@@ -92,6 +93,8 @@ const PostDetail = () => {
     });
 
     const fetchReplies = async (queryParam:any) => {
+        setReplies([]); // 변수에 데이터 초기화
+
         try {
             const apiCall = (queryParam:any) => {
                 return new Promise((resolve) => {
@@ -146,14 +149,14 @@ const PostDetail = () => {
     useEffect(() => {
         if (!post) return;
 
-        let queryParam = ``;
+        let queryParam = `?orderType=${replyOrderType}`;
         if (userData) {
-            queryParam = `?loggedInUserId=${userData.id}`;
+            queryParam += `&loggedInUserId=${userData.id}`;
         }
 
         fetchReplies(queryParam);
 
-    }, [userData, postId, post]);
+    }, [userData, postId, post, replyOrderType]);
 
     // 포스팅 상세 조회
     useEffect(() => {
@@ -603,8 +606,8 @@ const PostDetail = () => {
                             답변 <span className="replies-count">{getTotalReplyCount()}</span>
                         </h2>
                         <div className="replies-sort">
-                            <button className="sort-btn active">최신순</button>
-                            <button className="sort-btn">추천순</button>
+                            <button className="sort-btn active" onClick={() => setReplyOrderType('')}>최신순</button>
+                            <button className="sort-btn" onClick={() => setReplyOrderType('LIKE_DESC')}>추천순</button>
                         </div>
                     </div>
 
