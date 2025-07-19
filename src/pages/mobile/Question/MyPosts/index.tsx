@@ -355,7 +355,7 @@ const MyPosts = () => {
         if (contentFilter === 'all' || contentFilter === 'posts') {
             fetchQuestions(1, true);
         }
-        if (contentFilter === 'all' || contentFilter === 'bookmarks') {
+        if (contentFilter === 'bookmarks') {
             fetchBookmarks(1, true);
         }
     }, [selectedBoardType, searchQuery, contentFilter]);
