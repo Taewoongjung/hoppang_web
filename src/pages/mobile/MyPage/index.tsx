@@ -101,8 +101,8 @@ const MyPage = () => {
             icon: <img src="/assets/Counsel/counselor-hoppang-character.png" alt="hoppang-counselor"
                        style={{width: '35px', height: '35px'}}/>,
             title: '상담하기',
-            subtitle: '카톡 · 5분',
-            onClick: () => window.open("https://pf.kakao.com/_dbxezn", "_blank"),
+            subtitle: '고객센터',
+            onClick: () => window.location.href = '/v2/counsel',
             hasNotification: true,
             isDisabled: false
         },

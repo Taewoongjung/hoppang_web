@@ -429,7 +429,7 @@ const InquiryEstimateChassis: React.FC<InquiryEstimateChassisProps> = ({
                         lineHeight: '1.5'
                     }}>
                         <strong>상담시간</strong><br />
-                        평일 09:00 - 18:00 / 주말 09:00 - 17:00<br />
+                        평일 09:00 - 20:00 / 주말·공휴일 09:00 - 19:00<br />
                         <span style={{ color: '#fcb080', fontWeight: '600' }}>급한 문의는 카카오톡을 이용해주세요</span>
                     </div>
                 </div>
