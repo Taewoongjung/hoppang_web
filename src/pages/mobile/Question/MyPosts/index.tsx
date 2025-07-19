@@ -218,8 +218,6 @@ const MyPosts = () => {
         setIsLoading(true);
         try {
             const offset = (page - 1) * limit;
-            await new Promise(resolve => setTimeout(resolve, 300));
-
             let boardIds = '';
 
             if (selectedBoardType !== 'all') {
@@ -270,8 +268,6 @@ const MyPosts = () => {
         setIsLoading(true);
         try {
             const offset = (page - 1) * limit;
-            await new Promise(resolve => setTimeout(resolve, 300));
-
             let boardIds = '';
             if (selectedBoardType !== 'all') {
                 boardIds = selectedBoardType;
