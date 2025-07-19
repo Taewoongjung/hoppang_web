@@ -174,28 +174,28 @@ const MyPosts = () => {
     }, [lastScrollY]);
 
     // 디바운스된 스크롤 이벤트 등록
-    // useEffect(() => {
-    //     const debouncedHandleScroll = () => {
-    //         if (scrollTimer.current) {
-    //             clearTimeout(scrollTimer.current);
-    //         }
-    //         scrollTimer.current = setTimeout(handleScroll, 10);
-    //     };
-    //
-    //     window.addEventListener('scroll', debouncedHandleScroll, {
-    //         passive: true,
-    //         capture: false
-    //     });
-    //
-    //     handleScroll();
-    //
-    //     return () => {
-    //         window.removeEventListener('scroll', debouncedHandleScroll);
-    //         if (scrollTimer.current) {
-    //             clearTimeout(scrollTimer.current);
-    //         }
-    //     };
-    // }, [handleScroll]);
+    useEffect(() => {
+        const debouncedHandleScroll = () => {
+            if (scrollTimer.current) {
+                clearTimeout(scrollTimer.current);
+            }
+            scrollTimer.current = setTimeout(handleScroll, 10);
+        };
+
+        window.addEventListener('scroll', debouncedHandleScroll, {
+            passive: true,
+            capture: false
+        });
+
+        handleScroll();
+
+        return () => {
+            window.removeEventListener('scroll', debouncedHandleScroll);
+            if (scrollTimer.current) {
+                clearTimeout(scrollTimer.current);
+            }
+        };
+    }, [handleScroll]);
 
     const fetchCategory = async () => {
         try {
@@ -711,7 +711,10 @@ const MyPosts = () => {
             </section>
 
             {/* Questions List */}
-            <main className="questions-list-section">
+            <main className="questions-list-section"
+                 onTouchStart={handleTouchStart}
+                 onTouchMove={handleTouchMove}
+                 onTouchEnd={handleTouchEnd}>
                 {isLoading && (
                     <div className="loading-indicator">
                         <div className="loading-spinner"></div>
@@ -815,10 +818,10 @@ const MyPosts = () => {
             {showLoginModal && <CommunityLoginModal setShowLoginModal={setShowLoginModal} action={loginModalStatus}/>}
 
             {/* Bottom Navigation */}
-            {/*<BottomNavigator*/}
-            {/*    userData={userData}*/}
-            {/*    isVisible={isBottomNavVisible}*/}
-            {/*/>*/}
+            <BottomNavigator
+                userData={userData}
+                isVisible={isBottomNavVisible}
+            />
         </div>
     );
 };
