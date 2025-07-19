@@ -3,14 +3,20 @@ import './styles.css';
 
 const QuestionRegisterFormExitModal = (props:{
     from: any | null
+    fromDetail: any | null
     setShowExitModal: (f: boolean) => void
 }) => {
 
-    const { from, setShowExitModal } = props;
+    const { from, fromDetail, setShowExitModal } = props;
 
     const handleExitConfirm = () => {
         if (from === 'initial') {
             window.location.href = '/chassis/v2/calculator';
+            return;
+        }
+
+        if (from === 'postEdit') {
+            window.location.href = '/question/boards/posts/' + fromDetail;
             return;
         }
 

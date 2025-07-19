@@ -98,11 +98,19 @@ const MyPage = () => {
             isDisabled: false
         },
         {
-            icon: '📞',
+            icon: <img src="/assets/Counsel/counselor-hoppang-character.png" alt="hoppang-counselor"
+                       style={{width: '35px', height: '35px'}}/>,
             title: '상담하기',
             subtitle: '카톡 · 5분',
             onClick: () => window.open("https://pf.kakao.com/_dbxezn", "_blank"),
             hasNotification: true,
+            isDisabled: false
+        },
+        {
+            icon: '🖊️ ',
+            title: '내 게시물',
+            subtitle: '커뮤니티',
+            onClick: () => window.location.href = '/question/boards',
             isDisabled: false
         }
     ];

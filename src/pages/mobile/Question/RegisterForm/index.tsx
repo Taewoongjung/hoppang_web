@@ -622,6 +622,7 @@ const QuestionRegisterForm = () => {
             {showExitModal &&
                 <QuestionRegisterFormExitModal
                     from={urlParams.get('from')}
+                    fromDetail={urlParams.get('revisingPostId')}
                     setShowExitModal={setShowExitModal}
                 />
             }

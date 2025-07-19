@@ -469,12 +469,14 @@ const QuestionsBoard = () => {
     const renderRepliesCount = (question: Question) => {
         if (question.replyCount > 0) {
             return (
-                <span className="replies-count">
-                    <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                        <path d="M8 1C11.866 1 15 4.134 15 8C15 11.866 11.866 15 8 15C6.674 15 5.431 14.612 4.378 13.934L1 15L2.066 11.622C1.388 10.569 1 9.326 1 8C1 4.134 4.134 1 8 1Z" stroke="currentColor" strokeWidth="1.2" fill="none"/>
-                    </svg>
-                    {question.replyCount}
-                </span>
+                <> |
+                    <span className="replies-count">
+                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                            <path d="M8 1C11.866 1 15 4.134 15 8C15 11.866 11.866 15 8 15C6.674 15 5.431 14.612 4.378 13.934L1 15L2.066 11.622C1.388 10.569 1 9.326 1 8C1 4.134 4.134 1 8 1Z" stroke="currentColor" strokeWidth="1.2" fill="none"/>
+                        </svg>
+                        {question.replyCount}
+                    </span>
+                </>
             );
         }
         return null;
