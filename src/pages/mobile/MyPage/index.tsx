@@ -110,7 +110,7 @@ const MyPage = () => {
             icon: '🖊️ ',
             title: '내 게시물',
             subtitle: '커뮤니티',
-            onClick: () => window.location.href = '/question/boards',
+            onClick: () => window.location.href = '/question/my/boards',
             isDisabled: false
         }
     ];

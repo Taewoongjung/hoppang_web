@@ -43,6 +43,7 @@ const MyPageV2 = loadable(() => import('../../pages/mobile/MyPage'));
 const QuestionBoardPage = loadable(() => import('../../pages/mobile/Question/Board'));
 const QuestionBoardPostPage = loadable(() => import('../../pages/mobile/Question/Post'));
 const QuestionRegisterFormPage = loadable(() => import('../../pages/mobile/Question/RegisterForm'));
+const MyPostsPage = loadable(() => import('../../pages/mobile/Question/MyPosts'));
 
 const CounselV2 = loadable(() => import('../../pages/mobile/Counsel'));
 
@@ -85,6 +86,7 @@ const App = () => {
 
                     <Route exact path="/question/boards/posts/register" component={QuestionRegisterFormPage}/>
                     <Route exact path="/question/boards/posts/:postId" component={QuestionBoardPostPage}/>
+                    <Route exact path="/question/my/boards" component={MyPostsPage}/>
                     <Route exact path="/question/boards" component={QuestionBoardPage}/>
 
                     <Route exact path="/v2/mypage/estimation/histories" component={MyPageEstimationHistoriesPageV2}/>

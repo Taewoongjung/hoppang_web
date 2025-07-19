@@ -3,13 +3,13 @@ import React, {useState, useEffect, useRef, useCallback} from 'react';
 import './styles.css';
 import '../../versatile-styles.css';
 import axios from 'axios';
-import {callBoards, callBoardsPosts, callMeData} from "../../../../definition/apiPath";
+import {callBoards, callMeData, callMyBoardsPosts} from "../../../../definition/apiPath";
 import BottomNavigator from "../../../../component/V2/BottomNavigator";
 import useSWR from "swr";
 import fetcher from "../../../../util/fetcher";
 import CommunityLoginModal from "../../../../component/V2/Modal/CommunityLoginRequiredModal";
 import { Question, Board } from '../interface';
-import {formatTimeAgo} from "../../../../util";
+import { formatTimeAgo } from 'src/util';
 
 // 게시판 타입 정의
 interface BoardType {
@@ -18,15 +18,11 @@ interface BoardType {
     color: string;
 }
 
-const QuestionsBoard = () => {
+const MyPosts = () => {
 
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
     });
-
-    useEffect(() => {
-        fetchCategory();
-    }, []);
 
     const [allQuestions, setAllQuestions] = useState<Question[]>([]);
     const [allQuestionsCount, setAllQuestionsCount] = useState(0);
@@ -41,7 +37,11 @@ const QuestionsBoard = () => {
 
     const limit = 20;
 
-    // 게시판 타입 정의
+    useEffect(() => {
+        fetchCategory();
+    }, []);
+
+    // 게시판 타입 정의 (개선된 아이콘과 색상)
     const boardTypes: BoardType[] = [
         { id: 'all', name: '전체', color: '#6366f1' },
         { id: '1', name: '공지사항', color: '#ef4444' },
@@ -61,29 +61,44 @@ const QuestionsBoard = () => {
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [loginModalStatus, setLoginModalStatus] = useState<'question' | 'reply' | 'like' | 'general' | ''>('');
 
-    const getBoardNames = (boardId: number | string): { rootName?: string; branchName?: string } => {
-        const result: { rootName?: string; branchName?: string } = {};
+    // boardId로 게시판 정보를 찾는 함수 (개선됨)
+    const getBoardInfo = (boardId: number | string) => {
+        const boardIdStr = String(boardId);
 
+        // 먼저 메인 게시판에서 찾기
         for (const board of boards) {
-            // branch에서 먼저 찾기
-            const branchBoard = board.branchBoards.find(
-                branch => String(branch.id) === String(boardId)
-            );
-
-            if (branchBoard) {
-                result.branchName = branchBoard.name;
-                result.rootName = board.name; // branch가 있으면 root는 부모 board
-                return result; // 둘 다 찾았으면 여기서 끝내도 됨
+            if (String(board.id) === boardIdStr) {
+                return {
+                    rootBoard: board,
+                    branchBoard: null,
+                    displayName: board.name,
+                    fullPath: board.name
+                };
             }
 
-            // branch에 없으면 root에서 찾기
-            if (String(board.id) === String(boardId)) {
-                result.rootName = board.name;
-                return result;
+            // 브랜치 게시판에서 찾기
+            if (board.branchBoards && board.branchBoards.length > 0) {
+                const branchBoard = board.branchBoards.find(
+                    branch => String(branch.id) === boardIdStr
+                );
+
+                if (branchBoard) {
+                    return {
+                        rootBoard: board,
+                        branchBoard: branchBoard,
+                        displayName: branchBoard.name,
+                        fullPath: `${board.name} > ${branchBoard.name}`
+                    };
+                }
             }
         }
 
-        return result;
+        return null;
+    };
+
+    // 게시판 타입 정보 가져오기
+    const getBoardTypeInfo = (boardTypeId: string) => {
+        return boardTypes.find(type => type.id === boardTypeId) || boardTypes[0];
     };
 
     // 스크롤 이벤트 핸들러
@@ -97,10 +112,10 @@ const QuestionsBoard = () => {
                 const scrollPercent = scrollableHeight > 0 ? (currentScrollY / scrollableHeight) * 100 : 0;
 
                 // 스크롤 임계값 설정
-                const scrollThreshold = 150; // 150px 이상 스크롤하면 숨김
-                const showThreshold = 50; // 50px 이상 위로 스크롤하면 다시 표시
-                const footerThreshold = 70; // 스크롤 70% 지점에서 Footer 표시
-                const bottomThreshold = 95; // 95% 이상에서는 무조건 Footer 표시
+                const scrollThreshold = 150;
+                const showThreshold = 50;
+                const footerThreshold = 70;
+                const bottomThreshold = 95;
 
                 // 스크롤 방향 및 속도 감지
                 const scrollDirection = currentScrollY > lastScrollY ? 'down' : 'up';
@@ -111,19 +126,15 @@ const QuestionsBoard = () => {
                     (scrollPercent >= footerThreshold && currentScrollY > scrollableHeight - 200)) {
                     setIsBottomNavVisible(false);
                 }
-                // 페이지 상단 근처에서는 Footer 숨김, BottomNav 표시
                 else if (currentScrollY < 100) {
                     setIsBottomNavVisible(true);
                 }
-                // 중간 영역에서의 BottomNav 표시/숨김 로직
                 else {
-                    // 아래로 빠르게 스크롤할 때
                     if (scrollDirection === 'down' &&
                         currentScrollY > scrollThreshold &&
                         scrollDelta > 5) {
                         setIsBottomNavVisible(false);
                     }
-                    // 위로 스크롤할 때
                     else if (scrollDirection === 'up' && scrollDelta > showThreshold) {
                         setIsBottomNavVisible(true);
                     }
@@ -142,7 +153,6 @@ const QuestionsBoard = () => {
             if (scrollTimer.current) {
                 clearTimeout(scrollTimer.current);
             }
-
             scrollTimer.current = setTimeout(handleScroll, 10);
         };
 
@@ -151,7 +161,6 @@ const QuestionsBoard = () => {
             capture: false
         });
 
-        // 초기 상태 설정
         handleScroll();
 
         return () => {
@@ -162,10 +171,6 @@ const QuestionsBoard = () => {
         };
     }, [handleScroll]);
 
-    const getBoardTypeInfo = (boardTypeId: string) => {
-        return boardTypes.find(type => type.id === boardTypeId) || boardTypes[0];
-    };
-
     const fetchCategory = async () => {
         try {
             const res = await axios.get(callBoards);
@@ -173,7 +178,7 @@ const QuestionsBoard = () => {
                 const boards: Board[] = res.data.map((category: any) => ({
                     id: category.id,
                     name: category.name,
-                    branchBoards: category.branchBoards
+                    branchBoards: category.branchBoards || []
                 }));
 
                 setBoards(boards);
@@ -187,13 +192,13 @@ const QuestionsBoard = () => {
         setIsLoading(true);
         try {
             const offset = (page - 1) * limit;
-            await new Promise(resolve => setTimeout(resolve, 300)); // 시뮬레이션
+            await new Promise(resolve => setTimeout(resolve, 300));
 
             let boardIds = '';
 
             if (selectedBoardType !== 'all') {
                 boardIds = selectedBoardType;
-
+                // 질문 게시판의 경우 하위 브랜치들도 포함
                 if (selectedBoardType === '2') {
                     const targetBoard = boards.find(board => String(board.id) === '2');
 
@@ -204,7 +209,15 @@ const QuestionsBoard = () => {
                 }
             }
 
-            const res = await axios.get(`${callBoardsPosts}?limit=${limit}&offset=${offset}&boardIdList=${boardIds}&searchWord=${searchQuery}`);
+            const res =
+                await axios.get(`${callMyBoardsPosts}?&limit=${limit}&offset=${offset}&boardIdList=${boardIds}&searchWord=${searchQuery}`,
+                    {
+                        headers: {
+                            withCredentials: true,
+                            Authorization: localStorage.getItem("hoppang-token")
+                        },
+                    }
+                );
             const posts = res.data.postsList;
             const questions: Question[] = posts.map((post: any) => ({
                 id: post.id,
@@ -215,11 +228,8 @@ const QuestionsBoard = () => {
                 createdAt: new Date(post.createdAt).toISOString(),
                 replyCount: post.replyCount,
                 viewCount: post.viewCount,
-                isAnswered: Math.random() > 0.3,
-                imageCount: null
             }));
 
-            // 항상 새 데이터로 교체 (기존 데이터에 추가하지 않음)
             setAllQuestions(questions);
             setAllQuestionsCount(res.data.count);
         } catch (err) {
@@ -232,14 +242,14 @@ const QuestionsBoard = () => {
     // 게시판 타입 선택 핸들러
     const handleBoardTypeSelect = (boardTypeId: string) => {
         setSelectedBoardType(boardTypeId);
-        setCurrentPage(1); // 페이지 리셋
+        setCurrentPage(1);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     // 검색 핸들러
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        setCurrentPage(1); // 페이지 리셋
+        setCurrentPage(1);
         if (searchQuery !== '') {
             fetchQuestions(currentPage, true);
         }
@@ -252,13 +262,11 @@ const QuestionsBoard = () => {
     };
 
     useEffect(() => {
-        // 게시판 타입이나 검색어 변경 시 첫 페이지로 리셋
         setCurrentPage(1);
         setAllQuestions([]);
         fetchQuestions(1, true);
     }, [selectedBoardType, searchQuery]);
 
-    // 페이지 변경만 처리하는 별도 useEffect
     useEffect(() => {
         if (currentPage >= 1) {
             fetchQuestions(currentPage, true);
@@ -301,14 +309,14 @@ const QuestionsBoard = () => {
 
     const handlePostDetail = async (postId: number) => {
         if (userData) {
-            window.location.href = `/question/boards/posts/${postId}?loggedInUserId=${userData.id}`;
+            window.location.href = `/question/boards/posts/${postId}?from=myPosts&loggedInUserId=${userData.id}`;
         } else {
-            window.location.href = `/question/boards/posts/${postId}`;
+            window.location.href = `/question/boards/posts/${postId}?from=myPosts`;
         }
     };
 
     const handGoBack = () => {
-        window.location.href = '/chassis/v2/calculator';
+        window.location.href = '/v2/mypage';
     }
 
     const totalPages = Math.ceil(allQuestionsCount / limit);
@@ -398,29 +406,34 @@ const QuestionsBoard = () => {
     const renderQuestionBadges = (question: Question) => {
         const badges = [];
 
-        // 카테고리 배지 (전체 탭에서만 표시하고, 카테고리가 있는 경우)
-        if ((selectedBoardType === 'all' || selectedBoardType === '2' ) && question.category) {
-            const categoryNames = getBoardNames(question.category);
-            if (categoryNames.rootName) {
-                badges.push(
-                    <span
-                        key="board-type"
-                        className="board-type-badge"
-                        style={{ backgroundColor: boardTypes.find(type => type.name === categoryNames.rootName)?.color }}
-                    >
-                    {categoryNames.rootName}
-                </span>
-                );
-            }
-            if (categoryNames.branchName) {
-                badges.push(
-                    <span
-                        key="category"
-                        className="category-badge"
-                    >
-                        {categoryNames.branchName}
-                    </span>
-                );
+        if (question.category) {
+            const boardInfo = getBoardInfo(question.category);
+
+            if (boardInfo) {
+                // 루트 게시판 배지 (전체 탭이거나 다른 게시판일 때만 표시)
+                if (selectedBoardType === 'all' ||
+                    (selectedBoardType !== 'all' && String(boardInfo.rootBoard.id) !== selectedBoardType)) {
+
+                    const boardTypeInfo = getBoardTypeInfo(String(boardInfo.rootBoard.id));
+                    badges.push(
+                        <span
+                            key="root-board"
+                            className="root-board-badge"
+                            style={{ backgroundColor: boardTypeInfo.color }}
+                        >
+                            {boardInfo.rootBoard.name}
+                        </span>
+                    );
+                }
+
+                // 브랜치 게시판 배지 (브랜치가 있는 경우)
+                if (boardInfo.branchBoard) {
+                    badges.push(
+                        <span key="branch-board" className="branch-board-badge">
+                            {boardInfo.branchBoard.name}
+                        </span>
+                    );
+                }
             }
         }
 
@@ -443,7 +456,8 @@ const QuestionsBoard = () => {
     const renderRepliesCount = (question: Question) => {
         if (question.replyCount > 0) {
             return (
-                <> |
+                <>
+                    <span className="meta-separator">|</span>
                     <span className="replies-count">
                         <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
                             <path d="M8 1C11.866 1 15 4.134 15 8C15 11.866 11.866 15 8 15C6.674 15 5.431 14.612 4.378 13.934L1 15L2.066 11.622C1.388 10.569 1 9.326 1 8C1 4.134 4.134 1 8 1Z" stroke="currentColor" strokeWidth="1.2" fill="none"/>
@@ -497,7 +511,7 @@ const QuestionsBoard = () => {
                             <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                     </button>
-                    <div className="header-title">커뮤니티</div>
+                    <div className="header-title">내 게시물</div>
                     <div style={{ width: '40px' }}></div>
                 </div>
             </header>
@@ -555,20 +569,21 @@ const QuestionsBoard = () => {
                     {allQuestions.map((question) => (
                         <div
                             key={question.id}
-                            className={`question-item`}
+                            className="question-item"
                             onClick={() => handlePostDetail(question.id)}
                         >
                             <div className="question-main">
                                 <div className="question-header">
                                     <div className="question-badges">
                                         {renderQuestionBadges(question)}
-                                        {/*{renderAnsweredBadge(question)}*/}
                                     </div>
                                     <h3 className="question-title">{question.title}</h3>
                                     <div className="question-meta">
                                         <span className="question-author">{question.author}</span>
-                                        <span className="question-time">| {formatTimeAgo(question.createdAt)}</span>
-                                        <span className="question-stats">| 조회 {question.viewCount}</span>
+                                        <span className="meta-separator">|</span>
+                                        <span className="question-time">{formatTimeAgo(question.createdAt)}</span>
+                                        <span className="meta-separator">|</span>
+                                        <span className="question-stats">조회 {question.viewCount}</span>
                                         {renderRepliesCount(question)}
                                     </div>
                                 </div>
@@ -605,6 +620,7 @@ const QuestionsBoard = () => {
                             <button
                                 className="empty-action-btn"
                                 onClick={handleRegisterPost}
+                                style={{ backgroundColor: getBoardTypeInfo(selectedBoardType).color }}
                             >
                                 글쓰기
                             </button>
@@ -622,22 +638,9 @@ const QuestionsBoard = () => {
                 )}
             </main>
 
-            {/* Floating Write Button */}
-            <button
-                className="floating-write-btn"
-                onClick={handleRegisterPost}
-                style={{
-                    backgroundColor: getBoardTypeInfo(selectedBoardType).color
-                }}
-            >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 4V20M4 12H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                </svg>
-            </button>
-
             {showLoginModal && <CommunityLoginModal setShowLoginModal={setShowLoginModal} action={loginModalStatus}/>}
 
-            {/* Bottom Navigation - 조건부 렌더링 */}
+            {/* Bottom Navigation */}
             <BottomNavigator
                 userData={userData}
                 isVisible={isBottomNavVisible}
@@ -646,4 +649,4 @@ const QuestionsBoard = () => {
     );
 };
 
-export default QuestionsBoard;
+export default MyPosts;

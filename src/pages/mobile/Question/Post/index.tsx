@@ -664,6 +664,15 @@ const PostDetail = () => {
         }, 0);
     };
 
+    const handleGoBack = () => {
+        if (searchParams.get('from') && searchParams.get('from') === 'myPosts') {
+            window.location.href = "/question/my/boards";
+            return;
+        }
+
+        window.location.href = "/question/boards";
+    }
+
 
     // 로딩 및 에러 상태 처리
     if (loading) {
@@ -697,7 +706,7 @@ const PostDetail = () => {
                 <div className="header-content">
                     <button
                         className="back-btn"
-                        onClick={() => window.location.href = "/question/boards"}
+                        onClick={handleGoBack}
                     >
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
