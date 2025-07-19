@@ -527,7 +527,6 @@ const MyPosts = () => {
     // 게시물 배지 렌더링 함수
     const renderQuestionBadges = (question: Question) => {
         const badges = [];
-
         if (question.category) {
             const boardInfo = getBoardInfo(question.category);
 
@@ -591,49 +590,6 @@ const MyPosts = () => {
         }
         return null;
     };
-
-    // Content Filter Tabs 컴포넌트
-    const ContentFilterTabs = () => (
-        <section className="content-filter-section">
-            <div className="content-filter-container">
-                <div className="content-filter-tabs">
-                    <button
-                        className={`content-filter-tab ${contentFilter === 'all' ? 'active' : ''}`}
-                        onClick={() => handleContentFilterChange('all')}
-                        data-filter="all"
-                    >
-                        <span className="filter-icon">📋</span>
-                        <span className="filter-name">전체</span>
-                        <span className="filter-count">{allQuestionsCount + allBookmarksCount}</span>
-                    </button>
-                    <button
-                        className={`content-filter-tab ${contentFilter === 'posts' ? 'active' : ''}`}
-                        onClick={() => handleContentFilterChange('posts')}
-                        data-filter="posts"
-                    >
-                        <span className="filter-icon">📝</span>
-                        <span className="filter-name">내 게시글</span>
-                        <span className="filter-count">{allQuestionsCount}</span>
-                    </button>
-                    <button
-                        className={`content-filter-tab ${contentFilter === 'bookmarks' ? 'active' : ''}`}
-                        onClick={() => handleContentFilterChange('bookmarks')}
-                        data-filter="bookmarks"
-                    >
-                        <span className="filter-icon">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                <path d="M3 2v12l5-3 5 3V2a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1z"
-                                      stroke="currentColor" strokeWidth="1.5"
-                                      fill={'none'}/>
-                            </svg>
-                        </span>
-                        <span className="filter-name">북마크</span>
-                        <span className="filter-count">{allBookmarksCount}</span>
-                    </button>
-                </div>
-            </div>
-        </section>
-    );
 
     return (
         <div className="questions-container"
@@ -702,7 +658,45 @@ const MyPosts = () => {
             </section>
 
             {/* Content Filter Tabs */}
-            <ContentFilterTabs />
+            <section className="content-filter-section">
+                <div className="content-filter-container">
+                    <div className="content-filter-tabs">
+                        <button
+                            className={`content-filter-tab ${contentFilter === 'all' ? 'active' : ''}`}
+                            onClick={() => handleContentFilterChange('all')}
+                            data-filter="all"
+                        >
+                            <span className="filter-icon">📋</span>
+                            <span className="filter-name">전체</span>
+                            <span className="filter-count">{allQuestionsCount + allBookmarksCount}</span>
+                        </button>
+                        <button
+                            className={`content-filter-tab ${contentFilter === 'posts' ? 'active' : ''}`}
+                            onClick={() => handleContentFilterChange('posts')}
+                            data-filter="posts"
+                        >
+                            <span className="filter-icon">📝</span>
+                            <span className="filter-name">내 게시글</span>
+                            <span className="filter-count">{allQuestionsCount}</span>
+                        </button>
+                        <button
+                            className={`content-filter-tab ${contentFilter === 'bookmarks' ? 'active' : ''}`}
+                            onClick={() => handleContentFilterChange('bookmarks')}
+                            data-filter="bookmarks"
+                        >
+                        <span className="filter-icon">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M3 2v12l5-3 5 3V2a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1z"
+                                      stroke="currentColor" strokeWidth="1.5"
+                                      fill={'none'}/>
+                            </svg>
+                        </span>
+                            <span className="filter-name">북마크</span>
+                            <span className="filter-count">{allBookmarksCount}</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
 
             {/* Search Section */}
             <section className="search-section">
