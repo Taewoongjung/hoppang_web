@@ -3,7 +3,7 @@ import React, {useState, useEffect, useRef, useCallback} from 'react';
 import './styles.css';
 import '../../versatile-styles.css';
 import axios from 'axios';
-import {callBoards, callMeData, callMyBoardsPosts, callMyBoardsPostsBookmarked} from "../../../../definition/apiPath";
+import {callBoards, callMeData, callMyBoardsPosts} from "../../../../definition/apiPath";
 import BottomNavigator from "../../../../component/V2/BottomNavigator";
 import useSWR from "swr";
 import fetcher from "../../../../util/fetcher";
@@ -72,9 +72,7 @@ const MyPosts = () => {
             case 'bookmarks':
                 return allBookmarks;
             default:
-                return [...allQuestions, ...allBookmarks].sort((a, b) =>
-                    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-                );
+                return allQuestions;
         }
     };
 
@@ -85,7 +83,7 @@ const MyPosts = () => {
             case 'bookmarks':
                 return allBookmarksCount;
             default:
-                return allQuestionsCount + allBookmarksCount;
+                return allQuestionsCount;
         }
     };
 
@@ -256,6 +254,7 @@ const MyPosts = () => {
                 createdAt: new Date(post.createdAt).toISOString(),
                 replyCount: post.replyCount,
                 viewCount: post.viewCount,
+                isBookmarked: contentFilter === 'all' ? post.isBookmarked : false
             }));
 
             setAllQuestions(questions);
@@ -334,11 +333,10 @@ const MyPosts = () => {
         e.preventDefault();
         setCurrentPage(1);
         if (searchQuery !== '') {
-            if (contentFilter === 'all' || contentFilter === 'posts') {
-                fetchQuestions(currentPage, true);
-            }
-            if (contentFilter === 'all' || contentFilter === 'bookmarks') {
-                fetchBookmarks(currentPage, true);
+            if (contentFilter === 'posts' || contentFilter === 'all') {
+                fetchQuestions(1, true);
+            } else if (contentFilter === 'bookmarks') {
+                fetchBookmarks(1, true);
             }
         }
     };
@@ -364,10 +362,9 @@ const MyPosts = () => {
 
     useEffect(() => {
         if (currentPage >= 1) {
-            if (contentFilter === 'all' || contentFilter === 'posts') {
+            if (contentFilter === 'posts' || contentFilter === 'all') {
                 fetchQuestions(currentPage, true);
-            }
-            if (contentFilter === 'all' || contentFilter === 'bookmarks') {
+            } else if (contentFilter === 'bookmarks') {
                 fetchBookmarks(currentPage, true);
             }
         }
@@ -391,10 +388,9 @@ const MyPosts = () => {
     const handleTouchEnd = async () => {
         if (pullDistance > 60) {
             setIsRefreshing(true);
-            if (contentFilter === 'all' || contentFilter === 'posts') {
+            if (contentFilter === 'posts' || contentFilter === 'all') {
                 await fetchQuestions(currentPage, true);
-            }
-            if (contentFilter === 'all' || contentFilter === 'bookmarks') {
+            } else if (contentFilter === 'bookmarks') {
                 await fetchBookmarks(currentPage, true);
             }
             setIsRefreshing(false);
@@ -515,7 +511,9 @@ const MyPosts = () => {
             return (
                 <span className="bookmark-badge">
                     <svg width="8" height="8" viewBox="0 0 16 16" fill="none">
-                        <path d="M2 2C2 1.45 2.45 1 3 1H13C13.55 1 14 1.45 14 2V15L8 11L2 15V2Z" fill="currentColor"/>
+                        <path d="M3 2v12l5-3 5 3V2a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1z"
+                              stroke="currentColor" strokeWidth="1.5"
+                              fill="currentColor"/>
                     </svg>
                     북마크
                 </span>
@@ -527,6 +525,7 @@ const MyPosts = () => {
     // 게시물 배지 렌더링 함수
     const renderQuestionBadges = (question: Question) => {
         const badges = [];
+
         if (question.category) {
             const boardInfo = getBoardInfo(question.category);
 
@@ -590,6 +589,49 @@ const MyPosts = () => {
         }
         return null;
     };
+
+    // Content Filter Tabs 컴포넌트
+    const ContentFilterTabs = () => (
+        <section className="content-filter-section">
+            <div className="content-filter-container">
+                <div className="content-filter-tabs">
+                    <button
+                        className={`content-filter-tab ${contentFilter === 'all' ? 'active' : ''}`}
+                        onClick={() => handleContentFilterChange('all')}
+                        data-filter="all"
+                    >
+                        <span className="filter-icon">📋</span>
+                        <span className="filter-name">전체</span>
+                        <span className="filter-count">{allQuestionsCount}</span>
+                    </button>
+                    <button
+                        className={`content-filter-tab ${contentFilter === 'posts' ? 'active' : ''}`}
+                        onClick={() => handleContentFilterChange('posts')}
+                        data-filter="posts"
+                    >
+                        <span className="filter-icon">📝</span>
+                        <span className="filter-name">내 게시글</span>
+                        <span className="filter-count">{allQuestionsCount}</span>
+                    </button>
+                    <button
+                        className={`content-filter-tab ${contentFilter === 'bookmarks' ? 'active' : ''}`}
+                        onClick={() => handleContentFilterChange('bookmarks')}
+                        data-filter="bookmarks"
+                    >
+                        <span className="filter-icon">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M3 2v12l5-3 5 3V2a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1z"
+                                      stroke="currentColor" strokeWidth="1.5"
+                                      fill="currentColor"/>
+                            </svg>
+                        </span>
+                        <span className="filter-name">북마크</span>
+                        <span className="filter-count">{allBookmarksCount}</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+    );
 
     return (
         <div className="questions-container"
@@ -658,45 +700,7 @@ const MyPosts = () => {
             </section>
 
             {/* Content Filter Tabs */}
-            <section className="content-filter-section">
-                <div className="content-filter-container">
-                    <div className="content-filter-tabs">
-                        <button
-                            className={`content-filter-tab ${contentFilter === 'all' ? 'active' : ''}`}
-                            onClick={() => handleContentFilterChange('all')}
-                            data-filter="all"
-                        >
-                            <span className="filter-icon">📋</span>
-                            <span className="filter-name">전체</span>
-                            <span className="filter-count">{allQuestionsCount + allBookmarksCount}</span>
-                        </button>
-                        <button
-                            className={`content-filter-tab ${contentFilter === 'posts' ? 'active' : ''}`}
-                            onClick={() => handleContentFilterChange('posts')}
-                            data-filter="posts"
-                        >
-                            <span className="filter-icon">📝</span>
-                            <span className="filter-name">내 게시글</span>
-                            <span className="filter-count">{allQuestionsCount}</span>
-                        </button>
-                        <button
-                            className={`content-filter-tab ${contentFilter === 'bookmarks' ? 'active' : ''}`}
-                            onClick={() => handleContentFilterChange('bookmarks')}
-                            data-filter="bookmarks"
-                        >
-                        <span className="filter-icon">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                <path d="M3 2v12l5-3 5 3V2a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1z"
-                                      stroke="currentColor" strokeWidth="1.5"
-                                      fill={'none'}/>
-                            </svg>
-                        </span>
-                            <span className="filter-name">북마크</span>
-                            <span className="filter-count">{allBookmarksCount}</span>
-                        </button>
-                    </div>
-                </div>
-            </section>
+            <ContentFilterTabs />
 
             {/* Search Section */}
             <section className="search-section">
