@@ -63,6 +63,7 @@
 }
 
 .header-content {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -87,9 +88,17 @@
 }
 
 .header-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 18px;
     font-weight: 700;
     color: #1e293b;
+}
+
+.header-my-activity {
+    font-size: 13px;
+    color: #64748b;
 }
 
 /* Board Tabs */

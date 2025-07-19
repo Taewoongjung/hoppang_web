@@ -498,7 +498,7 @@ const QuestionsBoard = () => {
                         </svg>
                     </button>
                     <div className="header-title">커뮤니티</div>
-                    <div style={{ width: '40px' }}></div>
+                    {userData && <div className="header-my-activity" onClick={() => window.location.href = "/question/my/boards"}>내 활동</div>}
                 </div>
             </header>
 

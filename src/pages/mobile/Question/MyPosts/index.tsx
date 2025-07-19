@@ -3,7 +3,7 @@ import React, {useState, useEffect, useRef, useCallback} from 'react';
 import './styles.css';
 import '../../versatile-styles.css';
 import axios from 'axios';
-import {callBoards, callMeData, callMyBoardsPosts} from "../../../../definition/apiPath";
+import {callBoards, callMeData, callMyBoardsPosts, callMyBoardsPostsBookmarked} from "../../../../definition/apiPath";
 import BottomNavigator from "../../../../component/V2/BottomNavigator";
 import useSWR from "swr";
 import fetcher from "../../../../util/fetcher";
@@ -26,9 +26,12 @@ const MyPosts = () => {
 
     const [allQuestions, setAllQuestions] = useState<Question[]>([]);
     const [allQuestionsCount, setAllQuestionsCount] = useState(0);
+    const [allBookmarks, setAllBookmarks] = useState<Question[]>([]);
+    const [allBookmarksCount, setAllBookmarksCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [boards, setBoards] = useState<Board[]>([]);
     const [selectedBoardType, setSelectedBoardType] = useState('all');
+    const [contentFilter, setContentFilter] = useState<'all' | 'posts' | 'bookmarks'>('all');
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [pullDistance, setPullDistance] = useState(0);
@@ -60,6 +63,31 @@ const MyPosts = () => {
 
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [loginModalStatus, setLoginModalStatus] = useState<'question' | 'reply' | 'like' | 'general' | ''>('');
+
+    // 현재 표시할 데이터를 결정하는 computed 값
+    const getCurrentQuestions = () => {
+        switch (contentFilter) {
+            case 'posts':
+                return allQuestions;
+            case 'bookmarks':
+                return allBookmarks;
+            default:
+                return [...allQuestions, ...allBookmarks].sort((a, b) =>
+                    new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+                );
+        }
+    };
+
+    const getCurrentQuestionsCount = () => {
+        switch (contentFilter) {
+            case 'posts':
+                return allQuestionsCount;
+            case 'bookmarks':
+                return allBookmarksCount;
+            default:
+                return allQuestionsCount + allBookmarksCount;
+        }
+    };
 
     // boardId로 게시판 정보를 찾는 함수 (개선됨)
     const getBoardInfo = (boardId: number | string) => {
@@ -210,7 +238,7 @@ const MyPosts = () => {
             }
 
             const res =
-                await axios.get(`${callMyBoardsPosts}?&limit=${limit}&offset=${offset}&boardIdList=${boardIds}&searchWord=${searchQuery}`,
+                await axios.get(`${callMyBoardsPosts}?limit=${limit}&offset=${offset}&boardIdList=${boardIds}&searchWord=${searchQuery}`,
                     {
                         headers: {
                             withCredentials: true,
@@ -239,9 +267,64 @@ const MyPosts = () => {
         }
     };
 
+    const fetchBookmarks = async (page: number = 1, resetData: boolean = true) => {
+        setIsLoading(true);
+        try {
+            const offset = (page - 1) * limit;
+            await new Promise(resolve => setTimeout(resolve, 300));
+
+            let boardIds = '';
+            if (selectedBoardType !== 'all') {
+                boardIds = selectedBoardType;
+                if (selectedBoardType === '2') {
+                    const targetBoard = boards.find(board => String(board.id) === '2');
+                    if (targetBoard) {
+                        const branchIds = targetBoard.branchBoards.map(branch => branch.id);
+                        boardIds = [targetBoard.id, ...branchIds].join(',');
+                    }
+                }
+            }
+
+            // 북마크 API 호출 (실제 API 엔드포인트로 변경 필요)
+            const res = await axios.get(`${callMyBoardsPosts}?bookmarkOnly=true&limit=${limit}&offset=${offset}&boardIdList=${boardIds}&searchWord=${searchQuery}`, {
+                headers: {
+                    withCredentials: true,
+                    Authorization: localStorage.getItem("hoppang-token")
+                },
+            });
+
+            const bookmarks = res.data.postsList;
+            const questions: Question[] = bookmarks.map((post: any) => ({
+                id: post.id,
+                category: post.boardId,
+                title: post.title,
+                content: post.contents,
+                author: post.authorName,
+                createdAt: new Date(post.createdAt).toISOString(),
+                replyCount: post.replyCount,
+                viewCount: post.viewCount,
+                isBookmarked: true, // 북마크된 게시글임을 표시
+            }));
+
+            setAllBookmarks(questions);
+            setAllBookmarksCount(res.data.count);
+        } catch (err) {
+            console.error("북마크 조회 실패", err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     // 게시판 타입 선택 핸들러
     const handleBoardTypeSelect = (boardTypeId: string) => {
         setSelectedBoardType(boardTypeId);
+        setCurrentPage(1);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    // 컨텐츠 필터 변경 핸들러
+    const handleContentFilterChange = (filter: 'all' | 'posts' | 'bookmarks') => {
+        setContentFilter(filter);
         setCurrentPage(1);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
@@ -251,7 +334,12 @@ const MyPosts = () => {
         e.preventDefault();
         setCurrentPage(1);
         if (searchQuery !== '') {
-            fetchQuestions(currentPage, true);
+            if (contentFilter === 'all' || contentFilter === 'posts') {
+                fetchQuestions(currentPage, true);
+            }
+            if (contentFilter === 'all' || contentFilter === 'bookmarks') {
+                fetchBookmarks(currentPage, true);
+            }
         }
     };
 
@@ -264,12 +352,24 @@ const MyPosts = () => {
     useEffect(() => {
         setCurrentPage(1);
         setAllQuestions([]);
-        fetchQuestions(1, true);
-    }, [selectedBoardType, searchQuery]);
+        setAllBookmarks([]);
+
+        if (contentFilter === 'all' || contentFilter === 'posts') {
+            fetchQuestions(1, true);
+        }
+        if (contentFilter === 'all' || contentFilter === 'bookmarks') {
+            fetchBookmarks(1, true);
+        }
+    }, [selectedBoardType, searchQuery, contentFilter]);
 
     useEffect(() => {
         if (currentPage >= 1) {
-            fetchQuestions(currentPage, true);
+            if (contentFilter === 'all' || contentFilter === 'posts') {
+                fetchQuestions(currentPage, true);
+            }
+            if (contentFilter === 'all' || contentFilter === 'bookmarks') {
+                fetchBookmarks(currentPage, true);
+            }
         }
     }, [currentPage]);
 
@@ -291,7 +391,12 @@ const MyPosts = () => {
     const handleTouchEnd = async () => {
         if (pullDistance > 60) {
             setIsRefreshing(true);
-            await fetchQuestions(currentPage, true);
+            if (contentFilter === 'all' || contentFilter === 'posts') {
+                await fetchQuestions(currentPage, true);
+            }
+            if (contentFilter === 'all' || contentFilter === 'bookmarks') {
+                await fetchBookmarks(currentPage, true);
+            }
             setIsRefreshing(false);
         }
         setPullDistance(0);
@@ -319,7 +424,9 @@ const MyPosts = () => {
         window.location.href = '/v2/mypage';
     }
 
-    const totalPages = Math.ceil(allQuestionsCount / limit);
+    const currentQuestions = getCurrentQuestions();
+    const currentQuestionsCount = getCurrentQuestionsCount();
+    const totalPages = Math.ceil(currentQuestionsCount / limit);
 
     // 페이지네이션 렌더링 함수
     const renderPagination = () => {
@@ -402,6 +509,21 @@ const MyPosts = () => {
         return pages;
     };
 
+    // 북마크 배지 렌더링 함수
+    const renderBookmarkBadge = (question: Question) => {
+        if (question.isBookmarked && contentFilter === 'all') {
+            return (
+                <span className="bookmark-badge">
+                    <svg width="8" height="8" viewBox="0 0 16 16" fill="none">
+                        <path d="M2 2C2 1.45 2.45 1 3 1H13C13.55 1 14 1.45 14 2V15L8 11L2 15V2Z" fill="currentColor"/>
+                    </svg>
+                    북마크
+                </span>
+            );
+        }
+        return null;
+    };
+
     // 게시물 배지 렌더링 함수
     const renderQuestionBadges = (question: Question) => {
         const badges = [];
@@ -470,6 +592,49 @@ const MyPosts = () => {
         return null;
     };
 
+    // Content Filter Tabs 컴포넌트
+    const ContentFilterTabs = () => (
+        <section className="content-filter-section">
+            <div className="content-filter-container">
+                <div className="content-filter-tabs">
+                    <button
+                        className={`content-filter-tab ${contentFilter === 'all' ? 'active' : ''}`}
+                        onClick={() => handleContentFilterChange('all')}
+                        data-filter="all"
+                    >
+                        <span className="filter-icon">📋</span>
+                        <span className="filter-name">전체</span>
+                        <span className="filter-count">{allQuestionsCount + allBookmarksCount}</span>
+                    </button>
+                    <button
+                        className={`content-filter-tab ${contentFilter === 'posts' ? 'active' : ''}`}
+                        onClick={() => handleContentFilterChange('posts')}
+                        data-filter="posts"
+                    >
+                        <span className="filter-icon">📝</span>
+                        <span className="filter-name">내 게시글</span>
+                        <span className="filter-count">{allQuestionsCount}</span>
+                    </button>
+                    <button
+                        className={`content-filter-tab ${contentFilter === 'bookmarks' ? 'active' : ''}`}
+                        onClick={() => handleContentFilterChange('bookmarks')}
+                        data-filter="bookmarks"
+                    >
+                        <span className="filter-icon">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M3 2v12l5-3 5 3V2a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1z"
+                                      stroke="currentColor" strokeWidth="1.5"
+                                      fill={'none'}/>
+                            </svg>
+                        </span>
+                        <span className="filter-name">북마크</span>
+                        <span className="filter-count">{allBookmarksCount}</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+    );
+
     return (
         <div className="questions-container"
              onTouchStart={handleTouchStart}
@@ -511,7 +676,7 @@ const MyPosts = () => {
                             <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                     </button>
-                    <div className="header-title">내 게시물</div>
+                    <div className="header-title">내 활동</div>
                     <div style={{ width: '40px' }}></div>
                 </div>
             </header>
@@ -535,6 +700,9 @@ const MyPosts = () => {
                     </div>
                 </div>
             </section>
+
+            {/* Content Filter Tabs */}
+            <ContentFilterTabs />
 
             {/* Search Section */}
             <section className="search-section">
@@ -566,15 +734,17 @@ const MyPosts = () => {
                 )}
 
                 <div className={`questions-list ${isLoading ? 'loading' : ''}`}>
-                    {allQuestions.map((question) => (
+                    {currentQuestions.map((question) => (
                         <div
-                            key={question.id}
+                            key={`${question.id}-${question.isBookmarked ? 'bookmark' : 'post'}`}
                             className="question-item"
                             onClick={() => handlePostDetail(question.id)}
+                            data-bookmarked={question.isBookmarked || false}
                         >
                             <div className="question-main">
                                 <div className="question-header">
                                     <div className="question-badges">
+                                        {renderBookmarkBadge(question)}
                                         {renderQuestionBadges(question)}
                                     </div>
                                     <h3 className="question-title">{question.title}</h3>
@@ -602,29 +772,39 @@ const MyPosts = () => {
                 </div>
 
                 {/* Empty State */}
-                {allQuestions.length === 0 && !isLoading && (
+                {currentQuestions.length === 0 && !isLoading && (
                     <div className="empty-state">
                         <h3 className="empty-title">
-                            {selectedBoardType === 'all'
-                                ? '아직 게시글이 없습니다'
-                                : `${getBoardTypeInfo(selectedBoardType).name} 게시글이 없습니다`
+                            {contentFilter === 'bookmarks'
+                                ? '북마크한 게시글이 없습니다'
+                                : contentFilter === 'posts'
+                                    ? (selectedBoardType === 'all'
+                                        ? '아직 게시글이 없습니다'
+                                        : `${getBoardTypeInfo(selectedBoardType).name} 게시글이 없습니다`)
+                                    : '아직 활동이 없습니다'
                             }
                         </h3>
                         <p className="empty-description">
-                            {selectedBoardType === 'all'
-                                ? '첫 번째 게시글을 등록해보세요!'
-                                : `첫 번째 ${getBoardTypeInfo(selectedBoardType).name} 게시글을 등록해보세요!`
+                            {contentFilter === 'bookmarks'
+                                ? '관심 있는 게시글을 북마크해보세요!'
+                                : contentFilter === 'posts'
+                                    ? (selectedBoardType === 'all'
+                                        ? '첫 번째 게시글을 등록해보세요!'
+                                        : `첫 번째 ${getBoardTypeInfo(selectedBoardType).name} 게시글을 등록해보세요!`)
+                                    : '게시글을 작성하거나 북마크해보세요!'
                             }
                         </p>
-                        <div className="empty-actions">
-                            <button
-                                className="empty-action-btn"
-                                onClick={handleRegisterPost}
-                                style={{ backgroundColor: getBoardTypeInfo(selectedBoardType).color }}
-                            >
-                                글쓰기
-                            </button>
-                        </div>
+                        {contentFilter !== 'bookmarks' && (
+                            <div className="empty-actions">
+                                <button
+                                    className="empty-action-btn"
+                                    onClick={handleRegisterPost}
+                                    style={{ backgroundColor: getBoardTypeInfo(selectedBoardType).color }}
+                                >
+                                    글쓰기
+                                </button>
+                            </div>
+                        )}
                     </div>
                 )}
 

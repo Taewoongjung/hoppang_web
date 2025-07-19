@@ -11,6 +11,7 @@ export interface Question {
     isAnswered: boolean;
     tags?: string[];
     imageCount?: number;
+    isBookmarked: boolean;
 }
 
 export interface Board {
