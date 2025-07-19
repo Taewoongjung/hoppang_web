@@ -370,14 +370,21 @@ const MyPosts = () => {
         }
     }, [currentPage]);
 
+    const isPullToRefreshPossible = useRef(false);
+
     // Pull to refresh 핸들러
     const handleTouchStart = (e: React.TouchEvent) => {
         if (window.scrollY === 0) {
+            isPullToRefreshPossible.current = true;
             setTouchStartY(e.touches[0].clientY);
+        } else {
+            isPullToRefreshPossible.current = false;
         }
     };
 
     const handleTouchMove = (e: React.TouchEvent) => {
+        if (!isPullToRefreshPossible.current) return;
+
         if (window.scrollY === 0 && touchStartY > 0) {
             const currentY = e.touches[0].clientY;
             const distance = Math.max(0, currentY - touchStartY);
@@ -386,6 +393,8 @@ const MyPosts = () => {
     };
 
     const handleTouchEnd = async () => {
+        if (!isPullToRefreshPossible.current) return;
+
         if (pullDistance > 60) {
             setIsRefreshing(true);
             if (contentFilter === 'posts' || contentFilter === 'all') {
@@ -397,6 +406,7 @@ const MyPosts = () => {
         }
         setPullDistance(0);
         setTouchStartY(0);
+        isPullToRefreshPossible.current = false;
     };
 
     const handleRegisterPost = () => {
