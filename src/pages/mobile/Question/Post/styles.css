@@ -472,6 +472,177 @@
     color: #94a3b8;
 }
 
+/* 삭제된 댓글 카드 */
+.reply-card.deleted {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    opacity: 0.7;
+    position: relative;
+    overflow: hidden;
+}
+
+.reply-card.deleted::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ef4444 0%, #fca5a5 100%);
+}
+
+/* 삭제된 댓글 내용 */
+.deleted-reply-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 80px;
+}
+
+.deleted-reply-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #fef2f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ef4444;
+    margin-bottom: 4px;
+}
+
+.deleted-reply-text {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.deleted-reply-subtext {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 4px;
+}
+
+/* 삭제된 댓글의 대댓글 수 표시 */
+.deleted-reply-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.deleted-reply-child-count {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #64748b;
+    background: white;
+    padding: 6px 12px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+}
+
+.deleted-reply-child-count svg {
+    width: 14px;
+    height: 14px;
+    opacity: 0.7;
+}
+
+/* 삭제된 댓글의 대댓글 토글 버튼 */
+.deleted-reply-toggle {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 6px 12px;
+    font-size: 12px;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    font-weight: 500;
+}
+
+.deleted-reply-toggle:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #475569;
+}
+
+.deleted-reply-toggle svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.2s ease;
+}
+
+.deleted-reply-toggle svg.rotated {
+    transform: rotate(90deg);
+}
+
+/* 삭제된 댓글의 대댓글 컨테이너 수정 */
+.deleted-reply-children {
+    background: #f8fafc;
+    border-top: 1px solid #f1f5f9;
+    animation: slideDown 0.3s ease-out;
+    padding: 16px 0;
+}
+
+/* 삭제된 대댓글 스타일 */
+.child-reply-card.deleted {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    opacity: 0.6;
+    position: relative;
+}
+
+.child-reply-card.deleted::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #ef4444;
+}
+
+.deleted-child-reply-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.deleted-child-reply-text {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+/* 삭제된 댓글 애니메이션 */
+@keyframes deleteReplyFade {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0.7;
+        transform: translateY(-2px);
+    }
+}
+
+.reply-card.deleted,
+.child-reply-card.deleted {
+    animation: deleteReplyFade 0.3s ease-out;
+}
+
 /* Reply Actions Menu */
 .reply-actions-menu {
     display: flex;
@@ -570,7 +741,7 @@
     font-size: 15px;
     color: #475569;
     line-height: 1.6;
-    margin-bottom: 16px;
+    padding: 16px 20px;
 }
 
 .reply-content p {
@@ -921,6 +1092,7 @@
     font-size: 14px;
     color: #475569;
     line-height: 1.6;
+    padding: 13px 15px;
 }
 
 .child-reply-text p {
@@ -1059,15 +1231,6 @@
 .cancel-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-}
-
-.delete-btn {
-    border: none;
-    padding: 8px 16px;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
 }
 
 .delete-btn:disabled {
@@ -1343,6 +1506,44 @@
     .delete-modal {
         width: 95%;
     }
+
+    .deleted-reply-content {
+        padding: 32px 16px;
+        gap: 10px;
+    }
+
+    .deleted-reply-icon {
+        width: 28px;
+        height: 28px;
+    }
+
+    .deleted-reply-text {
+        font-size: 13px;
+    }
+
+    .deleted-reply-subtext {
+        font-size: 11px;
+    }
+
+    .deleted-reply-meta {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .deleted-reply-child-count,
+    .deleted-reply-toggle {
+        padding: 4px 10px;
+        font-size: 11px;
+    }
+
+    .deleted-child-reply-content {
+        padding: 12px 16px;
+        gap: 10px;
+    }
+
+    .deleted-child-reply-text {
+        font-size: 12px;
+    }
 }
 
 /* Focus States for Accessibility */
@@ -1379,6 +1580,11 @@
     .delete-modal {
         border: 2px solid currentColor;
     }
+
+    .reply-card.deleted,
+    .child-reply-card.deleted {
+        border: 2px solid #ef4444;
+    }
 }
 
 /* 모션 감소 모드 */
@@ -1389,6 +1595,15 @@
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+    }
+
+    .reply-card.deleted,
+    .child-reply-card.deleted {
+        animation: none;
+    }
+
+    .deleted-reply-toggle svg {
+        transition: none;
     }
 }
 

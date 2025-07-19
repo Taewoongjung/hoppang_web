@@ -32,6 +32,7 @@ interface PostDetail {
     didILiked: boolean;
     didIBookmarked: boolean;
     revised: boolean;
+    deleted: boolean;
 }
 
 interface ChildReply {
@@ -43,6 +44,7 @@ interface ChildReply {
     registerName: string;
     anonymous: boolean;
     revised: boolean;
+    deleted: boolean;
     createdAt: string;
     likes: number;
     isLiked: boolean;
@@ -56,6 +58,7 @@ interface Reply {
     registerName: string;
     anonymous: boolean;
     revised: boolean;
+    deleted: boolean;
     createdAt: string;
     postsChildReplyList: ChildReply[];
     likes: number;
@@ -177,6 +180,7 @@ const PostDetail = () => {
                             registerName: reply.registerName,
                             anonymous: reply.anonymous,
                             revised: reply.revised,
+                            deleted: reply.deleted,
                             createdAt: reply.createdAt,
                             postsChildReplyList: reply.postsChildReplyList || [],
                             authorName: reply.registerName,
@@ -866,9 +870,17 @@ const PostDetail = () => {
                                         </div>
                                     </div>
 
-                                    {/* 수정 모드 */}
-                                    {editingReplyId === reply.id ? (
-                                        <div className="edit-reply-form">
+                                    {reply.deleted ? (
+                                        <>
+                                            <div className="deleted-child-reply-content">
+                                                <div className="deleted-child-reply-text">삭제된 답글입니다</div>
+                                            </div>
+                                        </>
+                                    ) : (
+                                        <>
+                                            {/* 수정 모드 */}
+                                            {editingReplyId === reply.id ? (
+                                                <div className="edit-reply-form">
                                             <textarea
                                                 className="edit-textarea"
                                                 value={editingContent}
@@ -876,87 +888,93 @@ const PostDetail = () => {
                                                 rows={4}
                                                 maxLength={1000}
                                             />
-                                            <div className="edit-actions">
-                                                <div className="char-count-small">
-                                                    {editingContent.length}/1000
+                                                    <div className="edit-actions">
+                                                        <div className="char-count-small">
+                                                            {editingContent.length}/1000
+                                                        </div>
+                                                        <div className="edit-buttons">
+                                                            <button
+                                                                className="cancel-edit-btn"
+                                                                onClick={handleCancelEdit}
+                                                            >
+                                                                취소
+                                                            </button>
+                                                            <button
+                                                                className={`submit-edit-btn ${isSubmittingEdit ? 'submitting' : ''}`}
+                                                                onClick={() => handleSubmitEdit(reply.id)}
+                                                                disabled={!editingContent.trim() || isSubmittingEdit}
+                                                            >
+                                                                {isSubmittingEdit ? (
+                                                                    <>
+                                                                        <span className="loading-spinner-small"></span>
+                                                                        수정 중...
+                                                                    </>
+                                                                ) : (
+                                                                    '수정 완료'
+                                                                )}
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div className="edit-buttons">
+                                            ) : (
+                                                <div className="reply-content">
+                                                    {reply.contents.split('\n').map((line, index) => (
+                                                        <p key={index} style={{wordBreak: 'break-word'}}>
+                                                            {line}
+
+                                                            &nbsp;
+
+                                                            {reply.revised && (
+                                                                <span className="edited-indicator">[편집됨]</span>
+                                                            )}
+                                                        </p>
+                                                    ))}
+                                                </div>
+                                            )}
+
+                                            {(canEditReply(reply) && !isEditing) && (
+                                                <div className="reply-actions-menu">
                                                     <button
-                                                        className="cancel-edit-btn"
-                                                        onClick={handleCancelEdit}
+                                                        className="edit-btn"
+                                                        onClick={() => handleEditReply(reply.id, reply.contents)}
                                                     >
-                                                        취소
+                                                        편집
                                                     </button>
                                                     <button
-                                                        className={`submit-edit-btn ${isSubmittingEdit ? 'submitting' : ''}`}
-                                                        onClick={() => handleSubmitEdit(reply.id)}
-                                                        disabled={!editingContent.trim() || isSubmittingEdit}
+                                                        className="delete-btn"
+                                                        onClick={() => handleDeleteReply(reply.id)}
                                                     >
-                                                        {isSubmittingEdit ? (
-                                                            <>
-                                                                <span className="loading-spinner-small"></span>
-                                                                수정 중...
-                                                            </>
-                                                        ) : (
-                                                            '수정 완료'
-                                                        )}
+                                                        삭제
                                                     </button>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        <div className="reply-content">
-                                            {reply.contents.split('\n').map((line, index) => (
-                                                <p key={index} style={{wordBreak: 'break-word'}}>
-                                                    {line}
-
-                                                    &nbsp;
-
-                                                    {reply.revised && (
-                                                        <span className="edited-indicator">[편집됨]</span>
-                                                    )}
-                                                </p>
-                                            ))}
-                                        </div>
-                                    )}
-
-                                    {(canEditReply(reply) && !isEditing) && (
-                                        <div className="reply-actions-menu">
-                                            <button
-                                                className="edit-btn"
-                                                onClick={() => handleEditReply(reply.id, reply.contents)}
-                                            >
-                                                편집
-                                            </button>
-                                            <button
-                                                className="delete-btn"
-                                                onClick={() => handleDeleteReply(reply.id)}
-                                            >
-                                                삭제
-                                            </button>
-                                        </div>
+                                            )}
+                                        </>
                                     )}
 
                                     <div className="reply-actions">
-                                        <button
-                                            className={`like-btn ${reply.isLiked ? 'liked' : ''}`}
-                                            onClick={() => handleLike(reply.id, reply.isLiked)}
-                                        >
-                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                <path
-                                                    d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
-                                                    stroke="currentColor"
-                                                    strokeWidth="1.5"
-                                                    fill={reply.isLiked ? 'currentColor' : 'none'}/>
-                                            </svg>
-                                            <span>{reply.likes}</span>
-                                        </button>
-                                        <button
-                                            className={`reply-btn ${showChildReplyForm[reply.id] ? 'active' : ''}`}
-                                            onClick={() => toggleChildReplyForm(reply.id)}
-                                        >
-                                            <span>⮑ 답글</span>
-                                        </button>
+                                        {!reply.deleted &&
+                                            <>
+                                                <button
+                                                    className={`like-btn ${reply.isLiked ? 'liked' : ''}`}
+                                                    onClick={() => handleLike(reply.id, reply.isLiked)}
+                                                >
+                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                        <path
+                                                            d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
+                                                            stroke="currentColor"
+                                                            strokeWidth="1.5"
+                                                            fill={reply.isLiked ? 'currentColor' : 'none'}/>
+                                                    </svg>
+                                                    <span>{reply.likes}</span>
+                                                </button>
+                                                <button
+                                                    className={`reply-btn ${showChildReplyForm[reply.id] ? 'active' : ''}`}
+                                                    onClick={() => toggleChildReplyForm(reply.id)}
+                                                >
+                                                    <span>⮑ 답글</span>
+                                                </button>
+                                            </>
+                                        }
 
                                         {/* 대댓글 수 및 토글 버튼 */}
                                         {reply.postsChildReplyList && reply.postsChildReplyList.length > 0 && (
@@ -1054,7 +1072,8 @@ const PostDetail = () => {
                                                             <div className="child-reply-avatar">
                                                                 {childReply.registerId.toString() === post.registerId.toString() ? (
                                                                     <div className="owner-badge-small">
-                                                                        <svg width="12" height="12" viewBox="0 0 20 20"
+                                                                        <svg width="12" height="12"
+                                                                             viewBox="0 0 20 20"
                                                                              fill="none">
                                                                             <path
                                                                                 d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a4 4 0 0 1 8 0v2H6v-2Z"
@@ -1063,17 +1082,20 @@ const PostDetail = () => {
                                                                         </svg>
                                                                     </div>
                                                                 ) : (
-                                                                    <svg width="12" height="12" viewBox="0 0 16 16"
+                                                                    <svg width="12" height="12"
+                                                                         viewBox="0 0 16 16"
                                                                          fill="none">
                                                                         <path
                                                                             d="M8 7a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 13a3 3 0 0 1 6 0v1H5v-1Z"
-                                                                            stroke="currentColor" strokeWidth="1.5"/>
+                                                                            stroke="currentColor"
+                                                                            strokeWidth="1.5"/>
                                                                     </svg>
                                                                 )}
                                                             </div>
                                                             <div className="child-reply-author-info">
-                                                                <span
-                                                                    className="child-reply-author-name">{childReply.registerName}</span>
+                                                                <span className="child-reply-author-name">
+                                                                    {childReply.registerName}
+                                                                </span>
                                                             </div>
                                                         </div>
                                                         <div className="child-reply-meta">
@@ -1082,95 +1104,110 @@ const PostDetail = () => {
                                                             </span>
                                                         </div>
                                                     </div>
-
-                                                    {/* 대댓글 수정 모드 */}
-                                                    {editingReplyId === childReply.id ? (
-                                                        <div className="edit-reply-form">
-                                                            <textarea
-                                                                className="edit-textarea"
-                                                                value={editingContent}
-                                                                onChange={(e) => setEditingContent(e.target.value)}
-                                                                rows={3}
-                                                                maxLength={500}
-                                                            />
-                                                            <div className="edit-actions">
-                                                                <div className="char-count-small">
-                                                                    {editingContent.length}/500
-                                                                </div>
-                                                                <div className="edit-buttons">
-                                                                    <button
-                                                                        className="cancel-edit-btn"
-                                                                        onClick={handleCancelEdit}
-                                                                    >
-                                                                        취소
-                                                                    </button>
-                                                                    <button
-                                                                        className={`submit-edit-btn ${isSubmittingEdit ? 'submitting' : ''}`}
-                                                                        onClick={() => handleSubmitEdit(childReply.id)}
-                                                                        disabled={!editingContent.trim() || isSubmittingEdit}
-                                                                    >
-                                                                        {isSubmittingEdit ? (
-                                                                            <>
-                                                                                <span
-                                                                                    className="loading-spinner-small"></span>
-                                                                                수정 중...
-                                                                            </>
-                                                                        ) : (
-                                                                            '수정 완료'
-                                                                        )}
-                                                                    </button>
+                                                    {childReply.deleted ? (
+                                                        <>
+                                                            <div className="deleted-child-reply-content">
+                                                                <div className="deleted-child-reply-text">삭제된 답글입니다
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </>
                                                     ) : (
-                                                        <div className="child-reply-text">
-                                                            {childReply.contents.split('\n').map((line, index) => (
-                                                                <p key={index} style={{wordBreak: 'break-word'}}>
-                                                                    {line}
+                                                        <>
+                                                            {/* 대댓글 수정 모드 */}
+                                                            {editingReplyId === childReply.id ? (
+                                                                <div className="edit-reply-form">
+                                                                                <textarea
+                                                                                    className="edit-textarea"
+                                                                                    value={editingContent}
+                                                                                    onChange={(e) => setEditingContent(e.target.value)}
+                                                                                    rows={3}
+                                                                                    maxLength={500}
+                                                                                />
+                                                                    <div className="edit-actions">
+                                                                        <div className="char-count-small">
+                                                                            {editingContent.length}/500
+                                                                        </div>
+                                                                        <div className="edit-buttons">
+                                                                            <button
+                                                                                className="cancel-edit-btn"
+                                                                                onClick={handleCancelEdit}
+                                                                            >
+                                                                                취소
+                                                                            </button>
+                                                                            <button
+                                                                                className={`submit-edit-btn ${isSubmittingEdit ? 'submitting' : ''}`}
+                                                                                onClick={() => handleSubmitEdit(childReply.id)}
+                                                                                disabled={!editingContent.trim() || isSubmittingEdit}
+                                                                            >
+                                                                                {isSubmittingEdit ? (
+                                                                                    <>
+                                                                                                    <span
+                                                                                                        className="loading-spinner-small"></span>
+                                                                                        수정 중...
+                                                                                    </>
+                                                                                ) : (
+                                                                                    '수정 완료'
+                                                                                )}
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            ) : (
+                                                                <div className="child-reply-text">
+                                                                    {childReply.contents.split('\n').map((line, index) => (
+                                                                        <p key={index}
+                                                                           style={{wordBreak: 'break-word'}}>
+                                                                            {line}
 
-                                                                    &nbsp;
+                                                                            &nbsp;
 
-                                                                    {childReply.revised && (
-                                                                        <span className="edited-indicator">[편집됨]</span>
-                                                                    )}
-                                                                </p>
-                                                            ))}
-                                                        </div>
-                                                    )}
+                                                                            {childReply.revised && (
+                                                                                <span
+                                                                                    className="edited-indicator">[편집됨]</span>
+                                                                            )}
+                                                                        </p>
+                                                                    ))}
+                                                                </div>
+                                                            )}
 
-                                                    <div className="child-reply-actions">
-                                                        <button
-                                                            className={`like-btn ${childReply.isLiked ? 'liked' : ''}`}
-                                                            onClick={() => handleLike(childReply.id, childReply.isLiked)}
-                                                        >
-                                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                                <path
-                                                                    d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
-                                                                    stroke="currentColor"
-                                                                    strokeWidth="1.5"
-                                                                    fill={childReply.isLiked ? 'currentColor' : 'none'}/>
-                                                            </svg>
-                                                            <span>{childReply.likes || 0}</span>
-                                                        </button>
-
-                                                        {(canEditReply(childReply) && !isEditing) && (
-                                                            <div className="child-reply-actions-menu">
+                                                            <div className="child-reply-actions">
                                                                 <button
-                                                                    className="edit-btn"
-                                                                    onClick={() => handleEditReply(childReply.id, childReply.contents)}
+                                                                    className={`like-btn ${childReply.isLiked ? 'liked' : ''}`}
+                                                                    onClick={() => handleLike(childReply.id, childReply.isLiked)}
                                                                 >
-                                                                    편집
+                                                                    <svg width="16" height="16" viewBox="0 0 16 16"
+                                                                         fill="none">
+                                                                        <path
+                                                                            d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
+                                                                            stroke="currentColor"
+                                                                            strokeWidth="1.5"
+                                                                            fill={childReply.isLiked ? 'currentColor' : 'none'}/>
+                                                                    </svg>
+                                                                    <span>{childReply.likes || 0}</span>
                                                                 </button>
-                                                                <button
-                                                                    className="delete-btn"
-                                                                    onClick={() => handleDeleteReply(childReply.id)}
-                                                                >
-                                                                    삭제
-                                                                </button>
+
+                                                                {(canEditReply(childReply) && !isEditing) && (
+                                                                    <div className="child-reply-actions-menu">
+                                                                        <button
+                                                                            className="edit-btn"
+                                                                            onClick={() => handleEditReply(childReply.id, childReply.contents)}
+                                                                        >
+                                                                            편집
+                                                                        </button>
+                                                                        <button
+                                                                            className="delete-btn"
+                                                                            onClick={() => handleDeleteReply(childReply.id)}
+                                                                        >
+                                                                            삭제
+                                                                        </button>
+                                                                    </div>
+                                                                )}
                                                             </div>
-                                                        )}
-                                                    </div>
+                                                        </>
+                                                    )}
                                                 </div>
+                                                {/*)*/}
+                                                {/*}*/}
                                             </div>
                                         ))}
                                     </div>
