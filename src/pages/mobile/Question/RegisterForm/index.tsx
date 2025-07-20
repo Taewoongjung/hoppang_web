@@ -50,14 +50,16 @@ const QuestionRegisterForm = () => {
     });
 
     // 카테고리 선택 관련 상태
-    const [selectedMainCategory, setSelectedMainCategory] = useState<number | null>(
-        (urlParams.get('boardType') && urlParams.get('boardType') !== 'all') ? Number(urlParams.get('boardType')) : null
-    );
+    const [selectedMainCategory, setSelectedMainCategory] = useState<number | null>(null);
     const [showBranchSelection, setShowBranchSelection] = useState(false);
 
+    
     useEffect(() => {
-        if (selectedMainCategory !== null) {
-            handleMainCategorySelect(selectedMainCategory);
+
+        const categoryId = (urlParams.get('boardType') && urlParams.get('boardType') !== 'all') ? Number(urlParams.get('boardType')) : null;
+
+        if (categoryId !== null) {
+            handleMainCategorySelect(categoryId);
         }
     }, [selectedMainCategory]);
 
