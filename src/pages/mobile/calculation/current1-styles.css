@@ -26,7 +26,6 @@
 
 .company-card:hover {
     border-color: #cbd5e1;
-    transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
@@ -152,7 +151,6 @@
 }
 
 .company-card:focus:not(:hover) {
-    transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
 }
 

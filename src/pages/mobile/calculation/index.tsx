@@ -18,6 +18,7 @@ import AddressInputModal from "../../../component/V2/AddressInputModal";
 import useSWR from "swr";
 import fetcher from "../../../util/fetcher";
 import {RegisterChassisPayload} from "../../../definition/interfacesV2";
+import InfoSection from "../../../component/V2/CalculationInfo";
 
 
 const MobileCalculationScreen = () => {
@@ -75,9 +76,11 @@ const MobileCalculationScreen = () => {
 
     // Step 3: 기타 추가 정보
     const [floor, setFloor] = useState<number | undefined>();
-    const [isExpanded, setIsExpanded] = useState(false);
     const [isScheduledForDemolition, setIsScheduledForDemolition] = useState(true);
     const [isResident, setIsResident] = useState(true);
+
+    // Step 4: 샷시 사양 확인
+    const [isAgreed, setIsAgreed] = useState<boolean>(false);
 
     // Error State
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -156,8 +159,16 @@ const MobileCalculationScreen = () => {
 
         setIsLoading(true);
 
+        let isExpanded = false;
+
         const reqCalculateChassisPriceList = registeredList.map((item) => {
             if (!item.companyType) return null;
+
+            // 발코니이중창(확장발코니)이 있으면 확장이 되었다는 얘기임
+            if ('BalconyDouble' === item.chassisType.trim()) {
+                isExpanded = true;
+            }
+
             return {
                 chassisType: item.chassisType,
                 companyType: mappedValueByCompany(item.companyType),
@@ -166,7 +177,7 @@ const MobileCalculationScreen = () => {
                 floorCustomerLiving: floor,
                 isScheduledForDemolition,
                 isResident
-            }
+            };
         }).filter(Boolean);
 
         if (reqCalculateChassisPriceList.length !== registeredList.length) {
@@ -494,21 +505,6 @@ const MobileCalculationScreen = () => {
                         <div className="options-section">
                             <div className="switch-group">
                                 <div className="switch-info">
-                                    <span className="switch-label">발코니 확장 여부</span>
-                                    <span className="switch-description">확장된 발코니인지 선택해주세요</span>
-                                </div>
-                                <label className="custom-switch">
-                                    <input
-                                        type="checkbox"
-                                        checked={isExpanded}
-                                        onChange={() => setIsExpanded(!isExpanded)}
-                                    />
-                                    <span className="slider"></span>
-                                </label>
-                            </div>
-
-                            <div className="switch-group">
-                                <div className="switch-info">
                                     <span className="switch-label">철거 진행 여부</span>
                                     <span className="switch-description">기존 창호 철거가 필요한지 선택해주세요</span>
                                 </div>
@@ -539,6 +535,10 @@ const MobileCalculationScreen = () => {
                         </div>
                     </div>
                 </>
+            );
+        } else if (currentStep === 4) {
+            return (
+                <InfoSection isAgreed={isAgreed} setIsAgreed={setIsAgreed}/>
             );
         }
     };
@@ -598,9 +598,26 @@ const MobileCalculationScreen = () => {
         } else if (currentStep === 3) {
             return (
                 <button
+                    className="button-primary"
+                    onClick={() => {
+                        if (!floor || isLoading) {
+                            setErrors({general: '층수를 입력해주세요'});
+                            return;
+                        }
+                        setErrors({});
+                        setCurrentStep(4);
+                    }}
+                    disabled={!floor || isLoading}
+                >
+                    다음 단계로
+                </button>
+            );
+        } else if (currentStep === 4) {
+            return (
+                <button
                     className="button-primary calculate-button"
                     onClick={handleCalculate}
-                    disabled={!floor || isLoading}
+                    disabled={!isAgreed} // 이거 동의로 변경하기
                 >
                     {isLoading ? (
                         <>

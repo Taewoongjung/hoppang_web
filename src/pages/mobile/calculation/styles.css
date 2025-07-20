@@ -151,65 +151,6 @@ body {
     color: #475569;
 }
 
-/* Company List */
-.company-list {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
-}
-
-.company-card {
-    background-color: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 20px 24px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #475569;
-    transition: all 0.2s ease;
-    text-align: left;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-}
-
-.company-card:hover {
-    border-color: #cbd5e1;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    transform: translateY(-1px);
-}
-
-.company-card.selected {
-    border-color: #6366f1;
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-    color: #1e40af;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
-}
-
-.company-name {
-    flex: 1;
-    z-index: 1;
-    position: relative;
-}
-
-.check-icon {
-    width: 28px;
-    height: 28px;
-    background: #6366f1;
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: bold;
-    animation: scaleIn 0.3s ease;
-    z-index: 1;
-    position: relative;
-}
-
 @keyframes scaleIn {
     0% { transform: scale(0); }
     100% { transform: scale(1); }
@@ -754,7 +695,6 @@ input:checked + .slider:before {
 
 .button-primary:hover {
     background: #5855eb;
-    transform: translateY(-1px);
 }
 
 .button-primary:disabled {

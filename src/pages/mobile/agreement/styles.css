@@ -71,6 +71,8 @@ body {
 
 .hero-content {
     flex: 1;
+    align-items: flex-start;
+    flex-direction: column;
 }
 
 .hero-title {
