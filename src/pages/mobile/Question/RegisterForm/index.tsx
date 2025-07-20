@@ -340,17 +340,11 @@ const QuestionRegisterForm = () => {
                             </div>
                         </div>
                         <div className="success-content">
-                            <h1 className="success-title">질문이 등록되었어요! 🎉</h1>
+                            <h1 className="success-title">게시글이 등록되었어요! 🎉</h1>
                             <p className="success-message">
-                                전문가가 검토 후 24시간 내에<br />
-                                정성스러운 답변을 드릴게요
+                                다른 분들 경험담도 들어보시고<br />
+                                전문가 의견까지 받아보세요
                             </p>
-                            <div className="success-note">
-                                <div className="note-icon">💡</div>
-                                <div className="note-text">
-                                    질문 목록에서 답변 상태를 확인할 수 있어요
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div className="success-confetti">

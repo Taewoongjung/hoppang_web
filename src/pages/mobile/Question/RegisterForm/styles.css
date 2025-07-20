@@ -137,30 +137,6 @@ body {
     line-height: 1.5;
 }
 
-.success-note {
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 12px;
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.note-icon {
-    font-size: 20px;
-    flex-shrink: 0;
-}
-
-.note-text {
-    font-size: 14px;
-    color: #64748b;
-    font-weight: 500;
-    line-height: 1.4;
-}
-
 /* Success Confetti Animation */
 .success-confetti {
     position: absolute;
