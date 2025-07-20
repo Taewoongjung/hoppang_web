@@ -1,0 +1,283 @@
+/* LaborFeeAlertModal.css */
+
+.labor-fee-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.labor-fee-modal-container {
+    background: white;
+    border-radius: 20px;
+    max-width: 380px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    animation: laborFeeModalSlideUp 0.3s ease-out;
+    position: relative;
+}
+
+@keyframes laborFeeModalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* 모달 헤더 */
+.labor-fee-modal-header {
+    text-align: center;
+    padding: 24px 24px 16px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.labor-fee-modal-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.labor-fee-modal-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+    line-height: 1.3;
+}
+
+/* 모달 내용 */
+.labor-fee-modal-content {
+    padding: 24px;
+}
+
+.labor-fee-alert-message {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.labor-fee-main-text {
+    font-size: 16px;
+    color: #334155;
+    font-weight: 500;
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+}
+
+.labor-fee-highlight-text {
+    font-size: 16px;
+    color: #dc2626;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* 설명 박스 */
+.labor-fee-explanation-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.labor-fee-question {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.labor-fee-q-mark {
+    background: #6366f1;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 6px;
+    min-width: 24px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.labor-fee-q-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    line-height: 1.4;
+}
+
+.labor-fee-answer {
+    padding-left: 32px;
+}
+
+.labor-fee-answer p {
+    font-size: 14px;
+    color: #475569;
+    line-height: 1.5;
+    margin: 0 0 8px 0;
+}
+
+.labor-fee-answer p:last-child {
+    margin-bottom: 0;
+}
+
+/* 호빵 캐릭터 팁 */
+.labor-fee-hobang-tip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border: 1px solid #bae6fd;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 4px;
+}
+
+.labor-fee-hobang-character {
+    font-size: 20px;
+    animation: laborFeeBounce 2s infinite;
+}
+
+@keyframes laborFeeBounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-8px);
+    }
+    60% {
+        transform: translateY(-4px);
+    }
+}
+
+.labor-fee-hobang-text {
+    font-size: 13px;
+    color: #0369a1;
+    font-weight: 600;
+}
+
+/* 모달 푸터 */
+.labor-fee-modal-footer {
+    padding: 0 24px 24px;
+}
+
+.labor-fee-confirm-button {
+    width: 100%;
+    padding: 14px 20px;
+    background: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+}
+
+.labor-fee-confirm-button:hover {
+    background: #5855eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+.labor-fee-confirm-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+}
+
+.labor-fee-button-icon {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 430px) {
+    .labor-fee-modal-overlay {
+        padding: 16px;
+    }
+
+    .labor-fee-modal-container {
+        border-radius: 16px;
+        max-width: 100%;
+    }
+
+    .labor-fee-modal-header {
+        padding: 20px 20px 16px;
+    }
+
+    .labor-fee-modal-icon {
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+    .labor-fee-modal-title {
+        font-size: 18px;
+    }
+
+    .labor-fee-modal-content {
+        padding: 20px;
+    }
+
+    .labor-fee-main-text,
+    .labor-fee-highlight-text {
+        font-size: 15px;
+    }
+
+    .labor-fee-explanation-box {
+        padding: 16px;
+    }
+
+    .labor-fee-q-text {
+        font-size: 13px;
+    }
+
+    .labor-fee-answer p {
+        font-size: 13px;
+    }
+
+    .labor-fee-hobang-tip {
+        padding: 10px 14px;
+    }
+
+    .labor-fee-hobang-character {
+        font-size: 18px;
+    }
+
+    .labor-fee-hobang-text {
+        font-size: 12px;
+    }
+
+    .labor-fee-modal-footer {
+        padding: 0 20px 20px;
+    }
+
+    .labor-fee-confirm-button {
+        padding: 12px 18px;
+        font-size: 15px;
+    }
+}
+
+/* 접근성 */
+.labor-fee-confirm-button:focus {
+    outline-offset: -2px;
+}

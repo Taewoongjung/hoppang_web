@@ -18,6 +18,7 @@ import {HYUNDAI, KCC_GLASS, LX} from "../../../definition/companyType";
 import {RegisterChassisPayload} from "../../../definition/interfacesV2";
 import InquiryEstimateChassis from "../../../component/V2/InquiryEstimateChassis";
 import CalculationResultExitModal from "../../../component/V2/Modal/CalculationResultExitModal";
+import LaborFeeAlertModal from "../../../component/V2/Modal/LaborFeeAlertModal";
 
 
 interface InquiryStatus {
@@ -50,6 +51,8 @@ const MobileResultScreen = () => {
     const [error, setError] = useState('');
     const [showExitModal, setShowExitModal] = useState(false);
 
+    const [isLaborFeeMinimumSize, setIsLaborFeeMinimumSize] = useState(false);
+
     // 📌 문의 완료 핸들러 - 특정 견적의 특정 문의 방식 업데이트
     const handleInquiryComplete = (estimationId: any, inquiryTypes: string[]) => {
         setInquiryStatuses(prev => {
@@ -69,6 +72,15 @@ const MobileResultScreen = () => {
             };
         });
     };
+
+    useEffect(() => {
+        // 첫 번째 결과가 있을 때 기본시공비 여부 확인
+        if (results.length === 1) {
+            const firstResult = results[0];
+            const hasLaborFee = firstResult.laborFee && firstResult.laborFee > 0;
+            setIsLaborFeeMinimumSize(hasLaborFee);
+        }
+    }, [results]);
 
     // 📌 특정 견적의 문의 상태 확인 헬퍼 함수
     const getInquiryStatus = (estimationId: any) => {
@@ -111,7 +123,7 @@ const MobileResultScreen = () => {
             setResults([location.state.calculatedResult]);
             setRequestObject(location.state.requestObject);
         } else {
-            history.replace('/calculator/agreement');
+            window.location.href = '/calculator/agreement';
         }
     }, [location, history]);
 
@@ -175,7 +187,7 @@ const MobileResultScreen = () => {
     }, [results]);
 
     const handleNewEstimate = () => {
-        history.push('/calculator/agreement');
+        window.location.href = '/calculator/agreement';
     };
 
     // 📌 수정된 renderResultCard - 개별 견적 상태 반영
@@ -184,6 +196,11 @@ const MobileResultScreen = () => {
         const totalDiscount = result.discountedWholeCalculatedFeeAmount;
         const totalDiscountWithSurtx = result.discountedWholeCalculatedFeeWithSurtax;
         const originalPrice = result.wholeCalculatedFee + result.surtax;
+
+        let isLaborFeeBelowMinimumSize = false;
+        if (index < 1) {
+            isLaborFeeBelowMinimumSize = result.laborFee && result.laborFee > 0; // 기본시공비 유무 여부
+        }
 
         // 📌 현재 견적의 문의 상태 확인
         const { hasAnyInquiry, completedCount, inquiryStatus } = getInquiryStatus(result.estimationId);
@@ -270,15 +287,17 @@ const MobileResultScreen = () => {
                             <span className="cost-label">기타비용</span>
                             <span className="cost-value">{addCommasToNumber(result.deliveryFee)}원</span>
                         </div>
-                        <div className="cost-item">
-                            <div className="cost-label-with-info">
-                                <span>시공비</span>
-                                <Tooltip title="총합계에 이미 포함된 금액입니다.">
-                                    <InfoCircleOutlined className="info-icon"/>
-                                </Tooltip>
+                        {isLaborFeeMinimumSize &&
+                            <div className="cost-item">
+                                <div className="cost-label-with-info">
+                                    <span>시공비</span>
+                                    <Tooltip title="총합계에 이미 포함된 금액입니다.">
+                                        <InfoCircleOutlined className="info-icon"/>
+                                    </Tooltip>
+                                </div>
+                                <span className="cost-value">{addCommasToNumber(result.laborFee)}원</span>
                             </div>
-                            <span className="cost-value">{addCommasToNumber(result.laborFee)}원</span>
-                        </div>
+                        }
                         <div className="cost-item">
                             <span className="cost-label">부가세</span>
                             <span className="cost-value">{addCommasToNumber(result.surtax)}원</span>
@@ -448,6 +467,11 @@ const MobileResultScreen = () => {
             />
 
             {showExitModal && (<CalculationResultExitModal setShowExitModal={setShowExitModal}/>)}
+
+            <LaborFeeAlertModal
+                isOpen={!isLoading && isLaborFeeMinimumSize}
+                onClose={() => setIsLaborFeeMinimumSize(false)}
+            />
         </div>
     );
 };
