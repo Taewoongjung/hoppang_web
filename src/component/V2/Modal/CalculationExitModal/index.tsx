@@ -8,8 +8,6 @@ const CalculationExitModal = (props:{
 
     const {setShowExitModal} = props;
 
-    const history = useHistory();
-
     const handleExitConfirm = () => {
         window.location.href = '/chassis/calculator'; // 홈으로 이동
     };

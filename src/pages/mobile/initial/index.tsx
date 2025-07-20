@@ -5,11 +5,12 @@ import '../versatile-styles.css';
 
 import BottomNavigator from "../../../component/V2/BottomNavigator";
 import useSWR from "swr";
-import {callMeData, callRecentPosts} from "../../../definition/apiPath";
+import {appleAuth, callMeData, callRecentPosts, googleAuth, kakaoAuth} from "../../../definition/apiPath";
 import fetcher from "../../../util/fetcher";
-import {useHistory} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import axios from "axios";
 import {Question} from "../Question/interface";
+import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
 
 
 declare global {
@@ -22,6 +23,8 @@ declare global {
 
 const Initial = () => {
     const history = useHistory();
+    const { oauthtype } = useParams();
+    const urlParams = new URLSearchParams(window.location.search);
 
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
@@ -31,6 +34,109 @@ const Initial = () => {
     const [lastScrollY, setLastScrollY] = useState(0);
     const [recentPosts, setRecentPosts] = useState<Question[]>([]);
 
+    const [isLoading, setIsLoading] = useState(false);
+
+
+    // 소셜 로그인
+    useEffect(() => {
+        if (oauthtype) {
+            if (oauthtype === 'kko' && localStorage.getItem('kakaoTokenInfo')) {
+                setIsLoading(true);
+                // 카카오 로그인 성공 요청
+                axios.post(kakaoAuth,
+                    {
+                        // deviceId: '122333444555666',
+                        deviceId: localStorage.getItem('deviceId'),
+                        deviceType: localStorage.getItem('deviceType'),
+                        tokenInfo: localStorage.getItem('kakaoTokenInfo')
+                    },
+                    {withCredentials: true})
+                    .then((res) => {
+                        const token = res.headers['authorization'];
+                        localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
+                        localStorage.setItem("hoppang-login-oauthType", res.data.oauthType); // 로그인 타입 설정
+                        localStorage.setItem('kakaoTokenInfo', '');
+
+                        if (res.data.isSuccess && res.data.isTheFirstLogIn) {
+                            window.location.href = "/login/first?remainedProcess=false&userEmail=" + res.data.userEmail
+                        }
+                        return setIsLoading(false);
+
+                    })
+                    .catch((err) => {
+                        alert(err.response.data.errorMessage);
+                        if (err.response.data.errorCode === 7) { // 리프레시 토큰이 만료 되었을 때
+                            window.location.href = err.response.data.redirectUrl; // 로그인 화면으로 리다이렉팅
+                        }
+                        return setIsLoading(false);
+                    });
+                return setIsLoading(false);
+            }
+
+            if (oauthtype === 'apl' && urlParams.get('code')) {
+                setIsLoading(true);
+                // 애플 로그인 성공 요청
+                axios.post(appleAuth + urlParams.get('code'),
+                    {
+                        deviceId: localStorage.getItem('deviceId'),
+                        deviceType: localStorage.getItem('deviceType')
+                    },
+                    {withCredentials: true})
+                    .then((res) => {
+
+                        const token = res.headers['authorization'];
+                        localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
+                        localStorage.setItem("hoppang-login-oauthType", res.data.oauthType); // 로그인 타입 설정
+
+                        if (res.data.isSuccess && res.data.isTheFirstLogIn) {
+                            window.location.href = "/login/first?remainedProcess=false&userEmail=" + res.data.userEmail
+                        }
+                        return setIsLoading(false);
+
+                    })
+                    .catch((err) => {
+                        alert(err.response.data.errorMessage);
+                        if (err.response.data.errorCode === 7) { // 리프레시 토큰이 만료 되었을 때
+                            window.location.href = err.response.data.redirectUrl; // 로그인 화면으로 리다이렉팅
+                        }
+                        return setIsLoading(false);
+                    });
+                return setIsLoading(false);
+            }
+
+            if (oauthtype === 'gle' && urlParams.get('code')) {
+                setIsLoading(true);
+                // 구글 로그인 성공 요청
+                axios.post(googleAuth + "?code=" + urlParams.get('code'),
+                    {
+                        deviceId: localStorage.getItem('deviceId'),
+                        deviceType: localStorage.getItem('deviceType')
+                    },
+                    {withCredentials: true})
+                    .then((res) => {
+
+                        const token = res.headers['authorization'];
+                        localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
+                        localStorage.setItem("hoppang-login-oauthType", res.data.oauthType); // 로그인 타입 설정
+
+                        if (res.data.isSuccess && res.data.isTheFirstLogIn) {
+                            window.location.href = "/login/first?remainedProcess=false&userEmail=" + res.data.userEmail
+                        }
+                        return setIsLoading(false);
+
+                    })
+                    .catch((err) => {
+                        alert(err.response.data.errorMessage);
+                        if (err.response.data.errorCode === 7) { // 리프레시 토큰이 만료 되었을 때
+                            window.location.href = err.response.data.redirectUrl; // 로그인 화면으로 리다이렉팅
+                        }
+                        return setIsLoading(false);
+                    });
+            }
+
+            return setIsLoading(false);
+        }
+    }, [oauthtype, urlParams.get('code')]);
 
     useEffect(() => {
         const token = localStorage.getItem("hoppang-token");
@@ -200,6 +306,8 @@ const Initial = () => {
 
     return (
         <div className="app-container">
+            {isLoading && <OverlayLoadingPage word={"처리중"}/>}
+
             {/* Header */}
             <header className="app-header">
                 <div className="header-content">
