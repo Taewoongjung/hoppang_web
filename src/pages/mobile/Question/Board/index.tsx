@@ -626,17 +626,19 @@ const QuestionsBoard = () => {
             </main>
 
             {/* Floating Write Button */}
-            <button
-                className="floating-write-btn"
-                onClick={handleRegisterPost}
-                style={{
-                    backgroundColor: getBoardTypeInfo(selectedBoardType).color
-                }}
-            >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 4V20M4 12H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                </svg>
-            </button>
+            {(!['1', '10'].includes(selectedBoardType)) &&
+                <button
+                    className="floating-write-btn"
+                    onClick={handleRegisterPost}
+                    style={{
+                        backgroundColor: getBoardTypeInfo(selectedBoardType).color
+                    }}
+                >
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 4V20M4 12H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                    </svg>
+                </button>
+            }
 
             {showLoginModal && <CommunityLoginModal setShowLoginModal={setShowLoginModal} action={loginModalStatus}/>}
 

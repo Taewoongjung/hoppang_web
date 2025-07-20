@@ -25,39 +25,21 @@ const QuestionRegisterForm = () => {
     const history = useHistory();
     const urlParams = new URLSearchParams(window.location.search);
 
-    // useEffect(() => {
-    //     // 뒤로가기 감지
-    //     const unblock = history.block((location: any, action: string) => {
-    //         if (action === 'POP') {
-    //             // 뒤로가기는 허용하되, 특정 조건에서만 모달 표시
-    //             if (hasUnsavedChanges) {
-    //                 setShowExitModal(true);
-    //                 return false; // 변경사항이 있을 때만 막기
-    //             }
-    //             return true; // 변경사항 없으면 뒤로가기 허용
-    //         });
-    //
-    //     return () => {
-    //         unblock(); // cleanup
-    //     };
-    // }, [history]);
-
     useEffect(() => {
-        const handlePopState = (e: { preventDefault: () => void; }) => {
-            e.preventDefault();
-            setShowExitModal(true);
-            // 강제로 현재 페이지 유지
-            window.history.pushState(null, '', window.location.href);
-        };
+        // 뒤로가기 감지
+        const unblock = history.block((location: any, action: string) => {
+            if (action === 'POP') {
+                setShowExitModal(true); // 상태만 바꾸고
+                return false; // 페이지 이동을 막음
+            }
 
-        // popstate와 beforeunload 둘 다 처리
-        window.addEventListener('popstate', handlePopState);
-        window.history.pushState(null, '', window.location.href);
+            return true; // 나머지는 허용
+        });
 
         return () => {
-            window.removeEventListener('popstate', handlePopState);
+            unblock(); // cleanup
         };
-    }, []);
+    }, [history]);
 
     const [formData, setFormData] = useState({
         category: '',
@@ -68,8 +50,16 @@ const QuestionRegisterForm = () => {
     });
 
     // 카테고리 선택 관련 상태
-    const [selectedMainCategory, setSelectedMainCategory] = useState<number | null>(null);
+    const [selectedMainCategory, setSelectedMainCategory] = useState<number | null>(
+        (urlParams.get('boardType') && urlParams.get('boardType') !== 'all') ? Number(urlParams.get('boardType')) : null
+    );
     const [showBranchSelection, setShowBranchSelection] = useState(false);
+
+    useEffect(() => {
+        if (selectedMainCategory !== null) {
+            handleMainCategorySelect(selectedMainCategory);
+        }
+    }, [selectedMainCategory]);
 
     const fetchRevisingPost = (revisingPostId: any, userId: any) => {
         axios.get(
