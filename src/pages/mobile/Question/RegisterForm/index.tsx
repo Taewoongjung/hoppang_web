@@ -53,7 +53,7 @@ const QuestionRegisterForm = () => {
     const [selectedMainCategory, setSelectedMainCategory] = useState<number | null>(null);
     const [showBranchSelection, setShowBranchSelection] = useState(false);
 
-    
+
     useEffect(() => {
 
         const categoryId = (urlParams.get('boardType') && urlParams.get('boardType') !== 'all') ? Number(urlParams.get('boardType')) : null;
@@ -235,9 +235,9 @@ const QuestionRegisterForm = () => {
 
         if (!formData.category) newErrors.category = '카테고리를 선택해주세요';
         if (!formData.title.trim()) newErrors.title = '제목을 입력해주세요';
-        if (formData.title.length > 100) newErrors.title = '제목은 100자 이내로 입력해주세요';
+        if (formData.title.length > 500) newErrors.title = '제목은 500자 이내로 입력해주세요';
         if (!formData.content.trim()) newErrors.content = '내용을 입력해주세요';
-        if (formData.content.length > 1000) newErrors.content = '내용은 1000자 이내로 입력해주세요';
+        if (formData.content.length > 3000) newErrors.content = '내용은 3000자 이내로 입력해주세요';
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -547,14 +547,14 @@ const QuestionRegisterForm = () => {
                             <label className="form-label required">
                                 제목
                             </label>
-                            <span className="char-count">{formData.title.length}/100</span>
+                            <span className="char-count">{formData.title.length}/500</span>
                             <input
                                 type="text"
                                 className={`form-input ${errors.title ? 'error' : ''}`}
                                 placeholder="궁금한 내용을 간단히 요약해주세요"
                                 value={formData.title}
                                 onChange={(e) => handleInputChange('title', e.target.value)}
-                                maxLength={100}
+                                maxLength={500}
                                 disabled={submitState === 'submitting'}
                             />
                             {errors.title && <span className="error-text">{errors.title}</span>}
@@ -565,14 +565,14 @@ const QuestionRegisterForm = () => {
                             <label className="form-label required">
                                 내용
                             </label>
-                            <span className="char-count">{formData.content.length}/1000</span>
+                            <span className="char-count">{formData.content.length}/3000</span>
                             <textarea
                                 ref={textareaRef}
                                 className={`form-textarea ${errors.content ? 'error' : ''}`}
                                 placeholder={`궁금한 점이나 이야기하고 싶은 내용을 자유롭게 남겨주세요.\n다른 사람이 잘 이해할 수 있도록 써주시면 좋아요!`}
                                 value={formData.content}
                                 onChange={(e) => handleInputChange('content', e.target.value)}
-                                maxLength={1000}
+                                maxLength={3000}
                                 rows={6}
                                 disabled={submitState === 'submitting'}
                             />
