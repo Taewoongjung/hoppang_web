@@ -197,11 +197,6 @@ const MobileResultScreen = () => {
         const totalDiscountWithSurtx = result.discountedWholeCalculatedFeeWithSurtax;
         const originalPrice = result.wholeCalculatedFee + result.surtax;
 
-        let isLaborFeeBelowMinimumSize = false;
-        if (index < 1) {
-            isLaborFeeBelowMinimumSize = result.laborFee && result.laborFee > 0; // 기본시공비 유무 여부
-        }
-
         // 📌 현재 견적의 문의 상태 확인
         const { hasAnyInquiry, completedCount, inquiryStatus } = getInquiryStatus(result.estimationId);
 
