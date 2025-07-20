@@ -185,7 +185,7 @@ const Initial = () => {
 
     const quickTips = [
         { title: '창호 교체 시기', content: '10-15년마다 교체하는 것이 좋습니다', icon: '📅' },
-        { title: '단열 효과', content: '이중창으로 난방비를 30% 절약하세요', icon: '🔥' },
+        { title: '단열 효과', content: '이중창으로 난방비를 절약하세요', icon: '🔥' },
         { title: '방음 효과', content: '소음을 50% 이상 차단할 수 있습니다', icon: '🔇' }
     ];
 

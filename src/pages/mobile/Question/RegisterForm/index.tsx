@@ -98,11 +98,15 @@ const QuestionRegisterForm = () => {
             .then((user) => {
                 axios.get(callBoards)
                     .then((res) => {
-                        const boards: Board[] = res.data.map((category: any) => ({
-                            id: category.id,
-                            name: category.name,
-                            branchBoards: category.branchBoards
-                        }));
+                        const excludeBoard = ['공지사항', '이벤트'];
+
+                        const boards: Board[] = res.data
+                            .filter((category: any) => !excludeBoard.includes(category.name))
+                            .map((category: any) => ({
+                                id: category.id,
+                                name: category.name,
+                                branchBoards: category.branchBoards
+                            }));
 
                         setBoards(boards);
                     })
@@ -360,7 +364,7 @@ const QuestionRegisterForm = () => {
                             <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                     </button>
-                    <div className="header-title">{isEditing ? '수정하기' : '질문하기' }</div>
+                    <div className="header-title">{isEditing ? '수정하기' : '게시글 작성' }</div>
                     <div className="header-spacer"></div>
                 </div>
             </header>
@@ -373,7 +377,7 @@ const QuestionRegisterForm = () => {
                         <img src="/assets/RegisterForm/register-form-icon.png" alt="Icon"/>
                     </div>
                     <h1 className="hero-title">궁금한 것을 물어보세요</h1>
-                    <p className="hero-subtitle">샷시 전문가들이 친절하게 답변해드려요</p>
+                    <p className="hero-subtitle">자유롭게 글을 남겨보세요</p>
                 </section>
 
                 {/* Error Alert */}
@@ -550,7 +554,7 @@ const QuestionRegisterForm = () => {
                             <textarea
                                 ref={textareaRef}
                                 className={`form-textarea ${errors.content ? 'error' : ''}`}
-                                placeholder="궁금한 내용을 자세히 설명해주세요.&#10;&#10;• 현재 상황을 구체적으로 설명해주세요&#10;• 어떤 도움이 필요한지 명확히 적어주세요&#10;• 관련 사진이 있다면 함께 첨부해주세요"
+                                placeholder={`궁금한 점이나 이야기하고 싶은 내용을 자유롭게 남겨주세요.\n다른 사람이 잘 이해할 수 있도록 써주시면 좋아요!`}
                                 value={formData.content}
                                 onChange={(e) => handleInputChange('content', e.target.value)}
                                 maxLength={1000}
@@ -583,16 +587,16 @@ const QuestionRegisterForm = () => {
 
                 {/* Submit Section */}
                 <section className="submit-section">
-                    <div className="submit-notice">
-                        <div className="notice-icon">💡</div>
-                        <div className="notice-text">
-                            <div className="notice-title">답변 안내</div>
-                            <div className="notice-desc">
-                                전문가 검토 후 24시간 내에 답변드립니다<br />
-                                긴급한 경우 카카오톡으로 문의해주세요
-                            </div>
-                        </div>
-                    </div>
+                    {/*<div className="submit-notice">*/}
+                    {/*    <div className="notice-icon">💡</div>*/}
+                    {/*    <div className="notice-text">*/}
+                    {/*        <div className="notice-title">답변 안내</div>*/}
+                    {/*        <div className="notice-desc">*/}
+                    {/*            커뮤니티 친구들이 답변해드릴 거예요<br />*/}
+                    {/*            다소 시간이 걸릴 수 있으니 양해 부탁드려요!*/}
+                    {/*        </div>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
 
                     <button
                         className={`submit-btn ${submitState}`}
