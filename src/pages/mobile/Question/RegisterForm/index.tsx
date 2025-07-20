@@ -25,21 +25,39 @@ const QuestionRegisterForm = () => {
     const history = useHistory();
     const urlParams = new URLSearchParams(window.location.search);
 
-    useEffect(() => {
-        // 뒤로가기 감지
-        const unblock = history.block((location: any, action: string) => {
-            if (action === 'POP') {
-                setShowExitModal(true); // 상태만 바꾸고
-                return false; // 페이지 이동을 막음
-            }
+    // useEffect(() => {
+    //     // 뒤로가기 감지
+    //     const unblock = history.block((location: any, action: string) => {
+    //         if (action === 'POP') {
+    //             // 뒤로가기는 허용하되, 특정 조건에서만 모달 표시
+    //             if (hasUnsavedChanges) {
+    //                 setShowExitModal(true);
+    //                 return false; // 변경사항이 있을 때만 막기
+    //             }
+    //             return true; // 변경사항 없으면 뒤로가기 허용
+    //         });
+    //
+    //     return () => {
+    //         unblock(); // cleanup
+    //     };
+    // }, [history]);
 
-            return true; // 나머지는 허용
-        });
+    useEffect(() => {
+        const handlePopState = (e: { preventDefault: () => void; }) => {
+            e.preventDefault();
+            setShowExitModal(true);
+            // 강제로 현재 페이지 유지
+            window.history.pushState(null, '', window.location.href);
+        };
+
+        // popstate와 beforeunload 둘 다 처리
+        window.addEventListener('popstate', handlePopState);
+        window.history.pushState(null, '', window.location.href);
 
         return () => {
-            unblock(); // cleanup
+            window.removeEventListener('popstate', handlePopState);
         };
-    }, [history]);
+    }, []);
 
     const [formData, setFormData] = useState({
         category: '',
