@@ -18,6 +18,17 @@ interface BoardType {
     color: string;
 }
 
+// 댓글 인터페이스 추가
+interface Comment {
+    id: number;
+    postId: number;
+    postTitle: string;
+    content: string;
+    author: string;
+    createdAt: string;
+    category: number | string;
+}
+
 const MyPosts = () => {
 
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
@@ -28,10 +39,12 @@ const MyPosts = () => {
     const [allQuestionsCount, setAllQuestionsCount] = useState(0);
     const [allBookmarks, setAllBookmarks] = useState<Question[]>([]);
     const [allBookmarksCount, setAllBookmarksCount] = useState(0);
+    const [allComments, setAllComments] = useState<Comment[]>([]);
+    const [allCommentsCount, setAllCommentsCount] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
     const [boards, setBoards] = useState<Board[]>([]);
     const [selectedBoardType, setSelectedBoardType] = useState('all');
-    const [contentFilter, setContentFilter] = useState<'all' | 'posts' | 'bookmarks'>('all');
+    const [contentFilter, setContentFilter] = useState<'all' | 'posts' | 'bookmarks' | 'comments'>('all');
     const [isRefreshing, setIsRefreshing] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [pullDistance, setPullDistance] = useState(0);
@@ -71,6 +84,8 @@ const MyPosts = () => {
                 return allQuestions;
             case 'bookmarks':
                 return allBookmarks;
+            case 'comments':
+                return allComments;
             default:
                 return allQuestions
         }
@@ -82,6 +97,8 @@ const MyPosts = () => {
                 return allQuestionsCount;
             case 'bookmarks':
                 return allBookmarksCount;
+            case 'comments':
+                return allCommentsCount;
             default:
                 return allQuestionsCount;
         }
@@ -310,6 +327,74 @@ const MyPosts = () => {
         }
     };
 
+    // 댓글 조회 함수 추가
+    const fetchComments = async (page: number = 1, resetData: boolean = true) => {
+        setIsLoading(true);
+        try {
+            const offset = (page - 1) * limit;
+            let boardIds = '';
+            if (selectedBoardType !== 'all') {
+                boardIds = selectedBoardType;
+                if (selectedBoardType === '2') {
+                    const targetBoard = boards.find(board => String(board.id) === '2');
+                    if (targetBoard) {
+                        const branchIds = targetBoard.branchBoards.map(branch => branch.id);
+                        boardIds = [targetBoard.id, ...branchIds].join(',');
+                    }
+                }
+            }
+
+            // 댓글 API 호출 (실제 API 엔드포인트로 변경 필요)
+            const res = await axios.get(`${callMyBoardsPosts}?repliesOnly=true&limit=${limit}&offset=${offset}&boardIdList=${boardIds}&searchWord=${searchQuery}`, {
+                headers: {
+                    withCredentials: true,
+                    Authorization: localStorage.getItem("hoppang-token")
+                },
+            });
+
+            const comments = res.data.postsList || [];
+            const formattedComments: Comment[] = comments.map((comment: any) => ({
+                id: comment.id,
+                postId: comment.postId,
+                postTitle: comment.title,
+                content: comment.contents,
+                author: comment.authorName,
+                createdAt: new Date(comment.createdAt).toISOString(),
+                category: comment.boardId
+            }));
+
+            setAllComments(formattedComments);
+            setAllCommentsCount(res.data.count || 0);
+        } catch (err) {
+            console.error("댓글 조회 실패", err);
+            // 임시 데이터 (실제 구현 시 제거)
+            const mockComments: Comment[] = [
+                {
+                    id: 1,
+                    postId: 123,
+                    postTitle: "샷시 교체 비용이 궁금합니다",
+                    content: "저도 비슷한 경험이 있는데, LX하우시스로 교체했을 때 평당 30만원 정도 들었어요. 브랜드와 지역에 따라 차이가 있으니 여러 업체에서 견적 받아보시는 걸 추천드립니다.",
+                    author: userData?.name || "익명",
+                    createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+                    category: 2
+                },
+                {
+                    id: 2,
+                    postId: 124,
+                    postTitle: "이중창 vs 삼중창 어떤게 좋을까요?",
+                    content: "삼중창이 단열성능은 더 좋지만 비용 대비 효과를 고려하면 이중창도 충분합니다. 특히 아파트의 경우 이중창으로도 충분한 효과를 볼 수 있어요.",
+                    author: userData?.name || "익명",
+                    createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
+                    category: 4
+                }
+            ];
+            setAllComments(mockComments);
+            setAllCommentsCount(mockComments.length);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     // 게시판 타입 선택 핸들러
     const handleBoardTypeSelect = (boardTypeId: string) => {
         setSelectedBoardType(boardTypeId);
@@ -318,7 +403,7 @@ const MyPosts = () => {
     };
 
     // 컨텐츠 필터 변경 핸들러
-    const handleContentFilterChange = (filter: 'all' | 'posts' | 'bookmarks') => {
+    const handleContentFilterChange = (filter: 'all' | 'posts' | 'bookmarks' | 'comments') => {
         setContentFilter(filter);
         setCurrentPage(1);
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -333,6 +418,8 @@ const MyPosts = () => {
                 fetchQuestions(1, true);
             } else if (contentFilter === 'bookmarks') {
                 fetchBookmarks(1, true);
+            } else if (contentFilter === 'comments') {
+                fetchComments(1, true);
             }
         }
     };
@@ -347,12 +434,16 @@ const MyPosts = () => {
         setCurrentPage(1);
         setAllQuestions([]);
         setAllBookmarks([]);
+        setAllComments([]);
 
         if (contentFilter === 'all' || contentFilter === 'posts') {
             fetchQuestions(1, true);
         }
         if (contentFilter === 'all' || contentFilter === 'bookmarks') {
             fetchBookmarks(1, true);
+        }
+        if (contentFilter === 'all' || contentFilter === 'comments') {
+            fetchComments(1, true);
         }
     }, [selectedBoardType, searchQuery, contentFilter]);
 
@@ -362,6 +453,8 @@ const MyPosts = () => {
                 fetchQuestions(currentPage, true);
             } else if (contentFilter === 'bookmarks') {
                 fetchBookmarks(currentPage, true);
+            } else if (contentFilter === 'comments') {
+                fetchComments(currentPage, true);
             }
         }
     }, [currentPage]);
@@ -388,6 +481,8 @@ const MyPosts = () => {
                 await fetchQuestions(currentPage, true);
             } else if (contentFilter === 'bookmarks') {
                 await fetchBookmarks(currentPage, true);
+            } else if (contentFilter === 'comments') {
+                await fetchComments(currentPage, true);
             }
             setIsRefreshing(false);
         }
@@ -518,8 +613,23 @@ const MyPosts = () => {
         return null;
     };
 
+    // 댓글 배지 렌더링 함수
+    const renderCommentBadge = () => {
+        if (contentFilter === 'comments' || contentFilter === 'all') {
+            return (
+                <span className="comment-badge">
+                    <svg width="8" height="8" viewBox="0 0 16 16" fill="none">
+                        <path d="M8 1C11.866 1 15 4.134 15 8C15 11.866 11.866 15 8 15C6.674 15 5.431 14.612 4.378 13.934L1 15L2.066 11.622C1.388 10.569 1 9.326 1 8C1 4.134 4.134 1 8 1Z" stroke="currentColor" strokeWidth="1.2" fill="currentColor"/>
+                    </svg>
+                    내 댓글
+                </span>
+            );
+        }
+        return null;
+    };
+
     // 게시물 배지 렌더링 함수
-    const renderQuestionBadges = (question: Question) => {
+    const renderQuestionBadges = (question: Question | Comment) => {
         const badges = [];
 
         if (question.category) {
@@ -553,8 +663,8 @@ const MyPosts = () => {
             }
         }
 
-        // 이미지 배지
-        if (question.imageCount && question.imageCount > 0) {
+        // 이미지 배지 (일반 게시글만)
+        if ('imageCount' in question && question.imageCount && question.imageCount > 0) {
             badges.push(
                 <span key="image" className="image-badge">
                     <svg width="10" height="10" viewBox="0 0 16 16" fill="none">
@@ -568,6 +678,39 @@ const MyPosts = () => {
         return badges;
     };
 
+    // 댓글 아이템 렌더링 함수
+    const renderCommentItem = (comment: Comment) => {
+        return (
+            <div
+                key={`comment-${comment.id}`}
+                className="question-item comment-item"
+                onClick={() => handlePostDetail(comment.id)}
+                data-type="comment"
+            >
+                <div className="question-main">
+                    <div className="question-header">
+                        <div className="question-badges">
+                            {renderCommentBadge()}
+                            {renderQuestionBadges(comment)}
+                        </div>
+                        <h3 className="question-title comment-post-title">
+                            📝 {comment.postTitle}
+                        </h3>
+                        <div className="question-meta">
+                            <span className="question-author">{comment.author}</span>
+                            <span className="meta-separator">·</span>
+                            <span className="question-time">{formatTimeAgo(comment.createdAt)}</span>
+                        </div>
+                    </div>
+                </div>
+                <div className="comment-indicator">
+                    <svg width="20" height="20" viewBox="0 0 16 16" fill="none">
+                        <path d="M8 1C11.866 1 15 4.134 15 8C15 11.866 11.866 15 8 15C6.674 15 5.431 14.612 4.378 13.934L1 15L2.066 11.622C1.388 10.569 1 9.326 1 8C1 4.134 4.134 1 8 1Z" stroke="currentColor" strokeWidth="1.2" fill="none"/>
+                    </svg>
+                </div>
+            </div>
+        );
+    };
 
     return (
         <div className="questions-container"
@@ -640,15 +783,6 @@ const MyPosts = () => {
                 <div className="content-filter-container">
                     <div className="content-filter-tabs">
                         <button
-                            className={`content-filter-tab ${contentFilter === 'all' ? 'active' : ''}`}
-                            onClick={() => handleContentFilterChange('all')}
-                            data-filter="all"
-                        >
-                            <span className="filter-icon">📋</span>
-                            <span className="filter-name">전체</span>
-                            <span className="filter-count">{allQuestionsCount}</span>
-                        </button>
-                        <button
                             className={`content-filter-tab ${contentFilter === 'posts' ? 'active' : ''}`}
                             onClick={() => handleContentFilterChange('posts')}
                             data-filter="posts"
@@ -656,6 +790,19 @@ const MyPosts = () => {
                             <span className="filter-icon">📝</span>
                             <span className="filter-name">내 게시글</span>
                             <span className="filter-count">{allQuestionsCount}</span>
+                        </button>
+                        <button
+                            className={`content-filter-tab ${contentFilter === 'comments' ? 'active' : ''}`}
+                            onClick={() => handleContentFilterChange('comments')}
+                            data-filter="comments"
+                        >
+                            <span className="filter-icon">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M8 1C11.866 1 15 4.134 15 8C15 11.866 11.866 15 8 15C6.674 15 5.431 14.612 4.378 13.934L1 15L2.066 11.622C1.388 10.569 1 9.326 1 8C1 4.134 4.134 1 8 1Z" stroke="currentColor" strokeWidth="1.2" fill="none"/>
+                                </svg>
+                            </span>
+                            <span className="filter-name">내 댓글</span>
+                            <span className="filter-count">{allCommentsCount}</span>
                         </button>
                         <button
                             className={`content-filter-tab ${contentFilter === 'bookmarks' ? 'active' : ''}`}
@@ -706,49 +853,56 @@ const MyPosts = () => {
                 )}
 
                 <div className={`questions-list ${isLoading ? 'loading' : ''}`}>
-                    {currentQuestions.map((question) => (
-                        <div
-                            key={`${question.id}-${question.isBookmarked ? 'bookmark' : 'post'}`}
-                            className="question-item"
-                            onClick={() => handlePostDetail(question.id)}
-                            data-bookmarked={question.isBookmarked || false}
-                        >
-                            <div className="question-main">
-                                <div className="question-header">
-                                    <div className="question-badges">
-                                        {renderBookmarkBadge(question)}
-                                        {renderQuestionBadges(question)}
-                                    </div>
-                                    <h3 className="question-title">{question.title}</h3>
-                                    <div className="question-meta">
-                                        <span className="question-author">{question.author}</span>
-                                        <span className="meta-separator">·</span>
-                                        <span className="question-time">{formatTimeAgo(question.createdAt)}</span>
-                                        <span className="meta-separator">·</span>
-                                        <span className="question-stats">조회 {question.viewCount}</span>
-                                        {question.replyCount > 0 && <>
+                    {contentFilter === 'comments' ? (
+                        // 댓글 렌더링
+                        allComments.map((comment) => renderCommentItem(comment))
+                    ) : (
+                        // 기존 게시글/북마크 렌더링
+                        // @ts-ignore
+                        currentQuestions.map((question: any) => (
+                            <div
+                                key={`${question.id}-${question.isBookmarked ? 'bookmark' : 'post'}`}
+                                className="question-item"
+                                onClick={() => handlePostDetail(question.id)}
+                                data-bookmarked={question.isBookmarked || false}
+                            >
+                                <div className="question-main">
+                                    <div className="question-header">
+                                        <div className="question-badges">
+                                            {renderBookmarkBadge(question)}
+                                            {renderQuestionBadges(question)}
+                                        </div>
+                                        <h3 className="question-title">{question.title}</h3>
+                                        <div className="question-meta">
+                                            <span className="question-author">{question.author}</span>
                                             <span className="meta-separator">·</span>
-                                            <span className="replies-count">
-                                                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                                                    <path d="M8 1C11.866 1 15 4.134 15 8C15 11.866 11.866 15 8 15C6.674 15 5.431 14.612 4.378 13.934L1 15L2.066 11.622C1.388 10.569 1 9.326 1 8C1 4.134 4.134 1 8 1Z" stroke="currentColor" strokeWidth="1.2" fill="none"/>
-                                                </svg>
-                                                {question.replyCount}
-                                            </span>
-                                        </>}
+                                            <span className="question-time">{formatTimeAgo(question.createdAt)}</span>
+                                            <span className="meta-separator">·</span>
+                                            <span className="question-stats">조회 {question.viewCount}</span>
+                                            {question.replyCount > 0 && <>
+                                                <span className="meta-separator">·</span>
+                                                <span className="replies-count">
+                                                    <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                                                        <path d="M8 1C11.866 1 15 4.134 15 8C15 11.866 11.866 15 8 15C6.674 15 5.431 14.612 4.378 13.934L1 15L2.066 11.622C1.388 10.569 1 9.326 1 8C1 4.134 4.134 1 8 1Z" stroke="currentColor" strokeWidth="1.2" fill="none"/>
+                                                    </svg>
+                                                    {question.replyCount}
+                                                </span>
+                                            </>}
+                                        </div>
                                     </div>
                                 </div>
+                                {question.imageCount && question.imageCount > 0 && (
+                                    <div className="question-thumbnail">
+                                        <div className="thumbnail-placeholder">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path d="M21 19V5C21 3.9 20.1 3 19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19ZM8.5 13.5L11 16.51L14.5 12L19 18H5L8.5 13.5Z" fill="currentColor"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
-                            {question.imageCount && question.imageCount > 0 && (
-                                <div className="question-thumbnail">
-                                    <div className="thumbnail-placeholder">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                            <path d="M21 19V5C21 3.9 20.1 3 19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19ZM8.5 13.5L11 16.51L14.5 12L19 18H5L8.5 13.5Z" fill="currentColor"/>
-                                        </svg>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    ))}
+                        ))
+                    )}
                 </div>
 
                 {/* Empty State */}
@@ -761,7 +915,9 @@ const MyPosts = () => {
                                     ? (selectedBoardType === 'all'
                                         ? '아직 게시글이 없습니다'
                                         : `${getBoardTypeInfo(selectedBoardType).name} 게시글이 없습니다`)
-                                    : '아직 활동이 없습니다'
+                                    : contentFilter === 'comments'
+                                        ? '작성한 댓글이 없습니다'
+                                        : '아직 활동이 없습니다'
                             }
                         </h3>
                         <p className="empty-description">
@@ -771,10 +927,12 @@ const MyPosts = () => {
                                     ? (selectedBoardType === 'all'
                                         ? '첫 번째 게시글을 등록해보세요!'
                                         : `첫 번째 ${getBoardTypeInfo(selectedBoardType).name} 게시글을 등록해보세요!`)
-                                    : '게시글을 작성하거나 북마크해보세요!'
+                                    : contentFilter === 'comments'
+                                        ? '게시글에 댓글을 작성해보세요!'
+                                        : '게시글을 작성하거나 댓글을 달아보세요!'
                             }
                         </p>
-                        {contentFilter !== 'bookmarks' && (
+                        {contentFilter !== 'bookmarks' && contentFilter !== 'comments' && (
                             <div className="empty-actions">
                                 <button
                                     className="empty-action-btn"

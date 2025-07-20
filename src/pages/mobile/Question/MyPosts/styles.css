@@ -851,44 +851,285 @@
 .search-btn:focus,
 .search-input:focus,
 .question-item:focus,
+.comment-item:focus,
 .floating-write-btn:focus,
 .empty-action-btn:focus,
 .back-btn:focus {
     outline-offset: -2px;
 }
 
-/*@media (hover: hover) {*/
-/*    .search-btn:hover {*/
-/*        background: #f1f5f9;*/
-/*        color: #6366f1;*/
-/*    }*/
+/* Content Filter Tabs - 4개로 확장 */
+.content-filter-tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 6px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    position: relative;
+}
 
-/*    .question-item:hover {*/
-/*        background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);*/
-/*        border-bottom-color: #e2e8f0;*/
-/*    }*/
+.content-filter-tab.active {
+    background: #6366f1;
+    color: white;
+}
 
-/*    .pagination-btn:hover:not(.disabled) {*/
-/*        color: #6366f1;*/
-/*        background: white;*/
-/*        transform: translateY(-1px);*/
-/*    }*/
+.filter-icon {
+    font-size: 14px;
+}
 
-/*    .empty-action-btn:hover {*/
-/*        transform: translateY(-1px);*/
-/*        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);*/
-/*    }*/
+.filter-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+}
 
-/*    .floating-write-btn:hover {*/
-/*        transform: translateY(-2px);*/
-/*        box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);*/
-/*    }*/
+.content-filter-tab.active .filter-name {
+    color: white;
+    font-weight: 700;
+}
 
-/*    .question-item:hover .root-board-badge,*/
-/*    .question-item:hover .branch-board-badge,*/
-/*    .question-item:hover .hot-badge,*/
-/*    .question-item:hover .bookmark-badge {*/
-/*        transform: translateY(-1px);*/
-/*        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);*/
-/*    }*/
-/*}*/
+.filter-count {
+    font-size: 10px;
+    font-weight: 500;
+    color: #94a3b8;
+    background: rgba(148, 163, 184, 0.1);
+    padding: 2px 4px;
+    border-radius: 6px;
+    min-width: 16px;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.content-filter-tab.active .filter-count {
+    color: white;
+    background: rgba(255, 255, 255, 0.2);
+    font-weight: 600;
+}
+
+/* 댓글 필터가 활성화될 때 특별한 스타일 */
+.content-filter-tab[data-filter="comments"].active {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.content-filter-tab[data-filter="comments"].active .filter-count {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* 북마크 필터가 활성화될 때 특별한 스타일 */
+.content-filter-tab[data-filter="bookmarks"].active {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+.content-filter-tab[data-filter="bookmarks"].active .filter-count {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* 전체 필터가 활성화될 때 특별한 스타일 */
+.content-filter-tab[data-filter="all"].active {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+/* 댓글 배지 스타일 */
+.comment-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 0 6px;
+    gap: 3px;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    color: white;
+    box-shadow: 0 1px 3px rgba(139, 92, 246, 0.3);
+}
+
+.comment-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 100%);
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+/* 댓글 아이템 스타일 */
+.comment-item {
+    /*border-left: 3px solid #8b5cf6;*/
+    background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%);
+    position: relative;
+}
+
+.comment-item::before {
+    display: none; /* 기본 북마크 표시 숨김 */
+}
+
+
+/* 댓글의 게시글 제목 스타일 */
+.comment-post-title {
+    font-size: 14px !important;
+    margin-bottom: 8px !important;
+}
+
+/* 댓글 내용 스타일 */
+.comment-content {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 8px 0;
+    font-size: 14px;
+    color: #374151;
+    line-height: 1.5;
+    position: relative;
+}
+
+/* 댓글 인디케이터 */
+.comment-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    border-radius: 50%;
+    color: white;
+    box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+    flex-shrink: 0;
+}
+
+@keyframes commentSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 반응형 디자인 - 모바일에서 Content Filter 조정 */
+@media (max-width: 375px) {
+    .content-filter-tabs {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 2px;
+        padding: 10px 0;
+    }
+
+    .content-filter-tab {
+        padding: 10px 4px;
+        gap: 3px;
+    }
+
+    .filter-icon {
+        font-size: 12px;
+    }
+
+    .filter-name {
+        font-size: 10px;
+    }
+
+    .filter-count {
+        font-size: 9px;
+        padding: 1px 3px;
+        border-radius: 4px;
+        min-width: 14px;
+    }
+
+    /* 댓글 관련 모바일 최적화 */
+    .comment-badge {
+        font-size: 10px;
+        height: 18px;
+        padding: 0 4px;
+    }
+
+    .comment-badge svg {
+        width: 7px;
+        height: 7px;
+    }
+
+    .comment-post-title {
+        font-size: 13px !important;
+    }
+
+    .comment-content {
+        padding: 10px;
+        margin: 6px 0;
+        font-size: 13px;
+    }
+
+    .comment-content::before,
+    .comment-content::after {
+        font-size: 20px;
+    }
+
+    .comment-indicator {
+        width: 36px;
+        height: 36px;
+    }
+
+    .comment-indicator svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .comment-item[data-type="comment"]::after {
+        width: 3px;
+        height: 30px;
+        right: 12px;
+    }
+}
+
+/* Content Filter 탭이 4개일 때 텍스트 줄바꿈 방지 */
+.content-filter-tab .filter-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+/* 댓글 필터 아이콘 특별 스타일 */
+.content-filter-tab[data-filter="comments"] .filter-icon svg {
+    transition: all 0.2s ease;
+}
+
+.content-filter-tab[data-filter="comments"].active .filter-icon svg {
+    transform: scale(1.1);
+}
+
+/* 댓글과 일반 게시글을 구분하는 추가 스타일 */
+.questions-list .comment-item:not(:last-child) {
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.questions-list .comment-item + .question-item:not(.comment-item) {
+    border-top: 2px solid #f1f5f9;
+}
+
+/* 댓글 배지 애니메이션 */
+.comment-badge {
+    animation: commentBadgeSlideIn 0.3s ease-out;
+}
+
+@keyframes commentBadgeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-8px) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+    }
+}

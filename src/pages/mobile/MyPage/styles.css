@@ -94,7 +94,6 @@ body {
 }
 
 .login-card:hover {
-    transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     border-color: #0ea5e9;
 }
@@ -247,7 +246,6 @@ body {
 }
 
 .quick-service-item:hover {
-    transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     border-color: #6366f1;
 }
@@ -325,7 +323,6 @@ body {
 }
 
 .menu-item:hover {
-    transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     border-color: #6366f1;
 }
@@ -402,7 +399,6 @@ body {
 }
 
 .menu-item:hover .menu-arrow {
-    transform: translateX(4px);
     color: #6366f1;
 }
 
