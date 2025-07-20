@@ -11,6 +11,7 @@ import {useHistory, useParams} from "react-router-dom";
 import axios from "axios";
 import {Question} from "../Question/interface";
 import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
+import {isMobile} from "react-device-detect";
 
 
 declare global {
@@ -36,6 +37,17 @@ const Initial = () => {
 
     const [isLoading, setIsLoading] = useState(false);
 
+    useEffect(() => {
+        if (!isMobile) {
+            window.location.href = "https://hoppang.store/official?adv_id=329263e0-5d61-4ade-baf9-7e34cc611828";
+        }
+    }, []);
+
+    useEffect(() => {
+        if (userData) {
+            mutate();
+        }
+    }, [userData]);
 
     // 소셜 로그인
     useEffect(() => {
@@ -58,7 +70,7 @@ const Initial = () => {
                         localStorage.setItem('kakaoTokenInfo', '');
 
                         if (res.data.isSuccess && res.data.isTheFirstLogIn) {
-                            window.location.href = "/login/first?remainedProcess=false&userEmail=" + res.data.userEmail
+                            window.location.href = "/v2/login/first?remainedProcess=false&userEmail=" + res.data.userEmail
                         }
                         return setIsLoading(false);
 
@@ -89,7 +101,7 @@ const Initial = () => {
                         localStorage.setItem("hoppang-login-oauthType", res.data.oauthType); // 로그인 타입 설정
 
                         if (res.data.isSuccess && res.data.isTheFirstLogIn) {
-                            window.location.href = "/login/first?remainedProcess=false&userEmail=" + res.data.userEmail
+                            window.location.href = "/v2/login/first?remainedProcess=false&userEmail=" + res.data.userEmail
                         }
                         return setIsLoading(false);
 
@@ -120,7 +132,7 @@ const Initial = () => {
                         localStorage.setItem("hoppang-login-oauthType", res.data.oauthType); // 로그인 타입 설정
 
                         if (res.data.isSuccess && res.data.isTheFirstLogIn) {
-                            window.location.href = "/login/first?remainedProcess=false&userEmail=" + res.data.userEmail
+                            window.location.href = "/v2/login/first?remainedProcess=false&userEmail=" + res.data.userEmail
                         }
                         return setIsLoading(false);
 
