@@ -69,7 +69,7 @@ const fetcher = async (url: string) => {
                 }
             }
             if (notAuthorizedErrorCode.includes(error.response.status)) {
-                window.location.href = '/login';
+                window.location.href = '/v2/login';
             }
         });
     }
