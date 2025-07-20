@@ -19,9 +19,9 @@ const Agreement = () => {
                 const currentPath = window.location.pathname;
 
                 if (currentPath === '/calculator/result') {
-                    history.push('/chassis/v2/calculator');
+                    window.location.href = '/chassis/calculator';
                 } else {
-                    history.push('/chassis/v2/calculator');
+                    window.location.href = '/chassis/calculator';
                 }
             }
 
@@ -67,7 +67,7 @@ const Agreement = () => {
     };
 
     const handleDisagree = () => {
-        window.location.href = "/chassis/v2/calculator";
+        window.location.href = "/chassis/calculator";
     };
 
     return (

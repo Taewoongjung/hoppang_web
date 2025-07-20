@@ -11,7 +11,7 @@ const CalculationResultExitModal = (props:{
     const history = useHistory();
 
     const handleExitConfirm = () => {
-        history.push('/chassis/v2/calculator');
+        history.push('/chassis/calculator');
     };
 
     const handleExitCancel = () => {

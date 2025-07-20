@@ -51,10 +51,10 @@ const CounselV2 = loadable(() => import('../../pages/mobile/Counsel'));
 const App = () => {
         return (
             <Switch>
-                    <Redirect exact path="/" to="/chassis/v2/calculator"/>
+                    <Redirect exact path="/" to="/chassis/calculator"/>
 
                     {/* V2 */}
-                    <Route exact path="/chassis/v2/calculator" component={InitialPageV2}/>
+                    <Route exact path="/chassis/calculator" component={InitialPageV2}/>
                     <Route exact path="/calculator/agreement" component={AgreementPage}/>
                     <Route exact path="/v2/calculator" component={CalculationScreenV2}/>
                     <Route exact path="/calculator/result" component={CalculationResultScreen}/>

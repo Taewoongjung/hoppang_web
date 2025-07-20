@@ -13,8 +13,8 @@ const BottomNavigator: React.FC<BottomNavigatorProps> = ({ userData, isVisible =
     return (
         <nav className={`bottom-nav ${isVisible ? 'visible' : 'hidden'}`}>
             <button
-                className={`nav-item ${['/chassis/v2/calculator'].includes(location.pathname) ? 'active' : ''}`}
-                onClick={() => window.location.href ="/chassis/v2/calculator"}
+                className={`nav-item ${['/chassis/calculator'].includes(location.pathname) ? 'active' : ''}`}
+                onClick={() => window.location.href ="/chassis/calculator"}
             >
                 <span className="nav-icon">🏠</span>
                 <span className="nav-label">홈</span>

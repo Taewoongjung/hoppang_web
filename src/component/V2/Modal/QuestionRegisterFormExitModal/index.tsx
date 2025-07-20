@@ -11,7 +11,7 @@ const QuestionRegisterFormExitModal = (props:{
 
     const handleExitConfirm = () => {
         if (from === 'initial') {
-            window.location.href = '/chassis/v2/calculator';
+            window.location.href = '/chassis/calculator';
             return;
         }
 

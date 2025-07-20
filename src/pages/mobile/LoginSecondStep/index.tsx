@@ -35,7 +35,7 @@ const LoginSecondStep = () => {
                 }
             });
 
-            window.location.href = "/chassis/v2/calculator";
+            window.location.href = "/chassis/calculator";
         } catch (err) {
             if (err.response?.data?.errorCode === 1) {
                 const { email, oauthType, errorMessage: message } = err.response.data;

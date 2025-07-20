@@ -43,7 +43,7 @@ const ConfigPage = () => {
 
         setTimeout(() => {
             setLoading(false);
-            window.location.href = '/chassis/v2/calculator';
+            window.location.href = '/chassis/calculator';
         }, 2000);
     }
 
@@ -90,7 +90,7 @@ const ConfigPage = () => {
                         .then((res) => {
                             setTimeout(() => {
                                 setLoading(false);
-                                window.location.href = '/chassis/v2/calculator';
+                                window.location.href = '/chassis/calculator';
                             }, 2000);
                         })
                         .catch((err) => {

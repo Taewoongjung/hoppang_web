@@ -70,7 +70,7 @@ const Login = () => {
             <header className="login-header">
                 <button
                     className="back-button"
-                    onClick={() => {window.location.href = "/chassis/v2/calculator"}}
+                    onClick={() => {window.location.href = "/chassis/calculator"}}
                 >
                     <LeftOutlined />
                 </button>

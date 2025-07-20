@@ -11,7 +11,7 @@ const CalculationExitModal = (props:{
     const history = useHistory();
 
     const handleExitConfirm = () => {
-        history.push('/chassis/v2/calculator'); // 홈으로 이동
+        window.location.href = '/chassis/calculator'; // 홈으로 이동
     };
 
     const handleExitCancel = () => {

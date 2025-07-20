@@ -308,7 +308,7 @@ const QuestionsBoard = () => {
     };
 
     const handGoBack = () => {
-        window.location.href = '/chassis/v2/calculator';
+        window.location.href = '/chassis/calculator';
     }
 
     const totalPages = Math.ceil(allQuestionsCount / limit);
