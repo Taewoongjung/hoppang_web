@@ -54,7 +54,8 @@ const App = () => {
                     <Redirect exact path="/" to="/chassis/calculator"/>
 
                     {/* V2 */}
-                    <Route exact path="/chassis/calculator" component={InitialPageV2}/>
+                    <Route path="/chassis/calculator" component={InitialPageV2}/>
+                    <Route path="/:oauthtype/chassis/calculator" component={InitialPageV2}/>
                     <Route exact path="/calculator/agreement" component={AgreementPage}/>
                     <Route exact path="/v2/calculator" component={CalculationScreenV2}/>
                     <Route exact path="/calculator/result" component={CalculationResultScreen}/>
