@@ -366,21 +366,14 @@ const MyPosts = () => {
         }
     }, [currentPage]);
 
-    const isPullToRefreshPossible = useRef(false);
-
     // Pull to refresh 핸들러
     const handleTouchStart = (e: React.TouchEvent) => {
         if (window.scrollY === 0) {
-            isPullToRefreshPossible.current = true;
             setTouchStartY(e.touches[0].clientY);
-        } else {
-            isPullToRefreshPossible.current = false;
         }
     };
 
     const handleTouchMove = (e: React.TouchEvent) => {
-        if (!isPullToRefreshPossible.current) return;
-
         if (window.scrollY === 0 && touchStartY > 0) {
             const currentY = e.touches[0].clientY;
             const distance = Math.max(0, currentY - touchStartY);
@@ -389,8 +382,6 @@ const MyPosts = () => {
     };
 
     const handleTouchEnd = async () => {
-        if (!isPullToRefreshPossible.current) return;
-
         if (pullDistance > 60) {
             setIsRefreshing(true);
             if (contentFilter === 'posts' || contentFilter === 'all') {
@@ -402,7 +393,6 @@ const MyPosts = () => {
         }
         setPullDistance(0);
         setTouchStartY(0);
-        isPullToRefreshPossible.current = false;
     };
 
     const handleRegisterPost = () => {
@@ -578,48 +568,6 @@ const MyPosts = () => {
         return badges;
     };
 
-    // Content Filter Tabs 컴포넌트
-    const ContentFilterTabs = () => (
-        <section className="content-filter-section">
-            <div className="content-filter-container">
-                <div className="content-filter-tabs">
-                    <button
-                        className={`content-filter-tab ${contentFilter === 'all' ? 'active' : ''}`}
-                        onClick={() => handleContentFilterChange('all')}
-                        data-filter="all"
-                    >
-                        <span className="filter-icon">📋</span>
-                        <span className="filter-name">전체</span>
-                        <span className="filter-count">{allQuestionsCount}</span>
-                    </button>
-                    <button
-                        className={`content-filter-tab ${contentFilter === 'posts' ? 'active' : ''}`}
-                        onClick={() => handleContentFilterChange('posts')}
-                        data-filter="posts"
-                    >
-                        <span className="filter-icon">📝</span>
-                        <span className="filter-name">내 게시글</span>
-                        <span className="filter-count">{allQuestionsCount}</span>
-                    </button>
-                    <button
-                        className={`content-filter-tab ${contentFilter === 'bookmarks' ? 'active' : ''}`}
-                        onClick={() => handleContentFilterChange('bookmarks')}
-                        data-filter="bookmarks"
-                    >
-                        <span className="filter-icon">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                <path d="M3 2v12l5-3 5 3V2a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1z"
-                                      stroke="currentColor" strokeWidth="1.5"
-                                      fill="currentColor"/>
-                            </svg>
-                        </span>
-                        <span className="filter-name">북마크</span>
-                        <span className="filter-count">{allBookmarksCount}</span>
-                    </button>
-                </div>
-            </div>
-        </section>
-    );
 
     return (
         <div className="questions-container"
@@ -688,7 +636,45 @@ const MyPosts = () => {
             </section>
 
             {/* Content Filter Tabs */}
-            <ContentFilterTabs />
+            <section className="content-filter-section">
+                <div className="content-filter-container">
+                    <div className="content-filter-tabs">
+                        <button
+                            className={`content-filter-tab ${contentFilter === 'all' ? 'active' : ''}`}
+                            onClick={() => handleContentFilterChange('all')}
+                            data-filter="all"
+                        >
+                            <span className="filter-icon">📋</span>
+                            <span className="filter-name">전체</span>
+                            <span className="filter-count">{allQuestionsCount}</span>
+                        </button>
+                        <button
+                            className={`content-filter-tab ${contentFilter === 'posts' ? 'active' : ''}`}
+                            onClick={() => handleContentFilterChange('posts')}
+                            data-filter="posts"
+                        >
+                            <span className="filter-icon">📝</span>
+                            <span className="filter-name">내 게시글</span>
+                            <span className="filter-count">{allQuestionsCount}</span>
+                        </button>
+                        <button
+                            className={`content-filter-tab ${contentFilter === 'bookmarks' ? 'active' : ''}`}
+                            onClick={() => handleContentFilterChange('bookmarks')}
+                            data-filter="bookmarks"
+                        >
+                        <span className="filter-icon">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M3 2v12l5-3 5 3V2a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1z"
+                                      stroke="currentColor" strokeWidth="1.5"
+                                      fill="currentColor"/>
+                            </svg>
+                        </span>
+                            <span className="filter-name">북마크</span>
+                            <span className="filter-count">{allBookmarksCount}</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
 
             {/* Search Section */}
             <section className="search-section">
@@ -711,10 +697,7 @@ const MyPosts = () => {
             </section>
 
             {/* Questions List */}
-            <main className="questions-list-section"
-                 onTouchStart={handleTouchStart}
-                 onTouchMove={handleTouchMove}
-                 onTouchEnd={handleTouchEnd}>
+            <main className="questions-list-section">
                 {isLoading && (
                     <div className="loading-indicator">
                         <div className="loading-spinner"></div>
