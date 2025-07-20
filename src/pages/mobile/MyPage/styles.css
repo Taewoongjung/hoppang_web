@@ -203,39 +203,53 @@ body {
     font-weight: 600;
 }
 
-/* 🔥 완전히 새로운 빠른 서비스 섹션 - 컴팩트 & 직관적 */
-.quick-services-section {
-    margin-bottom: 32px;
-    padding: 0 20px;
+/* Section Titles - 통일된 스타일 */
+.section-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
+.title-icon {
+    font-size: 20px;
+}
+
+/* 통일된 섹션 컨테이너 스타일 */
+.quick-services-section,
+.services-section {
+    margin-bottom: 32px;
+}
+
+/* 통일된 그리드 레이아웃 - 빠른 서비스 */
 .quick-services-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
-    background: white;
-    padding: 20px;
-    border-radius: 16px;
-    border: 1px solid #f1f5f9;
 }
 
 .quick-service-item {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 16px 12px;
-    border-radius: 12px;
+    justify-content: center;
+    text-align: center;
     transition: all 0.2s ease;
     position: relative;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
+    min-height: 80px;
 }
 
 .quick-service-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     border-color: #6366f1;
-    background: #f0f9ff;
 }
 
 .quick-service-item.primary {
@@ -245,8 +259,8 @@ body {
 }
 
 .quick-service-item.primary:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
 }
 
 .quick-service-item.primary .service-title,
@@ -271,58 +285,29 @@ body {
     border: 2px solid white;
 }
 
-.service-icon {
-    font-size: 24px;
-    margin-bottom: 8px;
-    display: block;
-}
-
 .service-text {
-    text-align: center;
+    width: 100%;
 }
 
 .service-title {
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 600;
     color: #1e293b;
-    margin: 0 0 2px 0;
+    margin: 0 0 4px 0;
     line-height: 1.2;
 }
 
 .service-subtitle {
-    font-size: 11px;
+    font-size: 12px;
     color: #64748b;
     margin: 0;
     font-weight: 500;
 }
 
-/* Section Titles */
-.section-title {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: #1e293b;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.title-icon {
-    font-size: 20px;
-}
-
-/* Services Section */
-.services-section,
-.customer-service-section {
-    margin-bottom: 32px;
-    padding: 8px;
-    margin-left: -8px;
-    margin-right: -8px;
-}
-
+/* 통일된 메뉴 리스트 - 창호 서비스 */
 .menu-list {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 12px;
 }
 
@@ -334,7 +319,7 @@ body {
     justify-content: space-between;
     align-items: center;
     transition: all 0.2s ease;
-    border: 1px solid #f1f5f9;
+    border: 1px solid #e2e8f0;
     position: relative;
     overflow: hidden;
 }
@@ -342,7 +327,7 @@ body {
 .menu-item:hover {
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    border-color: #e2e8f0;
+    border-color: #6366f1;
 }
 
 .menu-content {
@@ -356,6 +341,7 @@ body {
     position: relative;
     width: 48px;
     height: 48px;
+    flex-shrink: 0;
 }
 
 .menu-emoji {
@@ -377,15 +363,16 @@ body {
     left: 0;
 }
 
-.support-bg {
-    background: #fef3c7;
+.menu-text {
+    flex: 1;
 }
 
 .menu-text h4 {
     font-size: 16px;
     font-weight: 600;
     color: #1e293b;
-    margin: 0 0 6px 0;
+    margin: 0 0 4px 0;
+    line-height: 1.2;
 }
 
 .menu-text p {
@@ -393,20 +380,6 @@ body {
     color: #64748b;
     margin: 0;
     line-height: 1.4;
-}
-
-.response-time {
-    margin-top: 8px;
-}
-
-.time-badge {
-    background: #dcfce7;
-    color: #059669;
-    font-size: 11px;
-    font-weight: 600;
-    padding: 4px 8px;
-    border-radius: 6px;
-    border: 1px solid #bbf7d0;
 }
 
 .menu-badge {
@@ -425,21 +398,12 @@ body {
     color: #94a3b8;
     font-size: 16px;
     transition: all 0.2s ease;
+    flex-shrink: 0;
 }
 
 .menu-item:hover .menu-arrow {
     transform: translateX(4px);
     color: #6366f1;
-}
-
-/* Customer Service Section */
-.support-item {
-    background: #fffbeb;
-    border: 1px solid #fef3c7;
-}
-
-.support-item:hover {
-    border-color: #fbbf24;
 }
 
 /* App Info Section */
@@ -448,7 +412,7 @@ body {
 }
 
 .app-info-card {
-    background: #f8fafc;
+    background: white;
     border-radius: 12px;
     padding: 20px;
     display: flex;
@@ -460,13 +424,15 @@ body {
 .app-character img {
     width: 48px;
     height: 48px;
+    flex-shrink: 0;
 }
 
 .app-info-text h4 {
     font-size: 16px;
     font-weight: 600;
     color: #1e293b;
-    margin: 0 0 6px 0;
+    margin: 0 0 4px 0;
+    line-height: 1.2;
 }
 
 .app-info-text p {
@@ -483,19 +449,16 @@ body {
         padding-bottom: 120px;
     }
 
-    .quick-actions-section,
-    .services-section,
-    .customer-service-section {
-        padding: 6px;
-        margin-left: -6px;
-        margin-right: -6px;
-    }
-
     .login-card,
     .user-welcome,
     .menu-item,
     .app-info-card {
         padding: 16px;
+    }
+
+    .quick-service-item {
+        padding: 16px 12px;
+        min-height: 70px;
     }
 
     .user-avatar,
@@ -510,16 +473,8 @@ body {
         font-size: 18px;
     }
 
-    .quick-actions-grid {
-        gap: 8px;
-    }
-
-    .quick-action-card {
-        padding: 16px;
-    }
-
-    .action-icon {
-        font-size: 24px;
+    .quick-services-grid {
+        gap: 10px;
     }
 
     .menu-icon-wrapper {
@@ -529,6 +484,14 @@ body {
 
     .menu-emoji {
         font-size: 18px;
+    }
+
+    .service-title {
+        font-size: 13px;
+    }
+
+    .service-subtitle {
+        font-size: 11px;
     }
 }
 
@@ -559,7 +522,7 @@ body {
 /* Accessibility improvements */
 .menu-item:focus,
 .login-card:focus,
-.quick-action-card:focus,
+.quick-service-item:focus,
 .settings-btn:focus {
     outline-offset: -2px;
 }
@@ -568,27 +531,15 @@ body {
 @media (prefers-contrast: high) {
     .login-card,
     .user-welcome,
-    .menu-item {
+    .menu-item,
+    .quick-service-item {
         border: 2px solid currentColor;
-    }
-
-    .quick-action-card {
-        border: 2px solid white;
     }
 }
 
 /* Smooth animations */
 .menu-item,
 .login-card,
-.quick-action-card {
+.quick-service-item {
     transition: all 0.2s ease;
-}
-
-/* Custom gradient overrides for quick actions */
-.quick-action-card[style*="667eea"] {
-    background: linear-gradient(135deg, #6366f1 0%, #5855eb 100%) !important;
-}
-
-.quick-action-card[style*="f093fb"] {
-    background: linear-gradient(135deg, #ec4899 0%, #db2777 100%) !important;
 }

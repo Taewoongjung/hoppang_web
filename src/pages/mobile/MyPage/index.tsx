@@ -82,7 +82,6 @@ const MyPage = () => {
 
     const quickServices = [
         {
-            icon: '🪟',
             title: '견적 받기',
             subtitle: userData ? '무료 · 즉시' : '로그인 필요',
             onClick: () => {
@@ -91,15 +90,12 @@ const MyPage = () => {
             isDisabled: false
         },
         {
-            icon: '💬',
             title: '질문하기',
             subtitle: '커뮤니티',
             onClick: () => window.location.href = '/question/boards',
             isDisabled: false
         },
         {
-            icon: <img src="/assets/Counsel/counselor-hoppang-character.png" alt="hoppang-counselor"
-                       style={{width: '35px', height: '35px'}}/>,
             title: '상담하기',
             subtitle: '고객센터',
             onClick: () => window.location.href = '/v2/counsel',
@@ -107,7 +103,6 @@ const MyPage = () => {
             isDisabled: false
         },
         {
-            icon: '📋',
             title: '내 활동',
             subtitle: '커뮤니티',
             onClick: () => window.location.href = '/question/my/boards',
@@ -174,7 +169,7 @@ const MyPage = () => {
                         </section>
                     )}
 
-                    {/* 🔥 완전히 새로운 빠른 서비스 섹션 */}
+                    {/*  빠른 서비스 섹션 */}
                     <section className="quick-services-section">
                         <h3 className="section-title">
                             <span className="title-icon">⚡</span>
@@ -190,7 +185,6 @@ const MyPage = () => {
                                     {service.hasNotification && (
                                         <div className="notification-dot"></div>
                                     )}
-                                    <div className="service-icon">{service.icon}</div>
                                     <div className="service-text">
                                         <div className="service-title">{service.title}</div>
                                         <div className="service-subtitle">{service.subtitle}</div>
