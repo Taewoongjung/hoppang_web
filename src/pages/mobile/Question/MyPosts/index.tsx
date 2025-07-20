@@ -60,11 +60,9 @@ const MyPosts = () => {
     // 게시판 타입 정의 (개선된 아이콘과 색상)
     const boardTypes: BoardType[] = [
         { id: 'all', name: '전체', color: '#6366f1' },
-        { id: '1', name: '공지사항', color: '#ef4444' },
         { id: '2', name: '질문', color: '#3b82f6' },
         { id: '3', name: '자유', color: '#10b981' },
         { id: '4', name: '꿀팁', color: '#f59e0b' },
-        { id: '10', name: '이벤트', color: '#8b5cf6' }
     ];
 
     const [isBottomNavVisible, setIsBottomNavVisible] = useState(true);
@@ -218,11 +216,12 @@ const MyPosts = () => {
         try {
             const res = await axios.get(callBoards);
             if (res.data) {
-                const boards: Board[] = res.data.map((category: any) => ({
-                    id: category.id,
-                    name: category.name,
-                    branchBoards: category.branchBoards || []
-                }));
+                const boards: Board[] = res.data
+                    .map((category: any) => ({
+                        id: category.id,
+                        name: category.name,
+                        branchBoards: category.branchBoards || [],
+                    }));
 
                 setBoards(boards);
             }

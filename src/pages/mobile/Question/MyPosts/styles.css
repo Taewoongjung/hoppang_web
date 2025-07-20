@@ -115,8 +115,12 @@
 }
 
 .board-tab {
+    flex: 1;
     flex-shrink: 0;
     display: flex;
+    text-align: center;
+    display: flex;
+    justify-content: center;
     align-items: center;
     gap: 6px;
     padding: 8px 16px;

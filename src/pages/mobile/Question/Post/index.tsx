@@ -889,7 +889,7 @@ const PostDetail = () => {
                                             <div className="reply-header">
                                                 <div className="reply-author">
                                                     <div className="reply-avatar">
-                                                        {reply.registerId === post.registerId ? (
+                                                        {reply.registerId.toString() === post.registerId.toString() ? (
                                                             <div className="owner-badge">
                                                                 <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
                                                                     <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a4 4 0 0 1 8 0v2H6v-2Z"
