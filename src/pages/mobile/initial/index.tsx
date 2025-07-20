@@ -161,7 +161,12 @@ const Initial = () => {
             id: 1,
             icon: '📋',
             title: '창호 견적',
-            description: '맞춤형 견적을 받아보세요',
+            description: (
+                <>
+                    치수만 입력하면 <strong>정확한 가격</strong>을 알려드려요!{' '}
+                    <strong>비대면</strong>이라 부담도 없어요 :)
+                </>
+            ),
             color: '#6366f1',
             bgColor: '#f0f9ff'
         },
@@ -169,7 +174,11 @@ const Initial = () => {
             id: 2,
             icon: '💬',
             title: '커뮤니티',
-            description: '궁금한 것을 물어보세요',
+            description: (
+                <>
+                    궁금한 것들을 물어보고 <strong>자유롭게 다른 유저들과</strong> 대화해보세요
+                </>
+            ),
             color: '#8b5cf6',
             bgColor: '#faf5ff'
         },
@@ -221,7 +230,7 @@ const Initial = () => {
                     <div className="hero-content">
                         <div className="hero-text">
                             <h2 className="hero-title">창호 전문가와 함께하세요</h2>
-                            <p className="hero-subtitle">견적부터 설치까지, 모든 과정을 도와드립니다</p>
+                            <p className="hero-subtitle">견적부터 설치까지, 모든 과정을 도와드립니다!</p>
                             <button
                                 className="cta-button"
                                 onClick={() => {

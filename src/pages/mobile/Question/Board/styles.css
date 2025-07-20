@@ -229,6 +229,12 @@
     flex-direction: column;
 }
 
+.meta-separator {
+    color: #cbd5e1;
+    font-weight: 300;
+    margin: 0 2px;
+}
+
 .question-item {
     display: flex;
     align-items: flex-start;
@@ -704,6 +710,10 @@
     .replies-count {
         font-size: 11px;
         padding: 1px 4px;
+    }
+
+    .meta-separator {
+        margin: 0 1px;
     }
 }
 

@@ -98,7 +98,12 @@ const QuestionRegisterForm = () => {
             .then((user) => {
                 axios.get(callBoards)
                     .then((res) => {
-                        const excludeBoards = ['공지사항', '이벤트'];
+
+                        let excludeBoards = ['공지사항', '이벤트'];
+
+                        if (user.id === 550 || user.id === 21) {
+                            excludeBoards = [];
+                        }
 
                         const boards: Board[] = res.data
                             .filter((category: any) => !excludeBoards.includes(category.name))
