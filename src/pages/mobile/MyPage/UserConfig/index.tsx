@@ -311,7 +311,8 @@ const ConfigPage = () => {
                         <div className="modal-content">
                             <div className="modal-warning-box">
                                 <p>
-                                    회원 탈퇴 후 <strong>모든 유저 데이터가 영구적으로 삭제</strong>되며,
+                                    회원 탈퇴 후 <strong>모든 유저 데이터가
+                                    <br/>영구적으로 삭제</strong>되며,
                                     <br />이는 <strong>복구할 수 없습니다</strong>.
                                 </p>
                             </div>
