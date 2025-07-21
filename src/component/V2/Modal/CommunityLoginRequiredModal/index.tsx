@@ -118,7 +118,7 @@ const CommunityLoginModal = (props: {
 
                         <div className="modal-footer">
                             <div className="footer-text">
-                                💡 로그인은 <strong>카카오톡</strong>으로 간편하게 할 수 있어요
+                                💡 간편하게 <strong>소셜로그인</strong>으로 시작해보세요!
                             </div>
                         </div>
                     </div>

@@ -51,6 +51,8 @@ const QuestionsBoard = () => {
         { id: '10', name: '이벤트', color: '#8b5cf6' }
     ];
 
+    const sometimesExcludeBoardTypeId = ['1', '10'];
+
     const [isBottomNavVisible, setIsBottomNavVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -598,12 +600,14 @@ const QuestionsBoard = () => {
                                 : `${getBoardTypeInfo(selectedBoardType).name} 게시글이 없습니다`
                             }
                         </h3>
-                        <p className="empty-description">
-                            {selectedBoardType === 'all'
-                                ? '첫 번째 게시글을 등록해보세요!'
-                                : `첫 번째 ${getBoardTypeInfo(selectedBoardType).name} 게시글을 등록해보세요!`
-                            }
-                        </p>
+                        {!sometimesExcludeBoardTypeId.includes(selectedBoardType) &&
+                            <p className="empty-description">
+                                {selectedBoardType === 'all'
+                                    ? '첫 번째 게시글을 등록해보세요!'
+                                    : `첫 번째 ${getBoardTypeInfo(selectedBoardType).name} 게시글을 등록해보세요!`
+                                }
+                            </p>
+                        }
                         <div className="empty-actions">
                             <button
                                 className="empty-action-btn"
@@ -626,7 +630,7 @@ const QuestionsBoard = () => {
             </main>
 
             {/* Floating Write Button */}
-            {(!['1', '10'].includes(selectedBoardType)) &&
+            {(!sometimesExcludeBoardTypeId.includes(selectedBoardType)) &&
                 <button
                     className="floating-write-btn"
                     onClick={handleRegisterPost}
