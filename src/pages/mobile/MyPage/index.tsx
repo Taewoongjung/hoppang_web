@@ -183,7 +183,7 @@ const MyPage = () => {
                                     onClick={service.isDisabled ? undefined : service.onClick}
                                 >
                                     {service.hasNotification && (
-                                        <div className="notification-dot"></div>
+                                        <div className="notification-dot"/>
                                     )}
                                     <div className="service-text">
                                         <div className="service-title">{service.title}</div>

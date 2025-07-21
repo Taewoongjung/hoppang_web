@@ -18,11 +18,13 @@ body {
 /* Header Styles */
 .app-header {
     background: white;
-    padding: 12px 20px;
-    border-bottom: 1px solid #eee;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e2e8f0;
     position: sticky;
     top: 0;
     z-index: 100;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    backdrop-filter: blur(10px);
 }
 
 .header-content {
@@ -49,6 +51,33 @@ body {
     background: #6366f1;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+.user-greeting {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.header-greeting {
+    display: flex;
+    align-items: center;
+}
+
+.login-btn {
+    background: #6366f1;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.login-btn:hover {
+    background: #5855eb;
+    transform: translateY(-1px);
 }
 
 /* Main Content */
