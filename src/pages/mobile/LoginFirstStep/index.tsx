@@ -217,7 +217,6 @@ const LoginFirstStep = () => {
                         <div className="phone-verification-section">
                             <div className="section-header">
                                 <h2 className="section-title">휴대폰 인증</h2>
-                                <p className="section-subtitle">안전한 서비스 이용을 위해 본인 인증을 진행해주세요</p>
                             </div>
 
                             <Divider className="divider" />

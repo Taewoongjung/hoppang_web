@@ -141,13 +141,6 @@
     font-weight: 700 !important;
 }
 
-.section-subtitle {
-    color: #64748b;
-    font-size: 16px;
-    line-height: 1.6;
-    display: block;
-}
-
 /* Sent Message */
 .sent-message {
     background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
@@ -295,20 +288,12 @@
 .verification-input:focus,
 .verification-input.ant-input-focused {
     border-color: #3b82f6 !important;
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15) !important;
     background: white;
-    transform: translateY(-1px);
 }
 
 .verification-input.valid {
     border-color: #10b981 !important;
     background: #f0fdf4;
-}
-
-.verification-input.valid:focus,
-.verification-input.valid.ant-input-focused {
-    border-color: #10b981 !important;
-    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15) !important;
 }
 
 .verification-input.error {
@@ -358,11 +343,6 @@
     animation: timerShine 2s infinite;
 }
 
-@keyframes timerShine {
-    0% { left: -100%; }
-    100% { left: 100%; }
-}
-
 /* 개선된 액션 버튼 영역 */
 .action-buttons {
     margin-top: 32px;
@@ -388,13 +368,6 @@
     background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
     border-color: transparent !important;
     color: white !important;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4) !important;
-}
-
-.primary-action-btn.active:hover {
-    transform: translateY(-3px) !important;
-    box-shadow: 0 12px 30px rgba(16, 185, 129, 0.5) !important;
 }
 
 .primary-action-btn.active::before {
@@ -406,11 +379,6 @@
     height: 100%;
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
     animation: buttonShine 2s infinite;
-}
-
-@keyframes buttonShine {
-    0% { left: -100%; }
-    100% { left: 100%; }
 }
 
 .secondary-actions {
