@@ -366,29 +366,6 @@ const MyPosts = () => {
             setAllCommentsCount(res.data.count || 0);
         } catch (err) {
             console.error("댓글 조회 실패", err);
-            // 임시 데이터 (실제 구현 시 제거)
-            const mockComments: Comment[] = [
-                {
-                    id: 1,
-                    postId: 123,
-                    postTitle: "샷시 교체 비용이 궁금합니다",
-                    content: "저도 비슷한 경험이 있는데, LX하우시스로 교체했을 때 평당 30만원 정도 들었어요. 브랜드와 지역에 따라 차이가 있으니 여러 업체에서 견적 받아보시는 걸 추천드립니다.",
-                    author: userData?.name || "익명",
-                    createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-                    category: 2
-                },
-                {
-                    id: 2,
-                    postId: 124,
-                    postTitle: "이중창 vs 삼중창 어떤게 좋을까요?",
-                    content: "삼중창이 단열성능은 더 좋지만 비용 대비 효과를 고려하면 이중창도 충분합니다. 특히 아파트의 경우 이중창으로도 충분한 효과를 볼 수 있어요.",
-                    author: userData?.name || "익명",
-                    createdAt: new Date(Date.now() - 5 * 60 * 60 * 1000).toISOString(),
-                    category: 4
-                }
-            ];
-            setAllComments(mockComments);
-            setAllCommentsCount(mockComments.length);
         } finally {
             setIsLoading(false);
         }

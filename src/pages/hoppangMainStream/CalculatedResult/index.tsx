@@ -1020,7 +1020,7 @@ const CalculatedResult = (props:{
                 <div style={{ textAlign: 'center', paddingTop: 16 }}>
                     <ExclamationCircleOutlined style={{ fontSize: 40, color: '#faad14', marginBottom: 16 }} />
                     <Paragraph style={{ fontSize: 16, fontWeight: 500, marginBottom: 0 }}>
-                        선택하신 샷시 크기가 최소 시공 기준보다 작아
+                        선택하신 창호 크기가 최소 시공 기준보다 작아
                     </Paragraph>
                     <Paragraph style={{ fontSize: 16, fontWeight: 500 }}>
                         <Text type="danger">기본 시공비가 추가로 발생했습니다.</Text>
@@ -1028,14 +1028,14 @@ const CalculatedResult = (props:{
 
                     <div style={{ background: '#fafafa', padding: '16px 12px', marginTop: 24, borderRadius: 8, textAlign: 'left' }}>
                         <Paragraph style={{ fontSize: 14, marginBottom: 4 }}>
-                            <Text strong>Q. 왜 작은 샷시는 기본 시공비가 붙나요?</Text>
+                            <Text strong>Q. 왜 작은 창호는 기본 시공비가 붙나요?</Text>
                         </Paragraph>
                         <Paragraph style={{ fontSize: 14, color: '#555', margin: 0 }}>
                             일반적으로 시공에는 최소 인건비가 존재합니다.
                             <br />
                             택배도 일정 금액 이상부터 무료배송이 되는 것처럼,
                             <br />
-                            샷시도 일정 크기 이상이면 시공비가 포함되지만,
+                            창호도 일정 크기 이상이면 시공비가 포함되지만,
                             <br />
                             그보다 작을 경우 정책상 정해진 시공비 기준에 미치지 않아 추가 시공비가 발생할 수 있습니다.
                         </Paragraph>

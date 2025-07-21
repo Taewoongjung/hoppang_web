@@ -98,7 +98,7 @@ const Agreement = () => {
             <main className="main-content">
                 <section className="hero-section">
                     <div className="hero-content">
-                        <h2 className="hero-title">샷시 견적 서비스를 시작하기 전에</h2>
+                        <h2 className="hero-title">창호 견적 서비스를 시작하기 전에</h2>
                         <p className="hero-subtitle">아래 내용을 확인해주세요</p>
                     </div>
                     <div className="hero-illustration">

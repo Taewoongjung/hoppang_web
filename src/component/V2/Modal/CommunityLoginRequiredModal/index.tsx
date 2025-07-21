@@ -70,7 +70,7 @@ const CommunityLoginModal = (props: {
                                 <div className="benefit-icon">✏️</div>
                                 <div className="benefit-text">
                                     <div className="benefit-title">질문 등록</div>
-                                    <div className="benefit-desc">샷시 전문가에게 직접 질문</div>
+                                    <div className="benefit-desc">창호 전문가에게 직접 질문</div>
                                 </div>
                             </div>
                             <div className="benefit-item">

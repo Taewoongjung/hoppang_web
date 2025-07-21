@@ -235,8 +235,8 @@ const MyPage = () => {
                                 <img src="/assets/hoppang-character.png" alt="Hoppang Character" />
                             </div>
                             <div className="app-info-text">
-                                <h4>호빵과 함께 하세요! 🥟</h4>
-                                <p>샷시 견적부터 설치까지 모든 과정을 도와드립니다</p>
+                                <h4>호빵과 함께 하세요!</h4>
+                                <p>창호 견적부터 설치까지 모든 과정을 도와드립니다</p>
                             </div>
                         </div>
                     </section>

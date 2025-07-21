@@ -96,7 +96,7 @@ const Login = () => {
 
                         <div className="login-text-content">
                             <h1 className="login-title">호빵에 오신 것을 환영합니다</h1>
-                            <p className="login-subtitle">호구빵명 프로젝트와 함께<br />샷시 전문가의 도움을 받아보세요</p>
+                            <p className="login-subtitle">호구빵명 프로젝트와 함께<br />창호 전문가의 도움을 받아보세요</p>
 
                             {urlParams.get('needed') === 'true' && (
                                 <div className="login-notice">
