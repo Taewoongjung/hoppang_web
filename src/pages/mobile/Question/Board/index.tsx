@@ -608,14 +608,16 @@ const QuestionsBoard = () => {
                                 }
                             </p>
                         }
-                        <div className="empty-actions">
-                            <button
-                                className="empty-action-btn"
-                                onClick={handleRegisterPost}
-                            >
-                                글쓰기
-                            </button>
-                        </div>
+                        {!sometimesExcludeBoardTypeId.includes(selectedBoardType) &&
+                            <div className="empty-actions">
+                                <button
+                                    className="empty-action-btn"
+                                    onClick={handleRegisterPost}
+                                >
+                                    글쓰기
+                                </button>
+                            </div>
+                        }
                     </div>
                 )}
 
