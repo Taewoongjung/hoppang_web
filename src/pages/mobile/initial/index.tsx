@@ -62,11 +62,11 @@ const Initial = () => {
                         localStorage.setItem("hoppang-login-oauthType", res.data.oauthType); // 로그인 타입 설정
                         localStorage.setItem('kakaoTokenInfo', '');
 
-                        mutate();
-
                         if (res.data.isSuccess && res.data.isTheFirstLogIn) {
                             window.location.href = "/v2/login/first?remainedProcess=false&userEmail=" + res.data.userEmail
                         }
+
+                        mutate();
 
                         return setIsLoading(false);
 
@@ -96,11 +96,12 @@ const Initial = () => {
                         localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
                         localStorage.setItem("hoppang-login-oauthType", res.data.oauthType); // 로그인 타입 설정
 
-                        mutate();
-
                         if (res.data.isSuccess && res.data.isTheFirstLogIn) {
                             window.location.href = "/v2/login/first?remainedProcess=false&userEmail=" + res.data.userEmail
                         }
+
+                        mutate();
+
                         return setIsLoading(false);
 
                     })
@@ -129,11 +130,12 @@ const Initial = () => {
                         localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
                         localStorage.setItem("hoppang-login-oauthType", res.data.oauthType); // 로그인 타입 설정
 
-                        mutate();
-
                         if (res.data.isSuccess && res.data.isTheFirstLogIn) {
                             window.location.href = "/v2/login/first?remainedProcess=false&userEmail=" + res.data.userEmail
                         }
+
+                        mutate();
+
                         return setIsLoading(false);
 
                     })

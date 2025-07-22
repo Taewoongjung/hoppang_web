@@ -6,6 +6,7 @@ import {
     freightTransportFee, laborFee, ladderCarFee,
     maintenanceFee
 } from "../definition/Admin/additionalChassisPriceInfo";
+import {isMobile} from "react-device-detect";
 
 export const mappedValueByCompany = (value: string) => {
     if (value === HYUNDAI_ko) {
@@ -116,3 +117,22 @@ export const truncateContent = (content: string, maxLength: number = 50) => {
     if (content.length <= maxLength) return content;
     return content.substring(0, maxLength) + '...';
 };
+
+export const isMobileClient = () => {
+    let referrer = document.referrer;
+    let isFromSearchEngine =
+        referrer.includes("google.") ||
+        referrer.includes("naver.") ||
+        referrer.includes("daum.") ||
+        referrer.includes("bing.") ||
+        referrer.includes("search.yahoo.") ||
+        referrer.includes("instagram.com") ||
+        referrer.includes("facebook.com") ||
+        referrer.includes("youtube.com");
+
+    if (!isMobile || isFromSearchEngine) {
+        return false;
+    }
+
+    return true;
+}

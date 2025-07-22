@@ -6,7 +6,7 @@ import '../versatile-styles.css';
 import axios from "axios";
 import {LeftOutlined} from "@ant-design/icons";
 import {appleLogin, googleLogin, kakaoLogin} from "../../../definition/apiPath";
-import {isMobile} from "react-device-detect";
+import {isMobileClient} from "../../../util";
 
 declare global {
     interface Window {
@@ -84,19 +84,8 @@ const Login = () => {
     const [showMobileGuide, setShowMobileGuide] = useState(false);
 
     useEffect(() => {
-        let referrer = document.referrer;
-        let isFromSearchEngine =
-            referrer.includes("google.") ||
-            referrer.includes("naver.") ||
-            referrer.includes("daum.") ||
-            referrer.includes("bing.") ||
-            referrer.includes("search.yahoo.") ||
-            referrer.includes("instagram.com") ||
-            referrer.includes("facebook.com") ||
-            referrer.includes("youtube.com");
-
         // 모바일이 아닌 경우 안내 모달 표시 (바로 리다이렉트하지 않음)
-        if (!isMobile || isFromSearchEngine) {
+        if (!isMobileClient()) {
             // 페이지 로드 후 약간의 지연을 두고 자연스럽게 표시
             setTimeout(() => {
                 setShowMobileGuide(true);

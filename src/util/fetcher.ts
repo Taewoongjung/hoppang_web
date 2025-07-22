@@ -7,8 +7,13 @@ import {
     kakaoLogin,
     kakaoRefreshAccessToken
 } from "../definition/apiPath";
+import {isMobileClient} from "./index";
 
 const fetcher = async (url: string) => {
+
+    if (!isMobileClient()) {
+        return;
+    }
 
     if (localStorage.getItem("hoppang-token")) {
         return await axios.get(url, {
