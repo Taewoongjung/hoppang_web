@@ -89,7 +89,7 @@ const Login = () => {
             // 페이지 로드 후 약간의 지연을 두고 자연스럽게 표시
             setTimeout(() => {
                 setShowMobileGuide(true);
-            }, 800);
+            }, 350);
         }
     }, []);
 
