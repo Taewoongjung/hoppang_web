@@ -11,7 +11,6 @@ import {useHistory, useParams} from "react-router-dom";
 import axios from "axios";
 import {Question} from "../Question/interface";
 import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
-import {isMobile} from "react-device-detect";
 
 
 declare global {
@@ -36,12 +35,6 @@ const Initial = () => {
     const [recentPosts, setRecentPosts] = useState<Question[]>([]);
 
     const [isLoading, setIsLoading] = useState(false);
-
-    useEffect(() => {
-        if (!isMobile) {
-            window.location.href = "https://hoppang.store/official?adv_id=329263e0-5d61-4ade-baf9-7e34cc611828";
-        }
-    }, []);
 
     useEffect(() => {
         if (userData) {

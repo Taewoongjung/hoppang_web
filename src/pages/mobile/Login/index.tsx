@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 
 import './styles.css';
 import '../versatile-styles.css';
@@ -6,6 +6,7 @@ import '../versatile-styles.css';
 import axios from "axios";
 import {LeftOutlined} from "@ant-design/icons";
 import {appleLogin, googleLogin, kakaoLogin} from "../../../definition/apiPath";
+import {isMobile} from "react-device-detect";
 
 declare global {
     interface Window {
@@ -16,16 +17,13 @@ declare global {
 }
 
 const Login = () => {
-    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const urlParams = new URLSearchParams(window.location.search);
 
     useEffect(() => {
-        const handleResize = () => setWindowWidth(window.innerWidth);
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        if (!isMobile) {
+            window.location.href = "https://hoppang.store/official?adv_id=329263e0-5d61-4ade-baf9-7e34cc611828";
+        }
     }, []);
-
-    const isMobile = windowWidth <= 430;
 
     const handleKakaoLogin = () => {
         const callLogin = async () => {
