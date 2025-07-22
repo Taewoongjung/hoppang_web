@@ -1256,6 +1256,11 @@ const PostDetail = () => {
                         </div>
                     </section>
                 )}
+
+                <EnhancedGoToTopButton
+                    onGoToList={handleGoToList}
+                    showListButton={true}
+                />
             </main>
 
             {/* Modals */}
@@ -1274,11 +1279,6 @@ const PostDetail = () => {
                     action={loginModalStatus}
                 />
             )}
-
-            <EnhancedGoToTopButton
-                onGoToList={handleGoToList}
-                showListButton={true}
-            />
         </div>
     );
 };

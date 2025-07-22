@@ -9,7 +9,7 @@ import {callEstimationHistories, callMeData} from "../../../../definition/apiPat
 import fetcher from "../../../../util/fetcher";
 import axios from "axios";
 import {LeftOutlined, CalendarOutlined, EyeOutlined} from "@ant-design/icons";
-import {GoToTopButton} from "../../../../util/renderUtil";
+import {EnhancedGoToTopButton} from "../../../../util/renderUtil";
 
 import './styles.css';
 import '../../versatile-styles.css';
@@ -129,6 +129,11 @@ const EstimationHistory = () => {
         return `${addCommasToNumber(price)}원`;
     };
 
+    const handleGoToList = () => {
+        window.location.href = "/v2/mypage";
+    };
+
+
     return (
         <div className="estimation-history-container">
             {/* Header */}
@@ -247,9 +252,12 @@ const EstimationHistory = () => {
                         <p>견적 내역을 불러오는 중...</p>
                     </div>
                 )}
-            </main>
 
-            <GoToTopButton/>
+                <EnhancedGoToTopButton
+                    onGoToList={handleGoToList}
+                    showListButton={true}
+                />
+            </main>
         </div>
     );
 };
