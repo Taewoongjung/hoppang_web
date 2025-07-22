@@ -83,15 +83,15 @@ const Login = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const [showMobileGuide, setShowMobileGuide] = useState(false);
 
-    useEffect(() => {
-        // 모바일이 아닌 경우 안내 모달 표시 (바로 리다이렉트하지 않음)
-        if (!isMobileClient()) {
-            // 페이지 로드 후 약간의 지연을 두고 자연스럽게 표시
-            setTimeout(() => {
-                setShowMobileGuide(true);
-            }, 350);
-        }
-    }, []);
+    // useEffect(() => {
+    //     // 모바일이 아닌 경우 안내 모달 표시 (바로 리다이렉트하지 않음)
+    //     if (!isMobileClient()) {
+    //         // 페이지 로드 후 약간의 지연을 두고 자연스럽게 표시
+    //         setTimeout(() => {
+    //             setShowMobileGuide(true);
+    //         }, 350);
+    //     }
+    // }, []);
 
     const handleGoToMobile = () => {
         window.location.href = "https://hoppang.store/official?adv_id=329263e0-5d61-4ade-baf9-7e34cc611828";
@@ -172,8 +172,10 @@ const Login = () => {
                         </div>
 
                         <div className="login-text-content">
-                            <h1 className="login-title">호빵에 오신 것을 환영합니다</h1>
-                            <p className="login-subtitle">호구빵명 프로젝트와 함께<br />창호 전문가의 도움을 받아보세요</p>
+                            <h1 className="login-title">호빵은 창호 가격의 기준을 제시합니다</h1>
+                            <p className="login-subtitle">호빵은 <strong>호</strong>구 <strong>빵</strong>명의 의미로,</p>
+                            <p className="login-subtitle">불투명한 창호 시장에서 소비자가<br/>손해 보지 않도록,</p>
+                            <p className="login-subtitle">시세 기준과 투명한 견적으로<br/>합리적인 선택을 돕습니다.</p>
 
                             {urlParams.get('needed') === 'true' && (
                                 <div className="login-notice">

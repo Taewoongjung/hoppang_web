@@ -129,10 +129,12 @@
 }
 
 .login-subtitle {
-    font-size: 16px;
-    opacity: 0.9;
-    margin-bottom: 24px;
-    line-height: 1.5;
+    font-size: 17px;
+    font-weight: 400;
+    color: #444;
+    opacity: 0.95;
+    margin-bottom: 20px;
+    line-height: 1.6;
 }
 
 .login-notice {
