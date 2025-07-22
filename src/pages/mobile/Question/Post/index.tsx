@@ -16,6 +16,7 @@ import './styles.css';
 import '../../versatile-styles.css';
 import { formatTimeAgo } from "../../../../util";
 import CommunityLoginModal from "../../../../component/V2/Modal/CommunityLoginRequiredModal";
+import { EnhancedGoToTopButton } from 'src/util/renderUtil';
 
 
 interface PostDetail {
@@ -673,6 +674,14 @@ const PostDetail = () => {
         window.location.href = "/question/boards";
     }
 
+    const handleGoToList = () => {
+        if (searchParams.get('from') && searchParams.get('from') === 'myPosts') {
+            window.location.href = "/question/my/boards";
+            return;
+        }
+        window.location.href = "/question/boards";
+    };
+
 
     // 로딩 및 에러 상태 처리
     if (loading) {
@@ -1265,6 +1274,11 @@ const PostDetail = () => {
                     action={loginModalStatus}
                 />
             )}
+
+            <EnhancedGoToTopButton
+                onGoToList={handleGoToList}
+                showListButton={true}
+            />
         </div>
     );
 };
