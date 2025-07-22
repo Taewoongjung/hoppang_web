@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import './styles.css';
 import '../versatile-styles.css';
@@ -16,14 +16,86 @@ declare global {
     }
 }
 
+// 모바일 안내 컴포넌트
+const MobileGuideModal = ({ onGoToMobile }: { onGoToMobile: () => void }) => {
+    return (
+        <div className="mobile-guide-overlay">
+            <div className="mobile-guide-container">
+                {/* 호빵 캐릭터와 말풍선 */}
+                <div className="mobile-guide-character">
+                    <div className="speech-bubble">
+                        <div className="bubble-content">
+                            <span className="bubble-text">지금은 모바일에서만 만나볼 수 있어요!</span>
+                            <div className="bubble-tail"></div>
+                        </div>
+                    </div>
+                    <img
+                        src="/assets/hoppang-character.png"
+                        alt="호빵 캐릭터"
+                        className="character-img"
+                    />
+                </div>
+
+                {/* 안내 컨텐츠 */}
+                <div className="mobile-guide-content">
+                    <div className="guide-header">
+                        <h2 className="guide-title">📱 모바일 전용 서비스예요!</h2>
+                        <p className="guide-subtitle">
+                            호빵은 현재 <strong>모바일에서만</strong> 이용하실 수 있어요<br />
+                            모바일로 이동해서 서비스를 경험해보세요
+                        </p>
+                    </div>
+
+                    <div className="guide-benefits">
+                        <div className="benefit-item">
+                            <div className="benefit-icon">📱</div>
+                            <span>모바일 전용으로 최적화된 서비스</span>
+                        </div>
+                        <div className="benefit-item">
+                            <div className="benefit-icon">🚀</div>
+                            <span>빠르고 투명한 계산과 비대면 무료 견적 확인</span>
+                        </div>
+                        <div className="benefit-item">
+                            <div className="benefit-icon">💡</div>
+                            <span>커뮤니티로 언제 어디서나 창호 전문가와 연결</span>
+                        </div>
+                    </div>
+
+                    <div className="guide-buttons">
+                        <button
+                            onClick={onGoToMobile}
+                            className="primary-btn mobile-btn"
+                        >
+                            <span>모바일로 이동하기</span>
+                        </button>
+                    </div>
+
+                    <div className="guide-note">
+                        <p>💡 모바일 브라우저나 앱에서 호빵을 만나보세요!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const Login = () => {
     const urlParams = new URLSearchParams(window.location.search);
+    const [showMobileGuide, setShowMobileGuide] = useState(false);
 
     useEffect(() => {
+        // 모바일이 아닌 경우 안내 모달 표시 (바로 리다이렉트하지 않음)
         if (!isMobile) {
-            window.location.href = "https://hoppang.store/official?adv_id=329263e0-5d61-4ade-baf9-7e34cc611828";
+            // 페이지 로드 후 약간의 지연을 두고 자연스럽게 표시
+            setTimeout(() => {
+                setShowMobileGuide(true);
+            }, 800);
         }
     }, []);
+
+    const handleGoToMobile = () => {
+        window.location.href = "https://hoppang.store/official?adv_id=329263e0-5d61-4ade-baf9-7e34cc611828";
+    };
 
     const handleKakaoLogin = () => {
         const callLogin = async () => {
@@ -64,6 +136,13 @@ const Login = () => {
 
     return (
         <div className="login-container">
+            {/* 모바일 안내 모달 */}
+            {showMobileGuide && (
+                <MobileGuideModal
+                    onGoToMobile={handleGoToMobile}
+                />
+            )}
+
             {/* Header */}
             <header className="login-header">
                 <button
