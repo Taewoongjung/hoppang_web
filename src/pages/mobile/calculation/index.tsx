@@ -264,7 +264,6 @@ const MobileCalculationScreen = () => {
                     </div>
 
                     <div className="step-header">
-                        <div className="step-icon">🏭</div>
                         <h2 className="main-title">어떤 창호 브랜드로 견적을 받아보시겠어요?</h2>
                         <p className="subtitle">원하시는 브랜드를 선택해주세요</p>
                     </div>
