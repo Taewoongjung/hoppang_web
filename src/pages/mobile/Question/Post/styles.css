@@ -772,7 +772,7 @@
 
 .like-btn svg {
     flex-shrink: 0;
-    width: 16px;
+    width: 18px;
     height: 16px;
     display: block;
 }
@@ -1126,7 +1126,7 @@
 
 .child-reply-actions .like-btn svg {
     flex-shrink: 0;
-    width: 16px;
+    width: 18px;
     height: 16px;
     display: block;
 }

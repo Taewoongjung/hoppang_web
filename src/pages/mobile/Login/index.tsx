@@ -83,15 +83,15 @@ const Login = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const [showMobileGuide, setShowMobileGuide] = useState(false);
 
-    // useEffect(() => {
-    //     // 모바일이 아닌 경우 안내 모달 표시 (바로 리다이렉트하지 않음)
-    //     if (!isMobileClient()) {
-    //         // 페이지 로드 후 약간의 지연을 두고 자연스럽게 표시
-    //         setTimeout(() => {
-    //             setShowMobileGuide(true);
-    //         }, 350);
-    //     }
-    // }, []);
+    useEffect(() => {
+        // 모바일이 아닌 경우 안내 모달 표시 (바로 리다이렉트하지 않음)
+        if (!isMobileClient()) {
+            // 페이지 로드 후 약간의 지연을 두고 자연스럽게 표시
+            setTimeout(() => {
+                setShowMobileGuide(true);
+            }, 350);
+        }
+    }, []);
 
     const handleGoToMobile = () => {
         window.location.href = "https://hoppang.store/official?adv_id=329263e0-5d61-4ade-baf9-7e34cc611828";
