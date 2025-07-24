@@ -1229,14 +1229,6 @@
     cursor: not-allowed;
 }
 
-.delete-btn {
-    border-radius: 6px;
-    padding: 8px 16px;
-    font-size: 14px;
-    color: #64748b;
-    transition: all 0.2s ease;
-}
-
 .delete-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
