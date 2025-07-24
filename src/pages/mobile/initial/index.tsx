@@ -56,8 +56,6 @@ const Initial = () => {
 
                 // 캐시 무효화를 위한 timestamp 갱신
                 setRenderTimestamp(currentTime);
-
-                console.log('🔄 앱 초기화 완료:', new Date().toISOString());
             }
 
             setIsInitialized(true);
@@ -78,7 +76,7 @@ const Initial = () => {
 
         // 포커스 이벤트 감지 (브라우저/앱 활성화)
         const handleFocus = () => {
-            console.log('🎯 앱 포커스 획득');
+            // 앱 포커스 획득
             initializeApp();
         };
 
@@ -86,7 +84,7 @@ const Initial = () => {
         const handlePageShow = (event: PageTransitionEvent) => {
             // bfcache에서 복원된 경우
             if (event.persisted) {
-                console.log('💾 페이지가 캐시에서 복원됨');
+                // 페이지가 캐시에서 복원됨
                 initializeApp();
             }
         };
@@ -132,7 +130,7 @@ const Initial = () => {
                     imageCount: null
                 }));
 
-                console.log('📝 최근 게시물 로드:', post.length, '개');
+                // 최근 게시물 로드
                 setRecentPosts(post);
             })
             .catch(err => {

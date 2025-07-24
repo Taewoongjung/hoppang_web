@@ -39,10 +39,10 @@ const MobileGuideModal = ({ onGoToMobile }: { onGoToMobile: () => void }) => {
                 {/* 안내 컨텐츠 */}
                 <div className="mobile-guide-content">
                     <div className="guide-header">
-                        <h2 className="guide-title">📱 모바일 전용 서비스예요!</h2>
+                        <h2 className="guide-title">📱 모바일 앱 전용 서비스예요!</h2>
                         <p className="guide-subtitle">
-                            호빵은 현재 <strong>모바일에서만</strong> 이용하실 수 있어요<br />
-                            모바일로 이동해서 서비스를 경험해보세요
+                            호빵은 현재 <strong>모바일 앱에서만</strong> 이용하실 수 있어요<br />
+                            앱으로 이동해서 서비스를 경험해보세요
                         </p>
                     </div>
 
