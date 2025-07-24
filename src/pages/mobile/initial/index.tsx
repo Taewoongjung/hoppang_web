@@ -12,19 +12,23 @@ import axios from "axios";
 import {Question} from "../Question/interface";
 import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
 
-
 declare global {
     interface Window {
         device?: any;
         cordova?: any;
+        __HOPPANG_APP_INITIALIZED?: boolean;
     }
 }
-
 
 const Initial = () => {
     const history = useHistory();
     const { oauthtype } = useParams();
     const urlParams = new URLSearchParams(window.location.search);
+
+    // 렌더링 감지를 위한 상태들
+    const [isInitialized, setIsInitialized] = useState(false);
+    const [renderTimestamp, setRenderTimestamp] = useState(Date.now());
+    const initializationRef = useRef(false);
 
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
@@ -33,135 +37,85 @@ const Initial = () => {
     const [isBottomNavVisible, setIsBottomNavVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
     const [recentPosts, setRecentPosts] = useState<Question[]>([]);
-
     const [isLoading, setIsLoading] = useState(false);
 
+    // 1. 앱 초기화 감지 및 강제 새로고침 로직
     useEffect(() => {
-        if (userData) {
+        const initializeApp = () => {
+            // 앱이 이미 초기화되었는지 확인
+            const lastInitTime = sessionStorage.getItem('hoppang_last_init');
+            const currentTime = Date.now();
+            const timeDiff = lastInitTime ? currentTime - parseInt(lastInitTime) : Infinity;
+
+            // 5분 이상 지났거나 첫 실행이면 새로 초기화
+            if (timeDiff > 5 * 60 * 1000 || !lastInitTime) {
+                sessionStorage.setItem('hoppang_last_init', currentTime.toString());
+
+                // 글로벌 플래그 설정
+                window.__HOPPANG_APP_INITIALIZED = true;
+
+                // 캐시 무효화를 위한 timestamp 갱신
+                setRenderTimestamp(currentTime);
+
+                console.log('🔄 앱 초기화 완료:', new Date().toISOString());
+            }
+
+            setIsInitialized(true);
+            initializationRef.current = true;
+        };
+
+        // 페이지 가시성 변경 감지 (앱이 백그라운드에서 돌아올 때)
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === 'visible') {
+                console.log('📱 앱이 포그라운드로 복귀');
+                initializeApp();
+
+                // 데이터 새로고침
+                mutate();
+                fetchRecentPosts();
+            }
+        };
+
+        // 포커스 이벤트 감지 (브라우저/앱 활성화)
+        const handleFocus = () => {
+            console.log('🎯 앱 포커스 획득');
+            initializeApp();
+        };
+
+        // 페이지 로드 감지
+        const handlePageShow = (event: PageTransitionEvent) => {
+            // bfcache에서 복원된 경우
+            if (event.persisted) {
+                console.log('💾 페이지가 캐시에서 복원됨');
+                initializeApp();
+            }
+        };
+
+        // 초기 실행
+        initializeApp();
+
+        // 이벤트 리스너 등록
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        window.addEventListener('focus', handleFocus);
+        window.addEventListener('pageshow', handlePageShow);
+
+        return () => {
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+            window.removeEventListener('focus', handleFocus);
+            window.removeEventListener('pageshow', handlePageShow);
+        };
+    }, []);
+
+    // 2. 사용자 데이터 새로고침
+    useEffect(() => {
+        if (userData && isInitialized) {
             mutate();
         }
-    }, [userData]);
+    }, [userData, isInitialized]);
 
-    // 소셜 로그인
-    useEffect(() => {
-        if (oauthtype) {
-            if (oauthtype === 'kko' && localStorage.getItem('kakaoTokenInfo')) {
-                setIsLoading(true);
-                // 카카오 로그인 성공 요청
-                axios.post(kakaoAuth,
-                    {
-                        // deviceId: '122333444555666',
-                        deviceId: localStorage.getItem('deviceId'),
-                        deviceType: localStorage.getItem('deviceType'),
-                        tokenInfo: localStorage.getItem('kakaoTokenInfo')
-                    },
-                    {withCredentials: true})
-                    .then((res) => {
-                        const token = res.headers['authorization'];
-                        localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
-                        localStorage.setItem("hoppang-login-oauthType", res.data.oauthType); // 로그인 타입 설정
-                        localStorage.setItem('kakaoTokenInfo', '');
-
-                        if (res.data.isSuccess && res.data.isTheFirstLogIn) {
-                            window.location.href = "/v2/login/first?remainedProcess=false&userEmail=" + res.data.userEmail
-                        }
-
-                        mutate();
-
-                        return setIsLoading(false);
-
-                    })
-                    .catch((err) => {
-                        alert(err.response.data.errorMessage);
-                        if (err.response.data.errorCode === 7) { // 리프레시 토큰이 만료 되었을 때
-                            window.location.href = err.response.data.redirectUrl; // 로그인 화면으로 리다이렉팅
-                        }
-                        return setIsLoading(false);
-                    });
-                return setIsLoading(false);
-            }
-
-            if (oauthtype === 'apl' && urlParams.get('code')) {
-                setIsLoading(true);
-                // 애플 로그인 성공 요청
-                axios.post(appleAuth + urlParams.get('code'),
-                    {
-                        deviceId: localStorage.getItem('deviceId'),
-                        deviceType: localStorage.getItem('deviceType')
-                    },
-                    {withCredentials: true})
-                    .then((res) => {
-
-                        const token = res.headers['authorization'];
-                        localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
-                        localStorage.setItem("hoppang-login-oauthType", res.data.oauthType); // 로그인 타입 설정
-
-                        if (res.data.isSuccess && res.data.isTheFirstLogIn) {
-                            window.location.href = "/v2/login/first?remainedProcess=false&userEmail=" + res.data.userEmail
-                        }
-
-                        mutate();
-
-                        return setIsLoading(false);
-
-                    })
-                    .catch((err) => {
-                        alert(err.response.data.errorMessage);
-                        if (err.response.data.errorCode === 7) { // 리프레시 토큰이 만료 되었을 때
-                            window.location.href = err.response.data.redirectUrl; // 로그인 화면으로 리다이렉팅
-                        }
-                        return setIsLoading(false);
-                    });
-                return setIsLoading(false);
-            }
-
-            if (oauthtype === 'gle' && urlParams.get('code')) {
-                setIsLoading(true);
-                // 구글 로그인 성공 요청
-                axios.post(googleAuth + "?code=" + urlParams.get('code'),
-                    {
-                        deviceId: localStorage.getItem('deviceId'),
-                        deviceType: localStorage.getItem('deviceType')
-                    },
-                    {withCredentials: true})
-                    .then((res) => {
-
-                        const token = res.headers['authorization'];
-                        localStorage.setItem("hoppang-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
-                        localStorage.setItem("hoppang-login-oauthType", res.data.oauthType); // 로그인 타입 설정
-
-                        if (res.data.isSuccess && res.data.isTheFirstLogIn) {
-                            window.location.href = "/v2/login/first?remainedProcess=false&userEmail=" + res.data.userEmail
-                        }
-
-                        mutate();
-
-                        return setIsLoading(false);
-
-                    })
-                    .catch((err) => {
-                        alert(err.response.data.errorMessage);
-                        if (err.response.data.errorCode === 7) { // 리프레시 토큰이 만료 되었을 때
-                            window.location.href = err.response.data.redirectUrl; // 로그인 화면으로 리다이렉팅
-                        }
-                        return setIsLoading(false);
-                    });
-            }
-
-            return setIsLoading(false);
-        }
-    }, [oauthtype, urlParams.get('code')]);
-
-    useEffect(() => {
-        const token = localStorage.getItem("hoppang-token");
-
-        if (token && token !== "undefined") {
-            mutate();
-        }
-
-        window.scrollTo(0, 0);
-
-        axios.get(callRecentPosts)
+    // 3. 최근 게시물 가져오기 함수 분리
+    const fetchRecentPosts = useCallback(() => {
+        axios.get(callRecentPosts + `?t=${renderTimestamp}`) // 캐시 방지용 timestamp
             .then((res) => {
                 const post = res.data.map((post: any) => ({
                     id: post.id,
@@ -178,14 +132,34 @@ const Initial = () => {
                     imageCount: null
                 }));
 
-                console.log(post);
-
+                console.log('📝 최근 게시물 로드:', post.length, '개');
                 setRecentPosts(post);
             })
+            .catch(err => {
+                console.error('❌ 최근 게시물 로드 실패:', err);
+            });
+    }, [renderTimestamp]);
 
-    }, []);
+    // 4. 초기 데이터 로드 (초기화 완료 후에만)
+    useEffect(() => {
+        if (!isInitialized) return;
 
-    useEffect(()=>{
+        const token = localStorage.getItem("hoppang-token");
+
+        if (token && token !== "undefined") {
+            mutate();
+        }
+
+        // 스크롤 위치 초기화
+        window.scrollTo(0, 0);
+
+        // 최근 게시물 로드
+        fetchRecentPosts();
+
+    }, [isInitialized, fetchRecentPosts]);
+
+    // 5. 뒤로가기 방지 (기존과 동일)
+    useEffect(() => {
         const preventGoBack = () => {
             window.history.pushState(null, '', window.location.href);
         };
@@ -194,13 +168,106 @@ const Initial = () => {
         window.addEventListener('popstate', preventGoBack);
 
         return () => window.removeEventListener('popstate', preventGoBack);
-    }, [])
+    }, []);
 
-    // 디바운싱을 위한 타이머 ref
+    // 6. 소셜 로그인 처리 (초기화 완료 후에만)
+    useEffect(() => {
+        if (!isInitialized || !oauthtype) return;
+
+        if (oauthtype === 'kko' && localStorage.getItem('kakaoTokenInfo')) {
+            setIsLoading(true);
+
+            // 카카오 로그인 성공 요청
+            axios.post(kakaoAuth, {
+                // deviceId: '122333444555666',
+                deviceId: localStorage.getItem('deviceId'),
+                deviceType: localStorage.getItem('deviceType'),
+                tokenInfo: localStorage.getItem('kakaoTokenInfo')
+            }, { withCredentials: true })
+                .then((res) => {
+                    const token = res.headers['authorization'];
+                    localStorage.setItem("hoppang-token", token);
+                    localStorage.setItem("hoppang-login-oauthType", res.data.oauthType);
+                    localStorage.setItem('kakaoTokenInfo', '');
+
+                    if (res.data.isSuccess && res.data.isTheFirstLogIn) {
+                        window.location.href = "/v2/login/first?remainedProcess=false&userEmail=" + res.data.userEmail;
+                    }
+
+                    mutate();
+                })
+                .catch((err) => {
+                    alert(err.response.data.errorMessage);
+                    if (err.response.data.errorCode === 7) {
+                        window.location.href = err.response.data.redirectUrl;
+                    }
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                });
+        }
+
+        if (oauthtype === 'apl' && urlParams.get('code')) {
+            setIsLoading(true);
+            axios.post(appleAuth + urlParams.get('code'), {
+                deviceId: localStorage.getItem('deviceId'),
+                deviceType: localStorage.getItem('deviceType')
+            }, { withCredentials: true })
+                .then((res) => {
+                    const token = res.headers['authorization'];
+                    localStorage.setItem("hoppang-token", token);
+                    localStorage.setItem("hoppang-login-oauthType", res.data.oauthType);
+
+                    if (res.data.isSuccess && res.data.isTheFirstLogIn) {
+                        window.location.href = "/v2/login/first?remainedProcess=false&userEmail=" + res.data.userEmail;
+                    }
+
+                    mutate();
+                })
+                .catch((err) => {
+                    alert(err.response.data.errorMessage);
+                    if (err.response.data.errorCode === 7) {
+                        window.location.href = err.response.data.redirectUrl;
+                    }
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                });
+        }
+
+        if (oauthtype === 'gle' && urlParams.get('code')) {
+            setIsLoading(true);
+            axios.post(googleAuth + "?code=" + urlParams.get('code'), {
+                deviceId: localStorage.getItem('deviceId'),
+                deviceType: localStorage.getItem('deviceType')
+            }, { withCredentials: true })
+                .then((res) => {
+                    const token = res.headers['authorization'];
+                    localStorage.setItem("hoppang-token", token);
+                    localStorage.setItem("hoppang-login-oauthType", res.data.oauthType);
+
+                    if (res.data.isSuccess && res.data.isTheFirstLogIn) {
+                        window.location.href = "/v2/login/first?remainedProcess=false&userEmail=" + res.data.userEmail;
+                    }
+
+                    mutate();
+                })
+                .catch((err) => {
+                    alert(err.response.data.errorMessage);
+                    if (err.response.data.errorCode === 7) {
+                        window.location.href = err.response.data.redirectUrl;
+                    }
+                })
+                .finally(() => {
+                    setIsLoading(false);
+                });
+        }
+    }, [isInitialized, oauthtype, urlParams.get('code')]);
+
+    // 스크롤 핸들러 (기존과 동일)
     const scrollTimer = useRef<NodeJS.Timeout | null>(null);
     const ticking = useRef(false);
 
-    // 개선된 스크롤 이벤트 핸들러
     const handleScroll = useCallback(() => {
         if (!ticking.current) {
             requestAnimationFrame(() => {
@@ -210,34 +277,27 @@ const Initial = () => {
                 const scrollableHeight = documentHeight - windowHeight;
                 const scrollPercent = scrollableHeight > 0 ? (currentScrollY / scrollableHeight) * 100 : 0;
 
-                // 스크롤 임계값 설정
-                const scrollThreshold = 150; // 150px 이상 스크롤하면 숨김
-                const showThreshold = 50; // 50px 이상 위로 스크롤하면 다시 표시
-                const footerThreshold = 70; // 스크롤 70% 지점에서 Footer 표시
-                const bottomThreshold = 95; // 95% 이상에서는 무조건 Footer 표시
+                const scrollThreshold = 150;
+                const showThreshold = 50;
+                const footerThreshold = 70;
+                const bottomThreshold = 95;
 
-                // 스크롤 방향 및 속도 감지
                 const scrollDirection = currentScrollY > lastScrollY ? 'down' : 'up';
                 const scrollDelta = Math.abs(currentScrollY - lastScrollY);
 
-                // Footer 표시 로직
                 if (scrollPercent >= bottomThreshold ||
                     (scrollPercent >= footerThreshold && currentScrollY > scrollableHeight - 200)) {
                     setIsBottomNavVisible(false);
                 }
-                // 페이지 상단 근처에서는 Footer 숨김, BottomNav 표시
                 else if (currentScrollY < 100) {
                     setIsBottomNavVisible(true);
                 }
-                // 중간 영역에서의 BottomNav 표시/숨김 로직
                 else {
-                    // 아래로 빠르게 스크롤할 때
                     if (scrollDirection === 'down' &&
                         currentScrollY > scrollThreshold &&
                         scrollDelta > 5) {
                         setIsBottomNavVisible(false);
                     }
-                    // 위로 스크롤할 때
                     else if (scrollDirection === 'up' && scrollDelta > showThreshold) {
                         setIsBottomNavVisible(true);
                     }
@@ -250,13 +310,11 @@ const Initial = () => {
         }
     }, [lastScrollY]);
 
-    // 디바운스된 스크롤 이벤트 등록
     useEffect(() => {
         const debouncedHandleScroll = () => {
             if (scrollTimer.current) {
                 clearTimeout(scrollTimer.current);
             }
-
             scrollTimer.current = setTimeout(handleScroll, 10);
         };
 
@@ -265,7 +323,6 @@ const Initial = () => {
             capture: false
         });
 
-        // 초기 상태 설정
         handleScroll();
 
         return () => {
@@ -276,6 +333,7 @@ const Initial = () => {
         };
     }, [handleScroll]);
 
+    // 나머지 로직들 (기존과 동일)
     const services = [
         {
             id: 1,
@@ -283,7 +341,7 @@ const Initial = () => {
             title: '창호 견적',
             description: (
                 <>
-                    치수만 입력하면 <strong>정확한 가격</strong>을 알려드려요!
+                    치수만 입력하면 <strong>상세 가격까지</strong> 알려드려요!<br/><br/><strong>무료 · 비대면</strong>
                 </>
             ),
             color: '#6366f1',
@@ -317,6 +375,14 @@ const Initial = () => {
         { title: '방음 효과', content: '소음을 50% 이상 차단할 수 있습니다', icon: '🔇' }
     ];
 
+    // 초기화되지 않은 경우 로딩 표시
+    if (!isInitialized) {
+        return (
+            <div className="app-container">
+                <OverlayLoadingPage word={"앱 시작중"} />
+            </div>
+        );
+    }
 
     return (
         <div className="app-container">
@@ -437,7 +503,7 @@ const Initial = () => {
                             <div key={q.id}
                                  className="question-item"
                                  onClick={() => window.location.href =`/question/boards/posts/${q.id}`
-                            }>
+                                 }>
                                 <div className="question-content">
                                     <p className="question-text">{q.title}</p>
                                     <div className="question-meta">
@@ -465,7 +531,7 @@ const Initial = () => {
                 </section>
             </main>
 
-            {/* Footer - 조건부 표시 */}
+            {/* Footer */}
             <footer>
                 <div className="footer-content">
                     <div className="footer-logo-section">
@@ -504,7 +570,7 @@ const Initial = () => {
                 </div>
             </footer>
 
-            {/* Bottom Navigation - 조건부 렌더링 */}
+            {/* Bottom Navigation */}
             <BottomNavigator
                 userData={userData}
                 isVisible={isBottomNavVisible}
