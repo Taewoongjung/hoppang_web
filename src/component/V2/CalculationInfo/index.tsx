@@ -18,6 +18,9 @@ const InfoSection: React.FC<{
     return (
         <div style={{
             padding: '20px',
+            /* Safe area 좌우 패딩 추가 */
+            paddingLeft: `calc(20px + env(safe-area-inset-left, 0px))`,
+            paddingRight: `calc(20px + env(safe-area-inset-right, 0px))`,
             maxWidth: '430px',
             width: '100%',
             margin: '0 auto',
@@ -289,6 +292,7 @@ const InfoSection: React.FC<{
                         color: '#1e293b'
                     }}>📌 추가 비용이 발생할 수 있는 부분을 꼭 체크하고 비교하세요!</span>
                 </div>
+
                 {/* 동의 체크박스 */}
                 <div style={{
                     background: 'white',
@@ -332,6 +336,66 @@ const InfoSection: React.FC<{
                     </label>
                 </div>
             </div>
+
+            {/* 작은 화면 및 Safe Area 대응을 위한 CSS */}
+            <style>{`
+                @media (max-width: 375px) {
+                    div[style*="padding: 20px"] {
+                        padding: 16px !important;
+                        padding-left: calc(16px + env(safe-area-inset-left, 0px)) !important;
+                        padding-right: calc(16px + env(safe-area-inset-right, 0px)) !important;
+                    }
+                }
+
+                @media (orientation: landscape) and (max-height: 500px) {
+                    div[style*="padding: 20px"] {
+                        padding-left: calc(16px + env(safe-area-inset-left, 0px)) !important;
+                        padding-right: calc(16px + env(safe-area-inset-right, 0px)) !important;
+                    }
+                }
+
+                /* PWA viewport meta support */
+                @supports (padding: max(0px)) {
+                    div[style*="padding: 20px"] {
+                        padding-left: max(calc(20px + env(safe-area-inset-left)), 20px) !important;
+                        padding-right: max(calc(20px + env(safe-area-inset-right)), 20px) !important;
+                    }
+
+                    @media (max-width: 375px) {
+                        div[style*="padding: 20px"] {
+                            padding-left: max(calc(16px + env(safe-area-inset-left)), 16px) !important;
+                            padding-right: max(calc(16px + env(safe-area-inset-right)), 16px) !important;
+                        }
+                    }
+                }
+
+                /* 접근성 개선 */
+                button:focus {
+                    outline-offset: -2px;
+                }
+
+                input[type="checkbox"]:focus {
+                    outline-offset: -2px;
+                }
+
+                /* 터치 디바이스 최적화 */
+                @media (hover: none) and (pointer: coarse) {
+                    button {
+                        min-height: 44px;
+                    }
+                    
+                    label {
+                        min-height: 44px;
+                    }
+                }
+
+                /* 애니메이션 감소 모드 */
+                @media (prefers-reduced-motion: reduce) {
+                    span[style*="transition"] {
+                        transition: none !important;
+                    }
+                }
+            `}</style>
         </div>
     );
 };

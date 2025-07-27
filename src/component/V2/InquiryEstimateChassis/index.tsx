@@ -194,8 +194,26 @@ const InquiryEstimateChassis: React.FC<InquiryEstimateChassisProps> = ({
                     content: {
                         padding: 0,
                         borderRadius: '20px',
-                        overflow: 'hidden'
+                        overflow: 'hidden',
+                        // Safe area 적용
+                        paddingTop: 'max(20px, env(safe-area-inset-top))',
+                        paddingBottom: 'max(20px, env(safe-area-inset-bottom))',
+                        paddingLeft: 'max(20px, env(safe-area-inset-left))',
+                        paddingRight: 'max(20px, env(safe-area-inset-right))',
+                        maxHeight: 'calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 40px)',
+                    },
+                    mask: {
+                        // 마스크에도 safe area 적용
+                        paddingTop: 'env(safe-area-inset-top)',
+                        paddingBottom: 'env(safe-area-inset-bottom)',
+                        paddingLeft: 'env(safe-area-inset-left)',
+                        paddingRight: 'env(safe-area-inset-right)',
                     }
+                }}
+                style={{
+                    // 모달 전체에 safe area 고려
+                    top: 'max(50px, env(safe-area-inset-top))',
+                    maxHeight: 'calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom))',
                 }}
             >
                 {/* 헤더 */}
@@ -204,6 +222,7 @@ const InquiryEstimateChassis: React.FC<InquiryEstimateChassisProps> = ({
                         ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
                         : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                     padding: '28px 24px',
+                    paddingTop: `calc(28px + max(0px, env(safe-area-inset-top) - 20px))`, // 헤더 상단에 추가 패딩
                     textAlign: 'center',
                     color: 'white',
                     position: 'relative',
@@ -214,8 +233,8 @@ const InquiryEstimateChassis: React.FC<InquiryEstimateChassisProps> = ({
                         disabled={isProcessing}
                         style={{
                             position: 'absolute',
-                            top: '20px',
-                            right: '20px',
+                            top: `calc(20px + max(0px, env(safe-area-inset-top) - 20px))`, // safe area 고려한 위치
+                            right: `calc(20px + max(0px, env(safe-area-inset-right) - 20px))`, // safe area 고려한 위치
                             width: '36px',
                             height: '36px',
                             borderRadius: '50%',
@@ -266,7 +285,14 @@ const InquiryEstimateChassis: React.FC<InquiryEstimateChassisProps> = ({
                 </div>
 
                 {/* 콘텐츠 */}
-                <div style={{ padding: '24px' }}>
+                <div style={{
+                    padding: '24px',
+                    paddingLeft: `calc(24px + max(0px, env(safe-area-inset-left) - 20px))`, // safe area 고려
+                    paddingRight: `calc(24px + max(0px, env(safe-area-inset-right) - 20px))`, // safe area 고려
+                    paddingBottom: `calc(24px + max(0px, env(safe-area-inset-bottom) - 20px))`, // safe area 고려
+                    maxHeight: 'calc(70vh - env(safe-area-inset-top) - env(safe-area-inset-bottom))',
+                    overflowY: 'auto'
+                }}>
                     <div style={{
                         background: '#f8f9fa',
                         borderRadius: '16px',
@@ -395,7 +421,8 @@ const InquiryEstimateChassis: React.FC<InquiryEstimateChassisProps> = ({
                     <div style={{
                         display: 'flex',
                         gap: '12px',
-                        marginTop: '24px'
+                        marginTop: '24px',
+                        marginBottom: 'max(0px, env(safe-area-inset-bottom))' // 하단 safe area 추가 여백
                     }}>
                         <button
                             onClick={handleClose}
@@ -438,6 +465,16 @@ const InquiryEstimateChassis: React.FC<InquiryEstimateChassisProps> = ({
                     @keyframes spin {
                         0% { transform: rotate(0deg); }
                         100% { transform: rotate(360deg); }
+                    }
+                    
+                    /* Safe area를 지원하지 않는 브라우저 대응 */
+                    @supports not (padding: env(safe-area-inset-top)) {
+                        .ant-modal-content {
+                            padding-top: 20px !important;
+                            padding-bottom: 20px !important;
+                            padding-left: 20px !important;
+                            padding-right: 20px !important;
+                        }
                     }
                 `}</style>
             </Modal>

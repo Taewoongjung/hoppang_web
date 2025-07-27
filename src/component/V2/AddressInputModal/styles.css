@@ -10,6 +10,11 @@
     align-items: center;
     z-index: 1000;
     padding: 20px;
+    /* Safe area 적용 */
+    padding-top: calc(20px + env(safe-area-inset-top));
+    padding-bottom: calc(20px + env(safe-area-inset-bottom));
+    padding-left: calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
 }
 
 .address-modal-content {
@@ -17,7 +22,7 @@
     border-radius: 16px;
     width: 100%;
     max-width: 480px;
-    max-height: 80vh;
+    max-height: calc(80vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
     overflow: hidden;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
     animation: modalSlideUp 0.3s ease-out;
@@ -67,7 +72,7 @@
 
 .address-modal-body {
     padding: 24px;
-    max-height: calc(80vh - 80px);
+    max-height: calc(80vh - 80px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
     overflow-y: auto;
 }
 
@@ -161,6 +166,11 @@
 @media (max-width: 768px) {
     .address-modal-overlay {
         padding: 0;
+        /* Safe area 모바일에서도 적용 */
+        padding-top: env(safe-area-inset-top, 0);
+        padding-bottom: env(safe-area-inset-bottom, 0);
+        padding-left: env(safe-area-inset-left, 0);
+        padding-right: env(safe-area-inset-right, 0);
         align-items: flex-end;
     }
 
@@ -168,11 +178,14 @@
         width: 100%;
         max-width: none;
         border-radius: 16px 16px 0 0;
-        max-height: 90vh;
+        max-height: calc(90vh - env(safe-area-inset-top, 0));
+        /* 모바일에서 safe area 하단 여백 추가 */
+        margin-bottom: env(safe-area-inset-bottom, 0);
     }
 
     .address-modal-body {
         padding: 20px;
+        max-height: calc(90vh - 80px - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0));
     }
 
     .address-search-intro {
@@ -190,6 +203,114 @@
 
     .daum-postcode-wrapper #daum-postcode-container {
         height: 350px !important;
+    }
+}
+
+/* 작은 모바일 화면 대응 */
+@media (max-width: 375px) {
+    .address-modal-content {
+        max-height: calc(95vh - env(safe-area-inset-top, 0));
+    }
+
+    .address-modal-body {
+        padding: 16px;
+        max-height: calc(95vh - 80px - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0));
+    }
+
+    .address-modal-header {
+        padding: 16px 20px 12px;
+    }
+
+    .address-modal-title {
+        font-size: 16px;
+    }
+
+    .address-search-intro h4 {
+        font-size: 16px;
+    }
+
+    .address-search-intro p {
+        font-size: 13px;
+    }
+
+    .address-search-button {
+        padding: 14px 24px;
+        font-size: 15px;
+    }
+
+    .daum-postcode-wrapper #daum-postcode-container {
+        height: 300px !important;
+    }
+}
+
+/* 가로 모드 대응 */
+@media (orientation: landscape) and (max-height: 500px) {
+    .address-modal-overlay {
+        align-items: center;
+        padding: 10px;
+        padding-top: calc(10px + env(safe-area-inset-top, 0));
+        padding-bottom: calc(10px + env(safe-area-inset-bottom, 0));
+        padding-left: calc(10px + env(safe-area-inset-left, 0));
+        padding-right: calc(10px + env(safe-area-inset-right, 0));
+    }
+
+    .address-modal-content {
+        max-height: calc(90vh - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0));
+        border-radius: 16px;
+        margin-bottom: 0;
+    }
+
+    .address-modal-body {
+        max-height: calc(90vh - 80px - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0));
+    }
+
+    .address-search-intro {
+        padding: 12px 0;
+    }
+
+    .address-search-icon {
+        font-size: 32px;
+        margin-bottom: 8px;
+    }
+
+    .daum-postcode-wrapper #daum-postcode-container {
+        height: 250px !important;
+    }
+}
+
+/* PWA viewport meta support */
+@supports (padding: max(0px)) {
+    .address-modal-overlay {
+        padding-top: max(calc(20px + env(safe-area-inset-top)), 20px);
+        padding-bottom: max(calc(20px + env(safe-area-inset-bottom)), 20px);
+        padding-left: max(calc(20px + env(safe-area-inset-left)), 20px);
+        padding-right: max(calc(20px + env(safe-area-inset-right)), 20px);
+    }
+
+    .address-modal-content {
+        max-height: max(calc(80vh - env(safe-area-inset-top) - env(safe-area-inset-bottom)), 60vh);
+    }
+
+    .address-modal-body {
+        max-height: max(calc(80vh - 80px - env(safe-area-inset-top) - env(safe-area-inset-bottom)), calc(60vh - 80px));
+    }
+
+    @media (max-width: 768px) {
+        .address-modal-overlay {
+            padding-top: max(env(safe-area-inset-top), 0px);
+            padding-bottom: max(env(safe-area-inset-bottom), 0px);
+            padding-left: max(env(safe-area-inset-left), 0px);
+            padding-right: max(env(safe-area-inset-right), 0px);
+        }
+
+        .address-modal-content {
+            max-height: max(calc(90vh - env(safe-area-inset-top)), 70vh);
+            margin-bottom: max(env(safe-area-inset-bottom), 0px);
+        }
+
+        .address-modal-body {
+            max-height: max(calc(90vh - 80px - env(safe-area-inset-top) - env(safe-area-inset-bottom)), calc(70vh - 80px));
+        }
     }
 }
 
@@ -240,5 +361,26 @@
 
     .daum-postcode-wrapper {
         border-color: #444;
+    }
+}
+
+/* 접근성 개선 */
+.address-modal-close:focus,
+.address-search-button:focus {
+    outline-offset: -2px;
+}
+
+/* 애니메이션 비활성화 옵션 */
+@media (prefers-reduced-motion: reduce) {
+    .address-modal-content {
+        animation: none;
+    }
+
+    .address-search-button:hover {
+        transform: none;
+    }
+
+    .address-search-button:active {
+        transform: none;
     }
 }
