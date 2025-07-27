@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useHistory } from 'react-router-dom';
 
 import './styles.css';
@@ -12,6 +12,44 @@ import fetcher from "../../../util/fetcher";
 const Agreement = () => {
 
     const history = useHistory();
+
+    // Safe area 지원 감지
+    const [supportsSafeArea, setSupportsSafeArea] = useState(false);
+
+    // Safe area 지원 여부 확인 및 viewport 설정
+    useEffect(() => {
+        const checkSafeAreaSupport = () => {
+            if (CSS && CSS.supports) {
+                const supports = CSS.supports('padding', 'env(safe-area-inset-top)');
+                setSupportsSafeArea(supports);
+
+                // body에 safe area 관련 클래스 추가
+                if (supports) {
+                    document.body.classList.add('supports-safe-area');
+                } else {
+                    document.body.classList.add('no-safe-area');
+                }
+            }
+        };
+
+        // Safe area를 위한 viewport meta tag 동적 설정
+        const setViewportMeta = () => {
+            let viewportMeta = document.querySelector('meta[name="viewport"]');
+            if (!viewportMeta) {
+                viewportMeta = document.createElement('meta');
+                viewportMeta.setAttribute('name', 'viewport');
+                document.head.appendChild(viewportMeta);
+            }
+
+            // Safe area를 고려한 viewport 설정
+            viewportMeta.setAttribute('content',
+                'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover'
+            );
+        };
+
+        setViewportMeta();
+        checkSafeAreaSupport();
+    }, []);
 
     useEffect(() => {
         const unblock = history.block((location: any, action: string) => {
@@ -71,12 +109,18 @@ const Agreement = () => {
     };
 
     return (
-        <div className="app-container">
+        <div className="app-container" style={{
+            // Safe area를 고려한 인라인 스타일
+            paddingTop: supportsSafeArea ? 'env(safe-area-inset-top)' : '0',
+            paddingBottom: supportsSafeArea ? 'env(safe-area-inset-bottom)' : '0',
+            paddingLeft: supportsSafeArea ? 'env(safe-area-inset-left)' : '0',
+            paddingRight: supportsSafeArea ? 'env(safe-area-inset-right)' : '0',
+        }}>
             {/* Header */}
             <header className="app-header">
                 <div className="header-content">
                     <div className="logo-container">
-                        <img src="/assets/hoppang-character.png" alt="Hoppang Logo" className="logo-img" />
+                        <img src="/assets/hoppang-character.png" alt="Hoppang Logo" className="logo-img"/>
                         <span className="logo-text">호빵</span>
                     </div>
                     <div className="header-greeting">
