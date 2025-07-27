@@ -42,7 +42,7 @@ const Initial = () => {
     // Safe area 지원 감지
     const [supportsSafeArea, setSupportsSafeArea] = useState(false);
 
-    // Safe area 지원 여부 확인
+    // Safe area 지원 여부 확인 및 viewport 설정
     useEffect(() => {
         const checkSafeAreaSupport = () => {
             if (CSS && CSS.supports) {
@@ -58,6 +58,22 @@ const Initial = () => {
             }
         };
 
+        // Safe area를 위한 viewport meta tag 동적 설정
+        const setViewportMeta = () => {
+            let viewportMeta = document.querySelector('meta[name="viewport"]');
+            if (!viewportMeta) {
+                viewportMeta = document.createElement('meta');
+                viewportMeta.setAttribute('name', 'viewport');
+                document.head.appendChild(viewportMeta);
+            }
+
+            // Safe area를 고려한 viewport 설정
+            viewportMeta.setAttribute('content',
+                'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover'
+            );
+        };
+
+        setViewportMeta();
         checkSafeAreaSupport();
     }, []);
 
@@ -111,23 +127,7 @@ const Initial = () => {
             }
         };
 
-        // Safe area를 위한 viewport meta tag 동적 설정
-        const setViewportMeta = () => {
-            let viewportMeta = document.querySelector('meta[name="viewport"]');
-            if (!viewportMeta) {
-                viewportMeta = document.createElement('meta');
-                viewportMeta.setAttribute('name', 'viewport');
-                document.head.appendChild(viewportMeta);
-            }
-
-            // Safe area를 고려한 viewport 설정
-            viewportMeta.setAttribute('content',
-                'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover'
-            );
-        };
-
         // 초기 실행
-        setViewportMeta();
         initializeApp();
 
         // 이벤트 리스너 등록
