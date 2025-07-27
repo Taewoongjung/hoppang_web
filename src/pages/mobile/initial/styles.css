@@ -3,6 +3,11 @@ body {
     background-color: #f8fafc;
     color: #334155;
     line-height: 1.6;
+    /* Safe area 기본 설정 */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
 }
 
 .app-container {
@@ -11,15 +16,21 @@ body {
     background: #f8fafc;
     min-height: 100vh;
     position: relative;
+    /* Safe area 내에서 전체 높이 계산 */
+    min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
 }
 
 /* Header Styles */
 .app-header {
     background: white;
     padding: 16px 20px;
+    /* Safe area 고려한 상단 패딩 */
+    padding-top: calc(16px + max(0px, env(safe-area-inset-top) - env(safe-area-inset-top)));
+    padding-left: calc(20px + max(0px, env(safe-area-inset-left)));
+    padding-right: calc(20px + max(0px, env(safe-area-inset-right)));
     border-bottom: 1px solid #e2e8f0;
     position: sticky;
-    top: 0;
+    top: env(safe-area-inset-top, 0);
     z-index: 100;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     backdrop-filter: blur(10px);
@@ -77,13 +88,19 @@ body {
 
 /* Main Content */
 .main-content {
-    padding-bottom: 100px;
+    padding-bottom: calc(100px + max(0px, env(safe-area-inset-bottom)));
+    /* Safe area 고려한 좌우 여백 */
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
 }
 
 /* Hero Section */
 .hero-section {
     background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f8fafc 100%);
     padding: 40px 20px;
+    /* Safe area 고려한 패딩 조정 */
+    padding-left: calc(20px + max(0px, env(safe-area-inset-left)));
+    padding-right: calc(20px + max(0px, env(safe-area-inset-right)));
     color: #334155;
     position: relative;
     overflow: hidden;
@@ -173,6 +190,9 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
+    /* Safe area 고려한 좌우 패딩 */
+    padding-left: calc(20px + max(0px, env(safe-area-inset-left)));
+    padding-right: calc(20px + max(0px, env(safe-area-inset-right)));
     margin-bottom: 20px;
 }
 
@@ -201,6 +221,9 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 12px;
     padding: 0 20px;
+    /* Safe area 고려한 좌우 패딩 */
+    padding-left: calc(20px + max(0px, env(safe-area-inset-left)));
+    padding-right: calc(20px + max(0px, env(safe-area-inset-right)));
 }
 
 .service-card {
@@ -280,6 +303,9 @@ body {
     grid-template-columns: 1fr;
     gap: 12px;
     padding: 0 20px;
+    /* Safe area 고려한 좌우 패딩 */
+    padding-left: calc(20px + max(0px, env(safe-area-inset-left)));
+    padding-right: calc(20px + max(0px, env(safe-area-inset-right)));
 }
 
 .tip-card {
@@ -332,6 +358,9 @@ body {
 .questions-section {
     margin-top: 10%;
     padding: 0 20px 30px;
+    /* Safe area 고려한 좌우 패딩 */
+    padding-left: calc(20px + max(0px, env(safe-area-inset-left)));
+    padding-right: calc(20px + max(0px, env(safe-area-inset-right)));
     animation: slideInUp 0.8s ease-out 0.3s both;
 }
 
@@ -422,6 +451,10 @@ footer {
     background: #ffffff;
     border-top: 1px solid #e2e8f0;
     padding: 40px 20px 32px;
+    /* Safe area 고려한 패딩 */
+    padding-left: calc(20px + max(0px, env(safe-area-inset-left)));
+    padding-right: calc(20px + max(0px, env(safe-area-inset-right)));
+    padding-bottom: calc(32px + max(0px, env(safe-area-inset-bottom)));
     color: #475569;
 }
 
@@ -585,6 +618,58 @@ footer {
 
     .service-content {
         margin-left: 8px;
+    }
+}
+
+/* Safe area를 지원하지 않는 브라우저를 위한 fallback */
+@supports not (padding: env(safe-area-inset-top)) {
+    body {
+        padding-top: 0;
+        padding-bottom: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .app-container {
+        min-height: 100vh;
+    }
+
+    .app-header {
+        padding: 16px 20px;
+        top: 0;
+    }
+
+    .main-content {
+        padding-bottom: 100px;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .hero-section,
+    .section-header,
+    .services-grid,
+    .tips-grid,
+    .questions-section,
+    footer {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    footer {
+        padding-bottom: 32px;
+    }
+}
+
+/* 가로 모드에서 safe area 추가 고려 */
+@media screen and (orientation: landscape) {
+    .app-header {
+        padding-left: calc(20px + env(safe-area-inset-left));
+        padding-right: calc(20px + env(safe-area-inset-right));
+    }
+
+    .main-content {
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
     }
 }
 

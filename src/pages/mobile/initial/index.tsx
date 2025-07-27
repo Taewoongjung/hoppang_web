@@ -39,6 +39,28 @@ const Initial = () => {
     const [recentPosts, setRecentPosts] = useState<Question[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
+    // Safe area 지원 감지
+    const [supportsSafeArea, setSupportsSafeArea] = useState(false);
+
+    // Safe area 지원 여부 확인
+    useEffect(() => {
+        const checkSafeAreaSupport = () => {
+            if (CSS && CSS.supports) {
+                const supports = CSS.supports('padding', 'env(safe-area-inset-top)');
+                setSupportsSafeArea(supports);
+
+                // body에 safe area 관련 클래스 추가
+                if (supports) {
+                    document.body.classList.add('supports-safe-area');
+                } else {
+                    document.body.classList.add('no-safe-area');
+                }
+            }
+        };
+
+        checkSafeAreaSupport();
+    }, []);
+
     // 1. 앱 초기화 감지 및 강제 새로고침 로직
     useEffect(() => {
         const initializeApp = () => {
@@ -89,7 +111,23 @@ const Initial = () => {
             }
         };
 
+        // Safe area를 위한 viewport meta tag 동적 설정
+        const setViewportMeta = () => {
+            let viewportMeta = document.querySelector('meta[name="viewport"]');
+            if (!viewportMeta) {
+                viewportMeta = document.createElement('meta');
+                viewportMeta.setAttribute('name', 'viewport');
+                document.head.appendChild(viewportMeta);
+            }
+
+            // Safe area를 고려한 viewport 설정
+            viewportMeta.setAttribute('content',
+                'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover'
+            );
+        };
+
         // 초기 실행
+        setViewportMeta();
         initializeApp();
 
         // 이벤트 리스너 등록
@@ -376,14 +414,26 @@ const Initial = () => {
     // 초기화되지 않은 경우 로딩 표시
     if (!isInitialized) {
         return (
-            <div className="app-container">
+            <div className="app-container" style={{
+                // Safe area를 고려한 인라인 스타일
+                paddingTop: supportsSafeArea ? 'env(safe-area-inset-top)' : '0',
+                paddingBottom: supportsSafeArea ? 'env(safe-area-inset-bottom)' : '0',
+                paddingLeft: supportsSafeArea ? 'env(safe-area-inset-left)' : '0',
+                paddingRight: supportsSafeArea ? 'env(safe-area-inset-right)' : '0',
+            }}>
                 <OverlayLoadingPage word={"앱 시작중"} />
             </div>
         );
     }
 
     return (
-        <div className="app-container">
+        <div className="app-container" style={{
+            // Safe area를 고려한 인라인 스타일
+            paddingTop: supportsSafeArea ? 'env(safe-area-inset-top)' : '0',
+            paddingBottom: supportsSafeArea ? 'env(safe-area-inset-bottom)' : '0',
+            paddingLeft: supportsSafeArea ? 'env(safe-area-inset-left)' : '0',
+            paddingRight: supportsSafeArea ? 'env(safe-area-inset-right)' : '0',
+        }}>
             {isLoading && <OverlayLoadingPage word={"처리중"}/>}
 
             {/* Header */}
