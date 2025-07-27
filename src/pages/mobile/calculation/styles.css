@@ -582,7 +582,6 @@ body {
     justify-content: space-between;
     align-items: center;
     border: 1px solid #f1f5f9;
-    transition: all 0.2s ease;
 }
 
 .switch-group:hover {
