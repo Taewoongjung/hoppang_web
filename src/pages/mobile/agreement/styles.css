@@ -10,18 +10,29 @@ body {
     margin: 0 auto;
     background: white;
     min-height: 100vh;
+    min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
     position: relative;
     display: flex;
     flex-direction: column;
+    /* Safe area 적용 */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
 }
 
 /* Header Styles */
 .app-header {
     background: white;
     padding: 16px 20px;
+    /* Safe area 좌우 패딩 추가 */
+    padding-left: calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
     border-bottom: 1px solid #e2e8f0;
     position: sticky;
     top: 0;
+    /* Safe area 상단 고려 */
+    top: env(safe-area-inset-top, 0);
     z-index: 100;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     backdrop-filter: blur(10px);
@@ -82,13 +93,17 @@ body {
 /* Main Content */
 .main-content {
     flex: 1;
-    padding-bottom: 80px;
+    /* Safe area 하단 여백 추가 */
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0));
 }
 
 /* Hero Section */
 .hero-section {
     background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f8fafc 100%);
     padding: 30px 20px;
+    /* Safe area 좌우 패딩 추가 */
+    padding-left: calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
     color: #334155;
     display: flex;
     justify-content: space-between;
@@ -135,6 +150,9 @@ body {
 /* Agreement Content */
 .agreement-content {
     padding: 24px 20px;
+    /* Safe area 좌우 패딩 추가 */
+    padding-left: calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
 }
 
 .agreement-section {
@@ -248,6 +266,8 @@ body {
 .agreement-footer {
     position: fixed;
     bottom: 0;
+    /* Safe area 하단 고려 */
+    bottom: env(safe-area-inset-bottom, 0);
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
@@ -255,6 +275,9 @@ body {
     display: flex;
     gap: 12px;
     padding: 16px 20px;
+    /* Safe area 좌우 패딩 추가 */
+    padding-left: calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
     background: white;
     border-top: 1px solid #eee;
     box-shadow: 0 -2px 8px rgba(0,0,0,0.06);
@@ -304,19 +327,33 @@ body {
 
 /* Responsive Design */
 @media (max-width: 375px) {
-    .hero-title {
-        font-size: 18px;
+    .app-header {
+        padding-left: calc(16px + env(safe-area-inset-left));
+        padding-right: calc(16px + env(safe-area-inset-right));
+    }
+
+    .hero-section {
+        padding-left: calc(16px + env(safe-area-inset-left));
+        padding-right: calc(16px + env(safe-area-inset-right));
     }
 
     .agreement-content {
         padding: 20px 16px;
-    }
-
-    .agreement-card {
-        padding: 16px;
+        padding-left: calc(16px + env(safe-area-inset-left));
+        padding-right: calc(16px + env(safe-area-inset-right));
     }
 
     .agreement-footer {
+        padding: 16px;
+        padding-left: calc(16px + env(safe-area-inset-left));
+        padding-right: calc(16px + env(safe-area-inset-right));
+    }
+
+    .hero-title {
+        font-size: 18px;
+    }
+
+    .agreement-card {
         padding: 16px;
     }
 
@@ -324,6 +361,35 @@ body {
     .button-secondary {
         padding: 14px;
         font-size: 15px;
+    }
+}
+
+/* Landscape orientation safe area adjustments */
+@media (orientation: landscape) {
+    .main-content {
+        padding-bottom: calc(60px + env(safe-area-inset-bottom, 0));
+    }
+
+    @media (max-width: 667px) {
+        .app-header {
+            padding-left: calc(16px + env(safe-area-inset-left));
+            padding-right: calc(16px + env(safe-area-inset-right));
+        }
+
+        .hero-section {
+            padding-left: calc(16px + env(safe-area-inset-left));
+            padding-right: calc(16px + env(safe-area-inset-right));
+        }
+
+        .agreement-content {
+            padding-left: calc(16px + env(safe-area-inset-left));
+            padding-right: calc(16px + env(safe-area-inset-right));
+        }
+
+        .agreement-footer {
+            padding-left: calc(16px + env(safe-area-inset-left));
+            padding-right: calc(16px + env(safe-area-inset-right));
+        }
     }
 }
 
@@ -349,4 +415,69 @@ body {
 
 .agreement-section:nth-child(3) {
     animation-delay: 0.2s;
+}
+
+/* PWA viewport meta support */
+@supports (padding: max(0px)) {
+    .app-container {
+        padding-top: max(env(safe-area-inset-top), 0px);
+        padding-bottom: max(env(safe-area-inset-bottom), 0px);
+        padding-left: max(env(safe-area-inset-left), 0px);
+        padding-right: max(env(safe-area-inset-right), 0px);
+    }
+
+    .app-header {
+        padding-left: max(calc(20px + env(safe-area-inset-left)), 20px);
+        padding-right: max(calc(20px + env(safe-area-inset-right)), 20px);
+        top: max(env(safe-area-inset-top), 0px);
+    }
+
+    .hero-section {
+        padding-left: max(calc(20px + env(safe-area-inset-left)), 20px);
+        padding-right: max(calc(20px + env(safe-area-inset-right)), 20px);
+    }
+
+    .agreement-content {
+        padding-left: max(calc(20px + env(safe-area-inset-left)), 20px);
+        padding-right: max(calc(20px + env(safe-area-inset-right)), 20px);
+    }
+
+    .agreement-footer {
+        bottom: max(env(safe-area-inset-bottom), 0px);
+        padding-left: max(calc(20px + env(safe-area-inset-left)), 20px);
+        padding-right: max(calc(20px + env(safe-area-inset-right)), 20px);
+    }
+
+    .main-content {
+        padding-bottom: max(calc(80px + env(safe-area-inset-bottom)), 80px);
+    }
+
+    @media (max-width: 375px) {
+        .app-header {
+            padding-left: max(calc(16px + env(safe-area-inset-left)), 16px);
+            padding-right: max(calc(16px + env(safe-area-inset-right)), 16px);
+        }
+
+        .hero-section {
+            padding-left: max(calc(16px + env(safe-area-inset-left)), 16px);
+            padding-right: max(calc(16px + env(safe-area-inset-right)), 16px);
+        }
+
+        .agreement-content {
+            padding-left: max(calc(16px + env(safe-area-inset-left)), 16px);
+            padding-right: max(calc(16px + env(safe-area-inset-right)), 16px);
+        }
+
+        .agreement-footer {
+            padding-left: max(calc(16px + env(safe-area-inset-left)), 16px);
+            padding-right: max(calc(16px + env(safe-area-inset-right)), 16px);
+        }
+    }
+}
+
+/* Focus states for accessibility */
+.login-btn:focus,
+.button-primary:focus,
+.button-secondary:focus {
+    outline-offset: -2px;
 }
