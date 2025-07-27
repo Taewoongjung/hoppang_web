@@ -40,23 +40,50 @@ export const EnhancedGoToTopButton: React.FC<EnhancedGoToTopButtonProps> = ({
         }
     };
 
+    // Safe area 계산을 위한 스타일 생성 함수
+    const getSafeAreaStyles = () => {
+        // CSS 환경변수를 사용하여 safe area 값 계산
+        const safeAreaBottom = 'env(safe-area-inset-bottom, 0px)';
+        const safeAreaRight = 'env(safe-area-inset-right, 0px)';
+
+        return {
+            // 위로 가기 버튼 스타일
+            backTopButton: {
+                right: `calc(24px + ${safeAreaRight})`,
+                bottom: showListButton
+                    ? `calc(90px + ${safeAreaBottom})`
+                    : `calc(24px + ${safeAreaBottom})`,
+                width: 48,
+                height: 48,
+                backgroundColor: '#ffffff',
+                border: '1px solid #e8e8e8',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            },
+            // 목록으로 가기 버튼 스타일
+            listButton: {
+                right: `calc(24px + ${safeAreaRight})`,
+                bottom: `calc(24px + ${safeAreaBottom})`,
+                width: 48,
+                height: 48,
+                backgroundColor: '#ffffff',
+                border: '1px solid #e8e8e8',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            }
+        };
+    };
+
     if (!isVisible) return null;
+
+    const styles = getSafeAreaStyles();
 
     return (
         <div style={{ position: 'relative' }}>
             {/* 위로 가기 버튼 */}
             <FloatButton.BackTop
                 visibilityHeight={0}
-                style={{
-                    right: 24,
-                    bottom: showListButton ? 90 : 24,
-                    width: 48,
-                    height: 48,
-                    backgroundColor: '#ffffff',
-                    border: '1px solid #e8e8e8',
-                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                }}
+                style={styles.backTopButton}
                 icon={
                     <svg
                         width="20"
@@ -80,16 +107,7 @@ export const EnhancedGoToTopButton: React.FC<EnhancedGoToTopButtonProps> = ({
             {showListButton && (
                 <FloatButton
                     onClick={handleGoToList}
-                    style={{
-                        right: 24,
-                        bottom: 24,
-                        width: 48,
-                        height: 48,
-                        backgroundColor: '#ffffff',
-                        border: '1px solid #e8e8e8',
-                        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
-                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    }}
+                    style={styles.listButton}
                     icon={
                         <svg
                             width="20"
