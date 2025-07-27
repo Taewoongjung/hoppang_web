@@ -158,7 +158,12 @@
 /* main-content 수정 */
 .main-content {
     flex: 1;
-    padding: 24px 20px 120px;
+    padding: 24px 20px;
+    /* Safe area 좌우 패딩 추가 */
+    padding-left: calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
+    /* Safe area 하단 여백 추가 */
+    padding-bottom: calc(120px + env(safe-area-inset-bottom, 0));
     overflow: visible;
     position: relative;
 }
@@ -169,11 +174,17 @@
     margin: 0 auto;
     background: #f8fafc;
     min-height: 100vh;
+    min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
     position: relative;
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
     overflow-y: auto;
+    /* Safe area 적용 */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
 }
 
 /* 선택된 카드의 텍스트 강조 */
@@ -189,6 +200,13 @@
 
 /* 반응형 디자인 개선 */
 @media (max-width: 375px) {
+    .main-content {
+        padding: 20px 16px;
+        padding-left: calc(16px + env(safe-area-inset-left));
+        padding-right: calc(16px + env(safe-area-inset-right));
+        padding-bottom: calc(120px + env(safe-area-inset-bottom, 0));
+    }
+
     .company-list {
         gap: 10px;
     }
@@ -226,6 +244,44 @@
     .company-display {
         font-size: 16px;
         gap: 12px;
+    }
+}
+
+/* Landscape orientation safe area adjustments */
+@media (orientation: landscape) {
+    .main-content {
+        padding-bottom: calc(100px + env(safe-area-inset-bottom, 0));
+    }
+
+    @media (max-width: 667px) {
+        .main-content {
+            padding-left: calc(16px + env(safe-area-inset-left));
+            padding-right: calc(16px + env(safe-area-inset-right));
+        }
+    }
+}
+
+/* PWA viewport meta support */
+@supports (padding: max(0px)) {
+    .app-container {
+        padding-top: max(env(safe-area-inset-top), 0px);
+        padding-bottom: max(env(safe-area-inset-bottom), 0px);
+        padding-left: max(env(safe-area-inset-left), 0px);
+        padding-right: max(env(safe-area-inset-right), 0px);
+    }
+
+    .main-content {
+        padding-left: max(calc(20px + env(safe-area-inset-left)), 20px);
+        padding-right: max(calc(20px + env(safe-area-inset-right)), 20px);
+        padding-bottom: max(calc(120px + env(safe-area-inset-bottom)), 120px);
+    }
+
+    @media (max-width: 375px) {
+        .main-content {
+            padding-left: max(calc(16px + env(safe-area-inset-left)), 16px);
+            padding-right: max(calc(16px + env(safe-area-inset-right)), 16px);
+            padding-bottom: max(calc(120px + env(safe-area-inset-bottom)), 120px);
+        }
     }
 }
 
@@ -294,4 +350,13 @@
     animation: shimmer 1.5s infinite;
     z-index: 1;
     border-radius: 8px;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
 }
