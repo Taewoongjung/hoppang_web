@@ -7,7 +7,7 @@
     min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
     position: relative;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    /* Safe area 적용 */
+    /* Safe area 적용 - 컨테이너 전체에 적용 */
     padding-top: env(safe-area-inset-top);
     padding-bottom: env(safe-area-inset-bottom);
     padding-left: env(safe-area-inset-left);
@@ -21,11 +21,14 @@
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-    max-width: 430px;
+    max-width: calc(430px - env(safe-area-inset-left) - env(safe-area-inset-right));
     background: #6366f1;
     z-index: 101;
     overflow: hidden;
     transition: height 0.3s ease;
+    /* Safe area 좌우 마진 조정 */
+    margin-left: calc(-50vw + 50% + env(safe-area-inset-left));
+    margin-right: calc(-50vw + 50% + env(safe-area-inset-right));
 }
 
 .pull-refresh-content {
@@ -60,14 +63,12 @@
 .header {
     background: white;
     padding: 16px 20px;
-    /* Safe area 좌우 패딩 추가 */
-    padding-left: calc(20px + env(safe-area-inset-left));
-    padding-right: calc(20px + env(safe-area-inset-right));
+    /* Safe area 내에서만 추가 패딩 */
+    padding-left: calc(20px + max(0px, env(safe-area-inset-left) - env(safe-area-inset-left)));
+    padding-right: calc(20px + max(0px, env(safe-area-inset-right) - env(safe-area-inset-right)));
     border-bottom: 1px solid #e2e8f0;
     position: sticky;
     top: 0;
-    /* Safe area 상단 고려 */
-    top: env(safe-area-inset-top, 0);
     z-index: 100;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     backdrop-filter: blur(10px);
@@ -110,6 +111,12 @@
 .header-my-activity {
     font-size: 13px;
     color: #64748b;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.header-my-activity:hover {
+    color: #6366f1;
 }
 
 /* Board Tabs */
@@ -117,15 +124,12 @@
     background: white;
     border-bottom: 1px solid #f1f5f9;
     position: sticky;
-    top: calc(73px + env(safe-area-inset-top, 0));
+    top: 73px;
     z-index: 99;
 }
 
 .board-tabs-container {
     padding: 0 20px;
-    /* Safe area 좌우 패딩 추가 */
-    padding-left: calc(20px + env(safe-area-inset-left));
-    padding-right: calc(20px + env(safe-area-inset-right));
 }
 
 .board-tabs {
@@ -156,6 +160,7 @@
     color: #64748b;
     transition: all 0.2s ease;
     white-space: nowrap;
+    cursor: pointer;
 }
 
 .board-tab:hover {
@@ -181,9 +186,6 @@
 /* Search Section */
 .search-section {
     padding: 16px 20px;
-    /* Safe area 좌우 패딩 추가 */
-    padding-left: calc(20px + env(safe-area-inset-left));
-    padding-right: calc(20px + env(safe-area-inset-right));
     background: white;
     border-bottom: 8px solid #f8fafc;
 }
@@ -229,6 +231,7 @@
     padding: 8px;
     border-radius: 6px;
     transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 .search-btn:hover {
@@ -239,8 +242,8 @@
 /* Questions List */
 .questions-list-section {
     background: white;
-    /* Safe area 하단 여백 추가 */
-    padding-bottom: calc(120px + env(safe-area-inset-bottom, 0));
+    /* Safe area 하단 여백 추가 - BottomNavigator와 floating button 고려 */
+    padding-bottom: calc(120px + max(0px, env(safe-area-inset-bottom)));
 }
 
 .questions-list {
@@ -258,12 +261,10 @@
     display: flex;
     align-items: flex-start;
     padding: 16px 20px;
-    /* Safe area 좌우 패딩 추가 */
-    padding-left: calc(20px + env(safe-area-inset-left));
-    padding-right: calc(20px + env(safe-area-inset-right));
     border-bottom: 1px solid #f1f5f9;
     transition: all 0.2s ease;
     gap: 12px;
+    cursor: pointer;
 }
 
 .question-item:hover {
@@ -435,6 +436,7 @@
     justify-content: center;
     transition: all 0.2s ease;
     font-size: 16px;
+    cursor: pointer;
 }
 
 .cache-clear-btn:hover {
@@ -449,9 +451,6 @@
     margin: 40px 0 20px 0;
     background: white;
     padding: 20px;
-    /* Safe area 좌우 패딩 추가 */
-    padding-left: calc(20px + env(safe-area-inset-left));
-    padding-right: calc(20px + env(safe-area-inset-right));
 }
 
 .pagination {
@@ -477,6 +476,7 @@
     font-size: 14px;
     font-weight: 600;
     color: #64748b;
+    cursor: pointer;
 }
 
 .pagination-btn:hover:not(.disabled) {
@@ -507,9 +507,6 @@
 /* Load More */
 .load-more-container {
     padding: 20px;
-    /* Safe area 좌우 패딩 추가 */
-    padding-left: calc(20px + env(safe-area-inset-left));
-    padding-right: calc(20px + env(safe-area-inset-right));
     display: flex;
     justify-content: center;
     background: white;
@@ -527,6 +524,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    cursor: pointer;
 }
 
 .load-more-btn:hover:not(:disabled) {
@@ -544,9 +542,6 @@
 .empty-state {
     text-align: center;
     padding: 60px 20px;
-    /* Safe area 좌우 패딩 추가 */
-    padding-left: calc(20px + env(safe-area-inset-left));
-    padding-right: calc(20px + env(safe-area-inset-right));
     background: white;
 }
 
@@ -584,6 +579,7 @@
     font-size: 14px;
     font-weight: 600;
     transition: all 0.2s ease;
+    cursor: pointer;
 }
 
 .empty-action-btn:hover {
@@ -594,8 +590,8 @@
 /* Floating Write Button */
 .floating-write-btn {
     position: fixed;
-    bottom: calc(100px + env(safe-area-inset-bottom, 0));
-    right: calc(20px + env(safe-area-inset-right, 0));
+    bottom: calc(100px + max(0px, env(safe-area-inset-bottom)));
+    right: calc(20px + max(0px, env(safe-area-inset-right)));
     width: 56px;
     height: 56px;
     background: #6366f1;
@@ -608,6 +604,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
 .floating-write-btn:hover {
@@ -654,14 +651,10 @@
 @media (max-width: 375px) {
     .search-section {
         padding: 12px 16px;
-        padding-left: calc(16px + env(safe-area-inset-left));
-        padding-right: calc(16px + env(safe-area-inset-right));
     }
 
     .board-tabs-container {
         padding: 0 16px;
-        padding-left: calc(16px + env(safe-area-inset-left));
-        padding-right: calc(16px + env(safe-area-inset-right));
     }
 
     .board-tabs {
@@ -684,8 +677,6 @@
 
     .question-item {
         padding: 14px 16px;
-        padding-left: calc(16px + env(safe-area-inset-left));
-        padding-right: calc(16px + env(safe-area-inset-right));
         gap: 10px;
     }
 
@@ -714,16 +705,14 @@
     }
 
     .floating-write-btn {
-        bottom: calc(90px + env(safe-area-inset-bottom, 0));
-        right: calc(16px + env(safe-area-inset-right, 0));
+        bottom: calc(90px + max(0px, env(safe-area-inset-bottom)));
+        right: calc(16px + max(0px, env(safe-area-inset-right)));
         width: 50px;
         height: 50px;
     }
 
     .empty-state {
         padding: 40px 16px;
-        padding-left: calc(16px + env(safe-area-inset-left));
-        padding-right: calc(16px + env(safe-area-inset-right));
     }
 
     .empty-icon {
@@ -740,8 +729,6 @@
 
     .load-more-container {
         padding: 16px;
-        padding-left: calc(16px + env(safe-area-inset-left));
-        padding-right: calc(16px + env(safe-area-inset-right));
     }
 
     .question-meta {
@@ -758,30 +745,30 @@
     }
 
     .header {
-        padding-left: calc(16px + env(safe-area-inset-left));
-        padding-right: calc(16px + env(safe-area-inset-right));
+        padding-left: 16px;
+        padding-right: 16px;
     }
 
     .pagination-container {
-        padding-left: calc(16px + env(safe-area-inset-left));
-        padding-right: calc(16px + env(safe-area-inset-right));
+        padding-left: 16px;
+        padding-right: 16px;
     }
 }
 
 /* Landscape orientation safe area adjustments */
 @media (orientation: landscape) {
     .floating-write-btn {
-        bottom: calc(80px + env(safe-area-inset-bottom, 0));
-        right: calc(20px + env(safe-area-inset-right, 0));
+        bottom: calc(80px + max(0px, env(safe-area-inset-bottom)));
+        right: calc(20px + max(0px, env(safe-area-inset-right)));
     }
 
     .questions-list-section {
-        padding-bottom: calc(100px + env(safe-area-inset-bottom, 0));
+        padding-bottom: calc(100px + max(0px, env(safe-area-inset-bottom)));
     }
 
     @media (max-width: 667px) {
         .floating-write-btn {
-            right: calc(16px + env(safe-area-inset-right, 0));
+            right: calc(16px + max(0px, env(safe-area-inset-right)));
         }
     }
 }
@@ -795,6 +782,7 @@
 .empty-action-btn:focus,
 .load-more-btn:focus,
 .back-btn:focus {
+    outline: 2px solid #6366f1;
     outline-offset: -2px;
 }
 
@@ -866,6 +854,40 @@
     border: 0;
 }
 
+/* Safe area를 지원하지 않는 브라우저를 위한 fallback */
+@supports not (padding: env(safe-area-inset-top)) {
+    .questions-container {
+        padding-top: 0;
+        padding-bottom: 0;
+        padding-left: 0;
+        padding-right: 0;
+        min-height: 100vh;
+    }
+
+    .pull-refresh-indicator {
+        top: 0;
+        max-width: 430px;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .floating-write-btn {
+        bottom: 100px;
+        right: 20px;
+    }
+
+    .questions-list-section {
+        padding-bottom: 120px;
+    }
+
+    @media (max-width: 375px) {
+        .floating-write-btn {
+            bottom: 90px;
+            right: 16px;
+        }
+    }
+}
+
 /* PWA viewport meta support */
 @supports (padding: max(0px)) {
     .questions-container {
@@ -875,13 +897,12 @@
         padding-right: max(env(safe-area-inset-right), 0px);
     }
 
-    .header {
-        padding-left: max(calc(20px + env(safe-area-inset-left)), 20px);
-        padding-right: max(calc(20px + env(safe-area-inset-right)), 20px);
-    }
-
     .floating-write-btn {
         bottom: max(calc(100px + env(safe-area-inset-bottom)), 100px);
         right: max(calc(20px + env(safe-area-inset-right)), 20px);
+    }
+
+    .questions-list-section {
+        padding-bottom: max(calc(120px + env(safe-area-inset-bottom)), 120px);
     }
 }
