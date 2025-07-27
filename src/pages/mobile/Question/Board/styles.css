@@ -4,14 +4,20 @@
     margin: 0 auto;
     background: #f8fafc;
     min-height: 100vh;
+    min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
     position: relative;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    /* Safe area 적용 */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
 }
 
 /* Pull to Refresh */
 .pull-refresh-indicator {
     position: fixed;
-    top: 0;
+    top: env(safe-area-inset-top, 0);
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
@@ -54,9 +60,14 @@
 .header {
     background: white;
     padding: 16px 20px;
+    /* Safe area 좌우 패딩 추가 */
+    padding-left: calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
     border-bottom: 1px solid #e2e8f0;
     position: sticky;
     top: 0;
+    /* Safe area 상단 고려 */
+    top: env(safe-area-inset-top, 0);
     z-index: 100;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     backdrop-filter: blur(10px);
@@ -106,12 +117,15 @@
     background: white;
     border-bottom: 1px solid #f1f5f9;
     position: sticky;
-    top: 73px;
+    top: calc(73px + env(safe-area-inset-top, 0));
     z-index: 99;
 }
 
 .board-tabs-container {
     padding: 0 20px;
+    /* Safe area 좌우 패딩 추가 */
+    padding-left: calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
 }
 
 .board-tabs {
@@ -167,6 +181,9 @@
 /* Search Section */
 .search-section {
     padding: 16px 20px;
+    /* Safe area 좌우 패딩 추가 */
+    padding-left: calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
     background: white;
     border-bottom: 8px solid #f8fafc;
 }
@@ -222,6 +239,8 @@
 /* Questions List */
 .questions-list-section {
     background: white;
+    /* Safe area 하단 여백 추가 */
+    padding-bottom: calc(120px + env(safe-area-inset-bottom, 0));
 }
 
 .questions-list {
@@ -239,6 +258,9 @@
     display: flex;
     align-items: flex-start;
     padding: 16px 20px;
+    /* Safe area 좌우 패딩 추가 */
+    padding-left: calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
     border-bottom: 1px solid #f1f5f9;
     transition: all 0.2s ease;
     gap: 12px;
@@ -427,6 +449,9 @@
     margin: 40px 0 20px 0;
     background: white;
     padding: 20px;
+    /* Safe area 좌우 패딩 추가 */
+    padding-left: calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
 }
 
 .pagination {
@@ -482,6 +507,9 @@
 /* Load More */
 .load-more-container {
     padding: 20px;
+    /* Safe area 좌우 패딩 추가 */
+    padding-left: calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
     display: flex;
     justify-content: center;
     background: white;
@@ -516,6 +544,9 @@
 .empty-state {
     text-align: center;
     padding: 60px 20px;
+    /* Safe area 좌우 패딩 추가 */
+    padding-left: calc(20px + env(safe-area-inset-left));
+    padding-right: calc(20px + env(safe-area-inset-right));
     background: white;
 }
 
@@ -563,8 +594,8 @@
 /* Floating Write Button */
 .floating-write-btn {
     position: fixed;
-    bottom: 100px;
-    right: 20px;
+    bottom: calc(100px + env(safe-area-inset-bottom, 0));
+    right: calc(20px + env(safe-area-inset-right, 0));
     width: 56px;
     height: 56px;
     background: #6366f1;
@@ -623,10 +654,14 @@
 @media (max-width: 375px) {
     .search-section {
         padding: 12px 16px;
+        padding-left: calc(16px + env(safe-area-inset-left));
+        padding-right: calc(16px + env(safe-area-inset-right));
     }
 
     .board-tabs-container {
         padding: 0 16px;
+        padding-left: calc(16px + env(safe-area-inset-left));
+        padding-right: calc(16px + env(safe-area-inset-right));
     }
 
     .board-tabs {
@@ -649,6 +684,8 @@
 
     .question-item {
         padding: 14px 16px;
+        padding-left: calc(16px + env(safe-area-inset-left));
+        padding-right: calc(16px + env(safe-area-inset-right));
         gap: 10px;
     }
 
@@ -677,14 +714,16 @@
     }
 
     .floating-write-btn {
-        bottom: 90px;
-        right: 16px;
+        bottom: calc(90px + env(safe-area-inset-bottom, 0));
+        right: calc(16px + env(safe-area-inset-right, 0));
         width: 50px;
         height: 50px;
     }
 
     .empty-state {
         padding: 40px 16px;
+        padding-left: calc(16px + env(safe-area-inset-left));
+        padding-right: calc(16px + env(safe-area-inset-right));
     }
 
     .empty-icon {
@@ -701,6 +740,8 @@
 
     .load-more-container {
         padding: 16px;
+        padding-left: calc(16px + env(safe-area-inset-left));
+        padding-right: calc(16px + env(safe-area-inset-right));
     }
 
     .question-meta {
@@ -714,6 +755,34 @@
 
     .meta-separator {
         margin: 0 1px;
+    }
+
+    .header {
+        padding-left: calc(16px + env(safe-area-inset-left));
+        padding-right: calc(16px + env(safe-area-inset-right));
+    }
+
+    .pagination-container {
+        padding-left: calc(16px + env(safe-area-inset-left));
+        padding-right: calc(16px + env(safe-area-inset-right));
+    }
+}
+
+/* Landscape orientation safe area adjustments */
+@media (orientation: landscape) {
+    .floating-write-btn {
+        bottom: calc(80px + env(safe-area-inset-bottom, 0));
+        right: calc(20px + env(safe-area-inset-right, 0));
+    }
+
+    .questions-list-section {
+        padding-bottom: calc(100px + env(safe-area-inset-bottom, 0));
+    }
+
+    @media (max-width: 667px) {
+        .floating-write-btn {
+            right: calc(16px + env(safe-area-inset-right, 0));
+        }
     }
 }
 
@@ -795,4 +864,24 @@
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
+}
+
+/* PWA viewport meta support */
+@supports (padding: max(0px)) {
+    .questions-container {
+        padding-top: max(env(safe-area-inset-top), 0px);
+        padding-bottom: max(env(safe-area-inset-bottom), 0px);
+        padding-left: max(env(safe-area-inset-left), 0px);
+        padding-right: max(env(safe-area-inset-right), 0px);
+    }
+
+    .header {
+        padding-left: max(calc(20px + env(safe-area-inset-left)), 20px);
+        padding-right: max(calc(20px + env(safe-area-inset-right)), 20px);
+    }
+
+    .floating-write-btn {
+        bottom: max(calc(100px + env(safe-area-inset-bottom)), 100px);
+        right: max(calc(20px + env(safe-area-inset-right)), 20px);
+    }
 }
