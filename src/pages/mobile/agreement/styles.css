@@ -367,30 +367,30 @@ body {
 /* Landscape orientation safe area adjustments */
 @media (orientation: landscape) {
     .main-content {
-        padding-bottom: calc(60px + env(safe-area-inset-bottom, 0));
+        padding-bottom: max(env(safe-area-inset-bottom), 0px);
     }
 
-    @media (max-width: 667px) {
-        .app-header {
-            padding-left: calc(16px + env(safe-area-inset-left));
-            padding-right: calc(16px + env(safe-area-inset-right));
-        }
+    /*@media (max-width: 667px) {*/
+    /*    .app-header {*/
+    /*        padding-left: calc(16px + env(safe-area-inset-left));*/
+    /*        padding-right: calc(16px + env(safe-area-inset-right));*/
+    /*    }*/
 
-        .hero-section {
-            padding-left: calc(16px + env(safe-area-inset-left));
-            padding-right: calc(16px + env(safe-area-inset-right));
-        }
+    /*    .hero-section {*/
+    /*        padding-left: calc(16px + env(safe-area-inset-left));*/
+    /*        padding-right: calc(16px + env(safe-area-inset-right));*/
+    /*    }*/
 
-        .agreement-content {
-            padding-left: calc(16px + env(safe-area-inset-left));
-            padding-right: calc(16px + env(safe-area-inset-right));
-        }
+    /*    .agreement-content {*/
+    /*        padding-left: calc(16px + env(safe-area-inset-left));*/
+    /*        padding-right: calc(16px + env(safe-area-inset-right));*/
+    /*    }*/
 
-        .agreement-footer {
-            padding-left: calc(16px + env(safe-area-inset-left));
-            padding-right: calc(16px + env(safe-area-inset-right));
-        }
-    }
+    /*    .agreement-footer {*/
+    /*        padding-left: calc(16px + env(safe-area-inset-left));*/
+    /*        padding-right: calc(16px + env(safe-area-inset-right));*/
+    /*    }*/
+    /*}*/
 }
 
 /* Animations */
