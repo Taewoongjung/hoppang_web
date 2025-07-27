@@ -327,27 +327,27 @@ body {
 
 /* Responsive Design */
 @media (max-width: 375px) {
-    .app-header {
-        padding-left: calc(16px + env(safe-area-inset-left));
-        padding-right: calc(16px + env(safe-area-inset-right));
-    }
+    /*.app-header {*/
+    /*    padding-left: calc(16px + env(safe-area-inset-left));*/
+    /*    padding-right: calc(16px + env(safe-area-inset-right));*/
+    /*}*/
 
-    .hero-section {
-        padding-left: calc(16px + env(safe-area-inset-left));
-        padding-right: calc(16px + env(safe-area-inset-right));
-    }
+    /*.hero-section {*/
+    /*    padding-left: calc(16px + env(safe-area-inset-left));*/
+    /*    padding-right: calc(16px + env(safe-area-inset-right));*/
+    /*}*/
 
-    .agreement-content {
-        padding: 20px 16px;
-        padding-left: calc(16px + env(safe-area-inset-left));
-        padding-right: calc(16px + env(safe-area-inset-right));
-    }
+    /*.agreement-content {*/
+    /*    padding: 20px 16px;*/
+    /*    padding-left: calc(16px + env(safe-area-inset-left));*/
+    /*    padding-right: calc(16px + env(safe-area-inset-right));*/
+    /*}*/
 
-    .agreement-footer {
-        padding: 16px;
-        padding-left: calc(16px + env(safe-area-inset-left));
-        padding-right: calc(16px + env(safe-area-inset-right));
-    }
+    /*.agreement-footer {*/
+    /*    padding: 16px;*/
+    /*    padding-left: calc(16px + env(safe-area-inset-left));*/
+    /*    padding-right: calc(16px + env(safe-area-inset-right));*/
+    /*}*/
 
     .hero-title {
         font-size: 18px;
