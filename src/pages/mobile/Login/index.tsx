@@ -6,7 +6,7 @@ import '../versatile-styles.css';
 import axios from "axios";
 import {LeftOutlined} from "@ant-design/icons";
 import {appleLogin, googleLogin, kakaoLogin} from "../../../definition/apiPath";
-import {isMobileClient} from "../../../util";
+import {getIsMobileClient} from "../../../util";
 
 declare global {
     interface Window {
@@ -85,7 +85,7 @@ const Login = () => {
 
     useEffect(() => {
         // 모바일이 아닌 경우 안내 모달 표시 (바로 리다이렉트하지 않음)
-        if (!isMobileClient()) {
+        if (!getIsMobileClient()) {
             // 페이지 로드 후 약간의 지연을 두고 자연스럽게 표시
             setTimeout(() => {
                 setShowMobileGuide(true);

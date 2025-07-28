@@ -6,7 +6,6 @@ import {
     freightTransportFee, laborFee, ladderCarFee,
     maintenanceFee
 } from "../definition/Admin/additionalChassisPriceInfo";
-import {isMobile} from "react-device-detect";
 
 export const mappedValueByCompany = (value: string) => {
     if (value === HYUNDAI_ko) {
@@ -118,7 +117,12 @@ export const truncateContent = (content: string, maxLength: number = 50) => {
     return content.substring(0, maxLength) + '...';
 };
 
-export const isMobileClient = () => {
+const isMobile = () => {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+};
+
+// 모바일 클라이언트 판단 로직
+const checkIsMobileClient = (): boolean => {
     let referrer = document.referrer;
     let isFromSearchEngine =
         referrer.includes("google.") ||
@@ -130,9 +134,30 @@ export const isMobileClient = () => {
         referrer.includes("facebook.com") ||
         referrer.includes("youtube.com");
 
-    if (!isMobile || isFromSearchEngine) {
+    if (!isMobile() || isFromSearchEngine) {
         return false;
     }
 
     return true;
-}
+};
+
+// 전역 변수로 한 번만 계산
+let _isMobileClientValue: boolean | null = null;
+
+// 최초 한 번만 실행되는 함수
+export const initializeMobileClientDetection = (): boolean => {
+    if (_isMobileClientValue === null) {
+        _isMobileClientValue = checkIsMobileClient();
+        console.log('Mobile client detection initialized:', _isMobileClientValue);
+    }
+    return _isMobileClientValue;
+};
+
+// 어디서든 호출 가능한 getter 함수
+export const getIsMobileClient = (): boolean => {
+    if (_isMobileClientValue === null) {
+        // 만약 초기화가 안되어 있다면 자동으로 초기화
+        return initializeMobileClientDetection();
+    }
+    return _isMobileClientValue;
+};

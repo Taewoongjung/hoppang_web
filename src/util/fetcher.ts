@@ -7,11 +7,11 @@ import {
     kakaoLogin,
     kakaoRefreshAccessToken
 } from "../definition/apiPath";
-import {isMobileClient} from "./index";
+import {getIsMobileClient} from "./index";
 
 const fetcher = async (url: string) => {
 
-    if (!isMobileClient()) {
+    if (!getIsMobileClient()) {
         return;
     }
 
