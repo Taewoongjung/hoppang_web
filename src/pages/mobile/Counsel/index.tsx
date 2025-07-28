@@ -7,13 +7,13 @@ import BottomNavigator from "../../../component/V2/BottomNavigator";
 import useSWR from "swr";
 import {callMeData} from "../../../definition/apiPath";
 import fetcher from "../../../util/fetcher";
-import {isMobile} from "react-device-detect";
 
 const Counsel = () => {
     const [showLeftFade, setShowLeftFade] = useState(false);
     const [showRightFade, setShowRightFade] = useState(false);
     const [activeTab, setActiveTab] = useState<string>('견적');
     const tabHeaderRef = useRef<HTMLDivElement>(null);
+    const faqSectionRef = useRef<HTMLDivElement>(null);
     const [expandedFaqIndex, setExpandedFaqIndex] = useState<number | null>(null);
 
     useEffect(() => {
@@ -35,9 +35,21 @@ const Counsel = () => {
         };
     }, []);
 
+    // URL 파라미터 확인 및 FAQ 섹션으로 스크롤
     useEffect(() => {
-        if (!isMobile) {
-            window.location.href = "https://hoppang.store/official?adv_id=329263e0-5d61-4ade-baf9-7e34cc611828";
+        const urlParams = new URLSearchParams(window.location.search);
+        const forParam = urlParams.get('for');
+
+        if (forParam === 'faq' && faqSectionRef.current) {
+            // 페이지가 완전히 로드된 후 스크롤 실행
+            const timer = setTimeout(() => {
+                faqSectionRef.current?.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 100);
+
+            return () => clearTimeout(timer);
         }
     }, []);
 
@@ -205,7 +217,7 @@ const Counsel = () => {
                 </section>
 
                 {/* FAQ Section */}
-                <section className="faq-section">
+                <section className="faq-section" ref={faqSectionRef}>
                     <div className="section-header">
                         <h2 className="section-title">
                             <span className="title-icon">❓</span>
