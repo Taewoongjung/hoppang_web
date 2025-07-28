@@ -121,10 +121,10 @@ const isMobile = () => {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 };
 
-// 모바일 클라이언트 판단 로직
-const checkIsMobileClient = (): boolean => {
+// 검색엔진 감지
+const isFromSearchEngine = (): boolean => {
     let referrer = document.referrer;
-    let isFromSearchEngine =
+    return (
         referrer.includes("google.") ||
         referrer.includes("naver.") ||
         referrer.includes("daum.") ||
@@ -132,13 +132,44 @@ const checkIsMobileClient = (): boolean => {
         referrer.includes("search.yahoo.") ||
         referrer.includes("instagram.com") ||
         referrer.includes("facebook.com") ||
-        referrer.includes("youtube.com");
+        referrer.includes("youtube.com")
+    );
+};
 
-    if (!isMobile() && isFromSearchEngine) {
+// 모바일 클라이언트 판단 로직
+const checkIsMobileClient = (): boolean => {
+    // 카카오 인앱 브라우저는 무조건 모바일 클라이언트로 간주
+    if (isKakaoInApp()) {
+        console.log('카카오 인앱 브라우저에서 접속');
+        return false;
+    }
+
+    if (!isMobile() || isFromSearchEngine()) {
         return false;
     }
 
     return true;
+};
+
+// 카카오 인앱 브라우저 감지
+export const isKakaoInApp = (): boolean => {
+    const userAgent = navigator.userAgent;
+    return userAgent.includes('KAKAOTALK') || userAgent.includes('KAKAOSTORY');
+};
+
+// 기타 인앱 브라우저들 감지
+export const isInAppBrowser = (): boolean => {
+    const userAgent = navigator.userAgent;
+    return (
+        userAgent.includes('KAKAOTALK') ||
+        userAgent.includes('KAKAOSTORY') ||
+        userAgent.includes('NAVER') ||
+        userAgent.includes('Instagram') ||
+        userAgent.includes('FBAN') || // Facebook
+        userAgent.includes('FBAV') || // Facebook
+        userAgent.includes('Line') ||
+        userAgent.includes('wv') // WebView 일반적 표시
+    );
 };
 
 // 전역 변수로 한 번만 계산
