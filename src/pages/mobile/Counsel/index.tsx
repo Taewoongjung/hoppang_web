@@ -15,10 +15,12 @@ const Counsel = () => {
     const tabHeaderRef = useRef<HTMLDivElement>(null);
     const faqSectionRef = useRef<HTMLDivElement>(null);
     const [expandedFaqIndex, setExpandedFaqIndex] = useState<number | null>(null);
+    const [fromInQueryParam, setFromInQueryParam] = useState<string | null>(null);
 
     useEffect(() => {
         const container = tabHeaderRef.current;
         if (!container) return;
+        if (fromInQueryParam) return;
 
         const updateFade = () => {
             const { scrollLeft, scrollWidth, clientWidth } = container;
@@ -41,6 +43,7 @@ const Counsel = () => {
         const forParam = urlParams.get('for');
 
         if (forParam === 'faq' && faqSectionRef.current) {
+            setFromInQueryParam('faq');
             // 페이지가 완전히 로드된 후 스크롤 실행
             const timer = setTimeout(() => {
                 faqSectionRef.current?.scrollIntoView({
@@ -278,7 +281,9 @@ const Counsel = () => {
                 </section>
             </main>
 
-            <BottomNavigator userData={userData} />
+            {!fromInQueryParam &&
+                <BottomNavigator userData={userData} />
+            }
         </div>
     )
 }
