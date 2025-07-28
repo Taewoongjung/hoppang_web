@@ -134,7 +134,7 @@ const checkIsMobileClient = (): boolean => {
         referrer.includes("facebook.com") ||
         referrer.includes("youtube.com");
 
-    if (!isMobile() || isFromSearchEngine) {
+    if (!isMobile() && isFromSearchEngine) {
         return false;
     }
 
