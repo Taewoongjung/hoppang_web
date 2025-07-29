@@ -997,7 +997,10 @@ const PostDetail = () => {
                                                     className={`reply-btn ${showChildReplyForm[reply.id] ? 'active' : ''}`}
                                                     onClick={() => toggleChildReplyForm(reply.id)}
                                                 >
-                                                    <span>⮑ 대댓글</span>
+                                                    <span style={{display: 'inline-block', transform: 'rotate(180deg)', marginRight: '4px'}}>
+                                                        ↩
+                                                    </span>
+                                                    <span>대댓글</span>
                                                 </button>
 
                                                 {/* 대댓글 토글 버튼 */}
