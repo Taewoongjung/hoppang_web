@@ -139,8 +139,7 @@ const isFromSearchEngine = (): boolean => {
 // 모바일 클라이언트 판단 로직
 const checkIsMobileClient = (): boolean => {
     // 카카오 인앱 브라우저는 무조건 모바일 클라이언트로 간주
-    if (isKakaoInApp()) {
-        console.log('카카오 인앱 브라우저에서 접속');
+    if (isInAppBrowser()) {
         return false;
     }
 
@@ -149,12 +148,6 @@ const checkIsMobileClient = (): boolean => {
     }
 
     return true;
-};
-
-// 카카오 인앱 브라우저 감지
-export const isKakaoInApp = (): boolean => {
-    const userAgent = navigator.userAgent;
-    return userAgent.includes('KAKAOTALK') || userAgent.includes('KAKAOSTORY');
 };
 
 // 기타 인앱 브라우저들 감지
@@ -181,6 +174,11 @@ export const initializeMobileClientDetection = (): boolean => {
         _isMobileClientValue = checkIsMobileClient();
         console.log('Mobile client detection initialized:', _isMobileClientValue);
     }
+
+    if (_isMobileClientValue === null) {
+        return false;
+    }
+
     return _isMobileClientValue;
 };
 
