@@ -143,7 +143,11 @@ const checkIsMobileClient = (): boolean => {
         return false;
     }
 
-    if (!isMobile() || isFromSearchEngine()) {
+    if (isFromSearchEngine()) {
+        return false;
+    }
+
+    if (!isMobile()) {
         return false;
     }
 
