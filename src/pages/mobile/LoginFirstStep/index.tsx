@@ -262,7 +262,20 @@ const LoginFirstStep = () => {
                                     <div className="message-icon">📱</div>
                                     <div className="message-content">
                                         <p>인증번호를 <u><strong>{targetPhoneNumber}</strong></u>로 발송했습니다.</p>
-                                        <p>문자가 오지 않으면 번호를 확인 후 재시도해주세요.</p>
+                                        <div className="help-message">
+                                            <div className="help-step">
+                                                <span className="step-number">1</span>
+                                                <span>문자가 오지 않으면 <strong>스팸보관함</strong>을 확인해 주세요</span>
+                                            </div>
+                                            <div className="help-step">
+                                                <span className="step-number">2</span>
+                                                <span>스팸보관함에도 없다면 번호 확인 후 재발송해 주세요</span>
+                                            </div>
+                                            <div className="help-step">
+                                                <span className="step-number">3</span>
+                                                <span>계속 문제가 있다면 <strong>관리자</strong>에게 문의해 주세요</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -322,7 +335,7 @@ const LoginFirstStep = () => {
                                         disabled={isLoading}
                                         icon={<span className="resend-icon">↻</span>}
                                     >
-                                        인증번호 재발송
+                                        재발송
                                     </Button>
 
                                     <Button
@@ -332,6 +345,15 @@ const LoginFirstStep = () => {
                                         disabled={isLoading}
                                     >
                                         번호 변경
+                                    </Button>
+
+                                    <Button
+                                        type="link"
+                                        className="customer-service-btn"
+                                        onClick={() => window.open('kakaotalk://plusfriend/chat/_dbxezn', '_blank')}
+                                        disabled={isLoading}
+                                    >
+                                        관리자 문의
                                     </Button>
                                 </div>
                             </div>

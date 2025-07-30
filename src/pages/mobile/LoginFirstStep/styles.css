@@ -145,31 +145,71 @@
 .sent-message {
     background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
     border: 1px solid #3b82f6;
-    border-radius: 12px;
-    padding: 16px;
+    border-radius: 16px;
+    padding: 20px;
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 24px;
+    gap: 16px;
+    margin-bottom: 28px;
+    box-shadow: 0 2px 10px rgba(59, 130, 246, 0.1);
 }
 
 .message-icon {
-    font-size: 20px;
+    font-size: 24px;
     flex-shrink: 0;
     margin-top: 2px;
 }
 
-.message-content p {
-    margin: 0;
-    font-size: 14px;
-    color: #1e40af;
-    line-height: 1.4;
-    text-align: left;
+.message-content {
+    flex: 1;
 }
 
-.message-content p:first-child {
+.message-content p {
+    margin: 0 0 16px 0;
+    font-size: 15px;
+    color: #1e40af;
+    line-height: 1.5;
+    text-align: left;
     font-weight: 600;
-    margin-bottom: 4px;
+}
+
+/* 새로운 도움말 메시지 스타일 */
+.help-message {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.help-step {
+    display: flex;
+    text-align: left;
+    gap: 10px;
+    font-size: 13px;
+    color: #1d4ed8;
+    line-height: 1.4;
+}
+
+.step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    color: white;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.help-step strong {
+    color: #1e40af;
+    font-weight: 700;
 }
 
 /* Input Groups */
@@ -383,23 +423,29 @@
 .secondary-actions {
     display: flex;
     justify-content: center;
-    gap: 24px;
+    gap: 16px;
     padding-top: 16px;
     border-top: 1px solid #f1f5f9;
+    flex-wrap: wrap;
 }
 
 .resend-btn,
-.change-number-btn {
+.change-number-btn,
+.customer-service-btn {
     color: #6b7280 !important;
-    font-size: 14px !important;
+    font-size: 13px !important;
     font-weight: 500 !important;
-    padding: 8px 16px !important;
+    padding: 10px 16px !important;
     height: auto !important;
     border-radius: 20px !important;
     transition: all 0.2s ease !important;
     display: flex;
     align-items: center;
     gap: 6px;
+    white-space: nowrap;
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
 }
 
 .resend-btn:hover,
@@ -407,6 +453,19 @@
     color: #374151 !important;
     background: #f8f9fa !important;
     transform: translateY(-1px);
+}
+
+.customer-service-btn {
+    background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%) !important;
+    border: 1px solid #bbf7d0 !important;
+    color: #15803d !important;
+}
+
+.customer-service-btn:hover {
+    background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%) !important;
+    color: #14532d !important;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(21, 128, 61, 0.2) !important;
 }
 
 .resend-icon {
@@ -418,8 +477,12 @@
     transform: rotate(180deg);
 }
 
+.cs-icon {
+    font-size: 14px;
+}
+
 .change-number-btn:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 /* Feedback Messages */
@@ -458,6 +521,24 @@
     }
 }
 
+@keyframes timerShine {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes buttonShine {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
 @media (max-width: 375px) {
     .login-content {
         padding: 20px 16px;
@@ -468,17 +549,15 @@
     }
 
     .section-title {
-        font-size: 22px;
+        font-size: 22px !important;
     }
 
-    .input-container,
-    .verification-input-wrapper {
+    .input-container {
         flex-direction: column;
         gap: 12px;
     }
 
     .verify-btn,
-    .confirm-btn,
     .primary-action-btn {
         width: 100% !important;
     }
@@ -496,8 +575,38 @@
     }
 
     .resend-btn,
-    .change-number-btn {
+    .change-number-btn,
+    .customer-service-btn {
         justify-content: center;
         width: 100%;
+        flex: none;
+    }
+
+    .help-message {
+        gap: 10px;
+    }
+
+    .help-step {
+        font-size: 12px;
+    }
+
+    .step-number {
+        width: 18px;
+        height: 18px;
+        font-size: 10px;
+    }
+
+    .sent-message {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .message-icon {
+        font-size: 20px;
+    }
+
+    .message-content p {
+        font-size: 14px;
+        margin-bottom: 12px;
     }
 }
