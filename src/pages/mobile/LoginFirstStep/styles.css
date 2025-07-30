@@ -458,14 +458,11 @@
 .customer-service-btn {
     background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%) !important;
     border: 1px solid #bbf7d0 !important;
-    color: #15803d !important;
 }
 
 .customer-service-btn:hover {
     background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%) !important;
     color: #14532d !important;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(21, 128, 61, 0.2) !important;
 }
 
 .resend-icon {

@@ -350,7 +350,7 @@ const LoginFirstStep = () => {
                                     <Button
                                         type="link"
                                         className="customer-service-btn"
-                                        onClick={() => window.location.href = 'kakaotalk://plusfriend/chat/_dbxezn'}
+                                        onClick={() => window.location.href = 'http://pf.kakao.com/_dbxezn/chat'}
                                         disabled={isLoading}
                                     >
                                         관리자 문의
