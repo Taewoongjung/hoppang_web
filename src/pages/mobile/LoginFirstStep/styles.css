@@ -606,3 +606,190 @@
         margin-bottom: 12px;
     }
 }
+
+
+/* Info Banner Styles */
+.info-banner {
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    position: relative;
+    overflow: hidden;
+    animation: slideInFromTop 0.4s ease-out;
+}
+
+.info-banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(to right, #667eea, #764ba2);
+}
+
+.info-banner.first-step {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border: 1px solid #0ea5e9;
+}
+
+.info-banner.remained-process {
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    border: 1px solid #10b981;
+}
+
+.banner-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.banner-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.banner-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.info-banner.first-step .banner-title {
+    color: #0c4a6e;
+}
+
+.info-banner.remained-process .banner-title {
+    color: #064e3b;
+}
+
+.banner-description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #64748b;
+    margin-bottom: 8px;
+}
+
+.info-banner.first-step .banner-description {
+    color: #0369a1;
+}
+
+.info-banner.remained-process .banner-description {
+    color: #047857;
+}
+
+.banner-highlight {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 12px;
+    padding: 10px 14px;
+    margin-top: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.banner-highlight::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.1), transparent);
+    animation: shimmer 3s infinite;
+}
+
+.highlight-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: #059669;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    position: relative;
+    z-index: 1;
+}
+
+/* 애니메이션 */
+@keyframes slideInFromTop {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-3px);
+    }
+    60% {
+        transform: translateY(-2px);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+/* 모바일 반응형 */
+@media (max-width: 375px) {
+    .info-banner {
+        padding: 16px;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .banner-icon {
+        font-size: 24px;
+    }
+
+    .banner-title {
+        font-size: 15px;
+    }
+
+    .banner-description {
+        font-size: 13px;
+    }
+
+    .highlight-text {
+        font-size: 12px;
+    }
+
+    .banner-highlight {
+        padding: 8px 12px;
+    }
+}

@@ -227,7 +227,7 @@ const Initial = () => {
                     localStorage.setItem('kakaoTokenInfo', '');
 
                     if (res.data.isSuccess && res.data.isTheFirstLogIn) {
-                        window.location.href = "/v2/login/first?remainedProcess=false&userEmail=" + res.data.userEmail;
+                        window.location.href = "/v2/login/first?remainedProcess=false&firstProcess=true&userEmail=" + res.data.userEmail;
                     }
 
                     mutate();
@@ -255,7 +255,7 @@ const Initial = () => {
                     localStorage.setItem("hoppang-login-oauthType", res.data.oauthType);
 
                     if (res.data.isSuccess && res.data.isTheFirstLogIn) {
-                        window.location.href = "/v2/login/first?remainedProcess=false&userEmail=" + res.data.userEmail;
+                        window.location.href = "/v2/login/first?remainedProcess=false&firstProcess=true&userEmail=" + res.data.userEmail;
                     }
 
                     mutate();
@@ -283,7 +283,7 @@ const Initial = () => {
                     localStorage.setItem("hoppang-login-oauthType", res.data.oauthType);
 
                     if (res.data.isSuccess && res.data.isTheFirstLogIn) {
-                        window.location.href = "/v2/login/first?remainedProcess=false&userEmail=" + res.data.userEmail;
+                        window.location.href = "/v2/login/first?remainedProcess=false&firstProcess=true&userEmail=" + res.data.userEmail;
                     }
 
                     mutate();
@@ -445,7 +445,7 @@ const Initial = () => {
                     </div>
                     <div className="header-greeting">
                         {userData ? (
-                            <span className="user-greeting">안녕하세요, <strong>{userData.name}</strong>님! 👋🏻</span>
+                            <span className="user-greeting">안녕하세요, <strong>{userData.name}</strong>님!</span>
                         ) : (
                             <button
                                 className="login-btn"

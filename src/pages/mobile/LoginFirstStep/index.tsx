@@ -179,6 +179,40 @@ const LoginFirstStep = () => {
     const isPhoneNumberValid = feedback === VALIDATION_PROPOSAL_MESSAGE;
     const isValidationNumberValid = validationNumber.length === 6 && /^\d+$/.test(validationNumber);
 
+    const mandatoryStepNotice = () => {
+        const isFirstStep = urlParams.get("firstProcess");
+        const isRemainedProcess = urlParams.get("remainedProcess");
+
+        if (isFirstStep === "true" && isFirstStep) {
+            return (
+                <div className="info-banner first-step">
+                    <div className="banner-icon">✨</div>
+                    <div className="banner-content">
+                        <div className="banner-title">서비스 이용을 위한 추가 정보</div>
+                        <div className="banner-description">
+                            호빵의 모든 서비스를 원활하게 이용하기 위해 추가 회원정보가 필요해요.
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        if (isRemainedProcess === "true" && isRemainedProcess) {
+            return (
+                <div className="alert-banner">
+                    <div className="alert-icon">🔒</div>
+                    <div className="alert-content">
+                        <strong>마지막 단계만 남았어요!</strong>
+                        <span>견적 확인을 위해 추가 정보를 입력해 주세요.</span>
+                    </div>
+                </div>
+            );
+        }
+
+        return null;
+    }
+
+
     return (
         <div className="login-container">
             {/* Header */}
@@ -200,16 +234,8 @@ const LoginFirstStep = () => {
                     <span className="progress-text">1/2 단계</span>
                 </div>
 
-                {/* Alert Banner */}
-                {urlParams.get("remainedProcess") === "true" && (
-                    <div className="alert-banner">
-                        <div className="alert-icon">🔒</div>
-                        <div className="alert-content">
-                            <strong>로그인 후 견적을 확인할 수 있습니다.</strong>
-                            <span>빠르게 완료해 주세요!</span>
-                        </div>
-                    </div>
-                )}
+                {/* Mandatory Step Notice */}
+                {mandatoryStepNotice()}
 
                 {/* Main Form */}
                 <div className="form-container">
@@ -273,7 +299,7 @@ const LoginFirstStep = () => {
                                             </div>
                                             <div className="help-step">
                                                 <span className="step-number">3</span>
-                                                <span>계속 문제가 있다면 <strong>관리자</strong>에게 문의해 주세요</span>
+                                                <span>계속 문제가 있다면 <strong>고객센터</strong>로 문의해 주세요</span>
                                             </div>
                                         </div>
                                     </div>
@@ -335,7 +361,7 @@ const LoginFirstStep = () => {
                                         disabled={isLoading}
                                         icon={<span className="resend-icon">↻</span>}
                                     >
-                                        재발송
+                                        인증번호 재발송
                                     </Button>
 
                                     <Button
@@ -350,10 +376,11 @@ const LoginFirstStep = () => {
                                     <Button
                                         type="link"
                                         className="customer-service-btn"
-                                        onClick={() => window.location.href = 'http://pf.kakao.com/_dbxezn/chat'}
+                                        onClick={() => window.open('mailto:support@hoppang.co.kr', '_blank')}
                                         disabled={isLoading}
                                     >
-                                        관리자문의
+                                        <span className="cs-icon">💬</span>
+                                        고객센터 문의
                                     </Button>
                                 </div>
                             </div>
