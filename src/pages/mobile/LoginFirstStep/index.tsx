@@ -99,8 +99,7 @@ const LoginFirstStep = () => {
         try {
             const response = await axios.post(callVerifyPhoneNumber,
                 {
-                    // email: urlParams.get("userEmail"),
-                    email: 'aipooh8882@naver.com',
+                    email: urlParams.get("userEmail"),
                     targetPhoneNumber,
                     validationType
                 },
