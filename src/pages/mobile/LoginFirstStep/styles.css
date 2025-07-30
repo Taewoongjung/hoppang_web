@@ -452,7 +452,6 @@
 .change-number-btn:hover {
     color: #374151 !important;
     background: #f8f9fa !important;
-    transform: translateY(-1px);
 }
 
 .customer-service-btn {

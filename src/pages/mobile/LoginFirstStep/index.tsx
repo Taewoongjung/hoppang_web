@@ -353,7 +353,7 @@ const LoginFirstStep = () => {
                                         onClick={() => window.location.href = 'http://pf.kakao.com/_dbxezn/chat'}
                                         disabled={isLoading}
                                     >
-                                        관리자 문의
+                                        관리자문의
                                     </Button>
                                 </div>
                             </div>
