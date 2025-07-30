@@ -298,7 +298,7 @@ const LoginFirstStep = () => {
                                             </div>
                                             <div className="help-step">
                                                 <span className="step-number">3</span>
-                                                <span>계속 문제가 있다면 <strong>고객센터</strong>로 문의해 주세요</span>
+                                                <span>계속 문제가 있다면 <strong>관리자</strong>에게 문의해 주세요</span>
                                             </div>
                                         </div>
                                     </div>
@@ -360,7 +360,7 @@ const LoginFirstStep = () => {
                                         disabled={isLoading}
                                         icon={<span className="resend-icon">↻</span>}
                                     >
-                                        인증번호 재발송
+                                        재발송
                                     </Button>
 
                                     <Button
@@ -375,11 +375,10 @@ const LoginFirstStep = () => {
                                     <Button
                                         type="link"
                                         className="customer-service-btn"
-                                        onClick={() => window.open('mailto:support@hoppang.co.kr', '_blank')}
+                                        onClick={() => window.location.href = 'http://pf.kakao.com/_dbxezn/chat'}
                                         disabled={isLoading}
                                     >
-                                        <span className="cs-icon">💬</span>
-                                        고객센터 문의
+                                        관리자문의
                                     </Button>
                                 </div>
                             </div>
