@@ -957,9 +957,9 @@ const PostDetail = () => {
                                                     {reply.contents.split('\n').map((line, index) => (
                                                         <p key={index} style={{wordBreak: 'break-word'}}>
                                                             {line}
-                                                            {reply.revised && <span className="edited-indicator">[편집됨]</span>}
                                                         </p>
                                                     ))}
+                                                    {reply.revised && <span className="edited-indicator">[편집됨]</span>}
                                                 </div>
                                             )}
 
@@ -1156,9 +1156,9 @@ const PostDetail = () => {
                                                                     {childReply.contents.split('\n').map((line, index) => (
                                                                         <p key={index} style={{wordBreak: 'break-word'}}>
                                                                             {line}
-                                                                            {childReply.revised && <span className="edited-indicator">[편집됨]</span>}
                                                                         </p>
                                                                     ))}
+                                                                    {childReply.revised && <span className="edited-indicator">[편집됨]</span>}
                                                                 </div>
                                                             )}
 
