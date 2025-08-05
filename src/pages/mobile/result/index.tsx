@@ -52,6 +52,7 @@ const MobileResultScreen = () => {
     const [showExitModal, setShowExitModal] = useState(false);
 
     const [isLaborFeeMinimumSize, setIsLaborFeeMinimumSize] = useState(false);
+    const [showMinimumLaborFeeModal, setShowMinimumLaborFeeModal] = useState(false);
 
     // 📌 문의 완료 핸들러 - 특정 견적의 특정 문의 방식 업데이트
     const handleInquiryComplete = (estimationId: any, inquiryTypes: string[]) => {
@@ -77,8 +78,9 @@ const MobileResultScreen = () => {
         // 첫 번째 결과가 있을 때 기본시공비 여부 확인
         if (results.length === 1) {
             const firstResult = results[0];
-            const hasLaborFee = firstResult.laborFee && firstResult.laborFee > 0;
+            const hasLaborFee = !!(firstResult.laborFee && firstResult.laborFee > 0);
             setIsLaborFeeMinimumSize(hasLaborFee);
+            setShowMinimumLaborFeeModal(hasLaborFee);
         }
     }, [results]);
 
@@ -117,7 +119,7 @@ const MobileResultScreen = () => {
             unblock();
         };
     }, [history]);
-
+    console.log("??? = ", isLaborFeeMinimumSize);
     useEffect(() => {
         if (location.state && location.state.calculatedResult) {
             setResults([location.state.calculatedResult]);
@@ -127,7 +129,6 @@ const MobileResultScreen = () => {
         }
     }, [location, history]);
 
-    // 기존 getOtherEstimates 함수 유지...
     const getOtherEstimates = (estimatingCompany: string) => {
         if (!requestObject) return;
 
@@ -464,8 +465,8 @@ const MobileResultScreen = () => {
             {showExitModal && (<CalculationResultExitModal setShowExitModal={setShowExitModal}/>)}
 
             <LaborFeeAlertModal
-                isOpen={!isLoading && isLaborFeeMinimumSize}
-                onClose={() => setIsLaborFeeMinimumSize(false)}
+                isOpen={showMinimumLaborFeeModal}
+                onClose={() => setShowMinimumLaborFeeModal(false)}
             />
         </div>
     );
