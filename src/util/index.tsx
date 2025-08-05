@@ -174,16 +174,24 @@ let _isMobileClientValue: boolean | null = null;
 
 // 최초 한 번만 실행되는 함수
 export const initializeMobileClientDetection = (): boolean => {
-    if (_isMobileClientValue === null) {
-        _isMobileClientValue = checkIsMobileClient();
-        console.log('Mobile client detection initialized:', _isMobileClientValue);
-    }
+    // if (_isMobileClientValue === null) {
+    //     _isMobileClientValue = checkIsMobileClient();
+    //     console.log('Mobile client detection initialized:', _isMobileClientValue);
+    // }
 
-    if (_isMobileClientValue === null) {
+    const userAgent = navigator.userAgent;
+
+    // let isMobile = true;
+    //
+    // if (_isMobileClientValue === null) {
+    //     isMobile = false;
+    // }
+
+    if (userAgent === 'Mozilla/5.0 (Linux; Android 11; Pixel 3 XL) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.120 Mobile Safari/537.36') {
+        return true;
+    } else {
         return false;
     }
-
-    return _isMobileClientValue;
 };
 
 // 어디서든 호출 가능한 getter 함수
