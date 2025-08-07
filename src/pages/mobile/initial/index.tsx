@@ -220,17 +220,19 @@ const Initial = () => {
                 deviceType: localStorage.getItem('deviceType'),
                 tokenInfo: localStorage.getItem('kakaoTokenInfo')
             }, { withCredentials: true })
-                .then((res) => {
+                .then(async (res) => {
                     const token = res.headers['authorization'];
                     localStorage.setItem("hoppang-token", token);
                     localStorage.setItem("hoppang-login-oauthType", res.data.oauthType);
                     localStorage.setItem('kakaoTokenInfo', '');
 
+                    await mutate();
+
+                    setTimeout(() => {}, 150);
+
                     if (res.data.isSuccess && res.data.isTheFirstLogIn) {
                         window.location.href = "/v2/login/first?remainedProcess=false&firstProcess=true&userEmail=" + res.data.userEmail;
                     }
-
-                    mutate();
                 })
                 .catch((err) => {
                     alert(err.response.data.errorMessage);
@@ -249,16 +251,18 @@ const Initial = () => {
                 deviceId: localStorage.getItem('deviceId'),
                 deviceType: localStorage.getItem('deviceType')
             }, { withCredentials: true })
-                .then((res) => {
+                .then(async (res) => {
                     const token = res.headers['authorization'];
                     localStorage.setItem("hoppang-token", token);
                     localStorage.setItem("hoppang-login-oauthType", res.data.oauthType);
 
+                    await mutate();
+
+                    setTimeout(() => {}, 150);
+
                     if (res.data.isSuccess && res.data.isTheFirstLogIn) {
                         window.location.href = "/v2/login/first?remainedProcess=false&firstProcess=true&userEmail=" + res.data.userEmail;
                     }
-
-                    mutate();
                 })
                 .catch((err) => {
                     alert(err.response.data.errorMessage);
@@ -277,16 +281,18 @@ const Initial = () => {
                 deviceId: localStorage.getItem('deviceId'),
                 deviceType: localStorage.getItem('deviceType')
             }, { withCredentials: true })
-                .then((res) => {
+                .then(async (res) => {
                     const token = res.headers['authorization'];
                     localStorage.setItem("hoppang-token", token);
                     localStorage.setItem("hoppang-login-oauthType", res.data.oauthType);
 
+                    await mutate();
+
+                    setTimeout(() => {}, 150);
+
                     if (res.data.isSuccess && res.data.isTheFirstLogIn) {
                         window.location.href = "/v2/login/first?remainedProcess=false&firstProcess=true&userEmail=" + res.data.userEmail;
                     }
-
-                    mutate();
                 })
                 .catch((err) => {
                     alert(err.response.data.errorMessage);
