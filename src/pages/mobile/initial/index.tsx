@@ -103,7 +103,6 @@ const Initial = () => {
         // 페이지 가시성 변경 감지 (앱이 백그라운드에서 돌아올 때)
         const handleVisibilityChange = () => {
             if (document.visibilityState === 'visible') {
-                console.log('📱 앱이 포그라운드로 복귀');
                 initializeApp();
 
                 // 데이터 새로고침
@@ -172,7 +171,7 @@ const Initial = () => {
                 setRecentPosts(post);
             })
             .catch(err => {
-                console.error('❌ 최근 게시물 로드 실패:', err);
+
             });
     }, [renderTimestamp]);
 
@@ -243,6 +242,8 @@ const Initial = () => {
                 .finally(() => {
                     setIsLoading(false);
                 });
+
+            return;
         }
 
         if (oauthtype === 'apl' && urlParams.get('code')) {
@@ -273,6 +274,8 @@ const Initial = () => {
                 .finally(() => {
                     setIsLoading(false);
                 });
+
+            return;
         }
 
         if (oauthtype === 'gle' && urlParams.get('code')) {
@@ -303,6 +306,8 @@ const Initial = () => {
                 .finally(() => {
                     setIsLoading(false);
                 });
+
+            return;
         }
     }, [isInitialized, oauthtype, urlParams.get('code')]);
 
