@@ -220,10 +220,10 @@ const Initial = () => {
                 tokenInfo: localStorage.getItem('kakaoTokenInfo')
             }, { withCredentials: true })
                 .then(async (res) => {
-                    const token = res.headers['authorization'];
-                    localStorage.setItem("hoppang-token", token);
-                    localStorage.setItem("hoppang-login-oauthType", res.data.oauthType);
-                    localStorage.setItem('kakaoTokenInfo', '');
+                    const token = await res.headers['authorization'];
+                    await localStorage.setItem("hoppang-token", token);
+                    await localStorage.setItem("hoppang-login-oauthType", res.data.oauthType);
+                    await localStorage.setItem('kakaoTokenInfo', '');
 
                     await mutate();
 
@@ -253,9 +253,9 @@ const Initial = () => {
                 deviceType: localStorage.getItem('deviceType')
             }, { withCredentials: true })
                 .then(async (res) => {
-                    const token = res.headers['authorization'];
-                    localStorage.setItem("hoppang-token", token);
-                    localStorage.setItem("hoppang-login-oauthType", res.data.oauthType);
+                    const token = await res.headers['authorization'];
+                    await localStorage.setItem("hoppang-token", token);
+                    await localStorage.setItem("hoppang-login-oauthType", res.data.oauthType);
 
                     await mutate();
 
@@ -285,9 +285,9 @@ const Initial = () => {
                 deviceType: localStorage.getItem('deviceType')
             }, { withCredentials: true })
                 .then(async (res) => {
-                    const token = res.headers['authorization'];
-                    localStorage.setItem("hoppang-token", token);
-                    localStorage.setItem("hoppang-login-oauthType", res.data.oauthType);
+                    const token = await res.headers['authorization'];
+                    await localStorage.setItem("hoppang-token", token);
+                    await localStorage.setItem("hoppang-login-oauthType", res.data.oauthType);
 
                     await mutate();
 
