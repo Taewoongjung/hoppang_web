@@ -11,6 +11,7 @@ import {useHistory, useParams} from "react-router-dom";
 import axios from "axios";
 import {Question} from "../Question/interface";
 import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
+import {formatTimeAgo} from "../../../util";
 
 declare global {
     interface Window {
@@ -567,7 +568,7 @@ const Initial = () => {
                                     <p className="question-text">{q.title}</p>
                                     <div className="question-meta">
                                         <span className="question-category">{q.category}</span>
-                                        <span className="question-element">{q.createdAt}</span>
+                                        <span className="question-element">{formatTimeAgo(q.createdAt)}</span>
                                         <span className="question-element">| 조회 {q.viewCount} |</span>
                                         {q.replyCount > 0 && (
                                             <span className="question-element">
