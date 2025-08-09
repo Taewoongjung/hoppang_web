@@ -9,7 +9,7 @@ import useSWR from "swr";
 import fetcher from "../../../../util/fetcher";
 import CommunityLoginModal from "../../../../component/V2/Modal/CommunityLoginRequiredModal";
 import { Question, Board } from '../interface';
-import { formatTimeAgo } from 'src/util';
+import { formatTimeAgo } from 'src/util/boardUtil';
 
 // 게시판 타입 정의
 interface BoardType {

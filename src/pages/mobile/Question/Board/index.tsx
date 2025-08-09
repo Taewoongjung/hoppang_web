@@ -9,7 +9,7 @@ import useSWR from "swr";
 import fetcher from "../../../../util/fetcher";
 import CommunityLoginModal from "../../../../component/V2/Modal/CommunityLoginRequiredModal";
 import { Question, Board } from '../interface';
-import {formatTimeAgo} from "../../../../util";
+import {formatTimeAgo, formatUserName} from "../../../../util/boardUtil";
 
 // 게시판 타입 정의
 interface BoardType {
@@ -619,7 +619,7 @@ const QuestionsBoard = () => {
                                     </div>
                                     <h3 className="question-title">{question.title}</h3>
                                     <div className="question-meta">
-                                        <span className="question-author">{question.author}</span>
+                                        <span className="question-author">{formatUserName(question.author)}</span>
                                         <span className="meta-separator">·</span>
                                         <span className="question-time">{formatTimeAgo(question.createdAt)}</span>
                                         <span className="meta-separator">·</span>

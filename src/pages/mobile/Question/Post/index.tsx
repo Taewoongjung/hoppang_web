@@ -14,7 +14,7 @@ import axios from "axios";
 
 import './styles.css';
 import '../../versatile-styles.css';
-import { formatTimeAgo } from "../../../../util";
+import {formatTimeAgo, formatUserName} from "../../../../util/boardUtil";
 import CommunityLoginModal from "../../../../component/V2/Modal/CommunityLoginRequiredModal";
 import { EnhancedGoToTopButton } from 'src/util/renderUtil';
 
@@ -832,7 +832,7 @@ const PostDetail = () => {
                                         </div>
                                         <div className="author-info">
                                             <span className="author-name">
-                                                {post.isAnonymous === 'T' ? '익명' : post.registerName}
+                                                {post.isAnonymous === 'T' ? '익명' : formatUserName(post.registerName)}
                                             </span>
                                             <span className="author-role">작성자</span>
                                         </div>
@@ -913,7 +913,7 @@ const PostDetail = () => {
                                                         )}
                                                     </div>
                                                     <div className="author-info">
-                                                        <span className="author-name">{reply.authorName}</span>
+                                                        <span className="author-name">{formatUserName(reply.authorName)}</span>
                                                     </div>
                                                 </div>
                                                 <div className="reply-meta">
@@ -1112,7 +1112,7 @@ const PostDetail = () => {
                                                                         )}
                                                                     </div>
                                                                     <div className="child-reply-author-info">
-                                                                        <span className="child-reply-author-name">{childReply.registerName}</span>
+                                                                        <span className="child-reply-author-name">{formatUserName(childReply.registerName)}</span>
                                                                     </div>
                                                                 </div>
                                                                 <div className="child-reply-meta">

@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useRef} from 'react';
 import {landingPageStatistics} from "../../definition/LandingPage/apiPath";
-import {formatDateTime} from "../../util";
+import {formatDateTime} from "../../util/boardUtil";
 
 const LandingPage = () => {
 

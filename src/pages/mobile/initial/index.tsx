@@ -11,7 +11,7 @@ import {useHistory, useParams} from "react-router-dom";
 import axios from "axios";
 import {Question} from "../Question/interface";
 import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
-import {formatTimeAgo} from "../../../util";
+import {formatTimeAgo} from "../../../util/boardUtil";
 
 declare global {
     interface Window {

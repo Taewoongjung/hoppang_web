@@ -4,7 +4,7 @@ import {CaretRightOutlined} from "@ant-design/icons";
 import {v4 as uuidv4} from 'uuid';
 import {createAdvertisementContent} from "../../../../definition/Admin/apiPath";
 import axios from 'axios';
-import {formatDateTime} from "../../../../util";
+import {formatDateTime} from "../../../../util/boardUtil";
 
 const { Content } = Layout;
 const { TextArea } = Input;
