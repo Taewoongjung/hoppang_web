@@ -93,6 +93,8 @@ const Initial = () => {
                 // 글로벌 플래그 설정
                 window.__HOPPANG_APP_INITIALIZED = true;
 
+                mutate();
+
                 // 캐시 무효화를 위한 timestamp 갱신
                 setRenderTimestamp(currentTime);
             }

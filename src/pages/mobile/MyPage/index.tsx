@@ -136,7 +136,7 @@ const MyPage = () => {
                     {/* User Section */}
                     {!userData ? (
                         <section className="login-section">
-                            <div className="login-card" onClick={() => {window.location.href = '/login';}}>
+                            <div className="login-card" onClick={() => {window.location.href = '/v2/login';}}>
                                 <div className="login-content">
                                     <div className="login-icon">
                                         <UserOutlined />
