@@ -19,6 +19,7 @@ import {RegisterChassisPayload} from "../../../definition/interfacesV2";
 import InquiryEstimateChassis from "../../../component/V2/InquiryEstimateChassis";
 import CalculationResultExitModal from "../../../component/V2/Modal/CalculationResultExitModal";
 import LaborFeeAlertModal from "../../../component/V2/Modal/LaborFeeAlertModal";
+import {EnhancedGoToTopButton} from "../../../util/renderUtil";
 
 
 interface InquiryStatus {
@@ -467,6 +468,11 @@ const MobileResultScreen = () => {
             <LaborFeeAlertModal
                 isOpen={showMinimumLaborFeeModal}
                 onClose={() => setShowMinimumLaborFeeModal(false)}
+            />
+
+            <EnhancedGoToTopButton
+                onGoToList={undefined}
+                showListButton={false}
             />
         </div>
     );
