@@ -35,6 +35,20 @@ export const mappedCompanyByValue = (value: string) => {
     }
 }
 
+export const mappedCompanyLogoPathByValue = (value: string) => {
+    if (value === HYUNDAI) {
+        return "/assets/CompanyLogo/HYUNDAI_L&C.png";
+    }
+
+    if (value === LX) {
+        return "/assets/CompanyLogo/LX.png";
+    }
+
+    if (value === KCC_GLASS) {
+        return "/assets/CompanyLogo/KCC_GLASS.png";
+    }
+}
+
 export const getYetCalculatedCompanyList = (firstCalculatedCompany: string) => {
     if (firstCalculatedCompany === HYUNDAI) {
         return [LX_ko, KCC_GLASS_ko];

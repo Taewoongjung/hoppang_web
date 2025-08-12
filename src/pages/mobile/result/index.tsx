@@ -8,7 +8,7 @@ import '../versatile-styles.css';
 import {
     addCommasToNumber,
     getLabelOfChassisType,
-    mappedCompanyByValue,
+    mappedCompanyByValue, mappedCompanyLogoPathByValue,
 } from "../../../util";
 import {calculateChassisCall} from "../../../definition/apiPath";
 import {Unit} from "../../../definition/unit";
@@ -120,7 +120,6 @@ const MobileResultScreen = () => {
             unblock();
         };
     }, [history]);
-    console.log("??? = ", isLaborFeeMinimumSize);
     useEffect(() => {
         if (location.state && location.state.calculatedResult) {
             setResults([location.state.calculatedResult]);
@@ -192,9 +191,103 @@ const MobileResultScreen = () => {
         window.location.href = '/calculator/agreement';
     };
 
-    // 📌 수정된 renderResultCard - 개별 견적 상태 반영
+    // 📌 브랜드 비교 요약 표 렌더링
+    const renderComparisonTable = () => {
+        if (results.length < 2) return null;
+
+        const sortedResults = [...results].sort((a, b) => {
+            const priceA = a.wholeCalculatedFee + a.surtax - (a.discountedWholeCalculatedFeeAmount || 0);
+            const priceB = b.wholeCalculatedFee + b.surtax - (b.discountedWholeCalculatedFeeAmount || 0);
+            return priceA - priceB;
+        });
+
+        const scrollToCard = (estimationId: any) => {
+            const cardElement = document.getElementById(`result-card-${estimationId}`);
+            if (cardElement) {
+                cardElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                    inline: 'nearest'
+                });
+                // 부드러운 하이라이트 효과
+                cardElement.classList.add('highlight-card');
+                setTimeout(() => {
+                    cardElement.classList.remove('highlight-card');
+                }, 2000);
+            }
+        };
+
+        return (
+            <div className="comparison-table-container">
+                <div className="comparison-header">
+                    <h3 className="comparison-title">브랜드 비교</h3>
+                    <p className="comparison-subtitle">가격순으로 정렬된 견적을 확인하세요</p>
+                </div>
+
+                <div className="comparison-table">
+                    {sortedResults.map((result, index) => {
+                        const finalPrice = result.wholeCalculatedFee + result.surtax - (result.discountedWholeCalculatedFeeAmount || 0);
+                        const { hasAnyInquiry, completedCount } = getInquiryStatus(result.estimationId);
+                        const isLowest = index === 0;
+
+                        return (
+                            <div
+                                key={result.estimationId}
+                                className={`comparison-row ${isLowest ? 'lowest-price' : ''}`}
+                                onClick={() => scrollToCard(result.estimationId)}
+                            >
+                                <div className="comparison-company">
+                                    <div className="company-rank-badge">
+                                        {index + 1}
+                                    </div>
+                                    <div className="company-info">
+                                        <span className="company-name-text">
+                                            <img
+                                                src={mappedCompanyLogoPathByValue(result.company)}
+                                                style={{width:'100%'}}
+                                            />
+                                        </span>
+                                        {hasAnyInquiry && (
+                                            <span className="inquiry-badge-small">
+                                                문의완료({completedCount})
+                                            </span>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className="comparison-price">
+                                    {isLowest && (
+                                        <span className="lowest-badge">최저가</span>
+                                    )}
+                                    <span className="price-amount">{addCommasToNumber(finalPrice)}원</span>
+                                    {result.discountedWholeCalculatedFeeAmount > 0 && (
+                                        <span className="discount-info-small">
+                                            {addCommasToNumber(result.discountedWholeCalculatedFeeAmount)}원 할인
+                                        </span>
+                                    )}
+                                </div>
+
+                                <br/>
+                                <div className="comparison-action">
+                                    <span className="action-text">상세보기</span>
+                                    <span className="action-arrow">→</span>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+
+                <div className="comparison-footer">
+                    <p className="comparison-note">
+                        💡 가격은 할인이 적용된 최종 금액입니다
+                    </p>
+                </div>
+            </div>
+        );
+    };
+
+    // 📌 개별 견적 상태 반영
     const renderResultCard = (result: any, index: number) => {
-        const companyName = mappedCompanyByValue(result.company);
         const totalDiscount = result.discountedWholeCalculatedFeeAmount;
         const totalDiscountWithSurtx = result.discountedWholeCalculatedFeeWithSurtax;
         const originalPrice = result.wholeCalculatedFee + result.surtax;
@@ -203,11 +296,16 @@ const MobileResultScreen = () => {
         const { hasAnyInquiry, completedCount, inquiryStatus } = getInquiryStatus(result.estimationId);
 
         return (
-            <div className="result-card" key={index}>
+            <div className="result-card" key={index} id={`result-card-${result.estimationId}`}>
                 {/* Company Header */}
                 <div className="company-header">
                     <div className="company-badge">
-                        <span className="company-name">{companyName}</span>
+                        <span className="company-name">
+                            <img
+                                src={mappedCompanyLogoPathByValue(result.company)}
+                                style={{width:'100%'}}
+                            />
+                        </span>
                         {/* 📌 문의 상태 표시 추가 */}
                         {hasAnyInquiry && (
                             <span className="inquiry-indicator">
@@ -398,10 +496,14 @@ const MobileResultScreen = () => {
             </header>
 
             <main className="main-content">
-                <div className="result-header">
-                    <h2 className="result-title">견적 계산 완료</h2>
-                    <p className="result-subtitle">선택하신 조건에 맞는 예상 견적입니다</p>
-                </div>
+                {results.length === 1 &&
+                    <div className="result-header">
+                        <h2 className="result-title">견적 계산 완료</h2>
+                        <p className="result-subtitle">선택하신 조건에 맞는 예상 견적입니다</p>
+                    </div>
+                }
+
+                {renderComparisonTable()}
 
                 {results.map(renderResultCard)}
 
@@ -420,7 +522,12 @@ const MobileResultScreen = () => {
                                     onClick={() => getOtherEstimates(company)}
                                     disabled={isLoading}
                                 >
-                                    <span className="company-option-name">{mappedCompanyByValue(company)}</span>
+                                    <span className="company-option-name">{
+                                        <img
+                                            src={mappedCompanyLogoPathByValue(company)}
+                                            style={{width:'100%'}}
+                                        />
+                                    }</span>
                                     <span className="company-option-action">견적받기 →</span>
                                 </button>
                             ))}
