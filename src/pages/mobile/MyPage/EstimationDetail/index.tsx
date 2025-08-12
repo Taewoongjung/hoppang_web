@@ -8,7 +8,7 @@ import {callEstimationById} from "../../../../definition/apiPath";
 import {useParams} from "react-router-dom";
 import {Button, Table, TableColumnsType} from "antd";
 import {addCommasToNumber, mappedCompanyLogoPathByValue} from 'src/util';
-import {LeftOutlined, DollarOutlined, CalculatorOutlined} from "@ant-design/icons";
+import {LeftOutlined, DollarOutlined} from "@ant-design/icons";
 import InquiryEstimateChassis from "../../../../component/V2/InquiryEstimateChassis";
 
 
@@ -289,7 +289,6 @@ const EstimationDetailPage = () => {
                         size="large"
                         className="inquiry-button"
                         onClick={() => setIsInquiryModalOpen(true)}
-                        icon={<CalculatorOutlined />}
                     >
                         해당 견적 문의하기
                     </Button>
