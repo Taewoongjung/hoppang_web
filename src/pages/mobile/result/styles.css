@@ -496,7 +496,7 @@ body {
 .company-options {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
 }
 
 .company-option {
@@ -505,7 +505,6 @@ body {
     background: white;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
-    transition: all 0.2s ease;
     align-items: center;
 }
 
@@ -520,6 +519,7 @@ body {
 
 .company-option-name {
     font-size: 16px;
+    width: 100px;
     font-weight: 600;
     color: #1e293b;
 }
@@ -527,7 +527,7 @@ body {
 .company-option-action {
     font-size: 14px;
     color: #6366f1;
-    font-weight: 500;
+    font-weight: 1000;
 }
 
 /* New Estimate Section */
@@ -828,6 +828,7 @@ body {
 .company-name-text {
     font-size: 16px;
     font-weight: 600;
+    width: 150px;
     color: #1e293b;
 }
 

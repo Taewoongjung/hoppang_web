@@ -522,12 +522,14 @@ const MobileResultScreen = () => {
                                     onClick={() => getOtherEstimates(company)}
                                     disabled={isLoading}
                                 >
-                                    <span className="company-option-name">{
-                                        <img
-                                            src={mappedCompanyLogoPathByValue(company)}
-                                            style={{width:'100%'}}
-                                        />
-                                    }</span>
+                                    <span className="company-option-name">
+                                        {
+                                            <img
+                                                src={mappedCompanyLogoPathByValue(company)}
+                                                style={{width:'150px'}}
+                                            />
+                                        }
+                                    </span><br/>
                                     <span className="company-option-action">견적받기 →</span>
                                 </button>
                             ))}
