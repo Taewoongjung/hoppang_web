@@ -12,7 +12,7 @@ import {Unit} from "../../../definition/unit";
 import {calculateChassisCall, callMeData} from "../../../definition/apiPath";
 import {mappedCompanyLogoPathByValue, mappedValueByCompany} from "../../../util";
 import {LeftOutlined} from "@ant-design/icons";
-import {companyTypeOptionsString} from "../../../definition/companyType";
+import {companyTypeOptionsString, HYUNDAI, KCC_GLASS, LX} from "../../../definition/companyType";
 import CalculationExitModal from "../../../component/V2/Modal/CalculationExitModal";
 import AddressInputModal from "../../../component/V2/AddressInputModal";
 import useSWR from "swr";
@@ -159,64 +159,157 @@ const MobileCalculationScreen = () => {
 
         setIsLoading(true);
 
-        let isExpanded = false;
+        try {
+            if (selectedCompany === '모르겠어요') {
+                // 모든 회사에 대한 견적 요청을 병렬로 처리
+                const companies = [HYUNDAI, LX, KCC_GLASS];
+                const promises = companies.map(async (companyType) => {
+                    let isExpanded = false;
 
-        const reqCalculateChassisPriceList = registeredList.map((item) => {
-            if (!item.companyType) return null;
+                    const reqCalculateChassisPriceList = registeredList.map((item) => {
+                        if (!item.companyType) return null;
 
-            // 발코니이중창(확장발코니)이 있으면 확장이 되었다는 얘기임
-            if ('BalconyDouble' === item.chassisType.trim()) {
-                isExpanded = true;
+                        // 발코니이중창(확장발코니)이 있으면 확장이 되었다는 얘기임
+                        if ('BalconyDouble' === item.chassisType.trim()) {
+                            isExpanded = true;
+                        }
+
+                        return {
+                            chassisType: item.chassisType,
+                            companyType: companyType,
+                            width: unit === Unit.CM ? (item.width * 10) : item.width,
+                            height: unit === Unit.CM ? (item.height * 10) : item.height,
+                            floorCustomerLiving: floor,
+                            isScheduledForDemolition,
+                            isResident
+                        };
+                    }).filter(Boolean);
+
+                    const payload = {
+                        zipCode: addressZoneCode,
+                        state: sido,
+                        city: siGunGu,
+                        town: yupMyeonDong,
+                        bCode: bCode,
+                        remainAddress: remainAddress,
+                        buildingNumber: addressBuildingNum,
+                        isApartment: isApartment,
+                        isExpanded: isExpanded,
+                        reqCalculateChassisPriceList
+                    };
+
+                    const response = await axios.post(calculateChassisCall, payload, {
+                        withCredentials: true,
+                        headers: { Authorization: localStorage.getItem("hoppang-token") },
+                    });
+
+                    return response.data;
+                });
+
+                // 모든 요청이 완료될 때까지 대기
+                const allResults = await Promise.all(promises);
+
+                // 첫 번째 결과의 payload를 requestObject로 사용 (모든 회사 동일한 기본 정보)
+                let isExpanded = false;
+                registeredList.forEach((item) => {
+                    if ('BalconyDouble' === item.chassisType.trim()) {
+                        isExpanded = true;
+                    }
+                });
+
+                const requestObject = {
+                    zipCode: addressZoneCode,
+                    state: sido,
+                    city: siGunGu,
+                    town: yupMyeonDong,
+                    bCode: bCode,
+                    remainAddress: remainAddress,
+                    buildingNumber: addressBuildingNum,
+                    isApartment: isApartment,
+                    isExpanded: isExpanded,
+                    reqCalculateChassisPriceList: registeredList.flatMap((item) =>
+                        companies.map(companyType => ({
+                            chassisType: item.chassisType,
+                            companyType: companyType,
+                            width: unit === Unit.CM ? (item.width * 10) : item.width,
+                            height: unit === Unit.CM ? (item.height * 10) : item.height,
+                            floorCustomerLiving: floor,
+                            isScheduledForDemolition,
+                            isResident
+                        }))
+                    )
+                };
+
+                // 결과 페이지로 이동 (여러 결과 전달)
+                history.push('/calculator/result', {
+                    calculatedResults: allResults,
+                    requestObject: requestObject,
+                    companyType: selectedCompany,
+                    unit: unit
+                });
+
+            } else {
+                // 단일 회사 선택시 기존 로직
+                let isExpanded = false;
+
+                const reqCalculateChassisPriceList = registeredList.map((item) => {
+                    if (!item.companyType) return null;
+
+                    // 발코니이중창(확장발코니)이 있으면 확장이 되었다는 얘기임
+                    if ('BalconyDouble' === item.chassisType.trim()) {
+                        isExpanded = true;
+                    }
+
+                    return {
+                        chassisType: item.chassisType,
+                        companyType: mappedValueByCompany(item.companyType),
+                        width: unit === Unit.CM ? (item.width * 10) : item.width,
+                        height: unit === Unit.CM ? (item.height * 10) : item.height,
+                        floorCustomerLiving: floor,
+                        isScheduledForDemolition,
+                        isResident
+                    };
+                }).filter(Boolean);
+
+                if (reqCalculateChassisPriceList.length !== registeredList.length) {
+                    setErrors({ general: '견적 항목에 오류가 있습니다. 다시 시도해주세요.' });
+                    setIsLoading(false);
+                    return;
+                }
+
+                const payload = {
+                    zipCode: addressZoneCode,
+                    state: sido,
+                    city: siGunGu,
+                    town: yupMyeonDong,
+                    bCode: bCode,
+                    remainAddress: remainAddress,
+                    buildingNumber: addressBuildingNum,
+                    isApartment: isApartment,
+                    isExpanded: isExpanded,
+                    reqCalculateChassisPriceList
+                };
+
+                const response = await axios.post(calculateChassisCall, payload, {
+                    withCredentials: true,
+                    headers: { Authorization: localStorage.getItem("hoppang-token") },
+                });
+
+                // 단일 결과 페이지로 이동
+                history.push('/calculator/result', {
+                    calculatedResult: response.data, // 단수형 유지
+                    requestObject: payload,
+                    companyType: selectedCompany,
+                    unit: unit
+                });
             }
-
-            return {
-                chassisType: item.chassisType,
-                companyType: mappedValueByCompany(item.companyType),
-                width: unit === Unit.CM ? (item.width * 10) : item.width,
-                height: unit === Unit.CM ? (item.height * 10) : item.height,
-                floorCustomerLiving: floor,
-                isScheduledForDemolition,
-                isResident
-            };
-        }).filter(Boolean);
-
-        if (reqCalculateChassisPriceList.length !== registeredList.length) {
-            setErrors({ general: '견적 항목에 오류가 있습니다. 다시 시도해주세요.' });
+        } catch (error) {
+            setErrors({
+                general: error.response?.data?.message || '견적 계산에 실패했습니다. 다시 시도해주세요.'
+            });
+        } finally {
             setIsLoading(false);
-            return;
         }
-
-        const payload: RegisterChassisPayload = {
-            zipCode: addressZoneCode,
-            state: sido,
-            city: siGunGu,
-            town: yupMyeonDong,
-            bCode: bCode,
-            remainAddress: remainAddress,
-            buildingNumber: addressBuildingNum,
-            isApartment: isApartment,
-            isExpanded: isExpanded,
-            reqCalculateChassisPriceList
-        };
-
-        axios.post(calculateChassisCall, payload, {
-            withCredentials: true,
-            headers: { Authorization: localStorage.getItem("hoppang-token") },
-        }).then((response) => {
-            const resultData: RegisterChassisPayload = payload;
-            history.push('/calculator/result', {
-                calculatedResult: response.data,
-                requestObject: resultData,
-                companyType: selectedCompany,
-                unit: unit
-            });
-        })
-            .catch((error) => {
-                setErrors({ general: error.response?.data?.message || '견적 계산에 실패했습니다. 다시 시도해주세요.' });
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
     };
 
     const handleAddressSelect = (newAddress: any) => {
@@ -279,6 +372,20 @@ const MobileCalculationScreen = () => {
                                 )}
                             </button>
                         ))}
+                        <button
+                            key={'모르겠어요'}
+                            className={`company-card ${selectedCompany === '모르겠어요' ? 'selected' : ''}`}
+                            onClick={() => setSelectedCompany('모르겠어요')}
+                        >
+                            <div className="company-content">
+                                <div className="company-logo">
+                                    모르겠어요
+                                </div>
+                            </div>
+                            {selectedCompany === '모르겠어요' && (
+                                <div className="check-icon">✓</div>
+                            )}
+                        </button>
                     </div>
                 </>
             );
@@ -298,22 +405,24 @@ const MobileCalculationScreen = () => {
                     </div>
 
                     <div className="form-content">
-                        <div className="info-card">
-                            <div className="info-label">선택된 브랜드</div>
-                            <div className="company-display">
-                                {mappedCompanyLogoPathByValue(selectedCompany) && (
-                                    <div className="selected-company-logo">
-                                        <img
-                                            src={mappedCompanyLogoPathByValue(selectedCompany)}
-                                            alt={`${selectedCompany} 로고`}
-                                            onError={(e) => {
-                                                e.currentTarget.style.display = 'none';
-                                            }}
-                                        />
-                                    </div>
-                                )}
+                        {selectedCompany !== '모르겠어요' &&
+                            <div className="info-card">
+                                <div className="info-label">선택된 브랜드</div>
+                                <div className="company-display">
+                                    {mappedCompanyLogoPathByValue(selectedCompany) && (
+                                        <div className="selected-company-logo">
+                                            <img
+                                                src={mappedCompanyLogoPathByValue(selectedCompany)}
+                                                alt={`${selectedCompany} 로고`}
+                                                onError={(e) => {
+                                                    e.currentTarget.style.display = 'none';
+                                                }}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-                        </div>
+                        }
 
                         <div className="form-group">
                             <label className="form-label">창호 종류</label>

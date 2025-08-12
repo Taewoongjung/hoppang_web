@@ -54,6 +54,7 @@ const MobileResultScreen = () => {
 
     const [isLaborFeeMinimumSize, setIsLaborFeeMinimumSize] = useState(false);
     const [showMinimumLaborFeeModal, setShowMinimumLaborFeeModal] = useState(false);
+    const [hasShownMinimumLaborFeeModal, setHasShownMinimumLaborFeeModal] = useState(false);
 
     // 📌 문의 완료 핸들러 - 특정 견적의 특정 문의 방식 업데이트
     const handleInquiryComplete = (estimationId: any, inquiryTypes: string[]) => {
@@ -77,11 +78,13 @@ const MobileResultScreen = () => {
 
     useEffect(() => {
         // 첫 번째 결과가 있을 때 기본시공비 여부 확인
-        if (results.length === 1) {
-            const firstResult = results[0];
-            const hasLaborFee = !!(firstResult.laborFee && firstResult.laborFee > 0);
-            setIsLaborFeeMinimumSize(hasLaborFee);
-            setShowMinimumLaborFeeModal(hasLaborFee);
+        if (!hasShownMinimumLaborFeeModal) {
+            if (results.length === 1 || results.length === 3) {
+                const firstResult = results[0];
+                const hasLaborFee = !!(firstResult.laborFee && firstResult.laborFee > 0);
+                setIsLaborFeeMinimumSize(hasLaborFee);
+                setShowMinimumLaborFeeModal(hasLaborFee);
+            }
         }
     }, [results]);
 
@@ -120,10 +123,17 @@ const MobileResultScreen = () => {
             unblock();
         };
     }, [history]);
+
     useEffect(() => {
-        if (location.state && location.state.calculatedResult) {
-            setResults([location.state.calculatedResult]);
+        if (location.state && (location.state.calculatedResult || location.state.calculatedResults)) {
+
+            location.state.calculatedResult ?
+                setResults([location.state.calculatedResult]) // 특정 하나의 창호 브랜드일 때
+                :
+                setResults(location.state.calculatedResults) // '모르겠어요' 일 때 전체를 나타내줘야할 때
+
             setRequestObject(location.state.requestObject);
+
         } else {
             window.location.href = '/calculator/agreement';
         }
@@ -576,7 +586,10 @@ const MobileResultScreen = () => {
 
             <LaborFeeAlertModal
                 isOpen={showMinimumLaborFeeModal}
-                onClose={() => setShowMinimumLaborFeeModal(false)}
+                onClose={() => {
+                    setShowMinimumLaborFeeModal(false);
+                    setHasShownMinimumLaborFeeModal(true);
+                }}
             />
 
             <EnhancedGoToTopButton
