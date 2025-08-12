@@ -6,9 +6,9 @@ import '../../versatile-styles.css';
 
 import {callEstimationById} from "../../../../definition/apiPath";
 import {useParams} from "react-router-dom";
-import {Button, Table, TableColumnsType} from "antd";
+import {Button, Table, TableColumnsType, Tooltip} from "antd";
 import {addCommasToNumber, mappedCompanyLogoPathByValue} from 'src/util';
-import {LeftOutlined, DollarOutlined} from "@ant-design/icons";
+import {LeftOutlined, DollarOutlined, InfoCircleOutlined} from "@ant-design/icons";
 import InquiryEstimateChassis from "../../../../component/V2/InquiryEstimateChassis";
 
 
@@ -45,8 +45,8 @@ const materialColumns: TableColumnsType<MaterialDataType> = [
 
 interface AdditionalDataType {
     key: React.Key;
-    additionalPriceType: string;
-    price: string | undefined;
+    additionalPriceType: React.ReactNode;
+    price: string;
 }
 
 const additionalColumns: TableColumnsType<AdditionalDataType> = [
@@ -113,6 +113,7 @@ const EstimationDetailPage = () => {
             let freightTransportFee = result.freightTransportFee;
             let deliveryFee = result.deliveryFee;
             let customerFloor = result.customerFloor;
+            let laborFee = result.laborFee;
 
             const additionalDataTypes: AdditionalDataType[] = [];
             additionalDataTypes.push({
@@ -135,6 +136,21 @@ const EstimationDetailPage = () => {
                 additionalPriceType: '기타비용',
                 price: addCommasToNumber((deliveryFee + freightTransportFee)) || 'N/A'
             });
+
+            if (laborFee !== 0) {
+                additionalDataTypes.push({
+                    key: 4,
+                    additionalPriceType: <>
+                        <span style={{color: '#949393', fontStyle: 'italic'}}>
+                            시공비{' '}
+                            <Tooltip title="총합계에 이미 포함된 금액입니다.">
+                                <InfoCircleOutlined style={{color: '#888'}}/>
+                            </Tooltip>
+                        </span>
+                    </>,
+                    price: addCommasToNumber((laborFee)) || 'N/A'
+                });
+            }
 
             setAdditionalTableData(additionalDataTypes);
 
@@ -236,7 +252,6 @@ const EstimationDetailPage = () => {
                 {/* Additional Costs Section */}
                 <section className="section-card">
                     <div className="section-header">
-                        <div className="section-icon">⚙️</div>
                         <h3 className="section-title">부가 비용</h3>
                     </div>
                     <div className="table-container">
