@@ -221,7 +221,7 @@ const MobileResultScreen = () => {
             <div className="comparison-table-container">
                 <div className="comparison-header">
                     <h3 className="comparison-title">브랜드 비교</h3>
-                    <p className="comparison-subtitle">총 가격순으로 정렬된 견적을 확인하세요</p>
+                    <p className="comparison-subtitle">총 견적 금액순으로 정렬된 견적을 확인하세요</p>
                 </div>
 
                 <div className="comparison-table">
