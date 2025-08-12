@@ -7,8 +7,8 @@ import '../../versatile-styles.css';
 import {callEstimationById} from "../../../../definition/apiPath";
 import {useParams} from "react-router-dom";
 import {Button, Table, TableColumnsType} from "antd";
-import { addCommasToNumber } from 'src/util';
-import {LeftOutlined, FileTextOutlined, DollarOutlined, CalculatorOutlined} from "@ant-design/icons";
+import {addCommasToNumber, mappedCompanyLogoPathByValue} from 'src/util';
+import {LeftOutlined, DollarOutlined, CalculatorOutlined} from "@ant-design/icons";
 import InquiryEstimateChassis from "../../../../component/V2/InquiryEstimateChassis";
 
 
@@ -74,7 +74,7 @@ const EstimationDetailPage = () => {
     const [surtax, setSurtax] = useState<string | undefined>('');
     const [wholePrice, setWholePrice] = useState<string | undefined>('');
     const [totalPrice, setTotalPrice] = useState<string | undefined>('');
-    const [calculatedCompanyType, setCalculatedCompanyType] = useState<string | undefined>('');
+    const [calculatedCompanyType, setCalculatedCompanyType] = useState<string>('');
     const [estimatedAt, setEstimatedAt] = useState();
     const [totalPriceDiscountedAmount, setTotalPriceDiscountedAmount] = useState<string | undefined>('');
     const [discountedTotalPriceWithSurtax, setDiscountedTotalPriceWithSurtax] = useState<string | undefined>('');
@@ -203,11 +203,13 @@ const EstimationDetailPage = () => {
                 {/* Estimation Info */}
                 <section className="info-card">
                     <div className="info-header">
-                        <div className="info-icon">
-                            <FileTextOutlined />
-                        </div>
                         <div className="info-details">
-                            <h2 className="company-name">{calculatedCompanyType}</h2>
+                            <h2 className="company-name">
+                                <img
+                                    src={mappedCompanyLogoPathByValue(calculatedCompanyType)}
+                                    style={{width:'150px'}}
+                                />
+                            </h2>
                             <p className="estimation-id">견적번호: {estimationId}</p>
                             <p className="estimation-date">견적일: {estimatedAt}</p>
                         </div>

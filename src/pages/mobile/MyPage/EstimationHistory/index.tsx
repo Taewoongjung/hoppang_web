@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import {Spin} from "antd";
-import {addCommasToNumber} from "../../../../util";
+import {addCommasToNumber, mappedCompanyLogoPathByValue} from "../../../../util";
 import moment from "moment/moment";
 import useSWR from "swr";
 import {callEstimationHistories, callMeData} from "../../../../definition/apiPath";
@@ -186,8 +186,13 @@ const EstimationHistory = () => {
                                         <div className="info-row">
                                             <div className="info-item">
                                                 <div className="info-text">
-                                                    <span className="info-label">회사 유형</span>
-                                                    <span className="info-value">{item.companyType}</span>
+                                                    <span className="info-label">창호 브랜드</span>
+                                                    <span className="info-value">
+                                                        <img
+                                                            src={mappedCompanyLogoPathByValue(item.companyType)}
+                                                            style={{width:'150px'}}
+                                                        />
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>

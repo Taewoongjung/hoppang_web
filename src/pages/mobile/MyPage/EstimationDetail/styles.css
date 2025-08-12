@@ -66,6 +66,7 @@ body {
 
 /* Main Content */
 .estimation-main {
+    margin-top: 20px;
     padding: 20px;
     padding-bottom: 40px;
 }
@@ -83,18 +84,6 @@ body {
     display: flex;
     align-items: center;
     gap: 16px;
-}
-
-.info-icon {
-    width: 56px;
-    height: 56px;
-    background: #6366f1;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 24px;
 }
 
 .info-details {
@@ -369,12 +358,6 @@ body {
     .section-card,
     .price-summary-card {
         padding: 16px;
-    }
-
-    .info-icon {
-        width: 48px;
-        height: 48px;
-        font-size: 20px;
     }
 
     .company-name {
