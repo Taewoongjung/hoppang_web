@@ -10,7 +10,7 @@ import chassisTypeOptions from "../../../definition/chassisType";
 import type { RegisteringChassisV2 } from "../../../definition/interfacesV2";
 import {Unit} from "../../../definition/unit";
 import {calculateChassisCall, callMeData} from "../../../definition/apiPath";
-import {mappedValueByCompany} from "../../../util";
+import {mappedCompanyLogoPathByValue, mappedValueByCompany} from "../../../util";
 import {LeftOutlined} from "@ant-design/icons";
 import {companyTypeOptionsString} from "../../../definition/companyType";
 import CalculationExitModal from "../../../component/V2/Modal/CalculationExitModal";
@@ -84,20 +84,6 @@ const MobileCalculationScreen = () => {
 
     // Error State
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
-
-    // 브랜드 이미지 매핑 함수
-    const getBrandImage = (company: string) => {
-        switch (company) {
-            case '현대 L&C':
-                return "/assets/CompanyLogo/HYUNDAI_L&C.png";
-            case 'LX 하우시스':
-                return "/assets/CompanyLogo/LX.png";
-            case 'KCC 글라스':
-                return "/assets/CompanyLogo/KCC_GLASS.png";
-            default:
-                return "/assets/CompanyLogo/KCC_GLASS.png";
-        }
-    };
 
     const validateStep1 = () => {
         const newErrors: { [key: string]: string } = {};
@@ -276,10 +262,10 @@ const MobileCalculationScreen = () => {
                                 onClick={() => setSelectedCompany(company)}
                             >
                                 <div className="company-content">
-                                    {getBrandImage(company) && (
+                                    {mappedCompanyLogoPathByValue(company) && (
                                         <div className="company-logo">
                                             <img
-                                                src={getBrandImage(company)}
+                                                src={mappedCompanyLogoPathByValue(company)}
                                                 alt={`${company} 로고`}
                                                 onError={(e) => {
                                                     e.currentTarget.style.display = 'none';
@@ -287,7 +273,6 @@ const MobileCalculationScreen = () => {
                                             />
                                         </div>
                                     )}
-                                    {/*<span className="company-name">{company}</span>*/}
                                 </div>
                                 {selectedCompany === company && (
                                     <div className="check-icon">✓</div>
@@ -316,10 +301,10 @@ const MobileCalculationScreen = () => {
                         <div className="info-card">
                             <div className="info-label">선택된 브랜드</div>
                             <div className="company-display">
-                                {getBrandImage(selectedCompany) && (
+                                {mappedCompanyLogoPathByValue(selectedCompany) && (
                                     <div className="selected-company-logo">
                                         <img
-                                            src={getBrandImage(selectedCompany)}
+                                            src={mappedCompanyLogoPathByValue(selectedCompany)}
                                             alt={`${selectedCompany} 로고`}
                                             onError={(e) => {
                                                 e.currentTarget.style.display = 'none';

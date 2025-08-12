@@ -36,15 +36,15 @@ export const mappedCompanyByValue = (value: string) => {
 }
 
 export const mappedCompanyLogoPathByValue = (value: string) => {
-    if (value === HYUNDAI) {
+    if (value === HYUNDAI || value === HYUNDAI_ko) {
         return "/assets/CompanyLogo/HYUNDAI_L&C.png";
     }
 
-    if (value === LX) {
+    if (value === LX || value === LX_ko) {
         return "/assets/CompanyLogo/LX.png";
     }
 
-    if (value === KCC_GLASS) {
+    if (value === KCC_GLASS || value === KCC_GLASS_ko) {
         return "/assets/CompanyLogo/KCC_GLASS.png";
     }
 }
