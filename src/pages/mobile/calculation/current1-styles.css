@@ -166,15 +166,15 @@
 }
 
 /* 선택된 카드의 텍스트 강조 */
-.company-card.selected .company-name {
-    font-weight: 700;
-    color: #1e40af;
-}
+/*.company-card.selected .company-name {*/
+/*    font-weight: 700;*/
+/*    color: #1e40af;*/
+/*}*/
 
 /* 호버 상태에서 텍스트 색상 변화 */
-.company-card:hover:not(.selected) .company-name {
-    color: #6366f1;
-}
+/*.company-card:hover:not(.selected) .company-name {*/
+/*    color: #6366f1;*/
+/*}*/
 
 /* 반응형 디자인 개선 */
 @media (max-width: 375px) {
