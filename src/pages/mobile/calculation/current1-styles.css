@@ -51,8 +51,6 @@
     border-radius: 12px;
     overflow: hidden;
     flex-shrink: 0;
-    border: 2px solid #f1f5f9;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     position: relative;
 }
 
