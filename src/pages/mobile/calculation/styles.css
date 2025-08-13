@@ -891,7 +891,6 @@ input:checked + .slider:before {
 }
 
 /* Focus States for Accessibility */
-.company-card:focus,
 .custom-input:focus,
 .custom-select:focus,
 .unit-button:focus,

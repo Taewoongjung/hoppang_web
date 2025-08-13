@@ -359,7 +359,6 @@ const MobileCalculationScreen = () => {
                                         <div className="company-logo">
                                             <img
                                                 src={mappedCompanyLogoPathByValue(company)}
-                                                alt={`${company} 로고`}
                                                 onError={(e) => {
                                                     e.currentTarget.style.display = 'none';
                                                 }}

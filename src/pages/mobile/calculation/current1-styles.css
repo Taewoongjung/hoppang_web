@@ -14,7 +14,6 @@
     font-size: 16px;
     font-weight: 600;
     color: #475569;
-    cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-align: left;
     display: flex;
@@ -29,6 +28,7 @@
 .company-card.selected {
     border-color: #6366f1;
     color: #1e40af;
+    background-color: white;
 }
 
 /* 브랜드 컨텐츠 컨테이너 */
@@ -75,14 +75,14 @@
     animation: scaleIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 2;
     position: relative;
-    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+    /*box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);*/
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     flex-shrink: 0;
 }
 
 .company-card:hover .check-icon {
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+    /*transform: scale(1.1);*/
+    /*box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);*/
 }
 
 @keyframes scaleIn {
@@ -100,7 +100,7 @@
 .company-display {
     font-size: 18px;
     font-weight: 700;
-    color: #6366f1;
+    /*color: #6366f1;*/
     display: flex;
     align-items: center;
     gap: 12px;
@@ -165,17 +165,6 @@
     padding-right: env(safe-area-inset-right);
 }
 
-/* 선택된 카드의 텍스트 강조 */
-/*.company-card.selected .company-name {*/
-/*    font-weight: 700;*/
-/*    color: #1e40af;*/
-/*}*/
-
-/* 호버 상태에서 텍스트 색상 변화 */
-/*.company-card:hover:not(.selected) .company-name {*/
-/*    color: #6366f1;*/
-/*}*/
-
 /* 반응형 디자인 개선 */
 @media (max-width: 375px) {
     .main-content {
@@ -226,15 +215,6 @@
             padding-bottom: max(calc(120px + env(safe-area-inset-bottom)), 120px);
         }
     }
-}
-
-/* 접근성 개선 */
-.company-card:focus {
-    outline-offset: -2px;
-}
-
-.company-card:focus:not(:hover) {
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
 }
 
 /* 터치 디바이스 최적화 */
