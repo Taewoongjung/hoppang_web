@@ -157,13 +157,26 @@ const MyPage = () => {
                         </section>
                     ) : (
                         <section className="user-section">
-                            <div className="user-welcome">
-                                <div className="user-avatar">
-                                    <UserOutlined />
-                                </div>
-                                <div className="user-info">
-                                    <h2>안녕하세요! 👋🏻&nbsp;</h2>
-                                    <p><strong>{userData.name}</strong>님</p>
+                            <div className="user-welcome user-profile-card">
+                                <div className="user-content">
+                                    <div className="user-avatar-container">
+                                        <div className="user-avatar">
+                                            <UserOutlined />
+                                        </div>
+                                        <button
+                                            className="avatar-settings-btn"
+                                            onClick={(e) => {
+                                                e.stopPropagation(); // 프로필 카드 클릭 방지
+                                                window.location.href = `/v2/mypage/profile`;
+                                            }}
+                                        >
+                                            <SettingOutlined />
+                                        </button>
+                                    </div>
+                                    <div className="user-info">
+                                        <h2>안녕하세요! 👋🏻&nbsp;</h2>
+                                        <p><strong>{userData.name}</strong>님</p>
+                                    </div>
                                 </div>
                             </div>
                         </section>

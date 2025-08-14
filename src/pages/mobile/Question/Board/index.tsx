@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef, useCallback} from 'react';
 
 import './styles.css';
 import '../../versatile-styles.css';
+
 import axios from 'axios';
 import {callBoards, callBoardsPosts, callMeData} from "../../../../definition/apiPath";
 import BottomNavigator from "../../../../component/V2/BottomNavigator";

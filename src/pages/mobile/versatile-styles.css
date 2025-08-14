@@ -9,6 +9,8 @@
     -webkit-text-size-adjust: 100% !important;  /* iOS Safari */
     -ms-text-size-adjust: 100% !important;      /* IE/Edge */
     text-size-adjust: 100% !important;          /* 표준 */
+
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 *::-webkit-scrollbar {

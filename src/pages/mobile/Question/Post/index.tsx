@@ -1,4 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
+
+import './styles.css';
+import '../../versatile-styles.css';
+
 import { useHistory, useParams } from 'react-router-dom';
 import useSWR from "swr";
 import {
@@ -11,9 +15,6 @@ import {
 } from "../../../../definition/apiPath";
 import fetcher from "../../../../util/fetcher";
 import axios from "axios";
-
-import './styles.css';
-import '../../versatile-styles.css';
 import {formatTimeAgo, formatUserName} from "../../../../util/boardUtil";
 import CommunityLoginModal from "../../../../component/V2/Modal/CommunityLoginRequiredModal";
 import { EnhancedGoToTopButton } from 'src/util/renderUtil';

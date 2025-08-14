@@ -38,6 +38,7 @@ const MyPageEstimationDetailPageV2 = loadable(() => import('../../pages/mobile/M
 const MyPageEstimationHistoriesPageV2 = loadable(() => import('../../pages/mobile/MyPage/EstimationHistory'));
 const AppConfigPageV2 = loadable(() => import('../../pages/mobile/MyPage/AppConfig'));
 const UserConfigPageV2 = loadable(() => import('../../pages/mobile/MyPage/UserConfig'));
+const ProfilePage = loadable(() => import('../../pages/mobile/MyPage/ProfileDetail'));
 const MyPageV2 = loadable(() => import('../../pages/mobile/MyPage'));
 
 const QuestionBoardPage = loadable(() => import('../../pages/mobile/Question/Board'));
@@ -69,6 +70,7 @@ const App = () => {
                     <Route exact path="/v2/mypage/estimation/:estimationId" component={MyPageEstimationDetailPageV2}/>
                     <Route exact path="/v2/mypage/appconfig" component={AppConfigPageV2}/>
                     <Route exact path="/v2/mypage/userconfig" component={UserConfigPageV2}/>
+                    <Route exact path="/v2/mypage/profile" component={ProfilePage}/>
                     <Route exact path="/v2/mypage" component={MyPageV2}/>
                     <Route exact path="/v2/counsel" component={CounselV2}/>
 

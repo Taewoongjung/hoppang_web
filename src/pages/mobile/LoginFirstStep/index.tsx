@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+
+import './styles.css';
+import '../versatile-styles.css';
+
 import {Input, Button, Divider} from 'antd';
 import axios from 'axios';
 import { callMeData, callVerifyPhoneNumber } from "../../../definition/apiPath";
 import useSWR from "swr";
 import fetcher from "../../../util/fetcher";
-import './styles.css';
-import '../versatile-styles.css';
 
 
 const VALIDATION_SENT_MESSAGE = (
