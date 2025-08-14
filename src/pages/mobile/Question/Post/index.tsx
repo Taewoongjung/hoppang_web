@@ -719,15 +719,19 @@ const PostDetail = () => {
                         onClick={handleGoBack}
                     >
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                  strokeLinejoin="round"/>
                         </svg>
                     </button>
                     <div className="header-title">게시물 상세</div>
                     <div className="header-actions">
                         <button className="share-btn" onClick={() => alert("기능을 준비중입니다. \n불편을 끼쳐드려 죄송합니다. 🙇🏻‍♂️")}>
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <path d="M15 6.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM15 18.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" stroke="currentColor" strokeWidth="1.5"/>
-                                <path d="M7.5 10.5L12.5 7.5M7.5 10.5L12.5 16.5" stroke="currentColor" strokeWidth="1.5"/>
+                                <path
+                                    d="M15 6.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM15 18.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"
+                                    stroke="currentColor" strokeWidth="1.5"/>
+                                <path d="M7.5 10.5L12.5 7.5M7.5 10.5L12.5 16.5" stroke="currentColor"
+                                      strokeWidth="1.5"/>
                             </svg>
                         </button>
                     </div>
@@ -743,8 +747,10 @@ const PostDetail = () => {
                             <div className="deleted-reply-content">
                                 <div className="deleted-reply-icon">
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                        <path d="M3 2h10l-1 12H4L3 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                                        <path d="M7 6v4M9 6v4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                                        <path d="M3 2h10l-1 12H4L3 2Z" stroke="currentColor" strokeWidth="1.5"
+                                              strokeLinecap="round" strokeLinejoin="round"/>
+                                        <path d="M7 6v4M9 6v4" stroke="currentColor" strokeWidth="1.5"
+                                              strokeLinecap="round"/>
                                     </svg>
                                 </div>
                                 <div>
@@ -805,8 +811,10 @@ const PostDetail = () => {
 
                                 <div className="view-count">
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                        <path d="M1 8s3-5 7-5 7 5 7 5-3 5-7 5-7-5-7-5z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-                                        <circle cx="8" cy="8" r="3" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                                        <path d="M1 8s3-5 7-5 7 5 7 5-3 5-7 5-7-5-7-5z" stroke="currentColor"
+                                              strokeWidth="1.5" fill="none"/>
+                                        <circle cx="8" cy="8" r="3" stroke="currentColor" strokeWidth="1.5"
+                                                fill="none"/>
                                     </svg>
                                     <span>조회 {post.viewCount}</span>
                                 </div>
@@ -845,9 +853,10 @@ const PostDetail = () => {
                                             onClick={handlePostLike}
                                         >
                                             <svg width="18" height="16" viewBox="0 0 16 16" fill="none">
-                                                <path d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
-                                                      stroke="currentColor" strokeWidth="1.5"
-                                                      fill={postLiked ? 'currentColor' : 'none'}/>
+                                                <path
+                                                    d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
+                                                    stroke="currentColor" strokeWidth="1.5"
+                                                    fill={postLiked ? 'currentColor' : 'none'}/>
                                             </svg>
                                             <span>추천</span>
                                             <span className="count">{postLikes}</span>
@@ -887,7 +896,8 @@ const PostDetail = () => {
                         {replies.map((reply) => (
                             <div key={reply.id} className="reply-thread">
                                 {/* 메인 댓글 */}
-                                <div id={`reply-${reply.id}`} className={`reply-card ${reply.deleted ? 'deleted' : ''}`}>
+                                <div id={`reply-${reply.id}`}
+                                     className={`reply-card ${reply.deleted ? 'deleted' : ''}`}>
                                     {reply.deleted ? (
                                         <DeletedReplyContent
                                             reply={reply}
@@ -901,20 +911,28 @@ const PostDetail = () => {
                                                     <div className="reply-avatar">
                                                         {reply.registerId.toString() === post.registerId.toString() ? (
                                                             <div className="owner-badge">
-                                                                <svg width="16" height="16" viewBox="0 0 20 20" fill="none">
-                                                                    <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a4 4 0 0 1 8 0v2H6v-2Z"
-                                                                          stroke="currentColor" strokeWidth="1.5"/>
+                                                                <svg width="16" height="16" viewBox="0 0 20 20"
+                                                                     fill="none">
+                                                                    <path
+                                                                        d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a4 4 0 0 1 8 0v2H6v-2Z"
+                                                                        stroke="currentColor" strokeWidth="1.5"/>
                                                                 </svg>
                                                             </div>
                                                         ) : (
                                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                                <path d="M8 7a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 13a3 3 0 0 1 6 0v1H5v-1Z"
-                                                                      stroke="currentColor" strokeWidth="1.5"/>
+                                                                <path
+                                                                    d="M8 7a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 13a3 3 0 0 1 6 0v1H5v-1Z"
+                                                                    stroke="currentColor" strokeWidth="1.5"/>
                                                             </svg>
                                                         )}
                                                     </div>
                                                     <div className="author-info">
-                                                        <span className="author-name">{formatUserName(reply.authorName)}</span>
+                                                        <span className="author-name">
+                                                            {
+                                                                post.isAnonymous === 'T' && reply.registerId.toString() === post.registerId.toString() ?
+                                                                    '익명' : formatUserName(reply.authorName)
+                                                            }
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <div className="reply-meta">
@@ -933,9 +951,11 @@ const PostDetail = () => {
                                                         maxLength={1000}
                                                     />
                                                     <div className="edit-actions">
-                                                        <div className="char-count-small">{editingContent.length}/1000</div>
+                                                        <div className="char-count-small">{editingContent.length}/1000
+                                                        </div>
                                                         <div className="edit-buttons">
-                                                            <button className="cancel-edit-btn" onClick={handleCancelEdit}>
+                                                            <button className="cancel-edit-btn"
+                                                                    onClick={handleCancelEdit}>
                                                                 취소
                                                             </button>
                                                             <button
@@ -988,9 +1008,10 @@ const PostDetail = () => {
                                                     onClick={() => handleLike(reply.id, reply.isLiked)}
                                                 >
                                                     <svg width="19" height="16" viewBox="0 0 16 16" fill="none">
-                                                        <path d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
-                                                              stroke="currentColor" strokeWidth="1.5"
-                                                              fill={reply.isLiked ? 'currentColor' : 'none'}/>
+                                                        <path
+                                                            d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
+                                                            stroke="currentColor" strokeWidth="1.5"
+                                                            fill={reply.isLiked ? 'currentColor' : 'none'}/>
                                                     </svg>
                                                     <span>{reply.likes}</span>
                                                 </button>
@@ -998,7 +1019,11 @@ const PostDetail = () => {
                                                     className={`reply-btn ${showChildReplyForm[reply.id] ? 'active' : ''}`}
                                                     onClick={() => toggleChildReplyForm(reply.id)}
                                                 >
-                                                    <span style={{display: 'inline-block', transform: 'rotate(180deg)', marginRight: '4px'}}>
+                                                    <span style={{
+                                                        display: 'inline-block',
+                                                        transform: 'rotate(180deg)',
+                                                        marginRight: '4px'
+                                                    }}>
                                                         ↩
                                                     </span>
                                                     <span>대댓글</span>
@@ -1014,7 +1039,8 @@ const PostDetail = () => {
                                                             width="16" height="16" viewBox="0 0 16 16" fill="none"
                                                             className={expandedReplies[reply.id] ? 'rotated' : ''}
                                                         >
-                                                            <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5"
+                                                            <path d="M6 4l4 4-4 4" stroke="currentColor"
+                                                                  strokeWidth="1.5"
                                                                   strokeLinecap="round" strokeLinejoin="round"/>
                                                         </svg>
                                                         <span>댓글 {reply.postsChildReplyList.length}개</span>
@@ -1031,8 +1057,9 @@ const PostDetail = () => {
                                         <div className="child-reply-form-content">
                                             <div className="child-reply-avatar">
                                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                    <path d="M8 7a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 13a3 3 0 0 1 6 0v1H5v-1Z"
-                                                          stroke="currentColor" strokeWidth="1.5"/>
+                                                    <path
+                                                        d="M8 7a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 13a3 3 0 0 1 6 0v1H5v-1Z"
+                                                        stroke="currentColor" strokeWidth="1.5"/>
                                                 </svg>
                                             </div>
                                             <div className="child-reply-input-container">
@@ -1079,19 +1106,21 @@ const PostDetail = () => {
 
                                 {/* 대댓글 목록 */}
                                 {expandedReplies[reply.id] && reply.postsChildReplyList && reply.postsChildReplyList.length > 0 && (
-                                    <div className={reply.deleted ? "deleted-reply-children" : "child-replies-container"}>
+                                    <div
+                                        className={reply.deleted ? "deleted-reply-children" : "child-replies-container"}>
                                         {reply.postsChildReplyList.map((childReply) => (
                                             <div key={childReply.id} id={`child-reply-${childReply.id}`}
                                                  className={`child-reply-card ${childReply.deleted ? 'deleted' : ''}`}>
 
                                                 {childReply.deleted ? (
-                                                    <DeletedChildReplyContent />
+                                                    <DeletedChildReplyContent/>
                                                 ) : (
                                                     <>
                                                         <div className="child-reply-connector">
                                                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                                                                 <path d="M5 5v6a4 4 0 0 0 4 4h6" stroke="currentColor"
-                                                                      strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                                                      strokeWidth="1.5" strokeLinecap="round"
+                                                                      strokeLinejoin="round"/>
                                                             </svg>
                                                         </div>
                                                         <div className="child-reply-content-wrapper">
@@ -1100,24 +1129,35 @@ const PostDetail = () => {
                                                                     <div className="child-reply-avatar">
                                                                         {childReply.registerId === post.registerId ? (
                                                                             <div className="owner-badge-small">
-                                                                                <svg width="12" height="12" viewBox="0 0 20 20" fill="none">
-                                                                                    <path d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a4 4 0 0 1 8 0v2H6v-2Z"
-                                                                                          stroke="currentColor" strokeWidth="1.5"/>
+                                                                                <svg width="12" height="12"
+                                                                                     viewBox="0 0 20 20" fill="none">
+                                                                                    <path
+                                                                                        d="M10 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM6 15a4 4 0 0 1 8 0v2H6v-2Z"
+                                                                                        stroke="currentColor"
+                                                                                        strokeWidth="1.5"/>
                                                                                 </svg>
                                                                             </div>
                                                                         ) : (
-                                                                            <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                                                                                <path d="M8 7a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 13a3 3 0 0 1 6 0v1H5v-1Z"
-                                                                                      stroke="currentColor" strokeWidth="1.5"/>
+                                                                            <svg width="12" height="12"
+                                                                                 viewBox="0 0 16 16" fill="none">
+                                                                                <path
+                                                                                    d="M8 7a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 13a3 3 0 0 1 6 0v1H5v-1Z"
+                                                                                    stroke="currentColor"
+                                                                                    strokeWidth="1.5"/>
                                                                             </svg>
                                                                         )}
                                                                     </div>
                                                                     <div className="child-reply-author-info">
-                                                                        <span className="child-reply-author-name">{formatUserName(childReply.registerName)}</span>
+                                                                        <span
+                                                                            className="child-reply-author-name">{
+                                                                            post.isAnonymous === 'T' && childReply.registerId.toString() === post.registerId.toString() ?
+                                                                                '익명' : formatUserName(childReply.registerName)
+                                                                        }</span>
                                                                     </div>
                                                                 </div>
                                                                 <div className="child-reply-meta">
-                                                                    <span className="child-reply-time">{formatTimeAgo(childReply.createdAt)}</span>
+                                                                    <span
+                                                                        className="child-reply-time">{formatTimeAgo(childReply.createdAt)}</span>
                                                                 </div>
                                                             </div>
 
@@ -1132,9 +1172,12 @@ const PostDetail = () => {
                                                                         maxLength={500}
                                                                     />
                                                                     <div className="edit-actions">
-                                                                        <div className="char-count-small">{editingContent.length}/500</div>
+                                                                        <div
+                                                                            className="char-count-small">{editingContent.length}/500
+                                                                        </div>
                                                                         <div className="edit-buttons">
-                                                                            <button className="cancel-edit-btn" onClick={handleCancelEdit}>
+                                                                            <button className="cancel-edit-btn"
+                                                                                    onClick={handleCancelEdit}>
                                                                                 취소
                                                                             </button>
                                                                             <button
@@ -1144,7 +1187,8 @@ const PostDetail = () => {
                                                                             >
                                                                                 {isSubmittingEdit ? (
                                                                                     <>
-                                                                                        <span className="loading-spinner-small"></span>
+                                                                                        <span
+                                                                                            className="loading-spinner-small"></span>
                                                                                         수정 중...
                                                                                     </>
                                                                                 ) : '수정 완료'}
@@ -1155,11 +1199,13 @@ const PostDetail = () => {
                                                             ) : (
                                                                 <div className="child-reply-text">
                                                                     {childReply.contents.split('\n').map((line, index) => (
-                                                                        <p key={index} style={{wordBreak: 'break-word'}}>
+                                                                        <p key={index}
+                                                                           style={{wordBreak: 'break-word'}}>
                                                                             {line}
                                                                         </p>
                                                                     ))}
-                                                                    {childReply.revised && <span className="edited-indicator">[편집됨]</span>}
+                                                                    {childReply.revised &&
+                                                                        <span className="edited-indicator">[편집됨]</span>}
                                                                 </div>
                                                             )}
 
@@ -1168,10 +1214,12 @@ const PostDetail = () => {
                                                                     className={`like-btn ${childReply.isLiked ? 'liked' : ''}`}
                                                                     onClick={() => handleLike(childReply.id, childReply.isLiked)}
                                                                 >
-                                                                    <svg width="18" height="16" viewBox="0 0 16 16" fill="none">
-                                                                        <path d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
-                                                                              stroke="currentColor" strokeWidth="1.5"
-                                                                              fill={childReply.isLiked ? 'currentColor' : 'none'}/>
+                                                                    <svg width="18" height="16" viewBox="0 0 16 16"
+                                                                         fill="none">
+                                                                        <path
+                                                                            d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
+                                                                            stroke="currentColor" strokeWidth="1.5"
+                                                                            fill={childReply.isLiked ? 'currentColor' : 'none'}/>
                                                                     </svg>
                                                                     <span>{childReply.likes || 0}</span>
                                                                 </button>
@@ -1249,7 +1297,8 @@ const PostDetail = () => {
                                     ) : (
                                         <>
                                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                <path d="M15 1L1 8l4 2 2 4 8-13Z" stroke="currentColor" strokeWidth="1.5"
+                                                <path d="M15 1L1 8l4 2 2 4 8-13Z" stroke="currentColor"
+                                                      strokeWidth="1.5"
                                                       strokeLinecap="round" strokeLinejoin="round"/>
                                             </svg>
                                             댓글 등록
