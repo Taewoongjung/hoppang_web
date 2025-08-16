@@ -7,7 +7,6 @@ import {
     LeftOutlined,
     UserOutlined,
     PhoneOutlined,
-    MailOutlined,
     SafetyCertificateOutlined,
     CheckCircleOutlined,
     ExclamationCircleOutlined,
@@ -15,8 +14,10 @@ import {
     IdcardOutlined
 } from '@ant-design/icons';
 import useSWR from "swr";
-import {callMeData} from "../../../../definition/apiPath";
+import {callMeData, callUserProfile} from "../../../../definition/apiPath";
 import fetcher from "../../../../util/fetcher";
+import axios from "axios";
+import OverlayLoadingPage from "../../../../component/Loading/OverlayLoadingPage";
 
 const ProfileEditPage = () => {
 
@@ -28,11 +29,10 @@ const ProfileEditPage = () => {
     const [formData, setFormData] = useState({
         name: '',
         nickname: '',
-        tel: '',
-        email: ''
+        tel: ''
     });
 
-    // useEffect로 SWR 데이터 동기화
+    // SWR 데이터 동기화
     useEffect(() => {
         mutate();
         if (userRealData) {
@@ -49,18 +49,22 @@ const ProfileEditPage = () => {
                 name: userRealData.name || '',
                 nickname: userRealData.nickname || '',
                 tel: userRealData.tel || '',
-                email: userRealData.email || ''
             });
         }
     }, [userRealData]);
 
-    const [loading, setLoading] = useState(false);
+    // 개별 로딩 상태 관리
+    const [loading, setLoading] = useState({
+        name: false,
+        nickname: false,
+        tel: false,
+        telVerification: false,
+    });
 
     const [editMode, setEditMode] = useState({
         name: false,
         nickname: false,
         tel: false,
-        email: false
     });
 
     const handleEdit = (field: string) => {
@@ -69,6 +73,7 @@ const ProfileEditPage = () => {
             // @ts-ignore
             [field]: !prev[field]
         }));
+
         // @ts-ignore
         if (!editMode[field]) {
             setFormData(prev => ({
@@ -80,34 +85,78 @@ const ProfileEditPage = () => {
     };
 
     const handleSave = async (field: string) => {
-        setLoading(true);
-        // API 호출 시뮬레이션
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        setLoading(prev => ({ ...prev, [field]: true }));
 
-        setUserData((prev: any) => ({
-            ...prev,
-            // @ts-ignore
-            [field]: formData[field]
-        }));
+        try {
+            // API 호출 시뮬레이션
+            await new Promise(resolve => {
+                let revisingName = null;
+                let revisingNickname = null;
+                let revisingPhoneNumber = null;
 
-        setEditMode(prev => ({
-            ...prev,
-            [field]: false
-        }));
-        setLoading(false);
+                if (field === 'name') {
+                    revisingName = formData.name;
+                } else if (field === 'nickname') {
+                    revisingNickname = formData.nickname;
+                } else if (field === 'tel') {
+                    revisingPhoneNumber = formData.tel;
+                }
+
+                axios.put(
+                    callUserProfile.replace("{userId}", userRealData.id),
+                    {
+                        revisingName: revisingName,
+                        revisingNickname: revisingNickname,
+                        revisingPhoneNumber: revisingPhoneNumber
+                    },
+                    {
+                        withCredentials: true,
+                        headers: {
+                            Authorization: localStorage.getItem("hoppang-token") || '',
+                        }
+                    })
+                    .then((res) => {
+
+                        setUserData((prev: any) => ({
+                            ...prev,
+                            // @ts-ignore
+                            [field]: formData[field]
+                        }));
+
+                        setEditMode(prev => ({
+                            ...prev,
+                            [field]: false
+                        }));
+
+                        mutate();
+                    })
+            });
+
+        } catch (error) {
+            console.error('저장 실패:', error);
+        } finally {
+            setLoading(prev => ({ ...prev, [field]: false }));
+        }
     };
 
     const handleVerification = async (type: string) => {
-        setLoading(true);
-        // 인증 API 호출 시뮬레이션
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        const loadingKey = `${type}Verification`;
+        setLoading(prev => ({ ...prev, [loadingKey]: true }));
 
-        if (type === 'tel') {
-            setUserData((prev: any) => ({ ...prev, isPhoneVerified: true }));
-        } else if (type === 'email') {
-            setUserData((prev: any) => ({ ...prev, isEmailVerified: true }));
+        try {
+            // 인증 API 호출 시뮬레이션
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            if (type === 'tel') {
+                setUserData((prev: any) => ({ ...prev, isPhoneVerified: true }));
+            } else if (type === 'email') {
+                setUserData((prev: any) => ({ ...prev, isEmailVerified: true }));
+            }
+        } catch (error) {
+            console.error('인증 실패:', error);
+        } finally {
+            setLoading(prev => ({ ...prev, [loadingKey]: false }));
         }
-        setLoading(false);
     };
 
     const completionScore = userData ? [
@@ -122,13 +171,10 @@ const ProfileEditPage = () => {
     // 로딩 처리 추가
     if (!userRealData) {
         return (
-            <div className="profile-edit-container">
-                <div style={{ padding: '20px', textAlign: 'center' }}>
-                    로딩 중...
-                </div>
-            </div>
+            <OverlayLoadingPage word={"로딩중"}/>
         );
     }
+
 
     return (
         <div className="profile-edit-container">
@@ -209,6 +255,7 @@ const ProfileEditPage = () => {
                             <button
                                 onClick={() => handleEdit('name')}
                                 className="edit-btn"
+                                disabled={loading.name}
                             >
                                 <EditOutlined />
                             </button>
@@ -222,18 +269,20 @@ const ProfileEditPage = () => {
                                     onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                                     className="form-input"
                                     placeholder="실명을 입력하세요"
+                                    disabled={loading.name}
                                 />
                                 <div className="form-actions">
                                     <button
                                         onClick={() => handleSave('name')}
-                                        disabled={loading || !formData.name.trim()}
+                                        disabled={loading.name || !formData.name.trim()}
                                         className="save-btn"
                                     >
-                                        {loading ? '저장 중...' : '저장'}
+                                        {loading.name ? '저장 중...' : '저장'}
                                     </button>
                                     <button
                                         onClick={() => handleEdit('name')}
                                         className="cancel-btn"
+                                        disabled={loading.name}
                                     >
                                         취소
                                     </button>
@@ -259,6 +308,7 @@ const ProfileEditPage = () => {
                             <button
                                 onClick={() => handleEdit('nickname')}
                                 className="edit-btn"
+                                disabled={loading.nickname}
                             >
                                 <EditOutlined />
                             </button>
@@ -272,18 +322,20 @@ const ProfileEditPage = () => {
                                     onChange={(e) => setFormData(prev => ({ ...prev, nickname: e.target.value }))}
                                     className="form-input"
                                     placeholder="닉네임을 입력하세요"
+                                    disabled={loading.nickname}
                                 />
                                 <div className="form-actions">
                                     <button
                                         onClick={() => handleSave('nickname')}
-                                        disabled={loading || !formData.nickname.trim()}
+                                        disabled={loading.nickname}
                                         className="save-btn"
                                     >
-                                        {loading ? '저장 중...' : '저장'}
+                                        {loading.nickname ? '저장 중...' : '저장'}
                                     </button>
                                     <button
                                         onClick={() => handleEdit('nickname')}
                                         className="cancel-btn"
+                                        disabled={loading.nickname}
                                     >
                                         취소
                                     </button>
@@ -292,7 +344,10 @@ const ProfileEditPage = () => {
                         ) : (
                             <div className="info-display">
                                 <span className="info-value">{userData?.nickname || ''}</span>
-                                <CheckCircleOutlined className="status-icon verified" />
+                                {userData?.nickname ?
+                                    <CheckCircleOutlined className="status-icon verified" /> :
+                                    <CheckCircleOutlined className="status-icon unverified" />
+                                }
                             </div>
                         )}
                     </section>
@@ -319,6 +374,7 @@ const ProfileEditPage = () => {
                                 <button
                                     onClick={() => handleEdit('tel')}
                                     className="edit-btn"
+                                    disabled={loading.tel || loading.telVerification}
                                 >
                                     <EditOutlined />
                                 </button>
@@ -333,18 +389,20 @@ const ProfileEditPage = () => {
                                     onChange={(e) => setFormData(prev => ({ ...prev, tel: e.target.value }))}
                                     className="form-input"
                                     placeholder="휴대폰 번호를 입력하세요"
+                                    disabled={loading.tel}
                                 />
                                 <div className="form-actions">
                                     <button
                                         onClick={() => handleSave('tel')}
-                                        disabled={loading || !formData.tel.trim()}
+                                        disabled={loading.tel || !formData.tel.trim()}
                                         className="save-btn"
                                     >
-                                        {loading ? '저장 중...' : '저장'}
+                                        {loading.tel ? '저장 중...' : '저장'}
                                     </button>
                                     <button
                                         onClick={() => handleEdit('tel')}
                                         className="cancel-btn"
+                                        disabled={loading.tel}
                                     >
                                         취소
                                     </button>
@@ -363,86 +421,10 @@ const ProfileEditPage = () => {
                                 {!userData?.isPhoneVerified && (
                                     <button
                                         onClick={() => handleVerification('tel')}
-                                        disabled={loading}
+                                        disabled={loading.telVerification}
                                         className="verify-btn phone-verify"
                                     >
-                                        {loading ? '인증 중...' : '📱 휴대폰 인증하기'}
-                                    </button>
-                                )}
-                            </div>
-                        )}
-                    </section>
-
-                    {/* Email Section */}
-                    <section className="info-card">
-                        <div className="info-header">
-                            <div className="info-label">
-                                <div className="info-icon email-icon">
-                                    <MailOutlined />
-                                </div>
-                                <span>이메일</span>
-                            </div>
-                            <div className="header-actions">
-                                {userData?.isEmailVerified ? (
-                                    <span className="status-badge verified">
-                                        인증완료
-                                    </span>
-                                ) : (
-                                    <span className="status-badge unverified">
-                                        인증필요
-                                    </span>
-                                )}
-                                <button
-                                    onClick={() => handleEdit('email')}
-                                    className="edit-btn"
-                                >
-                                    <EditOutlined />
-                                </button>
-                            </div>
-                        </div>
-
-                        {editMode.email ? (
-                            <div className="edit-form">
-                                <input
-                                    type="email"
-                                    value={formData.email}
-                                    onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                                    className="form-input"
-                                    placeholder="이메일을 입력하세요"
-                                />
-                                <div className="form-actions">
-                                    <button
-                                        onClick={() => handleSave('email')}
-                                        disabled={loading || !formData.email.trim()}
-                                        className="save-btn"
-                                    >
-                                        {loading ? '저장 중...' : '저장'}
-                                    </button>
-                                    <button
-                                        onClick={() => handleEdit('email')}
-                                        className="cancel-btn"
-                                    >
-                                        취소
-                                    </button>
-                                </div>
-                            </div>
-                        ) : (
-                            <div className="info-content">
-                                <div className="info-display">
-                                    <span className="info-value">{userData?.email || ''}</span>
-                                    {userData?.isEmailVerified ? (
-                                        <CheckCircleOutlined className="status-icon verified" />
-                                    ) : (
-                                        <ExclamationCircleOutlined className="status-icon unverified" />
-                                    )}
-                                </div>
-                                {!userData?.isEmailVerified && (
-                                    <button
-                                        onClick={() => handleVerification('email')}
-                                        disabled={loading}
-                                        className="verify-btn email-verify"
-                                    >
-                                        {loading ? '인증 중...' : '📧 이메일 인증하기'}
+                                        {loading.telVerification ? '인증 중...' : '📱 휴대폰 인증하기'}
                                     </button>
                                 )}
                             </div>

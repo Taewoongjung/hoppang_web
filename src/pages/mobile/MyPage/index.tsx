@@ -163,7 +163,7 @@ const MyPage = () => {
                                         <div className="user-avatar">
                                             <UserOutlined />
                                         </div>
-                                        {userData.id === 550 &&
+                                        {(userData.id === 550 || userData.id === 248) &&
                                             <button
                                                 className="avatar-settings-btn"
                                                 onClick={(e) => {

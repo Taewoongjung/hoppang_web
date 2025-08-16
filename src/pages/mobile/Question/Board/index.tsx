@@ -231,7 +231,6 @@ const QuestionsBoard = () => {
         setIsLoading(true);
         try {
             const offset = (page - 1) * limit;
-            await new Promise(resolve => setTimeout(resolve, 300)); // 시뮬레이션
 
             let boardIds = '';
 

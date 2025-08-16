@@ -540,17 +540,7 @@
 .cancel-btn:focus,
 .verify-btn:focus,
 .form-input:focus {
-    outline: 2px solid #6366f1;
-    outline-offset: 2px;
-}
-
-/* High Contrast Mode Support */
-@media (prefers-contrast: high) {
-    .info-card,
-    .profile-summary,
-    .security-info {
-        border: 2px solid currentColor;
-    }
+    outline-offset: -2px;
 }
 
 /* Smooth Transitions */
