@@ -163,17 +163,15 @@ const MyPage = () => {
                                         <div className="user-avatar">
                                             <UserOutlined />
                                         </div>
-                                        {(userData.id === 550 || userData.id === 248) &&
-                                            <button
-                                                className="avatar-settings-btn"
-                                                onClick={(e) => {
-                                                    e.stopPropagation(); // 프로필 카드 클릭 방지
-                                                    window.location.href = `/v2/mypage/profile`;
-                                                }}
-                                            >
-                                                <SettingOutlined />
-                                            </button>
-                                        }
+                                        <button
+                                            className="avatar-settings-btn"
+                                            onClick={(e) => {
+                                                e.stopPropagation(); // 프로필 카드 클릭 방지
+                                                window.location.href = `/v2/mypage/profile`;
+                                            }}
+                                        >
+                                            <SettingOutlined />
+                                        </button>
                                     </div>
                                     <div className="user-info">
                                         <h2>안녕하세요! 👋🏻&nbsp;</h2>

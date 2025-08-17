@@ -610,6 +610,7 @@
     cursor: not-allowed;
 }
 
+.notification,
 .verification-help {
     background: #f0f9ff;
     border: 1px solid #e0f2fe;
@@ -617,6 +618,7 @@
     padding: 12px;
 }
 
+.notification p,
 .verification-help p {
     margin: 0 0 4px 0;
     font-size: 12px;

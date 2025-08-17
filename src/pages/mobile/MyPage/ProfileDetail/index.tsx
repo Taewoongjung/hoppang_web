@@ -80,17 +80,24 @@ const ProfileEditPage = () => {
         step: 'input', // 'input' | 'sent' | 'verified'
         canResend: false
     });
+    const [requestedRevisingPhoneNumber, setRequestedRevisingPhoneNumber] = useState('');
 
-    // 타이머 효과
     useEffect(() => {
         let timer: NodeJS.Timeout;
         if (phoneVerification.timeLeft > 0) {
             timer = setTimeout(() => {
-                setPhoneVerification(prev => ({
-                    ...prev,
-                    timeLeft: prev.timeLeft - 1,
-                    canResend: prev.timeLeft <= 30 // 30초 남으면 재전송 가능
-                }));
+                setPhoneVerification(prev => {
+                    const newTimeLeft = prev.timeLeft - 1;
+
+                    // 30초 남았을 때 재전송 버튼 활성화
+                    const shouldEnableResend = newTimeLeft <= 30 && prev.isCodeSent && !prev.canResend;
+
+                    return {
+                        ...prev,
+                        timeLeft: newTimeLeft,
+                        canResend: shouldEnableResend || prev.canResend
+                    };
+                });
             }, 1000);
         } else if (phoneVerification.timeLeft === 0 && phoneVerification.isCodeSent) {
             setPhoneVerification(prev => ({
@@ -222,7 +229,6 @@ const ProfileEditPage = () => {
                     mutate();
                 })
                 .catch((err) => {
-                    console.log("??err = ", err.response.data.errorMessage);
                     alert(err.response.data.errorMessage);
                 })
         } finally {
@@ -249,6 +255,9 @@ const ProfileEditPage = () => {
         }
 
         setLoading(prev => ({ ...prev, requestVerification: true }));
+
+        // @ts-ignore
+        setRequestedRevisingPhoneNumber(formatPhoneNumber(reformedTel));
 
         try {
             // 인증번호 요청 API 호출
@@ -456,6 +465,11 @@ const ProfileEditPage = () => {
                                     placeholder="실명을 입력하세요"
                                     disabled={loading.name}
                                 />
+                                <div className="notification">
+                                    <p>• 닉네임은 <strong>한글, 영어</strong>만 사용할 수 있습니다.</p>
+                                    <p>• 띄어쓰기, 특수문자, 이모지는 입력할 수 없습니다.</p>
+                                    <p>• 이름은 <strong>최대 10자까지</strong> 입력할 수 있습니다.</p>
+                                </div>
                                 <div className="form-actions">
                                     <button
                                         onClick={() => handleSave('name')}
@@ -517,6 +531,11 @@ const ProfileEditPage = () => {
                                     placeholder="닉네임을 입력하세요"
                                     disabled={loading.nickname}
                                 />
+                                <div className="notification">
+                                    <p>• 닉네임은 <strong>한글, 영어, 숫자, '-'와 '_'</strong>만 사용할 수 있습니다.</p>
+                                    <p>• 띄어쓰기, 특수문자, 이모지는 입력할 수 없습니다.</p>
+                                    <p>• 닉네임은 <strong>최대 15자까지</strong> 입력할 수 있습니다.</p>
+                                </div>
                                 <div className="form-actions">
                                     <button
                                         onClick={() => handleSave('nickname')}
@@ -595,32 +614,34 @@ const ProfileEditPage = () => {
                                             disabled={loading.tel || phoneVerification.isCodeSent}
                                             maxLength={13}
                                         />
-                                        <button
-                                            onClick={handleRequestVerificationCode}
-                                            disabled={
-                                                (formData.tel.replace(/[^0-9]/g, '').length < 11) ||
-                                                (formData.tel.replace(/[^0-9]/g, '') === userRealData.tel) ||
-                                                (phoneVerification.isCodeSent && !phoneVerification.canResend)
-                                            }
-                                            className={`verification-request-btn ${phoneVerification.isCodeSent ? 'resend' : ''}`}
-                                        >
-                                            {loading.requestVerification ? (
-                                                <>
-                                                    <div className="mini-spinner"></div>
-                                                    요청중...
-                                                </>
-                                            ) : phoneVerification.isCodeSent && !phoneVerification.canResend ? (
-                                                <>
-                                                    <ClockCircleOutlined/>
-                                                    {formatTime(phoneVerification.timeLeft)}
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <SendOutlined/>
-                                                    {phoneVerification.isCodeSent ? '재전송' : '인증번호 요청'}
-                                                </>
-                                            )}
-                                        </button>
+
+                                        {phoneVerification.step !== 'verified' &&
+                                            <button
+                                                onClick={handleRequestVerificationCode}
+                                                disabled={
+                                                    (formData.tel.replace(/[^0-9]/g, '').length < 11) ||
+                                                    (formData.tel.replace(/[^0-9]/g, '') === userRealData.tel) ||
+                                                    (phoneVerification.isCodeSent && !phoneVerification.canResend)
+                                                }
+                                                className={`verification-request-btn ${phoneVerification.isCodeSent ? 'resend' : ''}`}
+                                            >
+                                                {loading.requestVerification ? (
+                                                    <>
+                                                        <div className="mini-spinner"></div>
+                                                        요청중...
+                                                    </>
+                                                ) : phoneVerification.isCodeSent && !phoneVerification.canResend ? (
+                                                    <>
+                                                        발송됨
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <SendOutlined/>
+                                                        {phoneVerification.isCodeSent ? '재전송' : '인증번호 요청'}
+                                                    </>
+                                                )}
+                                            </button>
+                                        }
                                     </div>
 
                                     {/* 인증번호 입력 섹션 */}
@@ -633,7 +654,7 @@ const ProfileEditPage = () => {
                                                 <div className="status-text">
                                                     <div className="status-title">인증번호가 발송되었습니다</div>
                                                     <div className="status-subtitle">
-                                                        {formData.tel}로 전송된 6자리 숫자를 입력해주세요
+                                                        {requestedRevisingPhoneNumber}로 전송된 6자리 숫자를 입력해주세요
                                                     </div>
                                                 </div>
                                                 <div className="timer-display">
@@ -683,9 +704,9 @@ const ProfileEditPage = () => {
                                             </div>
 
                                             <div className="verification-help">
-                                                <p>• 인증번호가 오지 않나요? SMS 차단 설정을 확인해주시고 재전송 버튼을 눌러주세요.</p>
-                                                <p>• 그래도 문자메시지가 오지 않는다면 스펨메시지함을 확인해주세요.</p>
-                                                <p>• 그래도 오지 않는다면, 고객센터에 문의해주세요.</p>
+                                                <p>• 인증번호가 수신되지 않나요? <strong>SMS 차단 설정</strong>을 확인하시고, <strong>재시도</strong>해주세요.</p>
+                                                <p>• 그래도 메시지를 수신하지 못하셨다면, <strong>스팸 메시지함</strong>을 확인해주세요.</p>
+                                                <p>• 여전히 수신되지 않는 경우, <strong><u><a href="/v2/counsel">고객센터</a></u></strong>로 문의해 주시면 안내해드립니다.</p>
                                             </div>
                                         </div>
                                     )}
@@ -754,7 +775,7 @@ const ProfileEditPage = () => {
                             <h3>🔒 개인정보 보호</h3>
                             <p>
                                 호빵은 회원님의 개인정보를 안전하게 보호합니다.
-                                모든 정보는 암호화되어 저장되며, 본인 확인 후에만 수정 가능합니다.
+                                모든 정보는 암호화되어 저장되며, 본인만 수정 가능합니다.
                             </p>
                         </div>
                     </div>
