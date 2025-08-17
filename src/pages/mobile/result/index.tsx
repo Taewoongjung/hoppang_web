@@ -289,7 +289,7 @@ const MobileResultScreen = () => {
 
                 <div className="comparison-footer">
                     <p className="comparison-note">
-                        💡 가격은 할인이 적용된 최종 금액입니다
+                        💡 가격은 최종 금액입니다
                     </p>
                 </div>
             </div>
