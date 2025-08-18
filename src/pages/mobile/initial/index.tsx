@@ -459,7 +459,9 @@ const Initial = () => {
                     </div>
                     <div className="header-greeting">
                         {userData ? (
-                            <span className="user-greeting">안녕하세요, <strong>{userData.name}</strong>님!</span>
+                            <span className="user-greeting">안녕하세요,
+                                <strong>{userData.nickname ? userData.nickname : userData.name}</strong>님!
+                            </span>
                         ) : (
                             <button
                                 className="login-btn"

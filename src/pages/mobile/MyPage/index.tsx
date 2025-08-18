@@ -112,21 +112,23 @@ const MyPage = () => {
 
     return (
         <>
-            {loading && <OverlayLoadingPage word={"처리중"} />}
+            {loading && <OverlayLoadingPage word={"처리중"}/>}
 
             <div className="mypage-container">
                 {/* Header */}
                 <header className="mypage-header">
                     <div className="header-content">
                         <div className="logo-container">
-                            <img src="/assets/hoppang-character.png" alt="Hoppang Logo" className="logo-img" />
+                            <img src="/assets/hoppang-character.png" alt="Hoppang Logo" className="logo-img"/>
                             <span className="logo-text">마이</span>
                         </div>
                         <button
                             className="settings-btn"
-                            onClick={() => {window.location.href = `/v2/mypage/userconfig?isLoggedIn=${isLoggedIn}`;}}
+                            onClick={() => {
+                                window.location.href = `/v2/mypage/userconfig?isLoggedIn=${isLoggedIn}`;
+                            }}
                         >
-                            <SettingOutlined />
+                            <SettingOutlined/>
                         </button>
                     </div>
                 </header>
@@ -136,10 +138,12 @@ const MyPage = () => {
                     {/* User Section */}
                     {!userData ? (
                         <section className="login-section">
-                            <div className="login-card" onClick={() => {window.location.href = '/v2/login';}}>
+                            <div className="login-card" onClick={() => {
+                                window.location.href = '/v2/login';
+                            }}>
                                 <div className="login-content">
                                     <div className="login-icon">
-                                        <UserOutlined />
+                                        <UserOutlined/>
                                     </div>
                                     <div className="login-text">
                                         <h3>호빵에서 만나요! 🎉</h3>
@@ -151,7 +155,7 @@ const MyPage = () => {
                                     </div>
                                 </div>
                                 <div className="login-arrow">
-                                    <RightOutlined />
+                                    <RightOutlined/>
                                 </div>
                             </div>
                         </section>
@@ -161,7 +165,7 @@ const MyPage = () => {
                                 <div className="user-content">
                                     <div className="user-avatar-container">
                                         <div className="user-avatar">
-                                            <UserOutlined />
+                                            <UserOutlined/>
                                         </div>
                                         <button
                                             className="avatar-settings-btn"
@@ -170,12 +174,12 @@ const MyPage = () => {
                                                 window.location.href = `/v2/mypage/profile`;
                                             }}
                                         >
-                                            <SettingOutlined />
+                                            <SettingOutlined/>
                                         </button>
                                     </div>
                                     <div className="user-info">
                                         <h2>안녕하세요! 👋🏻&nbsp;</h2>
-                                        <p><strong>{userData.name}</strong>님</p>
+                                        <p><strong>{userData.nickname ? userData.nickname : userData.name}</strong>님</p>
                                     </div>
                                 </div>
                             </div>
@@ -232,7 +236,7 @@ const MyPage = () => {
                                                 )}
                                             </div>
                                             <div className="menu-arrow">
-                                                <RightOutlined />
+                                                <RightOutlined/>
                                             </div>
                                         </div>
                                     )
@@ -245,7 +249,7 @@ const MyPage = () => {
                     <section className="app-info-section">
                         <div className="app-info-card">
                             <div className="app-character">
-                                <img src="/assets/hoppang-character.png" alt="Hoppang Character" />
+                                <img src="/assets/hoppang-character.png" alt="Hoppang Character"/>
                             </div>
                             <div className="app-info-text">
                                 <h4>호빵과 함께 하세요!</h4>
@@ -258,7 +262,7 @@ const MyPage = () => {
                 <BottomNavigator userData={userData}/>
             </div>
         </>
-    )
+    );
 }
 
 export default MyPage;

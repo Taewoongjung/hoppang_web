@@ -245,7 +245,8 @@ const MobileCalculationScreen = () => {
                     calculatedResults: allResults,
                     requestObject: requestObject,
                     companyType: selectedCompany,
-                    unit: unit
+                    unit: unit,
+                    userData: userData
                 });
 
             } else {

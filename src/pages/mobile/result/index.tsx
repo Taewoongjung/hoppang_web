@@ -508,8 +508,11 @@ const MobileResultScreen = () => {
             <main className="main-content">
                 {results.length === 1 &&
                     <div className="result-header">
-                        <h2 className="result-title">견적 계산 완료</h2>
-                        <p className="result-subtitle">선택하신 조건에 맞는 예상 견적입니다</p>
+                        <h2 className="result-title">🎉견적 계산 완료</h2>
+                        <p className="result-subtitle">
+                            {location.state.userData.nickname ?
+                                location.state.userData.nickname : location.state.userData.name}님이 요청하신 견적입니다
+                        </p>
                     </div>
                 }
 
