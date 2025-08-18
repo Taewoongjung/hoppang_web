@@ -125,7 +125,7 @@ const Agreement = () => {
                     </div>
                     <div className="header-greeting">
                         {userData ? (
-                            <span className="user-greeting">안녕하세요
+                            <span className="user-greeting">안녕하세요&nbsp;
                                 <strong>{userData.nickname ? userData.nickname : userData.name}</strong>님!
                             </span>
                         ) : (
