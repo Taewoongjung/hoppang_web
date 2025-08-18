@@ -649,7 +649,6 @@ body {
 .branch-category-btn:hover {
     border-color: #6366f1;
     background: linear-gradient(135deg, #f8fafc 0%, #f0f9ff 100%);
-    transform: translateX(4px);
     box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
 }
 

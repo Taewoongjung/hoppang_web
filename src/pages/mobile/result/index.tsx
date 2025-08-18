@@ -20,6 +20,7 @@ import InquiryEstimateChassis from "../../../component/V2/InquiryEstimateChassis
 import CalculationResultExitModal from "../../../component/V2/Modal/CalculationResultExitModal";
 import LaborFeeAlertModal from "../../../component/V2/Modal/LaborFeeAlertModal";
 import {EnhancedGoToTopButton} from "../../../util/renderUtil";
+import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
 
 
 interface InquiryStatus {
@@ -487,14 +488,9 @@ const MobileResultScreen = () => {
 
     return (
         <div className="app-container">
-            {isLoading && (
-                <div className="loading-overlay">
-                    <div className="loading-content">
-                        <div className="loading-spinner"></div>
-                        <span>견적을 계산중입니다...</span>
-                    </div>
-                </div>
-            )}
+            {isLoading &&
+                <OverlayLoadingPage word={"견적을 계산중입니다"}/>
+            }
 
             <header className="app-header">
                 <div className="header-content">
