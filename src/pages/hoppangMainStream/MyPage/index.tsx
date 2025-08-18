@@ -109,7 +109,7 @@ const MyPage = () => {
                             {userData &&
                                 <div className="login-text">
                                     <div>
-                                        <strong>{userData.name}</strong> 님 안녕하세요 👋🏻
+                                        <strong>{userData.nickname ? userData.nickname : userData.name}</strong> 님 안녕하세요 👋🏻
                                     </div>
                                 </div>
                             }

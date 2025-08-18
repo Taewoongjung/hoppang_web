@@ -240,8 +240,10 @@ const MobileCalculationScreen = () => {
                     )
                 };
 
+                await mutate();
+
                 // 결과 페이지로 이동 (여러 결과 전달)
-                history.push('/calculator/result', {
+                await history.push('/calculator/result', {
                     calculatedResults: allResults,
                     requestObject: requestObject,
                     companyType: selectedCompany,
@@ -296,12 +298,15 @@ const MobileCalculationScreen = () => {
                     headers: { Authorization: localStorage.getItem("hoppang-token") },
                 });
 
+                await mutate();
+
                 // 단일 결과 페이지로 이동
-                history.push('/calculator/result', {
+                await history.push('/calculator/result', {
                     calculatedResult: response.data, // 단수형 유지
                     requestObject: payload,
                     companyType: selectedCompany,
-                    unit: unit
+                    unit: unit,
+                    userData: userData
                 });
             }
         } catch (error) {
