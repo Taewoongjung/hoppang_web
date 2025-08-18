@@ -287,11 +287,11 @@ const MobileResultScreen = () => {
                     })}
                 </div>
 
-                <div className="comparison-footer">
-                    <p className="comparison-note">
-                        💡 가격은 최종 금액입니다
-                    </p>
-                </div>
+                {/*<div className="comparison-footer">*/}
+                {/*    <p className="comparison-note">*/}
+                {/*        💡 가격은 최종 금액입니다*/}
+                {/*    </p>*/}
+                {/*</div>*/}
             </div>
         );
     };
