@@ -24,6 +24,13 @@
     color: #1e293b;
 }
 
+.upload-status {
+    margin-left: 12px;
+    font-size: 14px;
+    color: #3b82f6;
+    font-weight: 500;
+}
+
 .editor-actions {
     display: flex;
     gap: 8px;
