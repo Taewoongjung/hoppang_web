@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 import './styles.css';
+import {callBoardsPostsImageUpload} from "../../../../definition/apiPath";
 
 interface PostEditorProps {
     initialContent?: string;
@@ -9,19 +10,132 @@ interface PostEditorProps {
     onContentChange?: (content: string, delta: any, source: string) => void;
     readOnly?: boolean;
     height?: string;
+    // 이미지 업로드 API 엔드포인트
+    imageUploadUrl?: string;
+    // 이미지 업로드 시 추가 헤더 (인증 토큰 등)
+    uploadHeaders?: Record<string, string>;
 }
 
 const PostEditor: React.FC<PostEditorProps> = ({
-   initialContent = '',
-   placeholder = '내용을 입력해주세요...',
-   onContentChange,
-   readOnly = false,
-   height = '400px'
-}) => {
+                                                   initialContent = '',
+                                                   placeholder = '내용을 입력해주세요...',
+                                                   onContentChange,
+                                                   readOnly = false,
+                                                   height = '400px',
+                                                   imageUploadUrl = callBoardsPostsImageUpload,
+                                                   uploadHeaders = {}
+                                               }) => {
     const editorRef = useRef<HTMLDivElement>(null);
     const quillRef = useRef<Quill | null>(null);
     const [content, setContent] = useState<string>(initialContent);
     const [wordCount, setWordCount] = useState<number>(0);
+    const [isUploading, setIsUploading] = useState<boolean>(false);
+
+    // 이미지 업로드 처리 함수
+    const handleImageUpload = async (file: File): Promise<string | null> => {
+        try {
+            setIsUploading(true);
+
+            const formData = new FormData();
+            await formData.append('uploadingFile', file);
+            console.log("@@!#!@ = ", formData);
+
+            const response = await fetch(imageUploadUrl.replace('{postId}', '1'), {
+                method: 'POST',
+                headers: {
+                    ...uploadHeaders,
+                    // Authorization: localStorage.getItem("hoppang-token") || '',
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFpcG9vaDg4ODJAbmF2ZXIuY29tIiwicm9sZSI6IlJPTEVfQ1VTVE9NRVIiLCJvQXV0aFR5cGUiOiJLS08iLCJpYXQiOjE3NTYwNzkyNjQsImV4cCI6MTc1NjEwMDg2M30.SWw4hgNeU3VU2fEDs5sHDS7WOUd66_KX31nrJoyNisg',
+                },
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error(`업로드 실패: ${response.status}`);
+            }
+
+            const result = await response.json();
+
+            // API 응답에서 이미지 URL 추출 (일반적인 응답 구조에 따라 조정 필요)
+            const imageUrl = result.url || result.data?.url || result.imageUrl;
+
+            if (!imageUrl) {
+                throw new Error('이미지 URL을 받지 못했습니다.');
+            }
+
+            return imageUrl;
+
+        } catch (error) {
+            console.error('이미지 업로드 에러:', error);
+            alert('이미지 업로드에 실패했습니다. 다시 시도해주세요.');
+            return null;
+        } finally {
+            setIsUploading(false);
+        }
+    };
+
+    // Quill 이미지 핸들러 커스터마이징
+    const imageHandler = () => {
+        if (isUploading) {
+            alert('이미지 업로드 중입니다. 잠시만 기다려주세요.');
+            return;
+        }
+
+        const input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/*');
+
+        input.onchange = async () => {
+            const file = input.files?.[0];
+            if (!file) return;
+
+            // 파일 크기 검증 (예: 10MB)
+            const maxSize = 10 * 1024 * 1024;
+            if (file.size > maxSize) {
+                alert('파일 크기는 10MB를 초과할 수 없습니다.');
+                return;
+            }
+
+            // 파일 타입 검증
+            if (!file.type.startsWith('image/')) {
+                alert('이미지 파일만 업로드 가능합니다.');
+                return;
+            }
+
+            const quill = quillRef.current;
+            if (!quill) return;
+
+            // @ts-ignore
+            // 현재 커서 위치 저장
+            const range = quill?.getSelection(true);
+
+            // 임시 로딩 이미지 삽입
+            const loadingImageData = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+CiAgPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuyXheyUnOuTnCDspJEuLi48L3RleHQ+Cjwvc3ZnPg==';
+            // @ts-ignore
+            quill?.insertEmbed(range.index, 'image', loadingImageData);
+
+            // 이미지 업로드 실행
+            const imageUrl = await handleImageUpload(file);
+
+            if (imageUrl) {
+                // 업로드 성공 시 로딩 이미지를 실제 URL로 대체
+                // @ts-ignore
+                quill?.deleteText(range.index, 1);
+                // @ts-ignore
+                quill?.insertEmbed(range.index, 'image', imageUrl);
+                // @ts-ignore
+                quill?.setSelection(range.index + 1);
+
+                console.log('이미지 업로드 성공:', imageUrl);
+            } else {
+                // 업로드 실패 시 로딩 이미지 제거
+                // @ts-ignore
+                quill?.deleteText(range.index, 1);
+            }
+        };
+
+        input.click();
+    };
 
     useEffect(() => {
         if (editorRef.current && !quillRef.current) {
@@ -32,15 +146,20 @@ const PostEditor: React.FC<PostEditorProps> = ({
                 readOnly,
                 placeholder,
                 modules: {
-                    toolbar: readOnly ? false : [
-                        [{ 'header': [1, 2, 3, false] }],
-                        ['bold', 'italic', 'underline', 'strike'],
-                        [{ 'color': [] }, { 'background': [] }],
-                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                        [{ 'align': [] }],
-                        [ 'image'],
-                        ['clean']
-                    ],
+                    toolbar: readOnly ? false : {
+                        container: [
+                            [{ 'header': [1, 2, 3, false] }],
+                            ['bold', 'italic', 'underline', 'strike'],
+                            [{ 'color': [] }, { 'background': [] }],
+                            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                            [{ 'align': [] }],
+                            ['image'],
+                            ['clean']
+                        ],
+                        handlers: {
+                            image: imageHandler
+                        }
+                    },
                     history: {
                         delay: 2000,
                         maxStack: 500,
@@ -92,7 +211,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
                 quillRef.current = null;
             }
         };
-    }, [initialContent, placeholder, onContentChange, readOnly]);
+    }, [initialContent, placeholder, onContentChange, readOnly, imageUploadUrl]);
 
     // 내용 가져오기 헬퍼 함수
     const getEditorContent = () => {
@@ -134,10 +253,14 @@ const PostEditor: React.FC<PostEditorProps> = ({
     // 저장 버튼 핸들러
     const handleSave = () => {
         console.log("@@ = ", quillRef.current);
-        // if (!onSave || !quillRef.current) return;
 
         if (isEmpty()) {
             alert('내용을 입력해주세요.');
+            return;
+        }
+
+        if (isUploading) {
+            alert('이미지 업로드가 진행 중입니다. 완료 후 다시 시도해주세요.');
             return;
         }
 
@@ -152,6 +275,13 @@ const PostEditor: React.FC<PostEditorProps> = ({
 
     return (
         <div className="post-editor-container">
+            {/* 업로드 상태 표시 */}
+            {isUploading && (
+                <div className="upload-status">
+                    <span>이미지 업로드 중...</span>
+                </div>
+            )}
+
             {/* Quill 에디터 */}
             <div className="editor-wrapper" style={{ height }}>
                 <div ref={editorRef} className="quill-editor" />
@@ -167,14 +297,12 @@ const PostEditor: React.FC<PostEditorProps> = ({
             )}
             {!readOnly && (
                 <div className="editor-header">
-                    {/*<div className="editor-title">*/}
-                    {/*    <h3>게시글 작성</h3>*/}
-                    {/*</div>*/}
                     <div className="editor-actions">
                         <button
                             className="btn-clear"
                             onClick={handleClear}
                             type="button"
+                            disabled={isUploading}
                         >
                             초기화
                         </button>
@@ -182,8 +310,9 @@ const PostEditor: React.FC<PostEditorProps> = ({
                             className="btn-save"
                             onClick={handleSave}
                             type="button"
+                            disabled={isUploading}
                         >
-                            저장
+                            {isUploading ? '업로드 중...' : '저장'}
                         </button>
                     </div>
                 </div>
