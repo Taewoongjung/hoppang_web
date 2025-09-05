@@ -38,14 +38,13 @@ const PostEditor: React.FC<PostEditorProps> = ({
 
             const formData = new FormData();
             await formData.append('uploadingFile', file);
-            console.log("@@!#!@ = ", formData);
 
-            const response = await fetch(imageUploadUrl.replace('{postId}', '1'), {
+            const response = await fetch(imageUploadUrl, {
                 method: 'POST',
                 headers: {
                     ...uploadHeaders,
                     // Authorization: localStorage.getItem("hoppang-token") || '',
-                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFpcG9vaDg4ODJAbmF2ZXIuY29tIiwicm9sZSI6IlJPTEVfQ1VTVE9NRVIiLCJvQXV0aFR5cGUiOiJLS08iLCJpYXQiOjE3NTYwNzkyNjQsImV4cCI6MTc1NjEwMDg2M30.SWw4hgNeU3VU2fEDs5sHDS7WOUd66_KX31nrJoyNisg',
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFpcG9vaDg4ODJAbmF2ZXIuY29tIiwicm9sZSI6IlJPTEVfQ1VTVE9NRVIiLCJvQXV0aFR5cGUiOiJLS08iLCJpYXQiOjE3NTcwMzQ0NTUsImV4cCI6MTc1NzA1NjA1NH0.FkLiuVD3JbeSnDsx4ofcgMlK2xrGlbjqyBGoCoT40lU',
                 },
                 body: formData
             });
@@ -54,10 +53,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
                 throw new Error(`업로드 실패: ${response.status}`);
             }
 
-            const result = await response.json();
-
-            // API 응답에서 이미지 URL 추출 (일반적인 응답 구조에 따라 조정 필요)
-            const imageUrl = result.url || result.data?.url || result.imageUrl;
+            const imageUrl = await response.text();
 
             if (!imageUrl) {
                 throw new Error('이미지 URL을 받지 못했습니다.');
@@ -139,6 +135,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
 
     useEffect(() => {
         if (editorRef.current && !quillRef.current) {
+
             // Quill 설정
             // @ts-ignore
             const quill = new Quill(editorRef.current, {

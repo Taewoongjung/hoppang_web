@@ -28,6 +28,7 @@ export const callPostsReplyLike = `https://hoppang.store/api/boards/posts/replie
 export const callRecentPosts = `https://hoppang.store/api/boards/posts/recent`;
 export const callPostsBookmark = `https://hoppang.store/api/boards/posts/{postId}/bookmarks`;
 export const callUserProfile = `https://hoppang.store/api/users/{userId}`;
+export const callBoardsPostsImageUpload = `https://hoppang.store/api/boards/posts/files`;
 
 // dev
 // export const kakaoLogin = `http://localhost:7070/api/kakao/auth`;
@@ -59,3 +60,4 @@ export const callUserProfile = `https://hoppang.store/api/users/{userId}`;
 // export const callRecentPosts = `http://localhost:7070/api/boards/posts/recent`;
 // export const callPostsBookmark = `http://localhost:7070/api/boards/posts/{postId}/bookmarks`;
 // export const callUserProfile = `http://localhost:7070/api/users/{userId}`;
+// export const callBoardsPostsImageUpload = `http://localhost:7070/api/boards/posts/files`;
