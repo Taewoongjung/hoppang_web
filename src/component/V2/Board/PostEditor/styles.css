@@ -193,6 +193,27 @@
     animation: progress 1.5s ease-in-out infinite;
 }
 
+.ql-editor {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* 모든 텍스트 요소에 동일한 폰트 강제 적용 */
+.ql-editor p,
+.ql-editor h1,
+.ql-editor h2,
+.ql-editor h3,
+.ql-editor h4,
+.ql-editor h5,
+.ql-editor h6,
+.ql-editor li,
+.ql-editor blockquote,
+.ql-editor div,
+.ql-editor span {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
 /* Quill 리스트 스타일 커스터마이징 */
 .ql-editor ol, .ql-editor ul {
     padding-left: 1.5em;
