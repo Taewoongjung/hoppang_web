@@ -115,7 +115,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
 
         } catch (error) {
             console.error('이미지 업로드 에러:', error);
-            alert('이미지 업로드에 실패했습니다. 다시 시도해주세요.');
+            alert(error);
             return null;
         } finally {
             setIsUploading(false);
@@ -154,7 +154,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
             // @ts-ignore
             const range = quill.getSelection(true);
 
-            const loadingImageData = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+CiAgPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPuyXheyUnOuTnCDspJEuLi48L3RleHQ+Cjwvc3ZnPg==';
+            const loadingImageData = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+CiAgPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPu2VnOyekOyImOyngDwvdGV4dD4KPC9zdmc+';
             // @ts-ignore
             quill.insertEmbed(range.index, 'image', loadingImageData);
 
