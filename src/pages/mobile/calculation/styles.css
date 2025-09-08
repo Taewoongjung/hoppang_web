@@ -154,6 +154,7 @@ body {
 }
 
 .form-group {
+    height: 300px;
     display: flex;
     flex-direction: column;
     position: relative;

@@ -5,11 +5,11 @@ import {callBoards, callBoardsPosts, callBoardsPostsById, callMeData} from "../.
 import fetcher from "../../../../util/fetcher";
 
 import './styles.css';
-import '../../versatile-styles.css';
 
 import QuestionRegisterFormExitModal from "../../../../component/V2/Modal/QuestionRegisterFormExitModal";
 import axios from "axios";
 import {Board} from "../interface";
+import PostEditor from "../../../../component/V2/Board/PostEditor";
 
 
 interface RegisterPost {
@@ -44,7 +44,8 @@ const QuestionRegisterForm = () => {
     const [formData, setFormData] = useState({
         category: '',
         title: '',
-        content: '',
+        contentHtml: '',
+        contentText: '',
         images: [] as File[],
         isAnonymous: false
     });
@@ -82,7 +83,8 @@ const QuestionRegisterForm = () => {
                 {
                     category: post.boardId,
                     title: post.title,
-                    content: post.contents,
+                    contentHtml: post.contents,
+                    contentText: post.contents,
                     images: [] as File[],
                     isAnonymous: post.isAnonymous !== 'F',
                 }
@@ -148,7 +150,7 @@ const QuestionRegisterForm = () => {
             textareaRef.current.style.height = 'auto';
             textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
         }
-    }, [formData.content]);
+    }, [formData.contentHtml]);
 
     const handleInputChange = (field: string, value: any) => {
         setFormData(prev => ({ ...prev, [field]: value }));
@@ -236,8 +238,8 @@ const QuestionRegisterForm = () => {
         if (!formData.category) newErrors.category = '카테고리를 선택해주세요';
         if (!formData.title.trim()) newErrors.title = '제목을 입력해주세요';
         if (formData.title.length > 500) newErrors.title = '제목은 500자 이내로 입력해주세요';
-        if (!formData.content.trim()) newErrors.content = '내용을 입력해주세요';
-        if (formData.content.length > 3000) newErrors.content = '내용은 3000자 이내로 입력해주세요';
+        if (!formData.contentText.trim()) newErrors.content = '내용을 입력해주세요';
+        if (formData.contentText.length > 3000) newErrors.content = '내용은 3000자 이내로 입력해주세요';
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -256,7 +258,7 @@ const QuestionRegisterForm = () => {
                     let payload: RegisterPost = {
                         boardId: formData.category,
                         title: formData.title,
-                        contents: formData.content,
+                        contents: formData.contentHtml,
                         isAnonymous: formData.isAnonymous
                     }
 
@@ -324,6 +326,7 @@ const QuestionRegisterForm = () => {
         setSubmitState('idle');
         setSubmitError('');
     };
+    console.log("@# = ", formData.contentHtml);
 
     // 성공 상태일 때 성공 화면 렌더링
     if (submitState === 'success') {
@@ -370,10 +373,11 @@ const QuestionRegisterForm = () => {
                         disabled={submitState === 'submitting'}
                     >
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                  strokeLinejoin="round"/>
                         </svg>
                     </button>
-                    <div className="header-title">{isEditing ? '수정하기' : '게시글 작성' }</div>
+                    <div className="header-title">{isEditing ? '수정하기' : '게시글 작성'}</div>
                     <div className="header-spacer"></div>
                 </div>
             </header>
@@ -403,7 +407,8 @@ const QuestionRegisterForm = () => {
                                 onClick={() => setSubmitError('')}
                             >
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                    <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                                    <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" strokeWidth="2"
+                                          strokeLinecap="round"/>
                                 </svg>
                             </button>
                         </div>
@@ -472,8 +477,11 @@ const QuestionRegisterForm = () => {
                                                                     <span className="branch-count">
                                                                         {category.branchBoards.length}개 세부 항목
                                                                     </span>
-                                                                    <svg className="category-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                                        <path d="M6 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                                                    <svg className="category-arrow" width="16"
+                                                                         height="16" viewBox="0 0 16 16" fill="none">
+                                                                        <path d="M6 4l4 4-4 4" stroke="currentColor"
+                                                                              strokeWidth="2" strokeLinecap="round"
+                                                                              strokeLinejoin="round"/>
                                                                     </svg>
                                                                 </div>
                                                             )}
@@ -495,7 +503,8 @@ const QuestionRegisterForm = () => {
                                                     disabled={submitState === 'submitting'}
                                                 >
                                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                        <path d="M10 4L6 8l4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                                        <path d="M10 4L6 8l4 4" stroke="currentColor" strokeWidth="2"
+                                                              strokeLinecap="round" strokeLinejoin="round"/>
                                                     </svg>
                                                     <span>이전</span>
                                                 </button>
@@ -521,9 +530,13 @@ const QuestionRegisterForm = () => {
                                                         >
                                                             <div className="branch-indicator"></div>
                                                             <span className="branch-name">{branch.name}</span>
-                                                            <svg className="select-icon" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                                                <circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="1.5"/>
-                                                                <path d="M7 10l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                                            <svg className="select-icon" width="20" height="20"
+                                                                 viewBox="0 0 20 20" fill="none">
+                                                                <circle cx="10" cy="10" r="8" stroke="currentColor"
+                                                                        strokeWidth="1.5"/>
+                                                                <path d="M7 10l2 2 4-4" stroke="currentColor"
+                                                                      strokeWidth="1.5" strokeLinecap="round"
+                                                                      strokeLinejoin="round"/>
                                                             </svg>
                                                         </button>
                                                     ))}
@@ -559,16 +572,22 @@ const QuestionRegisterForm = () => {
                             <label className="form-label required">
                                 내용
                             </label>
-                            <span className="char-count">{formData.content.length}/3000</span>
-                            <textarea
-                                ref={textareaRef}
-                                className={`form-textarea ${errors.content ? 'error' : ''}`}
-                                placeholder={`궁금한 점이나 이야기하고 싶은 내용을 자유롭게 남겨주세요.\n다른 사람이 잘 이해할 수 있도록 써주시면 좋아요!`}
-                                value={formData.content}
-                                onChange={(e) => handleInputChange('content', e.target.value)}
-                                maxLength={3000}
-                                rows={6}
-                                disabled={submitState === 'submitting'}
+                            {/*<span className="char-count">{formData.content.length}/3000</span>*/}
+                            {/*<textarea*/}
+                            {/*    ref={textareaRef}*/}
+                            {/*    className={`form-textarea ${errors.content ? 'error' : ''}`}*/}
+                            {/*    placeholder={`궁금한 점이나 이야기하고 싶은 내용을 자유롭게 남겨주세요.\n다른 사람이 잘 이해할 수 있도록 써주시면 좋아요!`}*/}
+                            {/*    value={formData.content}*/}
+                            {/*    onChange={(e) => handleInputChange('content', e.target.value)}*/}
+                            {/*    maxLength={3000}*/}
+                            {/*    rows={6}*/}
+                            {/*    disabled={submitState === 'submitting'}*/}
+                            {/*/>*/}
+                            <PostEditor
+                                defaultValue={formData.contentHtml}
+                                contentSaver={handleInputChange}
+                                uploadHeaders={{Authorization: localStorage.getItem("hoppang-token") || ''}}
+                                placeholder={"궁금한 점이나 이야기하고 싶은 내용을 자유롭게 남겨주세요."}
                             />
                             {errors.content && <span className="error-text">{errors.content}</span>}
                         </div>

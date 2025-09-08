@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
 import './styles.css';
-import '../../versatile-styles.css';
 
 import { useHistory, useParams } from 'react-router-dom';
 import useSWR from "swr";
@@ -794,20 +793,15 @@ const PostDetail = () => {
                                     ))}
                                 </h1>
 
-                                <div className="question-content">
-                                    {post.contents.split('\n').map((line, index) => (
-                                        <p
-                                            key={index}
-                                            style={{
-                                                wordBreak: 'break-word',
-                                                marginTop: '10px',
-                                                marginBottom: '15px',
-                                            }}
-                                        >
-                                            {line}
-                                        </p>
-                                    ))}
-                                </div>
+                                <div
+                                    className="question-content"
+                                    style={{
+                                        wordBreak: 'break-word',
+                                        marginTop: '10px',
+                                        marginBottom: '15px',
+                                    }}
+                                    dangerouslySetInnerHTML={{__html: post.contents}}
+                                />
 
                                 <div className="view-count">
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -822,7 +816,7 @@ const PostDetail = () => {
                                 {/* 댓글이 없고 작성자인 경우에만 편집/삭제 버튼 표시 */}
                                 {replies.length === 0 && canEditPost() && (
                                     <div className="reply-actions-menu">
-                                        <button className="edit-btn" onClick={handlePostEdit}>
+                                    <button className="edit-btn" onClick={handlePostEdit}>
                                             편집
                                         </button>
                                         <button className="delete-btn" onClick={handleDeletePost}>

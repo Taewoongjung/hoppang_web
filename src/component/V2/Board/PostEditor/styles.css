@@ -5,7 +5,10 @@
     border-radius: 12px;
     background: #ffffff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    overflow: hidden;
+    overflow: visible;
+    position: relative;
+    z-index: 1;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .editor-header {
@@ -43,7 +46,6 @@
     border-radius: 6px;
     font-size: 14px;
     font-weight: 500;
-    cursor: pointer;
     transition: all 0.2s ease;
 }
 
@@ -70,6 +72,7 @@
 
 .editor-wrapper {
     position: relative;
+    overflow: visible; /* overflow visible 추가 */
 }
 
 /* Quill 에디터 커스터마이징 */
@@ -77,6 +80,7 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-size: 15px;
     line-height: 1.6;
+    overflow: hidden; /* 컨테이너 내부만 hidden */
 }
 
 .editor-wrapper .ql-editor {
@@ -90,6 +94,29 @@
     border-top: none;
     border-bottom: 1px solid #f1f5f9;
     background: #fafafb;
+    position: relative;
+    z-index: 10;
+}
+
+/* Quill 드롭다운 스타일 수정 */
+.editor-wrapper .ql-toolbar .ql-picker {
+    position: relative;
+}
+
+.editor-wrapper .ql-toolbar .ql-picker-options {
+    position: absolute;
+    z-index: 20;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.editor-wrapper .ql-toolbar .ql-color-picker .ql-picker-options,
+.editor-wrapper .ql-toolbar .ql-background .ql-picker-options {
+    z-index: 25;
 }
 
 .editor-wrapper .ql-toolbar .ql-stroke {

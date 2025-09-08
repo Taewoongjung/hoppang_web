@@ -48,6 +48,8 @@ const MyPostsPage = loadable(() => import('../../pages/mobile/Question/MyPosts')
 
 const CounselV2 = loadable(() => import('../../pages/mobile/Counsel'));
 
+const aaa = loadable(() => import('../../component/V2/Board/PostEditor'));
+
 
 const App = () => {
         return (
@@ -65,6 +67,7 @@ const App = () => {
                     <Route exact path="/question/boards/posts/:postId" component={QuestionBoardPostPage}/>
                     <Route exact path="/question/my/boards" component={MyPostsPage}/>
                     <Route exact path="/question/boards" component={QuestionBoardPage}/>
+                    <Route exact path="/aaa" component={aaa}/>
 
                     <Route exact path="/v2/mypage/estimation/histories" component={MyPageEstimationHistoriesPageV2}/>
                     <Route exact path="/v2/mypage/estimation/:estimationId" component={MyPageEstimationDetailPageV2}/>

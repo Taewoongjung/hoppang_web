@@ -210,7 +210,16 @@
 }
 
 .question-content p {
-    margin: 0 0 16px 0;
+    margin: 10px 0 15px 0;
+    line-height: 1.6;
+}
+
+.question-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 10px 0;
+    display: block;
 }
 
 .question-content p:last-child {
@@ -223,6 +232,7 @@
     align-items: center;
     padding-top: 20px;
     border-top: 1px solid #f1f5f9;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .question-author {

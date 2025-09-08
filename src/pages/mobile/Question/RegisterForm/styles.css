@@ -5,6 +5,7 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 .question-form-container {
@@ -14,6 +15,7 @@ body {
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
+    overflow-y: auto; /* y축만 스크롤 허용 */
 }
 
 /* Header Styles */
@@ -70,6 +72,7 @@ body {
 
 .form-main {
     padding-bottom: 120px;
+    overflow: visible; /* 추가 */
 }
 
 /* Success Container Styles */
@@ -291,9 +294,9 @@ body {
     color: #64748b;
 }
 
-/* Form Section */
 .form-section {
     padding: 30px 20px 0;
+    overflow: visible; /* 추가 */
 }
 
 .form-card {
@@ -303,6 +306,8 @@ body {
     border: 1px solid #f1f5f9;
     margin: 10px 0;
     overflow: visible;
+    position: relative;
+    z-index: 1;
 }
 
 .form-card.submitting {
@@ -1383,28 +1388,6 @@ body {
 .submit-btn:focus,
 .back-btn:focus {
     outline-offset: -2px;
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    .form-card,
-    .submit-notice,
-    .error-alert,
-    .success-note,
-    .selected-category-info,
-    .category-btn,
-    .branch-category-btn {
-        border: 2px solid currentColor;
-    }
-
-    .category-btn.active {
-        background: #000;
-        color: #fff;
-    }
-
-    .category-btn.has-branches {
-        background: #f1f5f9;
-    }
 }
 
 /* Reduced motion support */
