@@ -154,7 +154,9 @@ const PostEditor: React.FC<PostEditorProps> = ({
             // @ts-ignore
             const range = quill.getSelection(true);
 
-            const loadingImageData = 'data:image/svg+xml;charset=UTF-8;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjBmMGYwIi8+CiAgPHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzk5OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPu2VnOyekOyImOyngDwvdGV4dD4KPC9zdmc+';
+            const loadingImageData =
+                'data:image/svg+xml;utf8,<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#f0f0f0"/><text x="50%" y="50%" font-family="Arial, sans-serif" font-size="14" fill="#999" text-anchor="middle" dy=".3em">업로드중...</text></svg>';
+
             // @ts-ignore
             quill.insertEmbed(range.index, 'image', loadingImageData);
 
