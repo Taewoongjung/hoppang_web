@@ -98,7 +98,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
             });
 
             if (!response.ok) {
-                throw new Error(`업로드 실패: ${response.status}`);
+                throw new Error(`업로드 실패: ${response}`);
             }
 
             const imageUrl = await response.text();
