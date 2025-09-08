@@ -193,6 +193,16 @@
     animation: progress 1.5s ease-in-out infinite;
 }
 
+/* Quill 리스트 스타일 커스터마이징 */
+.ql-editor ol, .ql-editor ul {
+    padding-left: 1.5em;
+}
+
+/* 들여쓰기 조정 */
+.ql-editor ol li {
+    margin-bottom: 0.5em;
+}
+
 @keyframes bounce {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-4px); }

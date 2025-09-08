@@ -247,7 +247,6 @@ const PostEditor: React.FC<PostEditorProps> = ({
                             [{ 'header': [1, 2, 3, 4, 5, false] }],
                             ['bold', 'italic', 'underline', 'strike'],
                             [{ 'color': [] }, { 'background': [] }],
-                            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
                             [{ 'align': [] }],
                             ['image'],
                         ],
@@ -263,7 +262,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
                 },
                 formats: [
                     'header', 'bold', 'italic', 'underline', 'strike',
-                    'color', 'background', 'list', 'bullet', 'align',
+                    'color', 'background', 'align',
                     'image'
                 ]
             });
