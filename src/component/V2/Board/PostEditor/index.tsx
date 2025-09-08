@@ -122,19 +122,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
         }
     };
 
-    const createLoadingPlaceholder = () => {
-        const loadingDiv = document.createElement('div');
-        loadingDiv.className = 'image-loading-placeholder';
-        loadingDiv.innerHTML = `
-        <div class="loading-content">
-            <div class="loading-spinner"></div>
-            <span>이미지 업로드 중...</span>
-        </div>
-    `;
-        return loadingDiv;
-    };
 
-    // 이미지 핸들러
     const imageHandler = useCallback(() => {
         if (isUploading) {
             alert('이미지 업로드 중입니다. 잠시만 기다려주세요.');
@@ -149,47 +137,55 @@ const PostEditor: React.FC<PostEditorProps> = ({
             const file = input.files?.[0];
             if (!file) return;
 
-            const maxSize = 10 * 1024 * 1024;
-            if (file.size > maxSize) {
-                alert('파일 크기는 10MB를 초과할 수 없습니다.');
-                return;
-            }
-
-            if (!file.type.startsWith('image/')) {
-                alert('이미지 파일만 업로드 가능합니다.');
-                return;
-            }
-
             const quill = quillRef.current;
             if (!quill) return;
 
             // @ts-ignore
             const range = quill.getSelection(true);
 
-            const loadingPlaceholder = createLoadingPlaceholder();
+            // 로딩 요소를 DOM에 직접 삽입
+            const loadingElement = document.createElement('div');
+            loadingElement.className = 'image-upload-loading';
+            loadingElement.innerHTML = `
+            <div class="upload-progress-container">
+                <div class="upload-icon">📤</div>
+                <div class="upload-text">이미지 업로드 중...</div>
+                <div class="upload-progress-bar">
+                    <div class="upload-progress-fill"></div>
+                </div>
+            </div>
+        `;
+
+            // Quill 에디터 내부에 직접 삽입
             // @ts-ignore
-            const blot = quill.scroll.create('block');
-            blot.domNode.appendChild(loadingPlaceholder);
-            // @ts-ignore
-            quill.insertEmbed(range.index, 'block', blot);
+            const editorElement = quill.root;
+            const paragraph = document.createElement('p');
+            paragraph.appendChild(loadingElement);
+
+            // 현재 커서 위치에 요소 삽입
+            if (range.index === 0) {
+                editorElement.insertBefore(paragraph, editorElement.firstChild);
+            } else {
+                const beforeElement = editorElement.children[Math.min(range.index, editorElement.children.length - 1)];
+                editorElement.insertBefore(paragraph, beforeElement.nextSibling);
+            }
 
             const imageUrl = await handleImageUpload(file);
 
             if (imageUrl) {
-                // @ts-ignore
-                quill.deleteText(range.index, 1);
+                // 로딩 요소 제거하고 이미지 삽입
+                paragraph.remove();
                 // @ts-ignore
                 quill.insertEmbed(range.index, 'image', imageUrl);
                 // @ts-ignore
                 quill.setSelection(range.index + 1);
             } else {
-                // @ts-ignore
-                quill.deleteText(range.index, 1);
+                // 실패시 로딩 요소 제거
+                paragraph.remove();
             }
         };
-
         input.click();
-    }, [isUploading, imageUploadUrl, uploadHeaders]);
+    }, [isUploading]);
 
     // 콘텐츠 변경 핸들러 - 디바운싱 적용
     const handleContentChange = useCallback((delta: any, oldDelta: any, source: string) => {
