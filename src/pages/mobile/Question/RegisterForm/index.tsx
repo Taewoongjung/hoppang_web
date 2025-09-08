@@ -239,7 +239,7 @@ const QuestionRegisterForm = () => {
         if (!formData.title.trim()) newErrors.title = '제목을 입력해주세요';
         if (formData.title.length > 500) newErrors.title = '제목은 500자 이내로 입력해주세요';
         if (!formData.contentText.trim()) newErrors.content = '내용을 입력해주세요';
-        if (formData.contentText.length > 3000) newErrors.content = '내용은 3000자 이내로 입력해주세요';
+        // if (formData.contentText.length > 3000) newErrors.content = '내용은 3000자 이내로 입력해주세요';
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -558,7 +558,6 @@ const QuestionRegisterForm = () => {
                             <input
                                 type="text"
                                 className={`form-input ${errors.title ? 'error' : ''}`}
-                                placeholder="궁금한 내용을 간단히 요약해주세요"
                                 value={formData.title}
                                 onChange={(e) => handleInputChange('title', e.target.value)}
                                 maxLength={500}
@@ -572,24 +571,12 @@ const QuestionRegisterForm = () => {
                             <label className="form-label required">
                                 내용
                             </label>
-                            {/*<span className="char-count">{formData.content.length}/3000</span>*/}
-                            {/*<textarea*/}
-                            {/*    ref={textareaRef}*/}
-                            {/*    className={`form-textarea ${errors.content ? 'error' : ''}`}*/}
-                            {/*    placeholder={`궁금한 점이나 이야기하고 싶은 내용을 자유롭게 남겨주세요.\n다른 사람이 잘 이해할 수 있도록 써주시면 좋아요!`}*/}
-                            {/*    value={formData.content}*/}
-                            {/*    onChange={(e) => handleInputChange('content', e.target.value)}*/}
-                            {/*    maxLength={3000}*/}
-                            {/*    rows={6}*/}
-                            {/*    disabled={submitState === 'submitting'}*/}
-                            {/*/>*/}
                             <div className={`form-textarea ${errors.content ? 'error' : ''}`}>
                                 <PostEditor
-                                    height={'200px'}
+                                    height={'100%'}
                                     defaultValue={formData.contentHtml}
                                     contentSaver={handleInputChange}
                                     uploadHeaders={{Authorization: localStorage.getItem("hoppang-token") || ''}}
-                                    placeholder={"궁금한 점이나 이야기하고 싶은 내용을 자유롭게 남겨주세요."}
                                 />
                             </div>
                             {errors.content && <span className="error-text">{errors.content}</span>}

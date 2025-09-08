@@ -122,6 +122,18 @@ const PostEditor: React.FC<PostEditorProps> = ({
         }
     };
 
+    const createLoadingPlaceholder = () => {
+        const loadingDiv = document.createElement('div');
+        loadingDiv.className = 'image-loading-placeholder';
+        loadingDiv.innerHTML = `
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <span>이미지 업로드 중...</span>
+        </div>
+    `;
+        return loadingDiv;
+    };
+
     // 이미지 핸들러
     const imageHandler = useCallback(() => {
         if (isUploading) {
@@ -154,11 +166,12 @@ const PostEditor: React.FC<PostEditorProps> = ({
             // @ts-ignore
             const range = quill.getSelection(true);
 
-            const loadingImageData =
-                'data:image/svg+xml;utf8,<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#f0f0f0"/><text x="50%" y="50%" font-family="Arial, sans-serif" font-size="14" fill="#999" text-anchor="middle" dy=".3em">업로드중...</text></svg>';
-
+            const loadingPlaceholder = createLoadingPlaceholder();
             // @ts-ignore
-            quill.insertEmbed(range.index, 'image', loadingImageData);
+            const blot = quill.scroll.create('block');
+            blot.domNode.appendChild(loadingPlaceholder);
+            // @ts-ignore
+            quill.insertEmbed(range.index, 'block', blot);
 
             const imageUrl = await handleImageUpload(file);
 
