@@ -583,12 +583,14 @@ const QuestionRegisterForm = () => {
                             {/*    rows={6}*/}
                             {/*    disabled={submitState === 'submitting'}*/}
                             {/*/>*/}
-                            <PostEditor
-                                defaultValue={formData.contentHtml}
-                                contentSaver={handleInputChange}
-                                uploadHeaders={{Authorization: localStorage.getItem("hoppang-token") || ''}}
-                                placeholder={"궁금한 점이나 이야기하고 싶은 내용을 자유롭게 남겨주세요."}
-                            />
+                            <div className={`form-textarea ${errors.content ? 'error' : ''}`}>
+                                <PostEditor
+                                    defaultValue={formData.contentHtml}
+                                    contentSaver={handleInputChange}
+                                    uploadHeaders={{Authorization: localStorage.getItem("hoppang-token") || ''}}
+                                    placeholder={"궁금한 점이나 이야기하고 싶은 내용을 자유롭게 남겨주세요."}
+                                />
+                            </div>
                             {errors.content && <span className="error-text">{errors.content}</span>}
                         </div>
 
