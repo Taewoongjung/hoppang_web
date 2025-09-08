@@ -585,6 +585,7 @@ const QuestionRegisterForm = () => {
                             {/*/>*/}
                             <div className={`form-textarea ${errors.content ? 'error' : ''}`}>
                                 <PostEditor
+                                    height={'200px'}
                                     defaultValue={formData.contentHtml}
                                     contentSaver={handleInputChange}
                                     uploadHeaders={{Authorization: localStorage.getItem("hoppang-token") || ''}}

@@ -338,7 +338,8 @@ const PostEditor: React.FC<PostEditorProps> = ({
             }}>
                 <div ref={editorRef} className="quill-editor" style={{
                     position: 'relative',
-                    zIndex: 1
+                    zIndex: 1,
+                    border: "none"
                 }}/>
             </div>
 
