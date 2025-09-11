@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, {useEffect, useState, useRef, useCallback, useMemo} from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 import './styles.css';
@@ -34,10 +34,10 @@ const PostEditor: React.FC<PostEditorProps> = ({
     const quillRef = useRef<Quill | null>(null);
     const isInitializedRef = useRef<boolean>(false);
     const lastContentRef = useRef<string>('');
+    const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const [initialEditorContent, setInitialEditorContent] = useState<string>();
 
-    const [content, setContent] = useState<string>();
     const [wordCount, setWordCount] = useState<number>(0);
     const [isUploading, setIsUploading] = useState<boolean>(false);
     const [currentImageUrls, setCurrentImageUrls] = useState<string[]>([]);
@@ -147,56 +147,51 @@ const PostEditor: React.FC<PostEditorProps> = ({
             const file = input.files?.[0];
             if (!file) return;
 
+            // 파일 크기 체크 (5MB 제한)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('이미지 크기는 5MB 이하만 업로드 가능합니다.');
+                return;
+            }
+
             const quill = quillRef.current;
             if (!quill) return;
 
             // @ts-ignore
             const range = quill.getSelection(true);
+            if (!range) return;
 
-            // 로딩 요소를 DOM에 직접 삽입
-            const loadingElement = document.createElement('div');
-            loadingElement.className = 'image-upload-loading';
-            loadingElement.innerHTML = `
-            <div class="upload-progress-container">
-                <div class="upload-icon">📤</div>
-                <div class="upload-text">이미지 업로드 중...</div>
-                <div class="upload-progress-bar">
-                    <div class="upload-progress-fill"></div>
-                </div>
-            </div>`;
+            try {
+                const imageUrl = await handleImageUpload(file);
 
-            // Quill 에디터 내부에 직접 삽입
-            // @ts-ignore
-            const editorElement = quill.root;
-            const paragraph = document.createElement('p');
-            paragraph.appendChild(loadingElement);
-
-            // 현재 커서 위치에 요소 삽입
-            if (range.index === 0) {
-                editorElement.insertBefore(paragraph, editorElement.firstChild);
-            } else {
-                const beforeElement = editorElement.children[Math.min(range.index, editorElement.children.length - 1)];
-                editorElement.insertBefore(paragraph, beforeElement.nextSibling);
-            }
-
-            const imageUrl = await handleImageUpload(file);
-
-            if (imageUrl) {
-                setTimeout(() => {
-                    // 로딩 요소 제거하고 이미지 삽입
-                    paragraph.remove();
+                if (imageUrl) {
+                    // 이미지 삽입
                     // @ts-ignore
                     quill.insertEmbed(range.index, 'image', imageUrl);
                     // @ts-ignore
                     quill.setSelection(range.index + 1);
-                }, 100);
-            } else {
-                // 실패시 로딩 요소 제거
-                paragraph.remove();
+                }
+
+            } catch (error) {
+                console.error('이미지 업로드 실패:', error);
             }
         };
+
         input.click();
-    }, [isUploading]);
+    }, [isUploading, handleImageUpload]);
+
+    // 디바운싱된 콘텐츠 변경 핸들러 (성능 최적화)
+    const debouncedContentSave = useCallback((content: string, text: string) => {
+        if (debounceTimeoutRef.current) {
+            clearTimeout(debounceTimeoutRef.current);
+        }
+
+        debounceTimeoutRef.current = setTimeout(() => {
+            if (contentSaver) {
+                contentSaver('contentHtml', content);
+                contentSaver('contentText', text);
+            }
+        }, 500); // 500ms 디바운싱
+    }, [contentSaver]);
 
     // 콘텐츠 변경 핸들러 - 디바운싱 적용
     const handleContentChange = useCallback(async (delta: any, oldDelta: any, source: string) => {
@@ -210,7 +205,6 @@ const PostEditor: React.FC<PostEditorProps> = ({
 
         lastContentRef.current = currentContent;
 
-        setContent(currentContent);
         setWordCount(textLength);
 
         if (!isUploading && currentImageUrlsRef.current.length > 0) {
@@ -256,65 +250,86 @@ const PostEditor: React.FC<PostEditorProps> = ({
         }
     }, [defaultValue]);
 
-    // Quill 초기화
-    useEffect(() => {
-        if (editorRef.current && !quillRef.current && !isInitializedRef.current) {
-            isInitializedRef.current = true;
-
-            // @ts-ignore
-            const quill = new Quill(editorRef.current, {
-                theme: 'snow',
-                readOnly,
-                placeholder,
-                modules: {
-                    toolbar: readOnly ? false : {
-                        container: [
-                            [{ 'header': [1, 2, 3, 4, 5, false] }],
-                            ['bold', 'italic', 'underline', 'strike'],
-                            [{ 'color': [] }, { 'background': [] }],
-                            [{ 'align': [] }],
-                            ['image'],
-                        ],
-                        handlers: {
-                            image: imageHandler
-                        }
-                    },
-                    history: {
-                        delay: 2000,
-                        maxStack: 500,
-                        userOnly: true
-                    }
-                },
-                formats: [
-                    'header', 'bold', 'italic', 'underline', 'strike',
-                    'color', 'background', 'align',
-                    'image'
-                ]
-            });
-
-            // 초기 내용 설정 - setContents 사용으로 변경
-            if (initialEditorContent) {
-                // innerHTML 대신 clipboard API 사용
-                // @ts-ignore
-                quill.clipboard.dangerouslyPasteHTML(initialEditorContent);
-
-                // 초기 이미지 URLs 설정
-                const initialImageUrls = extractImageUrls(initialEditorContent);
-                setCurrentImageUrls(initialImageUrls);
+    // Quill 설정 메모이제이션
+    const quillConfig = useMemo(() => ({
+        theme: 'snow',
+        readOnly,
+        placeholder,
+        modules: {
+            toolbar: readOnly ? false : {
+                container: [
+                    [{ 'header': [1, 2, 3, 4, 5, false] }],
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'color': [] }, { 'background': [] }],
+                    [{ 'align': [] }],
+                    ['image'],
+                ],
+                handlers: {
+                    image: imageHandler
+                }
+            },
+            history: {
+                delay: 1000,
+                maxStack: 100,
+                userOnly: true
             }
+        },
+        formats: [
+            'header', 'bold', 'italic', 'underline', 'strike',
+            'color', 'background', 'align', 'image'
+        ]
+    }), [readOnly, placeholder, imageHandler]);
 
-            // 텍스트 변경 이벤트 리스너
-            // @ts-ignore
-            quill.on('text-change', handleContentChange);
+    // 초기화 및 데이터 로딩
+    useEffect(() => {
+        const initializeEditor = async () => {
+            if (!editorRef.current || quillRef.current || isInitializedRef.current) return;
 
-            quillRef.current = quill;
-        }
+            try {
+                isInitializedRef.current = true;
 
-        // cleanup은 컴포넌트 언마운트시에만
-        return () => {
-            // 여기서는 cleanup 하지 않음
+                // Quill 생성
+                // @ts-ignore
+                const quill = new Quill(editorRef.current, quillConfig);
+
+                // 초기 콘텐츠 설정
+                // @ts-ignore
+                const contentToSet = defaultValue || initialContent;
+                if (contentToSet) {
+                    // @ts-ignore
+                    quill.clipboard.dangerouslyPasteHTML(contentToSet);
+
+                    // 초기 이미지 URL 설정
+                    const initialImageUrls = extractImageUrls(contentToSet);
+                    currentImageUrlsRef.current = initialImageUrls;
+
+                    // @ts-ignore
+                    setWordCount(quill.getText().trim().length);
+                    lastContentRef.current = contentToSet;
+                }
+
+                // 이벤트 리스너 등록
+                // @ts-ignore
+                quill.on('text-change', handleContentChange);
+
+                quillRef.current = quill;
+                setIsReady(true);
+
+            } catch (error) {
+                console.error('에디터 초기화 오류:', error);
+                alert('에디터 로딩에 실패했습니다. 페이지를 새로고침해주세요.');
+            }
         };
-    }, [readOnly, placeholder, imageHandler, handleContentChange]);
+
+        initializeEditor();
+
+        // 클린업
+        return () => {
+            if (debounceTimeoutRef.current) {
+                clearTimeout(debounceTimeoutRef.current);
+            }
+        };
+    }, [defaultValue, initialContent, extractImageUrls, handleContentChange, quillConfig]);
 
     // 컴포넌트 언마운트시 cleanup
     useEffect(() => {
