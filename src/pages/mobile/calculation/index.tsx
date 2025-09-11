@@ -17,7 +17,6 @@ import CalculationExitModal from "../../../component/V2/Modal/CalculationExitMod
 import AddressInputModal from "../../../component/V2/AddressInputModal";
 import useSWR from "swr";
 import fetcher from "../../../util/fetcher";
-import {RegisterChassisPayload} from "../../../definition/interfacesV2";
 import InfoSection from "../../../component/V2/CalculationInfo";
 
 

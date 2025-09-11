@@ -54,6 +54,9 @@ const QuestionRegisterForm = () => {
     const [selectedMainCategory, setSelectedMainCategory] = useState<number | null>(null);
     const [showBranchSelection, setShowBranchSelection] = useState(false);
 
+    const [isRegisteringReady, setIsRegisteringReady] = useState(false);
+    const [isEditDataLoaded, setIsEditDataLoaded] = useState(false);
+
 
     useEffect(() => {
 
@@ -64,8 +67,8 @@ const QuestionRegisterForm = () => {
         }
     }, [selectedMainCategory]);
 
-    const fetchRevisingPost = (revisingPostId: any, userId: any) => {
-        axios.get(
+    const fetchRevisingPost = async (revisingPostId: any, userId: any) => {
+        await axios.get(
             callBoardsPostsById.replace("{postId}", revisingPostId),
             {
                 withCredentials: true,
@@ -79,6 +82,7 @@ const QuestionRegisterForm = () => {
                 window.location.href = '/question/boards';
                 alert("잘못된 접근입니다.");
             }
+
             setFormData(
                 {
                     category: post.boardId,
@@ -89,6 +93,8 @@ const QuestionRegisterForm = () => {
                     isAnonymous: post.isAnonymous !== 'F',
                 }
             );
+
+            setIsEditDataLoaded(true);
         });
     }
 
@@ -97,7 +103,6 @@ const QuestionRegisterForm = () => {
     const [errors, setErrors] = useState<{[key: string]: string}>({});
     const [submitError, setSubmitError] = useState<string>('');
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const textareaRef = useRef<HTMLTextAreaElement>(null);
     const [showExitModal, setShowExitModal] = useState(false);
     const [isEditing, setIsEditing] = useState<boolean>(urlParams.get('from') === 'postEdit');
 
@@ -107,8 +112,8 @@ const QuestionRegisterForm = () => {
 
     useEffect(() => {
         mutate()
-            .then((user) => {
-                axios.get(callBoards)
+            .then(async (user) => {
+                await axios.get(callBoards)
                     .then((res) => {
 
                         let excludeBoards = ['공지사항', '이벤트'];
@@ -128,29 +133,21 @@ const QuestionRegisterForm = () => {
                         setBoards(boards);
                     })
                     .catch((err) => {
-                        console.error("Failed to fetch categories:", err);
                     });
 
                 const revisingPostId = urlParams.get('revisingPostId');
                 if (revisingPostId) {
-                    fetchRevisingPost(
+                    await fetchRevisingPost(
                         revisingPostId,
                         user.id
                     );
                 }
+                setIsRegisteringReady(true);
             })
             .catch((err) => {
                 window.location.href = '/v2/login';
             });
     }, []);
-
-    // 자동 높이 조절
-    useEffect(() => {
-        if (textareaRef.current) {
-            textareaRef.current.style.height = 'auto';
-            textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
-        }
-    }, [formData.contentHtml]);
 
     const handleInputChange = (field: string, value: any) => {
         setFormData(prev => ({ ...prev, [field]: value }));
@@ -326,7 +323,6 @@ const QuestionRegisterForm = () => {
         setSubmitState('idle');
         setSubmitError('');
     };
-    console.log("@# = ", formData.contentHtml);
 
     // 성공 상태일 때 성공 화면 렌더링
     if (submitState === 'success') {
@@ -572,12 +568,20 @@ const QuestionRegisterForm = () => {
                                 내용
                             </label>
                             <div className={`form-textarea ${errors.content ? 'error' : ''}`}>
-                                <PostEditor
-                                    height={'100%'}
-                                    defaultValue={formData.contentHtml}
-                                    contentSaver={handleInputChange}
-                                    uploadHeaders={{Authorization: localStorage.getItem("hoppang-token") || ''}}
-                                />
+                                {(isEditing && isEditDataLoaded) ? (
+                                    <PostEditor
+                                        height={'100%'}
+                                        defaultValue={formData.contentHtml}
+                                        contentSaver={handleInputChange}
+                                        uploadHeaders={{Authorization: localStorage.getItem("hoppang-token") || ''}}
+                                    />
+                                ) : (!isEditing && isRegisteringReady) ? (
+                                    <PostEditor
+                                        height={'100%'}
+                                        contentSaver={handleInputChange}
+                                        uploadHeaders={{Authorization: localStorage.getItem("hoppang-token") || ''}}
+                                    />
+                                ) : null}
                             </div>
                             {errors.content && <span className="error-text">{errors.content}</span>}
                         </div>
