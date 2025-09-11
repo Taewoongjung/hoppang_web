@@ -35,9 +35,6 @@ const QuestionsBoard = () => {
                 const supports = CSS.supports('padding', 'env(safe-area-inset-top)');
                 setSupportsSafeArea(supports);
 
-                // 디버깅용 로그
-                console.log('🔍 QuestionsBoard Safe area support:', supports);
-
                 // body에 safe area 관련 클래스 추가
                 if (supports) {
                     document.body.classList.add('supports-safe-area');

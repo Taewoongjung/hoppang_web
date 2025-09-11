@@ -1,27 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <title>호빵(호구 빵명 프로젝트)</title>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>호빵(호구 빵명 프로젝트)</title>
 
-    <!-- 전환추적 태그 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17410700708"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+  <!-- Safe Area CSS Variables -->
+  <style>
+    :root {
+      --safe-area-top: env(safe-area-inset-top, 0px);
+      --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-area-left: env(safe-area-inset-left, 0px);
+      --safe-area-right: env(safe-area-inset-right, 0px);
+    }
+  </style>
 
-      gtag('config', 'AW-17410700708');
-    </script>
+  <!-- 전환추적 태그 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17410700708"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-17410700708');
+  </script>
 
-    <!-- Event snippet for 페이지 조회 (2) conversion page -->
-    <script>
-      gtag('event', 'conversion', {'send_to': 'AW-17410700708/hClxCK2D2f0aEKTriO5A'});
-    </script>
-
-  </head>
-  <body>
-    <div id="app"></div>
-  </body>
+  <!-- Event snippet for 페이지 조회 (2) conversion page -->
+  <script>
+    gtag('event', 'conversion', {'send_to': 'AW-17410700708/hClxCK2D2f0aEKTriO5A'});
+  </script>
+</head>
+<body>
+<div id="app"></div>
+</body>
 </html>
