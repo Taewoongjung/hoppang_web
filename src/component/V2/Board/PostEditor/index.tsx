@@ -38,12 +38,45 @@ const PostEditor: React.FC<PostEditorProps> = ({
     const isInitializedRef = useRef<boolean>(false);
     const lastContentRef = useRef<string>('');
     const currentImageUrlsRef = useRef<string[]>([]);
+    const uploadingPlaceholdersRef = useRef<Set<string>>(new Set());
 
     const [wordCount, setWordCount] = useState<number>(0);
     const [isUploading, setIsUploading] = useState<boolean>(false);
     const [currentImageUrls, setCurrentImageUrls] = useState<string[]>([]);
     const [initialEditorContent, setInitialEditorContent] = useState<string>();
 
+    // 스켈레톤 placeholder 이미지 생성
+    const createSkeletonPlaceholder = (): string => {
+        const skeletonId = `skeleton-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        uploadingPlaceholdersRef.current.add(skeletonId);
+
+        // Base64로 인코딩된 스켈레톤 이미지 (회색 그라데이션 애니메이션)
+        const skeletonSvg = `
+            <svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="skeleton-gradient-${skeletonId}" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#f0f0f0;stop-opacity:1">
+                            <animate attributeName="stop-color" values="#f0f0f0;#e0e0e0;#f0f0f0" dur="1.5s" repeatCount="indefinite"/>
+                        </stop>
+                        <stop offset="50%" style="stop-color:#e0e0e0;stop-opacity:1">
+                            <animate attributeName="stop-color" values="#e0e0e0;#d0d0d0;#e0e0e0" dur="1.5s" repeatCount="indefinite"/>
+                        </stop>
+                        <stop offset="100%" style="stop-color:#f0f0f0;stop-opacity:1">
+                            <animate attributeName="stop-color" values="#f0f0f0;#e0e0e0;#f0f0f0" dur="1.5s" repeatCount="indefinite"/>
+                        </stop>
+                    </linearGradient>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#skeleton-gradient-${skeletonId})" rx="8"/>
+                <rect x="50%" y="45%" width="60" height="20" fill="#d0d0d0" rx="4" transform="translate(-30, -10)"/>
+                <text x="50%" y="55%" text-anchor="middle" fill="#999" font-family="Arial, sans-serif" font-size="12">
+                    업로드 중...
+                </text>
+            </svg>
+        `;
+
+        const encodedSvg = btoa(unescape(encodeURIComponent(skeletonSvg)));
+        return `data:image/svg+xml;base64,${encodedSvg}`;
+    };
 
     // currentImageUrls가 변경될 때마다 ref도 업데이트
     useEffect(() => {
@@ -53,8 +86,6 @@ const PostEditor: React.FC<PostEditorProps> = ({
     // 이미지 삭제 처리 함수
     const handleImageDelete = async (deletingFileUrls: string[]): Promise<void> => {
         try {
-            // console.log('이미지 삭제 시도:', deletingFileUrls);
-
             const response = await fetch(imageDeleteUrl, {
                 method: 'DELETE',
                 headers: {
@@ -69,23 +100,21 @@ const PostEditor: React.FC<PostEditorProps> = ({
 
                 const deletingUrlsFromOriginalContents = deletingFileUrls.filter(
                     deletedImageUrl => extractImageUrls(defaultValue).includes(deletedImageUrl)
-                ); // 기존 원본에서 삭제 될 이미지들을 필터링
+                );
 
-                console.log("실제 삭제 될 이미지 = ", deletingUrlsFromOriginalContents);
+                console.log("실제 삭제될 이미지 = ", deletingUrlsFromOriginalContents);
 
                 if (contentSaver && deletingUrlsFromOriginalContents.length > 0) {
-                    contentSaver('deletedImages', deletingUrlsFromOriginalContents); // 삭제 될 이미지
+                    contentSaver('deletedImages', deletingUrlsFromOriginalContents);
                 }
-            } else {
-                // console.error('이미지 삭제 실패:', response.status);
             }
         } catch (error) {
-            // console.error('이미지 삭제 에러:', error);
+            console.error('이미지 삭제 에러:', error);
         }
     };
 
     // 이미지 업로드 처리 함수
-    const handleImageUpload = async (file: File): Promise<string | null> => {
+    const handleImageUpload = async (file: File, placeholderUrl: string, insertIndex: number): Promise<string | null> => {
         try {
             setIsUploading(true);
 
@@ -110,9 +139,28 @@ const PostEditor: React.FC<PostEditorProps> = ({
                 throw new Error('이미지 URL을 받지 못했습니다.');
             }
 
+            const quill = quillRef.current;
+            if (quill) {
+                // @ts-ignore
+                // placeholder를 실제 이미지로 교체
+                const content = quill.root.innerHTML;
+                const updatedContent = content.replace(
+                    new RegExp(`<img[^>]*src="${placeholderUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"[^>]*>`, 'g'),
+                    `<img src="${uploadedImageUrl}" alt="업로드된 이미지">`
+                );
+                // @ts-ignore
+                quill.root.innerHTML = updatedContent;
+            }
+
+            // placeholder ID 제거
+            const skeletonId = placeholderUrl.match(/skeleton-([^-]+-[^"]*)/)?.[1];
+            if (skeletonId) {
+                uploadingPlaceholdersRef.current.delete(`skeleton-${skeletonId}`);
+            }
+
             setCurrentImageUrls(prev => {
                 const updated = prev.includes(uploadedImageUrl) ? prev : [...prev, uploadedImageUrl];
-                currentImageUrlsRef.current = updated; // ref도 즉시 업데이트
+                currentImageUrlsRef.current = updated;
                 return updated;
             });
 
@@ -125,6 +173,19 @@ const PostEditor: React.FC<PostEditorProps> = ({
             return uploadedImageUrl;
 
         } catch (error) {
+            // 업로드 실패 시 placeholder 제거
+            const quill = quillRef.current;
+            if (quill) {
+                // @ts-ignore
+                const content = quill.root.innerHTML;
+                const updatedContent = content.replace(
+                    new RegExp(`<img[^>]*src="${placeholderUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"[^>]*>`, 'g'),
+                    ''
+                );
+                // @ts-ignore
+                quill.root.innerHTML = updatedContent;
+            }
+
             alert(error);
             return null;
         } finally {
@@ -140,7 +201,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
 
         while ((match = imgRegex.exec(htmlContent)) !== null) {
             const url = match[1];
-            if (!url.startsWith('data:')) {
+            if (!url.startsWith('data:') || !url.includes('skeleton-')) {
                 urls.push(url);
             }
         }
@@ -176,23 +237,23 @@ const PostEditor: React.FC<PostEditorProps> = ({
             if (!range) return;
 
             try {
-                const imageUrl = await handleImageUpload(file);
+                // 스켈레톤 placeholder 생성 및 삽입
+                const placeholderUrl = createSkeletonPlaceholder();
+                // @ts-ignore
+                quill.insertEmbed(range.index, 'image', placeholderUrl);
+                // @ts-ignore
+                quill.setSelection(range.index + 1);
 
-                if (imageUrl) {
-                    // 이미지 삽입
-                    // @ts-ignore
-                    quill.insertEmbed(range.index, 'image', imageUrl);
-                    // @ts-ignore
-                    quill.setSelection(range.index + 1);
-                }
+                // 실제 업로드 처리
+                await handleImageUpload(file, placeholderUrl, range.index);
 
             } catch (error) {
-                console.error('이미지 업로드 실패:', error);
+                alert('이미지 업로드를 다시 시도해주세요');
             }
         };
 
         input.click();
-    }, [isUploading, handleImageUpload]);
+    }, [isUploading]);
 
     // 콘텐츠 변경 핸들러 - 디바운싱 적용
     const handleContentChange = useCallback(async (delta: any, oldDelta: any, source: string) => {
@@ -205,7 +266,6 @@ const PostEditor: React.FC<PostEditorProps> = ({
         const textLength = quill.getText().trim().length;
 
         lastContentRef.current = currentContent;
-
         setWordCount(textLength);
 
         if (!isUploading && currentImageUrlsRef.current.length > 0) {
@@ -294,7 +354,6 @@ const PostEditor: React.FC<PostEditorProps> = ({
                 const quill = new Quill(editorRef.current, quillConfig);
 
                 // 초기 콘텐츠 설정
-                // @ts-ignore
                 const contentToSet = defaultValue || initialContent;
                 if (contentToSet) {
                     // @ts-ignore
@@ -309,8 +368,8 @@ const PostEditor: React.FC<PostEditorProps> = ({
                     lastContentRef.current = contentToSet;
                 }
 
-                // 이벤트 리스너 등록
                 // @ts-ignore
+                // 이벤트 리스너 등록
                 quill.on('text-change', handleContentChange);
 
                 quillRef.current = quill;
@@ -324,7 +383,6 @@ const PostEditor: React.FC<PostEditorProps> = ({
 
         initializeEditor();
 
-        // 클린업
         return () => {
         };
     }, [defaultValue, initialContent, extractImageUrls, handleContentChange, quillConfig]);
@@ -338,6 +396,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
                 quillRef.current = null;
             }
             isInitializedRef.current = false;
+            uploadingPlaceholdersRef.current.clear();
         };
     }, []);
 
