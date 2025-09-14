@@ -16,6 +16,9 @@ interface RegisterPost {
     boardId: number | string;
     title: string;
     contents: string;
+    uploadingFiles?: Map<string, File>;
+    uploadingFileKeyMap: Record<string, string>;
+    deletingFileUrls?: string[];
     isAnonymous: boolean;
 }
 
@@ -46,7 +49,9 @@ const QuestionRegisterForm = () => {
         title: '',
         contentHtml: '',
         contentText: '',
-        images: [] as File[],
+        uploadingImages: new Map<string, File>(),
+        uploadingFileKeyMap: [] as unknown as Record<string, string>,
+        deletedImages: [] as string[],
         isAnonymous: false
     });
 
@@ -89,7 +94,9 @@ const QuestionRegisterForm = () => {
                     title: post.title,
                     contentHtml: post.contents,
                     contentText: post.contents,
-                    images: [] as File[],
+                    uploadingImages: new Map<string, File>(), // 새로 업로드 되는 이미지들
+                    uploadingFileKeyMap: [] as unknown as Record<string, string>,
+                    deletedImages: [] as string[], // 삭제 된 이미지
                     isAnonymous: post.isAnonymous !== 'F',
                 }
             );
@@ -209,26 +216,6 @@ const QuestionRegisterForm = () => {
         return '';
     };
 
-    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const files = Array.from(event.target.files || []);
-        if (formData.images.length + files.length > 3) {
-            alert('이미지는 최대 3장까지 업로드 가능합니다.');
-            return;
-        }
-
-        setFormData(prev => ({
-            ...prev,
-            images: [...prev.images, ...files]
-        }));
-    };
-
-    const removeImage = (index: number) => {
-        setFormData(prev => ({
-            ...prev,
-            images: prev.images.filter((_, i) => i !== index)
-        }));
-    };
-
     const validateForm = () => {
         const newErrors: {[key: string]: string} = {};
 
@@ -252,20 +239,45 @@ const QuestionRegisterForm = () => {
         try {
             await mutate()
                 .then(async (user) => {
-                    let payload: RegisterPost = {
-                        boardId: formData.category,
-                        title: formData.title,
-                        contents: formData.contentHtml,
-                        isAnonymous: formData.isAnonymous
-                    }
 
                     const editTargetPostId = urlParams.get('revisingPostId');
 
+                    const payloadForPosting = new FormData();
+
+                    // 파일들 추가
+                    const uploadingFileKeyMap: Record<string, string> = {};
+                    formData.uploadingImages.forEach((file, storedKey) => {
+                        payloadForPosting.append("uploadingFiles", file); // 파일 추가
+                        uploadingFileKeyMap[file.name] = storedKey; // storedKey ↔ 실제 파일명 매핑
+                    });
+
+                    // deletingFileUrls 추가
+                    const deletingFileUrls: string[] = [];
+                    formData.deletedImages?.forEach(url => {
+                        deletingFileUrls.push(url);
+                    });
+
+                    // JSON 데이터를 별도 part로 추가
+                    const jsonData = {
+                        boardId: parseInt(formData.category.toString()),
+                        title: formData.title,
+                        contents: formData.contentHtml,
+                        uploadingFileKeyMap: uploadingFileKeyMap,
+                        deletingFileUrls: deletingFileUrls,
+                        isAnonymous: formData.isAnonymous
+                    };
+
+                    payloadForPosting.append('req', new Blob([JSON.stringify(jsonData)], {
+                        type: 'application/json'
+                    }));
+
+
                     if (isEditing && editTargetPostId !== null) {
+
                         // 글 수정
                         const response = await axios.put(
                             callBoardsPostsById.replace("{postId}", editTargetPostId),
-                            payload,
+                            payloadForPosting,
                             {
                                 withCredentials: true,
                                 headers: {Authorization: localStorage.getItem("hoppang-token")}
@@ -279,7 +291,7 @@ const QuestionRegisterForm = () => {
                         // 글 등록
                         const response = await axios.post(
                             callBoardsPosts,
-                            payload,
+                            payloadForPosting,
                             {
                                 withCredentials: true,
                                 headers: {Authorization: localStorage.getItem("hoppang-token")}
@@ -305,7 +317,7 @@ const QuestionRegisterForm = () => {
             if (error.response?.status === 401) {
                 setSubmitError('로그인이 필요합니다. 다시 로그인해주세요.');
             } else if (error.response?.status === 400) {
-                setSubmitError('입력 정보를 다시 확인해주세요.');
+                setSubmitError('입력 정보를 다시 확인해주세요. 작성글 등록이 계속 안 되면 관리자에게 문의해주세요.');
             } else if (error.response?.status >= 500) {
                 setSubmitError('서버에 일시적인 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
             } else {
@@ -570,16 +582,16 @@ const QuestionRegisterForm = () => {
                             <div className={`form-textarea ${errors.content ? 'error' : ''}`}>
                                 {(isEditing && isEditDataLoaded) ? (
                                     <PostEditor
-                                        height={'100%'}
                                         defaultValue={formData.contentHtml}
                                         contentSaver={handleInputChange}
                                         uploadHeaders={{Authorization: localStorage.getItem("hoppang-token") || ''}}
+                                        uploadingImages={formData.uploadingImages}
                                     />
                                 ) : (!isEditing && isRegisteringReady) ? (
                                     <PostEditor
-                                        height={'100%'}
                                         contentSaver={handleInputChange}
                                         uploadHeaders={{Authorization: localStorage.getItem("hoppang-token") || ''}}
+                                        uploadingImages={formData.uploadingImages}
                                     />
                                 ) : null}
                             </div>

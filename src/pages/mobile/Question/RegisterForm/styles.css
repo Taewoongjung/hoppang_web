@@ -736,7 +736,7 @@ body {
     transition: all 0.2s ease;
     font-family: inherit;
     resize: none;
-    min-height: 120px;
+    min-height: 320px;
     box-sizing: border-box;
     margin: 0;
     position: relative;

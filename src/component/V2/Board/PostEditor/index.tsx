@@ -1,54 +1,54 @@
 import React, {useEffect, useState, useRef, useCallback, useMemo} from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
+
 import './styles.css';
+
 import {callBoardsPostsImageUpload} from "../../../../definition/apiPath";
 import OverlayLoadingPage from "../../../Loading/OverlayLoadingPage";
+
 
 interface PostEditorProps {
     initialContent?: string;
     placeholder?: string;
     readOnly?: boolean;
-    height?: string;
     imageUploadUrl?: string;
     imageDeleteUrl?: string;
     uploadHeaders?: Record<string, string>;
     onContentChange?: (content: string, delta: any, source: string) => void;
     contentSaver?: (field: string, content: any) => void;
     defaultValue?: string;
+    uploadingImages?: Map<string, File>
 }
 
 const PostEditor: React.FC<PostEditorProps> = ({
                                                    initialContent = '',
                                                    placeholder = '내용을 입력해주세요...',
                                                    readOnly = false,
-                                                   height = '400',
                                                    imageUploadUrl = callBoardsPostsImageUpload,
                                                    imageDeleteUrl = callBoardsPostsImageUpload,
                                                    uploadHeaders = {},
                                                    onContentChange,
                                                    contentSaver,
-                                                   defaultValue = ''
+                                                   defaultValue = '',
+                                                   uploadingImages,
                                                }) => {
     const editorRef = useRef<HTMLDivElement>(null);
     const quillRef = useRef<Quill | null>(null);
     const isInitializedRef = useRef<boolean>(false);
     const lastContentRef = useRef<string>('');
-    const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-    const [initialEditorContent, setInitialEditorContent] = useState<string>();
+    const currentImageUrlsRef = useRef<string[]>([]);
 
     const [wordCount, setWordCount] = useState<number>(0);
     const [isUploading, setIsUploading] = useState<boolean>(false);
     const [currentImageUrls, setCurrentImageUrls] = useState<string[]>([]);
+    const [initialEditorContent, setInitialEditorContent] = useState<string>();
 
-    const currentImageUrlsRef = useRef<string[]>([]);
 
     // currentImageUrls가 변경될 때마다 ref도 업데이트
     useEffect(() => {
         currentImageUrlsRef.current = currentImageUrls;
     }, [currentImageUrls]);
-
 
     // 이미지 삭제 처리 함수
     const handleImageDelete = async (deletingFileUrls: string[]): Promise<void> => {
@@ -65,29 +65,23 @@ const PostEditor: React.FC<PostEditorProps> = ({
             });
 
             if (response.ok) {
-                // console.log('이미지 삭제 성공:', deletingFileUrls);
+                console.log('이미지 삭제 성공:', deletingFileUrls);
+
+                const deletingUrlsFromOriginalContents = deletingFileUrls.filter(
+                    deletedImageUrl => extractImageUrls(defaultValue).includes(deletedImageUrl)
+                ); // 기존 원본에서 삭제 될 이미지들을 필터링
+
+                console.log("실제 삭제 될 이미지 = ", deletingUrlsFromOriginalContents);
+
+                if (contentSaver && deletingUrlsFromOriginalContents.length > 0) {
+                    contentSaver('deletedImages', deletingUrlsFromOriginalContents); // 삭제 될 이미지
+                }
             } else {
                 // console.error('이미지 삭제 실패:', response.status);
             }
         } catch (error) {
             // console.error('이미지 삭제 에러:', error);
         }
-    };
-
-    // HTML 내용에서 이미지 URL 추출
-    const extractImageUrls = (htmlContent: string): string[] => {
-        const imgRegex = /<img[^>]+src="([^">]+)"/g;
-        const urls: string[] = [];
-        let match;
-
-        while ((match = imgRegex.exec(htmlContent)) !== null) {
-            const url = match[1];
-            if (!url.startsWith('data:')) {
-                urls.push(url);
-            }
-        }
-
-        return urls;
     };
 
     // 이미지 업로드 처리 함수
@@ -122,15 +116,36 @@ const PostEditor: React.FC<PostEditorProps> = ({
                 return updated;
             });
 
+            if (contentSaver) {
+                contentSaver('uploadingImages',
+                    uploadingImages?.set(uploadedImageUrl, file)
+                );
+            }
+
             return uploadedImageUrl;
 
         } catch (error) {
-            console.error('이미지 업로드 에러:', error);
             alert(error);
             return null;
         } finally {
             setIsUploading(false);
         }
+    };
+
+    // HTML 내용에서 이미지 URL 추출
+    const extractImageUrls = (htmlContent: string): string[] => {
+        const imgRegex = /<img[^>]+src="([^">]+)"/g;
+        const urls: string[] = [];
+        let match;
+
+        while ((match = imgRegex.exec(htmlContent)) !== null) {
+            const url = match[1];
+            if (!url.startsWith('data:')) {
+                urls.push(url);
+            }
+        }
+
+        return urls;
     };
 
     const imageHandler = useCallback(() => {
@@ -178,20 +193,6 @@ const PostEditor: React.FC<PostEditorProps> = ({
 
         input.click();
     }, [isUploading, handleImageUpload]);
-
-    // 디바운싱된 콘텐츠 변경 핸들러 (성능 최적화)
-    const debouncedContentSave = useCallback((content: string, text: string) => {
-        if (debounceTimeoutRef.current) {
-            clearTimeout(debounceTimeoutRef.current);
-        }
-
-        debounceTimeoutRef.current = setTimeout(() => {
-            if (contentSaver) {
-                contentSaver('contentHtml', content);
-                contentSaver('contentText', text);
-            }
-        }, 500); // 500ms 디바운싱
-    }, [contentSaver]);
 
     // 콘텐츠 변경 핸들러 - 디바운싱 적용
     const handleContentChange = useCallback(async (delta: any, oldDelta: any, source: string) => {
@@ -325,9 +326,6 @@ const PostEditor: React.FC<PostEditorProps> = ({
 
         // 클린업
         return () => {
-            if (debounceTimeoutRef.current) {
-                clearTimeout(debounceTimeoutRef.current);
-            }
         };
     }, [defaultValue, initialContent, extractImageUrls, handleContentChange, quillConfig]);
 
@@ -342,18 +340,6 @@ const PostEditor: React.FC<PostEditorProps> = ({
             isInitializedRef.current = false;
         };
     }, []);
-
-    // 내용이 비어있는지 확인하는 함수
-    const isEmpty = () => {
-        if (!quillRef.current) return true;
-
-        // @ts-ignore
-        const text = quillRef.current.getText().trim();
-        // @ts-ignore
-        const html = quillRef.current.root.innerHTML;
-
-        return !text || html === '<p><br></p>' || html === '<div><br></div>';
-    };
 
 
     if (!isReady) {
@@ -371,7 +357,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
 
             {/* Quill 에디터 */}
             <div className="editor-wrapper" style={{
-                height,
+                minHeight: '300px',
                 position: 'relative',
                 overflow: 'visible',
                 zIndex: 1
