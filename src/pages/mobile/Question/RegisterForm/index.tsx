@@ -251,11 +251,13 @@ const QuestionRegisterForm = () => {
                         uploadingFileKeyMap[file.name] = storedKey; // storedKey ↔ 실제 파일명 매핑
                     });
 
-                    // deletingFileUrls 추가
-                    const deletingFileUrls: string[] = [];
-                    formData.deletedImages?.forEach(url => {
-                        deletingFileUrls.push(url);
-                    });
+                    // // deletingFileUrls 추가
+                    // const deletingFileUrls: string[] = [];
+                    // formData.deletedImages?.forEach(url => {
+                    //     deletingFileUrls.push(url);
+                    // });
+
+                    console.log("??@2 = ", formData.deletedImages);
 
                     // JSON 데이터를 별도 part로 추가
                     const jsonData = {
@@ -263,7 +265,7 @@ const QuestionRegisterForm = () => {
                         title: formData.title,
                         contents: formData.contentHtml,
                         uploadingFileKeyMap: uploadingFileKeyMap,
-                        deletingFileUrls: deletingFileUrls,
+                        deletingFileUrls: formData.deletedImages,
                         isAnonymous: formData.isAnonymous
                     };
 
@@ -586,6 +588,7 @@ const QuestionRegisterForm = () => {
                                         contentSaver={handleInputChange}
                                         uploadHeaders={{Authorization: localStorage.getItem("hoppang-token") || ''}}
                                         uploadingImages={formData.uploadingImages}
+                                        deletedImages={formData.deletedImages}
                                     />
                                 ) : (!isEditing && isRegisteringReady) ? (
                                     <PostEditor

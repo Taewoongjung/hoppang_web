@@ -19,6 +19,7 @@ interface PostEditorProps {
     contentSaver?: (field: string, content: any) => void;
     defaultValue?: string;
     uploadingImages?: Map<string, File>
+    deletedImages?: string[]
 }
 
 const PostEditor: React.FC<PostEditorProps> = ({
@@ -32,6 +33,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
                                                    contentSaver,
                                                    defaultValue = '',
                                                    uploadingImages,
+                                                   deletedImages
                                                }) => {
     const editorRef = useRef<HTMLDivElement>(null);
     const quillRef = useRef<Quill | null>(null);
@@ -39,6 +41,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
     const lastContentRef = useRef<string>('');
     const currentImageUrlsRef = useRef<string[]>([]);
     const uploadingPlaceholdersRef = useRef<Set<string>>(new Set());
+    const deletedImagesRef = useRef<string[]>(deletedImages || []);
 
     const [wordCount, setWordCount] = useState<number>(0);
     const [isUploading, setIsUploading] = useState<boolean>(false);
@@ -78,6 +81,10 @@ const PostEditor: React.FC<PostEditorProps> = ({
         return `data:image/svg+xml;base64,${encodedSvg}`;
     };
 
+    useEffect(() => {
+        deletedImagesRef.current = deletedImages || [];
+    }, [deletedImages]);
+
     // currentImageUrls가 변경될 때마다 ref도 업데이트
     useEffect(() => {
         currentImageUrlsRef.current = currentImageUrls;
@@ -102,10 +109,13 @@ const PostEditor: React.FC<PostEditorProps> = ({
                     deletedImageUrl => extractImageUrls(defaultValue).includes(deletedImageUrl)
                 );
 
-                console.log("실제 삭제될 이미지 = ", deletingUrlsFromOriginalContents);
-
                 if (contentSaver && deletingUrlsFromOriginalContents.length > 0) {
-                    contentSaver('deletedImages', deletingUrlsFromOriginalContents);
+                    const updatedDeletedImages = [
+                        ...deletedImagesRef.current,  // 기존 삭제된 이미지들
+                        ...deletingUrlsFromOriginalContents  // 새로 삭제된 이미지들
+                    ];
+                    deletedImagesRef.current = updatedDeletedImages;  // ref도 업데이트
+                    contentSaver('deletedImages', updatedDeletedImages);
                 }
             }
         } catch (error) {
@@ -141,8 +151,8 @@ const PostEditor: React.FC<PostEditorProps> = ({
 
             const quill = quillRef.current;
             if (quill) {
-                // @ts-ignore
                 // placeholder를 실제 이미지로 교체
+                // @ts-ignore
                 const content = quill.root.innerHTML;
                 const updatedContent = content.replace(
                     new RegExp(`<img[^>]*src="${placeholderUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"[^>]*>`, 'g'),
@@ -248,7 +258,7 @@ const PostEditor: React.FC<PostEditorProps> = ({
                 await handleImageUpload(file, placeholderUrl, range.index);
 
             } catch (error) {
-                alert('이미지 업로드를 다시 시도해주세요');
+                console.error('이미지 업로드 실패:', error);
             }
         };
 
@@ -397,9 +407,9 @@ const PostEditor: React.FC<PostEditorProps> = ({
             }
             isInitializedRef.current = false;
             uploadingPlaceholdersRef.current.clear();
+            deletedImagesRef.current = [];
         };
     }, []);
-
 
     if (!isReady) {
         return <OverlayLoadingPage word={"에디터 로딩중..."}/>
