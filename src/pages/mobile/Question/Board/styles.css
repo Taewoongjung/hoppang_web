@@ -110,7 +110,6 @@
 .header-my-activity {
     font-size: 13px;
     color: #64748b;
-    cursor: pointer;
     transition: color 0.2s ease;
 }
 
@@ -159,7 +158,6 @@
     color: #64748b;
     transition: all 0.2s ease;
     white-space: nowrap;
-    cursor: pointer;
 }
 
 .board-tab:hover {
@@ -230,7 +228,6 @@
     padding: 8px;
     border-radius: 6px;
     transition: all 0.2s ease;
-    cursor: pointer;
 }
 
 .search-btn:hover {
@@ -263,7 +260,6 @@
     border-bottom: 1px solid #f1f5f9;
     transition: all 0.2s ease;
     gap: 12px;
-    cursor: pointer;
 }
 
 .question-item:hover {
@@ -349,7 +345,8 @@
 }
 
 .question-time,
-.question-stats {
+.question-stats,
+.question-image {
     font-size: 11px;
 }
 
@@ -390,6 +387,8 @@
 
 .thumbnail-placeholder {
     color: #cbd5e1;
+    width: 100%;
+    height: 100%;
 }
 
 /* Loading States */
@@ -435,7 +434,6 @@
     justify-content: center;
     transition: all 0.2s ease;
     font-size: 16px;
-    cursor: pointer;
 }
 
 .cache-clear-btn:hover {
@@ -475,7 +473,6 @@
     font-size: 14px;
     font-weight: 600;
     color: #64748b;
-    cursor: pointer;
 }
 
 .pagination-btn:hover:not(.disabled) {
@@ -523,7 +520,6 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    cursor: pointer;
 }
 
 .load-more-btn:hover:not(:disabled) {
@@ -578,7 +574,6 @@
     font-size: 14px;
     font-weight: 600;
     transition: all 0.2s ease;
-    cursor: pointer;
 }
 
 .empty-action-btn:hover {
@@ -603,7 +598,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
 }
 
 .floating-write-btn:hover {
@@ -751,6 +745,28 @@
     .pagination-container {
         padding-left: 16px;
         padding-right: 16px;
+    }
+
+    .question-thumbnail-enhanced {
+        width: 64px;
+        height: 64px;
+        border-radius: 10px;
+    }
+
+    .thumbnail-container {
+        border-radius: 10px;
+    }
+
+    .thumbnail-fallback {
+        border-radius: 10px;
+    }
+
+    .image-count-overlay {
+        top: 4px;
+        right: 4px;
+        padding: 2px 4px;
+        font-size: 9px;
+        border-radius: 8px;
     }
 }
 
@@ -903,5 +919,144 @@
 
     .questions-list-section {
         padding-bottom: max(calc(120px + env(safe-area-inset-bottom)), 120px);
+    }
+}
+
+
+/* Enhanced Image Thumbnail Styles - styles.css에 추가하세요 */
+
+.question-thumbnail-enhanced {
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition: all 0.3s ease;
+}
+
+.question-thumbnail-enhanced:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.thumbnail-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.thumbnail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease;
+    background: #f8fafc;
+}
+
+.question-thumbnail-enhanced:hover .thumbnail-image {
+    transform: scale(1.05);
+}
+
+.thumbnail-fallback {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+    color: #94a3b8;
+    border-radius: 12px;
+}
+
+.image-count-overlay {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    border-radius: 12px;
+    padding: 3px 6px;
+    font-size: 10px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    backdrop-filter: blur(4px);
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.question-thumbnail-enhanced:hover .image-count-overlay {
+    background: rgba(0, 0, 0, 0.85);
+    transform: scale(1.05);
+}
+
+.question-thumbnail-enhanced:hover {
+    opacity: 1;
+}
+
+/* Loading state for images */
+.thumbnail-image {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Animation for image count badge */
+.image-count-overlay {
+    animation: slideInFromTopRight 0.3s ease-out 0.1s both;
+}
+
+@keyframes slideInFromTopRight {
+    from {
+        opacity: 0;
+        transform: translateX(8px) translateY(-8px) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) translateY(0) scale(1);
+    }
+}
+
+/* Pulse effect for loading */
+.thumbnail-image[src=""] {
+    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* CSS를 지원하지 않는 브라우저를 위한 fallback */
+@supports not selector(:has(*)) {
+    .question-item:hover {
+        background: #f8fafc;
     }
 }

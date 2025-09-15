@@ -255,8 +255,9 @@ const QuestionsBoard = () => {
                 createdAt: new Date(post.createdAt).toISOString(),
                 replyCount: post.replyCount,
                 viewCount: post.viewCount,
-                isAnswered: Math.random() > 0.3,
-                imageCount: null
+                imageCount: post.imageCount,
+                uploadedImageUrls: post.uploadedImageUrls,
+                isAnswered: Math.random() > 0.3
             }));
 
             // 항상 새 데이터로 교체 (기존 데이터에 추가하지 않음)
@@ -465,16 +466,16 @@ const QuestionsBoard = () => {
         }
 
         // 이미지 배지
-        if (question.imageCount && question.imageCount > 0) {
-            badges.push(
-                <span key="image" className="image-badge">
-                    <svg width="10" height="10" viewBox="0 0 16 16" fill="none">
-                        <path d="M14 2H2C1.45 2 1 2.45 1 3V13C1 13.55 1.45 14 2 14H14C14.55 14 15 13.55 15 13V3C15 2.45 14.55 2 14 2ZM5 10.5L7 12.5L10 8.5L14 12H2L5 10.5Z" fill="currentColor"/>
-                    </svg>
-                    {question.imageCount}
-                </span>
-            );
-        }
+        // if (question.imageCount && question.imageCount > 0) {
+        //     badges.push(
+        //         <span key="image" className="image-badge">
+        //             <svg width="10" height="10" viewBox="0 0 16 16" fill="none">
+        //                 <path d="M14 2H2C1.45 2 1 2.45 1 3V13C1 13.55 1.45 14 2 14H14C14.55 14 15 13.55 15 13V3C15 2.45 14.55 2 14 2ZM5 10.5L7 12.5L10 8.5L14 12H2L5 10.5Z" fill="currentColor"/>
+        //             </svg>
+        //             {question.imageCount}
+        //         </span>
+        //     );
+        // }
 
         return badges;
     };
@@ -514,23 +515,29 @@ const QuestionsBoard = () => {
 
             {/* Pull to refresh indicator */}
             {(pullDistance > 0 || isRefreshing) && (
-                <div className="pull-refresh-indicator" style={{ height: `${pullDistance}px` }}>
+                <div className="pull-refresh-indicator" style={{height: `${pullDistance}px`}}>
                     <div className="pull-refresh-content">
                         {isRefreshing ? (
                             <div className="refresh-spinner">
                                 <svg className="spinner" width="20" height="20" viewBox="0 0 24 24">
-                                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" strokeLinecap="round" strokeDasharray="31.416" strokeDashoffset="31.416">
-                                        <animate attributeName="stroke-dasharray" dur="2s" values="0 31.416;15.708 15.708;0 31.416" repeatCount="indefinite"/>
-                                        <animate attributeName="stroke-dashoffset" dur="2s" values="0;-15.708;-31.416" repeatCount="indefinite"/>
+                                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"
+                                            strokeLinecap="round" strokeDasharray="31.416" strokeDashoffset="31.416">
+                                        <animate attributeName="stroke-dasharray" dur="2s"
+                                                 values="0 31.416;15.708 15.708;0 31.416" repeatCount="indefinite"/>
+                                        <animate attributeName="stroke-dashoffset" dur="2s" values="0;-15.708;-31.416"
+                                                 repeatCount="indefinite"/>
                                     </circle>
                                 </svg>
                                 <span>새로고침 중...</span>
                             </div>
                         ) : (
                             <div className="pull-refresh-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ transform: `rotate(${pullDistance * 2}deg)` }}>
-                                    <path d="M1 4V10H7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                    <path d="M3.51 15A9 9 0 1 0 6 5.3L1 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                     style={{transform: `rotate(${pullDistance * 2}deg)`}}>
+                                    <path d="M1 4V10H7" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                          strokeLinejoin="round"/>
+                                    <path d="M3.51 15A9 9 0 1 0 6 5.3L1 10" stroke="currentColor" strokeWidth="2"
+                                          strokeLinecap="round" strokeLinejoin="round"/>
                                 </svg>
                                 <span>{pullDistance > 60 ? '놓아서 새로고침' : '아래로 당겨서 새로고침'}</span>
                             </div>
@@ -544,11 +551,13 @@ const QuestionsBoard = () => {
                 <div className="header-content">
                     <button className="back-btn" onClick={handGoBack}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                  strokeLinejoin="round"/>
                         </svg>
                     </button>
                     <div className="header-title">커뮤니티</div>
-                    {userData && <div className="header-my-activity" onClick={() => window.location.href = "/question/my/boards"}>내 활동</div>}
+                    {userData && <div className="header-my-activity"
+                                      onClick={() => window.location.href = "/question/my/boards"}>내 활동</div>}
                 </div>
             </header>
 
@@ -585,7 +594,10 @@ const QuestionsBoard = () => {
                         />
                         <button type="submit" className="search-btn">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                <path d="M17.5 17.5L13.875 13.875M15.8333 9.16667C15.8333 12.8486 12.8486 15.8333 9.16667 15.8333C5.48477 15.8333 2.5 12.8486 2.5 9.16667C2.5 5.48477 5.48477 2.5 9.16667 2.5C12.8486 2.5 15.8333 5.48477 15.8333 9.16667Z" stroke="currentColor" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round"/>
+                                <path
+                                    d="M17.5 17.5L13.875 13.875M15.8333 9.16667C15.8333 12.8486 12.8486 15.8333 9.16667 15.8333C5.48477 15.8333 2.5 12.8486 2.5 9.16667C2.5 5.48477 5.48477 2.5 9.16667 2.5C12.8486 2.5 15.8333 5.48477 15.8333 9.16667Z"
+                                    stroke="currentColor" strokeWidth="1.67" strokeLinecap="round"
+                                    strokeLinejoin="round"/>
                             </svg>
                         </button>
                     </div>
@@ -612,7 +624,6 @@ const QuestionsBoard = () => {
                                 <div className="question-header">
                                     <div className="question-badges">
                                         {renderQuestionBadges(question)}
-                                        {/*{renderAnsweredBadge(question)}*/}
                                     </div>
                                     <h3 className="question-title">{question.title}</h3>
                                     <div className="question-meta">
@@ -625,15 +636,43 @@ const QuestionsBoard = () => {
                                     </div>
                                 </div>
                             </div>
-                            {question.imageCount && question.imageCount > 0 && (
-                                <div className="question-thumbnail">
-                                    <div className="thumbnail-placeholder">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                            <path d="M21 19V5C21 3.9 20.1 3 19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19ZM8.5 13.5L11 16.51L14.5 12L19 18H5L8.5 13.5Z" fill="currentColor"/>
-                                        </svg>
+                            {
+                                question.imageCount && question.imageCount > 0 ? (
+                                    <div className="question-thumbnail-enhanced">
+                                        <div className="thumbnail-container">
+                                            <img
+                                                src={question?.uploadedImageUrls?.[0]}
+                                                alt="게시물 이미지"
+                                                className="thumbnail-image"
+                                                loading="lazy"
+                                                onError={(e) => {
+                                                    e.currentTarget.style.display = 'none';
+                                                    // @ts-ignore
+                                                    e.currentTarget.nextElementSibling.style.display = 'flex';
+                                                }}
+                                            />
+                                            <div className="thumbnail-fallback" style={{display: 'none'}}>
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" strokeWidth="2"/>
+                                                    <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" strokeWidth="2"/>
+                                                    <polyline points="21,15 16,10 5,21" stroke="currentColor" strokeWidth="2"/>
+                                                </svg>
+                                            </div>
+
+                                            {/* 이미지 개수 표시 (2개 이상일 때) */}
+                                            {question.imageCount > 1 && (
+                                                <div className="image-count-overlay">
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                                                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2" stroke="currentColor" strokeWidth="2" fill="none"/>
+                                                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" stroke="currentColor" strokeWidth="2" fill="none"/>
+                                                    </svg>
+                                                    <span>{question.imageCount}</span>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                ) : <></>
+                            }
                         </div>
                     ))}
                 </div>

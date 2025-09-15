@@ -11,6 +11,7 @@ export interface Question {
     isAnswered: boolean;
     tags?: string[];
     imageCount?: number;
+    uploadedImageUrls: string[];
     isBookmarked: boolean;
 }
 

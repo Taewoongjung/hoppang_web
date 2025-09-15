@@ -59,7 +59,6 @@
     border: none;
     font-size: 20px;
     color: #999;
-    cursor: pointer;
     padding: 4px;
     border-radius: 4px;
     transition: all 0.2s ease;
@@ -133,7 +132,6 @@
     padding: 16px 32px;
     font-size: 16px;
     font-weight: 600;
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
