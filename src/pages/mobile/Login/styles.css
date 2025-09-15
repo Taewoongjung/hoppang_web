@@ -250,6 +250,7 @@
 .social-login-btn.previous-used {
     border-width: 3px;
     transform: scale(1.02);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
 }
 
 .social-login-btn.previous-used::after {
@@ -293,33 +294,18 @@
 }
 
 /* 카카오 버튼 이전 사용 스타일 */
-.kakao-btn.previous-used {
-    /*border-color: #FDD835;*/
-    background: linear-gradient(135deg, #FEE500, #FDD835);
-}
-
 .kakao-btn .previous-badge {
     background: linear-gradient(135deg, #F57F17, #FF8F00);
     color: white;
 }
 
 /* 애플 버튼 이전 사용 스타일 */
-.apple-btn.previous-used {
-    /*border-color: #333333;*/
-    background: linear-gradient(135deg, #000000, #1a1a1a);
-}
-
 .apple-btn .previous-badge {
     background: linear-gradient(135deg, #333333, #555555);
     color: white;
 }
 
 /* 구글 버튼 이전 사용 스타일 */
-.google-btn.previous-used {
-    border-color: #4285F4;
-    background: linear-gradient(135deg, #ffffff, #f8f9fa);
-}
-
 .google-btn .previous-badge {
     background: linear-gradient(135deg, #4285F4, #34A853);
     color: white;
