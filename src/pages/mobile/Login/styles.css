@@ -247,12 +247,6 @@
 }
 
 /* 이전 사용 버튼 강조 */
-.social-login-btn.previous-used {
-    border-width: 3px;
-    transform: scale(1.02);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-}
-
 .social-login-btn.previous-used::after {
     content: '';
     position: absolute;
@@ -331,35 +325,16 @@
     color: #3C1E1E;
 }
 
-.kakao-btn:hover {
-    background: #FDD835;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(254, 229, 0, 0.3);
-}
-
 /* Apple Button */
 .apple-btn {
     background: #000000;
     color: white;
 }
 
-.apple-btn:hover {
-    background: #1a1a1a;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-}
-
 /* Google Button */
 .google-btn {
     background: white;
     color: #1f2937;
-}
-
-.google-btn:hover {
-    background: #f9fafb;
-    border-color: #d1d5db;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 /* Login Footer */
