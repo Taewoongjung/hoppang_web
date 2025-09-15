@@ -82,6 +82,7 @@ const MobileGuideModal = ({ onGoToMobile }: { onGoToMobile: () => void }) => {
 const Login = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const [showMobileGuide, setShowMobileGuide] = useState(false);
+    const [previousOAuthType, setPreviousOAuthType] = useState<string | null>(null);
 
     useEffect(() => {
         // 모바일이 아닌 경우 안내 모달 표시 (바로 리다이렉트하지 않음)
@@ -91,6 +92,39 @@ const Login = () => {
                 setShowMobileGuide(true);
             }, 350);
         }
+
+        // 이전 로그인 방식 확인 로직
+        const checkPreviousOAuthType = () => {
+            try {
+                const savedOAuthType = localStorage.getItem("hoppang-login-oauthType");
+
+                // null, undefined, 빈 문자열 체크
+                if (!savedOAuthType) {
+                    setPreviousOAuthType(null);
+                    return;
+                }
+
+                // 유효한 OAuth 타입 배열
+                const validOAuthTypes = ["KKO", "APL", "GLE"];
+
+                // 저장된 값이 유효한 OAuth 타입인지 확인
+                if (validOAuthTypes.includes(savedOAuthType.trim())) {
+                    setPreviousOAuthType(savedOAuthType.trim());
+                    console.log(`이전 로그인 방식 감지: ${savedOAuthType}`);
+                } else {
+                    // 유효하지 않은 값이면 localStorage에서 제거하고 상태 초기화
+                    localStorage.removeItem("hoppang-login-oauthType");
+                    setPreviousOAuthType(null);
+                    console.log(`유효하지 않은 OAuth 타입 제거: ${savedOAuthType}`);
+                }
+            } catch (error) {
+                // localStorage 접근 에러 처리 (프라이빗 모드 등)
+                console.warn("localStorage 접근 실패:", error);
+                setPreviousOAuthType(null);
+            }
+        };
+
+        checkPreviousOAuthType();
     }, []);
 
     const handleGoToMobile = () => {
@@ -189,46 +223,54 @@ const Login = () => {
                 <section className="login-buttons-section">
                     <div className="login-buttons-title">
                         <h3>지금 바로 견적 확인하기</h3>
-                        <span style={{color: 'gray', fontSize: '13px'}}>🥳 빠른 회원가입으로 창호견적 받아보세요</span>
                     </div>
 
                     <div className="login-buttons-container">
                         {/* 카카오 로그인 */}
                         <button
                             onClick={handleKakaoLogin}
-                            className="social-login-btn kakao-btn"
+                            className={`social-login-btn kakao-btn ${previousOAuthType === 'KKO' ? 'previous-used' : ''}`}
                         >
                             <div className="btn-content">
                                 <div className="btn-icon">
                                     <img src="/assets/Sso/kakao-logo.png" alt="Kakao" />
                                 </div>
                                 <span className="btn-text">카카오로 계속하기</span>
+                                {previousOAuthType === 'KKO' && (
+                                    <div className="previous-badge">이전 사용</div>
+                                )}
                             </div>
                         </button>
 
                         {/* 애플 로그인 */}
                         <button
                             onClick={handleAppleLogin}
-                            className="social-login-btn apple-btn"
+                            className={`social-login-btn apple-btn ${previousOAuthType === 'APL' ? 'previous-used' : ''}`}
                         >
                             <div className="btn-content">
                                 <div className="btn-icon">
                                     <img src="/assets/Sso/apple-logo.png" alt="Apple" />
                                 </div>
                                 <span className="btn-text">Apple로 계속하기</span>
+                                {previousOAuthType === 'APL' && (
+                                    <div className="previous-badge">이전 사용</div>
+                                )}
                             </div>
                         </button>
 
                         {/* 구글 로그인 */}
                         <button
                             onClick={handleGoogleLogin}
-                            className="social-login-btn google-btn"
+                            className={`social-login-btn google-btn ${previousOAuthType === 'GLE' ? 'previous-used' : ''}`}
                         >
                             <div className="btn-content">
                                 <div className="btn-icon">
                                     <img src="/assets/Sso/google-logo.png" alt="Google" />
                                 </div>
                                 <span className="btn-text">Google로 계속하기</span>
+                                {previousOAuthType === 'GLE' && (
+                                    <div className="previous-badge">이전 사용</div>
+                                )}
                             </div>
                         </button>
                     </div>

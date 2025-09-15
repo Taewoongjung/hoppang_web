@@ -30,6 +30,7 @@
     border: none;
     font-size: 20px;
     color: #667eea;
+    cursor: pointer;
     padding: 8px;
     border-radius: 50%;
     transition: all 0.2s ease;
@@ -190,7 +191,13 @@
     font-size: 18px;
     font-weight: 700;
     color: #1f2937;
-    margin-bottom: 0;
+    margin-bottom: 4px;
+}
+
+.login-subtitle-small {
+    color: #6b7280;
+    font-size: 13px;
+    font-weight: 400;
 }
 
 .login-buttons-container {
@@ -207,6 +214,7 @@
     border-radius: 16px;
     font-size: 15px;
     font-weight: 600;
+    cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     position: relative;
@@ -238,6 +246,86 @@
     z-index: 2;
 }
 
+/* 이전 사용 버튼 강조 */
+.social-login-btn.previous-used {
+    border-width: 3px;
+    transform: scale(1.02);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+.social-login-btn.previous-used::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 18px;
+    background: linear-gradient(45deg, rgba(102, 126, 234, 0.3), rgba(252, 176, 128, 0.3));
+    z-index: -1;
+    animation: previousGlow 2s ease-in-out infinite;
+}
+
+@keyframes previousGlow {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+}
+
+/* 이전 사용 배지 */
+.previous-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 10px;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+    z-index: 10;
+    animation: badgePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* 카카오 버튼 이전 사용 스타일 */
+.kakao-btn.previous-used {
+    /*border-color: #FDD835;*/
+    background: linear-gradient(135deg, #FEE500, #FDD835);
+}
+
+.kakao-btn .previous-badge {
+    background: linear-gradient(135deg, #F57F17, #FF8F00);
+    color: white;
+}
+
+/* 애플 버튼 이전 사용 스타일 */
+.apple-btn.previous-used {
+    /*border-color: #333333;*/
+    background: linear-gradient(135deg, #000000, #1a1a1a);
+}
+
+.apple-btn .previous-badge {
+    background: linear-gradient(135deg, #333333, #555555);
+    color: white;
+}
+
+/* 구글 버튼 이전 사용 스타일 */
+.google-btn.previous-used {
+    border-color: #4285F4;
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+}
+
+.google-btn .previous-badge {
+    background: linear-gradient(135deg, #4285F4, #34A853);
+    color: white;
+}
+
 .btn-icon {
     width: 24px;
     height: 24px;
@@ -256,7 +344,6 @@
 .kakao-btn {
     background: #FEE500;
     color: #3C1E1E;
-    border: 2px solid #FEE500;
 }
 
 .kakao-btn:hover {
@@ -269,7 +356,6 @@
 .apple-btn {
     background: #000000;
     color: white;
-    border: 2px solid #000000;
 }
 
 .apple-btn:hover {
@@ -282,7 +368,6 @@
 .google-btn {
     background: white;
     color: #1f2937;
-    border: 2px solid #e5e7eb;
 }
 
 .google-btn:hover {
@@ -608,6 +693,7 @@
     border-radius: 16px;
     font-size: 16px;
     font-weight: 600;
+    cursor: pointer;
     transition: all 0.3s ease;
     border: none;
     position: relative;
