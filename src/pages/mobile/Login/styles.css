@@ -3,9 +3,12 @@
     max-width: 430px;
     margin: 0 auto;
     background: #f8f9fa;
-    min-height: 100vh;
+    height: 100vh;
+    max-height: 100vh;
     position: relative;
-    overflow-x: hidden;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Login Header */
@@ -19,6 +22,7 @@
     position: sticky;
     top: 0;
     z-index: 100;
+    flex-shrink: 0;
 }
 
 .back-button {
@@ -26,7 +30,6 @@
     border: none;
     font-size: 20px;
     color: #667eea;
-    cursor: pointer;
     padding: 8px;
     border-radius: 50%;
     transition: all 0.2s ease;
@@ -66,15 +69,24 @@
 /* Main Content */
 .login-main {
     padding: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
 }
 
 /* Hero Section */
 .login-hero {
     background: linear-gradient(135deg, #ffeb9c 10%, #f7e0bc 60%, #fff4e5 100%);
-    padding: 40px 20px 60px;
+    padding: 20px 20px 32px;
     text-align: center;
     position: relative;
     overflow: hidden;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
 }
 
 .login-hero::before {
@@ -91,15 +103,16 @@
 .login-hero-content {
     position: relative;
     z-index: 2;
+    width: 100%;
 }
 
 .login-logo-container {
-    margin-bottom: 30px;
+    margin-bottom: 16px;
 }
 
 .login-character {
-    width: 120px;
-    height: 120px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
     filter: drop-shadow(0 8px 16px rgba(0,0,0,0.1));
     animation: bounce 2s ease-in-out infinite;
@@ -124,27 +137,28 @@
 .login-title {
     font-size: 24px;
     font-weight: 700;
-    margin-bottom: 12px;
-    line-height: 1.3;
+    margin-bottom: 6px;
+    line-height: 1.2;
+    color: #5c4a3b;
 }
 
 .login-subtitle {
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 400;
-    color: #444;
-    opacity: 0.95;
-    margin-bottom: 20px;
-    line-height: 1.6;
+    color: #6b5b4f;
+    opacity: 0.9;
+    margin-bottom: 12px;
+    line-height: 1.4;
 }
 
 .login-notice {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     background: rgba(255,255,255,0.9);
-    padding: 12px 16px;
-    border-radius: 25px;
-    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 13px;
     font-weight: 600;
     color: #667eea;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -152,52 +166,47 @@
 }
 
 .notice-icon {
-    font-size: 16px;
+    font-size: 14px;
 }
 
 /* Login Buttons Section */
 .login-buttons-section {
     background: white;
-    padding: 40px 20px;
+    padding: 24px 20px 16px;
     border-radius: 24px 24px 0 0;
     margin-top: -24px;
     position: relative;
     z-index: 3;
     box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+    flex-shrink: 0;
 }
 
 .login-buttons-title {
     text-align: center;
-    margin-bottom: 32px;
+    margin-bottom: 16px;
 }
 
 .login-buttons-title h3 {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     color: #1f2937;
-    margin-bottom: 8px;
-}
-
-.login-buttons-title p {
-    font-size: 14px;
-    color: #6b7280;
+    margin-bottom: 0;
 }
 
 .login-buttons-container {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    margin-bottom: 32px;
+    gap: 10px;
+    margin-bottom: 16px;
 }
 
 .social-login-btn {
     width: 100%;
-    height: 56px;
+    height: 48px;
     border: none;
     border-radius: 16px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
-    cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     position: relative;
@@ -286,14 +295,15 @@
 /* Login Footer */
 .login-footer {
     text-align: center;
-    padding-top: 20px;
+    padding-top: 8px;
     border-top: 1px solid #f3f4f6;
 }
 
 .login-terms {
-    font-size: 12px;
+    font-size: 11px;
     color: #9ca3af;
-    line-height: 1.5;
+    line-height: 1.4;
+    margin: 0;
 }
 
 .login-terms a {
@@ -313,21 +323,85 @@
     }
 
     .login-subtitle {
-        font-size: 15px;
+        font-size: 14px;
     }
 
     .login-character {
-        width: 100px;
-        height: 100px;
+        width: 70px;
+        height: 70px;
     }
 
     .login-buttons-section {
-        padding: 32px 16px;
+        padding: 20px 16px 12px;
+    }
+
+    .login-buttons-title h3 {
+        font-size: 17px;
+    }
+
+    .social-login-btn {
+        height: 46px;
+        font-size: 14px;
+    }
+
+    .login-hero {
+        padding: 16px 16px 28px;
+    }
+
+    .login-logo-container {
+        margin-bottom: 12px;
+    }
+
+    .login-buttons-container {
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+}
+
+@media (min-height: 812px) and (max-width: 430px) {
+    .login-hero {
+        padding: 28px 20px 36px;
+    }
+
+    .login-character {
+        width: 90px;
+        height: 90px;
+    }
+
+    .login-logo-container {
+        margin-bottom: 20px;
+    }
+
+    .login-title {
+        font-size: 26px;
+        margin-bottom: 8px;
+    }
+
+    .login-subtitle {
+        font-size: 16px;
+        margin-bottom: 16px;
+    }
+
+    .login-buttons-section {
+        padding: 28px 20px 20px;
+    }
+
+    .login-buttons-container {
+        gap: 12px;
+        margin-bottom: 20px;
     }
 
     .social-login-btn {
         height: 52px;
-        font-size: 15px;
+        font-size: 16px;
+    }
+
+    .login-buttons-title {
+        margin-bottom: 20px;
+    }
+
+    .login-buttons-title h3 {
+        font-size: 19px;
     }
 }
 
@@ -388,6 +462,7 @@
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
 }
 
+/* Mobile Guide Modal */
 .mobile-guide-overlay {
     position: fixed;
     top: 0;
@@ -533,7 +608,6 @@
     border-radius: 16px;
     font-size: 16px;
     font-weight: 600;
-    cursor: pointer;
     transition: all 0.3s ease;
     border: none;
     position: relative;
@@ -541,11 +615,6 @@
     background: linear-gradient(135deg, #fcb080 0%, #f59e56 100%);
     color: white;
     box-shadow: 0 4px 16px rgba(252, 176, 128, 0.4);
-}
-
-.mobile-guide-container .primary-btn {
-    background: linear-gradient(135deg, #fcb080 0%, #f59e56 100%);
-    color: white;
 }
 
 .mobile-guide-container .primary-btn:hover {
@@ -564,21 +633,10 @@
     margin: 0;
 }
 
-/* 새로운 애니메이션 추가 */
+/* Additional Animations */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
-}
-
-@keyframes slideInUp {
-    from {
-        transform: translateY(30px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
 }
 
 @keyframes floatCharacter {
@@ -590,7 +648,7 @@
     }
 }
 
-/* 모바일 반응형 */
+/* Mobile Responsive for Modal */
 @media (max-width: 480px) {
     .mobile-guide-overlay {
         padding: 16px;

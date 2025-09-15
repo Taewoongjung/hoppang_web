@@ -172,10 +172,8 @@ const Login = () => {
                         </div>
 
                         <div className="login-text-content">
-                            <h1 className="login-title">호빵은 창호 가격의 기준을 제시합니다</h1>
-                            <p className="login-subtitle">호빵은 <strong>호</strong>구 <strong>빵</strong>명의 의미로,</p>
-                            <p className="login-subtitle">불투명한 창호 시장에서 소비자가<br/>손해 보지 않도록,</p>
-                            <p className="login-subtitle">시세 기준과 투명한 견적으로<br/>합리적인 선택을 돕습니다.</p>
+                            <h1 className="login-title">견적부터 시공까지, 가격 그대로</h1>
+                            <p className="login-subtitle">투명한 비용 상세 공개로 합리적 선택을 도와드립니다</p>
 
                             {urlParams.get('needed') === 'true' && (
                                 <div className="login-notice">
@@ -190,8 +188,8 @@ const Login = () => {
                 {/* Login Buttons Section */}
                 <section className="login-buttons-section">
                     <div className="login-buttons-title">
-                        <h3>간편하게 시작하기</h3>
-                        <p>소셜 계정으로 빠르게 로그인하세요</p>
+                        <h3>지금 바로 견적 확인하기</h3>
+                        <span style={{color: 'gray', fontSize: '13px'}}>🥳 빠른 회원가입으로 창호견적 받아보세요</span>
                     </div>
 
                     <div className="login-buttons-container">
