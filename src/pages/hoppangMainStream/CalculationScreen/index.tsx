@@ -407,7 +407,6 @@ const CalculationScreen = () => {
                                                                                     border: '2px solid',
                                                                                     borderColor: selectedOption === option ? 'green' : '#ccc',
                                                                                     borderRadius: '8px',
-                                                                                    cursor: 'pointer',
                                                                                     transition: 'border-color 0.3s ease',
                                                                                     background: 'white',
                                                                                     fontWeight: 600
@@ -471,7 +470,6 @@ const CalculationScreen = () => {
                                                                                     border: '2px solid',
                                                                                     borderColor: selectedOption === option ? 'green' : '#ccc',
                                                                                     borderRadius: '8px',
-                                                                                    cursor: 'pointer',
                                                                                     transition: 'border-color 0.3s ease',
                                                                                     fontWeight: 600
                                                                                 }}

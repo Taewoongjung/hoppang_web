@@ -42,7 +42,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     transition: all 0.2s ease;
     color: #64748b;
     font-size: 18px;
@@ -160,7 +159,6 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    cursor: pointer;
     transition: all 0.2s ease;
     border: 1px solid #f1f5f9;
     position: relative;

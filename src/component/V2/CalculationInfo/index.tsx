@@ -162,7 +162,6 @@ const InfoSection: React.FC<{
                             display: 'flex',
                             justifyContent: 'space-between',
                             alignItems: 'center',
-                            cursor: 'pointer',
                             fontSize: '15px',
                             fontWeight: '500',
                             color: '#374151'
@@ -221,7 +220,6 @@ const InfoSection: React.FC<{
                             display: 'flex',
                             justifyContent: 'space-between',
                             alignItems: 'center',
-                            cursor: 'pointer',
                             fontSize: '15px',
                             fontWeight: '500',
                             color: '#374151'
@@ -305,7 +303,6 @@ const InfoSection: React.FC<{
                         display: 'flex',
                         alignItems: 'flex-start',
                         gap: '12px',
-                        cursor: 'pointer'
                     }}>
                         <input
                             type="checkbox"
@@ -318,7 +315,6 @@ const InfoSection: React.FC<{
                                 minHeight: '18px',
                                 border: '2px solid #e2e8f0',
                                 borderRadius: '4px',
-                                cursor: 'pointer',
                                 accentColor: '#6366f1',
                                 marginTop: '2px',
                                 flexShrink: 0

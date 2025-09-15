@@ -45,7 +45,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
     transition: all 0.2s ease;
     color: #64748b;
 }
@@ -231,7 +230,6 @@ body {
     background: none;
     border: none;
     color: #dc2626;
-    cursor: pointer;
     padding: 4px;
     border-radius: 4px;
     transition: all 0.2s ease;
@@ -410,7 +408,6 @@ body {
     font-size: 13px;
     font-weight: 600;
     color: #0ea5e9;
-    cursor: pointer;
     transition: all 0.2s ease;
     white-space: nowrap;
 }
@@ -466,7 +463,6 @@ body {
     border: 2px solid #e2e8f0;
     border-radius: 12px;
     padding: 0;
-    cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-align: left;
     font-size: 14px;
@@ -565,7 +561,6 @@ body {
     border: 1px solid #e2e8f0;
     border-radius: 8px;
     padding: 8px 12px;
-    cursor: pointer;
     transition: all 0.2s ease;
     color: #64748b;
     display: flex;
@@ -625,7 +620,6 @@ body {
     border: 2px solid #e2e8f0;
     border-radius: 10px;
     padding: 16px 20px;
-    cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
@@ -782,7 +776,6 @@ body {
     border: 2px dashed #cbd5e1;
     border-radius: 8px;
     background: #f8fafc;
-    cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
     flex-direction: column;
@@ -851,7 +844,6 @@ body {
     background: rgba(0, 0, 0, 0.7);
     border: none;
     color: white;
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -874,7 +866,6 @@ body {
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    cursor: pointer;
     padding: 16px;
     border-radius: 8px;
     border: 2px solid transparent;
@@ -997,7 +988,6 @@ body {
     border-radius: 12px;
     font-size: 16px;
     font-weight: 600;
-    cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;

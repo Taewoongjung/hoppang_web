@@ -36,7 +36,6 @@
     justify-content: center;
     color: #64748b;
     font-size: 20px;
-    cursor: pointer;
     transition: all 0.2s ease;
 }
 
@@ -268,7 +267,6 @@
     justify-content: center;
     color: #64748b;
     font-size: 14px;
-    cursor: pointer;
     transition: all 0.2s ease;
 }
 
@@ -363,7 +361,6 @@
     border-radius: 12px;
     font-size: 14px;
     font-weight: 600;
-    cursor: pointer;
     transition: all 0.2s ease;
 }
 
@@ -414,7 +411,6 @@
     border-radius: 12px;
     font-size: 14px;
     font-weight: 600;
-    cursor: pointer;
     transition: all 0.2s ease;
 }
 
@@ -464,7 +460,6 @@
     border-radius: 12px;
     font-size: 14px;
     font-weight: 600;
-    cursor: pointer;
     transition: all 0.2s ease;
     background: #6366f1;
     color: white;
@@ -591,7 +586,6 @@
     border-radius: 12px;
     font-size: 14px;
     font-weight: 600;
-    cursor: pointer;
     transition: all 0.2s ease;
     background: #16a34a;
     color: white;

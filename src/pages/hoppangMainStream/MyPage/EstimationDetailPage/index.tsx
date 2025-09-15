@@ -212,7 +212,6 @@ const EstimationDetailPage = () => {
                                 fontSize: '18px',
                                 background: 'none',
                                 border: 'none',
-                                cursor: 'pointer',
                                 color: '#333',
                                 display: 'flex',
                                 alignItems: 'center'

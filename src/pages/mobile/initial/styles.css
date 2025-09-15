@@ -76,7 +76,6 @@ body {
     font-size: 13px;
     font-weight: 600;
     transition: all 0.2s ease;
-    cursor: pointer;
 }
 
 .login-btn:hover {
@@ -150,7 +149,6 @@ body {
     align-items: center;
     gap: 8px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    cursor: pointer;
 }
 
 .cta-button:hover {
@@ -225,7 +223,6 @@ body {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
-    cursor: pointer;
 }
 
 .service-card:hover {
@@ -360,7 +357,6 @@ body {
     gap: 12px;
     border: 1px solid #f1f5f9;
     transition: all 0.2s ease;
-    cursor: pointer;
 }
 
 .question-item:hover {
@@ -419,7 +415,6 @@ body {
     align-items: center;
     gap: 4px;
     color: #64748b;
-    cursor: pointer;
     transition: color 0.2s ease;
 }
 
@@ -455,7 +450,6 @@ footer {
     gap: 12px;
     margin-bottom: 12px;
     transition: transform 0.2s ease;
-    cursor: pointer;
 }
 
 .footer-logo:hover {
@@ -500,7 +494,6 @@ footer {
     font-weight: 500;
     transition: all 0.2s ease;
     text-decoration: none;
-    cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -539,7 +532,6 @@ footer {
 }
 
 .footer-meta span {
-    cursor: pointer;
     transition: color 0.2s ease;
     padding: 4px;
     border-radius: 4px;

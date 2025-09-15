@@ -79,7 +79,6 @@ const useResponsiveStyles = (showLeftFade: boolean, showRightFade: boolean) => {
             alignItems: 'center',
             padding: '20px',
             borderBottom: '1px solid #f0f0f0',
-            cursor: 'pointer',
             transition: 'background-color 0.2s',
         },
         contactItemLast: {
@@ -149,7 +148,6 @@ const useResponsiveStyles = (showLeftFade: boolean, showRightFade: boolean) => {
             backgroundColor: '#f8f8f8',
             border: 'none',
             borderBottom: '2px solid transparent',
-            cursor: 'pointer',
             whiteSpace: 'nowrap',
             transition: 'all 0.3s ease',
         },
@@ -164,7 +162,6 @@ const useResponsiveStyles = (showLeftFade: boolean, showRightFade: boolean) => {
         faqItem: {
             padding: '15px 0',
             borderBottom: '1px solid #f0f0f0',
-            cursor: 'pointer',
         },
         faqItemLast: {
             borderBottom: 'none',

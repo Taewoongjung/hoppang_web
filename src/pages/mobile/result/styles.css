@@ -717,12 +717,10 @@ body {
 }
 
 .comparison-row {
-    /*display: flex;*/
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px;
     background: white;
-    cursor: pointer;
     transition: all 0.2s ease;
     position: relative;
     border-radius: 8px;
