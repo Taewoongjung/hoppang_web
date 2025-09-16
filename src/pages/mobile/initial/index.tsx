@@ -383,7 +383,6 @@ const Initial = () => {
         };
     }, [handleScroll]);
 
-    // 나머지 로직들 (기존과 동일)
     const services = [
         {
             id: 1,
@@ -626,9 +625,9 @@ const Initial = () => {
                     <div className="footer-bottom">
                         <p className="footer-copyright">© 2025 호빵. All rights reserved.</p>
                         <div className="footer-meta">
-                            <span onClick={() => {window.location.href ="/policy/privacy";}}>개인정보처리방침</span>
+                            <span onClick={() => {window.location.href="/policy/privacy";}}>개인정보처리방침</span>
                             <span className="footer-separator">|</span>
-                            <span onClick={() => {/* 이용약관 로직 */}}>이용약관</span>
+                            <span onClick={() => {window.location.href="/policy/termofuse";}}>이용약관</span>
                         </div>
                     </div>
                 </div>

@@ -9,25 +9,26 @@ const PrivacyPolicy = () => {
         window.location.href = document.referrer;
     }
 
+
     return (
         <>
             <header className="header">
                 <div className="header-content">
                     <button className="back-btn" onClick={handGoBack}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
-                                  strokeLinejoin="round"/>
+                            <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                  stroke-linejoin="round"/>
                         </svg>
                     </button>
                     <div className="header-title">
-                        <h1>개인정보 처리방침</h1>
+                        <h1>개인정보처리방침</h1>
                     </div>
                 </div>
             </header>
 
             <div className="container">
-                <header className="header">
-                    <h1>호빵 개인정보 처리방침</h1>
+                <header className="content-header">
+                    <h1>호빵 개인정보처리방침</h1>
                     <p className="intro">
                         호빵(이하 '회사')은 정보주체의 자유와 권리 보호를 위해 「개인정보 보호법」 및 관계 법령이 정한 바를 준수하여, 적법하게 개인정보를 처리하고 안전하게 관리하고 있습니다.
                         이에 「개인정보 보호법」 제30조에 따라 정보주체에게 개인정보의 처리와 보호에 관한 절차 및 기준을 안내하고, 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기
@@ -308,10 +309,10 @@ const PrivacyPolicy = () => {
 
                     <section id="section12" className="section">
                         <h2>12. 개인정보 처리방침의 변경</h2>
-                        <p>① 이 개인정보 처리방침은 2024년 1월 1일부터 적용됩니다.</p>
+                        <p>① 이 개인정보 처리방침은 2025년 1월 1일부터 적용됩니다.</p>
                         <p>② 이전의 개인정보 처리방침은 아래에서 확인하실 수 있습니다.</p>
                         <ul>
-                            <li>2023년 1월 1일 ~ 2023년 12월 31일 적용 (이전 버전 보기)</li>
+                            <li>2024년 1월 1일 ~ 2024년 12월 31일 적용 (이전 버전 보기)</li>
                         </ul>
                         <p>③ 개인정보 처리방침의 내용 추가, 삭제 및 수정이 있을 시에는 변경사항의 시행 7일 전부터 공지사항을 통하여 고지할 것입니다. 다만, 개인정보의 수집 및 활용,
                             제3자 제공 등과 같이 정보주체 권리의 중요한 변경이 있을 경우에는 최소 30일 전에 고지합니다.</p>

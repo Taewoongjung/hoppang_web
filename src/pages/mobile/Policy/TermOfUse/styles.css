@@ -181,48 +181,6 @@ body {
     color: #d17742;
 }
 
-/* 테이블 스타일 */
-.table-container {
-    margin: 20px 0;
-    overflow-x: auto;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #fff;
-    font-size: 0.9rem;
-}
-
-thead {
-    background: linear-gradient(135deg, #ff9a56 0%, #ffb07a 100%);
-    color: white;
-}
-
-th {
-    padding: 16px 12px;
-    text-align: left;
-    font-weight: 600;
-    border-bottom: 2px solid #d17742;
-}
-
-td {
-    padding: 16px 12px;
-    border-bottom: 1px solid #f0f0f0;
-    vertical-align: top;
-}
-
-tr:nth-child(even) {
-    background-color: #fff8f5;
-}
-
-tr:hover {
-    background-color: #ffeedd;
-    transition: background-color 0.2s ease;
-}
-
 /* 연락처 정보 */
 .contact-info {
     background-color: #fff8f5;
@@ -283,14 +241,6 @@ tr:hover {
     .section h3 {
         font-size: 1.1rem;
         padding-left: 8px;
-    }
-
-    .table-container {
-        font-size: 0.85rem;
-    }
-
-    th, td {
-        padding: 12px 8px;
     }
 }
 
