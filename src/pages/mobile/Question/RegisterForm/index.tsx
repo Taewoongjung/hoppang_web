@@ -11,17 +11,6 @@ import axios from "axios";
 import {Board} from "../interface";
 import PostEditor from "../../../../component/V2/Board/PostEditor";
 
-
-interface RegisterPost {
-    boardId: number | string;
-    title: string;
-    contents: string;
-    uploadingFiles?: Map<string, File>;
-    uploadingFileKeyMap: Record<string, string>;
-    deletingFileUrls?: string[];
-    isAnonymous: boolean;
-}
-
 type SubmitState = 'idle' | 'submitting' | 'success' | 'error';
 
 const QuestionRegisterForm = () => {
@@ -250,14 +239,6 @@ const QuestionRegisterForm = () => {
                         payloadForPosting.append("uploadingFiles", file); // 파일 추가
                         uploadingFileKeyMap[file.name] = storedKey; // storedKey ↔ 실제 파일명 매핑
                     });
-
-                    // // deletingFileUrls 추가
-                    // const deletingFileUrls: string[] = [];
-                    // formData.deletedImages?.forEach(url => {
-                    //     deletingFileUrls.push(url);
-                    // });
-
-                    console.log("??@2 = ", formData.deletedImages);
 
                     // JSON 데이터를 별도 part로 추가
                     const jsonData = {
@@ -624,17 +605,6 @@ const QuestionRegisterForm = () => {
 
                 {/* Submit Section */}
                 <section className="submit-section">
-                    {/*<div className="submit-notice">*/}
-                    {/*    <div className="notice-icon">💡</div>*/}
-                    {/*    <div className="notice-text">*/}
-                    {/*        <div className="notice-title">답변 안내</div>*/}
-                    {/*        <div className="notice-desc">*/}
-                    {/*            커뮤니티 친구들이 답변해드릴 거예요<br />*/}
-                    {/*            다소 시간이 걸릴 수 있으니 양해 부탁드려요!*/}
-                    {/*        </div>*/}
-                    {/*    </div>*/}
-                    {/*</div>*/}
-
                     <button
                         className={`submit-btn ${submitState}`}
                         onClick={submitState === 'error' ? handleRetry : handleSubmit}

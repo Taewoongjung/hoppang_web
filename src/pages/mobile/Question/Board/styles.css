@@ -922,13 +922,10 @@
     }
 }
 
-
-/* Enhanced Image Thumbnail Styles - styles.css에 추가하세요 */
-
 .question-thumbnail-enhanced {
     flex-shrink: 0;
-    width: 72px;
-    height: 72px;
+    width: 82px;
+    height: 82px;
     border-radius: 12px;
     overflow: hidden;
     background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
@@ -938,11 +935,6 @@
     position: relative;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     transition: all 0.3s ease;
-}
-
-.question-thumbnail-enhanced:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
 .thumbnail-container {
