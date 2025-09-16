@@ -1,7 +1,6 @@
 import React from 'react';
 
 import './styles.css';
-import '../../versatile-styles.css';
 
 
 const PrivacyPolicy = () => {
