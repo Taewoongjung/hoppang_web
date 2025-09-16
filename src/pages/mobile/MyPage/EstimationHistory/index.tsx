@@ -13,6 +13,7 @@ import {EnhancedGoToTopButton} from "../../../../util/renderUtil";
 
 import './styles.css';
 import '../../versatile-styles.css';
+
 import {useHistory} from "react-router-dom";
 
 dayjs.extend(customParseFormat);
@@ -48,11 +49,13 @@ const EstimationHistory = () => {
         dedupingInterval: 2000
     });
 
-    const [data, setData] = useState<Estimation[]>([]);
+    const observer = useRef<IntersectionObserver | null>(null);
+
+    const [estimationList, setEstimationList] = useState<Estimation[]>([]);
     const [lastEstimationId, setLastEstimationId] = useState<number | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [isLastPage, setIsLastPage] = useState(false);
-    const observer = useRef<IntersectionObserver | null>(null);
+    const [wholeCountOfEstimations, setWholeCountOfEstimations] = useState();
 
     useEffect(() => {
         loadEstimationData(lastEstimationId);
@@ -73,8 +76,9 @@ const EstimationHistory = () => {
             });
 
             if (res.data && res.data.estimationList.length > 0) {
-                setData((prevData) => [...prevData, ...mapEstimationHistories(res.data)]);
+                setEstimationList((prevData) => [...prevData, ...mapEstimationHistories(res.data)]);
                 setLastEstimationId(res.data.lastEstimationId);
+                setWholeCountOfEstimations(res.data.wholeEstimationCount);
             }
 
             setIsLastPage(res.data.isLastPage);
@@ -151,23 +155,23 @@ const EstimationHistory = () => {
 
             {/* Main Content */}
             <main className="estimation-main">
-                {data.length > 0 ? (
+                {estimationList.length > 0 ? (
                     <>
                         <div className="estimation-summary">
                             <div className="summary-card">
                                 <div className="summary-icon">📋</div>
                                 <div className="summary-text">
-                                    <span className="summary-count">{data.length}개</span>
+                                    <span className="summary-count">{wholeCountOfEstimations}개</span>
                                     <span className="summary-label">견적서</span>
                                 </div>
                             </div>
                         </div>
 
                         <div className="estimation-list">
-                            {data.map((item, index) => (
+                            {estimationList.map((item, index) => (
                                 <div
                                     key={item.estimationId}
-                                    ref={index === data.length - 1 ? lastElementRef : null}
+                                    ref={index === estimationList.length - 1 ? lastElementRef : null}
                                     className="estimation-card"
                                     onClick={() => clickEstimation(item.estimationId)}
                                 >
