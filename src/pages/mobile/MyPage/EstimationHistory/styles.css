@@ -51,12 +51,6 @@
     font-size: 16px;
 }
 
-.back-btn:hover {
-    background: #f1f5f9;
-    color: #475569;
-    transform: scale(1.02);
-}
-
 .header-title h1 {
     font-size: 24px;
     font-weight: 700;

@@ -34,6 +34,8 @@ const LoginPageV2 = loadable(() => import('../../pages/mobile/Login'));
 const LoginFirstStepPageV2 = loadable(() => import('../../pages/mobile/LoginFirstStep'));
 const LoginSecondStepPageV2 = loadable(() => import('../../pages/mobile/LoginSecondStep'));
 
+const PrivacyPolicyPage = loadable(() => import('../../pages/mobile/Policy/PrivacyPolicy'));
+
 const MyPageEstimationDetailPageV2 = loadable(() => import('../../pages/mobile/MyPage/EstimationDetail'));
 const MyPageEstimationHistoriesPageV2 = loadable(() => import('../../pages/mobile/MyPage/EstimationHistory'));
 const AppConfigPageV2 = loadable(() => import('../../pages/mobile/MyPage/AppConfig'));
@@ -77,6 +79,8 @@ const App = () => {
                     <Route exact path="/v2/login/second" component={LoginSecondStepPageV2}/>
                     <Route exact path="/v2/login/first" component={LoginFirstStepPageV2}/>
                     <Route exact path="/v2/login" component={LoginPageV2}/>
+
+                    <Route exact path="/policy/privacy" component={PrivacyPolicyPage}/>
 
                     {/* ADMIN */}
                     <Route path="/admin/login" component={AdminLoginPage}/>

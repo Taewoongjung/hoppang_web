@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
+
 import './styles.css';
+
 import {LeftOutlined, RightOutlined} from "@ant-design/icons";
 import { Modal } from 'antd';
 import axios from 'axios';
@@ -13,24 +15,9 @@ const ConfigPage = () => {
     const [loading, setLoading] = useState(false);
     const [withdrawUserModal, setWithdrawUserModal] = useState(false);
 
-    const privacyHandlingRule = () => {
-        Modal.info({
-            title: '개인정보처리방침',
-            content: (
-                <iframe
-                    src="https://www.freeprivacypolicy.com/live/4a596f6c-7e7d-4b42-b593-5645a2f08453"
-                    title="개인정보처리방침"
-                    style={{ width: "100%", height: "400px", border: "none" }} // 높이 설정 필요
-                ></iframe>
-            ),
-            onOk() {},
-            okText: '확인',
-            width: 800,
-        });
-    };
 
     const showEngPolicyModal = () => {
-        privacyHandlingRule();
+        window.location.href ="/policy/privacy";
     };
 
     const handleLogOut = () => {
