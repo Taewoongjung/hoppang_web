@@ -11,6 +11,7 @@ import fetcher from "../../../../util/fetcher";
 import CommunityLoginModal from "../../../../component/V2/Modal/CommunityLoginRequiredModal";
 import { Question, Board } from '../interface';
 import {formatTimeAgo, formatUserName} from "../../../../util/boardUtil";
+import OverlayLoadingPage from "../../../../component/Loading/OverlayLoadingPage";
 
 // 게시판 타입 정의
 interface BoardType {
@@ -607,10 +608,7 @@ const QuestionsBoard = () => {
             {/* Questions List */}
             <main className="questions-list-section">
                 {isLoading && (
-                    <div className="loading-indicator">
-                        <div className="loading-spinner"></div>
-                        <span>로딩 중...</span>
-                    </div>
+                    <OverlayLoadingPage word={"로딩 중..."}/>
                 )}
 
                 <div className={`questions-list ${isLoading ? 'loading' : ''}`}>
