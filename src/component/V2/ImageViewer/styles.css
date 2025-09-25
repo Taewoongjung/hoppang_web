@@ -376,10 +376,12 @@ body {
     align-items: center;
     justify-content: center;
     gap: 10px;
-    background: #667eea;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border: none;
     border-radius: 8px;
     padding: 14px 20px;
+    margin-bottom: 12px;
+    cursor: pointer;
     transition: all 0.3s ease;
     font-size: 15px;
     font-weight: 600;
@@ -387,9 +389,19 @@ body {
     box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 }
 
+.community-btn:hover {
+    background: linear-gradient(135deg, #5568d3 0%, #6a3d8f 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.community-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
 .community-icon {
-    width: 24px;
-    height: 24px;
+    font-size: 20px;
 }
 
 /* Kakao Inquiry Button */
@@ -403,12 +415,22 @@ body {
     border: none;
     border-radius: 8px;
     padding: 14px 20px;
-    margin-top: 16px;
-    margin-bottom: 12px;
+    cursor: pointer;
     transition: all 0.3s ease;
     font-size: 15px;
     font-weight: 600;
     color: #000000;
+    box-shadow: 0 2px 8px rgba(254, 229, 0, 0.3);
+}
+
+.kakao-inquiry-btn:hover {
+    background: #FDD835;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(254, 229, 0, 0.4);
+}
+
+.kakao-inquiry-btn:active {
+    transform: translateY(0);
     box-shadow: 0 2px 8px rgba(254, 229, 0, 0.3);
 }
 
@@ -419,7 +441,103 @@ body {
 }
 
 @media (max-width: 414px) {
+    .community-btn,
     .kakao-inquiry-btn {
+        font-size: 14px;
+        padding: 12px 18px;
+    }
+
+    .community-icon {
+        font-size: 18px;
+    }
+
+    .kakao-logo {
+        width: 22px;
+        height: 22px;
+    }
+}
+
+/* Inquiry Buttons Container */
+.inquiry-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+/* Kakao Inquiry Button */
+.kakao-inquiry-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #FEE500;
+    border: none;
+    border-radius: 8px;
+    padding: 14px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 15px;
+    font-weight: 600;
+    color: #000000;
+    box-shadow: 0 2px 8px rgba(254, 229, 0, 0.3);
+}
+
+.kakao-inquiry-btn:hover {
+    background: #FDD835;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(254, 229, 0, 0.4);
+}
+
+.kakao-inquiry-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(254, 229, 0, 0.3);
+}
+
+.kakao-logo {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+/* Community Button */
+.community-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 14px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 15px;
+    font-weight: 600;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.community-btn:hover {
+    background: linear-gradient(135deg, #5568d3 0%, #6a3d8f 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.community-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.community-icon {
+    font-size: 20px;
+}
+
+@media (max-width: 414px) {
+    .kakao-inquiry-btn,
+    .community-btn {
         font-size: 14px;
         padding: 12px 18px;
     }
@@ -427,6 +545,10 @@ body {
     .kakao-logo {
         width: 22px;
         height: 22px;
+    }
+
+    .community-icon {
+        font-size: 18px;
     }
 }
 
@@ -577,5 +699,134 @@ body {
 
     .guide-image:hover {
         transform: none;
+    }
+}
+
+/* 펼치기 모션 힌트 스타일 */
+.zoom-hint-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10002;
+    pointer-events: none;
+    animation: fadeInOut 2s ease-in-out;
+}
+
+.zoom-hint-animation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.pinch-hands {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 48px;
+}
+
+.hand {
+    display: inline-block;
+}
+
+.hand.left {
+    animation: pinchLeft 1.5s ease-in-out infinite;
+}
+
+.hand.right {
+    animation: pinchRight 1.5s ease-in-out infinite;
+}
+
+.hint-message {
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 12px 24px;
+    border-radius: 24px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* 애니메이션 정의 */
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    10% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    90% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+}
+
+@keyframes pinchLeft {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(-15px);
+    }
+}
+
+@keyframes pinchRight {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(15px);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 0.9;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+/* 모바일용 힌트 애니메이션 조정 */
+@media (max-width: 414px) {
+    .pinch-hands {
+        font-size: 40px;
+        gap: 16px;
+    }
+
+    .hint-message {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+
+    @keyframes pinchLeft {
+        0%, 100% {
+            transform: translateX(0);
+        }
+        50% {
+            transform: translateX(-10px);
+        }
+    }
+
+    @keyframes pinchRight {
+        0%, 100% {
+            transform: translateX(0);
+        }
+        50% {
+            transform: translateX(10px);
+        }
     }
 }
