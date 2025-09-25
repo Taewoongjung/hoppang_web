@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 
-import './styles.css'
+import './styles.css';
+import '../../versatile-styles.css';
+
 import ImageViewer from "../../../../component/V2/ImageViewer";
 import {EnhancedGoToTopButton} from "../../../../util/renderUtil";
 
