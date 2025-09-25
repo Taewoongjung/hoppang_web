@@ -427,46 +427,46 @@ const Initial = () => {
             bgColor: '#f0f9ff',
             redirectLink: '/v2/guide/howtochoosechassistype'
         },
-        {
-            id: 2,
-            title: '단열창호란?',
-            description: '열 손실을 최소화하여 에너지 효율을 높인 창호',
-            image: '/assets/guide-insulation-window.jpg',
-            bgColor: '#f0fdf4',
-            redirectLink: '/v2/guide/howtochoosechassistype'
-        },
-        {
-            id: 3,
-            title: '방음창호란?',
-            description: '외부 소음을 차단하여 조용한 실내환경을 만드는 창호',
-            image: '/assets/guide-soundproof-window.jpg',
-            bgColor: '#fef7ff',
-            redirectLink: '/v2/guide/howtochoosechassistype'
-        },
-        {
-            id: 4,
-            title: '시스템창호란?',
-            description: '고급 하드웨어와 우수한 기밀성을 가진 고성능 창호',
-            image: '/assets/guide-system-window.jpg',
-            bgColor: '#fffbeb',
-            redirectLink: '/v2/guide/howtochoosechassistype'
-        },
-        {
-            id: 5,
-            title: '발코니창호란?',
-            description: '발코니 공간 활용을 위한 맞춤형 창호 솔루션',
-            image: '/assets/guide-balcony-window.jpg',
-            bgColor: '#f0fdfa',
-            redirectLink: '/v2/guide/howtochoosechassistype'
-        },
-        {
-            id: 6,
-            title: 'PVC창호란?',
-            description: '경제적이고 단열성이 우수한 플라스틱 소재 창호',
-            image: '/assets/guide-pvc-window.jpg',
-            bgColor: '#fdf2f8',
-            redirectLink: '/v2/guide/howtochoosechassistype'
-        }
+        // {
+        //     id: 2,
+        //     title: '단열창호란?',
+        //     description: '열 손실을 최소화하여 에너지 효율을 높인 창호',
+        //     image: '/assets/guide-insulation-window.jpg',
+        //     bgColor: '#f0fdf4',
+        //     redirectLink: '/v2/guide/howtochoosechassistype'
+        // },
+        // {
+        //     id: 3,
+        //     title: '방음창호란?',
+        //     description: '외부 소음을 차단하여 조용한 실내환경을 만드는 창호',
+        //     image: '/assets/guide-soundproof-window.jpg',
+        //     bgColor: '#fef7ff',
+        //     redirectLink: '/v2/guide/howtochoosechassistype'
+        // },
+        // {
+        //     id: 4,
+        //     title: '시스템창호란?',
+        //     description: '고급 하드웨어와 우수한 기밀성을 가진 고성능 창호',
+        //     image: '/assets/guide-system-window.jpg',
+        //     bgColor: '#fffbeb',
+        //     redirectLink: '/v2/guide/howtochoosechassistype'
+        // },
+        // {
+        //     id: 5,
+        //     title: '발코니창호란?',
+        //     description: '발코니 공간 활용을 위한 맞춤형 창호 솔루션',
+        //     image: '/assets/guide-balcony-window.jpg',
+        //     bgColor: '#f0fdfa',
+        //     redirectLink: '/v2/guide/howtochoosechassistype'
+        // },
+        // {
+        //     id: 6,
+        //     title: 'PVC창호란?',
+        //     description: '경제적이고 단열성이 우수한 플라스틱 소재 창호',
+        //     image: '/assets/guide-pvc-window.jpg',
+        //     bgColor: '#fdf2f8',
+        //     redirectLink: '/v2/guide/howtochoosechassistype'
+        // }
     ];
 
     // 초기화되지 않은 경우 로딩 표시
