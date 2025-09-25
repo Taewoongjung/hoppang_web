@@ -276,59 +276,70 @@ body {
     transform: translateX(2px);
 }
 
-/* Tips Section */
-.tips-section {
+/* Guide Section */
+.guide-section {
     padding: 30px 0;
     animation: slideInUp 0.8s ease-out 0.2s both;
 }
 
-.tips-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
+.guides-grid {
+    display: flex;
+    gap: 16px;
     padding: 0 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
 }
 
-.tip-card {
+.guides-grid::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.guide-card {
     background: white;
-    padding: 16px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
+    border-radius: 16px;
+    overflow: hidden;
     border: 1px solid #f1f5f9;
     transition: all 0.2s ease;
-}
-
-.tip-card:hover {
-    border-color: #e2e8f0;
     box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    flex: 0 0 280px; /* 고정 너비, 유연하지 않음 */
+    min-width: 280px; /* 최소 너비 보장 */
 }
 
-.tip-icon {
-    width: 40px;
-    height: 40px;
-    background: #f1f5f9;
-    border-radius: 10px;
+.guide-image-wrapper {
+    height: 140px;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
+    position: relative;
 }
 
-.tip-content-wrapper {
-    flex: 1;
+.guide-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.2s ease;
 }
 
-.tip-title {
-    font-size: 14px;
-    font-weight: 600;
+.guide-card:hover .guide-image {
+    transform: scale(1.05);
+}
+
+.guide-content {
+    padding: 16px;
+}
+
+.guide-title {
+    font-size: 15px;
+    font-weight: 700;
     color: #1e293b;
-    margin: 0 0 4px 0;
+    margin: 0 0 6px 0;
+    line-height: 1.3;
 }
 
-.tip-content {
+.guide-description {
     font-size: 13px;
     color: #64748b;
     margin: 0;

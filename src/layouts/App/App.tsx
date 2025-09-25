@@ -51,6 +51,8 @@ const MyPostsPage = loadable(() => import('../../pages/mobile/Question/MyPosts')
 
 const CounselV2 = loadable(() => import('../../pages/mobile/Counsel'));
 
+const GuideHowToChooseChassisType = loadable(() => import('../../pages/mobile/Guide/HowToChooseChassisType'));
+
 
 const App = () => {
         return (
@@ -80,6 +82,8 @@ const App = () => {
                     <Route exact path="/v2/login/second" component={LoginSecondStepPageV2}/>
                     <Route exact path="/v2/login/first" component={LoginFirstStepPageV2}/>
                     <Route exact path="/v2/login" component={LoginPageV2}/>
+
+                    <Route exact path="/v2/guide/howtochoosechassistype" component={GuideHowToChooseChassisType}/>
 
                     <Route exact path="/policy/privacy" component={PrivacyPolicyPage}/>
                     <Route exact path="/policy/termofuse" component={TermOfUsePage}/>

@@ -418,10 +418,55 @@ const Initial = () => {
         }
     };
 
-    const quickTips = [
-        { title: '창호 교체 시기', content: '10-15년마다 교체하는 것이 좋습니다', icon: '📅' },
-        { title: '단열 효과', content: '이중창으로 난방비를 절약하세요', icon: '🔥' },
-        { title: '방음 효과', content: '소음을 50% 이상 차단할 수 있습니다', icon: '🔇' }
+    const windowGuides = [
+        {
+            id: 1,
+            title: '호빵 창호 견적 가이드: 창호 종류 알아보기',
+            description: '견적 전에 꼭 알아야 할 창호 종류 선택법',
+            image: 'https://hoppang-guide-image.s3.ap-southeast-2.amazonaws.com/30py_apt.jpg',
+            bgColor: '#f0f9ff',
+            redirectLink: '/v2/guide/howtochoosechassistype'
+        },
+        {
+            id: 2,
+            title: '단열창호란?',
+            description: '열 손실을 최소화하여 에너지 효율을 높인 창호',
+            image: '/assets/guide-insulation-window.jpg',
+            bgColor: '#f0fdf4',
+            redirectLink: '/v2/guide/howtochoosechassistype'
+        },
+        {
+            id: 3,
+            title: '방음창호란?',
+            description: '외부 소음을 차단하여 조용한 실내환경을 만드는 창호',
+            image: '/assets/guide-soundproof-window.jpg',
+            bgColor: '#fef7ff',
+            redirectLink: '/v2/guide/howtochoosechassistype'
+        },
+        {
+            id: 4,
+            title: '시스템창호란?',
+            description: '고급 하드웨어와 우수한 기밀성을 가진 고성능 창호',
+            image: '/assets/guide-system-window.jpg',
+            bgColor: '#fffbeb',
+            redirectLink: '/v2/guide/howtochoosechassistype'
+        },
+        {
+            id: 5,
+            title: '발코니창호란?',
+            description: '발코니 공간 활용을 위한 맞춤형 창호 솔루션',
+            image: '/assets/guide-balcony-window.jpg',
+            bgColor: '#f0fdfa',
+            redirectLink: '/v2/guide/howtochoosechassistype'
+        },
+        {
+            id: 6,
+            title: 'PVC창호란?',
+            description: '경제적이고 단열성이 우수한 플라스틱 소재 창호',
+            image: '/assets/guide-pvc-window.jpg',
+            bgColor: '#fdf2f8',
+            redirectLink: '/v2/guide/howtochoosechassistype'
+        }
     ];
 
     // 초기화되지 않은 경우 로딩 표시
@@ -531,16 +576,21 @@ const Initial = () => {
                     <div className="section-header">
                         <h3 className="section-title">
                             <span className="title-icon">💡</span>
-                            알아두면 좋은 팁
+                            창호 가이드
                         </h3>
                     </div>
-                    <div className="tips-grid">
-                        {quickTips.map((tip, index) => (
-                            <div key={index} className="tip-card">
-                                <div className="tip-icon">{tip.icon}</div>
-                                <div className="tip-content-wrapper">
-                                    <h4 className="tip-title">{tip.title}</h4>
-                                    <p className="tip-content">{tip.content}</p>
+                    <div className="guides-grid">
+                        {windowGuides.map((guide) => (
+                            <div key={guide.id}
+                                 className="guide-card"
+                                 onClick={() => window.location.href = guide.redirectLink}
+                            >
+                                <div className="guide-image-wrapper" style={{backgroundColor: guide.bgColor}}>
+                                    <img src={guide.image} alt={guide.title} className="guide-image"/>
+                                </div>
+                                <div className="guide-content">
+                                    <h4 className="guide-title">{guide.title}</h4>
+                                    <p className="guide-description">{guide.description}</p>
                                 </div>
                             </div>
                         ))}
@@ -554,7 +604,7 @@ const Initial = () => {
                             <span className="title-icon">❓</span>
                             최근 질문
                         </h3>
-                        <div className="see-all-btn" onClick={() => window.location.href ='/question/boards'}>
+                        <div className="see-all-btn" onClick={() => window.location.href = '/question/boards'}>
                             <span>전체보기</span>
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                 <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
