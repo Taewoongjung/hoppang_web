@@ -8,8 +8,8 @@ const ChassisGuidePage = () => {
         <div className="container">
             <div className="header">
                 <button className="back-btn" onClick={() => window.location.href='/'}>←</button>
-                <h1>샷시 가이드</h1>
-                <p>올바른 설치 및 관리 방법</p>
+                <h1>호빵 창호 견적 가이드</h1>
+                <p>창호 종류 알아보기</p>
             </div>
 
             <div className="content">
@@ -19,11 +19,21 @@ const ChassisGuidePage = () => {
                     </div>
                     <div className="section-content">
                         <div className="guide-item">
-                            <h3>샷시란 무엇인가요?</h3>
-                            <p>샷시는 전체 구조를 지탱하는 기본 프레임으로, 안정성과 내구성을 제공합니다.</p>
-                            <div className="image-placeholder">
-                                📸 샷시 구조 이미지
-                            </div>
+                            <h3>1. 가이드를 보셔야 하는 이유</h3>
+                            <p>
+                                호빵에서는 창호 견적을 산출할 때, 고객님 댁의 도면을 바탕으로 위치별로 설치되는 <strong>창호 종류</strong>를 선택하게 되어요.<br/>
+                                또한 “어떤 공간에 어떤 창호가 들어가는지” 궁금하실 때에도 이 과정을 통해 쉽게 확인하실 수 있어요 🙂<br/>
+                                <ul>
+                                    <li>
+                                        같은 위치라도 <strong>발코니 단창, 이중창, 내창, 분합창 등 종류</strong>가
+                                        다르기 때문에 가격이 달라져요.
+                                    </li>
+                                    <li>
+                                        정확한 종류를 알아야 <strong>견적이 정확하게 산출</strong>되어요.
+                                    </li>
+                                </ul><br/>
+                                👉 이 가이드는 고객님이 도면 속 창호 위치와 종류를 이해하고, 호빵 견적을 쉽게 확인하실 수 있도록 준비했어요.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -34,24 +44,47 @@ const ChassisGuidePage = () => {
                     </div>
                     <div className="section-content">
                         <div className="guide-item">
-                            <h3>설치 전 준비사항</h3>
-                            <p>안전한 설치를 위해 다음 사항들을 확인해주세요.</p>
+                            <h3>2. 창호 종류 구분법</h3>
+                            <p>호빵에서 사용하는 샷시 종류는 다음과 같아요.</p>
 
-                            <div className="warning-box">
-                                <h4>안전 주의사항</h4>
-                                <p>설치 전 반드시 전원을 차단하고 안전장비를 착용해주세요.</p>
-                            </div>
-
-                            <ol className="guide-steps">
-                                <li>작업 공간 확보 및 청소</li>
-                                <li>필요한 도구 준비 확인</li>
-                                <li>설치 매뉴얼 숙지</li>
-                                <li>안전장비 착용 확인</li>
+                            {/*<div className="warning-box">*/}
+                            {/*    <h4>안전 주의사항</h4>*/}
+                            {/*    <p>설치 전 반드시 전원을 차단하고 안전장비를 착용해주세요.</p>*/}
+                            {/*</div>*/}
+                            <ol className="chassis-list">
+                                <li className="chassis-item">
+                                    <div className="chassis-name">발코니 단창</div>
+                                    <div className="chassis-description">외부 발코니에 설치되는 단일 창</div>
+                                </li>
+                                <li className="chassis-item">
+                                    <div className="chassis-name">발코니 이중창</div>
+                                    <div className="chassis-description">외부 발코니, 단열·방음 강화</div>
+                                </li>
+                                <li className="chassis-item">
+                                    <div className="chassis-name">내창 단창</div>
+                                    <div className="chassis-description">거실/방 ↔ 발코니 단창</div>
+                                </li>
+                                <li className="chassis-item">
+                                    <div className="chassis-name">내창 이중창</div>
+                                    <div className="chassis-description">거실/방 ↔ 발코니 이중창, 가장 보편적</div>
+                                </li>
+                                <li className="chassis-item">
+                                    <div className="chassis-name">거실 분합창</div>
+                                    <div className="chassis-description">거실 발코니에 설치, 넓게 열림</div>
+                                </li>
+                                <li className="chassis-item">
+                                    <div className="chassis-name">픽스창</div>
+                                    <div className="chassis-description">고정형 창, 열리지 않음, 채광용</div>
+                                </li>
+                                <li className="chassis-item">
+                                    <div className="chassis-name">터닝도어</div>
+                                    <div className="chassis-description">발코니 출입용 문, 밀폐력 우수</div>
+                                </li>
                             </ol>
                         </div>
 
                         <div className="guide-item">
-                            <h3>단계별 설치 과정</h3>
+                            <h3>3. 도면에서 확인하는 방법</h3>
                             <p>정확한 순서에 따라 설치를 진행해주세요.</p>
 
                             <ol className="guide-steps">
