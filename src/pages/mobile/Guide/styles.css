@@ -52,10 +52,6 @@ body {
     transition: background-color 0.2s;
 }
 
-.back-btn:hover {
-    background-color: rgba(255,255,255,0.1);
-}
-
 .content {
     padding: 0;
 }
@@ -161,6 +157,33 @@ body {
 
 .guide-steps {
     counter-reset: step-counter;
+}
+
+.check-box {
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    border: 1px solid #b8dabc;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 16px 0;
+}
+
+.check-box h4 {
+    color: #155724;
+    font-size: 14px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.check-box h4::before {
+    content: "✅";
+    margin-right: 6px;
+}
+
+.check-box p {
+    color: #155724;
+    font-size: 13px;
+    margin: 0;
 }
 
 .warning-box {

@@ -427,14 +427,14 @@ const Initial = () => {
             bgColor: '#f0f9ff',
             redirectLink: '/v2/guide/howtochoosechassistype'
         },
-        // {
-        //     id: 2,
-        //     title: '단열창호란?',
-        //     description: '열 손실을 최소화하여 에너지 효율을 높인 창호',
-        //     image: '/assets/guide-insulation-window.jpg',
-        //     bgColor: '#f0fdf4',
-        //     redirectLink: '/v2/guide/howtochoosechassistype'
-        // },
+        {
+            id: 2,
+            title: '호빵 견적부터 시공까지, 한눈에 보기',
+            description: '처음 상담부터 완공까지, 호빵이 함께합니다.',
+            image: '/assets/hoppang-guide-illustrator.png',
+            bgColor: '#f0fdf4',
+            redirectLink: '/v2/guide/hoppangprocess'
+        },
         // {
         //     id: 3,
         //     title: '방음창호란?',
@@ -576,7 +576,7 @@ const Initial = () => {
                     <div className="section-header">
                         <h3 className="section-title">
                             <span className="title-icon">💡</span>
-                            창호 가이드
+                            호빵 가이드
                         </h3>
                     </div>
                     <div className="guides-grid">

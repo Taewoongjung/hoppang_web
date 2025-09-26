@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import './styles.css';
+import '../styles.css';
 import '../../versatile-styles.css';
 
 import ImageViewer from "../../../../component/V2/ImageViewer";
@@ -54,7 +54,7 @@ const ChassisGuidePage = () => {
                     />
                     호빵 창호 견적 가이드
                 </h1>
-                <p>:창호 종류 알아보기</p>
+                <p>창호 종류 알아보기</p>
                 <p className="sub-title">
                     <u>
                         견적 전에 꼭 알아야 할 창호 종류 선택법
@@ -131,7 +131,7 @@ const ChassisGuidePage = () => {
 
                 <div className="guide-section">
                     <div className="section-header">
-                        <h2>도면에서 확인하는 방법</h2>
+                        <h2>📜 도면에서 확인하는 방법</h2>
                     </div>
                     <div className="section-content">
                         <div className="guide-item">
