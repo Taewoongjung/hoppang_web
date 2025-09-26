@@ -82,9 +82,38 @@ body {
 }
 
 .character-img {
-    width: 2em;
-    height: 2em;
+    width: 5em;
+    height: 5em;
     vertical-align: middle;
+}
+
+/* Quote Button (견적하러 가기) */
+.quote-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #f97316 0%, #f59e0b 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 16px 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
+}
+
+.quote-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(249, 115, 22, 0.5);
+}
+
+.quote-btn svg {
+    width: 24px;
+    height: 24px;
 }
 
 .guide-item {
@@ -454,5 +483,15 @@ body {
 
     .community-icon {
         font-size: 18px;
+    }
+
+    .quote-btn {
+        font-size: 16px;
+        padding: 14px 20px;
+    }
+
+    .quote-btn svg {
+        width: 20px;
+        height: 20px;
     }
 }

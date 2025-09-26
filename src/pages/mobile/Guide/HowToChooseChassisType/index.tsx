@@ -46,19 +46,17 @@ const ChassisGuidePage = () => {
         <div className="container">
             <div className="header">
                 <button className="back-btn" onClick={() => window.location.href = '/'}>←</button>
+                <img
+                    src="/assets/hoppang-character.png"
+                    alt="호빵 캐릭터"
+                    className="character-img"
+                />
                 <h1>
-                    <img
-                        src="/assets/hoppang-character.png"
-                        alt="호빵 캐릭터"
-                        className="character-img"
-                    />
                     호빵 창호 견적 가이드
                 </h1>
                 <p>창호 종류 알아보기</p>
                 <p className="sub-title">
-                    <u>
-                        견적 전에 꼭 알아야 할 창호 종류 선택법
-                    </u>
+                    견적 전에 꼭 알아야 할 창호 종류 선택법
                 </p>
             </div>
 
@@ -74,7 +72,7 @@ const ChassisGuidePage = () => {
                                 또한 "어떤 공간에 어떤 창호가 들어가는지" 궁금하실 때에도 이 과정을 통해 쉽게 확인하실 수 있어요 🙂<br/>
                                 <ul>
                                     <li>
-                                        같은 위치라도 발코니 단창, 이중창, 내창, 분합창 등<br/><strong>종류가
+                                        같은 위치라도 발코니 단창, 이중창, 내창, 분합창 등<strong>종류가
                                         다르기 때문에 가격이 달라져요.</strong>
                                     </li>
                                     <li>

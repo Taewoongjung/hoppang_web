@@ -5,6 +5,10 @@ import '../../versatile-styles.css';
 
 const HoppangProcess = () => {
 
+    const goToQuote = () => {
+        window.location.href = '/calculator/agreement';
+    }
+
     const goToCommunity = () => {
         window.location.href = '/question/boards';
     }
@@ -30,12 +34,12 @@ const HoppangProcess = () => {
             <div className="container">
                 <div className="header">
                     <button className="back-btn" onClick={() => window.location.href = '/'}>←</button>
+                    <img
+                        src="/assets/hoppang-character.png"
+                        alt="호빵 캐릭터"
+                        className="character-img"
+                    />
                     <h1>
-                        <img
-                            src="/assets/hoppang-character.png"
-                            alt="호빵 캐릭터"
-                            className="character-img"
-                        />
                         호빵 견적 → 시공까지 한눈에!
                     </h1>
                     <p>처음 상담부터 완공까지, 호빵이 함께합니다.</p>
@@ -48,19 +52,37 @@ const HoppangProcess = () => {
                             <ol className="guide-steps">
                                 <li>호빵에서 견적 확인</li>
                                 <li>문의하기 (카카오톡 · 전화)</li>
-                                <li>실측 진행 (계약금 입금 후)</li>
+                                <li>실측 진행 (가계약금 입금 후)</li>
                                 <li>시공 날짜 협의</li>
                                 <li>시공 완료</li>
                             </ol>
 
                             <div className="check-box">
-                                <h4>계약금</h4>
-                                <p>계약금은 현재 10만원이에요.</p>
+                                <h4>가계약금</h4>
+                                <p>가계약금은 현재 10만원이고, 취소 후 돌려 드려요.</p>
                             </div>
+
+                            <br/>
+                            <br/>
+                            <button
+                                onClick={goToQuote}
+                                className="quote-btn"
+                            >
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                                <span className="text-lg">지금 바로 견적 확인하기</span>
+                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
 
+                <br/>
+                <br/>
                 <div className="guide-section">
                     <div className="section-header">
                         <h2>📞 문의하기</h2>
