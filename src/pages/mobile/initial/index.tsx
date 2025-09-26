@@ -421,20 +421,20 @@ const Initial = () => {
     const windowGuides = [
         {
             id: 1,
-            title: '호빵 창호 견적 가이드: 창호 종류 알아보기',
-            description: '견적 전에 꼭 알아야 할 창호 종류 선택법',
-            image: 'https://hoppang-guide-image.s3.ap-southeast-2.amazonaws.com/30py_apt.jpg',
-            bgColor: '#f0f9ff',
-            redirectLink: '/v2/guide/howtochoosechassistype'
-        },
-        {
-            id: 2,
-            title: '호빵 견적부터 시공까지, 한눈에 보기',
+            title: '호빵 견적 → 시공까지 한눈에!',
             description: '처음 상담부터 완공까지, 호빵이 함께합니다.',
             image: '/assets/hoppang-guide-illustrator.png',
             bgColor: '#f0fdf4',
             redirectLink: '/v2/guide/hoppangprocess'
         },
+        {
+            id: 2,
+            title: '호빵 창호 견적 가이드: 창호 종류 알아보기',
+            description: '견적 전에 꼭 알아야 할 창호 종류 선택법',
+            image: 'https://hoppang-guide-image.s3.ap-southeast-2.amazonaws.com/30py_apt.jpg',
+            bgColor: '#f0f9ff',
+            redirectLink: '/v2/guide/howtochoosechassistype'
+        }
         // {
         //     id: 3,
         //     title: '방음창호란?',

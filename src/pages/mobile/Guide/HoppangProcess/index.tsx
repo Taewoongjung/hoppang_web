@@ -36,14 +36,13 @@ const HoppangProcess = () => {
                             alt="호빵 캐릭터"
                             className="character-img"
                         />
-                        호빵 견적부터 시공 한눈에 보기
+                        호빵 견적 → 시공까지 한눈에!
                     </h1>
                     <p>처음 상담부터 완공까지, 호빵이 함께합니다.</p>
                 </div>
                 <div className="guide-section">
                     <div className="section-content">
                         <div className="guide-item">
-                            <h3>호빵 견적 → 시공까지 한눈에!</h3>
                             <p>호빵에서는 견적부터 시공까지 복잡하지 않게, 이렇게 진행돼요.</p>
 
                             <ol className="guide-steps">
