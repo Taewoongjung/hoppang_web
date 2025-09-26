@@ -48,19 +48,14 @@ const HoppangProcess = () => {
                             <ol className="guide-steps">
                                 <li>호빵에서 견적 확인</li>
                                 <li>문의하기 (카카오톡 · 전화)</li>
-                                <li>실측 진행 (선납금 입금 후)</li>
+                                <li>실측 진행 (계약금 입금 후)</li>
                                 <li>시공 날짜 협의</li>
                                 <li>시공 완료</li>
                             </ol>
 
                             <div className="check-box">
-                                <h4>선납금</h4>
-                                <p>선납금은 계약 시 결제하신 전체 금액에 포함됩니다.</p>
-                            </div>
-
-                            <div className="check-box">
                                 <h4>계약금</h4>
-                                <p>계약금은 현재 100% 선납으로 진행되고 있습니다.</p>
+                                <p>계약금은 현재 10만원입니다.</p>
                             </div>
                         </div>
                     </div>
