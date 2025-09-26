@@ -46,13 +46,25 @@ const ChassisGuidePage = () => {
         <div className="container">
             <div className="header">
                 <button className="back-btn" onClick={() => window.location.href = '/'}>←</button>
-                <h1>호빵 창호 견적 가이드</h1>
-                <p>창호 종류 알아보기</p>
+                <h1>
+                    <img
+                        src="/assets/hoppang-character.png"
+                        alt="호빵 캐릭터"
+                        className="character-img"
+                    />
+                    호빵 창호 견적 가이드
+                </h1>
+                <p>:창호 종류 알아보기</p>
+                <p className="sub-title">
+                    <u>
+                        견적 전에 꼭 알아야 할 창호 종류 선택법
+                    </u>
+                </p>
             </div>
 
             <div className="content">
                 <div className="guide-section">
-                    <div className="section-header">
+                <div className="section-header">
                         <h2>가이드를 보셔야 하는 이유</h2>
                     </div>
                     <div className="section-content">
@@ -62,14 +74,13 @@ const ChassisGuidePage = () => {
                                 또한 "어떤 공간에 어떤 창호가 들어가는지" 궁금하실 때에도 이 과정을 통해 쉽게 확인하실 수 있어요 🙂<br/>
                                 <ul>
                                     <li>
-                                        같은 위치라도 <strong>발코니 단창, 이중창, 내창, 분합창 등 종류</strong>가
-                                        다르기 때문에 가격이 달라져요.
+                                        같은 위치라도 발코니 단창, 이중창, 내창, 분합창 등<br/><strong>종류가
+                                        다르기 때문에 가격이 달라져요.</strong>
                                     </li>
                                     <li>
                                         정확한 종류를 알아야 <strong>견적이 정확하게 산출</strong>되어요.
                                     </li>
                                 </ul>
-                                <br/>
                                 👉 이 가이드는 고객님이 도면 속 창호 위치와 종류를 이해하고, 호빵 견적을 쉽게 확인하실 수 있도록 준비했어요.
                             </p>
                         </div>
@@ -128,7 +139,7 @@ const ChassisGuidePage = () => {
 
                             <div className="image-gallery">
                                 <div className="gallery-item">
-                                    <h4>가이드 1</h4>
+                                    <h4>20평대 아파트 도면</h4>
                                     <img
                                         src="https://hoppang-guide-image.s3.ap-southeast-2.amazonaws.com/20py_apt.jpg"
                                         alt="가이드 1"
@@ -139,7 +150,7 @@ const ChassisGuidePage = () => {
                                 </div>
 
                                 <div className="gallery-item">
-                                    <h4>가이드 2</h4>
+                                    <h4>30평대 아파트 도면</h4>
                                     <img
                                         src="https://hoppang-guide-image.s3.ap-southeast-2.amazonaws.com/30py_apt.jpg"
                                         alt="가이드 2"
@@ -152,7 +163,7 @@ const ChassisGuidePage = () => {
 
                             <div className="tip-box">
                                 <h4>알아두면 좋아요</h4>
-                                <p>외부와 내부 사이에는 반드시 이중창이 설치되어야 합니다. 즉, 창이 두 겹으로 구성되어야 해요.</p>
+                                <p>외부와 내부 사이에는 꼭 이중창이 필요해요.<br/>즉, 외부와 맞닿는 창은 두 겹으로 되어 있어야 해요.</p>
                             </div>
                         </div>
                     </div>
