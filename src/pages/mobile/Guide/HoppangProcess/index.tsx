@@ -55,7 +55,7 @@ const HoppangProcess = () => {
 
                             <div className="check-box">
                                 <h4>계약금</h4>
-                                <p>계약금은 현재 10만원입니다.</p>
+                                <p>계약금은 현재 10만원이에요.</p>
                             </div>
                         </div>
                     </div>
