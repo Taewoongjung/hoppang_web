@@ -424,7 +424,6 @@ const Initial = () => {
             title: '호빵 견적 → 시공까지 한눈에!',
             description: '처음 상담부터 완공까지, 호빵이 함께합니다.',
             image: '/assets/hoppang-guide-illustrator.png',
-            bgColor: '#f0fdf4',
             redirectLink: '/v2/guide/hoppangprocess'
         },
         {
@@ -432,7 +431,6 @@ const Initial = () => {
             title: '호빵 창호 견적 가이드: 창호 종류 알아보기',
             description: '견적 전에 꼭 알아야 할 창호 종류 선택법',
             image: 'https://hoppang-guide-image.s3.ap-southeast-2.amazonaws.com/30py_apt.jpg',
-            bgColor: '#f0f9ff',
             redirectLink: '/v2/guide/howtochoosechassistype'
         }
         // {
@@ -440,7 +438,6 @@ const Initial = () => {
         //     title: '방음창호란?',
         //     description: '외부 소음을 차단하여 조용한 실내환경을 만드는 창호',
         //     image: '/assets/guide-soundproof-window.jpg',
-        //     bgColor: '#fef7ff',
         //     redirectLink: '/v2/guide/howtochoosechassistype'
         // },
         // {
@@ -448,7 +445,6 @@ const Initial = () => {
         //     title: '시스템창호란?',
         //     description: '고급 하드웨어와 우수한 기밀성을 가진 고성능 창호',
         //     image: '/assets/guide-system-window.jpg',
-        //     bgColor: '#fffbeb',
         //     redirectLink: '/v2/guide/howtochoosechassistype'
         // },
         // {
@@ -456,7 +452,6 @@ const Initial = () => {
         //     title: '발코니창호란?',
         //     description: '발코니 공간 활용을 위한 맞춤형 창호 솔루션',
         //     image: '/assets/guide-balcony-window.jpg',
-        //     bgColor: '#f0fdfa',
         //     redirectLink: '/v2/guide/howtochoosechassistype'
         // },
         // {
@@ -464,7 +459,6 @@ const Initial = () => {
         //     title: 'PVC창호란?',
         //     description: '경제적이고 단열성이 우수한 플라스틱 소재 창호',
         //     image: '/assets/guide-pvc-window.jpg',
-        //     bgColor: '#fdf2f8',
         //     redirectLink: '/v2/guide/howtochoosechassistype'
         // }
     ];
@@ -585,7 +579,7 @@ const Initial = () => {
                                  className="guide-card"
                                  onClick={() => window.location.href = guide.redirectLink}
                             >
-                                <div className="guide-image-wrapper" style={{backgroundColor: guide.bgColor}}>
+                                <div className="guide-image-wrapper">
                                     <img src={guide.image} alt={guide.title} className="guide-image"/>
                                 </div>
                                 <div className="guide-content">
