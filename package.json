@@ -63,7 +63,9 @@
     "puppeteerArgs": [
       "--no-sandbox",
       "--disable-setuid-sandbox"
-    ]
+    ],
+    "waitFor": 3000,
+    "asyncScriptTags": true
   },
   "eslintConfig": {
     "extends": [
