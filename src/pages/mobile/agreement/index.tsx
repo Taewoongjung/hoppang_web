@@ -157,10 +157,10 @@ const Agreement = () => {
                     <section className="agreement-section">
                         <h3 className="section-title">호빵 소개</h3>
                         <div className="agreement-card">
-                            <h4 className="card-title">호구 빵명 프로젝트란?</h4>
+                            <h4 className="card-title">호빵(<strong>호</strong>구 <strong>빵</strong>명)은?</h4>
                             <div className="card-content">
                                 <p className="highlight-text">
-                                    "왜 인테리어 견적비에는 명확한 기준이 없을까?"
+                                    "왜 창호 견적비에는 명확한 기준이 없을까?"
                                 </p>
                                 <p>
                                     통일된 창호 가격 기준을 제시하여 소비자가 신뢰할 수 있는 금액을 만들어보고자 합니다.
@@ -178,7 +178,7 @@ const Agreement = () => {
                             <div className="notice-list">
                                 <div className="notice-item">
                                     <div className="notice-icon">⚠️</div>
-                                    <p>본 서비스는 참고용이며, 실제 창호 제작 시 가격은 다를 수 있습니다.</p>
+                                    <p>본 서비스는 어느정도 참고용이며, 실제 창호 제작 시 약간의 가격 차이는 있을 수 있습니다.</p>
                                 </div>
                                 <div className="notice-item">
                                     <div className="notice-icon">⚡</div>

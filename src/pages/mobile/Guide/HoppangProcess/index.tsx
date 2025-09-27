@@ -2,32 +2,9 @@ import React from 'react';
 
 import '../styles.css';
 import '../../versatile-styles.css';
+import {goToCommunity, goToQuote, kakaoInquiry} from "../util";
 
 const HoppangProcess = () => {
-
-    const goToQuote = () => {
-        window.location.href = '/calculator/agreement';
-    }
-
-    const goToCommunity = () => {
-        window.location.href = '/question/boards';
-    }
-
-    const kakaoInquiry = () => {
-        const kakaoWebLink = 'https://pf.kakao.com/_dbxezn/chat';
-        const kakaoAppLink = 'kakaotalk://plusfriend/chat/_dbxezn';
-        const userAgent = navigator.userAgent.toLowerCase();
-
-        if (userAgent.includes('iphone') || userAgent.includes('ipad')) {
-            setTimeout(() => {
-                window.location.href = kakaoWebLink;
-            }, 500);
-            window.location.href = kakaoAppLink;
-        } else {
-            window.open(kakaoWebLink, '_blank');
-        }
-    }
-
 
     return (
         <>
@@ -44,6 +21,7 @@ const HoppangProcess = () => {
                     </h1>
                     <p>처음 상담부터 완공까지, 호빵이 함께합니다.</p>
                 </div>
+
                 <div className="guide-section">
                     <div className="section-content">
                         <div className="guide-item">

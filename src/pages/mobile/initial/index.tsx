@@ -423,7 +423,7 @@ const Initial = () => {
             id: 1,
             title: '호빵 견적 → 시공까지 한눈에!',
             description: '처음 상담부터 완공까지, 호빵이 함께합니다.',
-            image: '/assets/hoppang-guide-illustrator.png',
+            image: '/assets/GuideThumbnail/hoppang-process.png',
             redirectLink: '/v2/guide/hoppangprocess'
         },
         {
@@ -432,14 +432,14 @@ const Initial = () => {
             description: '견적 전에 꼭 알아야 할 창호 종류 선택법',
             image: 'https://hoppang-guide-image.s3.ap-southeast-2.amazonaws.com/30py_apt.jpg',
             redirectLink: '/v2/guide/howtochoosechassistype'
-        }
-        // {
-        //     id: 3,
-        //     title: '방음창호란?',
-        //     description: '외부 소음을 차단하여 조용한 실내환경을 만드는 창호',
-        //     image: '/assets/guide-soundproof-window.jpg',
-        //     redirectLink: '/v2/guide/howtochoosechassistype'
-        // },
+        },
+        {
+            id: 3,
+            title: '창호 성능 비교 가이드',
+            description: '호빵이 알려주는 창호 가격·성능 체크 포인트',
+            image: '/assets/GuideThumbnail/chassis-performance-guide-thumbnail.png',
+            redirectLink: '/v2/guide/chassisperformance'
+        },
         // {
         //     id: 4,
         //     title: '시스템창호란?',

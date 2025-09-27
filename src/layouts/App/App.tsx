@@ -51,8 +51,9 @@ const MyPostsPage = loadable(() => import('../../pages/mobile/Question/MyPosts')
 
 const CounselV2 = loadable(() => import('../../pages/mobile/Counsel'));
 
-const GuideHowToChooseChassisType = loadable(() => import('../../pages/mobile/Guide/HowToChooseChassisType'));
-const HoppangProcess = loadable(() => import('../../pages/mobile/Guide/HoppangProcess'));
+const HowToChooseChassisTypeGuide = loadable(() => import('../../pages/mobile/Guide/HowToChooseChassisType'));
+const HoppangProcessGuide = loadable(() => import('../../pages/mobile/Guide/HoppangProcess'));
+const ChassisPerformanceGuide = loadable(() => import('../../pages/mobile/Guide/ChassisPerformance'));
 
 
 const App = () => {
@@ -84,8 +85,9 @@ const App = () => {
                     <Route exact path="/v2/login/first" component={LoginFirstStepPageV2}/>
                     <Route exact path="/v2/login" component={LoginPageV2}/>
 
-                    <Route exact path="/v2/guide/howtochoosechassistype" component={GuideHowToChooseChassisType}/>
-                    <Route exact path="/v2/guide/hoppangprocess" component={HoppangProcess}/>
+                    <Route exact path="/v2/guide/howtochoosechassistype" component={HowToChooseChassisTypeGuide}/>
+                    <Route exact path="/v2/guide/hoppangprocess" component={HoppangProcessGuide}/>
+                    <Route exact path="/v2/guide/chassisperformance" component={ChassisPerformanceGuide}/>
 
                     <Route exact path="/policy/privacy" component={PrivacyPolicyPage}/>
                     <Route exact path="/policy/termofuse" component={TermOfUsePage}/>

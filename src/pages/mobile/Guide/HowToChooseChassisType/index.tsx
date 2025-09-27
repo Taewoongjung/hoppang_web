@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import '../styles.css';
 import '../../versatile-styles.css';
 
+import {goToCommunity, kakaoInquiry} from "../util";
 import ImageViewer from "../../../../component/V2/ImageViewer";
 import {EnhancedGoToTopButton} from "../../../../util/renderUtil";
 
@@ -21,25 +22,6 @@ const ChassisGuidePage = () => {
         setImageViewerOpen(false);
         setCurrentImageSrc(''); // 이미지 URL 초기화
     };
-
-    const goToCommunity = () => {
-        window.location.href = '/question/boards';
-    }
-
-    const kakaoInquiry = () => {
-        const kakaoWebLink = 'https://pf.kakao.com/_dbxezn/chat';
-        const kakaoAppLink = 'kakaotalk://plusfriend/chat/_dbxezn';
-        const userAgent = navigator.userAgent.toLowerCase();
-
-        if (userAgent.includes('iphone') || userAgent.includes('ipad')) {
-            setTimeout(() => {
-                window.location.href = kakaoWebLink;
-            }, 500);
-            window.location.href = kakaoAppLink;
-        } else {
-            window.open(kakaoWebLink, '_blank');
-        }
-    }
 
 
     return (
