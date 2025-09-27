@@ -59,7 +59,11 @@
     "minifyHtml": {
       "collapseWhitespace": false
     },
-    "ignoreErrors": true
+    "ignoreErrors": true,
+    "puppeteerArgs": [
+      "--no-sandbox",
+      "--disable-setuid-sandbox"
+    ]
   },
   "eslintConfig": {
     "extends": [
