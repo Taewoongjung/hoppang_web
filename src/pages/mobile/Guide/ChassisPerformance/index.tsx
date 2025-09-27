@@ -12,19 +12,18 @@ const ChassisPerformance = () => {
     return (
         <>
             <Helmet>
-                <head>
-                    <title>창호 성능 비교 가이드 - 호빵</title>
-                    <meta name="description" content="호빵이 알려주는 창호 가격·성능 체크 포인트. 브랜드보다 중요한 유리와 옵션, 견적 비교 시 꼭 체크해야 할 사항을 확인하세요." />
+                <title>창호 성능 비교 가이드 - 호빵</title>
+                <meta name="description"
+                      content="호빵이 알려주는 창호 가격·성능 체크 포인트. 브랜드보다 중요한 유리와 옵션, 견적 비교 시 꼭 체크해야 할 사항을 확인하세요."/>
 
-                    <meta property="og:type" content="website" />
-                    <meta property="og:title" content="창호 성능 비교 가이드 - 호빵" />
-                    <meta property="og:description" content="창호는 비싼 거 안 써도 돼요! 브랜드보다 중요한 유리와 옵션 선택법" />
-                    <meta property="og:image" content="https://hoppang.store/assets/hoppang-character.png" />
-                    <meta property="og:url" content="https://hoppang.store/v2/guide/chassisperformance" />
+                <meta property="og:type" content="website"/>
+                <meta property="og:title" content="창호 성능 비교 가이드 - 호빵"/>
+                <meta property="og:description" content="창호는 비싼 거 안 써도 돼요! 브랜드보다 중요한 유리와 옵션 선택법"/>
+                <meta property="og:image" content="https://hoppang.store/assets/hoppang-character.png"/>
+                <meta property="og:url" content="https://hoppang.store/v2/guide/chassisperformance"/>
 
-                    <meta property="og:image:width" content="1200" />
-                    <meta property="og:image:height" content="630" />
-                </head>
+                <meta property="og:image:width" content="1200"/>
+                <meta property="og:image:height" content="630"/>
             </Helmet>
 
             <div className="container">
