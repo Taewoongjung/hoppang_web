@@ -12,17 +12,19 @@ const ChassisPerformance = () => {
     return (
         <>
             <Helmet>
-                <title>창호 성능 비교 가이드 - 호빵</title>
-                <meta name="description" content="호빵이 알려주는 창호 가격·성능 체크 포인트. 브랜드보다 중요한 유리와 옵션, 견적 비교 시 꼭 체크해야 할 사항을 확인하세요." />
+                <head>
+                    <title>창호 성능 비교 가이드 - 호빵</title>
+                    <meta name="description" content="호빵이 알려주는 창호 가격·성능 체크 포인트. 브랜드보다 중요한 유리와 옵션, 견적 비교 시 꼭 체크해야 할 사항을 확인하세요." />
 
-                <meta property="og:type" content="website" />
-                <meta property="og:title" content="창호 성능 비교 가이드 - 호빵" />
-                <meta property="og:description" content="창호는 비싼 거 안 써도 돼요! 브랜드보다 중요한 유리와 옵션 선택법" />
-                <meta property="og:image" content="https://hoppang.store/assets/hoppang-character.png" />
-                <meta property="og:url" content="https://hoppang.store/v2/guide/chassisperformance" />
+                    <meta property="og:type" content="website" />
+                    <meta property="og:title" content="창호 성능 비교 가이드 - 호빵" />
+                    <meta property="og:description" content="창호는 비싼 거 안 써도 돼요! 브랜드보다 중요한 유리와 옵션 선택법" />
+                    <meta property="og:image" content="https://hoppang.store/assets/hoppang-character.png" />
+                    <meta property="og:url" content="https://hoppang.store/v2/guide/chassisperformance" />
 
-                <meta property="og:image:width" content="1200" />
-                <meta property="og:image:height" content="630" />
+                    <meta property="og:image:width" content="1200" />
+                    <meta property="og:image:height" content="630" />
+                </head>
             </Helmet>
 
             <div className="container">
@@ -66,10 +68,13 @@ const ChassisPerformance = () => {
                         <div className="section-content">
                             <div className="guide-item">
                                 <p>
-                                    “LX, KCC, 현대 중 뭐가 더 좋아요?” 라는 질문 많이 받습니다.<br/>
+                                    “LX, KCC, 현대L&C 중 뭐가 더 좋아요?” 라는 질문 많이 받습니다.<br/>
                                     사실 <strong>브랜드 차이보다 중요한 건 유리 두께, Low-E 적용, 핸들 유무</strong>예요.
                                     <br/>
                                     브랜드는 부차적 요소일 뿐, 가격과 성능은 결국 옵션에서 갈립니다.
+
+                                    <br/>
+                                    그러나, 브랜드가 주는 인프라는 엄청나요. 무상보증 10년 A/S가 있어요.
                                 </p>
                             </div>
                         </div>

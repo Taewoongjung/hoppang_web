@@ -10,17 +10,19 @@ const HoppangProcess = () => {
     return (
         <>
             <Helmet>
-                <title>호빵 견적 → 시공까지 한눈에!</title>
-                <meta name="description" content="처음 상담부터 완공까지, 호빵이 함께합니다. 견적부터 시공까지 복잡하지 않게 진행됩니다." />
+                <head>
+                    <title>호빵 견적 → 시공까지 한눈에!</title>
+                    <meta name="description" content="처음 상담부터 완공까지, 호빵이 함께합니다. 견적부터 시공까지 복잡하지 않게 진행됩니다."/>
 
-                <meta property="og:type" content="website" />
-                <meta property="og:title" content="호빵 견적 → 시공까지 한눈에!" />
-                <meta property="og:description" content="처음 상담부터 완공까지, 호빵이 함께합니다." />
-                <meta property="og:image" content="https://hoppang.store/assets/hoppang-character.png" />
-                <meta property="og:url" content="https://hoppang.store/v2/guide/process" />
+                    <meta property="og:type" content="website"/>
+                    <meta property="og:title" content="호빵 견적 → 시공까지 한눈에!"/>
+                    <meta property="og:description" content="처음 상담부터 완공까지, 호빵이 함께합니다."/>
+                    <meta property="og:image" content="https://hoppang.store/assets/hoppang-character.png"/>
+                    <meta property="og:url" content="https://hoppang.store/v2/guide/process"/>
 
-                <meta property="og:image:width" content="1200" />
-                <meta property="og:image:height" content="630" />
+                    <meta property="og:image:width" content="1200"/>
+                    <meta property="og:image:height" content="630"/>
+                </head>
             </Helmet>
 
             <div className="container">
@@ -67,7 +69,8 @@ const HoppangProcess = () => {
                                 </svg>
                                 <span className="text-lg">지금 바로 견적 확인하기</span>
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/>
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                          d="M9 5l7 7-7 7"/>
                                 </svg>
                             </button>
                         </div>
@@ -98,7 +101,7 @@ const HoppangProcess = () => {
                 </div>
             </div>
         </>
-    )
+    );
 }
 
 export default HoppangProcess;
