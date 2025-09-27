@@ -473,7 +473,7 @@ const Initial = () => {
                 paddingLeft: supportsSafeArea ? 'env(safe-area-inset-left)' : '0',
                 paddingRight: supportsSafeArea ? 'env(safe-area-inset-right)' : '0',
             }}>
-                <OverlayLoadingPage word={"앱 시작중"} />
+                <OverlayLoadingPage word={"로딩중"} />
             </div>
         );
     }
