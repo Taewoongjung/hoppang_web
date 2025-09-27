@@ -51,16 +51,15 @@
   },
   "reactSnap": {
     "include": [
-      "/",
       "/v2/guide/howtochoosechassistype",
       "/v2/guide/hoppangprocess",
       "/v2/guide/chassisperformance"
     ],
     "skipThirdPartyRequests": true,
     "minifyHtml": {
-      "collapseWhitespace": false,
-      "removeComments": false
-    }
+      "collapseWhitespace": false
+    },
+    "ignoreErrors": true
   },
   "eslintConfig": {
     "extends": [
