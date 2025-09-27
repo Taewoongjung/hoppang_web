@@ -577,7 +577,7 @@ const Initial = () => {
                         {windowGuides.map((guide) => (
                             <div key={guide.id}
                                  className="guide-card"
-                                 onClick={() => window.location.href = guide.redirectLink}
+                                 onClick={() => history.push(guide.redirectLink)}
                             >
                                 <div className="guide-image-wrapper">
                                     <img src={guide.image} alt={guide.title} className="guide-image"/>
