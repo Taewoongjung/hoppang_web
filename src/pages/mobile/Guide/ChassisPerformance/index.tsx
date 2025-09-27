@@ -19,7 +19,7 @@ const ChassisPerformance = () => {
                 <meta property="og:type" content="website"/>
                 <meta property="og:title" content="창호 성능 비교 가이드 - 호빵"/>
                 <meta property="og:description" content="창호는 비싼 거 안 써도 돼요! 브랜드보다 중요한 유리와 옵션 선택법"/>
-                <meta property="og:image" content="https://hoppang.store/assets/hoppang-character.png"/>
+                <meta property="og:image" content="https://hoppang-guide-image.s3.ap-southeast-2.amazonaws.com/chassis-performance-guide-thumbnail.png"/>
                 <meta property="og:url" content="https://hoppang.store/v2/guide/chassisperformance"/>
 
                 <meta property="og:image:width" content="1200"/>

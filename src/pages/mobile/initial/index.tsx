@@ -423,7 +423,7 @@ const Initial = () => {
             id: 1,
             title: '호빵 견적 → 시공까지 한눈에!',
             description: '처음 상담부터 완공까지, 호빵이 함께합니다.',
-            image: '/assets/GuideThumbnail/hoppang-process.png',
+            image: 'https://hoppang-guide-image.s3.ap-southeast-2.amazonaws.com/hoppang-process-thumbnail.png',
             redirectLink: '/v2/guide/hoppangprocess'
         },
         {
@@ -437,7 +437,7 @@ const Initial = () => {
             id: 3,
             title: '창호 성능 비교 가이드',
             description: '호빵이 알려주는 창호 가격·성능 체크 포인트',
-            image: '/assets/GuideThumbnail/chassis-performance-guide-thumbnail.png',
+            image: 'https://hoppang-guide-image.s3.ap-southeast-2.amazonaws.com/chassis-performance-guide-thumbnail.png',
             redirectLink: '/v2/guide/chassisperformance'
         },
         // {
