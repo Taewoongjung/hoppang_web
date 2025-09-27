@@ -56,7 +56,6 @@ const HoppangProcess = () => {
                             </div>
 
                             <br/>
-                            <br/>
                             <button
                                 onClick={goToQuote}
                                 className="quote-btn"
@@ -75,7 +74,6 @@ const HoppangProcess = () => {
                     </div>
                 </div>
 
-                <br/>
                 <br/>
                 <div className="guide-section">
                     <div className="section-header">

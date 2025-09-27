@@ -169,7 +169,6 @@ const ChassisGuidePage = () => {
                     </div>
 
                     <br/>
-                    <br/>
                     <div className="guide-section">
                         <div className="section-header">
                             <h2>📞 문의하기</h2>
