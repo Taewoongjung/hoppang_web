@@ -52,6 +52,20 @@ body {
     transition: background-color 0.2s;
 }
 
+.share-btn {
+    position: absolute;
+    right: 20px;
+    top: 20%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+
 .content {
     padding: 0;
 }

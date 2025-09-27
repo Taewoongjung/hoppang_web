@@ -3,7 +3,7 @@ import React from 'react';
 import '../styles.css';
 import '../../versatile-styles.css';
 
-import {goToCommunity, goToQuote, kakaoInquiry} from "../util";
+import {goToCommunity, goToQuote, handleShare, kakaoInquiry} from "../util";
 import {EnhancedGoToTopButton} from "../../../../util/renderUtil";
 import {Helmet} from "react-helmet";
 
@@ -34,6 +34,16 @@ const ChassisPerformance = () => {
                         alt="호빵 캐릭터"
                         className="character-img"
                     />
+                    <button className="share-btn" onClick={handleShare}>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path
+                                d="M15 6.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM15 18.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"
+                                stroke="currentColor" strokeWidth="1.5"/>
+                            <path d="M7.5 10.5L12.5 7.5M7.5 10.5L12.5 16.5" stroke="currentColor"
+                                  strokeWidth="1.5"/>
+                        </svg>
+                    </button>
+
                     <h1>
                         창호 성능 비교 가이드
                     </h1>

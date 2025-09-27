@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import '../styles.css';
 import '../../versatile-styles.css';
 
-import {goToCommunity, kakaoInquiry} from "../util";
+import {goToCommunity, handleShare, kakaoInquiry} from "../util";
 import ImageViewer from "../../../../component/V2/ImageViewer";
 import {EnhancedGoToTopButton} from "../../../../util/renderUtil";
 
@@ -52,6 +52,16 @@ const ChassisGuidePage = () => {
                         alt="호빵 캐릭터"
                         className="character-img"
                     />
+                    <button className="share-btn" onClick={handleShare}>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path
+                                d="M15 6.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM15 18.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"
+                                stroke="currentColor" strokeWidth="1.5"/>
+                            <path d="M7.5 10.5L12.5 7.5M7.5 10.5L12.5 16.5" stroke="currentColor"
+                                  strokeWidth="1.5"/>
+                        </svg>
+                    </button>
+
                     <h1>
                         호빵 창호 견적 가이드
                     </h1>
@@ -72,7 +82,7 @@ const ChassisGuidePage = () => {
                                     호빵에서는 창호 견적을 산출할 때, 고객님 댁의 도면을 바탕으로 위치별로 설치되는 <strong>창호 종류</strong>를 선택하게 되어요.<br/>
                                     또한 "어떤 공간에 어떤 창호가 들어가는지" 궁금하실 때에도 이 과정을 통해 쉽게 확인하실 수 있어요 🙂<br/>
                                     <ul>
-                                        <li>
+                                    <li>
                                             같은 위치라도 발코니 단창, 이중창, 내창, 분합창 등<strong>종류가
                                             다르기 때문에 가격이 달라져요.</strong>
                                         </li>
