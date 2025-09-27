@@ -4,6 +4,19 @@ FROM node:16-alpine as builder
 # 컨테이너 내부 작업 디렉토리 설정
 WORKDIR /app
 
+# Puppeteer/Chromium 의존성 설치 (react-snap을 위해)
+RUN apk add --no-cache \
+    chromium \
+    nss \
+    freetype \
+    harfbuzz \
+    ca-certificates \
+    ttf-freefont
+
+# Puppeteer가 chromium을 찾을 수 있도록 환경 변수 설정
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browse
+
 # app dependencies
 # 컨테이너 내부로 package.json 파일들을 복사
 COPY package*.json ./
