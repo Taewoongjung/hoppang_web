@@ -25,7 +25,7 @@ const HoppangProcess = () => {
 
             <div className="container">
                 <div className="header">
-                    <button className="back-btn" onClick={() => window.location.href = 'https://hoppang.store/chassis/calculator'}>←</button>
+                    <button className="back-btn" onClick={() => window.location.href = '/'}>←</button>
                     <img
                         src="/assets/hoppang-character.png"
                         alt="호빵 캐릭터"
