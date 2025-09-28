@@ -55,16 +55,17 @@ const ChassisPerformance = () => {
                 <div className="content">
                     <div className="guide-section">
                         <div className="section-header">
-                            <h2>💡 창호는 비싼 거 안 써도 돼요</h2>
+                            <h2>💡 발코니창은 최소사양으로</h2>
                         </div>
                         <div className="section-content">
                             <div className="guide-item">
                                 <p>
-                                    창호는 사실 고급형을 쓴다고 해서 단열이나 방음이 크게 좋아지지 않아요.
+                                    창호는 고급형을 쓴다고 해서 단열이나 방음이 체감될 만큼 좋아지지 않아요.
                                     <br/>
-                                    👉 핵심은 <strong>유리 사양(특히 Low-E 유리)</strong>이에요.
+                                    👉 핵심은 <strong>유리 두께</strong>이에요.
                                     <br/>
-                                    저가형 창호 + Low-E 유리만 해도 충분히 성능이 나옵니다.
+                                    고급형 발코니창에 26T 페어 유리를 쓴다 해도 성능이 좋아지지 않아요.<br/>
+                                    기본형 발코니창과 22T 페어 유리와 시험성적서 상의 성능은 거의 같아요.
                                 </p>
                             </div>
                         </div>
@@ -77,13 +78,13 @@ const ChassisPerformance = () => {
                         <div className="section-content">
                             <div className="guide-item">
                                 <p>
-                                    “LX, KCC, 현대L&C 중 뭐가 더 좋아요?” 라는 질문 많이 받습니다.<br/>
-                                    사실 <strong>브랜드 차이보다 중요한 건 유리 두께, Low-E 적용, 핸들 유무</strong>예요.
+                                    “LX, KCC, 현대L&C 중 뭐가 더 좋아요?” 라는 질문 많이 받아요.<br/>
+                                    사실 <strong>브랜드 차이보다 중요한 건 유리 두께, 로이(Low-E) 적용</strong>이에요.
                                     <br/>
-                                    브랜드는 부차적 요소일 뿐, 가격과 성능은 결국 옵션에서 갈립니다.
-
+                                    가격과 성능은 결국 유리성능, 자동핸들 같은 옵션에서 갈려요.
                                     <br/>
-                                    그러나, 브랜드가 주는 인프라는 엄청나요. 무상보증 10년 A/S가 있어요.
+                                    그럼에도 1군 브랜드, 그중에서도 직영점을 써야하는 결정적인 이유는<br/>
+                                    결국 <strong>A/S를 본사에서 받기 위함</strong>입니다.
                                 </p>
                             </div>
                         </div>
@@ -106,21 +107,6 @@ const ChassisPerformance = () => {
 
                     <div className="guide-section">
                         <div className="section-header">
-                            <h2>🔍 단열 성능은 ‘프레임’이 아니라 ‘유리’에서</h2>
-                        </div>
-                        <div className="section-content">
-                            <div className="guide-item">
-                                <p>
-                                    시험 성적서를 보면 프레임이 달라도 <strong>유리 사양만 같으면 성능 차이가 거의 없어요.</strong>
-                                    <br/>
-                                    👉 프레임보다 <strong>유리 종류를 꼭 확인</strong>하세요.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="guide-section">
-                        <div className="section-header">
                             <h2>🪟 창호는 기본형으로도 충분해요</h2>
                         </div>
                         <div className="section-content">
@@ -128,21 +114,6 @@ const ChassisPerformance = () => {
                                 <p>
                                     창호는 제일 기본형으로도 충분히 좋아요.<br/>
                                     더 좋은 사양을 원한다면 전체 금액의 <strong>7~10% 정도만 추가</strong>하면 됩니다.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="guide-section">
-                        <div className="section-header">
-                            <h2>🧩 부자재가 많다고 좋은 게 아니에요</h2>
-                        </div>
-                        <div className="section-content">
-                            <div className="guide-item">
-                                <p>
-                                    스토퍼, 방충망 핸들 같은 플라스틱 부자재는 처음엔 있어 보이지만
-                                    <strong>오래 쓰면 헐거워져서 불편</strong>해져요.<br/>
-                                    👉 오히려 단순한 구조가 더 오래갑니다.
                                 </p>
                             </div>
                         </div>
