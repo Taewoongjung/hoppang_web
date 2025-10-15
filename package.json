@@ -51,17 +51,18 @@
   },
   "reactSnap": {
     "include": [
-      "/v2/guide/howtochoosechassistype",
-      "/v2/guide/hoppangprocess",
-      "/v2/guide/chassisperformance",
       "/question/boards/posts/47",
       "/question/boards/posts/45",
       "/question/boards/posts/40",
       "/question/boards/posts/37",
       "/question/boards/posts/36",
       "/question/boards/posts/35",
-      "/question/boards/posts/34"
+      "/question/boards/posts/34",
+      "/v2/guide/howtochoosechassistype",
+      "/v2/guide/hoppangprocess",
+      "/v2/guide/chassisperformance"
     ],
+    "crawl": true,
     "skipThirdPartyRequests": false,
     "minifyHtml": {
       "collapseWhitespace": false
@@ -69,10 +70,15 @@
     "ignoreErrors": true,
     "puppeteerArgs": [
       "--no-sandbox",
-      "--disable-setuid-sandbox"
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage"
     ],
     "waitFor": 5000,
-    "cacheAjaxRequests": true
+    "cacheAjaxRequests": true,
+    "asyncScriptTags": true,
+    "removeStyleTags": false,
+    "removeScriptTags": false,
+    "fixWebpackChunksIssue": "CRA2"
   },
   "eslintConfig": {
     "extends": [
