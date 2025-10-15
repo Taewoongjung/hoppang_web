@@ -51,13 +51,6 @@
   },
   "reactSnap": {
     "include": [
-      "/question/boards/posts/47",
-      "/question/boards/posts/45",
-      "/question/boards/posts/40",
-      "/question/boards/posts/37",
-      "/question/boards/posts/36",
-      "/question/boards/posts/35",
-      "/question/boards/posts/34",
       "/v2/guide/howtochoosechassistype",
       "/v2/guide/hoppangprocess",
       "/v2/guide/chassisperformance"
