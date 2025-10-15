@@ -17,6 +17,7 @@ import axios from "axios";
 import {formatTimeAgo, formatUserName} from "../../../../util/boardUtil";
 import CommunityLoginModal from "../../../../component/V2/Modal/CommunityLoginRequiredModal";
 import { EnhancedGoToTopButton } from 'src/util/renderUtil';
+import { Helmet } from 'react-helmet-async';
 
 
 interface PostDetail {
@@ -710,6 +711,26 @@ const PostDetail = () => {
 
     return (
         <div className="question-detail-container">
+            {/* SEO 메타 태그 */}
+            <Helmet>
+                <title>{post ? `${post.title} - 호빵 커뮤니티` : '창호 커뮤니티 호빵'}</title>
+                <meta name="description" content={post ? post.contents.replace(/<[^>]*>/g, '').substring(0, 160) : '호빵 커뮤니티 게시물'} />
+
+                {/* Open Graph 태그 (카카오톡, 페이스북 등 공유시) */}
+                <meta property="og:title" content={post?.title || '호빵 커뮤니티'} />
+                <meta property="og:description" content={post ? post.contents.replace(/<[^>]*>/g, '').substring(0, 160) : ''} />
+                <meta property="og:type" content="article" />
+                <meta property="og:url" content={window.location.href} />
+
+                {/* Twitter 카드 */}
+                <meta name="twitter:card" content="summary" />
+                <meta name="twitter:title" content={post?.title || '호빵 커뮤니티'} />
+                <meta name="twitter:description" content={post ? post.contents.replace(/<[^>]*>/g, '').substring(0, 160) : ''} />
+
+                {/* 추가 메타 정보 */}
+                {post && <meta name="author" content={post.isAnonymous === 'T' ? '익명' : post.registerName} />}
+                {post && <meta name="keywords" content={`${post.boardName}, 호빵, 커뮤니티, 질문`} />}
+            </Helmet>
             {/* Header */}
             <header className="detail-header">
                 <div className="header-content">
