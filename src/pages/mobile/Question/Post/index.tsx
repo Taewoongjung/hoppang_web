@@ -18,6 +18,7 @@ import {formatTimeAgo, formatUserName} from "../../../../util/boardUtil";
 import CommunityLoginModal from "../../../../component/V2/Modal/CommunityLoginRequiredModal";
 import { EnhancedGoToTopButton } from 'src/util/renderUtil';
 import { Helmet } from 'react-helmet-async';
+import {handleShare} from "../../Guide/util";
 
 
 interface PostDetail {
@@ -751,7 +752,7 @@ const PostDetail = () => {
                         </button>
                         <div className="header-title">게시물 상세</div>
                         <div className="header-actions">
-                            <button className="share-btn" onClick={() => alert("기능을 준비중입니다. \n불편을 끼쳐드려 죄송합니다. 🙇🏻‍♂️")}>
+                            <button className="share-btn" onClick={handleShare}>
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                                     <path
                                         d="M15 6.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM15 18.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"
