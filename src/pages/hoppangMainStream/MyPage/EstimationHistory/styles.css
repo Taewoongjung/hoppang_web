@@ -1,7 +1,0 @@
-html, body {
-    user-select: none;
-    -webkit-user-select: none;
-    overflow-x: hidden;
-    overflow-y: scroll;
-    scrollbar-width: none; /* Firefox */
-}
