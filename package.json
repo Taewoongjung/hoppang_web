@@ -56,7 +56,7 @@
       "/v2/guide/chassisperformance"
     ],
     "crawl": true,
-    "skipThirdPartyRequests": false,
+    "skipThirdPartyRequests": true,
     "minifyHtml": {
       "collapseWhitespace": false
     },
