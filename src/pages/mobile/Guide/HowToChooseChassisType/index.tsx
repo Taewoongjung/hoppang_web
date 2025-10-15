@@ -29,12 +29,12 @@ const ChassisGuidePage = () => {
         <>
             <Helmet>
                 <title>호빵 창호 견적 가이드 - 창호 종류 알아보기</title>
-                <meta name="description" content="견적 전에 꼭 알아야 할 창호 종류 선택법. 발코니 단창, 이중창, 내창 등 창호 종류를 쉽게 이해하세요."/>
+                <meta name="description" content="창호 견적 전에 꼭 알아야 할 창호 종류 선택법"/>
 
                 {/* Open Graph 태그 */}
                 <meta property="og:type" content="website"/>
                 <meta property="og:title" content="호빵 창호 견적 가이드"/>
-                <meta property="og:description" content="견적 전에 꼭 알아야 할 창호 종류 선택법"/>
+                <meta property="og:description" content="창호 견적 전에 꼭 알아야 할 창호 종류 선택법"/>
                 <meta property="og:image"
                       content="https://hoppang-guide-image.s3.ap-southeast-2.amazonaws.com/20py_apt.jpg"/>
                 <meta property="og:url" content="https://hoppang.store/v2/guide/chassisperformance"/>

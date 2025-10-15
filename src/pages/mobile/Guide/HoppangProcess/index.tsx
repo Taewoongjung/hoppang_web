@@ -15,7 +15,7 @@ const HoppangProcess = () => {
 
                 <meta property="og:type" content="website"/>
                 <meta property="og:title" content="호빵 견적 → 시공까지 한눈에!"/>
-                <meta property="og:description" content="처음 상담부터 완공까지, 호빵이 함께합니다."/>
+                <meta property="og:description" content="처음 상담부터 완공까지, 호빵이 함께합니다. 견적부터 시공까지 복잡하지 않게 진행됩니다."/>
                 <meta property="og:image" content="https://hoppang-guide-image.s3.ap-southeast-2.amazonaws.com/hoppang-process-thumbnail.png"/>
                 <meta property="og:url" content="https://hoppang.store/v2/guide/process"/>
 

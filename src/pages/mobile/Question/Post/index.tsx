@@ -737,6 +737,7 @@ const PostDetail = () => {
                 {post && <meta name="author" content={post.isAnonymous === 'T' ? '익명' : post.registerName} />}
                 {post && <meta name="keywords" content={`${post.boardName}, 호빵, 커뮤니티, 질문`} />}
             </Helmet>
+
             <div className="question-detail-container">
                 {/* Header */}
                 <header className="detail-header">
