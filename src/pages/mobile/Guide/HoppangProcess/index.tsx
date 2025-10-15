@@ -3,7 +3,7 @@ import React from 'react';
 import '../styles.css';
 import '../../versatile-styles.css';
 import {goToCommunity, goToQuote, handleShare, kakaoInquiry} from "../util";
-import {Helmet} from "react-helmet";
+import { Helmet } from 'react-helmet-async';
 
 const HoppangProcess = () => {
 

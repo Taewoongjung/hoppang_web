@@ -3,15 +3,18 @@ import { createRoot, hydrateRoot } from 'react-dom/client';
 import {BrowserRouter} from 'react-router-dom';
 import App from './layouts/App/App';
 import { initializeMobileClientDetection } from './util';
+import {HelmetProvider} from "react-helmet-async";
 
 initializeMobileClientDetection();
 
 const rootElement = document.getElementById('app');
 
 const app = (
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>
+    <HelmetProvider>
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
+    </HelmetProvider>
 );
 
 // data-reactroot 속성이나 HTML 내용으로 확인
