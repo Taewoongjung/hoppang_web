@@ -293,6 +293,11 @@ const PostDetail = () => {
                 setIsBookmarked(postData.didIBookmarked);
                 setLoading(false);
 
+                // react-snap이 메타 태그를 제대로 읽을 수 있도록 약간의 지연
+                if (navigator.userAgent === 'ReactSnap') {
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+
             } catch (err) {
                 console.error("게시물 조회 실패", err);
                 setError('게시물을 불러오는데 실패했습니다.');

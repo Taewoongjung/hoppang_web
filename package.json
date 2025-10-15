@@ -62,7 +62,7 @@
       "/question/boards/posts/35",
       "/question/boards/posts/34"
     ],
-    "skipThirdPartyRequests": true,
+    "skipThirdPartyRequests": false,
     "minifyHtml": {
       "collapseWhitespace": false
     },
@@ -70,7 +70,9 @@
     "puppeteerArgs": [
       "--no-sandbox",
       "--disable-setuid-sandbox"
-    ]
+    ],
+    "waitFor": 5000,
+    "cacheAjaxRequests": true
   },
   "eslintConfig": {
     "extends": [
