@@ -55,7 +55,6 @@
       "/v2/guide/hoppangprocess",
       "/v2/guide/chassisperformance"
     ],
-    "crawl": true,
     "skipThirdPartyRequests": true,
     "minifyHtml": {
       "collapseWhitespace": false
@@ -63,15 +62,8 @@
     "ignoreErrors": true,
     "puppeteerArgs": [
       "--no-sandbox",
-      "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage"
-    ],
-    "waitFor": 5000,
-    "cacheAjaxRequests": true,
-    "asyncScriptTags": true,
-    "removeStyleTags": false,
-    "removeScriptTags": false,
-    "fixWebpackChunksIssue": "CRA2"
+      "--disable-setuid-sandbox"
+    ]
   },
   "eslintConfig": {
     "extends": [
