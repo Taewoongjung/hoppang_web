@@ -234,7 +234,7 @@ const PostDetail = () => {
         try {
             const response = await axios.get(
                 callPostsReply.replace("{postId}", postId) + queryParam,
-                { withCredentials: true }
+                // { withCredentials: true }
             );
 
             const replies = response.data.postsReplyList || [];
@@ -284,7 +284,7 @@ const PostDetail = () => {
 
                 const response = await axios.get(
                     callBoardsPostsById.replace("{postId}", postId) + queryParam,
-                    { withCredentials: true }
+                    // { withCredentials: true }
                 );
 
                 const postData = response.data;
