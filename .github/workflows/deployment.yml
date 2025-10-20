@@ -12,6 +12,12 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      actions: read
+      checks: read
+      pull-requests: write
+
     steps:
 
       # 레포지토리에 접근하여 CI서버로 코드를 내려받는 과정
@@ -55,3 +61,11 @@ jobs:
             docker push dndxowjd/hoppang-web-fe:0.01
             cd /home/twj/hopppang
             docker compose up -d --build web-front-end-app
+
+      - uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took,pullRequest # selectable (default: repo,message)
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+        if: always() # Pick up events even if the job fails or is canceled.
