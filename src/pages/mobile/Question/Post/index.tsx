@@ -284,7 +284,12 @@ const PostDetail = () => {
 
                 const response = await axios.get(
                     callBoardsPostsById.replace("{postId}", postId) + queryParam,
-                    { withCredentials: true }
+                    {
+                        headers:{
+                            withCredentials: true,
+                            Authorization: localStorage.getItem("hoppang-token")
+                        }
+                    }
                 );
 
                 const postData = response.data;
