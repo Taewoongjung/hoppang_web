@@ -490,16 +490,19 @@ const PostDetail = () => {
             await fetchReplies(queryParam);
 
             // 새 댓글로 스크롤
-            const newReplyId = response.data.createdReplyId;
-            setTimeout(() => {
-                const target = document.getElementById(`reply-${newReplyId}`);
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            }, 100);
+            const newReplyId = response.data?.createdReplyId || response.data?.id;
+            if (newReplyId) {
+                setTimeout(() => {
+                    const target = document.getElementById(`reply-${newReplyId}`);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 250);
+            }
 
         } catch (error) {
-            console.error('댓글 등록 실패:', error);
+            console.error('❌ 댓글 등록 실패:', error);
+            console.error('에러 상세:', error.response);
         } finally {
             setIsSubmittingReply(false);
         }
