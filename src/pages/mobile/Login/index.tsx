@@ -259,20 +259,20 @@ const Login = () => {
                         </button>
 
                         {/* 구글 로그인 */}
-                        <button
-                            onClick={handleGoogleLogin}
-                            className={`social-login-btn google-btn ${previousOAuthType === 'GLE' ? 'previous-used' : ''}`}
-                        >
-                            <div className="btn-content">
-                                <div className="btn-icon">
-                                    <img src="/assets/Sso/google-logo.png" alt="Google" />
-                                </div>
-                                <span className="btn-text">Google로 계속하기</span>
-                                {previousOAuthType === 'GLE' && (
-                                    <div className="previous-badge">이전 사용</div>
-                                )}
-                            </div>
-                        </button>
+                        {/*<button*/}
+                        {/*    onClick={handleGoogleLogin}*/}
+                        {/*    className={`social-login-btn google-btn ${previousOAuthType === 'GLE' ? 'previous-used' : ''}`}*/}
+                        {/*>*/}
+                        {/*    <div className="btn-content">*/}
+                        {/*        <div className="btn-icon">*/}
+                        {/*            <img src="/assets/Sso/google-logo.png" alt="Google" />*/}
+                        {/*        </div>*/}
+                        {/*        <span className="btn-text">Google로 계속하기</span>*/}
+                        {/*        {previousOAuthType === 'GLE' && (*/}
+                        {/*            <div className="previous-badge">이전 사용</div>*/}
+                        {/*        )}*/}
+                        {/*    </div>*/}
+                        {/*</button>*/}
                     </div>
 
                     {/* 추가 정보 */}
