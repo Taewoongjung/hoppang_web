@@ -483,8 +483,6 @@ const PostDetail = () => {
                 }
             );
 
-            setTimeout(() => {}, 1000);
-
             setReplyContent('');
 
             // 댓글 목록 새로고침
