@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 type PanelKey = 'glass' | 'handle';
 
@@ -7,6 +7,10 @@ const InfoSection: React.FC<{
     setIsAgreed: (e:any) => void;
 }> = ({ isAgreed, setIsAgreed }) => {
     const [expandedPanels, setExpandedPanels] = useState<Record<PanelKey, boolean>>({glass: true, handle: true});
+    const lastSectionRef = useRef<HTMLDivElement>(null);
+
+    // 스크롤 완료 여부
+    const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
 
     const togglePanel = (panelKey: PanelKey) => {
         setExpandedPanels(prev => ({
@@ -15,10 +19,43 @@ const InfoSection: React.FC<{
         }));
     };
 
+    // IntersectionObserver로 마지막 섹션 관찰
+    useEffect(() => {
+        if (!lastSectionRef.current) return;
+
+        window.scrollTo(0, 0);
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setHasScrolledToBottom(true);
+                    }
+                });
+            },
+            {
+                threshold: 0.5, // 50% 보이면 완료
+                rootMargin: '0px'
+            }
+        );
+
+        observer.observe(lastSectionRef.current);
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
+
+    // 체크박스 변경 핸들러
+    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (hasScrolledToBottom) {
+            setIsAgreed(e.target.checked);
+        }
+    };
+
     return (
         <div style={{
             padding: '20px',
-            /* Safe area 좌우 패딩 추가 */
             paddingLeft: `calc(20px + env(safe-area-inset-left, 0px))`,
             paddingRight: `calc(20px + env(safe-area-inset-right, 0px))`,
             maxWidth: '430px',
@@ -28,6 +65,37 @@ const InfoSection: React.FC<{
             background: '#f8fafc',
             fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
         }}>
+            {/* 스크롤 안내 (컴포넌트 상단) */}
+            {!hasScrolledToBottom && (
+                <div style={{
+                    background: 'linear-gradient(135deg, rgba(219, 234, 254, 0.95) 0%, rgba(191, 219, 254, 0.95) 100%)',
+                    borderRadius: '12px',
+                    padding: '14px 16px',
+                    marginBottom: '20px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    border: '1px solid rgba(37, 99, 235, 0.2)'
+                }}>
+                    <div style={{
+                        fontSize: '13px',
+                        color: '#1e40af',
+                        fontWeight: '600'
+                    }}>아래 내용 확인 후 동의해주세요</div>
+                    <div style={{
+                        color: '#2563eb',
+                        display: 'flex',
+                        alignItems: 'center',
+                        animation: 'smoothBounce 2s ease-in-out infinite'
+                    }}>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M12 5v14M19 12l-7 7-7-7"/>
+                        </svg>
+                    </div>
+                </div>
+            )}
+
             {/* 신뢰성 알림 */}
             <div style={{
                 background: 'white',
@@ -141,7 +209,6 @@ const InfoSection: React.FC<{
                     alignItems: 'center',
                     gap: '8px'
                 }}>
-                    <span>✅</span>
                     타사 비교 시 꼭 체크하세요!
                 </h4>
 
@@ -164,7 +231,8 @@ const InfoSection: React.FC<{
                             alignItems: 'center',
                             fontSize: '15px',
                             fontWeight: '500',
-                            color: '#374151'
+                            color: '#374151',
+                            cursor: 'pointer'
                         }}
                     >
                         1. 유리 사양
@@ -222,7 +290,8 @@ const InfoSection: React.FC<{
                             alignItems: 'center',
                             fontSize: '15px',
                             fontWeight: '500',
-                            color: '#374151'
+                            color: '#374151',
+                            cursor: 'pointer'
                         }}
                     >
                         2. 자동 핸들 포함 여부
@@ -291,23 +360,31 @@ const InfoSection: React.FC<{
                     }}>📌 추가 비용이 발생할 수 있는 부분을 꼭 체크하고 비교하세요!</span>
                 </div>
 
-                {/* 동의 체크박스 */}
-                <div style={{
-                    background: 'white',
-                    border: '1px solid #e2e8f0',
-                    borderRadius: '8px',
-                    padding: '20px',
-                    marginTop: '20px'
-                }}>
+                {/* 동의 체크박스 - 마지막 섹션 */}
+                <div
+                    ref={lastSectionRef}
+                    style={{
+                        background: 'white',
+                        border: hasScrolledToBottom ? '2px solid #6366f1' : '1px solid #e2e8f0',
+                        borderRadius: '12px',
+                        padding: '20px',
+                        marginTop: '12px',
+                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                        boxShadow: hasScrolledToBottom ? '0 4px 20px rgba(99, 102, 241, 0.15)' : 'none'
+                    }}
+                >
                     <label style={{
                         display: 'flex',
                         alignItems: 'flex-start',
                         gap: '12px',
+                        cursor: hasScrolledToBottom ? 'pointer' : 'not-allowed',
+                        opacity: hasScrolledToBottom ? 1 : 0.5
                     }}>
                         <input
                             type="checkbox"
                             checked={isAgreed}
-                            onChange={(e) => setIsAgreed(e.target.checked)}
+                            onChange={handleCheckboxChange}
+                            disabled={!hasScrolledToBottom}
                             style={{
                                 width: '18px',
                                 height: '18px',
@@ -317,7 +394,8 @@ const InfoSection: React.FC<{
                                 borderRadius: '4px',
                                 accentColor: '#6366f1',
                                 marginTop: '2px',
-                                flexShrink: 0
+                                flexShrink: 0,
+                                cursor: hasScrolledToBottom ? 'pointer' : 'not-allowed'
                             }}
                         />
                         <span style={{
@@ -327,14 +405,39 @@ const InfoSection: React.FC<{
                             fontWeight: '500',
                             flex: 1
                         }}>
-                        위 내용을 모두 확인하였으며, 견적 비교 시 체크사항을 면밀히 검토하였습니다.
-                    </span>
+                            위 내용을 모두 확인하였으며, 견적 비교 시 체크사항을 면밀히 검토하였습니다.
+                        </span>
                     </label>
+
+                    {/* 스크롤 안내 텍스트 */}
+                    {!hasScrolledToBottom && (
+                        <div style={{
+                            marginTop: '12px',
+                            padding: '8px 12px',
+                            background: '#f8fafc',
+                            borderRadius: '6px',
+                            fontSize: '12px',
+                            color: '#64748b',
+                            textAlign: 'center'
+                        }}>
+                            ↑ 위 내용을 모두 확인하시면 동의할 수 있습니다
+                        </div>
+                    )}
                 </div>
             </div>
 
-            {/* 작은 화면 및 Safe Area 대응을 위한 CSS */}
             <style>{`
+                @keyframes smoothBounce {
+                    0%, 100% {
+                        transform: translateY(0);
+                        opacity: 1;
+                    }
+                    50% {
+                        transform: translateY(4px);
+                        opacity: 0.7;
+                    }
+                }
+
                 @media (max-width: 375px) {
                     div[style*="padding: 20px"] {
                         padding: 16px !important;
@@ -343,38 +446,16 @@ const InfoSection: React.FC<{
                     }
                 }
 
-                @media (orientation: landscape) and (max-height: 500px) {
-                    div[style*="padding: 20px"] {
-                        padding-left: calc(16px + env(safe-area-inset-left, 0px)) !important;
-                        padding-right: calc(16px + env(safe-area-inset-right, 0px)) !important;
-                    }
-                }
-
-                /* PWA viewport meta support */
-                @supports (padding: max(0px)) {
-                    div[style*="padding: 20px"] {
-                        padding-left: max(calc(20px + env(safe-area-inset-left)), 20px) !important;
-                        padding-right: max(calc(20px + env(safe-area-inset-right)), 20px) !important;
-                    }
-
-                    @media (max-width: 375px) {
-                        div[style*="padding: 20px"] {
-                            padding-left: max(calc(16px + env(safe-area-inset-left)), 16px) !important;
-                            padding-right: max(calc(16px + env(safe-area-inset-right)), 16px) !important;
-                        }
-                    }
-                }
-
-                /* 접근성 개선 */
                 button:focus {
-                    outline-offset: -2px;
+                    outline: 2px solid #6366f1;
+                    outline-offset: 2px;
                 }
 
                 input[type="checkbox"]:focus {
-                    outline-offset: -2px;
+                    outline: 2px solid #6366f1;
+                    outline-offset: 2px;
                 }
 
-                /* 터치 디바이스 최적화 */
                 @media (hover: none) and (pointer: coarse) {
                     button {
                         min-height: 44px;
@@ -385,9 +466,9 @@ const InfoSection: React.FC<{
                     }
                 }
 
-                /* 애니메이션 감소 모드 */
                 @media (prefers-reduced-motion: reduce) {
-                    span[style*="transition"] {
+                    * {
+                        animation: none !important;
                         transition: none !important;
                     }
                 }

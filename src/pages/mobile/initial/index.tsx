@@ -440,27 +440,6 @@ const Initial = () => {
             image: 'https://hoppang-guide-image.s3.ap-southeast-2.amazonaws.com/chassis-performance-guide-thumbnail.png',
             redirectLink: '/v2/guide/chassisperformance'
         },
-        // {
-        //     id: 4,
-        //     title: '시스템창호란?',
-        //     description: '고급 하드웨어와 우수한 기밀성을 가진 고성능 창호',
-        //     image: '/assets/guide-system-window.jpg',
-        //     redirectLink: '/v2/guide/howtochoosechassistype'
-        // },
-        // {
-        //     id: 5,
-        //     title: '발코니창호란?',
-        //     description: '발코니 공간 활용을 위한 맞춤형 창호 솔루션',
-        //     image: '/assets/guide-balcony-window.jpg',
-        //     redirectLink: '/v2/guide/howtochoosechassistype'
-        // },
-        // {
-        //     id: 6,
-        //     title: 'PVC창호란?',
-        //     description: '경제적이고 단열성이 우수한 플라스틱 소재 창호',
-        //     image: '/assets/guide-pvc-window.jpg',
-        //     redirectLink: '/v2/guide/howtochoosechassistype'
-        // }
     ];
 
     // 초기화되지 않은 경우 로딩 표시

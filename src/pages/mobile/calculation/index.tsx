@@ -749,11 +749,14 @@ const MobileCalculationScreen = () => {
                 </button>
             );
         } else if (currentStep === 4) {
+            const isButtonDisabled = !isAgreed;
+
             return (
                 <button
-                    className="button-primary calculate-button"
+                    key={`button-${isButtonDisabled}`}  // key로 강제 리렌더링
+                    className={`button-primary calculate-button ${isButtonDisabled ? 'button-disabled' : ''}`}
                     onClick={handleCalculate}
-                    disabled={!isAgreed} // 이거 동의로 변경하기
+                    disabled={isButtonDisabled}
                 >
                     {isLoading ? (
                         <>
@@ -761,9 +764,7 @@ const MobileCalculationScreen = () => {
                             견적 계산중...
                         </>
                     ) : (
-                        <>
-                            견적 계산하기
-                        </>
+                        '견적 계산하기'
                     )}
                 </button>
             );
