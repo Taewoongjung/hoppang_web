@@ -470,7 +470,6 @@ const PostDetail = () => {
         setIsSubmittingReply(true);
 
         try {
-            await mutate();
             const response = await axios.post(
                 callPostsReply.replace("{postId}", postId),
                 {
