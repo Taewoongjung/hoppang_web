@@ -490,11 +490,12 @@ const PostDetail = () => {
             // 새 댓글로 스크롤
             const newReplyId = response.data?.createdReplyId || response.data?.id;
             if (newReplyId) {
-                await fetchReplies(queryParam);
-                setTimeout(() => {
+                setTimeout(async () => {
+                    await fetchReplies(queryParam);
+
                     const target = document.getElementById(`reply-${newReplyId}`);
                     if (target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        await target.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
                 }, 250);
             }
