@@ -484,16 +484,24 @@ const PostDetail = () => {
 
             setReplyContent('');
 
-            // mutate 제거하고 fetchReplies만 호출
+            // 댓글 목록 새로고침
             let queryParam = userData ? `?loggedInUserId=${userData.id}` : '';
-            await fetchReplies(queryParam);
 
-            // 강제 리렌더링 (임시)
-            window.location.reload(); // 테스트용
+            // 새 댓글로 스크롤
+            const newReplyId = response.data?.createdReplyId || response.data?.id;
+            if (newReplyId) {
+                await fetchReplies(queryParam);
+                setTimeout(() => {
+                    const target = document.getElementById(`reply-${newReplyId}`);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 250);
+            }
 
         } catch (error) {
-            console.error('댓글 등록 실패:', error);
-            alert('댓글 등록 실패');
+            console.error('❌ 댓글 등록 실패:', error);
+            console.error('에러 상세:', error.response);
         } finally {
             setIsSubmittingReply(false);
         }
