@@ -178,7 +178,7 @@ const Agreement = () => {
                             <div className="notice-list">
                                 <div className="notice-item">
                                     <div className="notice-icon">⚠️</div>
-                                    <p>본 서비스는 어느정도 참고용이며, 실제 창호 제작 시 약간의 가격 차이는 있을 수 있습니다.</p>
+                                    <p>본 서비스는 어느정도 참고용이며, 실제 창호 제작 시 약간의 가격 차이는 있을 수 있습니다. <br/><u>(실제로 그날 이벤트에 따라 가격이 저렴할 수도 있어요)</u></p>
                                 </div>
                                 <div className="notice-item">
                                     <div className="notice-icon">⚡</div>
@@ -186,16 +186,26 @@ const Agreement = () => {
                                 </div>
                                 <div className="notice-item">
                                     <div className="notice-icon">🪟</div>
-                                    <p>각 회사별 발코니 창은 기본 사양 제품 기준입니다.</p>
+                                    <div><p>각 회사별 창호는 기본 사양 제품 기준입니다.</p></div>
                                 </div>
                                 <div className="notice-item">
                                     <div className="notice-icon">🚚</div>
                                     <div>
-                                        <p><strong>양중비용 관련:</strong></p>
+                                        <p><strong>양중비용 관련 내용이에요</strong></p>
                                         <ul className="sub-notice-list">
                                             <li>사다리차 비용은 지역에 따라 상이할 수 있습니다.</li>
                                             <li>사다리차 사용이 불가능한 경우 추가 비용이 발생할 수 있습니다.</li>
                                             <li>양중이 불가능한 상황이 있을 수 있습니다. (예: 시스템 창호, 도로 혼잡 지역의 거실창 등)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div className="notice-item">
+                                    <div className="notice-icon">📍</div>
+                                    <div>
+                                        <p><strong>정확한 견적을 위해 정확한 주소를 입력해주세요</strong></p>
+                                        <ul className="sub-notice-list">
+                                            <li>정확한 주소를 입력해주셔야 양중비용 등 정확한 견적이 산출됩니다.</li>
+                                            <li>아파트의 경우 동/호수까지 입력해주시면 더욱 정확합니다.</li>
                                         </ul>
                                     </div>
                                 </div>
