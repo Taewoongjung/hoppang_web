@@ -484,24 +484,16 @@ const PostDetail = () => {
 
             setReplyContent('');
 
-            // 댓글 목록 새로고침
+            // mutate 제거하고 fetchReplies만 호출
             let queryParam = userData ? `?loggedInUserId=${userData.id}` : '';
             await fetchReplies(queryParam);
 
-            // 새 댓글로 스크롤
-            const newReplyId = response.data?.createdReplyId || response.data?.id;
-            if (newReplyId) {
-                setTimeout(() => {
-                    const target = document.getElementById(`reply-${newReplyId}`);
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
-                }, 250);
-            }
+            // 강제 리렌더링 (임시)
+            window.location.reload(); // 테스트용
 
         } catch (error) {
-            console.error('❌ 댓글 등록 실패:', error);
-            console.error('에러 상세:', error.response);
+            console.error('댓글 등록 실패:', error);
+            alert('댓글 등록 실패');
         } finally {
             setIsSubmittingReply(false);
         }
