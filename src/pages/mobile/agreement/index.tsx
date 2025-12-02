@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import { useHistory } from 'react-router-dom';
 
 import './styles.css';
@@ -12,6 +12,12 @@ import fetcher from "../../../util/fetcher";
 const Agreement = () => {
 
     const history = useHistory();
+    const lastSectionRef = useRef<HTMLDivElement>(null);
+
+    // 스크롤 완료 여부
+    const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
+    // 스크롤 진행률
+    const [scrollProgress, setScrollProgress] = useState(0);
 
     // Safe area 지원 감지
     const [supportsSafeArea, setSupportsSafeArea] = useState(false);
@@ -23,7 +29,6 @@ const Agreement = () => {
                 const supports = CSS.supports('padding', 'env(safe-area-inset-top)');
                 setSupportsSafeArea(supports);
 
-                // body에 safe area 관련 클래스 추가
                 if (supports) {
                     document.body.classList.add('supports-safe-area');
                 } else {
@@ -32,7 +37,6 @@ const Agreement = () => {
             }
         };
 
-        // Safe area를 위한 viewport meta tag 동적 설정
         const setViewportMeta = () => {
             let viewportMeta = document.querySelector('meta[name="viewport"]');
             if (!viewportMeta) {
@@ -41,7 +45,6 @@ const Agreement = () => {
                 document.head.appendChild(viewportMeta);
             }
 
-            // Safe area를 고려한 viewport 설정
             viewportMeta.setAttribute('content',
                 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover'
             );
@@ -49,6 +52,53 @@ const Agreement = () => {
 
         setViewportMeta();
         checkSafeAreaSupport();
+    }, []);
+
+    // IntersectionObserver로 마지막 섹션 관찰 (성능 최적화)
+    useEffect(() => {
+        if (!lastSectionRef.current) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        setHasScrolledToBottom(true);
+                    }
+                });
+            },
+            {
+                threshold: 0.8, // 80% 보이면 완료로 간주
+                rootMargin: '0px'
+            }
+        );
+
+        observer.observe(lastSectionRef.current);
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
+
+    // 스크롤 진행률 계산 (throttle 적용)
+    useEffect(() => {
+        let ticking = false;
+
+        const handleScroll = () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    const progress = (scrollTop / scrollHeight) * 100;
+
+                    setScrollProgress(Math.min(progress, 100));
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     useEffect(() => {
@@ -88,7 +138,9 @@ const Agreement = () => {
     }
 
     const handleAgree = async () => {
-        await checkIfLoggedIn(); // 로그인 했는지 확인하기
+        if (!hasScrolledToBottom) return; // 스크롤 안 했으면 동작 안 함
+
+        await checkIfLoggedIn();
 
         try {
             await mutate().then((user) => {
@@ -110,12 +162,14 @@ const Agreement = () => {
 
     return (
         <div className="app-container" style={{
-            // Safe area를 고려한 인라인 스타일
             paddingTop: supportsSafeArea ? 'env(safe-area-inset-top)' : '0',
             paddingBottom: supportsSafeArea ? 'env(safe-area-inset-bottom)' : '0',
             paddingLeft: supportsSafeArea ? 'env(safe-area-inset-left)' : '0',
             paddingRight: supportsSafeArea ? 'env(safe-area-inset-right)' : '0',
         }}>
+            {/* 스크롤 진행 바 */}
+            <div className="scroll-progress-bar" style={{ width: `${scrollProgress}%` }}></div>
+
             {/* Header */}
             <header className="app-header">
                 <div className="header-content">
@@ -152,6 +206,18 @@ const Agreement = () => {
                     </div>
                 </section>
 
+                 {/*스크롤 안내 (스크롤 안 했을 때만 표시) */}
+                {!hasScrolledToBottom && (
+                    <div className="scroll-indicator">
+                        <div className="scroll-indicator-text">아래 내용 확인 후 견적 시작</div>
+                        <div className="scroll-indicator-arrow">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M12 5v14M19 12l-7 7-7-7"/>
+                            </svg>
+                        </div>
+                    </div>
+                )}
+
                 {/* Agreement Content */}
                 <div className="agreement-content">
                     <section className="agreement-section">
@@ -160,20 +226,20 @@ const Agreement = () => {
                             <div className="notice-list">
                                 <div className="notice-item">
                                     <div className="notice-icon">⚠️</div>
-                                    <p>본 서비스는 어느정도 참고용이며, 실제 창호 제작 시 약간의 가격 차이는 있을 수 있습니다. <br/><u>(실제로 그날 이벤트에 따라 가격이 저렴할 수도 있어요)</u></p>
+                                    <p><strong>견적 가격이 달라질 수 있어요:</strong> 본 서비스는 참고용이며, 실제 창호 제작 시 약간의 가격 차이가 있을 수 있습니다. <br/><u>(실제로 그날 이벤트에 따라 가격이 저렴할 수도 있어요)</u></p>
                                 </div>
                                 <div className="notice-item">
                                     <div className="notice-icon">⚡</div>
-                                    <p>에너지 효율등급은 전체 창호 교체 시 2등급을 기준으로 합니다.</p>
+                                    <p><strong>에너지 효율등급 기준이에요:</strong> 에너지 효율등급은 전체 창호 교체 시 2등급을 기준으로 합니다.</p>
                                 </div>
                                 <div className="notice-item">
                                     <div className="notice-icon">🪟</div>
-                                    <div><p>각 회사별 창호는 기본 사양 제품 기준입니다.</p></div>
+                                    <p><strong>기본 사양 제품 기준이에요:</strong> 각 회사별 창호는 기본 사양 제품 기준입니다.</p>
                                 </div>
                                 <div className="notice-item">
                                     <div className="notice-icon">🚚</div>
                                     <div>
-                                        <p><strong>양중비용 관련 내용이에요</strong></p>
+                                        <p><strong>양중비용이 달라질 수 있어요:</strong></p>
                                         <ul className="sub-notice-list">
                                             <li>사다리차 비용은 지역에 따라 상이할 수 있습니다.</li>
                                             <li>사다리차 사용이 불가능한 경우 추가 비용이 발생할 수 있습니다.</li>
@@ -181,10 +247,10 @@ const Agreement = () => {
                                         </ul>
                                     </div>
                                 </div>
-                                <div className="notice-item">
+                                <div className="notice-item" ref={lastSectionRef}>
                                     <div className="notice-icon">📍</div>
                                     <div>
-                                        <p><strong>정확한 견적을 위해 정확한 주소를 입력해주세요</strong></p>
+                                        <p><strong>정확한 주소를 입력해주세요:</strong></p>
                                         <ul className="sub-notice-list">
                                             <li>정확한 주소를 입력해주셔야 양중비용 등 정확한 견적이 산출됩니다.</li>
                                             <li>아파트의 경우 동/호수까지 입력해주시면 더욱 정확합니다.</li>
@@ -200,11 +266,17 @@ const Agreement = () => {
             {/* Bottom Action Buttons */}
             <footer className="agreement-footer">
                 <button className="button-secondary" onClick={handleDisagree}>
-                    <span>← 뒤로가기</span>
+                    <span>뒤로가기</span>
                 </button>
-                <button className="button-primary" onClick={handleAgree}>
-                    <span>견적 내기 →</span>
-                </button>
+                {hasScrolledToBottom && <button
+                    className={`button-primary ${!hasScrolledToBottom ? 'button-disabled' : ''}`}
+                    onClick={handleAgree}
+                    disabled={!hasScrolledToBottom}
+                >
+                    <span>
+                        {hasScrolledToBottom ? '견적 내기 →' : '아래 내용을 확인해주세요'}
+                    </span>
+                </button>}
             </footer>
         </div>
     );

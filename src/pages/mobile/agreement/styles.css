@@ -323,6 +323,66 @@ body {
     transform: translateY(0);
 }
 
+/* 스크롤 안내 인디케이터 */
+.scroll-indicator {
+    position: sticky;
+    top: 80px;
+    z-index: 50;
+    text-align: center;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    border-bottom: 2px solid #2563eb;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.scroll-indicator-text {
+    font-size: 14px;
+    color: #1e40af;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.scroll-indicator-arrow {
+    font-size: 2px;
+    animation: smoothBounce 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+@keyframes smoothBounce {
+    0%, 100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    50% {
+        transform: translateY(4px);
+        opacity: 0.7;
+    }
+}
+
+/* 버튼 비활성화 스타일 */
+.button-disabled {
+    background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%) !important;
+    cursor: not-allowed !important;
+    opacity: 0.6;
+    box-shadow: none !important;
+}
+
+.button-disabled:hover {
+    transform: none !important;
+}
+
+.button-primary span {
+    transition: all 0.3s ease;
+}
+
 /* Responsive Design */
 @media (max-width: 375px) {
     .hero-title {
