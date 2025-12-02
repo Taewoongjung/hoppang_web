@@ -487,17 +487,19 @@ const PostDetail = () => {
             // 댓글 목록 새로고침
             let queryParam = userData ? `?loggedInUserId=${userData.id}` : '';
 
+            setTimeout(() => {
+                fetchReplies(queryParam);
+            }, 300);
+
             // 새 댓글로 스크롤
             const newReplyId = response.data?.createdReplyId || response.data?.id;
             if (newReplyId) {
-                setTimeout(async () => {
-                    await fetchReplies(queryParam);
-
+                setTimeout(() => {
                     const target = document.getElementById(`reply-${newReplyId}`);
                     if (target) {
-                        await target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
-                }, 250);
+                }, 100);
             }
 
         } catch (error) {
