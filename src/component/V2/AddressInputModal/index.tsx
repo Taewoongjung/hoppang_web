@@ -67,7 +67,7 @@ const AddressInputModal: React.FC<AddressInputModalProps> = ({
                 <div className="address-modal-body">
                     {!isSearching ? (
                         <div className="address-search-intro">
-                            <div className="address-search-icon">🏠</div>
+                            <div className="address-search-icon">📍</div>
                             <h4>정확한 견적을 위해 주소를 입력해주세요</h4>
                             <p>시공 예정 장소의 주소를 검색하여 선택해주세요.</p>
 
