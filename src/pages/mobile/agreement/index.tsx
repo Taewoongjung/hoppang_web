@@ -155,25 +155,7 @@ const Agreement = () => {
                 {/* Agreement Content */}
                 <div className="agreement-content">
                     <section className="agreement-section">
-                        <h3 className="section-title">호빵 소개</h3>
-                        <div className="agreement-card">
-                            <h4 className="card-title">호빵(<strong>호</strong>구 <strong>빵</strong>명)은?</h4>
-                            <div className="card-content">
-                                <p className="highlight-text">
-                                    "왜 창호 견적비에는 명확한 기준이 없을까?"
-                                </p>
-                                <p>
-                                    통일된 창호 가격 기준을 제시하여 소비자가 신뢰할 수 있는 금액을 만들어보고자 합니다.
-                                </p>
-                                <p className="purpose-text">
-                                    창호 금액의 기준을 제시합니다.
-                                </p>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section className="agreement-section">
-                        <h3 className="section-title">주의사항</h3>
+                        <h3 className="section-title">견적 전 안내사항</h3>
                         <div className="agreement-card">
                             <div className="notice-list">
                                 <div className="notice-item">
@@ -218,10 +200,10 @@ const Agreement = () => {
             {/* Bottom Action Buttons */}
             <footer className="agreement-footer">
                 <button className="button-secondary" onClick={handleDisagree}>
-                    <span>미동의</span>
+                    <span>뒤로가기</span>
                 </button>
                 <button className="button-primary" onClick={handleAgree}>
-                    <span>동의하고 견적 받기</span>
+                    <span>견적 내기</span>
                 </button>
             </footer>
         </div>
