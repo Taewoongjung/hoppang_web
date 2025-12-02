@@ -200,10 +200,10 @@ const Agreement = () => {
             {/* Bottom Action Buttons */}
             <footer className="agreement-footer">
                 <button className="button-secondary" onClick={handleDisagree}>
-                    <span>뒤로가기</span>
+                    <span>← 뒤로가기</span>
                 </button>
                 <button className="button-primary" onClick={handleAgree}>
-                    <span>견적 내기</span>
+                    <span>견적 내기 →</span>
                 </button>
             </footer>
         </div>
