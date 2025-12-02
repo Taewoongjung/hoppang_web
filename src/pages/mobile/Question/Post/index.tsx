@@ -486,13 +486,12 @@ const PostDetail = () => {
 
             // 댓글 목록 새로고침
             let queryParam = userData ? `?loggedInUserId=${userData.id}` : '';
-
             setTimeout(() => {
                 fetchReplies(queryParam);
             }, 300);
 
             // 새 댓글로 스크롤
-            const newReplyId = response.data?.createdReplyId || response.data?.id;
+            const newReplyId = await response.data.createdReplyId;
             if (newReplyId) {
                 setTimeout(() => {
                     const target = document.getElementById(`reply-${newReplyId}`);
@@ -538,11 +537,13 @@ const PostDetail = () => {
 
             // 댓글 목록 새로고침
             let queryParam = userData ? `?loggedInUserId=${userData.id}` : '';
-            await fetchReplies(queryParam);
+            setTimeout(() => {
+                fetchReplies(queryParam);
+            }, 300);
 
             // 해당 댓글 확장 및 스크롤
             setExpandedReplies(prev => ({ ...prev, [parentReplyId]: true }));
-            const newReplyId = response.data.createdReplyId;
+            const newReplyId = await response.data.createdReplyId;
             setTimeout(() => {
                 const target = document.getElementById(`child-reply-${newReplyId}`);
                 if (target) {
