@@ -219,6 +219,26 @@
     color: #94a3b8;
 }
 
+/* 새로운 'X' 버튼 스타일 */
+.clear-btn {
+    position: absolute;
+    top: 50%;
+    right: 50px; /* 검색 버튼의 너비에 맞게 조절 */
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px; /* 클릭 영역을 넓혀주기 위한 패딩 */
+    color: #999; /* 아이콘 색상 */
+    display: flex; /* 아이콘을 중앙 정렬하기 위해 */
+    align-items: center;
+    justify-content: center;
+}
+
+.clear-btn:hover {
+    color: #555; /* 마우스를 올렸을 때 색상 변경 */
+}
+
 .search-btn {
     position: absolute;
     right: 8px;

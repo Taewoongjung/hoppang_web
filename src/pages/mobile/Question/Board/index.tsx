@@ -593,6 +593,23 @@ const QuestionsBoard = () => {
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
+                        {searchQuery && (
+                            <button
+                                type="button" // form 제출을 막기 위해 'button'으로 설정
+                                className="clear-btn"
+                                onClick={() => setSearchQuery('')} // 클릭 시 검색어 초기화
+                                aria-label="검색어 지우기"
+                            >
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path
+                                        d="M15 5L5 15M5 5L15 15"
+                                        stroke="currentColor" strokeWidth="1.67" strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
+                                </svg>
+                            </button>
+                        )}
+                        {/* --- 추가된 부분 끝 --- */}
                         <button type="submit" className="search-btn">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                                 <path
