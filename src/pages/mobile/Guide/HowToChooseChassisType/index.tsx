@@ -33,7 +33,7 @@ const ChassisGuidePage = () => {
 
                 {/* Open Graph 태그 */}
                 <meta property="og:type" content="website"/>
-                <meta property="og:title" content="호빵 창호 견적 가이드"/>
+                <meta property="og:title" content="호빵 창호 견적 가이드 - 호빵(호구빵명) 창호"/>
                 <meta property="og:description" content="창호 견적 전에 꼭 알아야 할 창호 종류 선택법"/>
                 <meta property="og:image"
                       content="https://hoppang-guide-image.s3.ap-southeast-2.amazonaws.com/20py_apt.jpg"/>
@@ -52,7 +52,7 @@ const ChassisGuidePage = () => {
                         alt="호빵 캐릭터"
                         className="character-img"
                     />
-                    <button className="share-btn" onClick={handleShare}>
+                    <button className="share-btn" onClick={() => handleShare('호빵 창호 견적 가이드 - 호빵(호구빵명) 창호')}>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                             <path
                                 d="M15 6.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM15 18.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"

@@ -17,7 +17,7 @@ const ChassisPerformance = () => {
                       content="호빵이 알려주는 창호 가격·성능 체크 포인트. 브랜드보다 중요한 유리와 옵션, 견적 비교 시 꼭 체크해야 할 사항을 확인하세요."/>
 
                 <meta property="og:type" content="website"/>
-                <meta property="og:title" content="창호 성능 비교 가이드 - 호빵"/>
+                <meta property="og:title" content="창호 성능 비교 가이드 - 호빵(호구빵명) 창호"/>
                 <meta property="og:description" content="호빵이 알려주는 창호 가격·성능 체크 포인트. 브랜드보다 중요한 유리와 옵션, 견적 비교 시 꼭 체크해야 할 사항을 확인하세요."/>
                 <meta property="og:image" content="https://hoppang-guide-image.s3.ap-southeast-2.amazonaws.com/chassis-performance-guide-thumbnail.png"/>
                 <meta property="og:url" content="https://hoppang.store/v2/guide/chassisperformance"/>
@@ -34,7 +34,7 @@ const ChassisPerformance = () => {
                         alt="호빵 캐릭터"
                         className="character-img"
                     />
-                    <button className="share-btn" onClick={handleShare}>
+                    <button className="share-btn" onClick={() => handleShare('"창호 성능 비교 가이드 - 호빵(호구빵명) 창호"')}>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                             <path
                                 d="M15 6.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM15 18.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"
