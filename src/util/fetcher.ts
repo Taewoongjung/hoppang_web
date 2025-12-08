@@ -11,9 +11,9 @@ import {getIsMobileClient} from "./index";
 
 const fetcher = async (url: string) => {
 
-    // if (!getIsMobileClient()) {
-    //     return;
-    // }
+    if (!getIsMobileClient()) {
+        return;
+    }
 
     if (localStorage.getItem("hoppang-token")) {
         return await axios.get(url, {
