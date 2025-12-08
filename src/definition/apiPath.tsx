@@ -28,7 +28,7 @@ export const callPostsReplyLike = `https://hoppang.store/api/boards/posts/replie
 export const callRecentPosts = `https://hoppang.store/api/boards/posts/recent`;
 export const callPostsBookmark = `https://hoppang.store/api/boards/posts/{postId}/bookmarks`;
 export const callUserProfile = `https://hoppang.store/api/users/{userId}`;
-// export const callBoardsPostsImageUpload = `https://hoppang.store/api/boards/posts/files`;
+export const callBoardsPostsImageUpload = `https://hoppang.store/api/boards/posts/files`;
 
 // dev
 // export const kakaoLogin = `http://localhost:7070/api/kakao/auth`;
