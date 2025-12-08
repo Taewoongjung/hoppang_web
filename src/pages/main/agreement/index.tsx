@@ -264,20 +264,30 @@ const Agreement = () => {
             </main>
 
             {/* Bottom Action Buttons */}
-            <footer className="agreement-footer">
-                <button className="button-secondary" onClick={handleDisagree}>
-                    <span>뒤로가기</span>
-                </button>
-                {hasScrolledToBottom && <button
-                    className={`button-primary ${!hasScrolledToBottom ? 'button-disabled' : ''}`}
-                    onClick={handleAgree}
-                    disabled={!hasScrolledToBottom}
-                >
-                    <span>
-                        {hasScrolledToBottom ? '견적 내기 →' : '아래 내용을 확인해주세요'}
-                    </span>
-                </button>}
-            </footer>
+            {hasScrolledToBottom ?
+                <>
+                    <footer className="agreement-footer">
+                        <button className="button-secondary" onClick={handleDisagree}>
+                            <span>뒤로가기</span>
+                        </button>
+                        <button
+                            className={`button-primary`}
+                            onClick={handleAgree}
+                        >
+                            <span>견적 내기 →</span>
+                        </button>
+                    </footer>
+                </> :
+                <>
+                    <footer className="agreement-footer">
+                        <button
+                            className={`button-primary button-disabled`}
+                        >
+                            <span>아래까지 읽으면 견적을 시작할 수 있어요</span>
+                        </button>
+                    </footer>
+                </>
+            }
         </div>
     );
 };
