@@ -13,34 +13,34 @@ const AdvertisementMainScreen = loadable(() => import('../../pages/admin/Adverti
 const LandingPage = loadable(() => import('../../pages/landingPage'));
 
 // V2 버전
-const InitialPageV2 = loadable(() => import('../../pages/mobile/initial'));
-const AgreementPage = loadable(() => import('../../pages/mobile/agreement'));
-const CalculationScreenV2 = loadable(() => import('../../pages/mobile/calculation'));
-const CalculationResultScreen = loadable(() => import('../../pages/mobile/result'));
-const LoginPageV2 = loadable(() => import('../../pages/mobile/Login'));
-const LoginFirstStepPageV2 = loadable(() => import('../../pages/mobile/LoginFirstStep'));
-const LoginSecondStepPageV2 = loadable(() => import('../../pages/mobile/LoginSecondStep'));
+const InitialPageV2 = loadable(() => import('../../pages/main/initial'));
+const AgreementPage = loadable(() => import('../../pages/main/agreement'));
+const CalculationScreenV2 = loadable(() => import('../../pages/main/calculation'));
+const CalculationResultScreen = loadable(() => import('../../pages/main/result'));
+const LoginPageV2 = loadable(() => import('../../pages/main/Login'));
+const LoginFirstStepPageV2 = loadable(() => import('../../pages/main/LoginFirstStep'));
+const LoginSecondStepPageV2 = loadable(() => import('../../pages/main/LoginSecondStep'));
 
-const PrivacyPolicyPage = loadable(() => import('../../pages/mobile/Policy/PrivacyPolicy'));
-const TermOfUsePage = loadable(() => import('../../pages/mobile/Policy/TermOfUse'));
+const PrivacyPolicyPage = loadable(() => import('../../pages/main/Policy/PrivacyPolicy'));
+const TermOfUsePage = loadable(() => import('../../pages/main/Policy/TermOfUse'));
 
-const MyPageEstimationDetailPageV2 = loadable(() => import('../../pages/mobile/MyPage/EstimationDetail'));
-const MyPageEstimationHistoriesPageV2 = loadable(() => import('../../pages/mobile/MyPage/EstimationHistory'));
-const AppConfigPageV2 = loadable(() => import('../../pages/mobile/MyPage/AppConfig'));
-const UserConfigPageV2 = loadable(() => import('../../pages/mobile/MyPage/UserConfig'));
-const ProfilePage = loadable(() => import('../../pages/mobile/MyPage/ProfileDetail'));
-const MyPageV2 = loadable(() => import('../../pages/mobile/MyPage'));
+const MyPageEstimationDetailPageV2 = loadable(() => import('../../pages/main/MyPage/EstimationDetail'));
+const MyPageEstimationHistoriesPageV2 = loadable(() => import('../../pages/main/MyPage/EstimationHistory'));
+const AppConfigPageV2 = loadable(() => import('../../pages/main/MyPage/AppConfig'));
+const UserConfigPageV2 = loadable(() => import('../../pages/main/MyPage/UserConfig'));
+const ProfilePage = loadable(() => import('../../pages/main/MyPage/ProfileDetail'));
+const MyPageV2 = loadable(() => import('../../pages/main/MyPage'));
 
-const QuestionBoardPage = loadable(() => import('../../pages/mobile/Question/Board'));
-const QuestionBoardPostPage = loadable(() => import('../../pages/mobile/Question/Post'));
-const QuestionRegisterFormPage = loadable(() => import('../../pages/mobile/Question/RegisterForm'));
-const MyPostsPage = loadable(() => import('../../pages/mobile/Question/MyPosts'));
+const QuestionBoardPage = loadable(() => import('../../pages/main/Question/Board'));
+const QuestionBoardPostPage = loadable(() => import('../../pages/main/Question/Post'));
+const QuestionRegisterFormPage = loadable(() => import('../../pages/main/Question/RegisterForm'));
+const MyPostsPage = loadable(() => import('../../pages/main/Question/MyPosts'));
 
-const CounselV2 = loadable(() => import('../../pages/mobile/Counsel'));
+const CounselV2 = loadable(() => import('../../pages/main/Counsel'));
 
-const HowToChooseChassisTypeGuide = loadable(() => import('../../pages/mobile/Guide/HowToChooseChassisType'));
-const HoppangProcessGuide = loadable(() => import('../../pages/mobile/Guide/HoppangProcess'));
-const ChassisPerformanceGuide = loadable(() => import('../../pages/mobile/Guide/ChassisPerformance'));
+const HowToChooseChassisTypeGuide = loadable(() => import('../../pages/main/Guide/HowToChooseChassisType'));
+const HoppangProcessGuide = loadable(() => import('../../pages/main/Guide/HoppangProcess'));
+const ChassisPerformanceGuide = loadable(() => import('../../pages/main/Guide/ChassisPerformance'));
 
 
 const App = () => {

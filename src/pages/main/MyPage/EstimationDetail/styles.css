@@ -419,7 +419,7 @@ body {
     border-color: #5855eb !important;
 }
 
-/* Custom scrollbar for mobile */
+/* Custom scrollbar for main */
 .table-container::-webkit-scrollbar {
     height: 4px;
 }
