@@ -28,6 +28,11 @@ const Step0AddressInput = () => {
     const [remainAddress, setRemainAddress] = useState<string>('');
 
 
+    // 컴포넌트 마운트 시 스크롤 맨 위로
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     // 컴포넌트 마운트 시 localStorage에서 복원
     useEffect(() => {
         const savedAddress = localStorage.getItem('simple-estimate-address');

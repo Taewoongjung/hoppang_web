@@ -15,7 +15,12 @@ interface BayOption {
 const Step2BaySelection = () => {
     const history = useHistory();
     const [selectedBay, setSelectedBay] = useState<string>('');
-    const [selectedArea, setSelectedArea] = useState<string>('');
+
+
+    // 컴포넌트 마운트 시 스크롤 맨 위로
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     useEffect(() => {
         // 이전 단계에서 선택한 평수 가져오기
@@ -23,8 +28,6 @@ const Step2BaySelection = () => {
         if (!area) {
             // 평수를 선택하지 않았다면 Step 1로 돌아가기
             history.push('/calculator/simple/step1');
-        } else {
-            setSelectedArea(area);
         }
     }, [history]);
 

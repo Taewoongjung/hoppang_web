@@ -15,6 +15,12 @@ const Step1AreaSelection = () => {
     const history = useHistory();
     const [selectedArea, setSelectedArea] = useState<string>('');
 
+
+    // 컴포넌트 마운트 시 스크롤 맨 위로
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     useEffect(() => {
         // Step0에서 주소를 입력했는지 확인
         const address = localStorage.getItem('simple-estimate-address');

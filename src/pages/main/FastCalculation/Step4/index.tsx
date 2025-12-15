@@ -23,6 +23,12 @@ const Step4FloorplanReview = () => {
     const [editingWindow, setEditingWindow] = useState<string | null>(null);
     const [floorplanImage, setFloorplanImage] = useState<string>('');
 
+
+    // 컴포넌트 마운트 시 스크롤 맨 위로
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     useEffect(() => {
         // 이전 단계에서 선택한 정보 가져오기
         const area = localStorage.getItem('simple-estimate-area');
