@@ -6,6 +6,7 @@ import './styles.css';
 import './current1-styles.css';
 import '../versatile-styles.css';
 
+
 import chassisTypeOptions from "../../../definition/chassisType";
 import type { RegisteringChassisV2 } from "../../../definition/interfacesV2";
 import {Unit} from "../../../definition/unit";

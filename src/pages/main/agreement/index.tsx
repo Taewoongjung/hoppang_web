@@ -160,6 +160,7 @@ const Agreement = () => {
         window.location.href = "/chassis/calculator";
     };
 
+
     return (
         <div className="app-container" style={{
             paddingTop: supportsSafeArea ? 'env(safe-area-inset-top)' : '0',
@@ -263,7 +264,6 @@ const Agreement = () => {
                 </div>
             </main>
 
-            {/* Bottom Action Buttons */}
             {hasScrolledToBottom ?
                 <>
                     <footer className="agreement-footer">

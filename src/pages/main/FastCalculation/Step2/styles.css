@@ -1,0 +1,152 @@
+/* Bay Selection Specific Styles */
+.bay-options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    animation: fadeInUp 0.5s ease-out 0.1s both;
+}
+
+.bay-card {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.bay-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+
+.bay-card.selected {
+    border-color: #6366f1;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.2);
+}
+
+.bay-check {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.bay-card.selected .bay-check {
+    background: #6366f1;
+    border-color: #6366f1;
+}
+
+.bay-visual {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.bay-structure {
+    font-size: 40px;
+    font-weight: 700;
+    color: #cbd5e1;
+    letter-spacing: 8px;
+    transition: all 0.3s ease;
+}
+
+.bay-card.selected .bay-structure {
+    color: #6366f1;
+}
+
+.bay-illustration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    background: white;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.bay-card.selected .bay-illustration {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+}
+
+.bay-content {
+    text-align: center;
+    width: 100%;
+}
+
+.bay-type {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 8px 0;
+    transition: all 0.3s ease;
+}
+
+.bay-card.selected .bay-type {
+    color: #6366f1;
+}
+
+.bay-image {
+    width: 100%;
+    height: auto;
+    max-width: 280px;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.bay-card:hover .bay-image {
+    transform: scale(1.02);
+}
+
+.bay-description {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0;
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+.bay-card.selected .bay-description {
+    color: #0369a1;
+}
+
+/* Responsive for Bay Selection */
+@media (max-width: 375px) {
+    .bay-card {
+        padding: 24px 20px;
+    }
+
+    .bay-structure {
+        font-size: 36px;
+        letter-spacing: 6px;
+    }
+
+    .bay-type {
+        font-size: 20px;
+    }
+
+    .bay-description {
+        font-size: 13px;
+    }
+
+    .bay-illustration svg {
+        transform: scale(0.9);
+    }
+}

@@ -1,0 +1,681 @@
+/* Simple Estimate Common Styles */
+.simple-estimate-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #f8f9fa;
+    max-width: 430px;
+    margin: 0 auto;
+}
+
+/* Header */
+.simple-estimate-header {
+    position: sticky;
+    top: 0;
+    background: white;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e2e8f0;
+    z-index: 100;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.back-button {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: #f1f5f9;
+    border-radius: 12px;
+    color: #475569;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.back-button:hover {
+    background: #e2e8f0;
+}
+
+.header-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+/* Progress Bar */
+.progress-container {
+    padding: 20px 20px 16px;
+    background: white;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
+    border-radius: 10px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,255,255,0.3) 50%,
+    transparent 100%);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+.progress-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: #6366f1;
+    margin: 0;
+    text-align: right;
+}
+
+/* Main Content */
+.simple-estimate-content {
+    flex: 1;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Step Intro */
+.step-intro {
+    text-align: center;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.step-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+}
+
+.step-subtitle {
+    font-size: 15px;
+    color: #64748b;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Options Grid */
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    animation: fadeInUp 0.5s ease-out 0.1s both;
+}
+
+/* 3개일 때 마지막 아이템 중앙 정렬 */
+.options-grid .option-card:nth-child(3):last-child {
+    grid-column: 1 / -1;
+    max-width: 50%;
+    margin: 0 auto;
+}
+
+.option-card {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 24px 20px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+}
+
+.option-card.selected {
+    border-color: #6366f1;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+}
+
+.option-check {
+    width: 28px;
+    height: 28px;
+    border: 2px solid #cbd5e1;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.option-card.selected .option-check {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    border-color: #6366f1;
+}
+
+.option-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.option-label {
+    font-size: 21px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 6px 0;
+}
+
+.option-description {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Info Box */
+.info-box {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border-radius: 16px;
+    padding: 16px 20px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    animation: fadeInUp 0.5s ease-out 0.2s both;
+    border: 1px solid #fbbf24;
+}
+
+.info-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.info-text {
+    font-size: 14px;
+    color: #78350f;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.info-text strong {
+    font-weight: 700;
+    color: #713f12;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+    position: sticky;
+    bottom: 0;
+    background: white;
+    padding: 16px 20px;
+    display: flex;
+    gap: 12px;
+    border-top: 1px solid #e2e8f0;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.04);
+}
+
+.nav-button {
+    flex: 1;
+    padding: 16px 24px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.nav-button.secondary {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.nav-button.secondary:hover {
+    background: #e2e8f0;
+}
+
+.nav-button.primary {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: white;
+}
+
+.nav-button.primary:hover {
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+    transform: translateY(-2px);
+}
+
+.nav-button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 375px) {
+    .simple-estimate-header {
+        padding: 14px 16px;
+    }
+
+    .header-title {
+        font-size: 16px;
+    }
+
+    .progress-container {
+        padding: 16px 16px 12px;
+    }
+
+    .simple-estimate-content {
+        padding: 20px 16px;
+        gap: 20px;
+    }
+
+    .step-title {
+        font-size: 21px;
+    }
+
+    .step-subtitle {
+        font-size: 14px;
+    }
+
+    .options-grid {
+        gap: 10px;
+    }
+
+    .option-card {
+        padding: 20px 16px;
+        min-height: 130px;
+    }
+
+    .option-label {
+        font-size: 19px;
+    }
+
+    .option-description {
+        font-size: 12px;
+    }
+
+    .bottom-nav {
+        padding: 14px 16px;
+        gap: 10px;
+    }
+
+    .nav-button {
+        padding: 14px 20px;
+        font-size: 15px;
+    }
+}
+
+/* ============================================
+   STEP 0: ADDRESS INPUT SPECIFIC STYLES
+   ============================================ */
+
+/* Step Icon Large */
+.step-icon-large {
+    font-size: 56px;
+    margin-bottom: 16px;
+    animation: floatIcon 3s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Address Section */
+.address-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: fadeInUp 0.5s ease-out 0.1s both;
+}
+
+/* Form Group Custom */
+.form-group-custom {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-label-custom {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.label-text {
+    color: #1e293b;
+}
+
+.label-required {
+    color: #ef4444;
+    font-size: 16px;
+}
+
+/* Address Card */
+.address-card {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+}
+
+.address-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    transform: translateY(-2px);
+}
+
+.address-card.filled {
+    border-color: #6366f1;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+}
+
+.address-card.filled:hover {
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.15);
+}
+
+.address-card.error {
+    border-color: #ef4444;
+    background: #fef2f2;
+}
+
+/* Address Content (filled state) */
+.address-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 12px;
+}
+
+.address-main {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1;
+}
+
+.address-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.address-text-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.address-text {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e293b;
+    line-height: 1.5;
+    word-break: keep-all;
+}
+
+.address-zone {
+    font-size: 13px;
+    color: #6366f1;
+    font-weight: 600;
+}
+
+.address-change {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: white;
+    color: #6366f1;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.address-card:hover .address-change {
+    background: #6366f1;
+    color: white;
+}
+
+/* Address Placeholder (empty state) */
+.address-placeholder-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+}
+
+.placeholder-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #e0e7ff 0%, #ddd6fe 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.placeholder-text-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+}
+
+.placeholder-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.placeholder-subtitle {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
+}
+
+/* Detail Input */
+.detail-input {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #1e293b;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.detail-input::placeholder {
+    color: #94a3b8;
+    font-weight: 400;
+}
+
+.detail-input:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.detail-input.error {
+    border-color: #ef4444;
+}
+
+.detail-input.error:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* Error Message Custom */
+.error-message-custom {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #ef4444;
+    font-weight: 600;
+    padding: 8px 12px;
+    background: #fef2f2;
+    border-radius: 8px;
+    animation: shakeError 0.3s ease-out;
+}
+
+.error-message-custom svg {
+    flex-shrink: 0;
+    stroke: #ef4444;
+}
+
+@keyframes shakeError {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+/* Address Modal */
+.address-modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Step 0 Responsive */
+@media (max-width: 375px) {
+    .step-icon-large {
+        font-size: 48px;
+        margin-bottom: 12px;
+    }
+
+    .address-card {
+        padding: 16px;
+        min-height: 70px;
+    }
+
+    .address-icon {
+        font-size: 20px;
+    }
+
+    .address-text {
+        font-size: 14px;
+    }
+
+    .address-zone {
+        font-size: 12px;
+    }
+
+    .placeholder-icon-wrapper {
+        width: 40px;
+        height: 40px;
+    }
+
+    .placeholder-icon-wrapper svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .placeholder-title {
+        font-size: 15px;
+    }
+
+    .placeholder-subtitle {
+        font-size: 12px;
+    }
+
+    .detail-input {
+        padding: 14px;
+        font-size: 14px;
+    }
+}

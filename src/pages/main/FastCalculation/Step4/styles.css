@@ -1,0 +1,356 @@
+/* Step 4 Floorplan Review Specific Styles */
+.floorplan-content {
+    padding-bottom: 32px;
+}
+
+/* Detailed Selection Summary */
+.selection-summary-detailed {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 16px;
+    padding: 16px 20px;
+    border: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    animation: fadeInUp 0.5s ease-out 0.1s both;
+}
+
+.summary-item-inline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.summary-label-inline {
+    font-size: 11px;
+    color: #94a3b8;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.summary-value-inline {
+    font-size: 15px;
+    color: #1e293b;
+    font-weight: 700;
+}
+
+.summary-divider-inline {
+    width: 1px;
+    height: 30px;
+    background: #cbd5e1;
+}
+
+/* Floorplan Image Container */
+.floorplan-image-container {
+    background: white;
+    border-radius: 20px;
+    padding: 24px;
+    border: 2px solid #e2e8f0;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+.floorplan-image-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+    border-radius: 12px;
+    min-height: 200px;
+}
+
+.floorplan-image {
+    width: 100%;
+    height: auto;
+    max-width: 2600px;
+    display: block;
+}
+
+/* Windows Section */
+.windows-section {
+    animation: fadeInUp 0.5s ease-out 0.3s both;
+}
+
+.section-header-small {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.section-title-small {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+.section-subtitle-small {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Windows List */
+.windows-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Window Group Styles */
+.window-group {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 20px;
+    padding: 16px;
+    border: 2px solid #e2e8f0;
+}
+
+.window-group-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 0 4px;
+}
+
+.window-group-badge {
+    font-size: 12px;
+    font-weight: 700;
+    color: #6366f1;
+    background: linear-gradient(135deg, #e0e7ff 0%, #ddd6fe 100%);
+    padding: 6px 12px;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.window-group-count {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    background: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+}
+
+.window-card {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 20px;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.window-card:last-child {
+    margin-bottom: 0;
+}
+
+.window-card.editing {
+    border-color: #6366f1;
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+}
+
+.window-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.window-name-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.window-color-indicator {
+    width: 18px;
+    height: 18px;
+    border-radius: 30%;
+    flex-shrink: 0;
+    margin-right: 7px;
+}
+
+.window-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+.window-edit-button {
+    background: #f1f5f9;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    transition: all 0.2s ease;
+}
+
+.window-edit-button:hover {
+    background: #e2e8f0;
+}
+
+.window-card.editing .window-edit-button {
+    background: #6366f1;
+    color: white;
+}
+
+.window-card.editing .window-edit-button:hover {
+    background: #5855eb;
+}
+
+/* Window Info Display */
+.window-info-display {
+    display: flex;
+    gap: 35px;
+    padding-top: 12px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info-label {
+    font-size: 11px;
+    color: #94a3b8;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.info-value {
+    display: flex;
+    font-size: 14px;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+/* Window Edit Form */
+.window-edit-form {
+    padding-top: 16px;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    animation: fadeInDown 0.3s ease-out;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.form-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.form-select,
+.form-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1e293b;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.form-select:focus,
+.form-input:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.form-input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.form-input[type="number"]::-webkit-outer-spin-button,
+.form-input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Calculate Button */
+.calculate-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+/* Responsive for Step 4 */
+@media (max-width: 375px) {
+    .floorplan-image-container {
+        padding: 20px;
+    }
+
+    .window-group {
+        padding: 12px;
+    }
+
+    .window-card {
+        padding: 16px;
+    }
+
+    .window-name {
+        font-size: 15px;
+    }
+
+    .window-edit-button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .form-row {
+        gap: 10px;
+    }
+
+    .form-select,
+    .form-input {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .window-group-badge,
+    .window-group-count {
+        font-size: 11px;
+        padding: 5px 10px;
+    }
+}

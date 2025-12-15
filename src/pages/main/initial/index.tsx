@@ -390,7 +390,7 @@ const Initial = () => {
             title: '창호 견적',
             description: (
                 <>
-                    치수만 입력하면<br/><strong>상세 가격까지</strong> 알려드려요!<br/><br/><strong>무료 · 비대면</strong>
+                    치수만 입력하면<br/><strong>상세 가격까지</strong> 알려드려요!<br/><br/><strong>셀프 · 무료 · 비대면</strong>
                 </>
             ),
             color: '#6366f1',

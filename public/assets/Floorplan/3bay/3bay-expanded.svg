@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+        width="1000"
+        height="1000"
+        viewBox="0 0 720 600"
+        preserveAspectRatio="xMidYMid meet"
+        xmlns="http://www.w3.org/2000/svg"
+        style="width:100%; height:auto; transform: scale(1.25); transform-origin: center;">
+
+  <!-- 배경 -->
+  <rect width="720" height="600" fill="#f8f9fa"/>
+
+  <!-- 전체 도면을 왼쪽으로 41px 이동해서 가운데 정렬 -->
+  <g transform="translate(-41, 0)">
+    <!-- 외곽선 -->
+    <rect fill="#ffffff" x="137" y="48" width="530.00001" height="511.00002" id="svg_823" stroke="#dee2e6" stroke-width="2"/>
+
+    <!-- 방 구분선들 -->
+    <rect fill="none" stroke-width="2" x="137" y="308" width="148" height="251" id="svg_860" stroke="#dee2e6"/>
+    <path fill="none" stroke-width="2" opacity="undefined" d="m495,126.00001l172,0l0,113.99999l-172,0l0,-113.99999z" id="svg_862" stroke="#dee2e6"/>
+    <path fill="none" stroke-width="2" opacity="undefined" d="m477.99999,309l189.00001,0l0,250l-189.00001,0l0,-149z" id="svg_863" stroke="#dee2e6"/>
+    <path fill="none" stroke-width="2" opacity="undefined" d="m137,170.00001l113,0l0,69.99999l-113,0l0,-69.99999z" id="svg_864" stroke="#dee2e6"/>
+
+    <line fill="none" stroke="#dee2e6" stroke-width="2" x1="558" y1="240" x2="558" y2="309.00725" id="svg_869"/>
+    <line fill="none" stroke="#dee2e6" x1="495" y1="125" x2="495" y2="47.99351" id="svg_874" stroke-width="2"/>
+    <line fill="none" stroke="#dee2e6" x1="250" y1="171" x2="250" y2="47.99351" id="svg_874" stroke-width="2"/>
+
+    <!-- 창문들 -->
+    <!-- 주방 - 발코니이중창 (소프트 블루) -->
+    <path id="svg_2" d="m361,49l60,0l0,11l-60,0l0,-11z" opacity="undefined" stroke-width="1.5" stroke="#a5b4fc" fill="#c7d2fe"/>
+
+    <!-- 침실2 베란다 - 발코니단창 -->
+    <rect fill="#ccfbf1" stroke-width="1.5" x="533" y="49" width="96" height="11" id="svg_3" stroke="#99f6e4"/>
+
+    <!-- 침실2 - 거실분합창 -->
+    <rect fill="#fecdd3" stroke-width="1.5" x="537" y="126" width="96" height="11" id="svg_4" stroke="#fda4af"/>
+
+    <!-- 침실3 - 발코니이중창 -->
+    <rect fill="#c7d2fe" stroke-width="1.5" x="163" y="546" width="96" height="11" id="svg_6" stroke="#a5b4fc"/>
+
+    <!-- 침실1 - 발코니이중창 -->
+    <rect fill="#c7d2fe" stroke-width="1.5" x="527" y="546" width="96" height="11" id="svg_852" stroke="#a5b4fc"/>
+
+    <!-- 베란다 아래 - 발코니이중창 -->
+    <rect fill="#c7d2fe" stroke-width="1.5" x="305" y="546" width="156.00001" height="11" id="svg_859" stroke="#a5b4fc"/>
+
+    <!-- 텍스트 레이블 -->
+    <text fill="#495057" stroke-width="0" x="563" y="431" id="svg_835" font-size="21" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="start" xml:space="preserve" font-weight="600">침실 1</text>
+
+    <text fill="#495057" stroke-width="0" x="559" y="197" id="svg_836" font-size="21" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="start" xml:space="preserve" font-weight="600">침실 2</text>
+
+    <text fill="#495057" stroke-width="0" x="559" y="100" id="svg_836" font-size="21" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="start" xml:space="preserve" font-weight="600">베란다</text>
+
+    <text fill="#495057" stroke-width="0" x="368" y="133" id="svg_837" font-size="21" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="start" xml:space="preserve" font-weight="600">주방</text>
+
+    <text fill="#495057" stroke-width="0" x="169" y="209" id="svg_838" font-size="21" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="start" xml:space="preserve" font-weight="600">화장실</text>
+
+    <text fill="#495057" stroke-width="0" x="366" y="374" id="svg_865" font-size="21" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="start" xml:space="preserve" font-weight="600">거실</text>
+
+    <text fill="#495057" stroke-width="0" x="588" y="282" id="svg_871" font-size="21" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="start" xml:space="preserve" font-weight="600">화장실</text>
+
+    <text fill="#495057" stroke-width="0" x="184" y="431" id="svg_873" font-size="21" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="start" xml:space="preserve" font-weight="600">침실 3</text>
+
+    <!-- 창문 라벨 -->
+    <!-- 주방 - 발코니이중창 -->
+    <text fill="#818cf8" stroke-width="0" x="391" y="44" font-size="25" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="middle" xml:space="preserve" font-weight="600">발코니이중창</text>
+
+    <!-- 침실2 베란다 - 발코니이중창 -->
+    <text fill="#5eead4" stroke-width="0" x="581" y="44" font-size="25" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="middle" xml:space="preserve" font-weight="600">발코니단창</text>
+
+    <!-- 침실2 - 거실분합창 -->
+    <text fill="#f472b6" stroke-width="0" x="585" y="165" font-size="26" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="middle" xml:space="preserve" font-weight="600">거실분합창</text>
+
+    <!-- 침실3 - 발코니이중창 -->
+    <text fill="#818cf8" stroke-width="0" x="211" y="582" font-size="25" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="middle" xml:space="preserve" font-weight="600">발코니이중창</text>
+
+    <!-- 침실1 - 발코니이중창 -->
+    <text fill="#818cf8" stroke-width="0" x="575" y="582" font-size="25" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="middle" xml:space="preserve" font-weight="600">발코니이중창</text>
+
+    <!-- 베란다 아래 - 발코니이중창 -->
+    <text fill="#818cf8" stroke-width="0" x="385" y="582" font-size="25" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="middle" xml:space="preserve" font-weight="600">발코니이중창</text>
+  </g>
+</svg>

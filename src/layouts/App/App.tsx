@@ -12,14 +12,21 @@ const AdvertisementMainScreen = loadable(() => import('../../pages/admin/Adverti
 // 랜딩 페이지
 const LandingPage = loadable(() => import('../../pages/landingPage'));
 
-// V2 버전
+// 서비스
 const InitialPageV2 = loadable(() => import('../../pages/main/initial'));
-const AgreementPage = loadable(() => import('../../pages/main/agreement'));
-const CalculationScreenV2 = loadable(() => import('../../pages/main/calculation'));
-const CalculationResultScreen = loadable(() => import('../../pages/main/result'));
 const LoginPageV2 = loadable(() => import('../../pages/main/Login'));
 const LoginFirstStepPageV2 = loadable(() => import('../../pages/main/LoginFirstStep'));
 const LoginSecondStepPageV2 = loadable(() => import('../../pages/main/LoginSecondStep'));
+
+const AgreementPage = loadable(() => import('../../pages/main/agreement'));
+const CalculationScreenV2 = loadable(() => import('../../pages/main/calculation'));
+const CalculationResultScreen = loadable(() => import('../../pages/main/result'));
+const FastCalculation = loadable(() => import('../../pages/main/FastCalculation'));
+const FastCalculationStep0 = loadable(() => import('../../pages/main/FastCalculation/Step0'));
+const FastCalculationStep1 = loadable(() => import('../../pages/main/FastCalculation/Step1'));
+const FastCalculationStep2 = loadable(() => import('../../pages/main/FastCalculation/Step2'));
+const FastCalculationStep3 = loadable(() => import('../../pages/main/FastCalculation/Step3'));
+const FastCalculationStep4 = loadable(() => import('../../pages/main/FastCalculation/Step4'));
 
 const PrivacyPolicyPage = loadable(() => import('../../pages/main/Policy/PrivacyPolicy'));
 const TermOfUsePage = loadable(() => import('../../pages/main/Policy/TermOfUse'));
@@ -51,9 +58,16 @@ const App = () => {
                     {/* V2 */}
                     <Route path="/chassis/calculator" component={InitialPageV2}/>
                     <Route path="/:oauthtype/chassis/calculator" component={InitialPageV2}/>
+
                     <Route exact path="/calculator/agreement" component={AgreementPage}/>
                     <Route exact path="/v2/calculator" component={CalculationScreenV2}/>
                     <Route exact path="/calculator/result" component={CalculationResultScreen}/>
+                    <Route exact path="/calculator/simple" component={FastCalculation}/>
+                    <Route exact path="/calculator/simple/step0" component={FastCalculationStep0}/>
+                    <Route exact path="/calculator/simple/step1" component={FastCalculationStep1}/>
+                    <Route exact path="/calculator/simple/step2" component={FastCalculationStep2}/>
+                    <Route exact path="/calculator/simple/step3" component={FastCalculationStep3}/>
+                    <Route exact path="/calculator/simple/step4" component={FastCalculationStep4}/>
 
                     <Route exact path="/question/boards/posts/register" component={QuestionRegisterFormPage}/>
                     <Route exact path="/question/boards/posts/:postId" component={QuestionBoardPostPage}/>

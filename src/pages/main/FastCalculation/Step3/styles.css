@@ -1,0 +1,231 @@
+/* Expansion Selection Specific Styles */
+.expansion-options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    animation: fadeInUp 0.5s ease-out 0.1s both;
+}
+
+.expansion-card {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.expansion-card.selected {
+    border-color: #6366f1;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.2);
+}
+
+.expansion-check {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.expansion-card.selected .expansion-check {
+    background: #6366f1;
+    border-color: #6366f1;
+}
+
+.expansion-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.expansion-card.selected .expansion-icon-wrapper {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    transform: scale(1.05);
+}
+
+.expansion-icon {
+    font-size: 40px;
+}
+
+.expansion-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.expansion-status-badge {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.expansion-card.selected .expansion-status-badge {
+    background: #6366f1;
+    color: white;
+}
+
+.expansion-label {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.expansion-card.selected .expansion-label {
+    color: #6366f1;
+}
+
+.expansion-description {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.expansion-card.selected .expansion-description {
+    color: #0369a1;
+}
+
+.expansion-details {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+    padding: 8px 16px;
+    background: #f8fafc;
+    border-radius: 12px;
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.expansion-card.selected .expansion-details {
+    background: white;
+    color: #0369a1;
+}
+
+.expansion-details svg {
+    color: #94a3b8;
+    flex-shrink: 0;
+}
+
+.expansion-card.selected .expansion-details svg {
+    color: #6366f1;
+}
+
+/* Selection Summary */
+.selection-summary {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    animation: fadeInUp 0.5s ease-out 0.2s both;
+}
+
+.summary-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #64748b;
+    margin: 0 0 12px 0;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.summary-items {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.summary-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.summary-label {
+    font-size: 12px;
+    color: #94a3b8;
+    font-weight: 600;
+}
+
+.summary-value {
+    font-size: 16px;
+    color: #1e293b;
+    font-weight: 700;
+}
+
+.summary-divider {
+    width: 1px;
+    height: 30px;
+    background: #cbd5e1;
+}
+
+/* Responsive for Expansion Selection */
+@media (max-width: 375px) {
+    .expansion-card {
+        padding: 24px 20px;
+    }
+
+    .expansion-icon-wrapper {
+        width: 70px;
+        height: 70px;
+    }
+
+    .expansion-icon {
+        font-size: 36px;
+    }
+
+    .expansion-label {
+        font-size: 18px;
+    }
+
+    .expansion-description {
+        font-size: 13px;
+    }
+
+    .expansion-details {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    .selection-summary {
+        padding: 16px;
+    }
+
+    .summary-value {
+        font-size: 15px;
+    }
+}

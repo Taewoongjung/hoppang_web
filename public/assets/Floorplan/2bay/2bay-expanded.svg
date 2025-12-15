@@ -1,0 +1,96 @@
+<svg
+        width="1000"
+        height="1000"
+        viewBox="0 0 670 560"
+        preserveAspectRatio="xMidYMid meet"
+        xmlns="http://www.w3.org/2000/svg"
+        style="width:100%; height:auto; transform: scale(1.25); transform-origin: center;">
+
+  <!-- 배경 -->
+  <rect width="670" height="560" fill="#f8f9fa"/>
+
+  <!-- 도면 그룹 -->
+  <g>
+
+    <!-- 외곽선 -->
+    <rect
+            x="70" y="45"
+            width="530" height="470"
+            fill="#ffffff"
+            stroke="#dee2e6"
+            stroke-width="2"
+    />
+
+    <!-- 영역 구분 -->
+    <line x1="70" y1="195" x2="315" y2="195" stroke="#dee2e6" stroke-width="2"/>
+    <line x1="70" y1="305" x2="358" y2="305" stroke="#dee2e6" stroke-width="2"/>
+    <line x1="70" y1="460" x2="359" y2="460" stroke="#dee2e6" stroke-width="2"/>
+    <line x1="358" y1="515" x2="358" y2="459" stroke="#dee2e6" stroke-width="2"/>
+
+    <line x1="213" y1="195" x2="213" y2="305" stroke="#dee2e6" stroke-width="2"/>
+    <line x1="315" y1="45"  x2="315" y2="195" stroke="#dee2e6" stroke-width="2"/>
+    <line x1="358" y1="305" x2="358" y2="460" stroke="#dee2e6" stroke-width="2"/>
+
+    <!-- 창문 막대 -->
+    <rect x="145" y="45" width="95" height="8" fill="#c7d2fe" stroke="#a5b4fc" stroke-width="1.5"/>
+    <rect x="138" y="452" width="155" height="8" fill="#ddd6fe" stroke="#c4b5fd" stroke-width="1.5"/>
+    <rect x="403" y="507" width="160" height="8" fill="#c7d2fe" stroke="#a5b4fc" stroke-width="1.5"/>
+    <rect x="138" y="507" width="155" height="8" fill="#ccfbf1" stroke="#99f6e4" stroke-width="1.5"/>
+    <rect x="353" y="467" width="10" height="40" fill="#e9edc9" stroke="#b7b7a4" stroke-width="1.5"/>
+
+    <!-- 텍스트 스타일 -->
+    <style>
+      .room-label {
+      font-family: Apple SD Gothic Neo, Malgun Gothic, sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      fill: #495057;
+      text-anchor: middle;
+      }
+    </style>
+
+    <!-- 방 레이블 -->
+    <text x="193" y="130" class="room-label">침실 1</text>
+    <text x="143" y="260" class="room-label">화장실</text>
+    <text x="210" y="390" class="room-label">침실 2</text>
+    <text x="478" y="260" class="room-label">거실 및 주방</text>
+    <text x="210" y="495" class="room-label">베란다</text>
+
+    <!-- 창호 라벨 -->
+    <text x="193" y="35"
+          font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif"
+          font-size="25" font-weight="600"
+          fill="#818cf8" text-anchor="middle">
+      발코니이중창
+    </text>
+
+    <text x="216" y="445"
+          font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif"
+          font-size="25" font-weight="600"
+          fill="#a78bfa" text-anchor="middle">
+      내창이중창
+    </text>
+
+    <text x="216" y="540"
+          font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif"
+          font-size="25" font-weight="600"
+          fill="#5eead4" text-anchor="middle">
+      발코니단창
+    </text>
+
+    <text x="402" y="465"
+          font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif"
+          font-size="25" font-weight="600"
+          fill="#b7b7a4" text-anchor="middle">
+      터닝도어
+    </text>
+
+    <text x="485" y="540"
+          font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif"
+          font-size="25" font-weight="600"
+          fill="#818cf8" text-anchor="middle">
+      발코니이중창
+    </text>
+
+  </g>
+</svg>
