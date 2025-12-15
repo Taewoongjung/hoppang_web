@@ -15,25 +15,17 @@ interface AddressInfo {
     remainAddress: string;     // 상세주소 (사용자 입력)
     buildingNumber: string;    // 빌딩번호
     fullAddress: string;       // 전체 주소 (표시용)
+    isApartment: boolean;      // 아파트 여부
 }
 
 
 const Step0AddressInput = () => {
     const history = useHistory();
     const [errors, setErrors] = useState<{address?: string, remainAddress?: string}>({});
+    const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
 
     const [addressInfo, setAddressInfo] = useState<AddressInfo | null>(null);
-
-    const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
-    const [address, setAddress] = useState<string>('');
-    const [addressZoneCode, setAddressZoneCode] = useState<string>('');
     const [remainAddress, setRemainAddress] = useState<string>('');
-    const [addressBuildingNum, setAddressBuildingNum] = useState<string>('');
-    const [sido, setSido] = useState<string>('');
-    const [siGunGu, setSiGunGu] = useState<string>('');
-    const [yupMyeonDong, setYupMyeonDong] = useState<string>('');
-    const [bCode, setBCode] = useState<string>('');
-    const [isApartment, setIsApartment] = useState<boolean>(false);
 
 
     // 컴포넌트 마운트 시 localStorage에서 복원
@@ -50,42 +42,9 @@ const Step0AddressInput = () => {
         }
     }, []);
 
-
-    const handleAddressComplete = (data: any) => {
-        let fullAddress = data.address;
-        let extraAddress = '';
-
-        if (data.addressType === 'R') {
-            if (data.bname !== '') {
-                extraAddress += data.bname;
-            }
-            if (data.buildingName !== '') {
-                extraAddress += extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
-            }
-            fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
-        }
-
-        setAddress(fullAddress);
-        setAddressZoneCode(data.zonecode);
-        setShowAddressModal(false);
-
-        // 에러 제거
-        setErrors({ ...errors, address: undefined });
-    };
-
     const handleAddressSelect = (newAddress: any) => {
-        setAddress(newAddress.address); // input 창에 주소 표시 전용
-        setAddressZoneCode(newAddress.zonecode); // 우편번호
-        setAddressBuildingNum(newAddress.buildingCode); // 빌딩번호
-        setSido(newAddress.sido); // 시도
-        setSiGunGu(newAddress.sigungu); // 시군구
-        setYupMyeonDong(newAddress.bname); // 읍면동
-        setBCode(newAddress.bcode); // 법정동코드
 
-        if (newAddress.apartment === "Y") {
-            setIsApartment(true) // 아파트 여부 (디폴트 false)
-        }
-
+        let isApartment = false;
         let extraAddress = '';
         let fullAddress = newAddress.address;
 
@@ -99,6 +58,10 @@ const Step0AddressInput = () => {
             fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
         }
 
+        if (newAddress.apartment === "Y") {
+            isApartment = true // 아파트 여부 (디폴트 false)
+        }
+
         const newAddressInfo: AddressInfo = {
             zipCode: newAddress.zonecode,                    // 우편번호
             state: newAddress.sido,                          // 시/도
@@ -107,7 +70,8 @@ const Step0AddressInput = () => {
             bCode: newAddress.bcode,                         // 법정동코드
             buildingNumber: newAddress.buildingCode || '',   // 건물관리번호
             remainAddress: extraAddress,              // 상세주소 (나중에 추가)
-            fullAddress: fullAddress                 // 전체 주소 (표시용)
+            fullAddress: fullAddress,                 // 전체 주소 (표시용)
+            isApartment: isApartment                 // 아파트 여부
         };
 
         setAddressInfo(newAddressInfo);
@@ -120,10 +84,10 @@ const Step0AddressInput = () => {
 
     const handleNext = () => {
         // 유효성 검사
-        const newErrors: {address?: string, remainAddress?: string} = {};
+        const newErrors: {addressInfo?: string, remainAddress?: string} = {};
 
-        if (!address) {
-            newErrors.address = '주소를 입력해주세요';
+        if (!addressInfo) {
+            newErrors.addressInfo = '주소를 입력해주세요';
         }
 
         if (!remainAddress.trim()) {
@@ -131,7 +95,6 @@ const Step0AddressInput = () => {
         }
 
         if (Object.keys(newErrors).length > 0) {
-            console.log("??? = ", newErrors);
             setErrors(newErrors);
             return;
         }
@@ -144,11 +107,6 @@ const Step0AddressInput = () => {
 
         // localStorage에 JSON 문자열로 저장
         localStorage.setItem('simple-estimate-address', JSON.stringify(completeAddressInfo));
-
-        // 주소 정보 저장
-        // localStorage.setItem('simple-estimate-address', address);
-        // localStorage.setItem('simple-estimate-address-zone', addressZoneCode);
-        // localStorage.setItem('simple-estimate-address-detail', remainAddress);
 
         history.push('/calculator/simple/step1');
     };
@@ -220,7 +178,7 @@ const Step0AddressInput = () => {
                             <span className="label-required">*</span>
                         </label>
                         <div
-                            className={`address-card ${errors.address ? 'error' : ''} ${address ? 'filled' : ''}`}
+                            className={`address-card ${errors.address ? 'error' : ''} ${addressInfo ? 'filled' : ''}`}
                             onClick={() => setShowAddressModal(true)}
                         >
                             {addressInfo ? (
@@ -310,9 +268,9 @@ const Step0AddressInput = () => {
                     이전
                 </button>
                 <button
-                    className={`nav-button primary ${(!addressInfo || !addressInfo.remainAddress.trim()) ? 'disabled' : ''}`}
+                    className={`nav-button primary ${(!addressInfo || !remainAddress.trim()) ? 'disabled' : ''}`}
                     onClick={handleNext}
-                    disabled={!addressInfo || !addressInfo.remainAddress.trim()}
+                    disabled={!addressInfo || !remainAddress.trim()}
                 >
                     다음
                 </button>
@@ -323,7 +281,7 @@ const Step0AddressInput = () => {
                         <AddressInputModal
                             onClose={() => setShowAddressModal(false)}
                             onAddressSelect={handleAddressSelect}
-                            currentAddress={address}
+                            currentAddress={addressInfo?.fullAddress}
                         />
                 </div>
             )}
