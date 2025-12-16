@@ -390,7 +390,8 @@ const Initial = () => {
             title: '창호 견적',
             description: (
                 <>
-                    치수만 입력하면<br/><strong>상세 가격까지</strong> 알려드려요!<br/><br/><strong>셀프 · 무료 · 비대면</strong>
+                    간편/상세 선택 한 번에<br/><strong>우리집 창호 상세 견적</strong> 바로 확인<br/><br/>
+                    <strong>셀프 · 무료 · 비대면</strong>
                 </>
             ),
             color: '#6366f1',
@@ -402,7 +403,8 @@ const Initial = () => {
             title: '커뮤니티',
             description: (
                 <>
-                    궁금한 것들을 물어보고 <strong>자유롭게 다른 유저들과</strong> 대화해보세요
+                    궁금한 점을 올리고<br/>
+                    <strong>후기·사진·견적 팁</strong>을 함께 나눠보세요
                 </>
             ),
             color: '#8b5cf6',
@@ -556,7 +558,7 @@ const Initial = () => {
                         {windowGuides.map((guide) => (
                             <div key={guide.id}
                                  className="guide-card"
-                                 onClick={() => history.push(guide.redirectLink)}
+                                 onClick={() => window.location.href = guide.redirectLink}
                             >
                                 <div className="guide-image-wrapper">
                                     <img src={guide.image} alt={guide.title} className="guide-image"/>
