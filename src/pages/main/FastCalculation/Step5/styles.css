@@ -307,6 +307,31 @@
     margin: 0;
 }
 
+/* Input Error Styles */
+.form-input.input-error {
+    border-color: #ef4444;
+    background-color: #fef2f2;
+    animation: shake 0.5s ease-in-out;
+}
+
+.form-input.input-error:focus {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+.error-text {
+    font-size: 11px;
+    color: #ef4444;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
 /* Calculate Button */
 .calculate-button {
     display: flex;

@@ -47,6 +47,7 @@ const Step5FloorplanReview = () => {
     const [selectedResident, setSelectedResident] = useState<string>('');
     const [windows, setWindows] = useState<WindowInfo[]>([]);
     const [editingWindow, setEditingWindow] = useState<string | null>(null);
+    const [sizeErrors, setSizeErrors] = useState<{ [key: string]: { width?: boolean; height?: boolean } }>({});
     const [floorplanImage, setFloorplanImage] = useState<string>('');
     const [addressInfo, setAddressInfo] = useState<AddressInfo | null>(null);
     const [chassisSimpleEstimationSquareFeetId, setChassisSimpleEstimationSquareFeetId] = useState<number>();
@@ -457,9 +458,40 @@ const Step5FloorplanReview = () => {
     };
 
     const handleWindowUpdate = (windowId: string, windowName: string, field: string, value: any) => {
-        setWindows(windows.map(w =>
+        setWindows(prev => prev.map(w =>
             w.id === windowId && w.name === windowName ? {...w, [field]: value} : w
         ));
+    };
+
+    const handleWindowTypeChange = (windowId: string, windowName: string, typeKo: string, typeEn: string) => {
+        setWindows(prev => prev.map(w =>
+            w.id === windowId && w.name === windowName ? {...w, typeKo, typeEn} : w
+        ));
+    };
+
+    const handleSizeBlur = (windowId: string, windowName: string, field: 'width' | 'height', value: number, originalValue: number) => {
+        const key = `${windowId}-${windowName}`;
+        const minValue = 300;
+        const maxValue = field === 'width' ? 5000 : 2600;
+
+        if (value < minValue || value > maxValue || isNaN(value)) {
+            // 에러 상태 설정 (흔들림 트리거)
+            setSizeErrors(prev => ({
+                ...prev,
+                [key]: { ...prev[key], [field]: true }
+            }));
+
+            // 원래 값으로 복원
+            handleWindowUpdate(windowId, windowName, field, originalValue);
+
+            return;
+        }
+
+        // 유효한 값이면 에러 상태 해제
+        setSizeErrors(prev => ({
+            ...prev,
+            [key]: { ...prev[key], [field]: false }
+        }));
     };
 
     const handleCalculate = async () => {
@@ -705,9 +737,8 @@ const Step5FloorplanReview = () => {
                                                         value={chassisTypeOptions.find(type => type.label === window.typeKo)?.value || window.typeKo}
                                                         onChange={(e) => {
                                                             const selectedType = chassisTypeOptions.find(type => type.value === e.target.value);
-                                                            handleWindowUpdate(window.id, window.name, 'type', e.target.value);
                                                             if (selectedType) {
-                                                                handleWindowUpdate(window.id, window.name, 'typeKo', selectedType.label);
+                                                                handleWindowTypeChange(window.id, window.name, selectedType.label, selectedType.value);
                                                             }
                                                         }}
                                                     >
@@ -723,24 +754,46 @@ const Step5FloorplanReview = () => {
                                                         <label className="form-label">너비 (mm)</label>
                                                         <input
                                                             type="number"
-                                                            className="form-input"
-                                                            value={window.width}
-                                                            onChange={(e) => handleWindowUpdate(window.id, window.name, 'width', parseInt(e.target.value))}
-                                                            min="100"
+                                                            className={`form-input ${sizeErrors[`${window.id}-${window.name}`]?.width ? 'input-error' : ''}`}
+                                                            defaultValue={window.width}
+                                                            key={`width-${window.id}-${window.name}-${window.width}`}
+                                                            onBlur={(e) => {
+                                                                const newValue = parseInt(e.target.value);
+                                                                handleSizeBlur(window.id, window.name, 'width', newValue, window.width);
+                                                                if (newValue >= 300 && newValue <= 5000 && !isNaN(newValue)) {
+                                                                    handleWindowUpdate(window.id, window.name, 'width', newValue);
+                                                                }
+                                                            }}
+                                                            min="300"
+                                                            max="5000"
                                                             step="100"
                                                         />
+                                                        {sizeErrors[`${window.id}-${window.name}`]?.width && (
+                                                            <span className="error-text">300 ~ 5000mm 범위로 입력해주세요</span>
+                                                        )}
                                                     </div>
 
                                                     <div className="form-group">
                                                         <label className="form-label">높이 (mm)</label>
                                                         <input
                                                             type="number"
-                                                            className="form-input"
-                                                            value={window.height}
-                                                            onChange={(e) => handleWindowUpdate(window.id, window.name, 'height', parseInt(e.target.value))}
-                                                            min="100"
+                                                            className={`form-input ${sizeErrors[`${window.id}-${window.name}`]?.height ? 'input-error' : ''}`}
+                                                            defaultValue={window.height}
+                                                            key={`height-${window.id}-${window.name}-${window.height}`}
+                                                            onBlur={(e) => {
+                                                                const newValue = parseInt(e.target.value);
+                                                                handleSizeBlur(window.id, window.name, 'height', newValue, window.height);
+                                                                if (newValue >= 300 && newValue <= 2600 && !isNaN(newValue)) {
+                                                                    handleWindowUpdate(window.id, window.name, 'height', newValue);
+                                                                }
+                                                            }}
+                                                            min="300"
+                                                            max="2600"
                                                             step="100"
                                                         />
+                                                        {sizeErrors[`${window.id}-${window.name}`]?.height && (
+                                                            <span className="error-text">300 ~ 2600mm 범위로 입력해주세요</span>
+                                                        )}
                                                     </div>
                                                 </div>
                                             </div>
