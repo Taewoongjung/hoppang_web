@@ -2,9 +2,22 @@ import React from 'react';
 
 import './styles.css';
 import '../versatile-styles.css';
+import {useHistory} from "react-router-dom";
 
 
 const EstimateMethodSelection = () => {
+
+    const history = useHistory();
+
+    // 웹뷰 스와이프 백 제스처 처리
+    React.useEffect(() => {
+        const handlePopState = () => {
+            history.replace('/');
+        };
+
+        window.addEventListener('popstate', handlePopState);
+        return () => window.removeEventListener('popstate', handlePopState);
+    }, [history]);
 
     const methods = [
         {
