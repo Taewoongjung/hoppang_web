@@ -312,11 +312,31 @@ const Step5FloorplanReview = () => {
                     {
                         id: '침실1 부분',
                         name: '침실 1',
-                        typeKo: '발코니이중창',
-                        typeEn: getChassisTypeValue('발코니이중창'),
+                        typeKo: '내창이중창',
+                        typeEn: getChassisTypeValue('내창이중창'),
+                        width: 3000,
+                        height: 1800,
+                        color: '#a78bfa',
+                        companyType: ''
+                    },
+                    {
+                        id: '침실1 부분',
+                        name: '터닝도어',
+                        typeKo: '터닝도어',
+                        typeEn: getChassisTypeValue('터닝도어'),
+                        width: 800,
+                        height: 2000,
+                        color: '#e9edc9',
+                        companyType: ''
+                    },
+                    {
+                        id: '침실1 부분',
+                        name: '베란다',
+                        typeKo: '발코니단창',
+                        typeEn: getChassisTypeValue('발코니단창'),
                         width: 3000,
                         height: 2300,
-                        color: '#818cf8',
+                        color: '#5eead4',
                         companyType: ''
                     },
                     {

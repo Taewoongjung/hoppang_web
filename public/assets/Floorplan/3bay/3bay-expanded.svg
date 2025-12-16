@@ -21,6 +21,7 @@
     <path fill="none" stroke-width="2" opacity="undefined" d="m477.99999,309l189.00001,0l0,250l-189.00001,0l0,-149z" id="svg_863" stroke="#dee2e6"/>
     <path fill="none" stroke-width="2" opacity="undefined" d="m137,170.00001l113,0l0,69.99999l-113,0l0,-69.99999z" id="svg_864" stroke="#dee2e6"/>
 
+    <line fill="none" stroke="#dee2e6" x1="477" y1="464" x2="667.02344" y2="464" id="svg_876" stroke-width="2"/>
     <line fill="none" stroke="#dee2e6" stroke-width="2" x1="558" y1="240" x2="558" y2="309.00725" id="svg_869"/>
     <line fill="none" stroke="#dee2e6" x1="495" y1="125" x2="495" y2="47.99351" id="svg_874" stroke-width="2"/>
     <line fill="none" stroke="#dee2e6" x1="250" y1="171" x2="250" y2="47.99351" id="svg_874" stroke-width="2"/>
@@ -38,14 +39,21 @@
     <!-- 침실3 - 발코니이중창 -->
     <rect fill="#c7d2fe" stroke-width="1.5" x="163" y="546" width="96" height="11" id="svg_6" stroke="#a5b4fc"/>
 
-    <!-- 침실1 - 발코니이중창 -->
-    <rect fill="#c7d2fe" stroke-width="1.5" x="527" y="546" width="96" height="11" id="svg_852" stroke="#a5b4fc"/>
+    <!-- 침실1 - 내창이중창 -->
+    <rect fill="#ddd6fe" stroke-width="1.5" x="527" y="453" width="96" height="11" id="svg_852" stroke="#c4b5fd"/>
+
+    <!-- 침실1 - 발코니단창 -->
+    <rect fill="#ccfbf1" stroke-width="1.5" x="527" y="546" width="96" height="11" id="svg_852" stroke="#99f6e4"/>
 
     <!-- 베란다 아래 - 발코니이중창 -->
     <rect fill="#c7d2fe" stroke-width="1.5" x="305" y="546" width="156.00001" height="11" id="svg_859" stroke="#a5b4fc"/>
 
+    <!-- 베란다 아래 - 터닝도어 -->
+    <rect fill="#e9edc9" x="473" y="485" width="10" height="50" stroke="#b7b7a4" stroke-width="1.5"/>
+
+
     <!-- 텍스트 레이블 -->
-    <text fill="#495057" stroke-width="0" x="563" y="431" id="svg_835" font-size="21" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="start" xml:space="preserve" font-weight="600">침실 1</text>
+    <text fill="#495057" stroke-width="0" x="563" y="390" id="svg_835" font-size="21" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="start" xml:space="preserve" font-weight="600">침실 1</text>
 
     <text fill="#495057" stroke-width="0" x="559" y="197" id="svg_836" font-size="21" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="start" xml:space="preserve" font-weight="600">침실 2</text>
 
@@ -65,19 +73,25 @@
     <!-- 주방 - 발코니이중창 -->
     <text fill="#818cf8" stroke-width="0" x="391" y="44" font-size="25" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="middle" xml:space="preserve" font-weight="600">발코니이중창</text>
 
-    <!-- 침실2 베란다 - 발코니이중창 -->
+    <!-- 침실2 베란다 - 발코니단창 -->
     <text fill="#5eead4" stroke-width="0" x="581" y="44" font-size="25" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="middle" xml:space="preserve" font-weight="600">발코니단창</text>
 
     <!-- 침실2 - 거실분합창 -->
-    <text fill="#f472b6" stroke-width="0" x="585" y="165" font-size="26" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="middle" xml:space="preserve" font-weight="600">거실분합창</text>
+    <text fill="#f472b6" stroke-width="0" x="585" y="165" font-size="25" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="middle" xml:space="preserve" font-weight="600">거실분합창</text>
 
     <!-- 침실3 - 발코니이중창 -->
     <text fill="#818cf8" stroke-width="0" x="211" y="582" font-size="25" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="middle" xml:space="preserve" font-weight="600">발코니이중창</text>
 
-    <!-- 침실1 - 발코니이중창 -->
-    <text fill="#818cf8" stroke-width="0" x="575" y="582" font-size="25" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="middle" xml:space="preserve" font-weight="600">발코니이중창</text>
+    <!-- 침실1 - 내창이중창 -->
+    <text fill="#a78bfa" stroke-width="0" x="575" y="447" font-size="25" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="middle" xml:space="preserve" font-weight="600">내창이중창</text>
+
+    <!-- 침실1 - 발코니단창 -->
+    <text fill="#5eead4" stroke-width="0" x="575" y="582" font-size="25" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="middle" xml:space="preserve" font-weight="600">발코니단창</text>
 
     <!-- 베란다 아래 - 발코니이중창 -->
     <text fill="#818cf8" stroke-width="0" x="385" y="582" font-size="25" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="middle" xml:space="preserve" font-weight="600">발코니이중창</text>
+
+    <!-- 베란다 아래 - 터닝도어 -->
+    <text fill="#b7b7a4" stroke-width="0" x="427" y="508" font-size="25" font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif" text-anchor="middle" xml:space="preserve" font-weight="600">터닝도어</text>
   </g>
 </svg>
