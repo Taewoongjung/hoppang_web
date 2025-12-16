@@ -3,25 +3,52 @@ import { useHistory } from 'react-router-dom';
 
 import './styles.css';
 import '../../versatile-styles.css';
+import {HYUNDAI, KCC_GLASS, LX} from "../../../../definition/companyType";
+import {getChassisTypeValue} from "../../../../definition/chassisType";
+import axios from "axios";
+import {calculateSimpleChassisCall, callMeData} from "../../../../definition/apiPath";
+import {Unit} from "../../../../definition/unit";
+import fetcher from "../../../../util/fetcher";
+import useSWR from 'swr';
+import { v4 as uuidv4 } from 'uuid';
+import {invalidateMandatoryData} from "../util";
 
 
 interface WindowInfo {
     id: string;
     name: string;
-    type: string;
+    typeKo: string;
+    typeEn: string;
     width: number;
     height: number;
     color: string;
+    companyType: string;
+}
+
+// 주소 정보 타입
+interface AddressInfo {
+    zipCode: string;
+    state: string;
+    city: string;
+    town: string;
+    bCode: string;
+    remainAddress: string;
+    buildingNumber: string;
+    fullAddress: string;
+    isApartment: boolean;
+    floorCustomerLiving?: number;
 }
 
 const Step4FloorplanReview = () => {
     const history = useHistory();
-    const [selectedArea, setSelectedArea] = useState<string>('');
+    const [selectedArea, setSelectedArea] = useState<any>();
     const [selectedBay, setSelectedBay] = useState<string>('');
     const [selectedExpansion, setSelectedExpansion] = useState<string>('');
     const [windows, setWindows] = useState<WindowInfo[]>([]);
     const [editingWindow, setEditingWindow] = useState<string | null>(null);
     const [floorplanImage, setFloorplanImage] = useState<string>('');
+    const [addressInfo, setAddressInfo] = useState<AddressInfo | null>(null);
+    const [chassisSimpleEstimationSquareFeetId, setChassisSimpleEstimationSquareFeetId] = useState<number>();
 
 
     // 컴포넌트 마운트 시 스크롤 맨 위로
@@ -29,24 +56,52 @@ const Step4FloorplanReview = () => {
         window.scrollTo(0, 0);
     }, []);
 
+    const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
+        dedupingInterval: 2000
+    });
+
     useEffect(() => {
-        // 이전 단계에서 선택한 정보 가져오기
-        const area = localStorage.getItem('simple-estimate-area');
+
+        // 각 필요 정보 확인
+        validateMandatoryValue();
+
+        const customerAddressInfo = localStorage.getItem('simple-estimate-address');
+        const areaData = localStorage.getItem('simple-estimate-area');
         const bay = localStorage.getItem('simple-estimate-bay');
         const expansion = localStorage.getItem('simple-estimate-expansion');
 
-        if (!area || !bay || !expansion) {
+        if (!areaData || !bay || !expansion) {
             // 이전 단계를 거치지 않았다면 Step 1로 돌아가기
             history.push('/calculator/simple/step1');
             return;
         }
 
-        setSelectedArea(area);
+        // 주소 정보 파싱 및 저장
+        try {
+            const parsedAddressInfo: AddressInfo = JSON.parse(customerAddressInfo!);
+            setAddressInfo(parsedAddressInfo);
+        } catch (e) {
+            console.error('주소 정보 파싱 실패:', e);
+            history.push('/calculator/simple/step0');
+            return;
+        }
+
+        // 평수 정보 파싱 및 저장
+        try {
+            const parsedArea = JSON.parse(areaData);
+            setSelectedArea(parsedArea);
+            setChassisSimpleEstimationSquareFeetId(parsedArea.id);
+        } catch (e) {
+            console.error('평수 정보 파싱 실패:', e);
+            history.push('/calculator/simple/step1');
+            return;
+        }
+
         setSelectedBay(bay);
         setSelectedExpansion(expansion);
 
         // 선택한 조건에 따라 도면 이미지와 창호 정보 설정
-        setupFloorplanData(area, bay, expansion);
+        setupFloorplanData(bay, expansion);
     }, [history]);
 
     // id별로 창호를 그룹화
@@ -63,7 +118,41 @@ const Step4FloorplanReview = () => {
         return groups;
     }, [windows]);
 
-    const setupFloorplanData = (area: string, bay: string, expansion: string) => {
+    const validateMandatoryValue = () => {
+        // 주소 정보 확인
+        const customerAddressInfo = localStorage.getItem('simple-estimate-address');
+        if (!customerAddressInfo) {
+            // 주소 정보가 없으면 Step0로 이동
+            history.push('/calculator/simple/step0');
+            return;
+        }
+
+        // 평형대 정보 확인
+        const chassisSimpleEstimationSquareFeet = localStorage.getItem('simple-estimate-area');
+        if (!chassisSimpleEstimationSquareFeet) {
+            // 평형대 정보가 없으면 Step1로 이동
+            history.push('/calculator/simple/step1');
+            return;
+        }
+
+        // 베이 정보 확인
+        const bay = localStorage.getItem('simple-estimate-bay');
+        if (!bay) {
+            // 베이 정보가 없으면 Step2로 이동
+            history.push('/calculator/simple/step2');
+            return;
+        }
+
+        // 확장 여부 정보 확인
+        const expansion = localStorage.getItem('simple-estimate-expansion');
+        if (!expansion) {
+            // 확장 여부 정보가 없으면 Step4로 이동
+            history.push('/calculator/simple/step4');
+            return;
+        }
+    }
+
+    const setupFloorplanData = (bay: string, expansion: string) => {
         // 도면 이미지 설정 (선택한 조건에 따라 다른 이미지)
         const imagePath = `/assets/Floorplan/${bay}/${bay}-${expansion}.svg`;
         setFloorplanImage(imagePath);
@@ -71,48 +160,58 @@ const Step4FloorplanReview = () => {
         // 기본 창호 정보 설정 (Bay와 확장 여부에 따라)
         let defaultWindows: WindowInfo[] = [];
 
-        if (bay === '2bay') {
+        if (bay === '2') {
             if (expansion === 'expanded') {
                 defaultWindows = [
                     {
                         id: 'window-1',
                         name: '거실 및 주방',
-                        type: '발코니이중창',
+                        typeKo: '발코니이중창',
+                        typeEn: getChassisTypeValue('발코니이중창'),
                         width: 4000,
                         height: 2300,
-                        color: '#818cf8'
+                        color: '#818cf8',
+                        companyType: ''
                     },
                     {
                         id: 'window-2',
                         name: '침실 1',
-                        type: '발코니이중창',
+                        typeKo: '발코니이중창',
+                        typeEn: getChassisTypeValue('발코니이중창'),
                         width: 1800,
                         height: 2300,
-                        color: '#818cf8'
+                        color: '#818cf8',
+                        companyType: ''
                     },
                     {
                         id: 'window-2',
                         name: '침실 2',
-                        type: '내창이중창',
+                        typeKo: '내창이중창',
+                        typeEn: getChassisTypeValue('내창이중창'),
                         width: 2000,
                         height: 2300,
-                        color: '#a78bfa'
+                        color: '#a78bfa',
+                        companyType: ''
                     },
                     {
                         id: 'window-2',
                         name: '베란다',
-                        type: '발코니단창',
+                        typeKo: '발코니단창',
+                        typeEn: getChassisTypeValue('발코니단창'),
                         width: 3000,
                         height: 2300,
-                        color: '#5eead4'
+                        color: '#5eead4',
+                        companyType: ''
                     },
                     {
                         id: 'window-2',
                         name: '베란다',
-                        type: '터닝도어',
+                        typeKo: '터닝도어',
+                        typeEn: getChassisTypeValue('터닝도어'),
                         width: 900,
                         height: 2000,
-                        color: '#e9edc9'
+                        color: '#e9edc9',
+                        companyType: ''
                     },
                 ];
             } else if (expansion === 'not-expanded') {
@@ -120,95 +219,117 @@ const Step4FloorplanReview = () => {
                     {
                         id: 'window-1',
                         name: '거실 및 주방',
-                        type: '거실분합창',
+                        typeKo: '거실분합창',
+                        typeEn: getChassisTypeValue('거실분합창'),
                         width: 3000,
                         height: 2300,
-                        color: '#f472b6'
+                        color: '#f472b6',
+                        companyType: ''
                     },
                     {
                         id: 'window-2',
                         name: '침실 1',
-                        type: '내창이중창',
+                        typeKo: '내창이중창',
+                        typeEn: getChassisTypeValue('내창이중창'),
                         width: 1800,
                         height: 2300,
-                        color: '#818cf8'
+                        color: '#818cf8',
+                        companyType: ''
                     },
                     {
                         id: 'window-2',
                         name: '침실 2',
-                        type: '내창이중창',
+                        typeKo: '내창이중창',
+                        typeEn: getChassisTypeValue('내창이중창'),
                         width: 2000,
                         height: 2300,
-                        color: '#a78bfa'
+                        color: '#a78bfa',
+                        companyType: ''
                     },
                     {
                         id: 'window-3',
                         name: '베란다 (왼)',
-                        type: '발코니단창',
+                        typeKo: '발코니단창',
+                        typeEn: getChassisTypeValue('발코니단창'),
                         width: 3000,
                         height: 2300,
-                        color: '#5eead4'
+                        color: '#5eead4',
+                        companyType: ''
                     },
                     {
                         id: 'window-3',
                         name: '베란다 (오)',
-                        type: '발코니단창',
+                        typeKo: '발코니단창',
+                        typeEn: getChassisTypeValue('발코니단창'),
                         width: 4000,
                         height: 2300,
-                        color: '#5eead4'
+                        color: '#5eead4',
+                        companyType: ''
                     }
                 ];
             }
-        } else if(bay === '3bay') {
+        } else if (bay === '3') {
             if (expansion === 'expanded') {
                 defaultWindows = [
                     {
                         id: 'window-1',
                         name: '주방',
-                        type: '발코니이중창',
+                        typeKo: '발코니이중창',
+                        typeEn: getChassisTypeValue('발코니이중창'),
                         width: 3000,
                         height: 1200,
-                        color: '#818cf8'
+                        color: '#818cf8',
+                        companyType: ''
                     },
                     {
                         id: 'window-2',
                         name: '침실 2 베란다',
-                        type: '발코니단창',
+                        typeKo: '발코니단창',
+                        typeEn: getChassisTypeValue('발코니단창'),
                         width: 2400,
                         height: 1200,
-                        color: '#5eead4'
+                        color: '#5eead4',
+                        companyType: ''
                     },
                     {
                         id: 'window-3',
                         name: '침실 2',
-                        type: '거실분합창',
+                        typeKo: '거실분합창',
+                        typeEn: getChassisTypeValue('거실분합창'),
                         width: 2000,
                         height: 2300,
-                        color: '#f472b6'
+                        color: '#f472b6',
+                        companyType: ''
                     },
                     {
                         id: 'window-3',
                         name: '침실 1',
-                        type: '발코니이중창',
+                        typeKo: '발코니이중창',
+                        typeEn: getChassisTypeValue('발코니이중창'),
                         width: 3000,
                         height: 2300,
-                        color: '#818cf8'
+                        color: '#818cf8',
+                        companyType: ''
                     },
                     {
                         id: 'window-3',
                         name: '침실 3',
-                        type: '발코니이중창',
+                        typeKo: '발코니이중창',
+                        typeEn: getChassisTypeValue('발코니이중창'),
                         width: 2000,
                         height: 2300,
-                        color: '#818cf8'
+                        color: '#818cf8',
+                        companyType: ''
                     },
                     {
                         id: 'window-3',
                         name: '거실',
-                        type: '발코니이중창',
+                        typeKo: '발코니이중창',
+                        typeEn: getChassisTypeValue('발코니이중창'),
                         width: 4000,
                         height: 2400,
-                        color: '#818cf8'
+                        color: '#818cf8',
+                        companyType: ''
                     }
                 ];
             } else if (expansion === 'not-expanded') {
@@ -216,82 +337,102 @@ const Step4FloorplanReview = () => {
                     {
                         id: 'window-1',
                         name: '주방',
-                        type: '발코니단창',
+                        typeKo: '발코니단창',
+                        typeEn: getChassisTypeValue('발코니단창'),
                         width: 3000,
                         height: 1200,
-                        color: '#5eead4'
+                        color: '#5eead4',
+                        companyType: ''
                     },
                     {
                         id: 'window-1',
                         name: '주방',
-                        type: '거실분합창',
+                        typeKo: '거실분합창',
+                        typeEn: getChassisTypeValue('거실분합창'),
                         width: 3000,
                         height: 2300,
-                        color: '#f472b6'
+                        color: '#f472b6',
+                        companyType: ''
                     },
                     {
                         id: 'window-2',
                         name: '침실 2 베란다',
-                        type: '발코니단창',
+                        typeKo: '발코니단창',
+                        typeEn: getChassisTypeValue('발코니단창'),
                         width: 2000,
                         height: 1200,
-                        color: '#5eead4'
+                        color: '#5eead4',
+                        companyType: ''
                     },
                     {
                         id: 'window-3',
                         name: '침실 2',
-                        type: '거실분합창',
+                        typeKo: '거실분합창',
+                        typeEn: getChassisTypeValue('거실분합창'),
                         width: 2000,
                         height: 2300,
-                        color: '#f472b6'
+                        color: '#f472b6',
+                        companyType: ''
                     },
                     {
                         id: 'window-3',
                         name: '침실 1',
-                        type: '내창이중창',
+                        typeKo: '내창이중창',
+                        typeEn: getChassisTypeValue('내창이중창'),
                         width: 3000,
                         height: 1800,
-                        color: '#a78bfa'
+                        color: '#a78bfa',
+                        companyType: ''
                     },
                     {
                         id: 'window-3',
                         name: '거실',
-                        type: '거실분합창',
+                        typeKo: '거실분합창',
+                        typeEn: getChassisTypeValue('거실분합창'),
                         width: 4000,
                         height: 2400,
-                        color: '#f472b6'
+                        color: '#f472b6',
+                        companyType: ''
                     },
                     {
                         id: 'window-3',
                         name: '베란다-1',
-                        type: '발코니단창',
+                        typeKo: '발코니단창',
+                        typeEn: getChassisTypeValue('발코니단창'),
                         width: 4000,
                         height: 2300,
-                        color: '#5eead4'
+                        color: '#5eead4',
+                        companyType: ''
                     },
                     {
                         id: 'window-3',
                         name: '베란다-2',
-                        type: '발코니단창',
+                        typeKo: '발코니단창',
+                        typeEn: getChassisTypeValue('발코니단창'),
                         width: 3000,
                         height: 2300,
-                        color: '#5eead4'
+                        color: '#5eead4',
+                        companyType: ''
                     },
                     {
                         id: 'window-3',
                         name: '침실 3',
-                        type: '거실분합창',
+                        typeKo: '거실분합창',
+                        typeEn: getChassisTypeValue('거실분합창'),
                         width: 2000,
                         height: 2300,
-                        color: '#f472b6'
+                        color: '#f472b6',
+                        companyType: ''
                     },
                     {
                         id: 'window-3',
                         name: '침실 3 베란다',
-                        type: '발코니단창',
+                        typeKo: '발코니단창',
+                        typeEn: getChassisTypeValue('발코니단창'),
                         width: 2000,
                         height: 2300,
-                        color: '#5eead4'
+                        color: '#5eead4',
+                        companyType: ''
                     }
                 ];
             }
@@ -311,38 +452,101 @@ const Step4FloorplanReview = () => {
 
     const handleWindowUpdate = (windowId: string, windowName: string, field: string, value: any) => {
         setWindows(windows.map(w =>
-            w.id === windowId && w.name === windowName ? { ...w, [field]: value } : w
+            w.id === windowId && w.name === windowName ? {...w, [field]: value} : w
         ));
     };
 
-    const handleCalculate = () => {
-        // 최종 견적 정보를 localStorage에 저장
-        const estimateData = {
-            area: selectedArea,
+    const handleCalculate = async () => {
+
+        validateMandatoryValue();
+
+        const groupId = uuidv4();
+        const companies = [HYUNDAI, LX, KCC_GLASS];
+        const promises = companies.map(async (companyType) => {
+            const reqCalculateChassisPriceList = windows.map((item) => {
+
+                return {
+                    chassisType: item.typeEn,
+                    companyType: companyType,
+                    width: item.width,
+                    height: item.height,
+                    floorCustomerLiving: addressInfo?.floorCustomerLiving,
+                    isScheduledForDemolition: true,
+                    isResident: false
+                };
+            }).filter(Boolean);
+
+            const payload = {
+                zipCode: addressInfo?.zipCode,
+                state: addressInfo?.state,
+                city: addressInfo?.city,
+                town: addressInfo?.town,
+                bCode: addressInfo?.bCode,
+                remainAddress: addressInfo?.remainAddress,
+                buildingNumber: addressInfo?.buildingNumber,
+                isApartment: addressInfo?.isApartment,
+                isExpanded: selectedExpansion === 'expanded',
+                chassisSimpleEstimationSquareFeetId: chassisSimpleEstimationSquareFeetId,
+                bay: selectedBay,
+                groupId: groupId,
+                reqCalculateChassisPriceList
+            };
+
+            const response = await axios.post(calculateSimpleChassisCall, payload, {
+                withCredentials: true,
+                headers: { Authorization: localStorage.getItem("hoppang-token") },
+            });
+
+            return response.data;
+        });
+
+        const allResults = await Promise.all(promises);
+
+        const requestObject = {
+            zipCode: addressInfo?.zipCode,
+            state: addressInfo?.state,
+            city: addressInfo?.city,
+            town: addressInfo?.town,
+            bCode: addressInfo?.bCode,
+            remainAddress: addressInfo?.remainAddress,
+            buildingNumber: addressInfo?.buildingNumber,
+            isApartment: addressInfo?.isApartment,
+            isExpanded: selectedExpansion === 'expanded',
+            chassisSimpleEstimationSquareFeetId: chassisSimpleEstimationSquareFeetId,
             bay: selectedBay,
-            expansion: selectedExpansion,
-            windows: windows
+            reqCalculateChassisPriceList: windows.flatMap((item) =>
+                companies.map(companyType => ({
+                    chassisType: item.typeEn,
+                    companyType: companyType,
+                    width: item.width,
+                    height: item.height,
+                    floorCustomerLiving: addressInfo?.floorCustomerLiving,
+                    isScheduledForDemolition: true,
+                    isResident: true
+                }))
+            )
         };
 
-        localStorage.setItem('simple-estimate-data', JSON.stringify(estimateData));
+        await mutate();
 
-        // 견적 결과 페이지로 이동 (추후 구현)
-        alert('견적 계산 페이지로 이동합니다!');
-        // history.push('/calculator/simple/result');
+        await invalidateMandatoryData();
+
+        await history.push('/calculator/result', {
+            calculatedResults: allResults,
+            requestObject: requestObject,
+            companyType: '모르겠어요',
+            unit: Unit.MM,
+            userData: userData
+        });
     };
 
     const handleBack = () => {
         history.goBack();
     };
 
-    const getAreaLabel = (area: string) => {
-        switch(area) {
-            case 'small': return '23~25평';
-            case 'medium': return '27~29평';
-            case 'large': return '31~34평';
-            default: return '';
-        }
-    };
+    const getAreaLabel = (area: any) => {
+        return area?.type;
+    }
 
     const getBayLabel = (bay: string) => {
         return bay === '2bay' ? '2Bay' : '3Bay';
@@ -371,15 +575,15 @@ const Step4FloorplanReview = () => {
                     </svg>
                 </button>
                 <h1 className="header-title">간편견적</h1>
-                <div style={{ width: '24px' }}></div>
+                <div style={{width: '24px'}}></div>
             </header>
 
             {/* Progress Bar */}
             <div className="progress-container">
                 <div className="progress-bar">
-                    <div className="progress-fill" style={{ width: '100%' }}></div>
+                    <div className="progress-fill" style={{width: '100%'}}></div>
                 </div>
-                <p className="progress-text">4/4 단계</p>
+                <p className="progress-text">5/5 단계</p>
             </div>
 
             {/* Main Content */}
@@ -457,14 +661,19 @@ const Step4FloorplanReview = () => {
                                                 {editingWindow === `${window.id}-${window.name}` ? (
                                                     <>
                                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                                            <path d="M5 12L10 17L20 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                                            <path d="M5 12L10 17L20 7" stroke="currentColor"
+                                                                  strokeWidth="2" strokeLinecap="round"
+                                                                  strokeLinejoin="round"/>
                                                         </svg>
                                                         <span>완료</span>
                                                     </>
                                                 ) : (
                                                     <>
                                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                                            <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13M18.5 2.5C18.8978 2.10217 19.4374 1.87868 20 1.87868C20.5626 1.87868 21.1022 2.10217 21.5 2.5C21.8978 2.89782 22.1213 3.43739 22.1213 4C22.1213 4.56261 21.8978 5.10217 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                                            <path
+                                                                d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13M18.5 2.5C18.8978 2.10217 19.4374 1.87868 20 1.87868C20.5626 1.87868 21.1022 2.10217 21.5 2.5C21.8978 2.89782 22.1213 3.43739 22.1213 4C22.1213 4.56261 21.8978 5.10217 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z"
+                                                                stroke="currentColor" strokeWidth="2"
+                                                                strokeLinecap="round" strokeLinejoin="round"/>
                                                         </svg>
                                                         <span>수정</span>
                                                     </>
@@ -478,7 +687,7 @@ const Step4FloorplanReview = () => {
                                                     <label className="form-label">창호 종류</label>
                                                     <select
                                                         className="form-select"
-                                                        value={window.type}
+                                                        value={window.typeKo}
                                                         onChange={(e) => handleWindowUpdate(window.id, window.name, 'type', e.target.value)}
                                                     >
                                                         {windowTypes.map(type => (
@@ -520,9 +729,9 @@ const Step4FloorplanReview = () => {
                                                     <span className="info-value">
                                                         <div
                                                             className="window-color-indicator"
-                                                            style={{ backgroundColor: window.color }}
+                                                            style={{backgroundColor: window.color}}
                                                         ></div>
-                                                        {window.type}
+                                                        {window.typeKo}
                                                     </span>
                                                 </div>
                                                 <div className="info-item">
@@ -561,8 +770,10 @@ const Step4FloorplanReview = () => {
                     className="nav-button primary calculate-button"
                     onClick={handleCalculate}
                 >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ marginRight: '8px' }}>
-                        <path d="M9 7H6C5.46957 7 4.96086 7.21071 4.58579 7.58579C4.21071 7.96086 4 8.46957 4 9V18C4 18.5304 4.21071 19.0391 4.58579 19.4142C4.96086 19.7893 5.46957 20 6 20H15C15.5304 20 16.0391 19.7893 16.4142 19.4142C16.7893 19.0391 17 18.5304 17 18V15M9 12L12 15M20.385 6.585C20.7788 6.19115 21.0001 5.65698 21.0001 5.1C21.0001 4.54302 20.7788 4.00885 20.385 3.615C19.9912 3.22115 19.457 2.99989 18.9 2.99989C18.343 2.99989 17.8088 3.22115 17.415 3.615L9 12V15H12L20.385 6.585Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{marginRight: '8px'}}>
+                        <path
+                            d="M9 7H6C5.46957 7 4.96086 7.21071 4.58579 7.58579C4.21071 7.96086 4 8.46957 4 9V18C4 18.5304 4.21071 19.0391 4.58579 19.4142C4.96086 19.7893 5.46957 20 6 20H15C15.5304 20 16.0391 19.7893 16.4142 19.4142C16.7893 19.0391 17 18.5304 17 18V15M9 12L12 15M20.385 6.585C20.7788 6.19115 21.0001 5.65698 21.0001 5.1C21.0001 4.54302 20.7788 4.00885 20.385 3.615C19.9912 3.22115 19.457 2.99989 18.9 2.99989C18.343 2.99989 17.8088 3.22115 17.415 3.615L9 12V15H12L20.385 6.585Z"
+                            stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                     견적 계산하기
                 </button>

@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import './styles.css';
 import '../../versatile-styles.css';
 import AddressInputModal from "../../../../component/V2/AddressInputModal";
+import {invalidateMandatoryData} from "../util";
 
 // 주소 타입 정의
 interface AddressInfo {
@@ -16,16 +17,18 @@ interface AddressInfo {
     buildingNumber: string;    // 빌딩번호
     fullAddress: string;       // 전체 주소 (표시용)
     isApartment: boolean;      // 아파트 여부
+    floorCustomerLiving?: number; // 층수
 }
 
 
 const Step0AddressInput = () => {
     const history = useHistory();
-    const [errors, setErrors] = useState<{address?: string, remainAddress?: string}>({});
+    const [errors, setErrors] = useState<{address?: string, remainAddress?: string, floorCustomerLiving?: string}>({});
     const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
 
     const [addressInfo, setAddressInfo] = useState<AddressInfo | null>(null);
     const [remainAddress, setRemainAddress] = useState<string>('');
+    const [floorCustomerLiving, setFloorCustomerLiving] = useState<string>('');
 
 
     // 컴포넌트 마운트 시 스크롤 맨 위로
@@ -41,6 +44,7 @@ const Step0AddressInput = () => {
                 const parsed = JSON.parse(savedAddress);
                 setAddressInfo(parsed);
                 setRemainAddress(parsed.remainAddress || '');
+                setFloorCustomerLiving(parsed.floorCustomerLiving || '');
             } catch (e) {
                 console.error('주소 정보 복원 실패:', e);
             }
@@ -76,7 +80,7 @@ const Step0AddressInput = () => {
             buildingNumber: newAddress.buildingCode || '',   // 건물관리번호
             remainAddress: extraAddress,              // 상세주소 (나중에 추가)
             fullAddress: fullAddress,                 // 전체 주소 (표시용)
-            isApartment: isApartment                 // 아파트 여부
+            isApartment: isApartment,                 // 아파트 여부
         };
 
         setAddressInfo(newAddressInfo);
@@ -89,7 +93,7 @@ const Step0AddressInput = () => {
 
     const handleNext = () => {
         // 유효성 검사
-        const newErrors: {addressInfo?: string, remainAddress?: string} = {};
+        const newErrors: {addressInfo?: string, remainAddress?: string, floorCustomerLiving?: string} = {};
 
         if (!addressInfo) {
             newErrors.addressInfo = '주소를 입력해주세요';
@@ -99,39 +103,32 @@ const Step0AddressInput = () => {
             newErrors.remainAddress = '상세주소를 입력해주세요';
         }
 
+        if (!floorCustomerLiving) {
+            newErrors.floorCustomerLiving = '층수를 입력해주세요';
+        } else if (parseInt(floorCustomerLiving) < 1) {
+            newErrors.floorCustomerLiving = '1층 이상 입력해주세요';
+        }
+
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
             return;
         }
 
-        // 상세주소 추가
+        // 상세주소 및 층수 추가
         const completeAddressInfo: AddressInfo = {
             ...addressInfo!,
-            remainAddress: remainAddress.trim()
+            remainAddress: remainAddress.trim(),
+            floorCustomerLiving: parseInt(floorCustomerLiving)
         };
 
-        // localStorage에 JSON 문자열로 저장
         localStorage.setItem('simple-estimate-address', JSON.stringify(completeAddressInfo));
 
         history.push('/calculator/simple/step1');
     };
 
     const handleBack = () => {
-        // step0
-        localStorage.removeItem('simple-estimate-address')
 
-        // step1
-        localStorage.removeItem('simple-estimate-area')
-
-        // step2
-        localStorage.removeItem('simple-estimate-bay')
-
-        // step3
-        localStorage.removeItem('simple-estimate-expansion')
-
-        // step4
-        localStorage.removeItem('simple-estimate-data')
-
+        invalidateMandatoryData();
 
         window.location.href = '/calculator/simple';
     };
@@ -253,6 +250,38 @@ const Step0AddressInput = () => {
                             </div>
                         )}
                     </div>
+
+                    {/* 층수 입력 */}
+                    <div className="form-group-custom">
+                        <label className="form-label-custom">
+                            <span className="label-text">층수</span>
+                            <span className="label-required">*</span>
+                        </label>
+                        <div className="floor-input-wrapper">
+                            <input
+                                type="number"
+                                value={floorCustomerLiving}
+                                onChange={(e) => {
+                                    setFloorCustomerLiving(e.target.value);
+                                    if (e.target.value.trim() && parseInt(e.target.value) >= 1) {
+                                        setErrors({ ...errors, floorCustomerLiving: undefined });
+                                    }
+                                }}
+                                placeholder="층수를 입력하세요"
+                                className={`detail-input floor-input ${errors.floorCustomerLiving ? 'error' : ''}`}
+                                min="1"
+                            />
+                            <span className="floor-suffix">층</span>
+                        </div>
+                        {errors.floorCustomerLiving && (
+                            <div className="error-message-custom">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                                    <path d="M12 8V12M12 16H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                                <span>{errors.floorCustomerLiving}</span>
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 <div className="info-box">
@@ -273,9 +302,9 @@ const Step0AddressInput = () => {
                     이전
                 </button>
                 <button
-                    className={`nav-button primary ${(!addressInfo || !remainAddress.trim()) ? 'disabled' : ''}`}
+                    className={`nav-button primary ${(!addressInfo || !remainAddress.trim() || !floorCustomerLiving) ? 'disabled' : ''}`}
                     onClick={handleNext}
-                    disabled={!addressInfo || !remainAddress.trim()}
+                    disabled={!addressInfo || !remainAddress.trim() || !floorCustomerLiving}
                 >
                     다음
                 </button>

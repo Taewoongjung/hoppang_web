@@ -56,6 +56,24 @@ const Step3ExpansionSelection = () => {
         }
     };
 
+    const getAreaLabel = () => {
+        const areaData = localStorage.getItem('simple-estimate-area');
+
+        if (!areaData) {
+            history.push('/calculator/simple/step2');
+        }
+
+        try {
+            // @ts-ignore
+            const parsedArea = JSON.parse(areaData);
+            return parsedArea.type;
+        } catch (e) {
+            console.error('평수 정보 파싱 실패:', e);
+            history.push('/calculator/simple/step2');
+            return;
+        }
+    }
+
     const handleBack = () => {
         history.goBack();
     };
@@ -88,7 +106,7 @@ const Step3ExpansionSelection = () => {
                 <div className="progress-bar">
                     <div className="progress-fill" style={{ width: '75%' }}></div>
                 </div>
-                <p className="progress-text">3/4 단계</p>
+                <p className="progress-text">4/5 단계</p>
             </div>
 
             {/* Main Content */}
@@ -137,17 +155,15 @@ const Step3ExpansionSelection = () => {
                             <div className="summary-item">
                                 <span className="summary-label">평수</span>
                                 <span className="summary-value">
-                                    {selectedArea === 'small' && '23 ~ 25평'}
-                                    {selectedArea === 'medium' && '27 ~ 29평'}
-                                    {selectedArea === 'large' && '31 ~ 34평'}
+                                    {getAreaLabel()}
                                 </span>
                             </div>
                             <div className="summary-divider"></div>
                             <div className="summary-item">
                                 <span className="summary-label">Bay</span>
                                 <span className="summary-value">
-                                    {selectedBay === '2bay' && '2Bay'}
-                                    {selectedBay === '3bay' && '3Bay'}
+                                    {selectedBay === '2' && '2 베이'}
+                                    {selectedBay === '3' && '3 베이'}
                                 </span>
                             </div>
                         </div>

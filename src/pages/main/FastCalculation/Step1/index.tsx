@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 import './styles.css';
 import '../../versatile-styles.css';
+import { callSimpleEstimationSquareFeetType } from '../../../../definition/apiPath';
 
 
 interface AreaOption {
-    id: string;
-    range: string;
-    label: string
+    id: number;
+    type: string;
 }
 
 const Step1AreaSelection = () => {
     const history = useHistory();
-    const [selectedArea, setSelectedArea] = useState<string>('');
+    const [selectedArea, setSelectedArea] = useState<AreaOption | null>(null);
+    const [areaOptions, setAreaOptions] = useState<AreaOption[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
 
 
     // 컴포넌트 마운트 시 스크롤 맨 위로
@@ -27,31 +31,30 @@ const Step1AreaSelection = () => {
         if (!address) {
             // 주소를 입력하지 않았다면 Step0로 돌아가기
             history.push('/calculator/simple/step0');
+            return;
         }
+
+        // 평수 타입 API 호출
+        fetchAreaOptions();
     }, [history]);
 
-    const areaOptions: AreaOption[] = [
-        {
-            id: 'small',
-            range: '23~25평',
-            label: '23 ~ 25평'
-        },
-        {
-            id: 'medium',
-            range: '27~29평',
-            label: '27 ~ 29평'
-        },
-        {
-            id: 'large',
-            range: '31~34평',
-            label: '31 ~ 34평'
+    const fetchAreaOptions = async () => {
+        try {
+            setIsLoading(true);
+            setError(null);
+            const response = await axios.get(callSimpleEstimationSquareFeetType);
+            setAreaOptions(response.data);
+        } catch (err) {
+            console.error('평수 타입 조회 실패:', err);
+            setError('평수 정보를 불러오는데 실패했습니다.');
+        } finally {
+            setIsLoading(false);
         }
-    ];
+    };
 
     const handleNext = () => {
-        if (selectedArea) {
-            // 선택한 평수를 localStorage에 저장 (다음 step에서 사용)
-            localStorage.setItem('simple-estimate-area', selectedArea);
+        if (selectedArea !== null) {
+            localStorage.setItem('simple-estimate-area', JSON.stringify(selectedArea));
             history.push('/calculator/simple/step2');
         }
     };
@@ -88,7 +91,7 @@ const Step1AreaSelection = () => {
                 <div className="progress-bar">
                     <div className="progress-fill" style={{ width: '25%' }}></div>
                 </div>
-                <p className="progress-text">1/4 단계</p>
+                <p className="progress-text">2/5 단계</p>
             </div>
 
             {/* Main Content */}
@@ -98,33 +101,46 @@ const Step1AreaSelection = () => {
                     <p className="step-subtitle">집의 전체 평수를 알려주세요</p>
                 </div>
 
-                <div className="options-grid">
-                    {areaOptions.map((option) => (
-                        <div
-                            key={option.id}
-                            className={`option-card ${selectedArea === option.id ? 'selected' : ''}`}
-                            onClick={() => setSelectedArea(option.id)}
-                        >
-                            <div className="option-check">
-                                {selectedArea === option.id && (
-                                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                        <path
-                                            d="M16.6667 5L7.50004 14.1667L3.33337 10"
-                                            stroke="white"
-                                            strokeWidth="2.5"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                    </svg>
-                                )}
+                {isLoading ? (
+                    <div className="loading-container">
+                        <div className="loading-spinner"></div>
+                        <p className="loading-text">평수 정보를 불러오는 중...</p>
+                    </div>
+                ) : error ? (
+                    <div className="error-container">
+                        <p className="error-text">{error}</p>
+                        <button className="retry-button" onClick={fetchAreaOptions}>
+                            다시 시도
+                        </button>
+                    </div>
+                ) : (
+                    <div className="options-grid">
+                        {areaOptions.map((option) => (
+                            <div
+                                key={option.id}
+                                className={`option-card ${selectedArea?.id === option.id ? 'selected' : ''}`}
+                                onClick={() => setSelectedArea(option)}
+                            >
+                                <div className="option-check">
+                                    {selectedArea?.id === option.id && (
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path
+                                                d="M16.6667 5L7.50004 14.1667L3.33337 10"
+                                                stroke="white"
+                                                strokeWidth="2.5"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                        </svg>
+                                    )}
+                                </div>
+                                <div className="option-content">
+                                    <h3 className="option-label">{option.type}</h3>
+                                </div>
                             </div>
-                            <div className="option-content">
-                                <h3 className="option-label">{option.label}</h3>
-                                {/*<p className="option-description">{option.description}</p>*/}
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                )}
 
                 <div className="info-box">
                     <span className="info-icon">💡</span>
@@ -143,9 +159,9 @@ const Step1AreaSelection = () => {
                     이전
                 </button>
                 <button
-                    className={`nav-button primary ${!selectedArea ? 'disabled' : ''}`}
+                    className={`nav-button primary ${selectedArea === null ? 'disabled' : ''}`}
                     onClick={handleNext}
-                    disabled={!selectedArea}
+                    disabled={selectedArea === null}
                 >
                     다음
                 </button>

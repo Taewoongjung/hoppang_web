@@ -679,3 +679,31 @@
         font-size: 14px;
     }
 }
+
+/* Floor Input */
+.floor-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.floor-input {
+    flex: 1;
+}
+
+.floor-input::-webkit-outer-spin-button,
+.floor-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.floor-input[type=number] {
+    -moz-appearance: textfield;
+}
+
+.floor-suffix {
+    font-size: 16px;
+    font-weight: 600;
+    color: #475569;
+    padding-right: 8px;
+}

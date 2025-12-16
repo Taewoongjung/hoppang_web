@@ -7,5 +7,9 @@ const chassisTypeOptions = [
     { value: 'Fixed', label: '픽스창' },
     { value: 'Turning', label: '터닝도어' },
 ]
-
 export default chassisTypeOptions;
+
+export const getChassisTypeValue = (label: string, defaultValue: string = ''): string => {
+    const option = chassisTypeOptions.find(opt => opt.label === label);
+    return option?.value ?? defaultValue;
+};

@@ -33,13 +33,13 @@ const Step2BaySelection = () => {
 
     const bayOptions: BayOption[] = [
         {
-            id: '2bay',
+            id: '2',
             type: '2Bay',
             label: '2Bay 구조',
             description: '거실 창이 2개로 나뉘어진 구조'
         },
         {
-            id: '3bay',
+            id: '3',
             type: '3Bay',
             label: '3Bay 구조',
             description: '거실 창이 3개로 나뉘어진 구조'
@@ -85,7 +85,7 @@ const Step2BaySelection = () => {
                 <div className="progress-bar">
                     <div className="progress-fill" style={{ width: '50%' }}></div>
                 </div>
-                <p className="progress-text">2/4 단계</p>
+                <p className="progress-text">3/5 단계</p>
             </div>
 
             {/* Main Content */}
