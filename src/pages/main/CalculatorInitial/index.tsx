@@ -124,7 +124,7 @@ const EstimateMethodSelection = () => {
                     <div className="help-box">
                         <span className="help-icon">💬</span>
                         <div className="help-text">
-                            <p className="help-title">어떤 방식이 좋을지 모르겠나요?</p>
+                            <p className="help-title">어떤 방식이 좋을지 모르시겠나요?</p>
                             <p className="help-description">
                                 정확한 치수를 모르신다면 <strong>간편견적</strong>을 추천드려요
                             </p>
