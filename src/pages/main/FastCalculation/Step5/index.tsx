@@ -12,6 +12,7 @@ import fetcher from "../../../../util/fetcher";
 import useSWR from 'swr';
 import { v4 as uuidv4 } from 'uuid';
 import {invalidateMandatoryData, getItemWithTTL} from "../util";
+import {EnhancedGoToTopButton} from "../../../../util/renderUtil";
 
 
 interface WindowInfo {
@@ -212,7 +213,7 @@ const Step5FloorplanReview = () => {
                     },
                     {
                         id: '침실2 부분',
-                        name: '베란다',
+                        name: '베란다 거실 사이',
                         typeKo: '터닝도어',
                         typeEn: getChassisTypeValue('터닝도어'),
                         width: 900,
@@ -343,7 +344,7 @@ const Step5FloorplanReview = () => {
                 defaultWindows = [
                     {
                         id: '주방 부분',
-                        name: '주방',
+                        name: '주방 베란다',
                         typeKo: '발코니단창',
                         typeEn: getChassisTypeValue('발코니단창'),
                         width: 3000,
@@ -403,7 +404,7 @@ const Step5FloorplanReview = () => {
                     },
                     {
                         id: '거실 부분',
-                        name: '베란다-1',
+                        name: '베란다 (왼)',
                         typeKo: '발코니단창',
                         typeEn: getChassisTypeValue('발코니단창'),
                         width: 4000,
@@ -413,7 +414,7 @@ const Step5FloorplanReview = () => {
                     },
                     {
                         id: '거실 부분',
-                        name: '베란다-2',
+                        name: '베란다 (오)',
                         typeKo: '발코니단창',
                         typeEn: getChassisTypeValue('발코니단창'),
                         width: 3000,
@@ -843,6 +844,11 @@ const Step5FloorplanReview = () => {
                     견적 계산하기
                 </button>
             </div>
+
+            <EnhancedGoToTopButton
+                onGoToList={undefined}
+                showListButton={false}
+            />
         </div>
     );
 };
