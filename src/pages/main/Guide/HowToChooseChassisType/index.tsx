@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import '../styles.css';
 import '../../versatile-styles.css';
 
-import {goToCommunity, handleShare, kakaoInquiry} from "../util";
+import {goToCommunity, goToQuote, handleShare, kakaoInquiry} from "../util";
 import ImageViewer from "../../../../component/V2/ImageViewer";
 import {EnhancedGoToTopButton} from "../../../../util/renderUtil";
 
@@ -186,6 +186,20 @@ const ChassisGuidePage = () => {
                                     <h4>알아두면 좋아요</h4>
                                     <p>외부와 내부 사이에는 꼭 이중창이 필요해요.<br/>즉, 외부와 맞닿는 창은 두 겹으로 되어 있어야 해요.</p>
                                 </div>
+
+                                <button
+                                    onClick={goToQuote}
+                                    className="quote-btn"
+                                >
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
+                                    <span className="text-lg">창호 종류 알았으니, 내 집 견적 확인하기</span>
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/>
+                                    </svg>
+                                </button>
                             </div>
                         </div>
                     </div>
