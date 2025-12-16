@@ -11,6 +11,16 @@ import { Helmet } from 'react-helmet-async';
 const ChassisPerformance = () => {
     const history = useHistory();
 
+    // 웹뷰 스와이프 백 제스처 처리
+    React.useEffect(() => {
+        const handlePopState = () => {
+            history.replace('/');
+        };
+
+        window.addEventListener('popstate', handlePopState);
+        return () => window.removeEventListener('popstate', handlePopState);
+    }, [history]);
+
     return (
         <>
             <Helmet>
