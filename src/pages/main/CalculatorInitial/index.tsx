@@ -15,7 +15,7 @@ const EstimateMethodSelection = () => {
             time: '약 2분',
             bgColor: '#f0f9ff',
             iconColor: '#0284c7',
-            route: '/calculator/simple/step0'
+            route: '/calculator/simple/agreement'
         },
         {
             id: 'detailed',
@@ -25,7 +25,7 @@ const EstimateMethodSelection = () => {
             time: '약 5분',
             bgColor: '#faf5ff',
             iconColor: '#a855f7',
-            route: '/calculator/agreement'
+            route: '/calculator/detail/agreement'
         }
     ];
 

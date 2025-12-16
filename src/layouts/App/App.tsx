@@ -18,8 +18,9 @@ const LoginPageV2 = loadable(() => import('../../pages/main/Login'));
 const LoginFirstStepPageV2 = loadable(() => import('../../pages/main/LoginFirstStep'));
 const LoginSecondStepPageV2 = loadable(() => import('../../pages/main/LoginSecondStep'));
 
-const AgreementPage = loadable(() => import('../../pages/main/agreement'));
-const CalculationScreenV2 = loadable(() => import('../../pages/main/calculation'));
+const DetailCalculationAgreementPage = loadable(() => import('../../pages/main/agreement/DetailCalculation'));
+const SimpleCalculationAgreementPage = loadable(() => import('../../pages/main/agreement/SimpleCalculation'));
+const CalculationScreenV2 = loadable(() => import('../../pages/main/DetailCalculation'));
 const CalculationResultScreen = loadable(() => import('../../pages/main/result'));
 const CalculationInitial = loadable(() => import('../../pages/main/CalculatorInitial'));
 const FastCalculationStep0 = loadable(() => import('../../pages/main/FastCalculation/Step0'));
@@ -60,7 +61,9 @@ const App = () => {
                     <Route path="/:oauthtype/chassis/calculator" component={InitialPageV2}/>
 
                     <Route exact path="/calculator" component={CalculationInitial}/>
-                    <Route exact path="/calculator/agreement" component={AgreementPage}/>
+                    <Route exact path="/v2/calculator" component={CalculationScreenV2}/>
+                    <Route exact path="/calculator/detail/agreement" component={DetailCalculationAgreementPage}/>
+                    <Route exact path="/calculator/simple/agreement" component={SimpleCalculationAgreementPage}/>
                     <Route exact path="/calculator/result" component={CalculationResultScreen}/>
                     <Route exact path="/calculator/simple/step0" component={FastCalculationStep0}/>
                     <Route exact path="/calculator/simple/step1" component={FastCalculationStep1}/>

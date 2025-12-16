@@ -5,6 +5,7 @@ import './styles.css';
 import '../../versatile-styles.css';
 import AddressInputModal from "../../../../component/V2/AddressInputModal";
 import {invalidateMandatoryData} from "../util";
+import CalculationExitModal from "../../../../component/V2/Modal/CalculationExitModal";
 
 // 주소 타입 정의
 interface AddressInfo {
@@ -24,6 +25,7 @@ interface AddressInfo {
 const Step0AddressInput = () => {
     const history = useHistory();
     const [errors, setErrors] = useState<{address?: string, remainAddress?: string, floorCustomerLiving?: string}>({});
+    const [showExitModal, setShowExitModal] = useState(false);
     const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
 
     const [addressInfo, setAddressInfo] = useState<AddressInfo | null>(null);
@@ -130,7 +132,7 @@ const Step0AddressInput = () => {
 
         invalidateMandatoryData();
 
-        window.location.href = '/calculator';
+        setShowExitModal(true);
     };
 
 
@@ -319,6 +321,8 @@ const Step0AddressInput = () => {
                         />
                 </div>
             )}
+
+            {showExitModal && (<CalculationExitModal setShowExitModal={setShowExitModal}/>)}
         </div>
     );
 };

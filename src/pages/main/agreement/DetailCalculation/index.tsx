@@ -2,14 +2,14 @@ import React, {useEffect, useState, useRef} from 'react';
 import { useHistory } from 'react-router-dom';
 
 import './styles.css';
-import '../versatile-styles.css';
+import '../../versatile-styles.css';
 
 import axios from "axios";
-import {callMeData} from "../../../definition/apiPath";
+import {callMeData} from "../../../../definition/apiPath";
 import useSWR from "swr";
-import fetcher from "../../../util/fetcher";
+import fetcher from "../../../../util/fetcher";
 
-const Agreement = () => {
+const DetailCalculationAgreement = () => {
 
     const history = useHistory();
     const lastSectionRef = useRef<HTMLDivElement>(null);
@@ -227,20 +227,35 @@ const Agreement = () => {
                             <div className="notice-list">
                                 <div className="notice-item">
                                     <div className="notice-icon">⚠️</div>
-                                    <p><strong>견적 가격이 달라질 수 있어요:</strong> 본 서비스는 참고용이며, 실제 창호 제작 시 약간의 가격 차이가 있을 수 있습니다. <br/><u>(실제로 그날 이벤트에 따라 가격이 저렴할 수도 있어요)</u></p>
+                                    <div>
+                                        <p><strong>견적 가격이 달라질 수 있어요</strong></p>
+                                        <ul className="sub-notice-list">
+                                            <li>본 서비스는 참고용이며, 실제 창호 제작 시 약간의 가격 차이가 있을 수 있습니다. <br/><u>(실제로 그날 이벤트에 따라 가격이 저렴할 수도 있어요)</u></li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <div className="notice-item">
                                     <div className="notice-icon">⚡</div>
-                                    <p><strong>에너지 효율등급 기준이에요:</strong> 에너지 효율등급은 전체 창호 교체 시 2등급을 기준으로 합니다.</p>
+                                    <div>
+                                        <p><strong>에너지 효율등급 기준이에요</strong></p>
+                                        <ul className="sub-notice-list">
+                                            <li>에너지 효율등급은 전체 창호 교체 시 2등급을 기준으로 합니다.</li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <div className="notice-item">
                                     <div className="notice-icon">🪟</div>
-                                    <p><strong>기본 사양 제품 기준이에요:</strong> 각 회사별 창호는 기본 사양 제품 기준입니다.</p>
+                                    <div>
+                                        <p><strong>기본 사양 제품 기준이에요</strong></p>
+                                        <ul className="sub-notice-list">
+                                            <li>각 회사별 창호는 기본 사양 제품 기준입니다.</li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <div className="notice-item">
                                     <div className="notice-icon">🚚</div>
                                     <div>
-                                        <p><strong>양중비용이 달라질 수 있어요:</strong></p>
+                                        <p><strong>양중비용이 달라질 수 있어요</strong></p>
                                         <ul className="sub-notice-list">
                                             <li>사다리차 비용은 지역에 따라 상이할 수 있습니다.</li>
                                             <li>사다리차 사용이 불가능한 경우 추가 비용이 발생할 수 있습니다.</li>
@@ -251,7 +266,7 @@ const Agreement = () => {
                                 <div className="notice-item" ref={lastSectionRef}>
                                     <div className="notice-icon">📍</div>
                                     <div>
-                                        <p><strong>정확한 주소를 입력해주세요:</strong></p>
+                                        <p><strong>정확한 주소를 입력해주세요</strong></p>
                                         <ul className="sub-notice-list">
                                             <li>정확한 주소를 입력해주셔야 양중비용 등 정확한 견적이 산출됩니다.</li>
                                             <li>아파트의 경우 동/호수까지 입력해주시면 더욱 정확합니다.</li>
@@ -295,4 +310,4 @@ const Agreement = () => {
     );
 };
 
-export default Agreement;
+export default DetailCalculationAgreement;
