@@ -67,7 +67,6 @@ const HoppangProcess = () => {
                                 <p style={{lineHeight: '1.7'}}>
                                     호빵에서 <strong>창호 사이즈를 정확히 입력</strong>하시면,<br/>
                                     비대면으로 받으신 견적이 <strong>실제 시공 금액과 거의 동일</strong>해요.<br/><br/>
-                                    다른 곳처럼 "실측 후 금액이 달라질 수 있다"가 아니에요.<br/>
                                     <strong>호빵은 처음부터 정확한 상세 금액</strong>을 알려드려요.
                                 </p>
                             </div>
