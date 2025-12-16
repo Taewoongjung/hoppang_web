@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import './styles.css';
 import '../../versatile-styles.css';
 import AddressInputModal from "../../../../component/V2/AddressInputModal";
-import {invalidateMandatoryData} from "../util";
+import {invalidateMandatoryData, getItemWithTTL, setItemWithTTL} from "../util";
 import CalculationExitModal from "../../../../component/V2/Modal/CalculationExitModal";
 
 // 주소 타입 정의
@@ -40,16 +40,11 @@ const Step0AddressInput = () => {
 
     // 컴포넌트 마운트 시 localStorage에서 복원
     useEffect(() => {
-        const savedAddress = localStorage.getItem('simple-estimate-address');
+        const savedAddress = getItemWithTTL<AddressInfo>('simple-estimate-address');
         if (savedAddress) {
-            try {
-                const parsed = JSON.parse(savedAddress);
-                setAddressInfo(parsed);
-                setRemainAddress(parsed.remainAddress || '');
-                setFloorCustomerLiving(parsed.floorCustomerLiving || '');
-            } catch (e) {
-                console.error('주소 정보 복원 실패:', e);
-            }
+            setAddressInfo(savedAddress);
+            setRemainAddress(savedAddress.remainAddress || '');
+            setFloorCustomerLiving(savedAddress.floorCustomerLiving?.toString() || '');
         }
     }, []);
 
@@ -123,7 +118,7 @@ const Step0AddressInput = () => {
             floorCustomerLiving: parseInt(floorCustomerLiving)
         };
 
-        localStorage.setItem('simple-estimate-address', JSON.stringify(completeAddressInfo));
+        setItemWithTTL('simple-estimate-address', completeAddressInfo);
 
         history.push('/calculator/simple/step1');
     };

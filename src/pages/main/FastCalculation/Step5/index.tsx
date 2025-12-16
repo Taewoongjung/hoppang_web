@@ -11,7 +11,7 @@ import {Unit} from "../../../../definition/unit";
 import fetcher from "../../../../util/fetcher";
 import useSWR from 'swr';
 import { v4 as uuidv4 } from 'uuid';
-import {invalidateMandatoryData} from "../util";
+import {invalidateMandatoryData, getItemWithTTL} from "../util";
 
 
 interface WindowInfo {
@@ -67,10 +67,10 @@ const Step5FloorplanReview = () => {
         // 각 필요 정보 확인
         validateMandatoryValue();
 
-        const customerAddressInfo = localStorage.getItem('simple-estimate-address');
-        const areaData = localStorage.getItem('simple-estimate-area');
-        const bay = localStorage.getItem('simple-estimate-bay');
-        const expansion = localStorage.getItem('simple-estimate-expansion');
+        const customerAddressInfo = getItemWithTTL<AddressInfo>('simple-estimate-address');
+        const areaData = getItemWithTTL<{id: number; type: string}>('simple-estimate-area');
+        const bay = getItemWithTTL<string>('simple-estimate-bay');
+        const expansion = getItemWithTTL<string>('simple-estimate-expansion');
 
         if (!areaData || !bay || !expansion) {
             // 이전 단계를 거치지 않았다면 Step 1로 돌아가기
@@ -78,32 +78,23 @@ const Step5FloorplanReview = () => {
             return;
         }
 
-        // 주소 정보 파싱 및 저장
-        try {
-            const parsedAddressInfo: AddressInfo = JSON.parse(customerAddressInfo!);
-            setAddressInfo(parsedAddressInfo);
-        } catch (e) {
-            console.error('주소 정보 파싱 실패:', e);
+        // 주소 정보 저장
+        if (customerAddressInfo) {
+            setAddressInfo(customerAddressInfo);
+        } else {
             history.push('/calculator/simple/step0');
             return;
         }
 
-        // 평수 정보 파싱 및 저장
-        try {
-            const parsedArea = JSON.parse(areaData);
-            setSelectedArea(parsedArea);
-            setChassisSimpleEstimationSquareFeetId(parsedArea.id);
-        } catch (e) {
-            console.error('평수 정보 파싱 실패:', e);
-            history.push('/calculator/simple/step1');
-            return;
-        }
+        // 평수 정보 저장
+        setSelectedArea(areaData);
+        setChassisSimpleEstimationSquareFeetId(areaData.id);
 
         setSelectedBay(bay);
         setSelectedExpansion(expansion);
 
         // 거주 여부 정보 가져오기
-        const resident = localStorage.getItem('simple-estimate-resident');
+        const resident = getItemWithTTL<string>('simple-estimate-resident');
         if (resident) {
             setSelectedResident(resident);
         }
@@ -128,7 +119,7 @@ const Step5FloorplanReview = () => {
 
     const validateMandatoryValue = () => {
         // 주소 정보 확인
-        const customerAddressInfo = localStorage.getItem('simple-estimate-address');
+        const customerAddressInfo = getItemWithTTL('simple-estimate-address');
         if (!customerAddressInfo) {
             // 주소 정보가 없으면 Step0로 이동
             history.push('/calculator/simple/step0');
@@ -136,7 +127,7 @@ const Step5FloorplanReview = () => {
         }
 
         // 평형대 정보 확인
-        const chassisSimpleEstimationSquareFeet = localStorage.getItem('simple-estimate-area');
+        const chassisSimpleEstimationSquareFeet = getItemWithTTL('simple-estimate-area');
         if (!chassisSimpleEstimationSquareFeet) {
             // 평형대 정보가 없으면 Step1로 이동
             history.push('/calculator/simple/step1');
@@ -144,7 +135,7 @@ const Step5FloorplanReview = () => {
         }
 
         // 베이 정보 확인
-        const bay = localStorage.getItem('simple-estimate-bay');
+        const bay = getItemWithTTL('simple-estimate-bay');
         if (!bay) {
             // 베이 정보가 없으면 Step2로 이동
             history.push('/calculator/simple/step2');
@@ -152,7 +143,7 @@ const Step5FloorplanReview = () => {
         }
 
         // 확장 여부 정보 확인
-        const expansion = localStorage.getItem('simple-estimate-expansion');
+        const expansion = getItemWithTTL('simple-estimate-expansion');
         if (!expansion) {
             // 확장 여부 정보가 없으면 Step3로 이동
             history.push('/calculator/simple/step3');
@@ -160,7 +151,7 @@ const Step5FloorplanReview = () => {
         }
 
         // 거주 여부 정보 확인
-        const isResident = localStorage.getItem('simple-estimate-resident');
+        const isResident = getItemWithTTL('simple-estimate-resident');
         if (!isResident) {
             // 거주 여부 정보가 없으면 Step4로 이동
             history.push('/calculator/simple/step4');
@@ -564,8 +555,6 @@ const Step5FloorplanReview = () => {
                 }))
             )
         };
-
-        await mutate();
 
         await invalidateMandatoryData();
 

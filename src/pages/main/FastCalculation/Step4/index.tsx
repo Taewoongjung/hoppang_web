@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 import './styles.css';
 import '../../versatile-styles.css';
+import { getItemWithTTL, setItemWithTTL } from '../util';
 
 interface ResidentOption {
     id: string;
@@ -25,21 +26,21 @@ const Step4ResidentSelection = () => {
 
     useEffect(() => {
         // 이전 단계에서 선택한 정보 가져오기
-        const area = localStorage.getItem('simple-estimate-area');
-        const bay = localStorage.getItem('simple-estimate-bay');
-        const expansion = localStorage.getItem('simple-estimate-expansion');
+        const area = getItemWithTTL<string>('simple-estimate-area');
+        const bay = getItemWithTTL<string>('simple-estimate-bay');
+        const expansion = getItemWithTTL<string>('simple-estimate-expansion');
 
         if (!area || !bay || !expansion) {
             // 이전 단계를 거치지 않았다면 Step 1로 돌아가기
             history.push('/calculator/simple/step1');
         } else {
-            setSelectedArea(area);
+            setSelectedArea(typeof area === 'string' ? area : JSON.stringify(area));
             setSelectedBay(bay);
             setSelectedExpansion(expansion);
         }
 
         // 이전에 선택한 resident 값이 있으면 복원
-        const savedResident = localStorage.getItem('simple-estimate-resident');
+        const savedResident = getItemWithTTL<string>('simple-estimate-resident');
         if (savedResident) {
             setSelectedResident(savedResident);
         }
@@ -60,27 +61,20 @@ const Step4ResidentSelection = () => {
 
     const handleNext = () => {
         if (selectedResident) {
-            localStorage.setItem('simple-estimate-resident', selectedResident);
+            setItemWithTTL('simple-estimate-resident', selectedResident);
             history.push('/calculator/simple/step5');
         }
     };
 
     const getAreaLabel = () => {
-        const areaData = localStorage.getItem('simple-estimate-area');
+        const areaData = getItemWithTTL<{type: string}>('simple-estimate-area');
 
         if (!areaData) {
             history.push('/calculator/simple/step1');
             return;
         }
 
-        try {
-            const parsedArea = JSON.parse(areaData);
-            return parsedArea.type;
-        } catch (e) {
-            console.error('평수 정보 파싱 실패:', e);
-            history.push('/calculator/simple/step1');
-            return;
-        }
+        return areaData.type;
     }
 
     const handleBack = () => {

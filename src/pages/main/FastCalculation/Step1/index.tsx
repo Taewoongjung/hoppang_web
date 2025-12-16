@@ -5,6 +5,7 @@ import axios from 'axios';
 import './styles.css';
 import '../../versatile-styles.css';
 import { callSimpleEstimationSquareFeetType } from '../../../../definition/apiPath';
+import { getItemWithTTL, setItemWithTTL } from '../util';
 
 
 interface AreaOption {
@@ -27,7 +28,7 @@ const Step1AreaSelection = () => {
 
     useEffect(() => {
         // Step0에서 주소를 입력했는지 확인
-        const address = localStorage.getItem('simple-estimate-address');
+        const address = getItemWithTTL('simple-estimate-address');
         if (!address) {
             // 주소를 입력하지 않았다면 Step0로 돌아가기
             history.push('/calculator/simple/step0');
@@ -46,14 +47,9 @@ const Step1AreaSelection = () => {
             setAreaOptions(response.data);
 
             // 이전에 선택한 area 값이 있으면 복원
-            const savedArea = localStorage.getItem('simple-estimate-area');
+            const savedArea = getItemWithTTL<AreaOption>('simple-estimate-area');
             if (savedArea) {
-                try {
-                    const parsedArea = JSON.parse(savedArea);
-                    setSelectedArea(parsedArea);
-                } catch (e) {
-                    console.error('평수 정보 파싱 실패:', e);
-                }
+                setSelectedArea(savedArea);
             }
         } catch (err) {
             console.error('평수 타입 조회 실패:', err);
@@ -65,7 +61,7 @@ const Step1AreaSelection = () => {
 
     const handleNext = () => {
         if (selectedArea !== null) {
-            localStorage.setItem('simple-estimate-area', JSON.stringify(selectedArea));
+            setItemWithTTL('simple-estimate-area', selectedArea);
             history.push('/calculator/simple/step2');
         }
     };

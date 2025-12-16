@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 import './styles.css';
 import '../../versatile-styles.css';
+import { getItemWithTTL, setItemWithTTL } from '../util';
 
 
 interface BayOption {
@@ -24,14 +25,14 @@ const Step2BaySelection = () => {
 
     useEffect(() => {
         // 이전 단계에서 선택한 평수 가져오기
-        const area = localStorage.getItem('simple-estimate-area');
+        const area = getItemWithTTL('simple-estimate-area');
         if (!area) {
             // 평수를 선택하지 않았다면 Step 1로 돌아가기
             history.push('/calculator/simple/step1');
         }
 
         // 이전에 선택한 bay 값이 있으면 복원
-        const savedBay = localStorage.getItem('simple-estimate-bay');
+        const savedBay = getItemWithTTL<string>('simple-estimate-bay');
         if (savedBay) {
             setSelectedBay(savedBay);
         }
@@ -54,7 +55,7 @@ const Step2BaySelection = () => {
 
     const handleNext = () => {
         if (selectedBay) {
-            localStorage.setItem('simple-estimate-bay', selectedBay);
+            setItemWithTTL('simple-estimate-bay', selectedBay);
             history.push('/calculator/simple/step3');
         }
     };

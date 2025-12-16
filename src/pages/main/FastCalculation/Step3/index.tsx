@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 import './styles.css';
 import '../../versatile-styles.css';
+import { getItemWithTTL, setItemWithTTL } from '../util';
 
 interface ExpansionOption {
     id: string;
@@ -24,19 +25,19 @@ const Step3ExpansionSelection = () => {
 
     useEffect(() => {
         // 이전 단계에서 선택한 정보 가져오기
-        const area = localStorage.getItem('simple-estimate-area');
-        const bay = localStorage.getItem('simple-estimate-bay');
+        const area = getItemWithTTL<string>('simple-estimate-area');
+        const bay = getItemWithTTL<string>('simple-estimate-bay');
 
         if (!area || !bay) {
             // 이전 단계를 거치지 않았다면 Step 1로 돌아가기
             history.push('/calculator/simple/step1');
         } else {
-            setSelectedArea(area);
+            setSelectedArea(typeof area === 'string' ? area : JSON.stringify(area));
             setSelectedBay(bay);
         }
 
         // 이전에 선택한 expansion 값이 있으면 복원
-        const savedExpansion = localStorage.getItem('simple-estimate-expansion');
+        const savedExpansion = getItemWithTTL<string>('simple-estimate-expansion');
         if (savedExpansion) {
             setSelectedExpansion(savedExpansion);
         }
@@ -57,27 +58,20 @@ const Step3ExpansionSelection = () => {
 
     const handleNext = () => {
         if (selectedExpansion) {
-            localStorage.setItem('simple-estimate-expansion', selectedExpansion);
+            setItemWithTTL('simple-estimate-expansion', selectedExpansion);
             history.push('/calculator/simple/step4');
         }
     };
 
     const getAreaLabel = () => {
-        const areaData = localStorage.getItem('simple-estimate-area');
+        const areaData = getItemWithTTL<{type: string}>('simple-estimate-area');
 
         if (!areaData) {
             history.push('/calculator/simple/step2');
-        }
-
-        try {
-            // @ts-ignore
-            const parsedArea = JSON.parse(areaData);
-            return parsedArea.type;
-        } catch (e) {
-            console.error('평수 정보 파싱 실패:', e);
-            history.push('/calculator/simple/step2');
             return;
         }
+
+        return areaData.type;
     }
 
     const handleBack = () => {
