@@ -34,6 +34,12 @@ const Step3ExpansionSelection = () => {
             setSelectedArea(area);
             setSelectedBay(bay);
         }
+
+        // 이전에 선택한 expansion 값이 있으면 복원
+        const savedExpansion = localStorage.getItem('simple-estimate-expansion');
+        if (savedExpansion) {
+            setSelectedExpansion(savedExpansion);
+        }
     }, [history]);
 
     const expansionOptions: ExpansionOption[] = [
@@ -104,7 +110,7 @@ const Step3ExpansionSelection = () => {
             {/* Progress Bar */}
             <div className="progress-container">
                 <div className="progress-bar">
-                    <div className="progress-fill" style={{ width: '75%' }}></div>
+                    <div className="progress-fill" style={{ width: '67%' }}></div>
                 </div>
                 <p className="progress-text">4/5 단계</p>
             </div>

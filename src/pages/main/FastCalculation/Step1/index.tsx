@@ -44,6 +44,17 @@ const Step1AreaSelection = () => {
             setError(null);
             const response = await axios.get(callSimpleEstimationSquareFeetType);
             setAreaOptions(response.data);
+
+            // 이전에 선택한 area 값이 있으면 복원
+            const savedArea = localStorage.getItem('simple-estimate-area');
+            if (savedArea) {
+                try {
+                    const parsedArea = JSON.parse(savedArea);
+                    setSelectedArea(parsedArea);
+                } catch (e) {
+                    console.error('평수 정보 파싱 실패:', e);
+                }
+            }
         } catch (err) {
             console.error('평수 타입 조회 실패:', err);
             setError('평수 정보를 불러오는데 실패했습니다.');

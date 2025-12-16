@@ -27,6 +27,7 @@ const FastCalculationStep1 = loadable(() => import('../../pages/main/FastCalcula
 const FastCalculationStep2 = loadable(() => import('../../pages/main/FastCalculation/Step2'));
 const FastCalculationStep3 = loadable(() => import('../../pages/main/FastCalculation/Step3'));
 const FastCalculationStep4 = loadable(() => import('../../pages/main/FastCalculation/Step4'));
+const FastCalculationStep5 = loadable(() => import('../../pages/main/FastCalculation/Step5'));
 
 const PrivacyPolicyPage = loadable(() => import('../../pages/main/Policy/PrivacyPolicy'));
 const TermOfUsePage = loadable(() => import('../../pages/main/Policy/TermOfUse'));
@@ -68,6 +69,7 @@ const App = () => {
                     <Route exact path="/calculator/simple/step2" component={FastCalculationStep2}/>
                     <Route exact path="/calculator/simple/step3" component={FastCalculationStep3}/>
                     <Route exact path="/calculator/simple/step4" component={FastCalculationStep4}/>
+                    <Route exact path="/calculator/simple/step5" component={FastCalculationStep5}/>
 
                     <Route exact path="/question/boards/posts/register" component={QuestionRegisterFormPage}/>
                     <Route exact path="/question/boards/posts/:postId" component={QuestionBoardPostPage}/>

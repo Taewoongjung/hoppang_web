@@ -29,6 +29,12 @@ const Step2BaySelection = () => {
             // 평수를 선택하지 않았다면 Step 1로 돌아가기
             history.push('/calculator/simple/step1');
         }
+
+        // 이전에 선택한 bay 값이 있으면 복원
+        const savedBay = localStorage.getItem('simple-estimate-bay');
+        if (savedBay) {
+            setSelectedBay(savedBay);
+        }
     }, [history]);
 
     const bayOptions: BayOption[] = [
