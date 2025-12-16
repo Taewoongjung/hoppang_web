@@ -199,7 +199,7 @@ const MobileResultScreen = () => {
     }, [results]);
 
     const handleNewEstimate = () => {
-        window.location.href = '/calculator/agreement';
+        window.location.href = '/calculator';
     };
 
     // 📌 브랜드 비교 요약 표 렌더링

@@ -180,7 +180,7 @@ const Step5FloorplanReview = () => {
             if (expansion === 'expanded') {
                 defaultWindows = [
                     {
-                        id: 'window-1',
+                        id: '거실 및 주방 부분',
                         name: '거실 및 주방',
                         typeKo: '발코니이중창',
                         typeEn: getChassisTypeValue('발코니이중창'),
@@ -190,7 +190,7 @@ const Step5FloorplanReview = () => {
                         companyType: ''
                     },
                     {
-                        id: 'window-2',
+                        id: '침실1 부분',
                         name: '침실 1',
                         typeKo: '발코니이중창',
                         typeEn: getChassisTypeValue('발코니이중창'),
@@ -200,7 +200,7 @@ const Step5FloorplanReview = () => {
                         companyType: ''
                     },
                     {
-                        id: 'window-2',
+                        id: '침실2 부분',
                         name: '침실 2',
                         typeKo: '내창이중창',
                         typeEn: getChassisTypeValue('내창이중창'),
@@ -210,7 +210,7 @@ const Step5FloorplanReview = () => {
                         companyType: ''
                     },
                     {
-                        id: 'window-2',
+                        id: '침실2 부분',
                         name: '베란다',
                         typeKo: '발코니단창',
                         typeEn: getChassisTypeValue('발코니단창'),
@@ -220,7 +220,7 @@ const Step5FloorplanReview = () => {
                         companyType: ''
                     },
                     {
-                        id: 'window-2',
+                        id: '침실2 부분',
                         name: '베란다',
                         typeKo: '터닝도어',
                         typeEn: getChassisTypeValue('터닝도어'),
@@ -233,7 +233,7 @@ const Step5FloorplanReview = () => {
             } else if (expansion === 'not-expanded') {
                 defaultWindows = [
                     {
-                        id: 'window-1',
+                        id: '거실 및 주방 부분',
                         name: '거실 및 주방',
                         typeKo: '거실분합창',
                         typeEn: getChassisTypeValue('거실분합창'),
@@ -243,7 +243,7 @@ const Step5FloorplanReview = () => {
                         companyType: ''
                     },
                     {
-                        id: 'window-2',
+                        id: '침실1 부분',
                         name: '침실 1',
                         typeKo: '내창이중창',
                         typeEn: getChassisTypeValue('내창이중창'),
@@ -253,7 +253,7 @@ const Step5FloorplanReview = () => {
                         companyType: ''
                     },
                     {
-                        id: 'window-2',
+                        id: '침실2 부분',
                         name: '침실 2',
                         typeKo: '내창이중창',
                         typeEn: getChassisTypeValue('내창이중창'),
@@ -263,7 +263,7 @@ const Step5FloorplanReview = () => {
                         companyType: ''
                     },
                     {
-                        id: 'window-3',
+                        id: '베란다 부분',
                         name: '베란다 (왼)',
                         typeKo: '발코니단창',
                         typeEn: getChassisTypeValue('발코니단창'),
@@ -273,7 +273,7 @@ const Step5FloorplanReview = () => {
                         companyType: ''
                     },
                     {
-                        id: 'window-3',
+                        id: '베란다 부분',
                         name: '베란다 (오)',
                         typeKo: '발코니단창',
                         typeEn: getChassisTypeValue('발코니단창'),
