@@ -97,6 +97,14 @@ const Step2BaySelection = () => {
 
             {/* Main Content */}
             <main className="simple-estimate-content">
+                <div className="info-box">
+                    <span className="info-icon">💡</span>
+                    <p className="info-text">
+                        Bay 구조란<br/>
+                        <strong>거실 창이 몇 개의 틀로</strong> 나뉘어져 있는지 세어보세요
+                    </p>
+                </div>
+
                 <div className="step-intro">
                     <h2 className="step-title">거실 창 구조를<br/>선택해주세요</h2>
                     <p className="step-subtitle">거실의 베이 구조를 알려주세요</p>
@@ -129,7 +137,7 @@ const Step2BaySelection = () => {
                                     <p className="bay-description">{option.description}</p>
                                 </div>
                                 <div className="bay-illustration">
-                                    {option.id === '2bay' ? (
+                                    {option.id === '2' ? (
                                         <img
                                             src={'/assets/Floorplan/2bay/2bay-예시.png'}
                                             alt={'2bay 예시'}
@@ -146,14 +154,6 @@ const Step2BaySelection = () => {
                             </div>
                         </div>
                     ))}
-                </div>
-
-                <div className="info-box">
-                    <span className="info-icon">💡</span>
-                    <p className="info-text">
-                        Bay 구조란<br/>
-                        <strong>거실 창이 몇 개의 틀로</strong> 나뉘어져 있는지 세어보세요
-                    </p>
                 </div>
             </main>
 

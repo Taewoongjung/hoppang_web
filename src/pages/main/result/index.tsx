@@ -57,6 +57,12 @@ const MobileResultScreen = () => {
     const [showMinimumLaborFeeModal, setShowMinimumLaborFeeModal] = useState(false);
     const [hasShownMinimumLaborFeeModal, setHasShownMinimumLaborFeeModal] = useState(false);
 
+    // 컴포넌트 마운트 시 스크롤 맨 위로
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
+
     // 📌 문의 완료 핸들러 - 특정 견적의 특정 문의 방식 업데이트
     const handleInquiryComplete = (estimationId: any, inquiryTypes: string[]) => {
         setInquiryStatuses(prev => {
