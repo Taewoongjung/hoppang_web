@@ -26,8 +26,8 @@ const HoppangProcess = () => {
                 <meta name="description" content="처음 상담부터 완공까지, 호빵이 함께합니다. 견적부터 시공까지 복잡하지 않게 진행됩니다."/>
 
                 <meta property="og:type" content="website"/>
-                <meta property="og:title" content="호빵 견적 → 시공까지 한눈에! - 호빵(호구빵명) 창호"/>
-                <meta property="og:description" content="처음 상담부터 완공까지, 호빵이 함께합니다. 견적부터 시공까지 복잡하지 않게 진행됩니다."/>
+                <meta property="og:title" content="호빵 상세견적 → 시공까지 한눈에! - 호빵(호구빵명) 창호"/>
+                <meta property="og:description" content="처음 상담부터 완공까지, 호빵이 함께합니다. 비대면 무료 상세견적부터 시공까지 복잡하지 않게 진행됩니다."/>
                 <meta property="og:image" content="https://hoppang-guide-image.s3.ap-southeast-2.amazonaws.com/hoppang-process-thumbnail.png"/>
                 <meta property="og:url" content="https://hoppang.store/v2/guide/process"/>
 
@@ -62,6 +62,17 @@ const HoppangProcess = () => {
                 <div className="guide-section">
                     <div className="section-content">
                         <div className="guide-item">
+                            <div className="tip-box" style={{marginTop: '16px', background: 'linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%)', border: '2px solid #0ea5e9'}}>
+                                <h4 style={{color: '#0369a1', marginBottom: '8px'}}>호빵 견적 = 실제 시공 금액</h4>
+                                <p style={{lineHeight: '1.7'}}>
+                                    호빵에서 <strong>창호 사이즈를 정확히 입력</strong>하시면,<br/>
+                                    비대면으로 받으신 견적이 <strong>실제 시공 금액과 거의 동일</strong>해요.<br/><br/>
+                                    다른 곳처럼 "실측 후 금액이 달라질 수 있다"가 아니에요.<br/>
+                                    <strong>호빵은 처음부터 정확한 상세 금액</strong>을 알려드려요.
+                                </p>
+                            </div>
+
+                            <br/>
                             <p>호빵에서는 견적부터 시공까지 복잡하지 않게, 이렇게 진행돼요.</p>
 
                             <ol className="guide-steps">
@@ -73,7 +84,7 @@ const HoppangProcess = () => {
                             </ol>
 
                             <div className="check-box">
-                            <h4>가계약금</h4>
+                                <h4>가계약금</h4>
                                 <p>가계약금은 현재 10만원이고, 취소 후 돌려 드려요.</p>
                             </div>
 
