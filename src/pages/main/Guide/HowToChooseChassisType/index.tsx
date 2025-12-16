@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useHistory } from 'react-router-dom';
 
 import '../styles.css';
 import '../../versatile-styles.css';
@@ -9,6 +10,7 @@ import ImageViewer from "../../../../component/V2/ImageViewer";
 import {EnhancedGoToTopButton} from "../../../../util/renderUtil";
 
 const ChassisGuidePage = () => {
+    const history = useHistory();
 
     const [imageViewerOpen, setImageViewerOpen] = useState(false);
     const [currentImageSrc, setCurrentImageSrc] = useState(''); // 현재 이미지 URL 저장
@@ -46,7 +48,7 @@ const ChassisGuidePage = () => {
 
             <div className="container">
                 <div className="header">
-                    <button className="back-btn" onClick={() => window.location.href = '/'}>←</button>
+                    <button className="back-btn" onClick={() => history.push('/')}>←</button>
                     <img
                         src="/assets/hoppang-character.png"
                         alt="호빵 캐릭터"

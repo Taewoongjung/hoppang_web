@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import '../styles.css';
 import '../../versatile-styles.css';
@@ -8,6 +9,7 @@ import {EnhancedGoToTopButton} from "../../../../util/renderUtil";
 import { Helmet } from 'react-helmet-async';
 
 const ChassisPerformance = () => {
+    const history = useHistory();
 
     return (
         <>
@@ -28,7 +30,7 @@ const ChassisPerformance = () => {
 
             <div className="container">
                 <div className="header">
-                    <button className="back-btn" onClick={() => window.location.href = '/'}>←</button>
+                    <button className="back-btn" onClick={() => history.push('/')}>←</button>
                     <img
                         src="/assets/hoppang-character.png"
                         alt="호빵 캐릭터"
