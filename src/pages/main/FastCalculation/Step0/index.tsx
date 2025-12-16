@@ -257,6 +257,7 @@ const Step0AddressInput = () => {
                         <div className="floor-input-wrapper">
                             <input
                                 type="number"
+                                inputMode="numeric"
                                 value={floorCustomerLiving}
                                 onChange={(e) => {
                                     setFloorCustomerLiving(e.target.value);
