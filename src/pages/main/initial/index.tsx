@@ -412,7 +412,7 @@ const Initial = () => {
 
     const handleServiceClick = (serviceTitle: string) => {
         if (serviceTitle === '창호 견적') {
-            history.push('/calculator/agreement');
+            history.push('/calculator');
         } else if (serviceTitle === '커뮤니티') {
             history.push('/question/boards');
         }
@@ -498,7 +498,7 @@ const Initial = () => {
                     <div className="hero-content">
                         <div className="hero-text">
                             <h2 className="hero-title">창호 전문가와 함께하세요</h2>
-                            <p className="hero-subtitle">견적부터 설치까지, 모든 과정을 도와드립니다!</p>
+                            <p className="hero-subtitle">견적부터 설치까지, 모든 과정을 호빵이 도와드려요!</p>
                             <button
                                 className="cta-button"
                                 onClick={() => {

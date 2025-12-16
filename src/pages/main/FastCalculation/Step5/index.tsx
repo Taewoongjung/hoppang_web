@@ -170,7 +170,7 @@ const Step5FloorplanReview = () => {
 
     const setupFloorplanData = (bay: string, expansion: string) => {
         // 도면 이미지 설정 (선택한 조건에 따라 다른 이미지)
-        const imagePath = `/assets/Floorplan/${bay}/${bay}-${expansion}.svg`;
+        const imagePath = `/assets/Floorplan/${bay}bay/${bay}bay-${expansion}.svg`;
         setFloorplanImage(imagePath);
 
         // 기본 창호 정보 설정 (Bay와 확장 여부에 따라)
@@ -288,7 +288,7 @@ const Step5FloorplanReview = () => {
             if (expansion === 'expanded') {
                 defaultWindows = [
                     {
-                        id: 'window-1',
+                        id: '주방 부분',
                         name: '주방',
                         typeKo: '발코니이중창',
                         typeEn: getChassisTypeValue('발코니이중창'),
@@ -298,7 +298,7 @@ const Step5FloorplanReview = () => {
                         companyType: ''
                     },
                     {
-                        id: 'window-2',
+                        id: '침실2 부분',
                         name: '침실 2 베란다',
                         typeKo: '발코니단창',
                         typeEn: getChassisTypeValue('발코니단창'),
@@ -308,7 +308,7 @@ const Step5FloorplanReview = () => {
                         companyType: ''
                     },
                     {
-                        id: 'window-3',
+                        id: '침실2 부분',
                         name: '침실 2',
                         typeKo: '거실분합창',
                         typeEn: getChassisTypeValue('거실분합창'),
@@ -318,7 +318,7 @@ const Step5FloorplanReview = () => {
                         companyType: ''
                     },
                     {
-                        id: 'window-3',
+                        id: '침실1 부분',
                         name: '침실 1',
                         typeKo: '발코니이중창',
                         typeEn: getChassisTypeValue('발코니이중창'),
@@ -328,7 +328,7 @@ const Step5FloorplanReview = () => {
                         companyType: ''
                     },
                     {
-                        id: 'window-3',
+                        id: '침실3 부분',
                         name: '침실 3',
                         typeKo: '발코니이중창',
                         typeEn: getChassisTypeValue('발코니이중창'),
@@ -338,7 +338,7 @@ const Step5FloorplanReview = () => {
                         companyType: ''
                     },
                     {
-                        id: 'window-3',
+                        id: '거실 부분',
                         name: '거실',
                         typeKo: '발코니이중창',
                         typeEn: getChassisTypeValue('발코니이중창'),
@@ -351,7 +351,7 @@ const Step5FloorplanReview = () => {
             } else if (expansion === 'not-expanded') {
                 defaultWindows = [
                     {
-                        id: 'window-1',
+                        id: '주방 부분',
                         name: '주방',
                         typeKo: '발코니단창',
                         typeEn: getChassisTypeValue('발코니단창'),
@@ -361,37 +361,37 @@ const Step5FloorplanReview = () => {
                         companyType: ''
                     },
                     {
-                        id: 'window-1',
+                        id: '주방 부분',
                         name: '주방',
                         typeKo: '거실분합창',
                         typeEn: getChassisTypeValue('거실분합창'),
-                        width: 3000,
+                        width: 2000,
                         height: 2300,
                         color: '#f472b6',
                         companyType: ''
                     },
                     {
-                        id: 'window-2',
+                        id: '침실2 부분',
                         name: '침실 2 베란다',
                         typeKo: '발코니단창',
                         typeEn: getChassisTypeValue('발코니단창'),
-                        width: 2000,
+                        width: 2400,
                         height: 1200,
                         color: '#5eead4',
                         companyType: ''
                     },
                     {
-                        id: 'window-3',
+                        id: '침실2 부분',
                         name: '침실 2',
                         typeKo: '거실분합창',
                         typeEn: getChassisTypeValue('거실분합창'),
-                        width: 2000,
-                        height: 2300,
+                        width: 2400,
+                        height: 2000,
                         color: '#f472b6',
                         companyType: ''
                     },
                     {
-                        id: 'window-3',
+                        id: '침실1 부분',
                         name: '침실 1',
                         typeKo: '내창이중창',
                         typeEn: getChassisTypeValue('내창이중창'),
@@ -401,7 +401,7 @@ const Step5FloorplanReview = () => {
                         companyType: ''
                     },
                     {
-                        id: 'window-3',
+                        id: '거실 부분',
                         name: '거실',
                         typeKo: '거실분합창',
                         typeEn: getChassisTypeValue('거실분합창'),
@@ -411,7 +411,7 @@ const Step5FloorplanReview = () => {
                         companyType: ''
                     },
                     {
-                        id: 'window-3',
+                        id: '거실 부분',
                         name: '베란다-1',
                         typeKo: '발코니단창',
                         typeEn: getChassisTypeValue('발코니단창'),
@@ -421,7 +421,7 @@ const Step5FloorplanReview = () => {
                         companyType: ''
                     },
                     {
-                        id: 'window-3',
+                        id: '거실 부분',
                         name: '베란다-2',
                         typeKo: '발코니단창',
                         typeEn: getChassisTypeValue('발코니단창'),
@@ -431,7 +431,7 @@ const Step5FloorplanReview = () => {
                         companyType: ''
                     },
                     {
-                        id: 'window-3',
+                        id: '침실3 부분',
                         name: '침실 3',
                         typeKo: '거실분합창',
                         typeEn: getChassisTypeValue('거실분합창'),
@@ -441,7 +441,7 @@ const Step5FloorplanReview = () => {
                         companyType: ''
                     },
                     {
-                        id: 'window-3',
+                        id: '침실3 부분',
                         name: '침실 3 베란다',
                         typeKo: '발코니단창',
                         typeEn: getChassisTypeValue('발코니단창'),
@@ -587,7 +587,7 @@ const Step5FloorplanReview = () => {
     }
 
     const getBayLabel = (bay: string) => {
-        return bay === '2bay' ? '2Bay' : '3Bay';
+        return bay === '2' ? '2 베이' : '3 베이';
     };
 
     const getExpansionLabel = (expansion: string) => {
@@ -597,6 +597,7 @@ const Step5FloorplanReview = () => {
     const getResidentLabel = (resident: string) => {
         return resident === 'resident' ? '거주 중' : '비거주';
     };
+
 
     return (
         <div className="simple-estimate-container">
@@ -643,7 +644,7 @@ const Step5FloorplanReview = () => {
                     </div>
                     <div className="summary-divider-inline"></div>
                     <div className="summary-item-inline">
-                        <span className="summary-label-inline">Bay</span>
+                        <span className="summary-label-inline">베이</span>
                         <span className="summary-value-inline">{getBayLabel(selectedBay)}</span>
                     </div>
                     <div className="summary-divider-inline"></div>
@@ -686,7 +687,7 @@ const Step5FloorplanReview = () => {
                         {Object.entries(groupedWindows).map(([groupId, windowGroup]) => (
                             <div key={groupId} className="window-group">
                                 <div className="window-group-header">
-                                    <span className="window-group-badge">그룹 {groupId.split('-')[1]}</span>
+                                    <span className="window-group-badge">{groupId}</span>
                                     <span className="window-group-count">{windowGroup.length}개</span>
                                 </div>
 
@@ -810,7 +811,7 @@ const Step5FloorplanReview = () => {
                                                     </span>
                                                 </div>
                                                 <div className="info-item">
-                                                    <span className="info-label">크기</span>
+                                                    <span className="info-label">크기 (너비 × 높이)</span>
                                                     <span className="info-value">
                                                         {window.width} × {window.height} mm
                                                     </span>

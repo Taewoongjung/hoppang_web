@@ -169,7 +169,7 @@ const Step4ResidentSelection = () => {
                             </div>
                             <div className="summary-divider"></div>
                             <div className="summary-item">
-                                <span className="summary-label">Bay</span>
+                                <span className="summary-label">베이</span>
                                 <span className="summary-value">
                                     {selectedBay === '2' && '2 베이'}
                                     {selectedBay === '3' && '3 베이'}

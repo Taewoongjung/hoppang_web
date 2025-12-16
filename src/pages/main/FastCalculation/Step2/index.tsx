@@ -98,7 +98,7 @@ const Step2BaySelection = () => {
             <main className="simple-estimate-content">
                 <div className="step-intro">
                     <h2 className="step-title">거실 창 구조를<br/>선택해주세요</h2>
-                    <p className="step-subtitle">거실의 Bay 구조를 알려주세요</p>
+                    <p className="step-subtitle">거실의 베이 구조를 알려주세요</p>
                 </div>
 
                 <div className="bay-options-container">

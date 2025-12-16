@@ -157,7 +157,7 @@ const Agreement = () => {
     };
 
     const handleDisagree = () => {
-        window.location.href = "/chassis/calculator";
+        window.location.href = "/calculator";
     };
 
 
@@ -280,6 +280,9 @@ const Agreement = () => {
                 </> :
                 <>
                     <footer className="agreement-footer">
+                        <button className="button-secondary" onClick={handleDisagree}>
+                            <span>뒤로가기</span>
+                        </button>
                         <button
                             className={`button-primary button-disabled`}
                         >

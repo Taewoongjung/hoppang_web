@@ -130,7 +130,7 @@ const Step0AddressInput = () => {
 
         invalidateMandatoryData();
 
-        window.location.href = '/calculator/simple';
+        window.location.href = '/calculator';
     };
 
 

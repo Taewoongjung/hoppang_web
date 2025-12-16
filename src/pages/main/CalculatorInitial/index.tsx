@@ -1,12 +1,10 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 
 import './styles.css';
 import '../versatile-styles.css';
 
 
 const EstimateMethodSelection = () => {
-    const history = useHistory();
 
     const methods = [
         {
@@ -38,7 +36,7 @@ const EstimateMethodSelection = () => {
             <header className="estimate-method-header">
                 <button
                     className="back-button"
-                    onClick={() => history.goBack()}
+                    onClick={() => window.location.href = '/'}
                 >
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <path
