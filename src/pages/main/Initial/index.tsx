@@ -392,8 +392,8 @@ const Initial = () => {
             description: (
                 <>
                     <span className="estimate-modes">
-                        <span className="estimate-mode estimate-mode-simple"><span className="mode-icon">⚡</span>간편</span>
-                        <span className="estimate-mode estimate-mode-detail"><span className="mode-icon">📏</span>상세</span>
+                        <span className="estimate-mode estimate-mode-simple"><span className="mode-icon">⚡</span>간편<br/>(2분)</span>
+                        <span className="estimate-mode estimate-mode-detail"><span className="mode-icon">📏</span>상세<br/>(5분)</span>
                     </span>
                     <span className="service-highlight">셀프 · 무료 · 비대면</span>
                 </>
