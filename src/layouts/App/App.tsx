@@ -13,7 +13,7 @@ const AdvertisementMainScreen = loadable(() => import('../../pages/admin/Adverti
 const LandingPage = loadable(() => import('../../pages/landingPage'));
 
 // 서비스
-const InitialPageV2 = loadable(() => import('../../pages/main/initial'));
+const InitialPageV2 = loadable(() => import('../../pages/main/Initial'));
 const LoginPageV2 = loadable(() => import('../../pages/main/Login'));
 const LoginFirstStepPageV2 = loadable(() => import('../../pages/main/LoginFirstStep'));
 const LoginSecondStepPageV2 = loadable(() => import('../../pages/main/LoginSecondStep'));
