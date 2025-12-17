@@ -14,7 +14,7 @@ import {
 } from "../../../../definition/apiPath";
 import fetcher from "../../../../util/fetcher";
 import axios from "axios";
-import {formatTimeAgo, formatUserName} from "../../../../util/boardUtil";
+import {formatDetailTime, formatUserName} from "../../../../util/boardUtil";
 import CommunityLoginModal from "../../../../component/V2/Modal/CommunityLoginRequiredModal";
 import { EnhancedGoToTopButton } from 'src/util/renderUtil';
 import { Helmet } from 'react-helmet-async';
@@ -797,7 +797,6 @@ const PostDetail = () => {
                                     <div className="question-header">
                                         <div className="question-meta">
                                             <span className="category-badge">{post.boardName}</span>
-                                            <span className="question-time">{formatTimeAgo(post.createdAt)}</span>
                                         </div>
                                         <button
                                             className={`post-bookmark-btn ${isBookmarked ? 'active' : ''}`}
@@ -838,14 +837,17 @@ const PostDetail = () => {
                                         dangerouslySetInnerHTML={{__html: post.contents}}
                                     />
 
-                                    <div className="view-count">
-                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                            <path d="M1 8s3-5 7-5 7 5 7 5-3 5-7 5-7-5-7-5z" stroke="currentColor"
-                                                  strokeWidth="1.5" fill="none"/>
-                                            <circle cx="8" cy="8" r="3" stroke="currentColor" strokeWidth="1.5"
-                                                    fill="none"/>
-                                        </svg>
-                                        <span>조회 {post.viewCount}</span>
+                                    <div className="post-info-row">
+                                        <div className="view-count">
+                                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                <path d="M1 8s3-5 7-5 7 5 7 5-3 5-7 5-7-5-7-5z" stroke="currentColor"
+                                                      strokeWidth="1.5" fill="none"/>
+                                                <circle cx="8" cy="8" r="3" stroke="currentColor" strokeWidth="1.5"
+                                                        fill="none"/>
+                                            </svg>
+                                            <span>조회 {post.viewCount}</span>
+                                        </div>
+                                        <span className="post-time">{formatDetailTime(post.createdAt)}</span>
                                     </div>
 
                                     {/* 댓글이 없고 작성자인 경우에만 편집/삭제 버튼 표시 */}
@@ -965,7 +967,7 @@ const PostDetail = () => {
                                                         </div>
                                                     </div>
                                                     <div className="reply-meta">
-                                                        <div className="reply-time">{formatTimeAgo(reply.createdAt)}</div>
+                                                        <div className="reply-time">{formatDetailTime(reply.createdAt)}</div>
                                                     </div>
                                                 </div>
 
@@ -1186,7 +1188,7 @@ const PostDetail = () => {
                                                                     </div>
                                                                     <div className="child-reply-meta">
                                                                         <span
-                                                                            className="child-reply-time">{formatTimeAgo(childReply.createdAt)}</span>
+                                                                            className="child-reply-time">{formatDetailTime(childReply.createdAt)}</span>
                                                                     </div>
                                                                 </div>
 

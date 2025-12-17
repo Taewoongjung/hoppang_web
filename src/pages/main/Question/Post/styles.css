@@ -278,12 +278,24 @@
     gap: 8px;
 }
 
+.post-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
 .view-count {
     display: flex;
     align-items: center;
     gap: 6px;
     font-size: 12px;
     color: #64748b;
+}
+
+.post-time {
+    font-size: 12px;
+    color: #94a3b8;
 }
 
 .post-like-btn {
@@ -1477,13 +1489,25 @@
     }
 
     .question-footer {
-        flex-direction: column;
-        gap: 16px;
-        align-items: flex-start;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 12px;
     }
 
-    .question-actions {
-        align-self: flex-end;
+    .question-author {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .author-info {
+        width: auto;
+        max-width: 100px;
+    }
+
+    .author-name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
     .replies-header {
