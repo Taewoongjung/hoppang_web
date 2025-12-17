@@ -388,10 +388,14 @@ const Initial = () => {
             id: 1,
             icon: '📋',
             title: '창호 견적',
+            ribbon: '2가지 모드!',
             description: (
                 <>
-                    간편/상세 선택 한 번에<br/><strong>우리집 창호 상세 견적</strong> 바로 확인<br/><br/>
-                    <strong>셀프 · 무료 · 비대면</strong>
+                    <span className="estimate-modes">
+                        <span className="estimate-mode estimate-mode-simple"><span className="mode-icon">⚡</span>간편</span>
+                        <span className="estimate-mode estimate-mode-detail"><span className="mode-icon">📏</span>상세</span>
+                    </span>
+                    <span className="service-highlight">셀프 · 무료 · 비대면</span>
                 </>
             ),
             color: '#6366f1',
@@ -401,6 +405,7 @@ const Initial = () => {
             id: 2,
             icon: '💬',
             title: '커뮤니티',
+            ribbon: null,
             description: (
                 <>
                     궁금한 점을 올리고<br/>
@@ -524,9 +529,14 @@ const Initial = () => {
                         {services.map((service) => (
                             <div
                                 key={service.id}
-                                className="service-card"
+                                className={`service-card ${service.ribbon ? 'service-card-with-ribbon' : ''}`}
                                 onClick={() => handleServiceClick(service.title)}
                             >
+                                {service.ribbon && (
+                                    <div className="service-ribbon">
+                                        <span>{service.ribbon}</span>
+                                    </div>
+                                )}
                                 <div className="service-icon-wrapper" style={{ backgroundColor: service.bgColor }}>
                                     <span className="service-icon" style={{ color: service.color }}>
                                         {service.icon}

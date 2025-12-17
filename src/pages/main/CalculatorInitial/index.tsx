@@ -22,7 +22,7 @@ const EstimateMethodSelection = () => {
     const methods = [
         {
             id: 'simple',
-            icon: '💡',
+            icon: '⚡',
             title: '간편견적',
             description: '평수와 구조만 선택하면\n자동으로 계산해드려요',
             time: '약 2분',

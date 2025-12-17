@@ -201,7 +201,9 @@ body {
 /* Services Section */
 .services-section {
     padding: 30px 0;
+    padding-top: 45px;
     animation: slideInUp 0.8s ease-out 0.1s both;
+    overflow: visible;
 }
 
 .services-grid {
@@ -209,6 +211,7 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 12px;
     padding: 0 20px;
+    overflow: visible;
 }
 
 .service-card {
@@ -260,6 +263,84 @@ body {
     color: #64748b;
     margin: 0;
     line-height: 1.4;
+}
+
+/* 리본 배너가 있는 카드 */
+.service-card-with-ribbon {
+    position: relative;
+    border: 2px solid #6366f1;
+    background: linear-gradient(135deg, #fafaff 0%, #f0f9ff 100%);
+    padding-top: 28px;
+    overflow: visible;
+}
+
+.service-card-with-ribbon:hover {
+    border-color: #8b5cf6;
+    box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+}
+
+.service-ribbon {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 14px;
+    border-radius: 20px;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+    animation: ribbonBounce 2s ease-in-out infinite;
+}
+
+@keyframes ribbonBounce {
+    0%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-3px);
+    }
+}
+
+/* 간편/상세 모드 컨테이너 */
+.estimate-modes {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+/* 간편/상세 모드 표시 */
+.estimate-mode {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 14px;
+    flex-shrink: 0;
+}
+
+.estimate-mode-simple {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+}
+
+.estimate-mode-detail {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.mode-icon {
+    font-size: 12px;
+}
+
+.service-highlight {
+    display: block;
+    color: #6366f1;
+    font-weight: 600;
+    font-size: 12px;
 }
 
 .service-arrow {
@@ -672,5 +753,9 @@ footer {
     .footer-link,
     .footer-meta span {
         transition: none;
+    }
+
+    .service-ribbon {
+        animation: none;
     }
 }
