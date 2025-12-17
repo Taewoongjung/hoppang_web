@@ -271,6 +271,7 @@
     color: #cbd5e1;
     font-weight: 300;
     margin: 0 2px;
+    flex-shrink: 0;
 }
 
 .question-item {
@@ -355,19 +356,27 @@
     gap: 6px;
     font-size: 12px;
     color: #94a3b8;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin-top: 8px;
+    overflow: hidden;
 }
 
 .question-author {
     font-weight: 500;
     color: #64748b;
+    max-width: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .question-time,
 .question-stats,
 .question-image {
     font-size: 11px;
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .replies-count {
@@ -379,6 +388,8 @@
     padding: 2px 6px;
     border-radius: 8px;
     background: rgba(99, 102, 241, 0.1);
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .question-title {
@@ -746,6 +757,10 @@
 
     .question-meta {
         gap: 4px;
+    }
+
+    .question-author {
+        max-width: 60px;
     }
 
     .replies-count {
