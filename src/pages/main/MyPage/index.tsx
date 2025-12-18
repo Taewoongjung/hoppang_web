@@ -85,7 +85,7 @@ const MyPage = () => {
             title: '견적 받기',
             subtitle: userData ? '무료 · 즉시' : '로그인 필요',
             onClick: () => {
-                userData ? window.location.href = '/calculator/agreement' : window.location.href = '/login' },
+                userData ? window.location.href = '/calculator' : window.location.href = '/login' },
             isPrimary: true,
             isDisabled: false
         },
