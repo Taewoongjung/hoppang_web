@@ -275,6 +275,10 @@ const PostDetail = () => {
     useEffect(() => {
         const fetchPost = async () => {
             try {
+                if (!userData) {
+                    await mutate();
+                }
+
                 let queryParam = '';
                 if (searchParams.get('loggedInUserId')) {
                     queryParam = "?loggedInUserId=" + searchParams.get('loggedInUserId');
@@ -307,7 +311,7 @@ const PostDetail = () => {
         };
 
         fetchPost();
-    }, [postId, userData]);
+    }, [postId]);
 
     // 댓글 조회 (게시물 로드 후)
     useEffect(() => {
