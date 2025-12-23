@@ -12,13 +12,14 @@ export const formatUserName = (name: any) => {
 }
 
 export const formatDateTime = (date: Date) => {
+    const koreaDate = new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
     const pad = (num: number) => num.toString().padStart(2, '0');
-    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+    return `${koreaDate.getFullYear()}-${pad(koreaDate.getMonth() + 1)}-${pad(koreaDate.getDate())} ${pad(koreaDate.getHours())}:${pad(koreaDate.getMinutes())}:${pad(koreaDate.getSeconds())}`;
 };
 
 // 상세페이지용: 절대 날짜+시간 형식 (2024.12.17 14:30)
 export const formatDetailTime = (dateString: string) => {
-    const date = new Date(dateString);
+    const date = new Date(new Date(dateString).toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
     const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
@@ -30,8 +31,8 @@ export const formatDetailTime = (dateString: string) => {
 
 // 리스트용: 상대 시간 형식
 export const formatTimeAgo = (dateString: string) => {
-    const now = new Date();
-    const date = new Date(dateString);
+    const now = new Date(new Date().toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
+    const date = new Date(new Date(dateString).toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
     const diffInMs = now.getTime() - date.getTime();
     const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
     const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
