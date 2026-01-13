@@ -215,7 +215,7 @@ const LandingPage = () => {
                     </div>
 
                     <div style={{marginTop: '30px', fontSize: '14px', color: '#777'}}>
-                        <p>© 2025 호빵 | 문의: ho9nobody@gmail.com</p>
+                        <p>© 2026 호빵 | 문의: ho9nobody@gmail.com</p>
                     </div>
                 </div>
             </div>

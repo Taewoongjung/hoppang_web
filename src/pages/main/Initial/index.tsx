@@ -658,7 +658,7 @@ const Initial = () => {
                     </div>
 
                     <div className="footer-bottom">
-                        <p className="footer-copyright">© 2025 호빵. All rights reserved.</p>
+                        <p className="footer-copyright">© 2026 호빵. All rights reserved.</p>
                         <div className="footer-meta">
                             <span onClick={() => {window.location.href="/policy/privacy";}}>개인정보처리방침</span>
                             <span className="footer-separator">|</span>
