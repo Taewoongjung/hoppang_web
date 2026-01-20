@@ -77,15 +77,10 @@ const HoppangProcess = () => {
                             <ol className="guide-steps">
                                 <li>호빵에서 견적 확인</li>
                                 <li>문의하기 (카카오톡 · 전화)</li>
-                                <li>실측 진행 (가계약금 입금 후)</li>
+                                <li>실측 진행</li>
                                 <li>시공 날짜 협의</li>
                                 <li>시공 완료</li>
                             </ol>
-
-                            <div className="check-box">
-                                <h4>가계약금</h4>
-                                <p>가계약금은 현재 10만원이고, 취소 후 돌려 드려요.</p>
-                            </div>
 
                             <br/>
                             <button
