@@ -1,0 +1,40 @@
+/* Google AdSense Banner Styles */
+.google-adSense-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    background: #f9f9f9;
+    border-radius: 8px;
+    overflow: hidden;
+    min-height: 50px;
+}
+
+.google-adSense-container.adsbygoogle {
+    display: block;
+}
+
+/* 광고 컨테이너 변형 */
+.google-adSense-container.banner-top {
+    margin-top: 0;
+}
+
+.google-adSense-container.banner-middle {
+    margin: 24px 0;
+}
+
+.google-adSense-container.banner-bottom {
+    margin-bottom: 0;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .google-adSense-container {
+        margin: 16px 0;
+    }
+
+    .google-adSense-container.banner-middle {
+        margin: 20px 0;
+    }
+}

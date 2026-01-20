@@ -19,6 +19,7 @@ import CommunityLoginModal from "../../../../component/V2/Modal/CommunityLoginRe
 import { EnhancedGoToTopButton } from 'src/util/renderUtil';
 import { Helmet } from 'react-helmet-async';
 import {handleShare} from "../../Guide/util";
+import GoogleAdSense from "../../../../component/V2/AdBanner/GoogleAdSense";
 
 
 interface PostDetail {
@@ -902,6 +903,12 @@ const PostDetail = () => {
                             )}
                         </div>
                     </section>
+
+                    {/* AdSense 베너 */}
+                    <GoogleAdSense
+                        adSlot="9525739795"
+                        className="banner-middle"
+                    />
 
                     {/* Replies Section */}
                     <section id="replies-section" className="replies-section">
