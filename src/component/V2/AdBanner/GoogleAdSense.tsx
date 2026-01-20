@@ -35,7 +35,7 @@ const GoogleAdSense: React.FC<GoogleAdSenseProps> = ({
         if (!existingScript) {
             // Adense 스크립트 동적 로드
             const script = document.createElement('script');
-            script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6013359728257834';
+            script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3635160426496438';
             script.async = true;
             script.crossOrigin = 'anonymous';
 
@@ -62,7 +62,7 @@ const GoogleAdSense: React.FC<GoogleAdSenseProps> = ({
                 ref={adContainerRef}
                 className="adsbygoogle"
                 style={{ display: 'block' }}
-                data-ad-client="ca-pub-6013359728257834"
+                data-ad-client="ca-pub-3635160426496438"
                 data-ad-slot={adSlot}
                 data-ad-format={adFormat}
                 data-full-width-responsive={fullWidthResponsive.toString()}

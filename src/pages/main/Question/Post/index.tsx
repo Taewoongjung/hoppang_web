@@ -906,7 +906,7 @@ const PostDetail = () => {
 
                     {/* AdSense 베너 */}
                     <GoogleAdSense
-                        adSlot="9525739795"
+                        adSlot="3210423518"
                         className="banner-middle"
                     />
 
