@@ -8,6 +8,7 @@ import '../../versatile-styles.css';
 import {goToCommunity, goToQuote, handleShare, kakaoInquiry} from "../util";
 import ImageViewer from "../../../../component/V2/ImageViewer";
 import {EnhancedGoToTopButton} from "../../../../util/renderUtil";
+import GoogleAdSense from "../../../../component/V2/AdBanner/GoogleAdSense";
 
 const ChassisGuidePage = () => {
     const history = useHistory();
@@ -82,6 +83,11 @@ const ChassisGuidePage = () => {
                         견적 전에 꼭 알아야 할 창호 종류 선택법
                     </p>
                 </div>
+
+                <GoogleAdSense
+                    adSlot="3210423518"
+                    className="banner-middle"
+                />
 
                 <div className="content">
                     <div className="guide-section">

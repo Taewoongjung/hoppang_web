@@ -7,6 +7,7 @@ import '../../versatile-styles.css';
 import {goToCommunity, goToQuote, handleShare, kakaoInquiry} from "../util";
 import {EnhancedGoToTopButton} from "../../../../util/renderUtil";
 import { Helmet } from 'react-helmet-async';
+import GoogleAdSense from "../../../../component/V2/AdBanner/GoogleAdSense";
 
 const ChassisPerformance = () => {
     const history = useHistory();
@@ -63,6 +64,11 @@ const ChassisPerformance = () => {
                         호빵이 알려주는 창호 가격·성능 체크 포인트
                     </p>
                 </div>
+
+                <GoogleAdSense
+                    adSlot="3210423518"
+                    className="banner-middle"
+                />
 
                 <div className="content">
                     <div className="guide-section">
