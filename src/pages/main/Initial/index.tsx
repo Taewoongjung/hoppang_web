@@ -12,6 +12,7 @@ import axios from "axios";
 import {Question} from "../Question/interface";
 import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
 import {formatTimeAgo} from "../../../util/boardUtil";
+import GoogleAdSense from "../../../component/V2/AdBanner/GoogleAdSense";
 
 declare global {
     interface Window {
@@ -522,6 +523,11 @@ const Initial = () => {
                         </div>
                     </div>
                 </section>
+
+                <GoogleAdSense
+                    adSlot="3210423518"
+                    className="banner-middle"
+                />
 
                 {/* Services Grid */}
                 <section className="services-section">
