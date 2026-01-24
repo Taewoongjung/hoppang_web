@@ -524,11 +524,6 @@ const Initial = () => {
                     </div>
                 </section>
 
-                <GoogleAdSense
-                    adSlot="3210423518"
-                    className="banner-middle"
-                />
-
                 {/* Services Grid */}
                 <section className="services-section">
                     <div className="services-grid">
@@ -634,6 +629,11 @@ const Initial = () => {
                     </div>
                 </section>
             </main>
+
+            <GoogleAdSense
+                adSlot="3210423518"
+                className="banner-middle"
+            />
 
             {/* Footer */}
             <footer>
