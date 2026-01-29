@@ -55,7 +55,7 @@ const ChassisPerformanceGuide = loadable(() => import('../../pages/main/Guide/Ch
 const App = () => {
         return (
             <Switch>
-                    <Route exact path="/" component={InitialPageV2}/>
+                    <Redirect exact path="/" to="/chassis/calculator"/>
                     <Route path="/chassis/calculator" component={InitialPageV2}/>
                     <Route path="/:oauthtype/chassis/calculator" component={InitialPageV2}/>
 
