@@ -17,11 +17,10 @@ const app = (
     </HelmetProvider>
 );
 
-// data-reactroot 속성이나 HTML 내용으로 확인
+// 실제 HTML 내용이 있는 경우에만 pre-rendered로 간주
 const isPrerendered =
-    rootElement?.hasAttribute('data-reactroot') ||
     // @ts-ignore
-    rootElement?.innerHTML.length > 0;
+    rootElement?.innerHTML.trim().length > 0;
 
 if (rootElement && isPrerendered) {
     hydrateRoot(rootElement, app);
