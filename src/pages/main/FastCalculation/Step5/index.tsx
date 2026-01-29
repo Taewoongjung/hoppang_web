@@ -100,11 +100,11 @@ const Step5FloorplanReview = () => {
             setSelectedResident(resident);
         }
 
-        // 선택한 조건에 따라 도면 이미지와 창호 정보 설정
+        // 선택한 조건에 따라 도면 이미지와 샷시 정보 설정
         setupFloorplanData(bay, expansion);
     }, [history]);
 
-    // id별로 창호를 그룹화
+    // id별로 샷시를 그룹화
     const groupedWindows = useMemo(() => {
         const groups: Record<string, WindowInfo[]> = {};
 
@@ -165,7 +165,7 @@ const Step5FloorplanReview = () => {
         const imagePath = `/assets/Floorplan/${bay}bay/${bay}bay-${expansion}.svg`;
         setFloorplanImage(imagePath);
 
-        // 기본 창호 정보 설정 (Bay와 확장 여부에 따라)
+        // 기본 샷시 정보 설정 (Bay와 확장 여부에 따라)
         let defaultWindows: WindowInfo[] = [];
 
         if (bay === '2') {
@@ -643,7 +643,7 @@ const Step5FloorplanReview = () => {
             <main className="simple-estimate-content floorplan-content">
                 <div className="step-intro">
                     <h2 className="step-title">도면을 확인하고<br/>수정해주세요</h2>
-                    <p className="step-subtitle">각 창호의 정보를 확인하고 수정할 수 있어요</p>
+                    <p className="step-subtitle">각 샷시의 정보를 확인하고 수정할 수 있어요</p>
                 </div>
 
                 {/* Selection Summary */}
@@ -684,12 +684,12 @@ const Step5FloorplanReview = () => {
                     </div>
                 </div>
 
-                {/* Windows List - 그룹화된 창호 */}
+                {/* Windows List - 그룹화된 샷시 */}
                 <div className="windows-section">
                     <div className="section-header-small">
-                        <h3 className="section-title-small">창호 정보</h3>
+                        <h3 className="section-title-small">샷시 정보</h3>
                         <p className="section-subtitle-small">
-                            {windows.length}개의 창호 ({Object.keys(groupedWindows).length}개 그룹)
+                            {windows.length}개의 샷시 ({Object.keys(groupedWindows).length}개 그룹)
                         </p>
                     </div>
 
@@ -742,7 +742,7 @@ const Step5FloorplanReview = () => {
                                         {editingWindow === `${window.id}-${window.name}` ? (
                                             <div className="window-edit-form">
                                                 <div className="form-group">
-                                                    <label className="form-label">창호 종류</label>
+                                                    <label className="form-label">샷시 종류</label>
                                                     <select
                                                         className="form-select"
                                                         value={chassisTypeOptions.find(type => type.label === window.typeKo)?.value || window.typeKo}

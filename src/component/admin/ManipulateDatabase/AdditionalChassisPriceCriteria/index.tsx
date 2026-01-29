@@ -192,7 +192,7 @@ const AdditionalChassisPriceCriteria = () => {
             {contextHolder}
             <div style={{ width: 450 }}>
                 <Divider orientation="center">가격 추가/수정</Divider>
-                <Title level={3} style={{ marginBottom: '5%' }}>창호 가격에 적용 될 추가적 요소</Title>
+                <Title level={3} style={{ marginBottom: '5%' }}>샷시 가격에 적용 될 추가적 요소</Title>
                 <div>
                     <Descriptions
                         bordered

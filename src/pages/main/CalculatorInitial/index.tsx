@@ -34,7 +34,7 @@ const EstimateMethodSelection = () => {
             id: 'detailed',
             icon: '📏',
             title: '상세견적',
-            description: '창호 크기를 직접 입력해서\n정확한 견적을 받아요',
+            description: '샷시 크기를 직접 입력해서\n정확한 견적을 받아요',
             time: '약 5분',
             bgColor: '#faf5ff',
             iconColor: '#a855f7',

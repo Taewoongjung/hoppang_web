@@ -41,13 +41,13 @@ const ChassisGuidePage = () => {
     return (
         <>
             <Helmet>
-                <title>호빵 창호 견적 가이드 - 창호 종류 알아보기</title>
-                <meta name="description" content="창호 견적 전에 꼭 알아야 할 창호 종류 선택법"/>
+                <title>호빵 샷시 견적 가이드 - 샷시 종류 알아보기</title>
+                <meta name="description" content="샷시 견적 전에 꼭 알아야 할 샷시 종류 선택법"/>
 
                 {/* Open Graph 태그 */}
                 <meta property="og:type" content="website"/>
-                <meta property="og:title" content="호빵 창호 견적 가이드 - 호빵(호구빵명) 창호"/>
-                <meta property="og:description" content="창호 견적 전에 꼭 알아야 할 창호 종류 선택법"/>
+                <meta property="og:title" content="호빵 샷시 견적 가이드 - 호빵(호구빵명) 샷시"/>
+                <meta property="og:description" content="샷시 견적 전에 꼭 알아야 할 샷시 종류 선택법"/>
                 <meta property="og:image"
                       content="https://hoppang-guide-image.s3.ap-southeast-2.amazonaws.com/20py_apt.jpg"/>
                 <meta property="og:url" content="https://hoppang.store/v2/guide/chassisperformance"/>
@@ -65,7 +65,7 @@ const ChassisGuidePage = () => {
                         alt="호빵 캐릭터"
                         className="character-img"
                     />
-                    <button className="share-btn" onClick={() => handleShare('호빵 창호 견적 가이드 - 호빵(호구빵명) 창호')}>
+                    <button className="share-btn" onClick={() => handleShare('호빵 샷시 견적 가이드 - 호빵(호구빵명) 샷시')}>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                             <path
                                 d="M15 6.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM15 18.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"
@@ -76,11 +76,11 @@ const ChassisGuidePage = () => {
                     </button>
 
                     <h1>
-                        호빵 창호 견적 가이드
+                        호빵 샷시 견적 가이드
                     </h1>
-                    <p>창호 종류 알아보기</p>
+                    <p>샷시 종류 알아보기</p>
                     <p className="sub-title">
-                        견적 전에 꼭 알아야 할 창호 종류 선택법
+                        견적 전에 꼭 알아야 할 샷시 종류 선택법
                     </p>
                 </div>
 
@@ -97,8 +97,8 @@ const ChassisGuidePage = () => {
                         <div className="section-content">
                             <div className="guide-item">
                                 <p>
-                                    호빵에서는 창호 견적을 산출할 때, 고객님 댁의 도면을 바탕으로 위치별로 설치되는 <strong>창호 종류</strong>를 선택하게 되어요.<br/>
-                                    또한 "어떤 공간에 어떤 창호가 들어가는지" 궁금하실 때에도 이 과정을 통해 쉽게 확인하실 수 있어요 🙂<br/>
+                                    호빵에서는 샷시 견적을 산출할 때, 고객님 댁의 도면을 바탕으로 위치별로 설치되는 <strong>샷시 종류</strong>를 선택하게 되어요.<br/>
+                                    또한 "어떤 공간에 어떤 샷시가 들어가는지" 궁금하실 때에도 이 과정을 통해 쉽게 확인하실 수 있어요 🙂<br/>
                                     <ul>
                                     <li>
                                             같은 위치라도 발코니 단창, 이중창, 내창, 분합창 등<strong>종류가
@@ -108,7 +108,7 @@ const ChassisGuidePage = () => {
                                             정확한 종류를 알아야 <strong>견적이 정확하게 산출</strong>되어요.
                                         </li>
                                     </ul>
-                                    👉 이 가이드는 고객님이 도면 속 창호 위치와 종류를 이해하고, 호빵 견적을 쉽게 확인하실 수 있도록 준비했어요.
+                                    👉 이 가이드는 고객님이 도면 속 샷시 위치와 종류를 이해하고, 호빵 견적을 쉽게 확인하실 수 있도록 준비했어요.
                                 </p>
                             </div>
                         </div>
@@ -116,7 +116,7 @@ const ChassisGuidePage = () => {
 
                     <div className="guide-section">
                         <div className="section-header">
-                            <h2>🪟 창호 종류 구분법</h2>
+                            <h2>🪟 샷시 종류 구분법</h2>
                         </div>
                         <div className="section-content">
                             <div className="guide-item">
@@ -162,7 +162,7 @@ const ChassisGuidePage = () => {
                         </div>
                         <div className="section-content">
                             <div className="guide-item">
-                                <p>도면을 보면서 창호가 종류별로 어디에 들어가는지 확인해보세요. 훨씬 더 직관적으로 이해하실 수 있어요.</p>
+                                <p>도면을 보면서 샷시가 종류별로 어디에 들어가는지 확인해보세요. 훨씬 더 직관적으로 이해하실 수 있어요.</p>
 
                                 <div className="image-gallery">
                                     <div className="gallery-item">
@@ -201,7 +201,7 @@ const ChassisGuidePage = () => {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                                               d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                                     </svg>
-                                    <span className="text-lg">창호 종류 알았으니, 내 집 견적 확인하기</span>
+                                    <span className="text-lg">샷시 종류 알았으니, 내 집 견적 확인하기</span>
                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/>
                                     </svg>

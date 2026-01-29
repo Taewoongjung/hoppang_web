@@ -56,7 +56,7 @@
     <text x="478" y="260" class="room-label">거실 및 주방</text>
     <text x="210" y="495" class="room-label">베란다</text>
 
-    <!-- 창호 라벨 -->
+    <!-- 샷시 라벨 -->
     <text x="193" y="35"
           font-family="Apple SD Gothic Neo, Malgun Gothic, sans-serif"
           font-size="25" font-weight="600"

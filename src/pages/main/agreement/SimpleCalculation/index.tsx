@@ -199,7 +199,7 @@ const SimpleCalculationAgreement = () => {
             <main className="main-content">
                 <section className="hero-section">
                     <div className="hero-content">
-                        <h2 className="hero-title">창호 간편견적 서비스를 시작하기 전에</h2>
+                        <h2 className="hero-title">샷시 간편견적 서비스를 시작하기 전에</h2>
                         <p className="hero-subtitle">아래 내용을 확인해주세요</p>
                     </div>
                     <div className="hero-illustration">
@@ -230,7 +230,7 @@ const SimpleCalculationAgreement = () => {
                                     <div>
                                         <p><strong>견적 가격이 달라질 수 있어요</strong></p>
                                         <ul className="sub-notice-list">
-                                            <li>본 서비스는 참고용이며, 실제 창호 제작 시 약간의 가격 차이가 있을 수 있습니다. <br/><u>(실제로 그날 이벤트에 따라 가격이 저렴할 수도 있어요)</u></li>
+                                            <li>본 서비스는 참고용이며, 실제 샷시 제작 시 약간의 가격 차이가 있을 수 있습니다. <br/><u>(실제로 그날 이벤트에 따라 가격이 저렴할 수도 있어요)</u></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -239,7 +239,7 @@ const SimpleCalculationAgreement = () => {
                                     <div>
                                         <p><strong>에너지 효율등급 기준이에요</strong></p>
                                         <ul className="sub-notice-list">
-                                            <li>에너지 효율등급은 전체 창호 교체 시 2등급을 기준으로 합니다.</li>
+                                            <li>에너지 효율등급은 전체 샷시 교체 시 2등급을 기준으로 합니다.</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -248,7 +248,7 @@ const SimpleCalculationAgreement = () => {
                                     <div>
                                         <p><strong>기본 사양 제품 기준이에요</strong></p>
                                         <ul className="sub-notice-list">
-                                            <li>각 회사별 창호는 기본 사양 제품 기준입니다.</li>
+                                            <li>각 회사별 샷시는 기본 사양 제품 기준입니다.</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -259,7 +259,7 @@ const SimpleCalculationAgreement = () => {
                                         <ul className="sub-notice-list">
                                             <li>사다리차 비용은 지역에 따라 상이할 수 있습니다.</li>
                                             <li>사다리차 사용이 불가능한 경우 추가 비용이 발생할 수 있습니다.</li>
-                                            <li>양중이 불가능한 상황이 있을 수 있습니다. (예: 시스템 창호, 도로 혼잡 지역의 거실창 등)</li>
+                                            <li>양중이 불가능한 상황이 있을 수 있습니다. (예: 시스템 샷시, 도로 혼잡 지역의 거실창 등)</li>
                                         </ul>
                                     </div>
                                 </div>

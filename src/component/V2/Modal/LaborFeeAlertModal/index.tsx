@@ -26,7 +26,7 @@ const LaborFeeAlertModal: React.FC<LaborFeeAlertModalProps> = ({ isOpen, onClose
                 <div className="labor-fee-modal-content">
                     <div className="labor-fee-alert-message">
                         <p className="labor-fee-main-text">
-                            선택하신 창호 크기가 최소 시공 기준보다 작아
+                            선택하신 샷시 크기가 최소 시공 기준보다 작아
                         </p>
                         <p className="labor-fee-highlight-text">
                             기본 시공비가 추가로 발생했습니다.
@@ -37,12 +37,12 @@ const LaborFeeAlertModal: React.FC<LaborFeeAlertModalProps> = ({ isOpen, onClose
                     <div className="labor-fee-explanation-box">
                         <div className="labor-fee-question">
                             <span className="labor-fee-q-mark">Q.</span>
-                            <span className="labor-fee-q-text">왜 작은 창호는 기본 시공비가 붙나요?</span>
+                            <span className="labor-fee-q-text">왜 작은 샷시는 기본 시공비가 붙나요?</span>
                         </div>
 
                         <div className="labor-fee-answer">
                             <p>일반적으로 시공에는 최소 인건비가 존재합니다.</p>
-                            <p>택배도 일정 금액 이상부터 무료배송이 되는 것처럼, 창호도 일정 크기 이상이면 시공비가 포함되지만, 그보다 작을 경우 정책상 정해진 시공비 기준에 미치지 않아 추가 시공비가 발생할 수 있습니다.</p>
+                            <p>택배도 일정 금액 이상부터 무료배송이 되는 것처럼, 샷시도 일정 크기 이상이면 시공비가 포함되지만, 그보다 작을 경우 정책상 정해진 시공비 기준에 미치지 않아 추가 시공비가 발생할 수 있습니다.</p>
                         </div>
                     </div>
 

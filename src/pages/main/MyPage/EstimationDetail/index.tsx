@@ -21,7 +21,7 @@ interface MaterialDataType {
 
 const materialColumns: TableColumnsType<MaterialDataType> = [
     {
-        title: '창호 종류',
+        title: '샷시 종류',
         dataIndex: 'chassisType',
         render: (text: string) => (
             <span style={{ fontWeight: 500, color: '#1f2937' }}>{text}</span>
@@ -236,7 +236,7 @@ const EstimationDetailPage = () => {
                 <section className="section-card">
                     <div className="section-header">
                         <div className="section-icon">🪟</div>
-                        <h3 className="section-title">창호 항목</h3>
+                        <h3 className="section-title">샷시 항목</h3>
                     </div>
                     <div className="table-container">
                         <Table

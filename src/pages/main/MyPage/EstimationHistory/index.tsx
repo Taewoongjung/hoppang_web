@@ -190,7 +190,7 @@ const EstimationHistory = () => {
                                         <div className="info-row">
                                             <div className="info-item">
                                                 <div className="info-text">
-                                                    <span className="info-label">창호 브랜드</span>
+                                                    <span className="info-label">샷시 브랜드</span>
                                                     <span className="info-value">
                                                         <img
                                                             src={mappedCompanyLogoPathByValue(item.companyType)}

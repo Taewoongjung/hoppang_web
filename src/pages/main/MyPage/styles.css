@@ -302,7 +302,7 @@ body {
     font-weight: 500;
 }
 
-/* 통일된 메뉴 리스트 - 창호 서비스 */
+/* 통일된 메뉴 리스트 - 샷시 서비스 */
 .menu-list {
     display: grid;
     grid-template-columns: 1fr;

@@ -388,7 +388,7 @@ const Initial = () => {
         {
             id: 1,
             icon: '📋',
-            title: '창호 견적',
+            title: '샷시 견적',
             ribbon: '2가지 모드!',
             description: (
                 <>
@@ -419,7 +419,7 @@ const Initial = () => {
     ];
 
     const handleServiceClick = (serviceTitle: string) => {
-        if (serviceTitle === '창호 견적') {
+        if (serviceTitle === '샷시 견적') {
             history.push('/calculator');
         } else if (serviceTitle === '커뮤니티') {
             history.push('/question/boards');
@@ -436,15 +436,15 @@ const Initial = () => {
         },
         {
             id: 2,
-            title: '호빵 창호 견적 가이드: 창호 종류 알아보기',
-            description: '견적 전에 꼭 알아야 할 창호 종류 선택법',
+            title: '호빵 샷시 견적 가이드: 샷시 종류 알아보기',
+            description: '견적 전에 꼭 알아야 할 샷시 종류 선택법',
             image: 'https://hoppang-guide-image.s3.ap-southeast-2.amazonaws.com/30py_apt.jpg',
             redirectLink: '/v2/guide/howtochoosechassistype'
         },
         {
             id: 3,
-            title: '창호 성능 비교 가이드',
-            description: '호빵이 알려주는 창호 가격·성능 체크 포인트',
+            title: '샷시 성능 비교 가이드',
+            description: '호빵이 알려주는 샷시 가격·성능 체크 포인트',
             image: 'https://hoppang-guide-image.s3.ap-southeast-2.amazonaws.com/chassis-performance-guide-thumbnail.png',
             redirectLink: '/v2/guide/chassisperformance'
         },
@@ -505,7 +505,7 @@ const Initial = () => {
                 <section className="hero-section">
                     <div className="hero-content">
                         <div className="hero-text">
-                            <h2 className="hero-title">창호 전문가와 함께하세요</h2>
+                            <h2 className="hero-title">샷시 전문가와 함께하세요</h2>
                             <p className="hero-subtitle">견적부터 설치까지, 모든 과정을 호빵이 도와드려요!</p>
                             <button
                                 className="cta-button"
@@ -643,7 +643,7 @@ const Initial = () => {
                             <img src="/assets/hoppang-character.png" alt="Hoppang" className="footer-logo-img" />
                             <span className="footer-logo-text">호빵</span>
                         </div>
-                        <p className="footer-tagline">신뢰할 수 있는 창호 전문 플랫폼</p>
+                        <p className="footer-tagline">신뢰할 수 있는 샷시 전문 플랫폼</p>
                     </div>
 
                     <div className="footer-links">

@@ -112,7 +112,7 @@ const LandingPage = () => {
                 }}>
                     <img src="/assets/hoppang-character.png" alt="호빵 서비스 아이콘"
                          style={{width: '100px', marginBottom: '10px'}}/>
-                    <h1 style={{color: '#333'}}>🏠 호빵 - 가장 합리적인 창호 견적 서비스 </h1>
+                    <h1 style={{color: '#333'}}>🏠 호빵 - 가장 합리적인 샷시 견적 서비스 </h1>
                     <p style={{color: '#555', fontSize: '16px', lineHeight: '1.6', marginBottom: '7%'}}>
                         직접 측정하고, 전국 최저가 견적을 받아보세요.
                         <br/>

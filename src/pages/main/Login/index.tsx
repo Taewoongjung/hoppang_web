@@ -57,7 +57,7 @@ const MobileGuideModal = ({ onGoToMobile }: { onGoToMobile: () => void }) => {
                         </div>
                         <div className="benefit-item">
                             <div className="benefit-icon">💡</div>
-                            <span>커뮤니티로 언제 어디서나 창호 전문가와 연결</span>
+                            <span>커뮤니티로 언제 어디서나 샷시 전문가와 연결</span>
                         </div>
                     </div>
 
@@ -212,7 +212,7 @@ const Login = () => {
                             {urlParams.get('needed') === 'true' && (
                                 <div className="login-notice">
                                     <div className="notice-icon">💡</div>
-                                    <span>로그인하고 창호 가격 정보를 확인하세요</span>
+                                    <span>로그인하고 샷시 가격 정보를 확인하세요</span>
                                 </div>
                             )}
                         </div>

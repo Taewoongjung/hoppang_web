@@ -216,7 +216,7 @@ const MyPage = () => {
                         <section className="services-section">
                             <h3 className="section-title">
                                 <span className="title-icon">🏠</span>
-                                창호 서비스
+                                샷시 서비스
                             </h3>
                             <div className="menu-list">
                                 {menuItems.map((item, index) => (
@@ -253,7 +253,7 @@ const MyPage = () => {
                             </div>
                             <div className="app-info-text">
                                 <h4>호빵과 함께 하세요!</h4>
-                                <p>창호 견적부터 설치까지 모든 과정을 도와드립니다</p>
+                                <p>샷시 견적부터 설치까지 모든 과정을 도와드립니다</p>
                             </div>
                         </div>
                     </section>

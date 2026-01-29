@@ -135,7 +135,7 @@ const MobileResultScreen = () => {
         if (location.state && (location.state.calculatedResult || location.state.calculatedResults)) {
 
             location.state.calculatedResult ?
-                setResults([location.state.calculatedResult]) // 특정 하나의 창호 브랜드일 때
+                setResults([location.state.calculatedResult]) // 특정 하나의 샷시 브랜드일 때
                 :
                 setResults(location.state.calculatedResults) // '모르겠어요' 일 때 전체를 나타내줘야할 때
 
@@ -350,7 +350,7 @@ const MobileResultScreen = () => {
                 {/* Materials Section */}
                 <div className="section">
                     <div className="section-header">
-                        <h3 className="section-title">창호 항목</h3>
+                        <h3 className="section-title">샷시 항목</h3>
                     </div>
                     <div className="materials-list">
                         {result.chassisPriceResultList.map((item: any, idx: number) => {

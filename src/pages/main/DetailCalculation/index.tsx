@@ -52,7 +52,7 @@ const MobileCalculationScreen = () => {
     const [currentStep, setCurrentStep] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
 
-    // Step 0: 창호 회사 선택
+    // Step 0: 샷시 회사 선택
     const [selectedCompany, setSelectedCompany] = useState('');
 
     // Step 1: Chassis Info
@@ -79,7 +79,7 @@ const MobileCalculationScreen = () => {
     const [isScheduledForDemolition, setIsScheduledForDemolition] = useState(true);
     const [isResident, setIsResident] = useState(true);
 
-    // Step 4: 창호 사양 확인
+    // Step 4: 샷시 사양 확인
     const [isAgreed, setIsAgreed] = useState<boolean>(false);
 
     // Error State
@@ -87,7 +87,7 @@ const MobileCalculationScreen = () => {
 
     const validateStep1 = () => {
         const newErrors: { [key: string]: string } = {};
-        if (chassisType === '선택안함') newErrors.chassisType = '창호 종류를 선택해주세요.';
+        if (chassisType === '선택안함') newErrors.chassisType = '샷시 종류를 선택해주세요.';
         if (!width) newErrors.width = '가로 길이를 입력해주세요.';
         if (!height) newErrors.height = '세로 길이를 입력해주세요.';
 
@@ -349,7 +349,7 @@ const MobileCalculationScreen = () => {
                     </div>
 
                     <div className="step-header">
-                        <h2 className="main-title">어떤 창호 브랜드로 견적을 받아보시겠어요?</h2>
+                        <h2 className="main-title">어떤 샷시 브랜드로 견적을 받아보시겠어요?</h2>
                         <p className="subtitle">원하시는 브랜드를 선택해주세요</p>
                     </div>
 
@@ -406,7 +406,7 @@ const MobileCalculationScreen = () => {
 
                     <div className="step-header">
                         <div className="step-icon">📏</div>
-                        <h2 className="main-title">견적받을 창호의 정보를 입력해주세요</h2>
+                        <h2 className="main-title">견적받을 샷시의 정보를 입력해주세요</h2>
                     </div>
 
                     <div className="form-content">
@@ -430,7 +430,7 @@ const MobileCalculationScreen = () => {
                         }
 
                         <div className="form-group">
-                            <label className="form-label">창호 종류</label>
+                            <label className="form-label">샷시 종류</label>
                             <div className="select-container">
                                 <select
                                     value={chassisType}
@@ -502,7 +502,7 @@ const MobileCalculationScreen = () => {
 
                     <div className="list-section">
                         <h3 className="section-title">
-                            추가된 창호 목록
+                            추가된 샷시 목록
                             <span className="item-count">{registeredList.length}</span>
                         </h3>
                         {registeredList.length > 0 ? (
@@ -531,8 +531,8 @@ const MobileCalculationScreen = () => {
                             <div className="empty-state">
                                 <div className="empty-icon">📦</div>
                                 <div className="empty-text">
-                                    <p className="empty-title">아직 추가된 창호가 없어요</p>
-                                    <p className="empty-description">위에서 창호 정보를 입력하고 추가해주세요</p>
+                                    <p className="empty-title">아직 추가된 샷시가 없어요</p>
+                                    <p className="empty-description">위에서 샷시 정보를 입력하고 추가해주세요</p>
                                 </div>
                             </div>
                         )}
@@ -643,7 +643,7 @@ const MobileCalculationScreen = () => {
                             <div className="switch-group">
                                 <div className="switch-info">
                                     <span className="switch-label">철거 진행 여부</span>
-                                    <span className="switch-description">기존 창호 철거가 필요한지 선택해주세요</span>
+                                    <span className="switch-description">기존 샷시 철거가 필요한지 선택해주세요</span>
                                 </div>
                                 <label className="custom-switch">
                                     <input
@@ -687,7 +687,7 @@ const MobileCalculationScreen = () => {
                     className="button-primary"
                     onClick={() => {
                         if (!selectedCompany) {
-                            setErrors({general: '창호 브랜드를 선택해주세요'});
+                            setErrors({general: '샷시 브랜드를 선택해주세요'});
                             return;
                         }
                         setSelectedCompany(selectedCompany);
@@ -704,7 +704,7 @@ const MobileCalculationScreen = () => {
                     className="button-primary"
                     onClick={() => {
                         if (registeredList.length === 0) {
-                            setErrors({general: '창호를 하나 이상 추가해주세요'});
+                            setErrors({general: '샷시를 하나 이상 추가해주세요'});
                             return;
                         }
                         setErrors({});
@@ -794,7 +794,7 @@ const MobileCalculationScreen = () => {
                     }}>
                         <LeftOutlined/>
                     </button>
-                    <div className="header-title">창호 견적</div>
+                    <div className="header-title">샷시 견적</div>
                 </div>
             </header>
 

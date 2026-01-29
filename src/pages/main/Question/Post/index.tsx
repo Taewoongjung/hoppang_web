@@ -730,7 +730,7 @@ const PostDetail = () => {
         <>
             {/* SEO 메타 태그 */}
             <Helmet>
-                <title>{post ? `${post.title} - 호빵 커뮤니티` : '창호 커뮤니티 호빵'}</title>
+                <title>{post ? `${post.title} - 호빵 커뮤니티` : '샷시 커뮤니티 호빵'}</title>
                 <meta name="description" content={post ? post.contents.replace(/<[^>]*>/g, '').substring(0, 160) : '호빵 커뮤니티 게시물'} />
 
                 {/* Open Graph 태그 (카카오톡, 페이스북 등 공유시) */}
