@@ -51,6 +51,8 @@
   },
   "reactSnap": {
     "include": [
+      "/",
+      "/chassis/calculator",
       "/v2/guide/howtochoosechassistype",
       "/v2/guide/hoppangprocess",
       "/v2/guide/chassisperformance"
