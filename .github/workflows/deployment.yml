@@ -36,12 +36,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-#      - name: install npm dependencies
-#        run: npm install
-#
-#      - name: react build
-#        run: npm run build
-
       - name: execute remote ssh & deploy
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -50,17 +44,14 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            docker kill $(docker ps -q --filter ancestor=hoppang-web-fe)
-            docker rmi -f $(docker images --format "{{.ID}}\t{{.Repository}}:{{.Tag}}" hoppang-web-fe)
-            rm -rf /home/twj/hoppang_web
-            git clone https://github.com/Taewoongjung/hoppang_web.git
-            cd /home/twj/hoppang_web
-            docker build --no-cache -t hoppang-web-fe .
-            docker tag hoppang-web-fe dndxowjd/hoppang-web-fe:0.01
-            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-            docker push dndxowjd/hoppang-web-fe:0.01
-            cd /home/twj/hopppang
-            docker compose up -d --build web-front-end-app
+            
+            APP_DIR="${{ secrets.APP_DIR || '~/hoppang_web' }}"
+            
+            cd "$APP_DIR"
+            git fetch origin main
+            git pull
+            
+            docker compose up -d --build web-front-end-app --remove-orphans
 
       - uses: 8398a7/action-slack@v3
         with:

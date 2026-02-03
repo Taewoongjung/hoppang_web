@@ -1,0 +1,19 @@
+version: "3.7"
+
+networks:
+  server-connection:
+    external: true
+    name: hopppang_server-connection
+
+services:
+  web-front-end-app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: hoppang-web-fe:${TAG:-latest}
+    container_name: hoppang_web_front
+    restart: always
+    ports:
+      - "10244:10244"
+    networks:
+      - server-connection
