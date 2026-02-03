@@ -4,11 +4,82 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-
-<url>
-  <loc>https://hoppang.store/</loc>
-  <lastmod>2025-12-07T10:48:23+00:00</lastmod>
-</url>
-
-
+  <url>
+    <loc>https://hoppang.store/chassis/calculator</loc>
+    <lastmod>2026-02-03T08:28:10.441Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hoppang.store/calculator/simple/step0</loc>
+    <lastmod>2026-02-03T08:28:10.441Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hoppang.store/calculator/simple/step1</loc>
+    <lastmod>2026-02-03T08:28:10.441Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hoppang.store/calculator/simple/step2</loc>
+    <lastmod>2026-02-03T08:28:10.441Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hoppang.store/calculator/simple/step3</loc>
+    <lastmod>2026-02-03T08:28:10.441Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hoppang.store/calculator/simple/step4</loc>
+    <lastmod>2026-02-03T08:28:10.441Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hoppang.store/calculator/simple/step5</loc>
+    <lastmod>2026-02-03T08:28:10.441Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hoppang.store/v2/guide/howtochoosechassistype</loc>
+    <lastmod>2026-02-03T08:28:10.441Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hoppang.store/v2/guide/hoppangprocess</loc>
+    <lastmod>2026-02-03T08:28:10.441Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hoppang.store/v2/guide/chassisperformance</loc>
+    <lastmod>2026-02-03T08:28:10.441Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hoppang.store/question/boards</loc>
+    <lastmod>2026-02-03T08:28:10.441Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hoppang.store/policy/privacy</loc>
+    <lastmod>2026-02-03T08:28:10.441Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://hoppang.store/policy/termofuse</loc>
+    <lastmod>2026-02-03T08:28:10.441Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
