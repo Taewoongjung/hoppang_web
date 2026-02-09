@@ -55,8 +55,8 @@ const LoginSecondStep = () => {
             }, 500);
         } catch (err) {
             if (err.response?.data?.errorCode === 1) {
-                const { email, oauthType, errorMessage: message } = err.response.data;
-                window.location.href = `/login/duplicate?email=${email}&oauthType=${oauthType}&message=${message}`;
+                const { email, oauthType, errorMessage: errorMsg } = err.response.data;
+                window.location.href = `/login/duplicate?email=${email}&oauthType=${oauthType}&message=${errorMsg}`;
             } else if (err.code === 'ECONNABORTED' || err.message.includes('timeout')) {
                 message.error('요청 시간이 초과되었습니다. 네트워크 연결을 확인하고 다시 시도해주세요.');
             } else if (!err.response) {
