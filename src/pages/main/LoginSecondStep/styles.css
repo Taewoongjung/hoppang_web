@@ -78,9 +78,9 @@
 }
 
 .login-step-card {
-    border-radius: 20px !important;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    border: none !important;
+    border-radius: 16px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid #f1f5f9 !important;
     overflow: hidden;
 }
 
@@ -190,4 +190,104 @@
     border: none;
     box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
     transition: all 0.3s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 380px) {
+    .login-container {
+        max-width: 100%;
+    }
+
+    .login-content {
+        padding: 16px 12px;
+        max-width: 100%;
+    }
+
+    .login-step-card-content {
+        padding: 24px 16px;
+    }
+
+    .section-title {
+        font-size: 22px !important;
+    }
+
+    .section-subtitle {
+        font-size: 14px;
+    }
+
+    .setting-item {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .setting-header {
+        gap: 8px;
+    }
+
+    .setting-icon {
+        font-size: 18px;
+    }
+
+    .setting-title {
+        font-size: 16px !important;
+    }
+
+    .setting-description {
+        font-size: 13px;
+    }
+
+    .info-message {
+        padding: 12px;
+        margin: 20px 0;
+    }
+
+    .info-text {
+        font-size: 13px;
+    }
+
+    .submit-button {
+        height: 48px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 320px) {
+    .login-content {
+        padding: 12px 8px;
+    }
+
+    .login-step-card-content {
+        padding: 20px 12px;
+    }
+
+    .section-title {
+        font-size: 20px !important;
+    }
+
+    .section-subtitle {
+        font-size: 13px;
+    }
+
+    .setting-item {
+        padding: 12px;
+        flex-wrap: wrap;
+    }
+
+    .setting-title {
+        font-size: 15px !important;
+    }
+
+    .setting-description {
+        font-size: 12px;
+    }
+
+    .submit-button {
+        height: 44px;
+        font-size: 15px;
+    }
+
+    /* Switch 컴포넌트가 작은 화면에서 잘리지 않도록 */
+    .setting-item .ant-switch {
+        flex-shrink: 0;
+    }
 }
