@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import './styles.css';
 import '../versatile-styles.css';
 
-import { Button, Switch, Card, Typography, Divider } from "antd";
+import { Button, Switch, Card, Typography, Divider, message } from "antd";
 import { BellOutlined, MessageOutlined } from '@ant-design/icons';
 import axios from "axios";
 import { callFinalSocialSignUp } from "../../../definition/apiPath";
@@ -19,9 +19,22 @@ const LoginSecondStep = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const signupFinally = async () => {
-        setIsLoading(true);
         const userEmail = urlParams.get('userEmail');
         const userPhoneNumber = urlParams.get('phoneNumber');
+
+        // 필수 파라미터 확인
+        if (!userEmail || !userPhoneNumber) {
+            message.error('필수 정보가 누락되었습니다. 다시 로그인해주세요.');
+            return;
+        }
+
+        const token = localStorage.getItem("hoppang-token");
+        if (!token) {
+            message.error('로그인 토큰이 없습니다. 다시 로그인해주세요.');
+            return;
+        }
+
+        setIsLoading(true);
 
         try {
             await axios.put(callFinalSocialSignUp, {
@@ -32,15 +45,37 @@ const LoginSecondStep = () => {
             }, {
                 withCredentials: true,
                 headers: {
-                    Authorization: localStorage.getItem("hoppang-token") || '',
+                    Authorization: token,
                 }
             });
 
-            window.location.href = "/chassis/calculator";
+            message.success('회원가입이 완료되었습니다!');
+            setTimeout(() => {
+                window.location.href = "/chassis/calculator";
+            }, 500);
         } catch (err) {
             if (err.response?.data?.errorCode === 1) {
                 const { email, oauthType, errorMessage: message } = err.response.data;
                 window.location.href = `/login/duplicate?email=${email}&oauthType=${oauthType}&message=${message}`;
+            } else if (err.code === 'ECONNABORTED' || err.message.includes('timeout')) {
+                message.error('요청 시간이 초과되었습니다. 네트워크 연결을 확인하고 다시 시도해주세요.');
+            } else if (!err.response) {
+                message.error('네트워크 연결을 확인할 수 없습니다. 인터넷 연결 상태를 확인해주세요.');
+            } else {
+                const status = err.response?.status;
+                switch (status) {
+                    case 401:
+                        message.error('로그인이 만료되었습니다. 다시 로그인해주세요.');
+                        break;
+                    case 403:
+                        message.error('접근 권한이 없습니다.');
+                        break;
+                    case 500:
+                        message.error('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+                        break;
+                    default:
+                        message.error(`회원가입에 실패했습니다. (${status || '알 수 없는 에러'})`);
+                }
             }
         } finally {
             setIsLoading(false);
