@@ -57,6 +57,8 @@ const ExpandedRowContent: React.FC<ExpandedRowRenderProps> = ({
                 columns={chassisSizeColumns}
                 dataSource={chassisSizeList}
                 pagination={false}
+                bordered
+                size="small"
                 style={{ marginBottom: '24px' }}
             />
             <h3 style={headingStyle}>추가 가격 정보</h3>
@@ -64,6 +66,8 @@ const ExpandedRowContent: React.FC<ExpandedRowRenderProps> = ({
                 columns={additionalInfoColumns}
                 dataSource={additionalInfoData}
                 pagination={false}
+                bordered
+                size="small"
                 style={{ width: '60%' }}
             />
         </div>
