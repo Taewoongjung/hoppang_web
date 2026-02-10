@@ -125,7 +125,7 @@ const EstimationManagement: React.FC = () => {
     );
 
     return (
-        <div style={{ marginTop: '-40px' }}>
+        <div>
             <SearchForm
                 estimationIdList={estimationIdList}
                 onEstimationIdListChange={setEstimationIdList}
