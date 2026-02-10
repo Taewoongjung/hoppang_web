@@ -1,374 +1,163 @@
-import React, {useEffect, useState} from 'react';
-import {Button, DatePicker, Input, Space, Table, Card} from "antd";
-import moment from 'moment';
-import axios from "axios";
-import {findCountOfEstimationList, findEstimationList} from "../../../definition/Admin/apiPath";
-import {addCommasToNumber, convertAdditionalChassisPriceInfoToKo} from "../../../util";
+import React, { useEffect, useState, useCallback } from 'react';
+import { Table, message } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import {SearchOutlined, CloseOutlined} from "@ant-design/icons";
+import { findEstimationList } from '../../../definition/Admin/apiPath';
+import {
+    EstimationData,
+    ExpandedRowRenderProps,
+} from './types';
+import {
+    useEstimationData,
+} from './hooks';
+import { columns } from './tableColumns';
+import SearchForm from './SearchForm';
+import ExpandedRowContent from './ExpandedRowContent';
+import { processIdList, formatRequestParam, getDefaultDateRange } from './utils';
+import {
+    DATE_FORMAT,
+    DEFAULT_DAYS_TO_SUBTRACT,
+    PAGE_SIZE,
+} from './constants';
 
 dayjs.extend(customParseFormat);
 
-const { RangePicker } = DatePicker;
-const dateFormat = 'YYYY-MM-DD';
+type DateRange = [dayjs.Dayjs | null, dayjs.Dayjs | null] | null;
 
-const columns = [
-    {
-        title: '견적 번호',
-        dataIndex: 'id',
-        key: 'id',
-    },
-    {
-        title: '회사 유형',
-        dataIndex: 'companyType',
-        key: 'companyType',
-    },
-    {
-        title: '고객 명',
-        dataIndex: 'userName',
-        key: 'userName',
-    },
-    {
-        title: '고객 전화번호',
-        dataIndex: 'userPhoneNumber',
-        key: 'userPhoneNumber',
-    },
-    {
-        title: '주소',
-        dataIndex: 'chassisEstimationAddress',
-        key: 'address',
-        render: (address: { zipCode: any | undefined; address: any | undefined; subAddress: any | undefined; }) => address ? `(${address.zipCode}) ${address.address} ${address.subAddress}` : null,
-    },
-    {
-        title: '확장여부',
-        dataIndex: 'chassisEstimationAddress',
-        key: 'isExpanded',
-        width: 82,
-        render: (address: { isExpanded: any | undefined; }) => address.isExpanded ? "O" : <CloseOutlined /> ,
-    },
-    {
-        title: '총 가격',
-        dataIndex: 'totalPrice',
-        key: 'totalPrice',
-        render: (price: any) => addCommasToNumber(price),
-    },
-    {
-        title: '생성일',
-        dataIndex: 'createdAt',
-        key: 'createdAt',
-        width: 180,
-        render: (date: any) => moment(date).format('YYYY-MM-DD HH:mm:ss'),
-    },
-];
-
-
-const EstimationManagement = () => {
-
+const EstimationManagement: React.FC = () => {
     const urlParams = new URLSearchParams(window.location.search);
 
-    const [data, setData] = useState([]);
-    const [countOfData, setCountOfData] = useState(0);
+    const {
+        data,
+        countOfData,
+        isLoading,
+        fetchData,
+        setData,
+    } = useEstimationData();
+
     const [expandedRowKeys, setExpandedRowKeys] = useState<React.Key[]>([]);
+    const [estimationIdList, setEstimationIdList] = useState<string>('');
+    const [dateRange, setDateRange] = useState<DateRange>(null);
+    const [requestParam, setRequestParam] = useState<string>('');
 
-    // 검색 파라메터 변수
-    const [estimationIdList, setEstimationIdList] = useState('');
-    const [dateRange, setDateRange] = useState([]);
-    const [requestParam, setRequestParam] = useState();
-
-    // 초기 렌더링 견적 리스트 조회
+    // 초기 렌더링 시 데이터 로드
     useEffect(() => {
-        // 컴포넌트 마운트 시 기본 날짜 범위 설정
-        const defaultStartDate = moment().subtract(7, 'days').format(dateFormat).toString();
-        const defaultEndDate = moment().format(dateFormat).toString();
+        const defaultStartDate = dayjs()
+            .subtract(DEFAULT_DAYS_TO_SUBTRACT, 'day')
+            .format(DATE_FORMAT);
+        const defaultEndDate = dayjs().format(DATE_FORMAT);
 
-        let requestParam = '';
-        let requestEstimationIdParam: number[] = [];
+        let param: string;
 
-        if (urlParams.get("estimationIdList")) {
-            requestEstimationIdParam = urlParams.get("estimationIdList")!
+        if (urlParams.get('estimationIdList')) {
+            const requestEstimationIdParam = urlParams
+                .get('estimationIdList')!
                 .split(',')
-                .map(id => Number(id));
+                .map((id) => Number(id))
+                .join(',');
 
-            requestParam = `?estimationIdList=${requestEstimationIdParam.join(',')}&startTime=${defaultStartDate}&endTime=${defaultEndDate}`
+            param = `?estimationIdList=${requestEstimationIdParam}&startTime=${defaultStartDate}&endTime=${defaultEndDate}`;
+
+            // 입력 필드에도 ID 목록 설정
+            setEstimationIdList(requestEstimationIdParam);
         } else {
-            requestParam = `?startTime=${defaultStartDate}&endTime=${defaultEndDate}`;
+            param = `?startTime=${defaultStartDate}&endTime=${defaultEndDate}`;
         }
 
-        axios.get(findEstimationList + requestParam, {
-            withCredentials: true,
-            headers: {
-                Authorization: localStorage.getItem("hoppang-admin-token") || '',
-            },
-        })
-            .then(res => {
-                const estimationList = res.data.map((item: any) => ({
-                    ...item,
-                    key: item.id // 각 항목에 고유한 key 추가
-                }));
-                // @ts-ignore
-                setData([...estimationList]);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-
-        axios.get(findCountOfEstimationList + requestParam, {
-            withCredentials: true,
-            headers: {
-                Authorization: localStorage.getItem("hoppang-admin-token") || '',
-            },
-        })
-            .then(res => {
-                const countOfEstimationList = res.data;
-                setCountOfData(countOfEstimationList);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
+        const initialDateRange: DateRange = [
+            dayjs(defaultStartDate, DATE_FORMAT),
+            dayjs(defaultEndDate, DATE_FORMAT),
+        ];
+        setDateRange(initialDateRange);
+        setRequestParam(param);
+        fetchData(param);
     }, []);
 
-    const expandedRowRender = (record: { additionalChassisPriceInfo: { [s: string]: unknown; } | ArrayLike<unknown>; chassisSizeList: readonly Record<string | number | symbol, any>[] | undefined; }) => {
-        const chassisSizeColumns = [
-            { title: '샤시 종류', dataIndex: 'chassisType', key: 'chassisType' },
-            { title: '너비(w)', dataIndex: 'width', key: 'width' },
-            { title: '높이(h)', dataIndex: 'height', key: 'height' },
-            { title: '가격', dataIndex: 'price', key: 'price', render: (price: any ) => `₩${addCommasToNumber(price)}` },
-        ];
-
-        const additionalInfoColumns = [
-            { title: '항목', dataIndex: 'item', key: 'item' },
-            { title: '가격', dataIndex: 'price', key: 'price', render: (price: any) => `₩${addCommasToNumber(price)}` },
-        ];
-
-        const additionalInfoData = Object.entries(record.additionalChassisPriceInfo).map(([key, value], index) => ({
-            key: index,
-            item: convertAdditionalChassisPriceInfoToKo(key),
-            price: value,
-        }));
-
-        return (
-            <div style={{
-                backgroundColor: "#e9ffe6",
-                padding: "16px",
-                borderRadius: "8px",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
-            }}>
-                <h3 style={{
-                    borderBottom: "1px solid #4caf50",
-                    paddingBottom: "8px",
-                    marginBottom: "16px"
-                }}>샤시 목록</h3>
-                <Table
-                    columns={chassisSizeColumns}
-                    dataSource={record.chassisSizeList}
-                    pagination={false}
-                    style={{marginBottom: "24px"}}
-                />
-                <h3 style={{
-                    borderBottom: "1px solid #4caf50",
-                    paddingBottom: "8px",
-                    marginBottom: "16px"
-                }}>추가 가격 정보</h3>
-                <Table
-                    columns={additionalInfoColumns}
-                    dataSource={additionalInfoData}
-                    pagination={false}
-                    style={{width: "60%"}}
-                />
-            </div>
+    const onExpand = useCallback((expanded: boolean, record: EstimationData) => {
+        setExpandedRowKeys((prev) =>
+            expanded
+                ? [...prev, record.key]
+                : prev.filter((k) => k !== record.key)
         );
-    };
+    }, []);
 
-    const onExpand = (expanded: boolean, record: any) => {
-        setExpandedRowKeys(expanded
-            ? [...expandedRowKeys, record.key]
-            : expandedRowKeys.filter(k => k !== record.key)
-        );
-    };
-
-    const onClickSearchEstimation = async () => {
-        // ID 처리
+    const onClickSearchEstimation = useCallback(async () => {
         const processedIds = processIdList(estimationIdList);
         setEstimationIdList(processedIds);
-        const estIdList = processedIds.split(',');
 
-        // 날짜 처리
-        let startDate, endDate;
-        if (dateRange && dateRange.length === 2) {
-            // @ts-ignore
-            [startDate, endDate] = dateRange.map(date => date.format(dateFormat));
+        let startDate: string, endDate: string;
+
+        if (dateRange && dateRange[0] && dateRange[1]) {
+            startDate = dateRange[0].format(DATE_FORMAT);
+            endDate = dateRange[1].format(DATE_FORMAT);
         } else {
-            startDate = moment().subtract(7, 'days').format(dateFormat);
-            endDate = moment().add(7, 'days').format(dateFormat);
-            // @ts-ignore
-            setDateRange([moment(startDate), moment(endDate)]);
+            const [defaultStart, defaultEnd] = getDefaultDateRange();
+            startDate = defaultStart.format(DATE_FORMAT);
+            endDate = defaultEnd.format(DATE_FORMAT);
+            setDateRange([defaultStart, defaultEnd]);
         }
 
-        // 호출 파라메터 생성
-        let requestParam = "?";
-        if (!(estIdList.length === 1 && estIdList[0] === '')) {
-            requestParam += "estimationIdList=";
-            requestParam += estIdList.join(',');
-            requestParam += "&";
-        }
-
-        requestParam += "startTime=" + startDate + "&" + "endTime=" + endDate;
-
-        if (requestParam) {
-            // 견적 리스트 조회 호출
-            await axios.get(findEstimationList + requestParam, {
-                withCredentials: true,
-                headers: {
-                    Authorization: localStorage.getItem("hoppang-admin-token") || '',
-                },
-            })
-                .then(res => {
-                    const estimationList = res.data.map((item: any) => ({
-                        ...item,
-                        key: item.id // 각 항목에 고유한 key 추가
-                    }));
-                    // @ts-ignore
-                    setRequestParam(requestParam);
-                    // @ts-ignore
-                    setData([...estimationList]);
-                    setExpandedRowKeys([]);
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
-
-            // 견적 리스트의 카운트 조회 호출
-            axios.get(findCountOfEstimationList + requestParam, {
-                withCredentials: true,
-                headers: {
-                    Authorization: localStorage.getItem("hoppang-admin-token") || '',
-                },
-            })
-                .then(res => {
-                    const countOfEstimationList = res.data;
-                    setCountOfData(countOfEstimationList);
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
-        }
-    }
-
-    const handleInputChange = (e: { target: { value: any; }; }) => {
-        const value = e.target.value;
-        // 숫자와 콤마만 허용하는 정규 표현식
-        const regex = /^[0-9,\s]*$/;
-
-        if (regex.test(value) || value === '') {
-            setEstimationIdList(value);
-        }
-    };
-
-    const processIdList = (input: string) => {
-        // 콤마로 구분된 각 부분을 처리
-        return input.split(',').map(part => {
-            // 각 부분에서 공백을 제거하고 연속된 숫자로 만듦
-            return part.replace(/\s+/g, '').trim();
-        }).filter(id => id !== '').join(',');
-    };
-
-    const fetchData = async (page: number, pageSize: number) => {
-
-        if (!requestParam) {
-            return;
-        }
+        const param = formatRequestParam(processedIds, startDate, endDate);
 
         try {
-            const response = await axios.get(findEstimationList + requestParam, {
-                withCredentials: true,
-                headers: {
-                    Authorization: localStorage.getItem("hoppang-admin-token") || '',
-                },
-            });
-
-            const estimationList = response.data.map((item: any) => ({
-                ...item,
-                key: item.id
-            }));
-
-            // @ts-ignore
-            setData([...estimationList]);
-
-            // 전체 데이터 수 업데이트
-            const countResponse = await axios.get(findCountOfEstimationList + requestParam, {
-                withCredentials: true,
-                headers: {
-                    Authorization: localStorage.getItem("hoppang-admin-token") || '',
-                },
-            });
-            setCountOfData(countResponse.data);
+            setRequestParam(param);
+            setExpandedRowKeys([]);
+            await fetchData(param);
         } catch (error) {
-            console.error('Error fetching data:', error);
+            message.error('견적 데이터를 불러오는데 실패했습니다.');
         }
-    };
+    }, [estimationIdList, dateRange, fetchData]);
 
+    const expandedRowRender = useCallback(
+        (record: ExpandedRowRenderProps) => {
+            return <ExpandedRowContent {...record} />;
+        },
+        []
+    );
+
+    const handlePageChange = useCallback(
+        (page: number, pageSize: number) => {
+            if (requestParam) {
+                fetchData(requestParam);
+            }
+        },
+        [requestParam, fetchData]
+    );
 
     return (
-        <>
-            <div style={{ marginTop: '-40px' }}>
-                <Card
-                    style={{ marginBottom: '10px', width: '500px'}}
-                    title="견적 검색"
-                    extra={
-                        <Button
-                            type="primary"
-                            icon={<SearchOutlined />}
-                            onClick={onClickSearchEstimation}
-                        >
-                            검색
-                        </Button>
-                    }
-                >
-                    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-                        <Input
-                            placeholder="견적 번호를 콤마로 구분하여 입력"
-                            value={estimationIdList}
-                            onChange={handleInputChange}
-                            style={{ width: '100%' }}
-                        />
-                        <RangePicker
-                            format={dateFormat}
-                            // @ts-ignore
-                            value={dateRange}
-                            // @ts-ignore
-                            onChange={(dates) => setDateRange(dates)}
-                            style={{ width: '60%' }}
-                        />
-                    </Space>
-                </Card>
+        <div style={{ marginTop: '-40px' }}>
+            <SearchForm
+                estimationIdList={estimationIdList}
+                onEstimationIdListChange={setEstimationIdList}
+                dateRange={dateRange}
+                onDateRangeChange={setDateRange}
+                onSearch={onClickSearchEstimation}
+            />
 
-                <Table
-                    key={data?.length}
-                    columns={columns}
-                    dataSource={data || []}
-                    expandable={{
-                        expandedRowRender,
-                        expandedRowKeys,
-                        onExpand
-                    }}
-                    pagination={{
-                        total: countOfData,
-                        position: ["bottomCenter"],
-                        pageSize: 10,
-                        showSizeChanger: false,
-                        showTotal: (total, range) => `총 ${total}개 중 ${range[0]}-${range[1]}번째 항목`,
-                        onChange: (page, pageSize) => {
-                            // 여기서 페이지 변경 시 새로운 데이터 조회
-                            fetchData(page, pageSize).then(r => {});
-                        },
-                    }}
-                    bordered
-                    style={{ backgroundColor: 'white' }}
-                />
-            </div>
-        </>
+            <Table
+                key={data?.length}
+                columns={columns}
+                dataSource={data}
+                expandable={{
+                    expandedRowRender,
+                    expandedRowKeys,
+                    onExpand,
+                }}
+                pagination={{
+                    total: countOfData,
+                    position: ['bottomCenter'],
+                    pageSize: PAGE_SIZE,
+                    showSizeChanger: false,
+                    showTotal: (total, range) =>
+                        `총 ${total}개 중 ${range[0]}-${range[1]}번째 항목`,
+                    onChange: handlePageChange,
+                }}
+                bordered
+                loading={isLoading}
+                style={{ backgroundColor: 'white' }}
+            />
+        </div>
     );
-}
+};
 
 export default EstimationManagement;
