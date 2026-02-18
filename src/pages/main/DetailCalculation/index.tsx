@@ -52,6 +52,30 @@ const MobileCalculationScreen = () => {
     const [currentStep, setCurrentStep] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
 
+    // 스텝별 정보를 위한 매핑
+    const stepInfoMap = {
+        0: { title: '샷시 회사 선택', funnel_step: 'company_selection' },
+        1: { title: '샷시 정보 입력', funnel_step: 'chassis_info' },
+        2: { title: '주소 입력', funnel_step: 'address_input' },
+        3: { title: '기타 정보 입력', funnel_step: 'additional_info' },
+        4: { title: '사양 확인', funnel_step: 'specification_review' }
+    };
+
+    // currentStep 변경 시 GA4 페이지뷰 이벤트 전송
+    useEffect(() => {
+        if (window.gtag) {
+            const stepInfo = stepInfoMap[currentStep as keyof typeof stepInfoMap];
+            window.gtag('event', 'page_view', {
+                page_title: `상세견적 - ${stepInfo.title}`,
+                page_location: window.location.href,
+                page_path: '/v2/calculator',
+                funnel_type: 'detail_estimate',
+                funnel_step: stepInfo.funnel_step,
+                step_number: currentStep + 1
+            });
+        }
+    }, [currentStep]);
+
     // Step 0: 샷시 회사 선택
     const [selectedCompany, setSelectedCompany] = useState('');
 

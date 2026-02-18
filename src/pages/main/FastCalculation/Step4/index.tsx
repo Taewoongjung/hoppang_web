@@ -22,6 +22,18 @@ const Step4ResidentSelection = () => {
     // 컴포넌트 마운트 시 스크롤 맨 위로
     useEffect(() => {
         window.scrollTo(0, 0);
+
+        // GA4 페이지뷰 이벤트
+        if (window.gtag) {
+            window.gtag('event', 'page_view', {
+                page_title: '간편견적 - 거주 여부',
+                page_location: window.location.href,
+                page_path: '/calculator/simple/step4',
+                funnel_type: 'simple_estimate',
+                funnel_step: 'resident_selection',
+                step_number: 5
+            });
+        }
     }, []);
 
     useEffect(() => {

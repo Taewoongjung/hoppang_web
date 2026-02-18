@@ -36,6 +36,18 @@ const Step0AddressInput = () => {
     // 컴포넌트 마운트 시 스크롤 맨 위로
     useEffect(() => {
         window.scrollTo(0, 0);
+
+        // GA4 페이지뷰 이벤트
+        if (window.gtag) {
+            window.gtag('event', 'page_view', {
+                page_title: '간편견적 - 주소 입력',
+                page_location: window.location.href,
+                page_path: '/calculator/simple/step0',
+                funnel_type: 'simple_estimate',
+                funnel_step: 'address_input',
+                step_number: 1
+            });
+        }
     }, []);
 
     // 컴포넌트 마운트 시 localStorage에서 복원

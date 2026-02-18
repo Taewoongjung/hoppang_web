@@ -24,6 +24,18 @@ const Step1AreaSelection = () => {
     // 컴포넌트 마운트 시 스크롤 맨 위로
     useEffect(() => {
         window.scrollTo(0, 0);
+
+        // GA4 페이지뷰 이벤트
+        if (window.gtag) {
+            window.gtag('event', 'page_view', {
+                page_title: '간편견적 - 평수 선택',
+                page_location: window.location.href,
+                page_path: '/calculator/simple/step1',
+                funnel_type: 'simple_estimate',
+                funnel_step: 'area_selection',
+                step_number: 2
+            });
+        }
     }, []);
 
     useEffect(() => {

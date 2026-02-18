@@ -57,6 +57,18 @@ const Step5FloorplanReview = () => {
     // 컴포넌트 마운트 시 스크롤 맨 위로
     useEffect(() => {
         window.scrollTo(0, 0);
+
+        // GA4 페이지뷰 이벤트
+        if (window.gtag) {
+            window.gtag('event', 'page_view', {
+                page_title: '간편견적 - 도면 확인',
+                page_location: window.location.href,
+                page_path: '/calculator/simple/step5',
+                funnel_type: 'simple_estimate',
+                funnel_step: 'floorplan_review',
+                step_number: 6
+            });
+        }
     }, []);
 
     const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
