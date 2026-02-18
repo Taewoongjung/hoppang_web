@@ -61,11 +61,11 @@ const MobileCalculationScreen = () => {
         4: { title: '사양 확인', funnel_step: 'specification_review' }
     };
 
-    // currentStep 변경 시 GA4 페이지뷰 이벤트 전송
+    // currentStep 변경 시 GA4 퍼널 스텝 이벤트 전송
     useEffect(() => {
         if (window.gtag) {
             const stepInfo = stepInfoMap[currentStep as keyof typeof stepInfoMap];
-            window.gtag('event', 'page_view', {
+            window.gtag('event', 'funnel_step_view', {
                 page_title: `상세견적 - ${stepInfo.title}`,
                 page_location: window.location.href,
                 page_path: '/v2/calculator',

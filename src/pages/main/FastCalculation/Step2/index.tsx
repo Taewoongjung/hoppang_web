@@ -22,9 +22,9 @@ const Step2BaySelection = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
 
-        // GA4 페이지뷰 이벤트
+        // GA4 퍼널 스텝 이벤트
         if (window.gtag) {
-            window.gtag('event', 'page_view', {
+            window.gtag('event', 'funnel_step_view', {
                 page_title: '간편견적 - Bay 구조 선택',
                 page_location: window.location.href,
                 page_path: '/calculator/simple/step2',
