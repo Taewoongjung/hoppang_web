@@ -65,9 +65,16 @@ const LandingPage = () => {
     }, [advId]);
 
     useEffect(() => {
+        // 페이지를 벗어날 때 머문 시간 전송
+        const handleBeforeUnload = () => {
+            callWhenItEnds();
+        };
 
-        callWhenItEnds();
+        window.addEventListener('beforeunload', handleBeforeUnload);
 
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
     }, [callWhenItEnds]);
 
     const handleButtonClick = (event: any) => {
@@ -76,6 +83,9 @@ const LandingPage = () => {
         target.style.transition = "transform 0.3s ease, box-shadow 0.3s ease";
         target.style.transform = "scale(1.1)";
         target.style.boxShadow = "0 0 15px rgba(255, 165, 0, 0.8)";
+
+        // 머문 시간 전송
+        callWhenItEnds();
 
         setTimeout(() => {
             target.style.transform = "scale(1)";
