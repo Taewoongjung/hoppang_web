@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import { Helmet } from 'react-helmet-async';
 
 import './styles.css';
 import '../versatile-styles.css';
@@ -169,7 +170,11 @@ const Login = () => {
     }
 
     return (
-        <div className="login-container">
+        <>
+            <Helmet>
+                <meta name="robots" content="noindex, nofollow"/>
+            </Helmet>
+            <div className="login-container">
             {/* 모바일 안내 모달 */}
             {showMobileGuide && (
                 <MobileGuideModal
@@ -284,6 +289,7 @@ const Login = () => {
                 </section>
             </main>
         </div>
+        </>
     );
 }
 

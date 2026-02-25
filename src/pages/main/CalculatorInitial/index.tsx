@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 
 import './styles.css';
 import '../versatile-styles.css';
@@ -44,7 +45,11 @@ const EstimateMethodSelection = () => {
 
 
     return (
-        <div className="estimate-method-container">
+        <>
+            <Helmet>
+                <meta name="robots" content="noindex, nofollow"/>
+            </Helmet>
+            <div className="estimate-method-container">
             {/* Header */}
             <header className="estimate-method-header">
                 <button
@@ -133,6 +138,7 @@ const EstimateMethodSelection = () => {
                 </div>
             </main>
         </div>
+        </>
     );
 };
 

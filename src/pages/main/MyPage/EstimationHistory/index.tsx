@@ -1,4 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
+import { Helmet } from 'react-helmet-async';
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import {Spin} from "antd";
@@ -139,7 +140,11 @@ const EstimationHistory = () => {
 
 
     return (
-        <div className="estimation-history-container">
+        <>
+            <Helmet>
+                <meta name="robots" content="noindex, nofollow"/>
+            </Helmet>
+            <div className="estimation-history-container">
             {/* Header */}
             <header className="estimation-header">
                 <div className="header-content">
@@ -268,6 +273,7 @@ const EstimationHistory = () => {
                 />
             </main>
         </div>
+        </>
     );
 };
 

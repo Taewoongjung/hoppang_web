@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 import './styles.css';
 import '../../versatile-styles.css';
@@ -368,7 +369,11 @@ const ProfileEditPage = () => {
     }
 
     return (
-        <div className="profile-edit-container">
+        <>
+            <Helmet>
+                <meta name="robots" content="noindex, nofollow"/>
+            </Helmet>
+            <div className="profile-edit-container">
             {/* Header */}
             <header className="profile-header">
                 <div className="header-content">
@@ -782,6 +787,7 @@ const ProfileEditPage = () => {
                 </section>
             </main>
         </div>
+        </>
     );
 };
 

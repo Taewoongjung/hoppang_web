@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { Helmet } from 'react-helmet-async';
 
 import './styles.css';
 import '../../versatile-styles.css';
@@ -180,6 +181,9 @@ const ConfigPage = () => {
 
     return (
         <>
+            <Helmet>
+                <meta name="robots" content="noindex, nofollow"/>
+            </Helmet>
             { loading && <LoadingPage statement={"로그아웃 처리중"}/> }
 
             { !loading &&

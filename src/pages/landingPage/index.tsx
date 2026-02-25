@@ -1,4 +1,5 @@
 import React, {useCallback, useEffect, useRef} from 'react';
+import { Helmet } from 'react-helmet-async';
 import {landingPageStatistics} from "../../definition/LandingPage/apiPath";
 import {formatDateTime} from "../../util/boardUtil";
 
@@ -8,6 +9,7 @@ const LandingPage = () => {
     const advId = urlParams.get('adv_id') || "unknown";
 
     const hasSentRequest = useRef(false);
+    const visitedAt = useRef(new Date());
 
     const now = new Date();
     const utc = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
@@ -39,7 +41,7 @@ const LandingPage = () => {
         hasSentRequest.current = true;
 
         const referrer = document.referrer || "direct";
-        // const stayDuration = Math.floor((Date.now() - visitedAt.current.getTime()) / 1000);
+        const stayDuration = Math.floor((Date.now() - visitedAt.current.getTime()) / 1000);
         const browser = getBrowser();
         const formattedVisitedAt = formatDateTime(korNow);
 
@@ -47,7 +49,7 @@ const LandingPage = () => {
             referrer,
             advId,
             browser,
-            stayDuration : 0,
+            stayDuration : stayDuration,
             visitedAt: formattedVisitedAt
         };
 
@@ -63,16 +65,9 @@ const LandingPage = () => {
     }, [advId]);
 
     useEffect(() => {
-        // if (!advId || advId === "unknown") {
-        //     console.warn("⚠️ adv_id가 없습니다.");
-        // }
-        //
-        // window.addEventListener("beforeunload", callWhenItEnds);
-        //
-        // return () => {
-        //     window.removeEventListener("beforeunload", callWhenItEnds);
-        // };
+
         callWhenItEnds();
+
     }, [callWhenItEnds]);
 
     const handleButtonClick = (event: any) => {
@@ -92,6 +87,9 @@ const LandingPage = () => {
 
     return (
         <>
+            <Helmet>
+                <meta name="robots" content="noindex, nofollow"/>
+            </Helmet>
             <div style={{
                 textAlign: 'center',
                 fontFamily: 'Arial, sans-serif',

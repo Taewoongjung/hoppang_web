@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 import './styles.css';
 import '../versatile-styles.css';
@@ -84,7 +85,11 @@ const LoginSecondStep = () => {
 
 
     return (
-        <div className="login-container">
+        <>
+            <Helmet>
+                <meta name="robots" content="noindex, nofollow"/>
+            </Helmet>
+            <div className="login-container">
             {/* Header */}
             <div className="login-header">
                 <div className="header-content">
@@ -170,6 +175,7 @@ const LoginSecondStep = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 

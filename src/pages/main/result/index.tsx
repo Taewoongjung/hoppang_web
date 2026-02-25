@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useLocation, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
@@ -493,7 +494,11 @@ const MobileResultScreen = () => {
     };
 
     return (
-        <div className="app-container">
+        <>
+            <Helmet>
+                <meta name="robots" content="noindex, nofollow"/>
+            </Helmet>
+            <div className="app-container">
             {isLoading &&
                 <OverlayLoadingPage word={"견적을 계산중입니다"}/>
             }
@@ -602,6 +607,7 @@ const MobileResultScreen = () => {
                 showListButton={false}
             />
         </div>
+        </>
     );
 };
 

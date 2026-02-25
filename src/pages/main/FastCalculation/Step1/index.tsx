@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
@@ -84,7 +85,11 @@ const Step1AreaSelection = () => {
 
 
     return (
-        <div className="simple-estimate-container">
+        <>
+            <Helmet>
+                <meta name="robots" content="noindex, nofollow"/>
+            </Helmet>
+            <div className="simple-estimate-container">
             {/* Header */}
             <header className="simple-estimate-header">
                 <button
@@ -186,6 +191,7 @@ const Step1AreaSelection = () => {
                 </button>
             </div>
         </div>
+        </>
     );
 };
 

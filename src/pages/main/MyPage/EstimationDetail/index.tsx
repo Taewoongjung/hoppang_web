@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import { Helmet } from 'react-helmet-async';
 import axios from "axios";
 
 import './styles.css';
@@ -195,7 +196,11 @@ const EstimationDetailPage = () => {
     };
 
     return (
-        <div className="estimation-container">
+        <>
+            <Helmet>
+                <meta name="robots" content="noindex, nofollow"/>
+            </Helmet>
+            <div className="estimation-container">
             {/* Header */}
             <header className="estimation-header">
                 <div className="header-content">
@@ -319,6 +324,7 @@ const EstimationDetailPage = () => {
                 }
             />
         </div>
+        </>
     );
 }
 

@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import { Helmet } from 'react-helmet-async';
 
 import './styles.css';
 import '../../versatile-styles.css';
@@ -111,6 +112,9 @@ const ConfigPage = () => {
 
     return (
         <>
+            <Helmet>
+                <meta name="robots" content="noindex, nofollow"/>
+            </Helmet>
             <div className="config-container">
                 {/* Header */}
                 <header className="config-header">

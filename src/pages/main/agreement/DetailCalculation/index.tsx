@@ -1,4 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useHistory } from 'react-router-dom';
 
 import './styles.css';
@@ -162,7 +163,11 @@ const DetailCalculationAgreement = () => {
 
 
     return (
-        <div className="app-container" style={{
+        <>
+            <Helmet>
+                <meta name="robots" content="noindex, nofollow"/>
+            </Helmet>
+            <div className="app-container" style={{
             paddingTop: supportsSafeArea ? 'env(safe-area-inset-top)' : '0',
             paddingBottom: supportsSafeArea ? 'env(safe-area-inset-bottom)' : '0',
             paddingLeft: supportsSafeArea ? 'env(safe-area-inset-left)' : '0',
@@ -307,6 +312,7 @@ const DetailCalculationAgreement = () => {
                 </>
             }
         </div>
+        </>
     );
 };
 
