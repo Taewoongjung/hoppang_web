@@ -16,6 +16,7 @@
       "@components/*": ["components/*"],
       "@layouts/*": ["layouts/*"],
       "@pages/*": ["pages/*"]
-    }
+    },
+    "skipLibCheck": true
   }
 }

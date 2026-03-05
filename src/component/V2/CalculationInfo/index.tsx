@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 
 type PanelKey = 'glass' | 'handle';
 
@@ -12,12 +12,12 @@ const InfoSection: React.FC<{
     // 스크롤 완료 여부
     const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
 
-    const togglePanel = (panelKey: PanelKey) => {
+    const togglePanel = useCallback((panelKey: PanelKey) => {
         setExpandedPanels(prev => ({
             ...prev,
             [panelKey]: !prev[panelKey]
         }));
-    };
+    }, []);
 
     // IntersectionObserver로 마지막 섹션 관찰
     useEffect(() => {
@@ -47,11 +47,11 @@ const InfoSection: React.FC<{
     }, []);
 
     // 체크박스 변경 핸들러
-    const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleCheckboxChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         if (hasScrolledToBottom) {
             setIsAgreed(e.target.checked);
         }
-    };
+    }, [hasScrolledToBottom, setIsAgreed]);
 
     return (
         <div style={{

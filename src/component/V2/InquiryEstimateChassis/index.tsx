@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, memo } from 'react';
 import { message, Modal } from "antd";
 import { callEstimateInquiry } from "../../../definition/apiPath";
 import axios from "axios";
@@ -38,21 +38,21 @@ const InquiryEstimateChassis: React.FC<InquiryEstimateChassisProps> = ({
         setInquiryStatus(initialInquiryStatus);
     }, [initialInquiryStatus, estimationId]);
 
-    const success = (successMsg: string) => {
+    const success = useCallback((successMsg: string) => {
         messageApi.open({
             type: 'success',
             content: successMsg,
         });
-    };
+    }, []);
 
-    const errorModal = (errorMsg: string) => {
+    const errorModal = useCallback((errorMsg: string) => {
         messageApi.open({
             type: 'error',
             content: errorMsg
         });
-    };
+    }, []);
 
-    const handleInquiry = async (strategy: string, inquiryType: string, actionCallback?: () => void) => {
+    const handleInquiry = useCallback(async (strategy: string, inquiryType: string, actionCallback?: () => void) => {
         if (!strategy || !estimationId) return;
 
         setIsProcessing(true);
@@ -102,9 +102,9 @@ const InquiryEstimateChassis: React.FC<InquiryEstimateChassisProps> = ({
             setIsProcessing(false);
             setProcessingType(null);
         }
-    };
+    }, [estimationId, inquiryStatus, success, errorModal, finishedInquiry]);
 
-    const handleKakaoInquiry = () => {
+    const handleKakaoInquiry = useCallback(() => {
         const actionCallback = () => {
             const kakaoWebLink = 'https://pf.kakao.com/_dbxezn/chat';
             const kakaoAppLink = 'kakaotalk://plusfriend/chat/_dbxezn';
@@ -121,27 +121,27 @@ const InquiryEstimateChassis: React.FC<InquiryEstimateChassisProps> = ({
         };
 
         handleInquiry('KAKAO', 'kakao', actionCallback);
-    };
+    }, [handleInquiry]);
 
-    const handlePhoneCall = () => {
+    const handlePhoneCall = useCallback(() => {
         const actionCallback = () => {
             window.location.href = 'tel:010-2913-3622';
         };
 
         handleInquiry('TEL', 'call', actionCallback);
-    };
+    }, [handleInquiry]);
 
-    const handlePhoneConsult = () => {
+    const handlePhoneConsult = useCallback(() => {
         handleInquiry('TEL_CONSULT', 'callback');
-    };
+    }, [handleInquiry]);
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         if (!isProcessing) {
             setIsInquiryModalOpen(false);
         }
-    };
+    }, [isProcessing, setIsInquiryModalOpen]);
 
-    const inquiryOptions = [
+    const inquiryOptions = useMemo(() => [
         {
             id: 'kakao',
             title: '카카오톡 상담',
@@ -175,10 +175,17 @@ const InquiryEstimateChassis: React.FC<InquiryEstimateChassisProps> = ({
             completedText: '상담 신청 완료',
             completedDesc: '추가 신청하려면 클릭하세요'
         }
-    ];
+    ], [handleKakaoInquiry, handlePhoneCall, handlePhoneConsult]);
 
-    const hasAnyInquiry = Object.values(inquiryStatus).some(status => status);
-    const completedCount = Object.values(inquiryStatus).filter(Boolean).length;
+    const hasAnyInquiry = useMemo(() =>
+        Object.values(inquiryStatus).some(status => status),
+        [inquiryStatus]
+    );
+
+    const completedCount = useMemo(() =>
+        Object.values(inquiryStatus).filter(Boolean).length,
+        [inquiryStatus]
+    );
 
     return (
         <>

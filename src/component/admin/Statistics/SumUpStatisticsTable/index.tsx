@@ -1,44 +1,42 @@
-import React, {useEffect, useState} from 'react';
-import {Row, Col, Statistic, StatisticProps, Typography} from 'antd';
+import React, { useEffect, useState, memo, useCallback } from 'react';
+import { Row, Col, Statistic, StatisticProps, Typography } from 'antd';
 import CountUp from "react-countup";
 import axios from "axios";
-import {findAllProvidedEstimationsCount, findAllUsersCount} from "../../../../definition/Admin/apiPath";
+import { findAllProvidedEstimationsCount, findAllUsersCount } from "../../../../definition/Admin/apiPath";
 
 const formatter: StatisticProps['formatter'] = (value) => (
     <CountUp end={value as number} separator="," />
 );
 
-const SumUpStatisticsTable = () => {
-
+const SumUpStatisticsTable: React.FC = memo(() => {
     const [providedEstimationsCount, setProvidedEstimationsCount] = useState<number>();
     const [allUsersCount, setAllUsersCount] = useState<number>();
 
+    const fetchData = useCallback(async () => {
+        const token = localStorage.getItem("hoppang-admin-token") || '';
+
+        try {
+            const [estimationsRes, usersRes] = await Promise.all([
+                axios.get(findAllProvidedEstimationsCount, {
+                    withCredentials: true,
+                    headers: { Authorization: token },
+                }),
+                axios.get(findAllUsersCount, {
+                    withCredentials: true,
+                    headers: { Authorization: token },
+                })
+            ]);
+
+            setProvidedEstimationsCount(estimationsRes.data.count);
+            setAllUsersCount(usersRes.data.count);
+        } catch (err) {
+            console.error(err);
+        }
+    }, []);
+
     useEffect(() => {
-
-        axios.get(findAllProvidedEstimationsCount, {
-            withCredentials: true,
-            headers: {
-                Authorization: localStorage.getItem("hoppang-admin-token") || '',
-            },
-        }).then((res) => {
-            setProvidedEstimationsCount(res.data.count);
-        }).catch((err) => {
-            console.error(err);
-        });
-
-        axios.get(findAllUsersCount, {
-            withCredentials: true,
-            headers: {
-                Authorization: localStorage.getItem("hoppang-admin-token") || '',
-            },
-        }).then((res) => {
-            setAllUsersCount(res.data.count);
-        }).catch((err) => {
-            console.error(err);
-        });
-
-    }, [])
-
+        fetchData();
+    }, [fetchData]);
 
     return (
         <>
@@ -57,7 +55,9 @@ const SumUpStatisticsTable = () => {
                 </Row>
             </div>
         </>
-    )
-}
+    );
+});
+
+SumUpStatisticsTable.displayName = 'SumUpStatisticsTable';
 
 export default SumUpStatisticsTable;
