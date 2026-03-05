@@ -59,7 +59,7 @@ export const columns: ColumnsType<EstimationData> = [
         key: 'totalPrice',
         width: 120,
         align: 'right',
-        render: (price: number) => addCommasToNumber(price),
+        render: (price: number) => addCommasToNumber(Math.round(price * 1.1)),
     },
     {
         title: '생성일',
