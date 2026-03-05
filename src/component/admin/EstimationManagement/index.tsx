@@ -12,7 +12,7 @@ import {
 import { columns } from './tableColumns';
 import SearchForm from './SearchForm';
 import ExpandedRowContent from './ExpandedRowContent';
-import { processIdList, formatRequestParam, getDefaultDateRange } from './utils';
+import { processIdList, processPhoneList, formatRequestParam, getDefaultDateRange } from './utils';
 import {
     DATE_FORMAT,
     DEFAULT_DAYS_TO_SUBTRACT,
@@ -36,6 +36,7 @@ const EstimationManagement: React.FC = () => {
 
     const [expandedRowKeys, setExpandedRowKeys] = useState<React.Key[]>([]);
     const [estimationIdList, setEstimationIdList] = useState<string>('');
+    const [phoneNumberList, setPhoneNumberList] = useState<string>('');
     const [dateRange, setDateRange] = useState<DateRange>(null);
     const [requestParam, setRequestParam] = useState<string>('');
 
@@ -48,9 +49,11 @@ const EstimationManagement: React.FC = () => {
 
         let param: string;
 
-        if (urlParams.get('estimationIdList')) {
-            const requestEstimationIdParam = urlParams
-                .get('estimationIdList')!
+        const urlEstimationIdList = urlParams.get('estimationIdList');
+        const urlPhoneNumberList = urlParams.get('phoneNumberList');
+
+        if (urlEstimationIdList) {
+            const requestEstimationIdParam = urlEstimationIdList
                 .split(',')
                 .map((id) => Number(id))
                 .join(',');
@@ -59,6 +62,16 @@ const EstimationManagement: React.FC = () => {
 
             // 입력 필드에도 ID 목록 설정
             setEstimationIdList(requestEstimationIdParam);
+        } else if (urlPhoneNumberList) {
+            const requestPhoneNumberParam = urlPhoneNumberList
+                .split(',')
+                .map((phone) => phone.trim())
+                .join(',');
+
+            param = `?phoneNumberList=${requestPhoneNumberParam}&startTime=${defaultStartDate}&endTime=${defaultEndDate}`;
+
+            // 입력 필드에도 전화번호 목록 설정
+            setPhoneNumberList(requestPhoneNumberParam);
         } else {
             param = `?startTime=${defaultStartDate}&endTime=${defaultEndDate}`;
         }
@@ -84,6 +97,9 @@ const EstimationManagement: React.FC = () => {
         const processedIds = processIdList(estimationIdList);
         setEstimationIdList(processedIds);
 
+        const processedPhones = processPhoneList(phoneNumberList);
+        setPhoneNumberList(processedPhones);
+
         let startDate: string, endDate: string;
 
         if (dateRange && dateRange[0] && dateRange[1]) {
@@ -96,7 +112,7 @@ const EstimationManagement: React.FC = () => {
             setDateRange([defaultStart, defaultEnd]);
         }
 
-        const param = formatRequestParam(processedIds, startDate, endDate);
+        const param = formatRequestParam(processedIds, processedPhones, startDate, endDate);
 
         try {
             setRequestParam(param);
@@ -105,7 +121,7 @@ const EstimationManagement: React.FC = () => {
         } catch (error) {
             message.error('견적 데이터를 불러오는데 실패했습니다.');
         }
-    }, [estimationIdList, dateRange, fetchData]);
+    }, [estimationIdList, phoneNumberList, dateRange, fetchData]);
 
     const expandedRowRender = useCallback(
         (record: ExpandedRowRenderProps) => {
@@ -128,6 +144,8 @@ const EstimationManagement: React.FC = () => {
             <SearchForm
                 estimationIdList={estimationIdList}
                 onEstimationIdListChange={setEstimationIdList}
+                phoneNumberList={phoneNumberList}
+                onPhoneNumberListChange={setPhoneNumberList}
                 dateRange={dateRange}
                 onDateRangeChange={setDateRange}
                 onSearch={onClickSearchEstimation}

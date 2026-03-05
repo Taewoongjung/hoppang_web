@@ -9,6 +9,14 @@ export const processIdList = (input: string): string => {
         .join(',');
 };
 
+export const processPhoneList = (input: string): string => {
+    return input
+        .split(',')
+        .map((part) => part.replace(/\s+/g, '').trim())
+        .filter((phone) => phone !== '')
+        .join(',');
+};
+
 export const getDefaultDateRange = (): [dayjs.Dayjs, dayjs.Dayjs] => {
     const startDate = dayjs().subtract(DEFAULT_DAYS_TO_SUBTRACT, 'day');
     const endDate = dayjs().add(DEFAULT_DAYS_TO_ADD, 'day');
@@ -17,6 +25,7 @@ export const getDefaultDateRange = (): [dayjs.Dayjs, dayjs.Dayjs] => {
 
 export const formatRequestParam = (
     estimationIdList: string,
+    phoneNumberList: string,
     startDate: string,
     endDate: string
 ): string => {
@@ -27,6 +36,13 @@ export const formatRequestParam = (
 
     if (estIdList.length > 0) {
         param += `estimationIdList=${estIdList.join(',')}&`;
+    }
+
+    const processedPhones = processPhoneList(phoneNumberList);
+    const phoneList = processedPhones.split(',').filter((phone) => phone !== '');
+
+    if (phoneList.length > 0) {
+        param += `phoneNumberList=${phoneList.join(',')}&`;
     }
 
     param += `startTime=${startDate}&endTime=${endDate}`;
