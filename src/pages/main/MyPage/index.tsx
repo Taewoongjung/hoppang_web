@@ -29,7 +29,7 @@ const MyPage = () => {
         };
     }, [history]);
 
-    const { data: userData, mutate } = useSWR(callMeData, fetcher, {
+    const { data: userData, mutate } = useSWR<{ tel: string; email: string; nickname?: string; name?: string } | undefined>(callMeData, fetcher, {
         dedupingInterval: 2000
     });
 

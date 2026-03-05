@@ -227,7 +227,7 @@ const PostDetail = () => {
     const [loginModalStatus, setLoginModalStatus] = useState<LoginModalStatus>('');
 
     // SWR 사용자 데이터
-    const { data: userData, mutate } = useSWR(callMeData, fetcher, {
+    const { data: userData, mutate } = useSWR<{ id: string | number; tel: string; email: string; nickname?: string; name?: string } | undefined>(callMeData, fetcher, {
         dedupingInterval: 2000
     });
 

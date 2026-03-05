@@ -103,13 +103,14 @@ const QuestionRegisterForm = () => {
     const [showExitModal, setShowExitModal] = useState(false);
     const [isEditing, setIsEditing] = useState<boolean>(urlParams.get('from') === 'postEdit');
 
-    const { data: userData, mutate } = useSWR(callMeData, fetcher, {
+    const { data: userData, mutate } = useSWR<{ id: string | number; tel: string; email: string; nickname?: string; name?: string } | undefined>(callMeData, fetcher, {
         dedupingInterval: 2000
     });
 
     useEffect(() => {
         mutate()
             .then(async (user) => {
+                if (!user) return;
                 await axios.get(callBoards)
                     .then((res) => {
 
@@ -229,6 +230,7 @@ const QuestionRegisterForm = () => {
         try {
             await mutate()
                 .then(async (user) => {
+                    if (!user) return;
 
                     const editTargetPostId = urlParams.get('revisingPostId');
 

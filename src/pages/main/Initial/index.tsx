@@ -32,7 +32,7 @@ const Initial = () => {
     const [renderTimestamp, setRenderTimestamp] = useState(Date.now());
     const initializationRef = useRef(false);
 
-    const { data: userData, mutate } = useSWR(callMeData, fetcher, {
+    const { data: userData, mutate } = useSWR<{ id: string | number; tel: string; email: string; nickname?: string; name?: string } | undefined>(callMeData, fetcher, {
         dedupingInterval: 2000
     });
 

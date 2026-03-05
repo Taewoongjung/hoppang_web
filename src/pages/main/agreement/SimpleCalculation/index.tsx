@@ -122,7 +122,7 @@ const SimpleCalculationAgreement = () => {
         };
     }, [history]);
 
-    const { data: userData, mutate } = useSWR(callMeData, fetcher, {
+    const { data: userData, mutate } = useSWR<{ tel: string; email: string; nickname?: string; name?: string } | undefined>(callMeData, fetcher, {
         dedupingInterval: 2000
     });
 
@@ -145,6 +145,7 @@ const SimpleCalculationAgreement = () => {
 
         try {
             await mutate().then((user) => {
+                if (!user) return;
                 if (user.tel === '') {
                     window.location.href = `/v2/login/first?remainedProcess=true&userEmail=${user.email}`;
                     return;

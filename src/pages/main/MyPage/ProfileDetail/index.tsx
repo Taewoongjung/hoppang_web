@@ -24,7 +24,7 @@ import OverlayLoadingPage from "../../../../component/Loading/OverlayLoadingPage
 
 const ProfileEditPage = () => {
 
-    const { data: userRealData, error, mutate } = useSWR(callMeData, fetcher, {
+    const { data: userRealData, error, mutate } = useSWR<{ id: string | number; tel: string; email: string; nickname?: string; name?: string } | undefined>(callMeData, fetcher, {
         dedupingInterval: 2000
     });
 
@@ -142,6 +142,7 @@ const ProfileEditPage = () => {
     };
 
     const handleSave = async (field: string) => {
+        if (!userRealData) return;
         setLoading(prev => ({ ...prev, [field]: true }));
 
         try {
@@ -191,7 +192,7 @@ const ProfileEditPage = () => {
             }
 
             await axios.put(
-                callUserProfile.replace("{userId}", userRealData.id),
+                callUserProfile.replace("{userId}", String(userRealData.id)),
                 {
                     revisingName: revisingName,
                     revisingNickname: revisingNickname,
@@ -239,6 +240,7 @@ const ProfileEditPage = () => {
 
     // 인증번호 요청
     const handleRequestVerificationCode = async () => {
+        if (!userRealData) return;
         if (!formData.tel.trim()) {
             alert('휴대폰 번호를 입력해주세요.');
             return;

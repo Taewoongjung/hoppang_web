@@ -22,7 +22,7 @@ interface BoardType {
 
 const QuestionsBoard = () => {
 
-    const { data: userData } = useSWR(callMeData, fetcher, {
+    const { data: userData } = useSWR<{ id: string | number; tel: string; email: string; nickname?: string; name?: string } | undefined>(callMeData, fetcher, {
         dedupingInterval: 2000
     });
 
