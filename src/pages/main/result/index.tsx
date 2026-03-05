@@ -124,7 +124,7 @@ const MobileResultScreen = () => {
                 setShowExitModal(true);
                 return false;
             }
-            return true;
+            return;
         });
 
         return () => {

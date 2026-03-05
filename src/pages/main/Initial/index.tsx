@@ -24,7 +24,7 @@ declare global {
 
 const Initial = () => {
     const history = useHistory();
-    const { oauthtype } = useParams();
+    const { oauthtype } = useParams<{ oauthtype?: string }>();
     const urlParams = new URLSearchParams(window.location.search);
 
     // 렌더링 감지를 위한 상태들

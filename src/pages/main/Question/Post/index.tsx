@@ -18,6 +18,7 @@ import {formatDetailTime, formatUserName} from "../../../../util/boardUtil";
 import CommunityLoginModal from "../../../../component/V2/Modal/CommunityLoginRequiredModal";
 import { EnhancedGoToTopButton } from 'src/util/renderUtil';
 import { Helmet } from 'react-helmet-async';
+import { getAxiosError } from "../../../../util/security";
 import {handleShare} from "../../Guide/util";
 import GoogleAdSense from "../../../../component/V2/AdBanner/GoogleAdSense";
 
@@ -399,7 +400,7 @@ const PostDetail = () => {
                     headers: { Authorization: localStorage.getItem("hoppang-token") },
                 });
             }
-        } catch (error) {
+        } catch (error: unknown) {
             console.error('좋아요 처리 실패:', error);
             // 롤백 (실제로는 다시 fetchReplies 호출하는 것이 안전)
         }
@@ -434,7 +435,7 @@ const PostDetail = () => {
                     headers: { Authorization: localStorage.getItem("hoppang-token") },
                 });
             }
-        } catch (error) {
+        } catch (error: unknown) {
             console.error('게시물 좋아요 실패:', error);
             // 롤백
             setPostLiked(prevLiked);
@@ -461,7 +462,7 @@ const PostDetail = () => {
                     headers: { Authorization: localStorage.getItem("hoppang-token") },
                 });
             }
-        } catch (error) {
+        } catch (error: unknown) {
             console.error('북마크 처리 실패:', error);
             setIsBookmarked(prevBookmarked);
         }
@@ -506,9 +507,12 @@ const PostDetail = () => {
                 }, 100);
             }
 
-        } catch (error) {
+        } catch (error: unknown) {
             console.error('❌ 댓글 등록 실패:', error);
-            console.error('에러 상세:', error.response);
+            const axiosError = getAxiosError(error);
+            if (axiosError) {
+                console.error('에러 상세:', axiosError);
+            }
         } finally {
             setIsSubmittingReply(false);
         }
@@ -556,7 +560,7 @@ const PostDetail = () => {
                 }
             }, 100);
 
-        } catch (error) {
+        } catch (error: unknown) {
             console.error('대댓글 등록 실패:', error);
         } finally {
             setIsSubmittingChildReply(prev => ({ ...prev, [parentReplyId]: false }));
@@ -597,7 +601,7 @@ const PostDetail = () => {
             let queryParam = userData ? `?loggedInUserId=${userData.id}` : '';
             await fetchReplies(queryParam);
 
-        } catch (error) {
+        } catch (error: unknown) {
             console.error('댓글 수정 실패:', error);
         } finally {
             setIsSubmittingEdit(false);
@@ -651,7 +655,7 @@ const PostDetail = () => {
             setShowDeleteModal(false);
             setDeletingReplyId(null);
 
-        } catch (error) {
+        } catch (error: unknown) {
             console.error('삭제 실패:', error);
         } finally {
             setIsDeleting(false);

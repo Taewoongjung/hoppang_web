@@ -9,6 +9,7 @@ import axios from 'axios';
 import { callMeData, callVerifyPhoneNumber } from "../../../definition/apiPath";
 import useSWR from "swr";
 import fetcher from "../../../util/fetcher";
+import { getAxiosError } from "../../../util/security";
 
 
 const VALIDATION_SENT_MESSAGE = (
@@ -114,10 +115,11 @@ const LoginFirstStep = () => {
                 setTimer(180);
             }
         } catch (err) {
-            if (err.response?.data?.errorCode === 1) {
-                const email = err.response.data.email;
-                const oauthType = err.response.data.oauthType;
-                const message = err.response.data.errorMessage;
+            const axiosError = getAxiosError(err);
+            if (axiosError?.data?.errorCode === 1) {
+                const email = axiosError.data.email;
+                const oauthType = axiosError.data.oauthType;
+                const message = axiosError.data.errorMessage;
                 localStorage.setItem("hoppang-token", 'undefined');
                 localStorage.setItem("hoppang-login-oauthType", 'undefined');
                 window.location.href = "/login/duplicate?email=" + email + "&oauthType=" + oauthType + "&message=" + message;

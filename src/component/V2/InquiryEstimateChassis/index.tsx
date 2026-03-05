@@ -3,6 +3,7 @@ import { message, Modal } from "antd";
 import { callEstimateInquiry } from "../../../definition/apiPath";
 import axios from "axios";
 import { CloseOutlined, CheckCircleOutlined } from "@ant-design/icons";
+import { getErrorMessage } from "../../../util/security";
 
 interface InquiryStatus {
     kakao: boolean;
@@ -96,7 +97,7 @@ const InquiryEstimateChassis: React.FC<InquiryEstimateChassisProps> = ({
                 throw new Error('문의 처리에 실패했습니다.');
             }
         } catch (err) {
-            errorModal(err.response?.data?.message || "문의 접수에 실패했습니다. 잠시 후 다시 시도해주세요.");
+            errorModal(getErrorMessage(err, "문의 접수에 실패했습니다. 잠시 후 다시 시도해주세요."));
         } finally {
             setIsProcessing(false);
             setProcessingType(null);

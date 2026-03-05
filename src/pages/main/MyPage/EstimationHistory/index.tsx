@@ -38,7 +38,7 @@ const EstimationHistory = () => {
                 history.push('/v2/mypage');
                 return false;
             }
-            return true;
+            return;
         });
 
         return () => {

@@ -8,6 +8,7 @@ import { Button, Switch, Card, Typography, Divider, message } from "antd";
 import { BellOutlined, MessageOutlined } from '@ant-design/icons';
 import axios from "axios";
 import { callFinalSocialSignUp } from "../../../definition/apiPath";
+import { getAxiosError } from "../../../util/security";
 
 
 const { Text } = Typography;
@@ -54,16 +55,19 @@ const LoginSecondStep = () => {
             setTimeout(() => {
                 window.location.href = "/chassis/calculator";
             }, 500);
-        } catch (err) {
-            if (err.response?.data?.errorCode === 1) {
-                const { email, oauthType, errorMessage: errorMsg } = err.response.data;
+        } catch (err: unknown) {
+            const axiosError = getAxiosError(err);
+            const errObj = err as Record<string, unknown>;
+
+            if (axiosError?.data?.errorCode === 1) {
+                const { email, oauthType, errorMessage: errorMsg } = axiosError.data;
                 window.location.href = `/login/duplicate?email=${email}&oauthType=${oauthType}&message=${errorMsg}`;
-            } else if (err.code === 'ECONNABORTED' || err.message.includes('timeout')) {
+            } else if (errObj.code === 'ECONNABORTED' || (typeof errObj.message === 'string' && errObj.message.includes('timeout'))) {
                 message.error('요청 시간이 초과되었습니다. 네트워크 연결을 확인하고 다시 시도해주세요.');
-            } else if (!err.response) {
+            } else if (!axiosError) {
                 message.error('네트워크 연결을 확인할 수 없습니다. 인터넷 연결 상태를 확인해주세요.');
             } else {
-                const status = err.response?.status;
+                const status = axiosError.status;
                 switch (status) {
                     case 401:
                         message.error('로그인이 만료되었습니다. 다시 로그인해주세요.');

@@ -68,7 +68,7 @@ const additionalColumns: TableColumnsType<AdditionalDataType> = [
 ];
 
 const EstimationDetailPage = () => {
-    const { estimationId } = useParams();
+    const { estimationId } = useParams<{ estimationId?: string }>();
 
     const [materialTableData, setMaterialTableData] = useState<MaterialDataType[]>([]);
     const [additionalTableData, setAdditionalTableData] = useState<AdditionalDataType[]>([]);

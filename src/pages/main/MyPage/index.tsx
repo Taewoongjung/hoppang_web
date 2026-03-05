@@ -21,7 +21,7 @@ const MyPage = () => {
             if (action === 'POP') {
                 return false;
             }
-            return true;
+            return;
         });
 
         return () => {

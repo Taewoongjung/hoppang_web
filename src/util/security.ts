@@ -176,3 +176,77 @@ export const sanitizeInput = (input: string, maxLength: number = 1000): string =
 
     return sanitized;
 };
+
+/**
+ * Axios 에러 응답 타입
+ */
+interface AxiosErrorResponse {
+    data?: {
+        message?: string;
+        errorCode?: number;
+        email?: string;
+        oauthType?: string;
+        errorMessage?: string;
+    };
+    status?: number;
+}
+
+/**
+ * unknown 에러에서 Axios 에러 응답 추출 (TypeScript 5.x 호환)
+ * @param error catch 블록의 에러
+ * @returns Axios 에러 응답 객체 또는 null
+ */
+export const getAxiosError = (error: unknown): AxiosErrorResponse | null => {
+    if (!error || typeof error !== 'object') {
+        return null;
+    }
+
+    const err = error as Record<string, unknown>;
+
+    if (err.response && typeof err.response === 'object') {
+        return err.response as AxiosErrorResponse;
+    }
+
+    return null;
+};
+
+/**
+ * unknown 에러에서 메시지 추출
+ * @param error catch 블록의 에러
+ * @param fallback 기본 메시지
+ * @returns 에러 메시지
+ */
+export const getErrorMessage = (error: unknown, fallback: string = '알 수 없는 오류가 발생했습니다.'): string => {
+    if (!error) {
+        return fallback;
+    }
+
+    if (typeof error === 'string') {
+        return error;
+    }
+
+    if (typeof error === 'object') {
+        const err = error as Record<string, unknown>;
+
+        // Axios 에러 응답에서 메시지 추출
+        if (err.response && typeof err.response === 'object') {
+            const response = err.response as Record<string, unknown>;
+            if (response.data && typeof response.data === 'object') {
+                const data = response.data as Record<string, unknown>;
+                if (typeof data.message === 'string') {
+                    return data.message;
+                }
+                if (typeof data.errorMessage === 'string') {
+                    return data.errorMessage;
+                }
+            }
+        }
+
+        // 일반 Error 객체
+        if (typeof err.message === 'string') {
+            return err.message;
+        }
+    }
+
+    return fallback;
+};

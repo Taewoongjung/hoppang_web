@@ -18,6 +18,7 @@ import CalculationExitModal from "../../../component/V2/Modal/CalculationExitMod
 import AddressInputModal from "../../../component/V2/AddressInputModal";
 import useSWR from "swr";
 import fetcher from "../../../util/fetcher";
+import { getErrorMessage } from "../../../util/security";
 import InfoSection from "../../../component/V2/CalculationInfo";
 
 
@@ -39,7 +40,7 @@ const MobileCalculationScreen = () => {
                 return false; // 페이지 이동을 막음
             }
 
-            return true; // 나머지는 허용
+            return; // 나머지는 허용
         });
 
         return () => {
@@ -333,9 +334,9 @@ const MobileCalculationScreen = () => {
                     userData: userData
                 });
             }
-        } catch (error) {
+        } catch (error: unknown) {
             setErrors({
-                general: error.response?.data?.message || '견적 계산에 실패했습니다. 다시 시도해주세요.'
+                general: getErrorMessage(error, '견적 계산에 실패했습니다. 다시 시도해주세요.')
             });
         } finally {
             setIsLoading(false);

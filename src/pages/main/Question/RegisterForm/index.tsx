@@ -10,6 +10,7 @@ import QuestionRegisterFormExitModal from "../../../../component/V2/Modal/Questi
 import axios from "axios";
 import {Board} from "../interface";
 import PostEditor from "../../../../component/V2/Board/PostEditor";
+import { getAxiosError } from "../../../../util/security";
 
 type SubmitState = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -25,7 +26,7 @@ const QuestionRegisterForm = () => {
                 return false; // 페이지 이동을 막음
             }
 
-            return true; // 나머지는 허용
+            return; // 나머지는 허용
         });
 
         return () => {
@@ -292,16 +293,17 @@ const QuestionRegisterForm = () => {
                         }
                     }
                 });
-        } catch (error) {
+        } catch (error: unknown) {
             console.error('Submit error:', error);
             setSubmitState('error');
 
             // 에러 메시지 설정
-            if (error.response?.status === 401) {
+            const axiosError = getAxiosError(error);
+            if (axiosError?.status === 401) {
                 setSubmitError('로그인이 필요합니다. 다시 로그인해주세요.');
-            } else if (error.response?.status === 400) {
+            } else if (axiosError?.status === 400) {
                 setSubmitError('입력 정보를 다시 확인해주세요. 작성글 등록이 계속 안 되면 관리자에게 문의해주세요.');
-            } else if (error.response?.status >= 500) {
+            } else if (axiosError?.status && axiosError.status >= 500) {
                 setSubmitError('서버에 일시적인 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
             } else {
                 setSubmitError('질문 등록에 실패했습니다. 네트워크 상태를 확인하고 다시 시도해주세요.');

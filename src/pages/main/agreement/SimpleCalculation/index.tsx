@@ -114,7 +114,7 @@ const SimpleCalculationAgreement = () => {
                 }
             }
 
-            return true;
+            return;
         });
 
         return () => {
