@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Button, Col, Form, Input, InputNumber, InputNumberProps, Row} from "antd";
 
 const layout = {
@@ -13,9 +13,7 @@ const tailLayout = {
 
 const AddAndReviseChassisInfo = () => {
 
-    const [price, setPrice] = useState('');
-
-    const addAndReviseChassisInfo = (values: any) => {
+    const addAndReviseChassisInfo = (values: { width?: number; height?: number; price?: number }) => {
 
         console.log("width = ", values.width);
         console.log("height = ", values.height);
@@ -23,12 +21,8 @@ const AddAndReviseChassisInfo = () => {
 
     }
 
-    const addAndReviseChassisInfoFailed = (errorInfo: any) => {
+    const addAndReviseChassisInfoFailed = (errorInfo: unknown) => {
         console.log('Failed:', errorInfo);
-    };
-
-    const addCommasToNumber = (number: any): string | undefined => {
-        return number?.toString()?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     };
 
 

@@ -72,7 +72,7 @@ const Step5FloorplanReview = () => {
         }
     }, []);
 
-    const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
+    const { data: userData } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
     });
 

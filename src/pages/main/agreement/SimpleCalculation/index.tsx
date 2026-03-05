@@ -122,7 +122,7 @@ const SimpleCalculationAgreement = () => {
         };
     }, [history]);
 
-    const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
+    const { data: userData, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
     });
 

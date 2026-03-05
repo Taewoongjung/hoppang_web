@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { DATE_FORMAT, DEFAULT_DAYS_TO_ADD, DEFAULT_DAYS_TO_SUBTRACT } from './constants';
+import { DEFAULT_DAYS_TO_ADD, DEFAULT_DAYS_TO_SUBTRACT } from './constants';
 
 export const processIdList = (input: string): string => {
     return input

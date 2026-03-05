@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {Select, Input, Button, Typography, Layout, Col, Row} from 'antd';
+import {Select, Input, Button, Typography, Layout, Row} from 'antd';
 import {CaretRightOutlined} from "@ant-design/icons";
 import {v4 as uuidv4} from 'uuid';
 import {createAdvertisementContent} from "../../../../definition/Admin/apiPath";

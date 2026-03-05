@@ -32,7 +32,7 @@ const { Header } = Layout;
 
 const TopNavigator = () => {
 
-    const { data: userData, error, mutate } = useSWR(callMeDataForAdmin, adminFetcher, {
+    const { data: userData } = useSWR(callMeDataForAdmin, adminFetcher, {
         dedupingInterval: 2000
     });
 

@@ -12,12 +12,6 @@ import fetcher from "../../../util/fetcher";
 import { getAxiosError } from "../../../util/security";
 
 
-const VALIDATION_SENT_MESSAGE = (
-    <>
-        문자로 인증번호를 보내드렸어요.<br/>
-        문자가 안 오면 휴대폰번호 확인 후 재시도를 눌러주세요.
-    </>
-);
 const VALIDATION_PROPOSAL_MESSAGE = '확인 버튼을 눌러 인증을 진행해 주세요.';
 const VALIDATION_ERROR_MESSAGE = '인증번호가 틀렸습니다. 다시 확인 해주세요.'
 const VALIDATION_NUMBER_SUCCESS_MESSAGE = '인증 요청을 해주세요.';
@@ -36,7 +30,7 @@ const LoginFirstStep = () => {
     const [isLoading, setIsLoading] = useState(false);
 
 
-    const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
+    const { data: userData } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
     });
 

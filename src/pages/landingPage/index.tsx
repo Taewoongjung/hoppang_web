@@ -11,10 +11,12 @@ const LandingPage = () => {
     const hasSentRequest = useRef(false);
     const visitedAt = useRef(new Date());
 
-    const now = new Date();
-    const utc = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
-    const koreaTimeDiff = 9 * 60 * 60 * 1000;
-    const korNow = new Date(utc+koreaTimeDiff);
+    const getKorNow = () => {
+        const now = new Date();
+        const utc = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
+        const koreaTimeDiff = 9 * 60 * 60 * 1000;
+        return new Date(utc + koreaTimeDiff);
+    };
 
     const getBrowser = () => {
         const browsers = [
@@ -43,7 +45,7 @@ const LandingPage = () => {
         const referrer = document.referrer || "direct";
         const stayDuration = Math.floor((Date.now() - visitedAt.current.getTime()) / 1000);
         const browser = getBrowser();
-        const formattedVisitedAt = formatDateTime(korNow);
+        const formattedVisitedAt = formatDateTime(getKorNow());
 
         const data = {
             referrer,

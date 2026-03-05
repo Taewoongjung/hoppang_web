@@ -103,7 +103,7 @@ const QuestionRegisterForm = () => {
     const [showExitModal, setShowExitModal] = useState(false);
     const [isEditing, setIsEditing] = useState<boolean>(urlParams.get('from') === 'postEdit');
 
-    const { data: userData, error, mutate } = useSWR(callMeData, fetcher, {
+    const { data: userData, mutate } = useSWR(callMeData, fetcher, {
         dedupingInterval: 2000
     });
 
