@@ -8,6 +8,7 @@ import axios from "axios";
 import {LeftOutlined} from "@ant-design/icons";
 import {appleLogin, googleLogin, kakaoLogin} from "../../../definition/apiPath";
 import {getIsMobileClient} from "../../../util";
+import {getSafeRedirectUrl, isValidOAuthType} from "../../../util/security";
 
 declare global {
     interface Window {
@@ -99,24 +100,12 @@ const Login = () => {
             try {
                 const savedOAuthType = localStorage.getItem("hoppang-login-oauthType");
 
-                // null, undefined, 빈 문자열 체크
-                if (!savedOAuthType) {
-                    setPreviousOAuthType(null);
-                    return;
-                }
-
-                // 유효한 OAuth 타입 배열
-                const validOAuthTypes = ["KKO", "APL", "GLE"];
-
-                // 저장된 값이 유효한 OAuth 타입인지 확인
-                if (validOAuthTypes.includes(savedOAuthType.trim())) {
-                    setPreviousOAuthType(savedOAuthType.trim());
-                    console.log(`이전 로그인 방식 감지: ${savedOAuthType}`);
+                if (isValidOAuthType(savedOAuthType)) {
+                    setPreviousOAuthType(savedOAuthType);
                 } else {
                     // 유효하지 않은 값이면 localStorage에서 제거하고 상태 초기화
                     localStorage.removeItem("hoppang-login-oauthType");
                     setPreviousOAuthType(null);
-                    console.log(`유효하지 않은 OAuth 타입 제거: ${savedOAuthType}`);
                 }
             } catch (error) {
                 // localStorage 접근 에러 처리 (프라이빗 모드 등)
@@ -153,7 +142,12 @@ const Login = () => {
         const callLogin = async () => {
             axios.get(appleLogin)
                 .then((res) => {
-                    window.location.href = res.data;
+                    // 오픈 리다이렉트 방지: URL 검증 후 이동
+                    const redirectUrl = typeof res.data === 'string' ? res.data : '/v2/login';
+                    window.location.href = getSafeRedirectUrl(redirectUrl, '/v2/login');
+                })
+                .catch(() => {
+                    window.location.href = '/v2/login';
                 });
         }
         callLogin();
@@ -163,8 +157,13 @@ const Login = () => {
         const callLogin = async () => {
             axios.get(googleLogin)
                 .then((res) => {
-                    window.location.href = res.data;
+                    // 오픈 리다이렉트 방지: URL 검증 후 이동
+                    const redirectUrl = typeof res.data === 'string' ? res.data : '/v2/login';
+                    window.location.href = getSafeRedirectUrl(redirectUrl, '/v2/login');
                 })
+                .catch(() => {
+                    window.location.href = '/v2/login';
+                });
         }
         callLogin();
     }

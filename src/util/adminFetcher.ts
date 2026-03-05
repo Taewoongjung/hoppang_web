@@ -1,22 +1,37 @@
 import axios from "axios";
 import {notAuthorizedErrorCode} from "../definition/Admin/errorCode";
+import {getSafeToken} from "./security";
 
-const adminFetcher = async (url: string) => await axios.get(url, {
-    headers: {
-        withCredentials: true,
-        Authorization: localStorage.getItem("hoppang-admin-token")
-    },
-}).then((response) => {
-    const token = localStorage.getItem("hoppang-admin-token");
-    if (token == null) {
-        window.location.reload();
-    }
+const adminFetcher = async (url: string) => {
+    const token = getSafeToken("hoppang-admin-token");
 
-    return response.data;
-}).catch((error) => {
-    if (notAuthorizedErrorCode.includes(error.response.status)) {
+    if (!token) {
         window.location.href = '/admin/login';
+        return;
     }
-});
+
+    return await axios.get(url, {
+        headers: {
+            withCredentials: true,
+            Authorization: token
+        },
+    }).then((response) => {
+        const currentToken = getSafeToken("hoppang-admin-token");
+        if (!currentToken) {
+            window.location.reload();
+        }
+
+        return response.data;
+    }).catch((error) => {
+        if (!error.response) {
+            console.error('Network error or request failed');
+            return;
+        }
+
+        if (notAuthorizedErrorCode.includes(error.response.status)) {
+            window.location.href = '/admin/login';
+        }
+    });
+};
 
 export default adminFetcher;

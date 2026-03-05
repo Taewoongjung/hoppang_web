@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Input, Button, message } from 'antd';
 import axios from "axios";
 import {loginAPI} from "../../../definition/Admin/apiPath";
+import {setSafeToken} from "../../../util/security";
 
 // 레이아웃 설정
 const layout = {
@@ -14,6 +15,8 @@ const tailLayout = {
     wrapperCol: { offset: 8, span: 16 },
 };
 
+// 관리자 로그인 후 이동할 기본 경로 (상수로 관리)
+const ADMIN_DEFAULT_REDIRECT = '/admin/essentials/info';
 
 const LoginPage = () => {
 
@@ -21,7 +24,7 @@ const LoginPage = () => {
 
 
     // 폼 제출 시 실행될 함수
-    const submitLogin = (values: any) => {
+    const submitLogin = (values: { username: string; password: string }) => {
 
         const formData = new FormData();
         formData.append("username", values.username);
@@ -35,14 +38,19 @@ const LoginPage = () => {
 
                 const token = response.headers['authorization'];
 
-                localStorage.setItem("hoppang-admin-token", token); // 로그인 성공 시 로컬 스토리지에 토큰 저장
+                if (token) {
+                    setSafeToken("hoppang-admin-token", token);
+                }
 
-                window.location.href = '/admin/essentials/info'; // 이 방법은 페이지를 새로고침하며 새로운 URL로 이동합니다.
+                // 상수로 정의된 안전한 경로로만 리다이렉트
+                window.location.href = ADMIN_DEFAULT_REDIRECT;
 
             })
             .catch((error) => {
-                if (error.response.status === 401) {
+                if (error.response?.status === 401) {
                     errorModal('아이디나 비밀번호를 다시 확인해주세요.');
+                } else {
+                    errorModal('로그인 중 오류가 발생했습니다.');
                 }
             });
     }
@@ -55,7 +63,7 @@ const LoginPage = () => {
     };
 
     // 폼 제출 실패 시 실행될 함수
-    const loginFailed = (errorInfo: any) => {
+    const loginFailed = (errorInfo: unknown) => {
         console.log('Failed:', errorInfo);
     };
 

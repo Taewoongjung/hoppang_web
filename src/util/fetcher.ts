@@ -7,77 +7,87 @@ import {
     kakaoLogin,
     kakaoRefreshAccessToken
 } from "../definition/apiPath";
-import {getIsMobileClient} from "./index";
+import {getSafeToken, setSafeToken, removeSafeToken, getSafeRedirectUrl, isValidOAuthType} from "./security";
 
 const fetcher = async (url: string) => {
+    const token = getSafeToken("hoppang-token");
 
-    // if (!getIsMobileClient()) {
-    //     return;
-    // }
-
-    if (localStorage.getItem("hoppang-token")) {
-        return await axios.get(url, {
-            headers: {
-                withCredentials: true,
-                Authorization: localStorage.getItem("hoppang-token")
-            },
-        }).then((response) => {
-            const token = localStorage.getItem("hoppang-token");
-            if (token == null) {
-                window.location.reload();
-            }
-            return response.data;
-        }).catch((error) => {
-            const token = localStorage.getItem("hoppang-token");
-            if (token && token !== "undefined" && error.response.status === 403) {
-
-                let callRefreshAccessTokenApi = '';
-                let callReSocialLogin = '';
-
-                if (localStorage.getItem("hoppang-login-oauthType") === "KKO") {
-                    callRefreshAccessTokenApi = kakaoRefreshAccessToken;
-                    callReSocialLogin = kakaoLogin;
-                }
-
-                if (localStorage.getItem("hoppang-login-oauthType") === "APL") {
-                    callRefreshAccessTokenApi = appleRefreshAccessToken;
-                    callReSocialLogin = appleLogin;
-                }
-
-                if (localStorage.getItem("hoppang-login-oauthType") === "GLE") {
-                    callRefreshAccessTokenApi = googleRefreshAccessToken;
-                    callReSocialLogin = googleLogin;
-                }
-
-                if (callRefreshAccessTokenApi !== '' || callReSocialLogin !== '') {
-
-                    axios.put(callRefreshAccessTokenApi + "?expiredToken=" + token, {
-                        withCredentials: true
-                    })
-                        .then((response) => {
-                            const refreshedToken = response.headers['authorization'];
-                            localStorage.setItem("hoppang-token", refreshedToken); // 로그인 성공 시 로컬 스토리지에 토큰 갱신
-                        })
-                        .catch((error) => {
-                            localStorage.setItem("hoppang-token", "undefined");
-                            if (error.response.data.errorCode === 7) { // 리프레시 토큰이 만료 되었을 때
-                                // 모든 토큰이 만료 되었으므로 다시 로그인을 요청 한다.
-                                axios.post(callReSocialLogin, {}, {withCredentials: true})
-                                    .then((res) => {
-                                        window.location.href = res.data; // 로그인 화면으로 리다이렉팅
-                                    })
-                                    .catch((err) => {
-                                        window.location.href = "/";
-                                    })
-                            }
-                        });
-                }
-            }
-            if (notAuthorizedErrorCode.includes(error.response.status)) {
-                window.location.href = '/v2/login';
-            }
-        });
+    if (!token) {
+        return;
     }
+
+    return await axios.get(url, {
+        headers: {
+            withCredentials: true,
+            Authorization: token
+        },
+    }).then((response) => {
+        const currentToken = getSafeToken("hoppang-token");
+        if (!currentToken) {
+            window.location.reload();
+        }
+        return response.data;
+    }).catch((error) => {
+        if (!error.response) {
+            console.error('Network error or request failed');
+            return;
+        }
+
+        const currentToken = getSafeToken("hoppang-token");
+        if (currentToken && error.response.status === 403) {
+            const oauthType = getSafeToken("hoppang-login-oauthType");
+
+            let callRefreshAccessTokenApi = '';
+            let callReSocialLogin = '';
+
+            if (isValidOAuthType(oauthType)) {
+                switch (oauthType) {
+                    case "KKO":
+                        callRefreshAccessTokenApi = kakaoRefreshAccessToken;
+                        callReSocialLogin = kakaoLogin;
+                        break;
+                    case "APL":
+                        callRefreshAccessTokenApi = appleRefreshAccessToken;
+                        callReSocialLogin = appleLogin;
+                        break;
+                    case "GLE":
+                        callRefreshAccessTokenApi = googleRefreshAccessToken;
+                        callReSocialLogin = googleLogin;
+                        break;
+                }
+            }
+
+            if (callRefreshAccessTokenApi !== '' && callReSocialLogin !== '') {
+                axios.put(callRefreshAccessTokenApi + "?expiredToken=" + currentToken, {
+                    withCredentials: true
+                })
+                    .then((response) => {
+                        const refreshedToken = response.headers['authorization'];
+                        if (refreshedToken) {
+                            setSafeToken("hoppang-token", refreshedToken);
+                        }
+                    })
+                    .catch((refreshError) => {
+                        removeSafeToken("hoppang-token");
+                        if (refreshError.response?.data?.errorCode === 7) {
+                            axios.post(callReSocialLogin, {}, {withCredentials: true})
+                                .then((res) => {
+                                    // 오픈 리다이렉트 방지: URL 검증 후 이동
+                                    const redirectUrl = typeof res.data === 'string' ? res.data : '/v2/login';
+                                    window.location.href = getSafeRedirectUrl(redirectUrl, '/v2/login');
+                                })
+                                .catch(() => {
+                                    window.location.href = "/v2/login";
+                                });
+                        }
+                    });
+            }
+        }
+
+        if (notAuthorizedErrorCode.includes(error.response.status)) {
+            window.location.href = '/v2/login';
+        }
+    });
 };
 
 export default fetcher;
