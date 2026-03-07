@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { useHistory } from 'react-router-dom';
 
 import '../styles.css';
@@ -9,9 +9,23 @@ import GoogleAdSense from "../../../../component/V2/AdBanner/GoogleAdSense";
 
 const HoppangProcess = () => {
     const history = useHistory();
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    // 초기 로딩 완료 후 스크롤 허용
+    useEffect(() => {
+        // 스크롤을 맨 위로 이동
+        window.scrollTo(0, 0);
+
+        // 렌더링 완료 후 로딩 상태 해제
+        const timer = setTimeout(() => {
+            setIsLoaded(true);
+        }, 100);
+
+        return () => clearTimeout(timer);
+    }, []);
 
     // 웹뷰 스와이프 백 제스처 처리
-    React.useEffect(() => {
+    useEffect(() => {
         const handlePopState = () => {
             history.replace('/');
         };
@@ -36,7 +50,7 @@ const HoppangProcess = () => {
                 <meta property="og:image:height" content="630"/>
             </Helmet>
 
-            <div className="container">
+            <div className={`container ${!isLoaded ? 'is-loading' : ''}`}>
                 <div className="header">
                     <button className="back-btn" onClick={() => history.push('/')}>←</button>
                     <img

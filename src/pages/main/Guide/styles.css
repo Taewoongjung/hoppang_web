@@ -11,12 +11,20 @@ body {
     min-height: 100vh;
 }
 
+/* Prevent scroll during initial load */
 .container {
     max-width: 414px;
     margin: 0 auto;
     background: #ffffff;
     min-height: 100vh;
     box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    overflow-x: hidden;
+}
+
+/* Loading state - prevent scroll */
+.container.is-loading {
+    overflow: hidden;
+    height: 100vh;
 }
 
 .header {
@@ -411,6 +419,17 @@ body {
     transition: all 0.3s ease;
     border: 2px solid #e9ecef;
     display: block;
+    /* Reserve space during loading to prevent CLS */
+    min-height: 200px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+}
+
+/* Ad banner placeholder to prevent layout shift */
+.banner-middle {
+    min-height: 100px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
 .guide-image:hover {
