@@ -29,15 +29,15 @@
     align-items: center;
     justify-content: center;
     border: none;
-    background: #f1f5f9;
-    border-radius: 12px;
-    color: #475569;
+    background: none;
+    border-radius: 8px;
+    color: #334155;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
 .back-button:hover {
-    background: #e2e8f0;
+    background: none;
 }
 
 .header-title {

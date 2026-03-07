@@ -755,30 +755,19 @@ const PostDetail = () => {
 
             <div className="question-detail-container">
                 {/* Header */}
-                <header className="detail-header">
-                    <div className="header-content">
-                        <button
-                            className="back-btn"
-                            onClick={handleGoBack}
-                        >
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
-                                      strokeLinejoin="round"/>
-                            </svg>
-                        </button>
-                        <div className="header-title">게시물 상세</div>
-                        <div className="header-actions">
-                            <button className="share-btn" onClick={() => handleShare(post.title)}>
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                                    <path
-                                        d="M15 6.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM15 18.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"
-                                        stroke="currentColor" strokeWidth="1.5"/>
-                                    <path d="M7.5 10.5L12.5 7.5M7.5 10.5L12.5 16.5" stroke="currentColor"
-                                          strokeWidth="1.5"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
+                <header className="header">
+                    <button className="back-btn" onClick={handleGoBack}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                    </button>
+                    <h1 className="header-title">게시물 상세</h1>
+                    <button className="share-btn" onClick={() => handleShare(post.title)}>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M15 6.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM15 18.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" stroke="currentColor" strokeWidth="1.5"/>
+                            <path d="M7.5 10.5L12.5 7.5M7.5 10.5L12.5 16.5" stroke="currentColor" strokeWidth="1.5"/>
+                        </svg>
+                    </button>
                 </header>
 
                 {/* Main Content */}
