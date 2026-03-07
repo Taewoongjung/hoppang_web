@@ -15,6 +15,7 @@ import { v4 as uuidv4 } from 'uuid';
 import {invalidateMandatoryData, getItemWithTTL} from "../util";
 import {EnhancedGoToTopButton} from "../../../../util/renderUtil";
 import { trackEvent } from '../../../../util/analytics';
+import CommonHeader from '../../../../component/CommonHeader';
 
 
 interface WindowInfo {
@@ -628,24 +629,8 @@ const Step5FloorplanReview = () => {
             </Helmet>
             <div className="simple-estimate-container">
             {/* Header */}
-            <header className="simple-estimate-header">
-                <button
-                    className="back-button"
-                    onClick={handleBack}
-                >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path
-                            d="M15 18L9 12L15 6"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        />
-                    </svg>
-                </button>
-                <h1 className="header-title">간편견적</h1>
-                <div style={{width: '24px'}}></div>
-            </header>
+            {/* Header */}
+            <CommonHeader title="간편견적" onBack={handleBack} />
 
             {/* Progress Bar */}
             <div className="progress-container">

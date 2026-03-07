@@ -12,6 +12,7 @@ import CommunityLoginModal from "../../../../component/V2/Modal/CommunityLoginRe
 import { Question, Board } from '../interface';
 import { formatTimeAgo } from 'src/util/boardUtil';
 import OverlayLoadingPage from "../../../../component/Loading/OverlayLoadingPage";
+import CommonHeader from '../../../../component/CommonHeader';
 
 // 게시판 타입 정의
 interface BoardType {
@@ -776,15 +777,7 @@ const MyPosts = () => {
             )}
 
             {/* Header */}
-            <header className="header">
-                <button className="back-btn" onClick={handGoBack}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                </button>
-                <h1 className="header-title">내 활동</h1>
-                <div style={{ width: '24px' }}></div>
-            </header>
+            <CommonHeader title="내 활동" onBack={handGoBack} />
 
             {/* Board Type Tabs */}
             <section className="board-tabs-section">

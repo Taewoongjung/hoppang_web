@@ -12,6 +12,7 @@ import CommunityLoginModal from "../../../../component/V2/Modal/CommunityLoginRe
 import { Question, Board } from '../interface';
 import {formatTimeAgo, formatUserName} from "../../../../util/boardUtil";
 import OverlayLoadingPage from "../../../../component/Loading/OverlayLoadingPage";
+import CommonHeader from '../../../../component/CommonHeader';
 
 // 게시판 타입 정의
 interface BoardType {
@@ -581,19 +582,15 @@ const QuestionsBoard = () => {
             )}
 
             {/* Header */}
-            <header className="header">
-                <button className="back-btn" onClick={handGoBack}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                </button>
-                <h1 className="header-title">커뮤니티</h1>
-                {userData ? (
-                    <div className="header-my-activity" onClick={() => window.location.href = "/question/my/boards"}>내 활동</div>
-                ) : (
-                    <div style={{ width: '24px' }}></div>
-                )}
-            </header>
+            <CommonHeader
+                title="커뮤니티"
+                onBack={handGoBack}
+                rightElement={
+                    userData ? (
+                        <div className="header-my-activity" onClick={() => window.location.href = "/question/my/boards"}>내 활동</div>
+                    ) : null
+                }
+            />
 
             {/* Board Type Tabs */}
             <section className="board-tabs-section">

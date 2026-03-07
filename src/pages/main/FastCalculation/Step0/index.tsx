@@ -8,6 +8,7 @@ import AddressInputModal from "../../../../component/V2/AddressInputModal";
 import {invalidateMandatoryData, getItemWithTTL, setItemWithTTL} from "../util";
 import CalculationExitModal from "../../../../component/V2/Modal/CalculationExitModal";
 import { trackEvent } from '../../../../util/analytics';
+import CommonHeader from '../../../../component/CommonHeader';
 
 // 주소 타입 정의
 interface AddressInfo {
@@ -150,24 +151,7 @@ const Step0AddressInput = () => {
             </Helmet>
             <div className="simple-estimate-container">
             {/* Header */}
-            <header className="simple-estimate-header">
-                <button
-                    className="back-button"
-                    onClick={handleBack}
-                >
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path
-                            d="M15 18L9 12L15 6"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        />
-                    </svg>
-                </button>
-                <h1 className="header-title">간편견적</h1>
-                <div style={{ width: '24px' }}></div>
-            </header>
+            <CommonHeader title="간편견적" onBack={handleBack} />
 
             {/* Progress Bar */}
             <div className="progress-container">
