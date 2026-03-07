@@ -147,14 +147,13 @@ const EstimationHistory = () => {
             <div className="estimation-history-container">
             {/* Header */}
             <header className="estimation-header">
-                <div className="header-content">
-                    <button className="back-btn" onClick={clickBackButton}>
-                        <LeftOutlined />
-                    </button>
-                    <div className="header-title">
-                        <h1>견적 이력</h1>
-                    </div>
+                <button className="back-btn" onClick={clickBackButton}>
+                    <LeftOutlined />
+                </button>
+                <div className="header-title">
+                    <h1>견적 이력</h1>
                 </div>
+                <div style={{ width: '24px' }}></div>
             </header>
 
             {/* Main Content */}
