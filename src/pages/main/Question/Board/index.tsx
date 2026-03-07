@@ -307,6 +307,20 @@ const QuestionsBoard = () => {
         }
     }, [currentPage]);
 
+    // 페이지가 다시 활성화될 때 데이터 갱신 (편집 후 돌아왔을 때 반영)
+    useEffect(() => {
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === 'visible') {
+                fetchQuestions(currentPage, true);
+            }
+        };
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        return () => {
+            document.removeEventListener('visibilitychange', handleVisibilityChange);
+        };
+    }, [currentPage, selectedBoardType, searchQuery]);
+
     // Pull to refresh 핸들러
     const handleTouchStart = (e: React.TouchEvent) => {
         if (window.scrollY === 0) {
