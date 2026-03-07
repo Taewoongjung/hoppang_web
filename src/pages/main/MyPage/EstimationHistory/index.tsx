@@ -146,13 +146,11 @@ const EstimationHistory = () => {
             </Helmet>
             <div className="estimation-history-container">
             {/* Header */}
-            <header className="estimation-header">
+            <header className="header">
                 <button className="back-btn" onClick={clickBackButton}>
                     <LeftOutlined />
                 </button>
-                <div className="header-title">
-                    <h1>견적 이력</h1>
-                </div>
+                <h1 className="header-title">견적 이력</h1>
                 <div style={{ width: '24px' }}></div>
             </header>
 
