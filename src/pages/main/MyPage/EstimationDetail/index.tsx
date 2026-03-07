@@ -203,20 +203,16 @@ const EstimationDetailPage = () => {
             <div className="estimation-container">
             {/* Header */}
             <header className="estimation-header">
-                <div className="header-content">
-                    <button
-                        className="back-btn"
-                        onClick={() => {
-                            window.location.href = '/v2/mypage/estimation/histories';
-                        }}
-                    >
-                        <LeftOutlined />
-                    </button>
-                    <div className="header-title">
-                        <h1>견적서 상세</h1>
-                    </div>
-                    <div className="header-spacer"></div>
-                </div>
+                <button
+                    className="back-btn"
+                    onClick={() => {
+                        window.location.href = '/v2/mypage/estimation/histories';
+                    }}
+                >
+                    <LeftOutlined />
+                </button>
+                <h1 className="header-title">견적서 상세</h1>
+                <div style={{ width: '24px' }}></div>
             </header>
 
             {/* Main Content */}

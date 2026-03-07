@@ -53,6 +53,9 @@
 .header {
     background: white;
     padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     border-bottom: 1px solid #e2e8f0;
     position: sticky;
     top: 0;
@@ -60,30 +63,29 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .back-btn {
-    background: #f8fafc;
+    background: none;
     border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
+    padding: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #64748b;
+    color: #334155;
+    transition: all 0.2s ease;
+    border-radius: 8px;
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
 }
 
+.back-btn:hover {
+    background: #f1f5f9;
+}
+
 .header-title {
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 17px;
+    font-weight: 700;
     color: #1e293b;
+    margin: 0;
 }
 
 /* Board Tabs */

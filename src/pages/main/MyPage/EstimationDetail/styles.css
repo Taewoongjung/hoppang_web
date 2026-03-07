@@ -18,48 +18,37 @@ body {
 .estimation-header {
     background: white;
     padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     border-bottom: 1px solid #e2e8f0;
     position: sticky;
     top: 0;
     z-index: 100;
     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    backdrop-filter: blur(10px);
-}
-
-.header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 .back-btn {
-    background: #f8fafc;
+    background: none;
     border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+    padding: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #334155;
     transition: all 0.2s ease;
-    color: #64748b;
-    font-size: 18px;
+    border-radius: 8px;
 }
 
 .back-btn:hover {
     background: #f1f5f9;
-    color: #475569;
 }
 
-.header-title h1 {
-    font-size: 18px;
+.header-title {
+    font-size: 17px;
     font-weight: 700;
     color: #1e293b;
     margin: 0;
-}
-
-.header-spacer {
-    width: 40px;
 }
 
 /* Main Content */

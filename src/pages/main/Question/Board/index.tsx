@@ -582,17 +582,18 @@ const QuestionsBoard = () => {
 
             {/* Header */}
             <header className="header">
-                <div className="header-content">
-                    <button className="back-btn" onClick={handGoBack}>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
-                                  strokeLinejoin="round"/>
-                        </svg>
-                    </button>
-                    <div className="header-title">커뮤니티</div>
-                    {userData && <div className="header-my-activity"
-                                      onClick={() => window.location.href = "/question/my/boards"}>내 활동</div>}
-                </div>
+                <button className="back-btn" onClick={handGoBack}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                              strokeLinejoin="round"/>
+                    </svg>
+                </button>
+                <h1 className="header-title">커뮤니티</h1>
+                {userData ? (
+                    <div className="header-my-activity" onClick={() => window.location.href = "/question/my/boards"}>내 활동</div>
+                ) : (
+                    <div style={{ width: '24px' }}></div>
+                )}
             </header>
 
             {/* Board Type Tabs */}
