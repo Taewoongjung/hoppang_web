@@ -9,7 +9,7 @@ import useSWR from "swr";
 import {callEstimationHistories, callMeData} from "../../../../definition/apiPath";
 import fetcher from "../../../../util/fetcher";
 import axios from "axios";
-import {LeftOutlined, CalendarOutlined, EyeOutlined} from "@ant-design/icons";
+import {CalendarOutlined, EyeOutlined} from "@ant-design/icons";
 import {EnhancedGoToTopButton} from "../../../../util/renderUtil";
 
 import './styles.css';
@@ -148,7 +148,9 @@ const EstimationHistory = () => {
             {/* Header */}
             <header className="header">
                 <button className="back-btn" onClick={clickBackButton}>
-                    <LeftOutlined />
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
                 </button>
                 <h1 className="header-title">견적 이력</h1>
                 <div style={{ width: '24px' }}></div>
