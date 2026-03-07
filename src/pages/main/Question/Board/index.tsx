@@ -584,8 +584,7 @@ const QuestionsBoard = () => {
             <header className="header">
                 <button className="back-btn" onClick={handGoBack}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
-                              strokeLinejoin="round"/>
+                        <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                 </button>
                 <h1 className="header-title">커뮤니티</h1>
