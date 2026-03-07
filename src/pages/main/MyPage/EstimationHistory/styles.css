@@ -16,56 +16,54 @@
 
 /* Header Styles */
 .estimation-header {
-    background: white;
-    padding: 16px 20px 20px;
-    /* Safe area 좌우 패딩 추가 */
-    padding-left: calc(20px + env(safe-area-inset-left));
-    padding-right: calc(20px + env(safe-area-inset-right));
-    border-bottom: 1px solid #e2e8f0;
     position: sticky;
     top: 0;
-    /* Safe area 상단 고려 */
-    top: env(safe-area-inset-top, 0);
+    background: white;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #e2e8f0;
     z-index: 100;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    backdrop-filter: blur(10px);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 
 .header-content {
     display: flex;
     align-items: center;
-    gap: 16px;
-    position: relative;
-    min-height: 48px;
-}
-
-.header-title {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    width: max-content;
+    width: 100%;
 }
 
 .back-btn {
-    background: #f8fafc;
-    border: none;
     width: 40px;
     height: 40px;
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    border: none;
+    background: #f1f5f9;
+    border-radius: 12px;
+    color: #475569;
+    cursor: pointer;
     transition: all 0.2s ease;
-    color: #64748b;
-    font-size: 16px;
+}
+
+.back-btn:hover {
+    background: #e2e8f0;
+}
+
+.header-title {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .header-title h1 {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 700;
     color: #1e293b;
-    margin: 0 0 4px 0;
+    margin: 0;
 }
 
 .header-title p {
