@@ -307,17 +307,36 @@ const QuestionsBoard = () => {
         }
     }, [currentPage]);
 
-    // 페이지가 다시 활성화될 때 데이터 갱신 (편집 후 돌아왔을 때 반영)
+    // 페이지가 다시 활성화될 때 데이터 갱신 (편집/댓글 작성 후 돌아왔을 때 반영)
     useEffect(() => {
+        let refreshTimeout: NodeJS.Timeout;
+
+        const refreshData = () => {
+            // 1.5초 딜레이 후 데이터 갱신 (서버 처리 대기)
+            refreshTimeout = setTimeout(() => {
+                fetchQuestions(currentPage, true);
+            }, 1500);
+        };
+
         const handleVisibilityChange = () => {
             if (document.visibilityState === 'visible') {
-                fetchQuestions(currentPage, true);
+                refreshData();
             }
         };
 
+        const handleFocus = () => {
+            refreshData();
+        };
+
+        // visibilitychange: 탭 전환 시
         document.addEventListener('visibilitychange', handleVisibilityChange);
+        // focus: 창이 다시 포커스 받을 때
+        window.addEventListener('focus', handleFocus);
+
         return () => {
+            if (refreshTimeout) clearTimeout(refreshTimeout);
             document.removeEventListener('visibilitychange', handleVisibilityChange);
+            window.removeEventListener('focus', handleFocus);
         };
     }, [currentPage, selectedBoardType, searchQuery]);
 
