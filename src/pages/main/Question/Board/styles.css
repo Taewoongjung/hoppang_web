@@ -4,13 +4,7 @@
     margin: 0 auto;
     background: #f8fafc;
     min-height: 100vh;
-    min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
     position: relative;
-    /* Safe area 적용 - 컨테이너 전체에 적용 */
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: env(safe-area-inset-bottom);
-    padding-left: env(safe-area-inset-left);
-    padding-right: env(safe-area-inset-right);
 }
 
 /* Pull to Refresh */
