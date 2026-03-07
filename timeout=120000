@@ -1,0 +1,122 @@
+[sane] Warning: Lost connection to watchman, reconnecting..
+[sane] Warning: Lost connection to watchman, reconnecting..
+2026-03-05T13:42:33,153: [cli] getpwuid(501) failed: Bad file descriptor.  I don't know who you are
+
+2026-03-05T13:42:33,153: [cli] getpwuid(501) failed: Bad file descriptor.  I don't know who you are
+
+Fatal error detected at:
+0   libfolly.0.58.0-dev.dylib           0x0000000106d5e084 _ZN5folly10symbolizer17getStackTraceSafeEPmm + 12
+1   libfolly.0.58.0-dev.dylib           0x0000000106d5f260 _ZN5folly10symbolizer21SafeStackTracePrinter15printStackTraceEb + 80
+
+Fatal error detected at:
+0   libfolly.0.58.0-dev.dylib           0x0000000106d5e084 _ZN5folly10symbolizer17getStackTraceSafeEPmm + 12
+1   libfolly.0.58.0-dev.dylib           0x0000000106d5f260 _ZN5folly10symbolizer21SafeStackTracePrinter15printStackTraceEb + 80
+
+2   watchman                            0x0000000104cdc060 _ZL15log_stack_tracev + 64
+
+2   watchman                            0x0000000104cdc060 _ZL15log_stack_tracev + 64
+
+3   watchman                            0x0000000104cdbf9c _ZN8watchman3Log13doLogToStdErrEv + 552
+
+3   watchman                            0x0000000104cdbf9c _ZN8watchman3Log13doLogToStdErrEv + 552
+
+4   watchman                            0x0000000104cda020 _ZN8watchman9Publisher7enqueueEO8json_ref + 692
+5   watchman                            0x0000000104c5f488 _ZN8watchman3Log3logIJRA10_KcRjRA11_S2_NSt3__112basic_stringIcNS8_11char_traitsIcEENS8_9allocatorIcEEEERA29_S2_EEEvNS_8LogLevelEDpOT_ + 384
+6   watchman                            0x0000000104c59764 main + 1772
+7   dyld                                0x000000018e0cdd54 start + 7184
+(safe mode, symbolizer not available)
+
+4   watchman                            0x0000000104cda020 _ZN8watchman9Publisher7enqueueEO8json_ref + 692
+5   watchman                            0x0000000104c5f488 _ZN8watchman3Log3logIJRA10_KcRjRA11_S2_NSt3__112basic_stringIcNS8_11char_traitsIcEENS8_9allocatorIcEEEERA29_S2_EEEvNS_8LogLevelEDpOT_ + 384
+6   watchman                            0x0000000104c59764 main + 1772
+7   dyld                                0x000000018e0cdd54 start + 7184
+(safe mode, symbolizer not available)
+
+Watchman:  watchman --no-pretty get-sockname returned with exit code=1, signal=null, stderr= 2026-03-05T13:42:33,153: [cli] getpwuid(501) failed: Bad file descriptor.  I don't know who you are
+Fatal error detected at:
+0   libfolly.0.58.0-dev.dylib           0x0000000106d5e084 _ZN5folly10symbolizer17getStackTraceSafeEPmm + 12
+1   libfolly.0.58.0-dev.dylib           0x0000000106d5f260 _ZN5folly10symbolizer21SafeStackTracePrinter15printStackTraceEb + 80
+2   watchman                            0x0000000104cdc060 _ZL15log_stack_tracev + 64
+3   watchman                            0x0000000104cdbf9c _ZN8watchman3Log13doLogToStdErrEv + 552
+4   watchman                            0x0000000104cda020 _ZN8watchman9Publisher7enqueueEO8json_ref + 692
+5   watchman                            0x0000000104c5f488 _ZN8watchman3Log3logIJRA10_KcRjRA11_S2_NSt3__112basic_stringIcNS8_11char_traitsIcEENS8_9allocatorIcEEEERA29_S2_EEEvNS_8LogLevelEDpOT_ + 384
+6   watchman                            0x0000000104c59764 main + 1772
+7   dyld                                0x000000018e0cdd54 start + 7184
+(safe mode, symbolizer not available)
+
+Watchman:  watchman --no-pretty get-sockname returned with exit code=1, signal=null, stderr= 2026-03-05T13:42:33,153: [cli] getpwuid(501) failed: Bad file descriptor.  I don't know who you are
+Fatal error detected at:
+0   libfolly.0.58.0-dev.dylib           0x0000000106d5e084 _ZN5folly10symbolizer17getStackTraceSafeEPmm + 12
+1   libfolly.0.58.0-dev.dylib           0x0000000106d5f260 _ZN5folly10symbolizer21SafeStackTracePrinter15printStackTraceEb + 80
+2   watchman                            0x0000000104cdc060 _ZL15log_stack_tracev + 64
+3   watchman                            0x0000000104cdbf9c _ZN8watchman3Log13doLogToStdErrEv + 552
+4   watchman                            0x0000000104cda020 _ZN8watchman9Publisher7enqueueEO8json_ref + 692
+5   watchman                            0x0000000104c5f488 _ZN8watchman3Log3logIJRA10_KcRjRA11_S2_NSt3__112basic_stringIcNS8_11char_traitsIcEENS8_9allocatorIcEEEERA29_S2_EEEvNS_8LogLevelEDpOT_ + 384
+6   watchman                            0x0000000104c59764 main + 1772
+7   dyld                                0x000000018e0cdd54 start + 7184
+(safe mode, symbolizer not available)
+
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: watchman --no-pretty get-sockname returned with exit code=1, signal=null, stderr= 2026-03-05T13:42:33,153: [cli] getpwuid(501) failed: Bad file descriptor.  I don't know who you are
+Fatal error detected at:
+0   libfolly.0.58.0-dev.dylib           0x0000000106d5e084 _ZN5folly10symbolizer17getStackTraceSafeEPmm + 12
+1   libfolly.0.58.0-dev.dylib           0x0000000106d5f260 _ZN5folly10symbolizer21SafeStackTracePrinter15printStackTraceEb + 80
+2   watchman                            0x0000000104cdc060 _ZL15log_stack_tracev + 64
+3   watchman                            0x0000000104cdbf9c _ZN8watchman3Log13doLogToStdErrEv + 552
+4   watchman                            0x0000000104cda020 _ZN8watchman9Publisher7enqueueEO8json_ref + 692
+5   watchman                            0x0000000104c5f488 _ZN8watchman3Log3logIJRA10_KcRjRA11_S2_NSt3__112basic_stringIcNS8_11char_traitsIcEENS8_9allocatorIcEEEERA29_S2_EEEvNS_8LogLevelEDpOT_ + 384
+6   watchman                            0x0000000104c59764 main + 1772
+7   dyld                                0x000000018e0cdd54 start + 7184
+(safe mode, symbolizer not available)
+
+    at ChildProcess.<anonymous> (/Users/jeongtaeung/Desktop/PCode/hoppang-web/node_modules/fb-watchman/index.js:203:18)
+    at ChildProcess.emit (node:events:524:28)
+    at maybeClose (node:internal/child_process:1104:16)
+    at Socket.<anonymous> (node:internal/child_process:456:11)
+    at Socket.emit (node:events:524:28)
+    at Pipe.<anonymous> (node:net:343:12)
+Emitted 'error' event on WatchmanWatcher instance at:
+    at Client.<anonymous> (/Users/jeongtaeung/Desktop/PCode/hoppang-web/node_modules/jest-haste-map/build/watchers/WatchmanWatcher.js:150:10)
+    at Client.emit (node:events:524:28)
+    at spawnError (/Users/jeongtaeung/Desktop/PCode/hoppang-web/node_modules/fb-watchman/index.js:174:10)
+    at ChildProcess.<anonymous> (/Users/jeongtaeung/Desktop/PCode/hoppang-web/node_modules/fb-watchman/index.js:203:7)
+    at ChildProcess.emit (node:events:524:28)
+    [... lines matching original stack trace ...]
+    at Pipe.<anonymous> (node:net:343:12)
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: watchman --no-pretty get-sockname returned with exit code=1, signal=null, stderr= 2026-03-05T13:42:33,153: [cli] getpwuid(501) failed: Bad file descriptor.  I don't know who you are
+Fatal error detected at:
+0   libfolly.0.58.0-dev.dylib           0x0000000106d5e084 _ZN5folly10symbolizer17getStackTraceSafeEPmm + 12
+1   libfolly.0.58.0-dev.dylib           0x0000000106d5f260 _ZN5folly10symbolizer21SafeStackTracePrinter15printStackTraceEb + 80
+2   watchman                            0x0000000104cdc060 _ZL15log_stack_tracev + 64
+3   watchman                            0x0000000104cdbf9c _ZN8watchman3Log13doLogToStdErrEv + 552
+4   watchman                            0x0000000104cda020 _ZN8watchman9Publisher7enqueueEO8json_ref + 692
+5   watchman                            0x0000000104c5f488 _ZN8watchman3Log3logIJRA10_KcRjRA11_S2_NSt3__112basic_stringIcNS8_11char_traitsIcEENS8_9allocatorIcEEEERA29_S2_EEEvNS_8LogLevelEDpOT_ + 384
+6   watchman                            0x0000000104c59764 main + 1772
+7   dyld                                0x000000018e0cdd54 start + 7184
+(safe mode, symbolizer not available)
+
+    at ChildProcess.<anonymous> (/Users/jeongtaeung/Desktop/PCode/hoppang-web/node_modules/fb-watchman/index.js:203:18)
+    at ChildProcess.emit (node:events:524:28)
+    at maybeClose (node:internal/child_process:1104:16)
+    at Socket.<anonymous> (node:internal/child_process:456:11)
+    at Socket.emit (node:events:524:28)
+    at Pipe.<anonymous> (node:net:343:12)
+Emitted 'error' event on WatchmanWatcher instance at:
+    at Client.<anonymous> (/Users/jeongtaeung/Desktop/PCode/hoppang-web/node_modules/jest-haste-map/build/watchers/WatchmanWatcher.js:150:10)
+    at Client.emit (node:events:524:28)
+    at spawnError (/Users/jeongtaeung/Desktop/PCode/hoppang-web/node_modules/fb-watchman/index.js:174:10)
+    at ChildProcess.<anonymous> (/Users/jeongtaeung/Desktop/PCode/hoppang-web/node_modules/fb-watchman/index.js:203:7)
+    at ChildProcess.emit (node:events:524:28)
+    [... lines matching original stack trace ...]
+    at Pipe.<anonymous> (node:net:343:12)
+
+Node.js v20.19.6
+
+Node.js v20.19.6
