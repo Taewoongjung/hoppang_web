@@ -153,7 +153,6 @@ const EstimationHistory = () => {
                     </button>
                     <div className="header-title">
                         <h1>견적 이력</h1>
-                        <p>내가 받은 견적을 확인하세요</p>
                     </div>
                 </div>
             </header>
