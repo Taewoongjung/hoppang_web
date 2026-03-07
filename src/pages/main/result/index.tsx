@@ -5,6 +5,7 @@ import axios from 'axios';
 
 import './styles.css';
 import '../versatile-styles.css';
+import '../design-tokens.css';
 
 import {
     addCommasToNumber,
@@ -206,7 +207,7 @@ const MobileResultScreen = () => {
     }, [results]);
 
     const handleNewEstimate = () => {
-        window.location.href = '/calculator';
+        history.push('/calculator');
     };
 
     // 📌 브랜드 비교 요약 표 렌더링

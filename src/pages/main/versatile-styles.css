@@ -1,3 +1,6 @@
+/* Import Design Tokens */
+@import './design-tokens.css';
+
 * {
     box-sizing: border-box;
     overflow-x: hidden;

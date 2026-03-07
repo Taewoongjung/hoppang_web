@@ -3,12 +3,13 @@ import { Helmet } from 'react-helmet-async';
 
 import './styles.css';
 import '../versatile-styles.css';
+import '../design-tokens.css';
 
 import { RightOutlined, UserOutlined, HistoryOutlined, SettingOutlined } from '@ant-design/icons';
 import useSWR from "swr";
 import {callMeData} from "../../../definition/apiPath";
 import fetcher from "../../../util/fetcher";
-import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
+import SkeletonLoader from "../../../component/Loading/Skeleton";
 import BottomNavigator from "../../../component/V2/BottomNavigator";
 import {useHistory} from "react-router-dom";
 
@@ -29,22 +30,20 @@ const MyPage = () => {
         };
     }, [history]);
 
-    const { data: userData, mutate } = useSWR<{ tel: string; email: string; nickname?: string; name?: string } | undefined>(callMeData, fetcher, {
+    const { data: userData, mutate, isValidating } = useSWR<{ tel: string; email: string; nickname?: string; name?: string } | undefined>(callMeData, fetcher, {
         dedupingInterval: 2000
     });
 
-    const [loading, setLoading] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    useEffect(() => {
-        setLoading(true);
+    // Initial loading state - show skeleton until first data is received
+    const isLoadingInitial = !userData && isValidating;
 
+    useEffect(() => {
         if (userData) {
             setIsLoggedIn(true);
-            setLoading(false);
         } else {
             setIsLoggedIn(false);
-            setLoading(false);
         }
 
         const handlePopState = () => {
@@ -65,7 +64,7 @@ const MyPage = () => {
 
     const goToEstimationHistory = () => {
         mutate().then(() => {
-            window.location.href = '/v2/mypage/estimation/histories';
+            history.push('/v2/mypage/estimation/histories');
         })
     }
 
@@ -86,27 +85,27 @@ const MyPage = () => {
             title: '견적 받기',
             subtitle: userData ? '무료 · 즉시' : '로그인 필요',
             onClick: () => {
-                userData ? window.location.href = '/calculator' : window.location.href = '/login' },
+                userData ? history.push('/calculator') : history.push('/login') },
             isPrimary: true,
             isDisabled: false
         },
         {
             title: '질문하기',
             subtitle: '커뮤니티',
-            onClick: () => window.location.href = '/question/boards',
+            onClick: () => history.push('/question/boards'),
             isDisabled: false
         },
         {
             title: '상담하기',
             subtitle: '고객센터',
-            onClick: () => window.location.href = '/v2/counsel',
+            onClick: () => history.push('/v2/counsel'),
             hasNotification: true,
             isDisabled: false
         },
         {
             title: '내 활동',
             subtitle: '커뮤니티',
-            onClick: () => window.location.href = '/question/my/boards',
+            onClick: () => history.push('/question/my/boards'),
             isDisabled: false
         }
     ];
@@ -116,8 +115,10 @@ const MyPage = () => {
             <Helmet>
                 <meta name="robots" content="noindex, nofollow"/>
             </Helmet>
-            {loading && <OverlayLoadingPage word={"처리중"}/>}
 
+            {isLoadingInitial ? (
+                <SkeletonLoader variant="mypage" loading={true} />
+            ) : (
             <div className="mypage-container">
                 {/* Header */}
                 <header className="mypage-header">
@@ -129,7 +130,7 @@ const MyPage = () => {
                         <button
                             className="settings-btn"
                             onClick={() => {
-                                window.location.href = `/v2/mypage/userconfig?isLoggedIn=${isLoggedIn}`;
+                                history.push(`/v2/mypage/userconfig?isLoggedIn=${isLoggedIn}`);
                             }}
                         >
                             <SettingOutlined/>
@@ -143,7 +144,7 @@ const MyPage = () => {
                     {!userData ? (
                         <section className="login-section">
                             <div className="login-card" onClick={() => {
-                                window.location.href = '/v2/login';
+                                history.push('/v2/login');
                             }}>
                                 <div className="login-content">
                                     <div className="login-icon">
@@ -175,7 +176,7 @@ const MyPage = () => {
                                             className="avatar-settings-btn"
                                             onClick={(e) => {
                                                 e.stopPropagation(); // 프로필 카드 클릭 방지
-                                                window.location.href = `/v2/mypage/profile`;
+                                                history.push(`/v2/mypage/profile`);
                                             }}
                                         >
                                             <SettingOutlined/>
@@ -265,6 +266,7 @@ const MyPage = () => {
 
                 <BottomNavigator userData={userData}/>
             </div>
+            )}
         </>
     );
 }

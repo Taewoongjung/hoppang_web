@@ -1,6 +1,6 @@
 import React, { useCallback, memo } from 'react';
 import './styles.css';
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 
 interface BottomNavigatorProps {
     userData: unknown;
@@ -9,10 +9,11 @@ interface BottomNavigatorProps {
 
 const BottomNavigator: React.FC<BottomNavigatorProps> = memo(({ userData, isVisible = true }) => {
     const location = useLocation();
+    const history = useHistory();
 
     const navigateTo = useCallback((path: string) => {
-        window.location.href = path;
-    }, []);
+        history.push(path);
+    }, [history]);
 
     const isHomeActive = ['/chassis/calculator'].includes(location.pathname);
     const isCommunityActive = location.pathname === '/question/boards';
