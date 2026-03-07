@@ -2,7 +2,7 @@
 declare global {
     interface Window {
         adsbygoogle: any[];
-        gtag?: (command: string, targetId: string, config?: Record<string, any>) => void;
+        gtag?: (command: string, targetIdOrParams: string | Record<string, any>, config?: Record<string, any>) => void;
     }
 }
 

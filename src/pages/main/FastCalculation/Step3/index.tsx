@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import './styles.css';
 import '../../versatile-styles.css';
 import { getItemWithTTL, setItemWithTTL } from '../util';
+import { trackEvent } from '../../../../util/analytics';
 
 interface ExpansionOption {
     id: string;
@@ -23,17 +24,15 @@ const Step3ExpansionSelection = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
 
-        // GA4 퍼널 스텝 이벤트
-        if (window.gtag) {
-            window.gtag('event', 'funnel_step_view', {
-                page_title: '간편견적 - 베란다 확장 여부',
-                page_location: window.location.href,
-                page_path: '/calculator/simple/step3',
-                funnel_type: 'simple_estimate',
-                funnel_step: 'expansion_selection',
-                step_number: 4
-            });
-        }
+        // GA4 퍼널 스텝 이벤트 (플랫폼 정보 자동 포함)
+        trackEvent('funnel_step_view', {
+            page_title: '간편견적 - 베란다 확장 여부',
+            page_location: window.location.href,
+            page_path: '/calculator/simple/step3',
+            funnel_type: 'simple_estimate',
+            funnel_step: 'expansion_selection',
+            step_number: 4
+        });
     }, []);
 
     useEffect(() => {

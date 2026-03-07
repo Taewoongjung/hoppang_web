@@ -4,6 +4,7 @@ import {BrowserRouter} from 'react-router-dom';
 import App from './layouts/App/App';
 import { initializeMobileClientDetection } from './util';
 import {HelmetProvider} from "react-helmet-async";
+import './util/analytics'; // 플랫폼 감지 초기화
 
 initializeMobileClientDetection();
 

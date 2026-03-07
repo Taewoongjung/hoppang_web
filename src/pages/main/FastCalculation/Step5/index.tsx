@@ -14,6 +14,7 @@ import useSWR from 'swr';
 import { v4 as uuidv4 } from 'uuid';
 import {invalidateMandatoryData, getItemWithTTL} from "../util";
 import {EnhancedGoToTopButton} from "../../../../util/renderUtil";
+import { trackEvent } from '../../../../util/analytics';
 
 
 interface WindowInfo {
@@ -59,17 +60,15 @@ const Step5FloorplanReview = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
 
-        // GA4 퍼널 스텝 이벤트
-        if (window.gtag) {
-            window.gtag('event', 'funnel_step_view', {
-                page_title: '간편견적 - 도면 확인',
-                page_location: window.location.href,
-                page_path: '/calculator/simple/step5',
-                funnel_type: 'simple_estimate',
-                funnel_step: 'floorplan_review',
-                step_number: 6
-            });
-        }
+        // GA4 퍼널 스텝 이벤트 (플랫폼 정보 자동 포함)
+        trackEvent('funnel_step_view', {
+            page_title: '간편견적 - 도면 확인',
+            page_location: window.location.href,
+            page_path: '/calculator/simple/step5',
+            funnel_type: 'simple_estimate',
+            funnel_step: 'floorplan_review',
+            step_number: 6
+        });
     }, []);
 
     const { data: userData } = useSWR(callMeData, fetcher, {

@@ -7,6 +7,7 @@ import '../../versatile-styles.css';
 import AddressInputModal from "../../../../component/V2/AddressInputModal";
 import {invalidateMandatoryData, getItemWithTTL, setItemWithTTL} from "../util";
 import CalculationExitModal from "../../../../component/V2/Modal/CalculationExitModal";
+import { trackEvent } from '../../../../util/analytics';
 
 // 주소 타입 정의
 interface AddressInfo {
@@ -38,17 +39,15 @@ const Step0AddressInput = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
 
-        // GA4 퍼널 스텝 이벤트
-        if (window.gtag) {
-            window.gtag('event', 'funnel_step_view', {
-                page_title: '간편견적 - 주소 입력',
-                page_location: window.location.href,
-                page_path: '/calculator/simple/step0',
-                funnel_type: 'simple_estimate',
-                funnel_step: 'address_input',
-                step_number: 1
-            });
-        }
+        // GA4 퍼널 스텝 이벤트 (플랫폼 정보 자동 포함)
+        trackEvent('funnel_step_view', {
+            page_title: '간편견적 - 주소 입력',
+            page_location: window.location.href,
+            page_path: '/calculator/simple/step0',
+            funnel_type: 'simple_estimate',
+            funnel_step: 'address_input',
+            step_number: 1
+        });
     }, []);
 
     // 컴포넌트 마운트 시 localStorage에서 복원

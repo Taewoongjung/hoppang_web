@@ -20,6 +20,7 @@ import useSWR from "swr";
 import fetcher from "../../../util/fetcher";
 import { getErrorMessage } from "../../../util/security";
 import InfoSection from "../../../component/V2/CalculationInfo";
+import { trackEvent } from '../../../util/analytics';
 
 
 const MobileCalculationScreen = () => {
@@ -62,19 +63,17 @@ const MobileCalculationScreen = () => {
         4: { title: '사양 확인', funnel_step: 'specification_review' }
     };
 
-    // currentStep 변경 시 GA4 퍼널 스텝 이벤트 전송
+    // currentStep 변경 시 GA4 퍼널 스텝 이벤트 전송 (플랫폼 정보 자동 포함)
     useEffect(() => {
-        if (window.gtag) {
-            const stepInfo = stepInfoMap[currentStep as keyof typeof stepInfoMap];
-            window.gtag('event', 'funnel_step_view', {
-                page_title: `상세견적 - ${stepInfo.title}`,
-                page_location: window.location.href,
-                page_path: '/v2/calculator',
-                funnel_type: 'detail_estimate',
-                funnel_step: stepInfo.funnel_step,
-                step_number: currentStep + 1
-            });
-        }
+        const stepInfo = stepInfoMap[currentStep as keyof typeof stepInfoMap];
+        trackEvent('funnel_step_view', {
+            page_title: `상세견적 - ${stepInfo.title}`,
+            page_location: window.location.href,
+            page_path: '/v2/calculator',
+            funnel_type: 'detail_estimate',
+            funnel_step: stepInfo.funnel_step,
+            step_number: currentStep + 1
+        });
     }, [currentStep]);
 
     // Step 0: 샷시 회사 선택

@@ -7,6 +7,7 @@ import './styles.css';
 import '../../versatile-styles.css';
 import { callSimpleEstimationSquareFeetType } from '../../../../definition/apiPath';
 import { getItemWithTTL, setItemWithTTL } from '../util';
+import { trackEvent } from '../../../../util/analytics';
 
 
 interface AreaOption {
@@ -26,17 +27,15 @@ const Step1AreaSelection = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
 
-        // GA4 퍼널 스텝 이벤트
-        if (window.gtag) {
-            window.gtag('event', 'funnel_step_view', {
-                page_title: '간편견적 - 평수 선택',
-                page_location: window.location.href,
-                page_path: '/calculator/simple/step1',
-                funnel_type: 'simple_estimate',
-                funnel_step: 'area_selection',
-                step_number: 2
-            });
-        }
+        // GA4 퍼널 스텝 이벤트 (플랫폼 정보 자동 포함)
+        trackEvent('funnel_step_view', {
+            page_title: '간편견적 - 평수 선택',
+            page_location: window.location.href,
+            page_path: '/calculator/simple/step1',
+            funnel_type: 'simple_estimate',
+            funnel_step: 'area_selection',
+            step_number: 2
+        });
     }, []);
 
     useEffect(() => {

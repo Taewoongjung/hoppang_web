@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom';
 import './styles.css';
 import '../../versatile-styles.css';
 import { getItemWithTTL, setItemWithTTL } from '../util';
+import { trackEvent } from '../../../../util/analytics';
 
 
 interface BayOption {
@@ -23,17 +24,15 @@ const Step2BaySelection = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
 
-        // GA4 퍼널 스텝 이벤트
-        if (window.gtag) {
-            window.gtag('event', 'funnel_step_view', {
-                page_title: '간편견적 - Bay 구조 선택',
-                page_location: window.location.href,
-                page_path: '/calculator/simple/step2',
-                funnel_type: 'simple_estimate',
-                funnel_step: 'bay_selection',
-                step_number: 3
-            });
-        }
+        // GA4 퍼널 스텝 이벤트 (플랫폼 정보 자동 포함)
+        trackEvent('funnel_step_view', {
+            page_title: '간편견적 - Bay 구조 선택',
+            page_location: window.location.href,
+            page_path: '/calculator/simple/step2',
+            funnel_type: 'simple_estimate',
+            funnel_step: 'bay_selection',
+            step_number: 3
+        });
     }, []);
 
     useEffect(() => {
