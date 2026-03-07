@@ -207,7 +207,9 @@ const MobileResultScreen = () => {
     }, [results]);
 
     const handleNewEstimate = () => {
-        history.push('/calculator');
+        // CSS 충돌 방지를 위해 전체 페이지 로드 사용
+        // (result와 calculator 페이지 간 전역 스타일 충돌)
+        window.location.href = '/calculator';
     };
 
     // 📌 브랜드 비교 요약 표 렌더링
