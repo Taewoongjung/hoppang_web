@@ -245,8 +245,8 @@ const ConfigPage = () => {
                         {isLoggedIn && (
                             <section className="config-section danger-section">
                                 <div className="section-header">
-                                    <div className="section-icon">🚨</div>
-                                    <h3 className="config-section-title danger-title">계정 관리</h3>
+                                    <div className="section-icon"></div>
+                                    <h3 className="config-section-title danger-title">로그인 관리</h3>
                                 </div>
                                 <div className="config-menu-list">
                                     {menuItems.danger.map((item, index) => renderMenuItem(item, `danger-${index}`))}
@@ -261,7 +261,7 @@ const ConfigPage = () => {
                                     <img src="/assets/hoppang-character.png" alt="Hoppang Character" />
                                 </div>
                                 <div className="app-info-text">
-                                    <h4>호빵 v2.6.5</h4>
+                                    <h4>호빵 v2.7.0</h4>
                                     <p>더 나은 서비스를 위해 지속적으로 개선하고 있습니다</p>
                                 </div>
                             </div>
