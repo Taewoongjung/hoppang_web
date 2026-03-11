@@ -309,13 +309,11 @@ const Step0AddressInput = () => {
             </div>
 
             {showAddressModal && (
-                <div className="address-modal-backdrop" onClick={() => setShowAddressModal(false)}>
-                        <AddressInputModal
-                            onClose={() => setShowAddressModal(false)}
-                            onAddressSelect={handleAddressSelect}
-                            currentAddress={addressInfo?.fullAddress}
-                        />
-                </div>
+                <AddressInputModal
+                    onClose={() => setShowAddressModal(false)}
+                    onAddressSelect={handleAddressSelect}
+                    currentAddress={addressInfo?.fullAddress}
+                />
             )}
 
             {showExitModal && (<CalculationExitModal setShowExitModal={setShowExitModal}/>)}
