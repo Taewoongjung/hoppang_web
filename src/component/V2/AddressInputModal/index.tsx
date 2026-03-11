@@ -9,12 +9,6 @@ interface AddressInputModalProps {
     currentAddress?: string;
 }
 
-// 모바일 디바이스 감지
-const isMobile = () => {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-           (window.innerWidth <= 768);
-};
-
 const AddressInputModal: React.FC<AddressInputModalProps> = ({
     onClose,
     onAddressSelect,
@@ -22,7 +16,6 @@ const AddressInputModal: React.FC<AddressInputModalProps> = ({
 }) => {
 
     const [isSearching, setIsSearching] = useState(false);
-
 
     // Daum 우편번호 스크립트 로드
     useEffect(() => {
@@ -35,74 +28,72 @@ const AddressInputModal: React.FC<AddressInputModalProps> = ({
         }
     }, []);
 
-    const runPostcode = () => {
-        if (!(window as any).daum?.Postcode) {
-            alert('주소 검색 서비스를 불러오는데 실패했습니다. 다시 시도해주세요.');
-            return;
-        }
+    // isSearching이 true가 되고 DOM이 업데이트된 후 embed 실행
+    useEffect(() => {
+        if (!isSearching) return;
 
-        const postcode = new (window as any).daum.Postcode({
-            oncomplete: function (data: any) {
-                const addressData = {
-                    address: data.address,
-                    zonecode: data.zonecode,
-                    buildingCode: data.buildingCode || '',
-                    sido: data.sido,
-                    sigungu: data.sigungu,
-                    bname: data.bname,
-                    bcode: data.bcode,
-                    apartment: data.apartment || 'N'
-                };
-
-                onAddressSelect(addressData);
-                setIsSearching(false);
-                onClose();
-            },
-            onclose: function() {
-                setIsSearching(false);
-            },
-            width: '100%',
-            height: '100%'
-        });
-
-        // 모바일은 open(), PC는 embed()
-        if (isMobile()) {
-            postcode.open({
-                popupTitle: '주소 검색',
-                popupKey: 'address1'
-            });
-        } else {
-            const container = document.getElementById('daum-postcode-container');
-            if (container) {
-                container.innerHTML = '';
-                postcode.embed(container);
+        const runEmbed = () => {
+            if (!(window as any).daum?.Postcode) {
+                return false;
             }
-        }
-    };
 
-    const handleDaumPostcode = () => {
-        setIsSearching(true);
+            const container = document.getElementById('daum-postcode-container');
+            if (!container) {
+                return false;
+            }
 
-        // 스크립트가 로드될 때까지 잠시 대기 후 실행
-        if ((window as any).daum?.Postcode) {
-            setTimeout(runPostcode, 50);
-        } else {
-            const checkTimer = setInterval(() => {
-                if ((window as any).daum?.Postcode) {
-                    clearInterval(checkTimer);
-                    setTimeout(runPostcode, 50);
-                }
-            }, 100);
+            // 기존 내용 초기화
+            container.innerHTML = '';
 
-            // 5초 후 타임아웃
-            setTimeout(() => {
-                clearInterval(checkTimer);
-                if (!(window as any).daum?.Postcode) {
+            new (window as any).daum.Postcode({
+                oncomplete: function (data: any) {
+                    const addressData = {
+                        address: data.address,
+                        zonecode: data.zonecode,
+                        buildingCode: data.buildingCode || '',
+                        sido: data.sido,
+                        sigungu: data.sigungu,
+                        bname: data.bname,
+                        bcode: data.bcode,
+                        apartment: data.apartment || 'N'
+                    };
+
+                    onAddressSelect(addressData);
+                    setIsSearching(false);
+                    onClose();
+                },
+                onclose: function() {
+                    setIsSearching(false);
+                },
+                width: '100%',
+                height: '100%'
+            }).embed(container);
+
+            return true;
+        };
+
+        // 즉시 시도
+        if (runEmbed()) return;
+
+        // 실패하면 50ms 간격으로 재시도 (최대 2초)
+        let attempts = 0;
+        const maxAttempts = 40;
+        const timer = setInterval(() => {
+            attempts++;
+            if (runEmbed() || attempts >= maxAttempts) {
+                clearInterval(timer);
+                if (attempts >= maxAttempts) {
                     setIsSearching(false);
                     alert('주소 검색 서비스를 불러오는데 실패했습니다.');
                 }
-            }, 5000);
-        }
+            }
+        }, 50);
+
+        return () => clearInterval(timer);
+    }, [isSearching, onAddressSelect, onClose]);
+
+    const handleDaumPostcode = () => {
+        setIsSearching(true);
     };
 
 
