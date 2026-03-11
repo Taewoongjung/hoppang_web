@@ -13,6 +13,7 @@ import {Question} from "../Question/interface";
 import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
 import {formatTimeAgo} from "../../../util/boardUtil";
 import GoogleAdSense from "../../../component/V2/AdBanner/GoogleAdSense";
+import { Modal } from 'antd';
 
 declare global {
     interface Window {
@@ -40,6 +41,7 @@ const Initial = () => {
     const [lastScrollY, setLastScrollY] = useState(0);
     const [recentPosts, setRecentPosts] = useState<Question[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [isMaintenanceModalOpen, setIsMaintenanceModalOpen] = useState(false);
 
     // Safe area 지원 감지
     const [supportsSafeArea, setSupportsSafeArea] = useState(false);
@@ -420,7 +422,7 @@ const Initial = () => {
 
     const handleServiceClick = (serviceTitle: string) => {
         if (serviceTitle === '샷시 견적') {
-            history.push('/calculator');
+            setIsMaintenanceModalOpen(true);
         } else if (serviceTitle === '커뮤니티') {
             history.push('/question/boards');
         }
@@ -679,6 +681,41 @@ const Initial = () => {
                 userData={userData}
                 isVisible={isBottomNavVisible}
             />
+
+            {/* Maintenance Modal */}
+            <Modal
+                open={isMaintenanceModalOpen}
+                onCancel={() => setIsMaintenanceModalOpen(false)}
+                footer={null}
+                centered
+                width={320}
+            >
+                <div style={{ textAlign: 'center', padding: '20px 0' }}>
+                    <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔧</div>
+                    <h3 style={{ marginBottom: '12px', fontSize: '18px', fontWeight: 600 }}>샷시 견적 서비스 점검중</h3>
+                    <p style={{ color: '#666', marginBottom: '20px', lineHeight: 1.6 }}>
+                        더 나은 서비스 제공을 위해<br/>
+                        잠시 점검을 진행하고 있습니다.<br/>
+                        <span style={{ color: '#6366f1', fontWeight: 500 }}>빠른 시일 내에 다시 찾아뵙겠습니다.</span>
+                    </p>
+                    <button
+                        onClick={() => setIsMaintenanceModalOpen(false)}
+                        style={{
+                            width: '100%',
+                            padding: '12px',
+                            backgroundColor: '#6366f1',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '8px',
+                            fontSize: '16px',
+                            fontWeight: 500,
+                            cursor: 'pointer'
+                        }}
+                    >
+                        확인
+                    </button>
+                </div>
+            </Modal>
         </div>
     );
 };
