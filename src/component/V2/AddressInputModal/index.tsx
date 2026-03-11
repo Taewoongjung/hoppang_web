@@ -1,7 +1,5 @@
-import React, {useState, useEffect} from 'react';
-
+import React, { useState, useEffect } from 'react';
 import './styles.css';
-
 
 interface AddressInputModalProps {
     onClose: () => void;
@@ -9,93 +7,96 @@ interface AddressInputModalProps {
     currentAddress?: string;
 }
 
+declare global {
+    interface Window {
+        kakao?: any;
+        daum?: any;
+    }
+}
+
+const POSTCODE_SCRIPT_SRC =
+    'https://t1.kakaocdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+
 const AddressInputModal: React.FC<AddressInputModalProps> = ({
-    onClose,
-    onAddressSelect,
-    currentAddress
-}) => {
-
+                                                                 onClose,
+                                                                 onAddressSelect,
+                                                                 currentAddress,
+                                                             }) => {
     const [isSearching, setIsSearching] = useState(false);
+    const [scriptLoaded, setScriptLoaded] = useState(false);
 
-    // Daum 우편번호 스크립트 로드
     useEffect(() => {
-        const existingScript = document.querySelector('script[src*="postcode.v2.js"]');
-        if (!existingScript) {
-            const script = document.createElement('script');
-            script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
-            script.async = true;
-            document.head.appendChild(script);
+        let script = document.querySelector(
+            `script[src="${POSTCODE_SCRIPT_SRC}"]`
+        ) as HTMLScriptElement | null;
+
+        if (script) {
+            if (window.kakao?.Postcode || window.daum?.Postcode) {
+                setScriptLoaded(true);
+            } else {
+                script.addEventListener('load', () => setScriptLoaded(true), { once: true });
+            }
+            return;
         }
-    }, []);
 
-    // isSearching이 true가 되고 DOM이 업데이트된 후 embed 실행
-    useEffect(() => {
-        if (!isSearching) return;
-
-        const runEmbed = () => {
-            if (!(window as any).daum?.Postcode) {
-                return false;
-            }
-
-            const container = document.getElementById('daum-postcode-container');
-            if (!container) {
-                return false;
-            }
-
-            // 기존 내용 초기화
-            container.innerHTML = '';
-
-            new (window as any).daum.Postcode({
-                oncomplete: function (data: any) {
-                    const addressData = {
-                        address: data.address,
-                        zonecode: data.zonecode,
-                        buildingCode: data.buildingCode || '',
-                        sido: data.sido,
-                        sigungu: data.sigungu,
-                        bname: data.bname,
-                        bcode: data.bcode,
-                        apartment: data.apartment || 'N'
-                    };
-
-                    onAddressSelect(addressData);
-                    setIsSearching(false);
-                    onClose();
-                },
-                onclose: function() {
-                    setIsSearching(false);
-                },
-                width: '100%',
-                height: '100%'
-            }).embed(container);
-
-            return true;
+        script = document.createElement('script');
+        script.src = POSTCODE_SCRIPT_SRC;
+        script.async = true;
+        script.onload = () => setScriptLoaded(true);
+        script.onerror = () => {
+            alert('주소 검색 스크립트를 불러오지 못했습니다.');
+            setIsSearching(false);
         };
 
-        // 즉시 시도
-        if (runEmbed()) return;
+        document.head.appendChild(script);
+    }, []);
 
-        // 실패하면 50ms 간격으로 재시도 (최대 2초)
-        let attempts = 0;
-        const maxAttempts = 40;
-        const timer = setInterval(() => {
-            attempts++;
-            if (runEmbed() || attempts >= maxAttempts) {
-                clearInterval(timer);
-                if (attempts >= maxAttempts) {
-                    setIsSearching(false);
-                    alert('주소 검색 서비스를 불러오는데 실패했습니다.');
-                }
-            }
-        }, 50);
+    useEffect(() => {
+        if (!isSearching || !scriptLoaded) return;
 
-        return () => clearInterval(timer);
-    }, [isSearching, onAddressSelect, onClose]);
+        const container = document.getElementById('daum-postcode-container');
+        if (!container) return;
+
+        container.innerHTML = '';
+
+        const PostcodeCtor = window.kakao?.Postcode || window.daum?.Postcode;
+
+        if (!PostcodeCtor) {
+            alert('주소 검색 서비스를 불러오지 못했습니다.');
+            setIsSearching(false);
+            return;
+        }
+
+        const postcode = new PostcodeCtor({
+            oncomplete: function (data: any) {
+                const addressData = {
+                    address: data.address,
+                    zonecode: data.zonecode,
+                    buildingCode: data.buildingCode || '',
+                    sido: data.sido,
+                    sigungu: data.sigungu,
+                    bname: data.bname,
+                    bcode: data.bcode,
+                    apartment: data.apartment || 'N',
+                };
+
+                onAddressSelect(addressData);
+                setIsSearching(false);
+                onClose();
+            },
+            onclose: function () {
+                setIsSearching(false);
+            },
+            width: '100%',
+            height: '100%',
+        });
+
+        postcode.embed(container);
+    }, [isSearching, scriptLoaded, onAddressSelect, onClose]);
 
     const handleDaumPostcode = () => {
         setIsSearching(true);
     };
-
 
     return (
         <div className="address-modal-overlay" onClick={onClose}>
@@ -131,7 +132,10 @@ const AddressInputModal: React.FC<AddressInputModalProps> = ({
                         </div>
                     ) : (
                         <div className="daum-postcode-wrapper">
-                            <div id="daum-postcode-container" style={{ width: '100%', height: '400px' }}></div>
+                            <div
+                                id="daum-postcode-container"
+                                style={{ width: '100%', height: '400px' }}
+                            />
                         </div>
                     )}
                 </div>
