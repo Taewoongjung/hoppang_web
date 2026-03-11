@@ -7,8 +7,13 @@ body {
     padding-bottom: env(safe-area-inset-bottom);
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
-    /* 스크롤바 공간 항상 유지 (모달 오픈 시 화면 밀림 방지) */
-    overflow-y: scroll;
+}
+
+/* antd Modal 오픈 시 화면 밀림 방지 */
+body.ant-scrolling-effect {
+    overflow: visible !important;
+    padding-right: 0 !important;
+    width: 100% !important;
 }
 
 .app-container {
