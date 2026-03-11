@@ -158,6 +158,14 @@
     border-radius: 8px;
     overflow: hidden;
     border: 1px solid #e9ecef;
+    /* 모바일 iframe 스크롤 개선 */
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+}
+
+.daum-postcode-wrapper iframe {
+    width: 100% !important;
+    height: 100% !important;
 }
 
 /* 모바일 최적화 */
