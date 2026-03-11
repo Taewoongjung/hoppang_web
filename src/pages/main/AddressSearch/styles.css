@@ -1,0 +1,92 @@
+.address-search-page {
+    max-width: 430px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.address-search-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.address-search-header .back-button {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #334155;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+.address-search-header .back-button:hover {
+    background-color: #f1f5f9;
+}
+
+.address-search-header .header-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+}
+
+.postcode-container-wrapper {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.postcode-container-wrapper iframe {
+    width: 100% !important;
+    height: 100% !important;
+    border: none !important;
+}
+
+.loading-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    z-index: 10;
+}
+
+.loading-placeholder p {
+    margin-top: 16px;
+    color: #64748b;
+    font-size: 14px;
+}
+
+.loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #e2e8f0;
+    border-top-color: #6366f1;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
