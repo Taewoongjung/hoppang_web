@@ -421,7 +421,7 @@ const Initial = () => {
 
     const handleServiceClick = (serviceTitle: string) => {
         if (serviceTitle === '샷시 견적') {
-            history.push('/calculator');
+            setIsMaintenanceModalOpen(true);
         } else if (serviceTitle === '커뮤니티') {
             history.push('/question/boards');
         }
@@ -699,16 +699,75 @@ const Initial = () => {
                                 잠시 점검을 진행하고 있습니다.<br/>
                                 <span style={{ color: '#6366f1', fontWeight: 500 }}>빠른 시일 내에 다시 찾아뵙겠습니다.</span>
                             </p>
+                            <p style={{ color: '#888', fontSize: '13px', marginBottom: '16px' }}>
+                                급한 문의는 아래 버튼을 이용해주세요
+                            </p>
+                            <button
+                                onClick={() => {
+                                    const kakaoWebLink = 'https://pf.kakao.com/_dbxezn/chat';
+                                    const kakaoAppLink = 'kakaotalk://plusfriend/chat/_dbxezn';
+                                    const userAgent = navigator.userAgent.toLowerCase();
+                                    if (userAgent.includes('iphone') || userAgent.includes('ipad')) {
+                                        setTimeout(() => { window.location.href = kakaoWebLink; }, 500);
+                                        window.location.href = kakaoAppLink;
+                                    } else {
+                                        window.open(kakaoWebLink, '_blank');
+                                    }
+                                }}
+                                style={{
+                                    width: '100%',
+                                    padding: '12px',
+                                    backgroundColor: '#FEE500',
+                                    color: '#3C1E1E',
+                                    border: 'none',
+                                    borderRadius: '8px',
+                                    fontSize: '15px',
+                                    fontWeight: 600,
+                                    cursor: 'pointer',
+                                    marginBottom: '10px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: '8px'
+                                }}
+                            >
+                                <img src="/assets/Sso/kakao-logo.png" alt="kakao" style={{ width: 20, height: 20 }} />
+                                카카오톡 문의하기
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setIsMaintenanceModalOpen(false);
+                                    history.push('/question/boards');
+                                }}
+                                style={{
+                                    width: '100%',
+                                    padding: '12px',
+                                    backgroundColor: '#8b5cf6',
+                                    color: 'white',
+                                    border: 'none',
+                                    borderRadius: '8px',
+                                    fontSize: '15px',
+                                    fontWeight: 500,
+                                    cursor: 'pointer',
+                                    marginBottom: '10px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: '8px'
+                                }}
+                            >
+                                <span>💬</span> 커뮤니티에서 질문하기
+                            </button>
                             <button
                                 onClick={() => setIsMaintenanceModalOpen(false)}
                                 style={{
                                     width: '100%',
                                     padding: '12px',
-                                    backgroundColor: '#6366f1',
-                                    color: 'white',
+                                    backgroundColor: '#f1f5f9',
+                                    color: '#64748b',
                                     border: 'none',
                                     borderRadius: '8px',
-                                    fontSize: '16px',
+                                    fontSize: '15px',
                                     fontWeight: 500,
                                     cursor: 'pointer'
                                 }}
