@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 
 import './styles.css';
 
@@ -16,41 +16,76 @@ const AddressInputModal: React.FC<AddressInputModalProps> = ({
 }) => {
 
     const [isSearching, setIsSearching] = useState(false);
+    const postcodeLoaded = useRef(false);
 
+
+    // Daum 우편번호 스크립트 로드
+    useEffect(() => {
+        const existingScript = document.querySelector('script[src*="postcode.v2.js"]');
+        if (!existingScript) {
+            const script = document.createElement('script');
+            script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+            script.async = true;
+            document.head.appendChild(script);
+        }
+    }, []);
+
+    // isSearching이 true가 되면 embed 실행
+    useEffect(() => {
+        if (!isSearching) return;
+
+        const container = document.getElementById('daum-postcode-container');
+        if (!container || !(window as any).daum?.Postcode) {
+            // 아직 준비되지 않았으면 잠시 후 재시도
+            const retryTimer = setTimeout(() => {
+                const retryContainer = document.getElementById('daum-postcode-container');
+                if (retryContainer && (window as any).daum?.Postcode) {
+                    embedPostcode();
+                } else {
+                    setIsSearching(false);
+                    alert('주소 검색 서비스를 불러오는데 실패했습니다. 다시 시도해주세요.');
+                }
+            }, 100);
+            return () => clearTimeout(retryTimer);
+        }
+
+        embedPostcode();
+    }, [isSearching]);
+
+    const embedPostcode = () => {
+        const container = document.getElementById('daum-postcode-container');
+        if (!container || !(window as any).daum?.Postcode) return;
+
+        // 기존 내용 초기화
+        container.innerHTML = '';
+
+        new (window as any).daum.Postcode({
+            oncomplete: function (data: any) {
+                const addressData = {
+                    address: data.address,
+                    zonecode: data.zonecode,
+                    buildingCode: data.buildingCode || '',
+                    sido: data.sido,
+                    sigungu: data.sigungu,
+                    bname: data.bname,
+                    bcode: data.bcode,
+                    apartment: data.apartment || 'N'
+                };
+
+                onAddressSelect(addressData);
+                setIsSearching(false);
+                onClose();
+            },
+            onclose: function() {
+                setIsSearching(false);
+            },
+            width: '100%',
+            height: '100%'
+        }).embed(container);
+    };
 
     const handleDaumPostcode = () => {
         setIsSearching(true);
-
-        // Daum 우편번호 서비스 로드
-        const script = document.createElement('script');
-        script.src = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
-        script.onload = async () => {
-            new (window as any).daum.Postcode({
-                oncomplete: async function (data: any) {
-                    // 주소 데이터 가공
-                    const addressData = {
-                        address: data.address,
-                        zonecode: data.zonecode,
-                        buildingCode: data.buildingCode || '',
-                        sido: data.sido,
-                        sigungu: data.sigungu,
-                        bname: data.bname,
-                        bcode: data.bcode,
-                        apartment: data.apartment || 'N'
-                    };
-
-                    onAddressSelect(addressData);
-                    setIsSearching(false);
-                    onClose();
-                },
-                onclose: function() {
-                    setIsSearching(false);
-                },
-                width: '100%',
-                height: '100%'
-            }).embed(document.getElementById('daum-postcode-container'));
-        };
-        document.head.appendChild(script);
     };
 
 
