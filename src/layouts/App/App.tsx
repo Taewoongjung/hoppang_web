@@ -24,7 +24,6 @@ const CalculationScreenV2 = loadable(() => import('../../pages/main/DetailCalcul
 const CalculationResultScreen = loadable(() => import('../../pages/main/result'));
 const CalculationInitial = loadable(() => import('../../pages/main/CalculatorInitial'));
 const FastCalculationStep0 = loadable(() => import('../../pages/main/FastCalculation/Step0'));
-const AddressSearchPage = loadable(() => import('../../pages/main/AddressSearch'));
 const FastCalculationStep1 = loadable(() => import('../../pages/main/FastCalculation/Step1'));
 const FastCalculationStep2 = loadable(() => import('../../pages/main/FastCalculation/Step2'));
 const FastCalculationStep3 = loadable(() => import('../../pages/main/FastCalculation/Step3'));
@@ -66,7 +65,6 @@ const App = () => {
                     <Route exact path="/calculator/simple/agreement" component={SimpleCalculationAgreementPage}/>
                     <Route exact path="/calculator/result" component={CalculationResultScreen}/>
                     <Route exact path="/calculator/simple/step0" component={FastCalculationStep0}/>
-                    <Route exact path="/address-search" component={AddressSearchPage}/>
                     <Route exact path="/calculator/simple/step1" component={FastCalculationStep1}/>
                     <Route exact path="/calculator/simple/step2" component={FastCalculationStep2}/>
                     <Route exact path="/calculator/simple/step3" component={FastCalculationStep3}/>

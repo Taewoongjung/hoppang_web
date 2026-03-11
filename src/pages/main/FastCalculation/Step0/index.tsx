@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import './styles.css';
 import '../../versatile-styles.css';
+import AddressInputModal from "../../../../component/V2/AddressInputModal";
 import {invalidateMandatoryData, getItemWithTTL, setItemWithTTL} from "../util";
 import CalculationExitModal from "../../../../component/V2/Modal/CalculationExitModal";
 import { trackEvent } from '../../../../util/analytics';
@@ -28,6 +29,7 @@ const Step0AddressInput = () => {
     const history = useHistory();
     const [errors, setErrors] = useState<{address?: string, remainAddress?: string, floorCustomerLiving?: string}>({});
     const [showExitModal, setShowExitModal] = useState(false);
+    const [showAddressModal, setShowAddressModal] = useState<boolean>(false);
 
     const [addressInfo, setAddressInfo] = useState<AddressInfo | null>(null);
     const [remainAddress, setRemainAddress] = useState<string>('');
@@ -56,20 +58,6 @@ const Step0AddressInput = () => {
             setAddressInfo(savedAddress);
             setRemainAddress(savedAddress.remainAddress || '');
             setFloorCustomerLiving(savedAddress.floorCustomerLiving?.toString() || '');
-        }
-    }, []);
-
-    // 주소 검색 페이지에서 돌아왔을 때 결과 확인
-    useEffect(() => {
-        const selectedAddressStr = sessionStorage.getItem('selected-address');
-        if (selectedAddressStr) {
-            try {
-                const selectedAddress = JSON.parse(selectedAddressStr);
-                handleAddressSelect(selectedAddress);
-                sessionStorage.removeItem('selected-address');
-            } catch (e) {
-                console.error('Failed to parse selected address', e);
-            }
         }
     }, []);
 
@@ -111,11 +99,6 @@ const Step0AddressInput = () => {
         if (errors.address) {
             setErrors(prev => ({ ...prev, address: '' }));
         }
-    };
-
-    // 주소 검색 페이지로 이동
-    const handleAddressSearch = () => {
-        history.push('/address-search?redirect=/calculator/simple/step0');
     };
 
     const handleNext = () => {
@@ -195,7 +178,7 @@ const Step0AddressInput = () => {
                         </label>
                         <div
                             className={`address-card ${errors.address ? 'error' : ''} ${addressInfo ? 'filled' : ''}`}
-                            onClick={handleAddressSearch}
+                            onClick={() => setShowAddressModal(true)}
                         >
                             {addressInfo ? (
                                 <div className="address-content">
@@ -324,6 +307,14 @@ const Step0AddressInput = () => {
                     다음
                 </button>
             </div>
+
+            {showAddressModal && (
+                <AddressInputModal
+                    onClose={() => setShowAddressModal(false)}
+                    onAddressSelect={handleAddressSelect}
+                    currentAddress={addressInfo?.fullAddress}
+                />
+            )}
 
             {showExitModal && (<CalculationExitModal setShowExitModal={setShowExitModal}/>)}
         </div>
