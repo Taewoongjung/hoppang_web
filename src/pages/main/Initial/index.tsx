@@ -421,7 +421,7 @@ const Initial = () => {
 
     const handleServiceClick = (serviceTitle: string) => {
         if (serviceTitle === '샷시 견적') {
-            setIsMaintenanceModalOpen(true);
+            history.push('/calculator');
         } else if (serviceTitle === '커뮤니티') {
             history.push('/question/boards');
         }
