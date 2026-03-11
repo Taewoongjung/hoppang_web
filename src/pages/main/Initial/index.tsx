@@ -421,7 +421,9 @@ const Initial = () => {
 
     const handleServiceClick = (serviceTitle: string) => {
         if (serviceTitle === '샷시 견적') {
-            setIsMaintenanceModalOpen(true);
+            // TODO: 점검 완료 후 모달 다시 활성화
+            // setIsMaintenanceModalOpen(true);
+            history.push('/calculator/simple/step0');
         } else if (serviceTitle === '커뮤니티') {
             history.push('/question/boards');
         }
