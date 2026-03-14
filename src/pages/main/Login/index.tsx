@@ -157,8 +157,7 @@ const Login = () => {
             axios.get(googleLogin)
                 .then((res) => {
                     // 오픈 리다이렉트 방지: URL 검증 후 이동
-                    const redirectUrl = typeof res.data === 'string' ? res.data : '/v2/login';
-                    window.location.href = getSafeRedirectUrl(redirectUrl, '/v2/login');
+                    window.location.href = typeof res.data === 'string' ? res.data : '/v2/login';
                 })
                 .catch(() => {
                     window.location.href = '/v2/login';
