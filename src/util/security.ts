@@ -2,6 +2,15 @@
  * 보안 관련 유틸리티 함수들
  */
 
+// React Native WebView 타입 선언
+declare global {
+    interface Window {
+        ReactNativeWebView?: {
+            postMessage: (message: string) => void;
+        };
+    }
+}
+
 /** 허용된 리다이렉트 도메인 목록 */
 const ALLOWED_DOMAINS = [
     'hoppang.store',
@@ -126,6 +135,15 @@ export const setSafeToken = (key: string, value: string): boolean => {
             return false;
         }
         localStorage.setItem(key, value);
+
+        // React Native WebView 환경에서 JWT 토큰 백업
+        if (key === 'hoppang-token' && window.ReactNativeWebView) {
+            window.ReactNativeWebView.postMessage(JSON.stringify({
+                type: 'JwtTokenUpdate',
+                data: { token: value }
+            }));
+        }
+
         return true;
     } catch (error) {
         console.warn('localStorage 저장 실패:', error);
