@@ -421,12 +421,7 @@ const Initial = () => {
 
     const handleServiceClick = (serviceTitle: string) => {
         if (serviceTitle === '샷시 견적') {
-            // user id가 550이면 바로 이동, 아니면 점검 모달
-            if (userData && (userData.id === 550 || userData.id === '550')) {
-                history.push('/calculator');
-            } else {
-                setIsMaintenanceModalOpen(true);
-            }
+            history.push('/calculator');
         } else if (serviceTitle === '커뮤니티') {
             history.push('/question/boards');
         }
