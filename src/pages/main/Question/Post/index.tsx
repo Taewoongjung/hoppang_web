@@ -329,11 +329,6 @@ const PostDetail = () => {
         fetchReplies(queryParam);
     }, [post, userData, replyOrderType, fetchReplies]);
 
-    // 딥링크 체크 및 모달 표시
-    useEffect(() => {
-        checkDeepLinkAndShowModal();
-    }, [checkDeepLinkAndShowModal]);
-
     // 로그인 체크 헬퍼
     const requireLogin = (action: LoginModalStatus) => {
         if (!userData) {
