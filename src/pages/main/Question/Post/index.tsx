@@ -22,9 +22,6 @@ import { getAxiosError } from "../../../../util/security";
 import {handleShare} from "../../Guide/util";
 import GoogleAdSense from "../../../../component/V2/AdBanner/GoogleAdSense";
 import CommonHeader from "../../../../component/CommonHeader";
-import AppPromoModal from "../../../../component/V2/Modal/AppPromoModal";
-import {getIsMobileClient} from "../../../../util";
-import {getPlatform} from "../../../../util/analytics";
 
 
 interface PostDetail {
@@ -227,10 +224,6 @@ const PostDetail = () => {
     const [isBookmarked, setIsBookmarked] = useState(false);
 
 
-    // 딥링크 체크 및 모달 표시 관련 상태
-    const [showAppPromoModal, setShowAppPromoModal] = useState(false);
-    const [isAppWebView, setIsAppWebView] = useState(false);
-
     // 로그인 모달
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [loginModalStatus, setLoginModalStatus] = useState<LoginModalStatus>('');
@@ -239,41 +232,6 @@ const PostDetail = () => {
     const { data: userData, mutate } = useSWR<{ id: string | number; tel: string; email: string; nickname?: string; name?: string } | undefined>(callMeData, fetcher, {
         dedupingInterval: 2000
     });
-
-    // 딥링크 체크 함수
-    const checkDeepLinkAndShowModal = useCallback(() => {
-        if (!postId) return;
-
-        const userAgent = navigator.userAgent.toLowerCase();
-
-
-        if (!getIsMobileClient()) return; // 모바일 아니면 체크 안 함
-
-        // 앱 웹뷰에서 넘어 온 경우 체크 안 함
-        const isInAppWebView = userAgent.includes('Hoppang') || userAgent.includes('wv');
-
-        if (isInAppWebView) return; // 앱 내부에서 열린 경우 체크 안 함
-
-        // 이미 거부한 경우 모달 표시 안 함
-        const dismissed = localStorage.getItem('appPromoDismissed');
-        if (dismissed) return;
-        // 딥링크 시도
-        const deepLinkUrl = `hoppang://question/boards/posts/${postId}`;
-
-        // iframe 방식으로 딥링크 시도 (앱 설치 확인용)
-        const iframe = document.createElement('iframe');
-        iframe.style.display = 'none';
-        iframe.src = deepLinkUrl;
-        document.body.appendChild(iframe);
-
-        // 타임아웃 설정 (앱이 설치되어 있으면 모달 숨김)
-        const timeout = setTimeout(() => {
-            document.body.removeChild(iframe);
-
-            // 앱이 설치되어 있지 않으면 타임아웃이 발생하지 않음 = // 모달 표시
-            setShowAppPromoModal(true);
-        }, 500);
-    }, [postId]);
 
     // 댓글 조회 함수
     const fetchReplies = useCallback(async (queryParam: string) => {
@@ -1414,24 +1372,6 @@ const PostDetail = () => {
                     <CommunityLoginModal
                         setShowLoginModal={setShowLoginModal}
                         action={loginModalStatus}
-                    />
-                )}
-
-                {/* 앱 프로모 모달 */}
-                {showAppPromoModal && (
-                    <AppPromoModal
-                        onClose={() => {
-                            localStorage.setItem('appPromoDismissed', 'true');
-                            setShowAppPromoModal(false);
-                        }}
-                        onOpenApp={() => {
-                            const platform = getPlatform();
-                            if (platform === 'ios') {
-                                window.open('https://apps.apple.com/kr/app/id6741290731', '_blank');
-                            } else if (platform === 'android') {
-                                window.open('https://play.google.com/store/apps/details?id=store.hoppang.app', '_blank');
-                            }
-                        }}
                     />
                 )}
             </div>
