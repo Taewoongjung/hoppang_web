@@ -229,6 +229,10 @@ const PostDetail = () => {
     const [showAppPromoModal, setShowAppPromoModal] = useState(false);
     const [isAppWebView, setIsAppWebView] = useState(false);
 
+    // 로그인 모달
+    const [showLoginModal, setShowLoginModal] = useState(false);
+    const [loginModalStatus, setLoginModalStatus] = useState<LoginModalStatus>('');
+
     // SWR 사용자 데이터
     const { data: userData, mutate } = useSWR<{ id: string | number; tel: string; email: string; nickname?: string; name?: string } | undefined>(callMeData, fetcher, {
         dedupingInterval: 2000
