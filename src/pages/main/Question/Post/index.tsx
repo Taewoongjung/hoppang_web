@@ -23,6 +23,7 @@ import {handleShare} from "../../Guide/util";
 import GoogleAdSense from "../../../../component/V2/AdBanner/GoogleAdSense";
 import CommonHeader from "../../../../component/CommonHeader";
 import AppPromoModal from "../../../../component/V2/Modal/AppPromoModal";
+import {getIsMobileClient} from "../../../../util";
 
 
 interface PostDetail {
@@ -243,10 +244,9 @@ const PostDetail = () => {
         if (!postId) return;
 
         const userAgent = navigator.userAgent.toLowerCase();
-        const isMobile = userAgent.includes('iphone') || userAgent.includes('ipad') || userAgent.includes('android');
 
 
-        if (!isMobile) return; // 모바일 아니면 체크 안 함
+        if (!getIsMobileClient()) return; // 모바일 아니면 체크 안 함
 
         // 앱 웹뷰에서 옑 넘어운 경우 체크 안 함
         const isInAppWebView = userAgent.includes('Hoppang') || userAgent.includes('wv');

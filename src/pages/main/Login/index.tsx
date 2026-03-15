@@ -8,7 +8,7 @@ import axios from "axios";
 import {LeftOutlined} from "@ant-design/icons";
 import {appleLogin, googleLogin, kakaoLogin} from "../../../definition/apiPath";
 import {getIsMobileClient} from "../../../util";
-import {getSafeRedirectUrl, isValidOAuthType} from "../../../util/security";
+import {isValidOAuthType} from "../../../util/security";
 
 declare global {
     interface Window {
