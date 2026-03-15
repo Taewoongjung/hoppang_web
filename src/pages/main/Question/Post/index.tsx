@@ -22,6 +22,7 @@ import { getAxiosError } from "../../../../util/security";
 import {handleShare} from "../../Guide/util";
 import GoogleAdSense from "../../../../component/V2/AdBanner/GoogleAdSense";
 import CommonHeader from "../../../../component/CommonHeader";
+import AppPromoModal from "../../../../component/V2/Modal/AppPromoModal";
 
 
 interface PostDetail {
