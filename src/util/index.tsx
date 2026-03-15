@@ -127,42 +127,6 @@ export const truncateContent = (content: string, maxLength: number = 50) => {
     return content.substring(0, maxLength) + '...';
 };
 
-const isMobile = () => {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-};
-
-// 검색엔진 감지
-const isFromSearchEngine = (): boolean => {
-    let referrer = document.referrer;
-    return (
-        referrer.includes("google.") ||
-        referrer.includes("naver.") ||
-        referrer.includes("daum.") ||
-        referrer.includes("bing.") ||
-        referrer.includes("search.yahoo.") ||
-        referrer.includes("instagram.com") ||
-        referrer.includes("facebook.com") ||
-        referrer.includes("youtube.com")
-    );
-};
-
-// 모바일 클라이언트 판단 로직
-const checkIsMobileClient = (): boolean => {
-    // 카카오 인앱 브라우저는 무조건 모바일 클라이언트로 간주
-    if (isInAppBrowser()) {
-        return false;
-    }
-
-    if (isFromSearchEngine()) {
-        return false;
-    }
-
-    if (!isMobile()) {
-        return false;
-    }
-
-    return true;
-};
 
 // 기타 인앱 브라우저들 감지
 export const isInAppBrowser = (): boolean => {

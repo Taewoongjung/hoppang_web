@@ -1424,10 +1424,13 @@ const PostDetail = () => {
                             setShowAppPromoModal(false);
                         }}
                         onOpenApp={() => {
-                            const userAgent = navigator.userAgent.toLowerCase();
-                            if (userAgent.includes('iphone') || userAgent.includes('ipad')) {
+                            const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+                            const isIOS = /iPad|iPhone|iPod/.test(userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+                            const isAndroid = /android/i.test(userAgent);
+
+                            if (isIOS) {
                                 window.open('https://apps.apple.com/kr/app/id6741290731', '_blank');
-                            } else if (userAgent.includes('android')) {
+                            } else if (isAndroid) {
                                 window.open('https://play.google.com/store/apps/details?id=store.hoppang.app', '_blank');
                             }
                         }}
