@@ -22,37 +22,14 @@ export const kakaoInquiry = () => {
 }
 
 export const handleShare = async (title: string) => {
-    const userAgent = navigator.userAgent.toLowerCase();
     const currentUrl = window.location.href;
-
-    // 스토어 URL
-    const APP_STORE_URL = 'https://apps.apple.com/kr/app/id6741290731';
-    const PLAY_STORE_URL = 'https://play.google.com/store/apps/details?id=store.hoppang.app';
-
-    let shareUrl: string;
-    let shareTitle: string;
-
-    // 디바이스별 URL 결정
-    if (userAgent.includes('iphone') || userAgent.includes('ipad')) {
-        // iOS: 앱스토어
-        shareUrl = APP_STORE_URL;
-        shareTitle = '호빵 - 샷시 견적 앱';
-    } else if (userAgent.includes('android')) {
-        // Android: 플레이스토어
-        shareUrl = PLAY_STORE_URL;
-        shareTitle = '호빵 - 샷시 견적 앱';
-    } else {
-        // 데스크톱: 현재 URL
-        shareUrl = currentUrl;
-        shareTitle = title;
-    }
 
     // Web Share API 사용 (지원하는 경우)
     if (navigator.share) {
         try {
             await navigator.share({
-                title: shareTitle,
-                url: shareUrl
+                title: title,
+                url: currentUrl
             });
             return;
         } catch (error) {
@@ -66,12 +43,12 @@ export const handleShare = async (title: string) => {
 
     // 폴백: 클립보드에 복사
     try {
-        await navigator.clipboard.writeText(shareUrl);
+        await navigator.clipboard.writeText(currentUrl);
         alert('링크가 복사되었습니다.');
     } catch {
         // 구형 브라우저 폴백
         const textarea = document.createElement('textarea');
-        textarea.value = shareUrl;
+        textarea.value = currentUrl;
         textarea.style.position = 'fixed';
         textarea.style.left = '-9999px';
         document.body.appendChild(textarea);
