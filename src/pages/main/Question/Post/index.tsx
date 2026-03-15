@@ -24,6 +24,7 @@ import GoogleAdSense from "../../../../component/V2/AdBanner/GoogleAdSense";
 import CommonHeader from "../../../../component/CommonHeader";
 import AppPromoModal from "../../../../component/V2/Modal/AppPromoModal";
 import {getIsMobileClient} from "../../../../util";
+import {getPlatform} from "../../../../util/analytics";
 
 
 interface PostDetail {
@@ -1424,13 +1425,10 @@ const PostDetail = () => {
                             setShowAppPromoModal(false);
                         }}
                         onOpenApp={() => {
-                            const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
-                            const isIOS = /iPad|iPhone|iPod/.test(userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-                            const isAndroid = /android/i.test(userAgent);
-
-                            if (isIOS) {
+                            const platform = getPlatform();
+                            if (platform === 'ios') {
                                 window.open('https://apps.apple.com/kr/app/id6741290731', '_blank');
-                            } else if (isAndroid) {
+                            } else if (platform === 'android') {
                                 window.open('https://play.google.com/store/apps/details?id=store.hoppang.app', '_blank');
                             }
                         }}
