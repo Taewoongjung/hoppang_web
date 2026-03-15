@@ -249,7 +249,7 @@ const PostDetail = () => {
 
         if (!getIsMobileClient()) return; // 모바일 아니면 체크 안 함
 
-        // 앱 웹뷰에서 옑 넘어운 경우 체크 안 함
+        // 앱 웹뷰에서 넘어 온 경우 체크 안 함
         const isInAppWebView = userAgent.includes('Hoppang') || userAgent.includes('wv');
 
         if (isInAppWebView) return; // 앱 내부에서 열린 경우 체크 안 함

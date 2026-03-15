@@ -6,35 +6,29 @@ const PLATFORM_STORAGE_KEY = 'hoppang-platform';
 
 /**
  * 모바일 디바이스 + 브라우저 기반 플랫폼 감지
- * - 모바일 + Safari → ios
- * - 모바일 + Chrome → android
+ * - iOS 디바이스 (iPhone, iPad, iPod) → ios
+ * - Android 디바이스 → android
  * - 그 외 → web
  */
 function detectPlatformByUserAgent(): Platform {
     const userAgent = navigator.userAgent;
 
-    // 모바일 디바이스 체크
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(userAgent);
+    // iOS 디바이스 체크 (iPadOS 13+ 데스크탑 모드 대응)
+    const isIOS = /iPhone|iPad|iPod/i.test(userAgent) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-    if (!isMobile) {
-        return 'web';
-    }
-
-    // 모바일인 경우 브라우저로 구분
-    // iOS Safari: Safari 있고 Chrome/CriOS 없음
-    // Android Chrome: Chrome 있고 Safari 없거나 Mobile Safari
-    const isSafari = /Safari/i.test(userAgent) && !/Chrome|CriOS/i.test(userAgent);
-    const isChrome = /Chrome/i.test(userAgent) || /CriOS/i.test(userAgent);
-
-    if (isSafari) {
+    if (isIOS) {
         return 'ios';
     }
 
-    if (isChrome) {
+    // Android 디바이스 체크
+    const isAndroid = /Android/i.test(userAgent);
+
+    if (isAndroid) {
         return 'android';
     }
 
-    // 모바일이지만 Safari/Chrome 둘 다 아니면 web
+    // 모바일도 아니면 web
     return 'web';
 }
 
