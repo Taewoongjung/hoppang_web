@@ -1412,9 +1412,9 @@ const PostDetail = () => {
                         onOpenApp={() => {
                             const userAgent = navigator.userAgent.toLowerCase();
                             if (userAgent.includes('iphone') || userAgent.includes('ipad')) {
-                                window.location.href = 'https://apps.apple.com/kr/app/id6741290731';
+                                window.open('https://apps.apple.com/kr/app/id6741290731', '_blank');
                             } else if (userAgent.includes('android')) {
-                                window.location.href = 'https://play.google.com/store/apps/details?id=store.hoppang.app';
+                                window.open('https://play.google.com/store/apps/details?id=store.hoppang.app', '_blank');
                             }
                         }}
                     />
