@@ -229,6 +229,11 @@ const PostDetail = () => {
     const [showAppPromoModal, setShowAppPromoModal] = useState(false);
     const [isAppWebView, setIsAppWebView] = useState(false);
 
+    // SWR 사용자 데이터
+    const { data: userData, mutate } = useSWR<{ id: string | number; tel: string; email: string; nickname?: string; name?: string } | undefined>(callMeData, fetcher, {
+        dedupingInterval: 2000
+    });
+
     // 딥링크 체크 함수
     const checkDeepLinkAndShowModal = useCallback(() => {
         if (!postId) return;
