@@ -21,6 +21,7 @@ import { Helmet } from 'react-helmet-async';
 import { getAxiosError } from "../../../../util/security";
 import {handleShare} from "../../Guide/util";
 import GoogleAdSense from "../../../../component/V2/AdBanner/GoogleAdSense";
+import CommonHeader from "../../../../component/CommonHeader";
 
 
 interface PostDetail {
@@ -755,20 +756,20 @@ const PostDetail = () => {
 
             <div className="question-detail-container">
                 {/* Header */}
-                <header className="header">
-                    <button className="back-btn" onClick={handleGoBack}>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                    </button>
-                    <h1 className="header-title">게시물 상세</h1>
-                    <button className="share-btn" onClick={() => handleShare(post.title)}>
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                            <path d="M15 6.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM15 18.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" stroke="currentColor" strokeWidth="1.5"/>
-                            <path d="M7.5 10.5L12.5 7.5M7.5 10.5L12.5 16.5" stroke="currentColor" strokeWidth="1.5"/>
-                        </svg>
-                    </button>
-                </header>
+                <CommonHeader
+                    title="게시물 상세"
+                    onBack={handleGoBack}
+                    rightElement={
+                        post ? (
+                            <button className="share-btn" onClick={() => handleShare(post.title)}>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M15 6.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM15 18.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" stroke="currentColor" strokeWidth="1.5"/>
+                                    <path d="M7.5 10.5L12.5 7.5M7.5 10.5L12.5 16.5" stroke="currentColor" strokeWidth="1.5"/>
+                                </svg>
+                            </button>
+                        ) : null
+                    }
+                />
 
                 {/* Main Content */}
                 <main className="detail-main">

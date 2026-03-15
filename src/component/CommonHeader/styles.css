@@ -35,3 +35,20 @@
     color: #1e293b;
     margin: 0;
 }
+
+.share-btn {
+    background: none;
+    border: none;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #334155;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+}
+
+.share-btn:hover {
+    background: rgba(0, 0, 0, 0.04);
+}
