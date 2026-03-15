@@ -47,18 +47,38 @@ export const handleShare = async (title: string) => {
         shareTitle = title;
     }
 
-    // Web Share API 사용
+    // Web Share API 사용 (지원하는 경우)
     if (navigator.share) {
         try {
             await navigator.share({
                 title: shareTitle,
                 url: shareUrl
             });
+            return;
         } catch (error) {
             // 사용자 취소는 무시
             if ((error as Error).name !== 'AbortError') {
                 console.log('공유 에러:', error);
             }
+            return;
         }
+    }
+
+    // 폴백: 클립보드에 복사
+    try {
+        await navigator.clipboard.writeText(shareUrl);
+        alert('링크가 복사되었습니다.');
+    } catch {
+        // 구형 브라우저 폴백
+        const textarea = document.createElement('textarea');
+        textarea.value = shareUrl;
+        textarea.style.position = 'fixed';
+        textarea.style.left = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        textarea.setSelectionRange(0, 9999);
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        alert('링크가 복사되었습니다.');
     }
 };
