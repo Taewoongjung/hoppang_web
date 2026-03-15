@@ -5,7 +5,7 @@ type Platform = 'web' | 'ios' | 'android';
 const PLATFORM_STORAGE_KEY = 'hoppang-platform';
 
 /**
- * 모바일 디바이스 + 브라우저 기반 플랫폼 감지
+ * User-Agent 기반 플랫폼 감지
  * - iOS 디바이스 (iPhone, iPad, iPod) → ios
  * - Android 디바이스 → android
  * - 그 외 → web
@@ -22,46 +22,62 @@ function detectPlatformByUserAgent(): Platform {
     }
 
     // Android 디바이스 체크
-    const isAndroid = /Android/i.test(userAgent);
-
-    if (isAndroid) {
+    if (/Android/i.test(userAgent)) {
         return 'android';
     }
 
-    // 모바일도 아니면 web
     return 'web';
 }
 
 /**
- * 플랫폼 감지
- * 우선순위: URL 파라미터 > User-Agent(브라우저 감지)
+ * URL source 파라미터에서 플랫폼 추출
  */
-export function detectAndStorePlatform(): Platform {
-    // 1. URL 파라미터 확인 (앱에서 명시적으로 전달한 경우)
+function getPlatformFromUrl(): Platform | null {
     const urlParams = new URLSearchParams(window.location.search);
     const sourceParam = urlParams.get('source');
 
     if (sourceParam === 'ios' || sourceParam === 'android') {
-        localStorage.setItem(PLATFORM_STORAGE_KEY, sourceParam);
         return sourceParam;
     }
 
-    // 2. User-Agent로 감지
-    return detectPlatformByUserAgent();
+    return null;
 }
 
 /**
- * 현재 플랫폼 반환
+ * 현재 플랫폼 반환 (저장하지 않음)
+ * 우선순위: URL 파라미터 > localStorage > User-Agent
  */
 export function getPlatform(): Platform {
-    // 1. URL 파라미터로 저장된 값 확인
+    // 1. URL 파라미터 확인
+    const urlPlatform = getPlatformFromUrl();
+    if (urlPlatform) {
+        return urlPlatform;
+    }
+
+    // 2. localStorage 확인
     const storedPlatform = localStorage.getItem(PLATFORM_STORAGE_KEY);
     if (storedPlatform === 'ios' || storedPlatform === 'android') {
         return storedPlatform;
     }
 
-    // 2. User-Agent로 감지
+    // 3. User-Agent 감지
     return detectPlatformByUserAgent();
+}
+
+/**
+ * 플랫폼 감지 후 localStorage에 저장
+ * 앱 진입 시 1회 호출 권장
+ * 우선순위: URL 파라미터 > localStorage > User-Agent
+ */
+export function detectAndStorePlatform(): Platform {
+    const platform = getPlatform();
+
+    // web이 아닐 때만 저장 (앱에서 온 경우)
+    if (platform !== 'web') {
+        localStorage.setItem(PLATFORM_STORAGE_KEY, platform);
+    }
+
+    return platform;
 }
 
 /**
@@ -72,7 +88,7 @@ export function trackEvent(eventName: string, eventParams: Record<string, any> =
 
     const enhancedParams = {
         ...eventParams,
-        platform, // web | ios | android
+        platform,
         app_source: platform === 'web' ? 'web' : 'app',
     };
 
