@@ -23,6 +23,8 @@ const AdditionalChassisPriceCriteria = () => {
         DemolitionOver5Fee: undefined,
         MinimumLaborFee: undefined,
         MaintenanceFee: undefined,
+        CompanyProfit: undefined,
+        SiteOverheadFee: undefined,
         FreightTransportFee: undefined,
         DeliveryFee: undefined,
         IncrementRate: undefined,
@@ -94,6 +96,8 @@ const AdditionalChassisPriceCriteria = () => {
             'DemolitionOver5Fee',
             'MinimumLaborFee',
             'MaintenanceFee',
+            'CompanyProfit',
+            'SiteOverheadFee',
             'FreightTransportFee',
             'DeliveryFee',
             'IncrementRate'
@@ -211,6 +215,8 @@ const AdditionalChassisPriceCriteria = () => {
                         {renderFirstItem('철거비 (5틀 이상)', 'DemolitionOver5Fee')}
                         {renderFirstItem('최소 인건비', 'MinimumLaborFee')}
                         {renderFirstItem('보양비', 'MaintenanceFee')}
+                        {renderFirstItem('기업이윤', 'CompanyProfit')}
+                        {renderFirstItem('현장관리비', 'SiteOverheadFee')}
                         {renderFirstItem('도수 운반비', 'FreightTransportFee')}
                         {renderFirstItem('배송비', 'DeliveryFee')}
                         {renderFirstItem('원가대비 상승비율', 'IncrementRate')}

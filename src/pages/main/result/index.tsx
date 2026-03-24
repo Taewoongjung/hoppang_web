@@ -400,6 +400,14 @@ const MobileResultScreen = () => {
                             <span className="cost-value">{addCommasToNumber(result.maintenanceFee)}원</span>
                         </div>
                         <div className="cost-item">
+                            <span className="cost-label">기업이윤</span>
+                            <span className="cost-value">{addCommasToNumber(result.companyProfit)}원</span>
+                        </div>
+                        <div className="cost-item">
+                            <span className="cost-label">현장관리비</span>
+                            <span className="cost-value">{addCommasToNumber(result.siteOverheadFee)}원</span>
+                        </div>
+                        <div className="cost-item">
                             <span className="cost-label">기타비용</span>
                             <span className="cost-value">{addCommasToNumber(result.deliveryFee)}원</span>
                         </div>

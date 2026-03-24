@@ -127,6 +127,9 @@ const EstimationDetailPage = () => {
                 additionalPriceType: `사다리차비 (${customerFloor} 층)`,
                 price: addCommasToNumber(ladderFee) || 'N/A'
             });
+            let companyProfit = result.companyProfit;
+            let siteOverheadFee = result.siteOverheadFee;
+
             additionalDataTypes.push({
                 key: 2,
                 additionalPriceType: '보양비',
@@ -134,13 +137,23 @@ const EstimationDetailPage = () => {
             });
             additionalDataTypes.push({
                 key: 3,
+                additionalPriceType: '기업이윤',
+                price: addCommasToNumber(companyProfit) || 'N/A'
+            });
+            additionalDataTypes.push({
+                key: 4,
+                additionalPriceType: '현장관리비',
+                price: addCommasToNumber(siteOverheadFee) || 'N/A'
+            });
+            additionalDataTypes.push({
+                key: 5,
                 additionalPriceType: '기타비용',
                 price: addCommasToNumber((deliveryFee + freightTransportFee)) || 'N/A'
             });
 
             if (laborFee !== 0) {
                 additionalDataTypes.push({
-                    key: 4,
+                    key: 6,
                     additionalPriceType: <>
                         <span style={{color: '#949393', fontStyle: 'italic'}}>
                             시공비{' '}
