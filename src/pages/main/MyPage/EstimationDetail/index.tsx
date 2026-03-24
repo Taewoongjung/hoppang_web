@@ -128,7 +128,7 @@ const EstimationDetailPage = () => {
                 price: addCommasToNumber(ladderFee) || 'N/A'
             });
             let companyProfit = result.companyProfit;
-            let siteOverheadFee = result.siteOverheadFee;
+            let siteOverheadCost = result.siteOverheadCost;
 
             additionalDataTypes.push({
                 key: 2,
@@ -143,7 +143,7 @@ const EstimationDetailPage = () => {
             additionalDataTypes.push({
                 key: 4,
                 additionalPriceType: '현장관리비',
-                price: addCommasToNumber(siteOverheadFee) || 'N/A'
+                price: addCommasToNumber(siteOverheadCost) || 'N/A'
             });
             additionalDataTypes.push({
                 key: 5,

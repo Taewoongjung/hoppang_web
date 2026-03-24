@@ -24,7 +24,7 @@ const AdditionalChassisPriceCriteria = () => {
         MinimumLaborFee: undefined,
         MaintenanceFee: undefined,
         CompanyProfit: undefined,
-        SiteOverheadFee: undefined,
+        SiteOverheadCost: undefined,
         FreightTransportFee: undefined,
         DeliveryFee: undefined,
         IncrementRate: undefined,
@@ -97,7 +97,7 @@ const AdditionalChassisPriceCriteria = () => {
             'MinimumLaborFee',
             'MaintenanceFee',
             'CompanyProfit',
-            'SiteOverheadFee',
+            'SiteOverheadCost',
             'FreightTransportFee',
             'DeliveryFee',
             'IncrementRate'
@@ -216,7 +216,7 @@ const AdditionalChassisPriceCriteria = () => {
                         {renderFirstItem('최소 인건비', 'MinimumLaborFee')}
                         {renderFirstItem('보양비', 'MaintenanceFee')}
                         {renderFirstItem('기업이윤', 'CompanyProfit')}
-                        {renderFirstItem('현장관리비', 'SiteOverheadFee')}
+                        {renderFirstItem('현장관리비', 'SiteOverheadCost')}
                         {renderFirstItem('도수 운반비', 'FreightTransportFee')}
                         {renderFirstItem('배송비', 'DeliveryFee')}
                         {renderFirstItem('원가대비 상승비율', 'IncrementRate')}

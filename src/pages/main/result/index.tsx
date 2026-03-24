@@ -405,7 +405,7 @@ const MobileResultScreen = () => {
                         </div>
                         <div className="cost-item">
                             <span className="cost-label">현장관리비</span>
-                            <span className="cost-value">{addCommasToNumber(result.siteOverheadFee)}원</span>
+                            <span className="cost-value">{addCommasToNumber(result.siteOverheadCost)}원</span>
                         </div>
                         <div className="cost-item">
                             <span className="cost-label">기타비용</span>
