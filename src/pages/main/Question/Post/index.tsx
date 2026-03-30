@@ -1181,10 +1181,6 @@ const PostDetail = () => {
                                                                             }</span>
                                                                         </div>
                                                                     </div>
-                                                                    <div className="child-reply-meta">
-                                                                        <span
-                                                                            className="child-reply-time">{formatDetailTime(childReply.createdAt)}</span>
-                                                                    </div>
                                                                 </div>
 
                                                                 {/* 대댓글 수정 모드 */}
@@ -1223,15 +1219,20 @@ const PostDetail = () => {
                                                                         </div>
                                                                     </div>
                                                                 ) : (
-                                                                    <div className="child-reply-text">
-                                                                        {childReply.contents.split('\n').map((line, index) => (
-                                                                            <p key={index}
-                                                                               style={{wordBreak: 'break-word'}}>
-                                                                                {line}
-                                                                            </p>
-                                                                        ))}
-                                                                        {childReply.revised &&
-                                                                            <span className="edited-indicator">[편집됨]</span>}
+                                                                    <div className="child-reply-content-area">
+                                                                        <div className="child-reply-text">
+                                                                            {childReply.contents.split('\n').map((line, index) => (
+                                                                                <p key={index}
+                                                                                   style={{wordBreak: 'break-word'}}>
+                                                                                    {line}
+                                                                                </p>
+                                                                            ))}
+                                                                            {childReply.revised &&
+                                                                                <span className="edited-indicator">[편집됨]</span>}
+                                                                        </div>
+                                                                        <div className="child-reply-date">
+                                                                            {formatDetailTime(childReply.createdAt)}
+                                                                        </div>
                                                                     </div>
                                                                 )}
 
