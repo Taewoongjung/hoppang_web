@@ -23,6 +23,7 @@ import { getAxiosError } from "../../../../util/security";
 import {handleShare} from "../../Guide/util";
 import GoogleAdSense from "../../../../component/V2/AdBanner/GoogleAdSense";
 import CommonHeader from "../../../../component/CommonHeader";
+import OverlayLoadingPage from "../../../../component/Loading/OverlayLoadingPage";
 
 
 interface PostDetail {
@@ -223,7 +224,7 @@ const PostDetail = () => {
     const [postLiked, setPostLiked] = useState(false);
     const [postLikes, setPostLikes] = useState(0);
     const [isBookmarked, setIsBookmarked] = useState(false);
-    const [isReloading, setIsReloading] = useState(false);
+    const [isReloading, setIsReloading] = useState<string | null>(null);
 
 
     // 로그인 모달
@@ -495,11 +496,11 @@ const PostDetail = () => {
             setReplyContent('');
 
             // Overlay 로딩 표시 후 1초 뒤 새로고침
-            setIsReloading(true);
+            setIsReloading("등록 중");
             setTimeout(async () => {
                 let queryParam = userData ? `?loggedInUserId=${userData.id}` : '';
                 await fetchReplies(queryParam);
-                setIsReloading(false);
+                setIsReloading(null);
             }, 1000);
 
         } catch (error: unknown) {
@@ -508,7 +509,7 @@ const PostDetail = () => {
             if (axiosError) {
                 console.error('에러 상세:', axiosError);
             }
-            setIsReloading(false);
+            setIsReloading(null);
         } finally {
             setIsSubmittingReply(false);
         }
@@ -541,17 +542,17 @@ const PostDetail = () => {
             setShowChildReplyForm(prev => ({ ...prev, [parentReplyId]: false }));
 
             // Overlay 로딩 표시 후 1초 뒤 새로고침
-            setIsReloading(true);
+            setIsReloading("등록 중");
             setTimeout(async () => {
                 let queryParam = userData ? `?loggedInUserId=${userData.id}` : '';
                 await fetchReplies(queryParam);
                 setExpandedReplies(prev => ({ ...prev, [parentReplyId]: true }));
-                setIsReloading(false);
+                setIsReloading(null);
             }, 1000);
 
         } catch (error: unknown) {
             console.error('대댓글 등록 실패:', error);
-            setIsReloading(false);
+            setIsReloading(null);
         } finally {
             setIsSubmittingChildReply(prev => ({ ...prev, [parentReplyId]: false }));
         }
@@ -588,16 +589,16 @@ const PostDetail = () => {
             setEditingContent('');
 
             // Overlay 로딩 표시 후 1초 뒤 새로고침
-            setIsReloading(true);
+            setIsReloading("수정 중");
             setTimeout(async () => {
                 let queryParam = userData ? `?loggedInUserId=${userData.id}` : '';
                 await fetchReplies(queryParam);
-                setIsReloading(false);
+                setIsReloading(null);
             }, 1000);
 
         } catch (error: unknown) {
             console.error('댓글 수정 실패:', error);
-            setIsReloading(false);
+            setIsReloading(null);
         } finally {
             setIsSubmittingEdit(false);
         }
@@ -646,17 +647,17 @@ const PostDetail = () => {
                 setDeletingReplyId(null);
 
                 // Overlay 로딩 표시 후 1초 뒤 새로고침
-                setIsReloading(true);
+                setIsReloading("삭제 중");
                 setTimeout(async () => {
                     let queryParam = userData ? `?loggedInUserId=${userData.id}` : '';
                     await fetchReplies(queryParam);
-                    setIsReloading(false);
+                    setIsReloading(null);
                 }, 1000);
             }
 
         } catch (error: unknown) {
             console.error('삭제 실패:', error);
-            setIsReloading(false);
+            setIsReloading(null);
         } finally {
             setIsDeleting(false);
         }
@@ -755,12 +756,7 @@ const PostDetail = () => {
 
             <div className="question-detail-container">
                 {/* Overlay Loading */}
-                {isReloading && (
-                    <div className="overlay-loading">
-                        <div className="overlay-loading-spinner"></div>
-                        <p>게시물을 불러오는 중...</p>
-                    </div>
-                )}
+                {isReloading && <OverlayLoadingPage word={isReloading} />}
 
                 {/* Header */}
                 <CommonHeader
