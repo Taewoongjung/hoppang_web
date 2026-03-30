@@ -17,10 +17,10 @@ export const formatDateTime = (date: Date) => {
     return `${koreaDate.getFullYear()}-${pad(koreaDate.getMonth() + 1)}-${pad(koreaDate.getDate())} ${pad(koreaDate.getHours())}:${pad(koreaDate.getMinutes())}:${pad(koreaDate.getSeconds())}`;
 };
 
-// 상세페이지용: 절대 날짜+시간 형식 (2024.12.17 14:30)
+// 상세페이지용: 절대 날짜+시간 형식 (26.03.31 14:30)
 export const formatDetailTime = (dateString: string) => {
     const date = new Date(new Date(dateString).toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
-    const year = date.getFullYear();
+    const year = date.getFullYear().toString().slice(2); // YY 형식
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
     const hours = date.getHours().toString().padStart(2, '0');
