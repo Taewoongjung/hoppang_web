@@ -921,14 +921,14 @@
     color: #94a3b8;
 }
 
-.child-reply-actions {
+.child-reply-form .child-reply-actions {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
     margin-top: 12px;
 }
 
-.cancel-child-reply-btn {
+.child-reply-form .cancel-child-reply-btn {
     background: #f8fafc;
     border: 1px solid #e2e8f0;
     border-radius: 6px;
@@ -938,12 +938,12 @@
     transition: all 0.2s ease;
 }
 
-.cancel-child-reply-btn:hover {
+.child-reply-form .cancel-child-reply-btn:hover {
     background: #f1f5f9;
     border-color: #cbd5e1;
 }
 
-.submit-child-reply-btn {
+.child-reply-form .submit-child-reply-btn {
     background: #6366f1;
     color: white;
     border: none;
@@ -957,16 +957,16 @@
     gap: 4px;
 }
 
-.submit-child-reply-btn:hover:not(:disabled) {
+.child-reply-form .submit-child-reply-btn:hover:not(:disabled) {
     background: #5855eb;
 }
 
-.submit-child-reply-btn:disabled {
+.child-reply-form .submit-child-reply-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
 }
 
-.submit-child-reply-btn.submitting {
+.child-reply-form .submit-child-reply-btn.submitting {
     background: #94a3b8;
 }
 
@@ -979,7 +979,7 @@
     animation: spin 1s linear infinite;
 }
 
-.char-count-small {
+.child-reply-form .char-count-small {
     font-size: 12px;
     color: #94a3b8;
     text-align: right;
