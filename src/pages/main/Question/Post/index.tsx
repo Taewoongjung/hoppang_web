@@ -1092,50 +1092,39 @@ const PostDetail = () => {
                                     {/* 대댓글 입력 폼 */}
                                     {showChildReplyForm[reply.id] && !reply.deleted && (
                                         <div className="child-reply-form">
-                                            <div className="child-reply-form-content">
-                                                <div className="child-reply-avatar">
-                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                                        <path
-                                                            d="M8 7a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM5 13a3 3 0 0 1 6 0v1H5v-1Z"
-                                                            stroke="currentColor" strokeWidth="1.5"/>
-                                                    </svg>
-                                                </div>
-                                                <div className="child-reply-input-container">
-                                                    <textarea
-                                                        className="child-reply-textarea"
-                                                        placeholder={`${reply.authorName}님에게 댓글 작성...`}
-                                                        value={childReplyContent[reply.id] || ''}
-                                                        onChange={(e) => setChildReplyContent(prev => ({
-                                                            ...prev,
-                                                            [reply.id]: e.target.value
-                                                        }))}
-                                                        rows={3}
-                                                        maxLength={500}
-                                                    />
-                                                    <div className="char-count-small">
-                                                        {(childReplyContent[reply.id] || '').length}/500
-                                                    </div>
-                                                </div>
-                                                <div className="child-reply-actions">
-                                                    <button
-                                                        className="cancel-child-reply-btn"
-                                                        onClick={() => toggleChildReplyForm(reply.id)}
-                                                    >
-                                                        취소
-                                                    </button>
-                                                    <button
-                                                        className={`submit-child-reply-btn ${isSubmittingChildReply[reply.id] ? 'submitting' : ''}`}
-                                                        onClick={() => handleSubmitChildReply(reply.id)}
-                                                        disabled={!childReplyContent[reply.id]?.trim() || isSubmittingChildReply[reply.id]}
-                                                    >
-                                                        {isSubmittingChildReply[reply.id] ? (
-                                                            <>
-                                                                <span className="loading-spinner-small"></span>
-                                                                등록 중...
-                                                            </>
-                                                        ) : '댓글 등록'}
-                                                    </button>
-                                                </div>
+                                            <textarea
+                                                className="child-reply-textarea"
+                                                placeholder={`${reply.authorName}님에게 댓글 작성...`}
+                                                value={childReplyContent[reply.id] || ''}
+                                                onChange={(e) => setChildReplyContent(prev => ({
+                                                    ...prev,
+                                                    [reply.id]: e.target.value
+                                                }))}
+                                                rows={3}
+                                                maxLength={500}
+                                            />
+                                            <div className="char-count-small">
+                                                {(childReplyContent[reply.id] || '').length}/500
+                                            </div>
+                                            <div className="child-reply-actions">
+                                                <button
+                                                    className="cancel-child-reply-btn"
+                                                    onClick={() => toggleChildReplyForm(reply.id)}
+                                                >
+                                                    취소
+                                                </button>
+                                                <button
+                                                    className={`submit-child-reply-btn ${isSubmittingChildReply[reply.id] ? 'submitting' : ''}`}
+                                                    onClick={() => handleSubmitChildReply(reply.id)}
+                                                    disabled={!childReplyContent[reply.id]?.trim() || isSubmittingChildReply[reply.id]}
+                                                >
+                                                    {isSubmittingChildReply[reply.id] ? (
+                                                        <>
+                                                            <span className="loading-spinner-small"></span>
+                                                            등록 중...
+                                                        </>
+                                                    ) : '댓글 등록'}
+                                                </button>
                                             </div>
                                         </div>
                                     )}
