@@ -223,6 +223,7 @@ const PostDetail = () => {
     const [postLiked, setPostLiked] = useState(false);
     const [postLikes, setPostLikes] = useState(0);
     const [isBookmarked, setIsBookmarked] = useState(false);
+    const [isReloading, setIsReloading] = useState(false);
 
 
     // 로그인 모달
@@ -479,7 +480,7 @@ const PostDetail = () => {
         setIsSubmittingReply(true);
 
         try {
-            const response = await axios.post(
+            await axios.post(
                 callPostsReply.replace("{postId}", postId),
                 {
                     contents: replyContent,
@@ -493,22 +494,13 @@ const PostDetail = () => {
 
             setReplyContent('');
 
-            // 댓글 목록 새로고침
-            let queryParam = userData ? `?loggedInUserId=${userData.id}` : '';
-            setTimeout(() => {
-                fetchReplies(queryParam);
-            }, 300);
-
-            // 새 댓글로 스크롤
-            const newReplyId = await response.data.createdReplyId;
-            if (newReplyId) {
-                setTimeout(() => {
-                    const target = document.getElementById(`reply-${newReplyId}`);
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }
-                }, 100);
-            }
+            // Overlay 로딩 표시 후 1초 뒤 새로고침
+            setIsReloading(true);
+            setTimeout(async () => {
+                let queryParam = userData ? `?loggedInUserId=${userData.id}` : '';
+                await fetchReplies(queryParam);
+                setIsReloading(false);
+            }, 1000);
 
         } catch (error: unknown) {
             console.error('❌ 댓글 등록 실패:', error);
@@ -516,6 +508,7 @@ const PostDetail = () => {
             if (axiosError) {
                 console.error('에러 상세:', axiosError);
             }
+            setIsReloading(false);
         } finally {
             setIsSubmittingReply(false);
         }
@@ -531,7 +524,7 @@ const PostDetail = () => {
 
         try {
             await mutate();
-            const response = await axios.post(
+            await axios.post(
                 callPostsReply.replace("{postId}", postId),
                 {
                     contents: content,
@@ -547,24 +540,18 @@ const PostDetail = () => {
             setChildReplyContent(prev => ({ ...prev, [parentReplyId]: '' }));
             setShowChildReplyForm(prev => ({ ...prev, [parentReplyId]: false }));
 
-            // 댓글 목록 새로고침
-            let queryParam = userData ? `?loggedInUserId=${userData.id}` : '';
-            setTimeout(() => {
-                fetchReplies(queryParam);
-            }, 300);
-
-            // 해당 댓글 확장 및 스크롤
-            setExpandedReplies(prev => ({ ...prev, [parentReplyId]: true }));
-            const newReplyId = await response.data.createdReplyId;
-            setTimeout(() => {
-                const target = document.getElementById(`child-reply-${newReplyId}`);
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            }, 100);
+            // Overlay 로딩 표시 후 1초 뒤 새로고침
+            setIsReloading(true);
+            setTimeout(async () => {
+                let queryParam = userData ? `?loggedInUserId=${userData.id}` : '';
+                await fetchReplies(queryParam);
+                setExpandedReplies(prev => ({ ...prev, [parentReplyId]: true }));
+                setIsReloading(false);
+            }, 1000);
 
         } catch (error: unknown) {
             console.error('대댓글 등록 실패:', error);
+            setIsReloading(false);
         } finally {
             setIsSubmittingChildReply(prev => ({ ...prev, [parentReplyId]: false }));
         }
@@ -600,12 +587,17 @@ const PostDetail = () => {
             setEditingReplyId(null);
             setEditingContent('');
 
-            // 댓글 목록 새로고침
-            let queryParam = userData ? `?loggedInUserId=${userData.id}` : '';
-            await fetchReplies(queryParam);
+            // Overlay 로딩 표시 후 1초 뒤 새로고침
+            setIsReloading(true);
+            setTimeout(async () => {
+                let queryParam = userData ? `?loggedInUserId=${userData.id}` : '';
+                await fetchReplies(queryParam);
+                setIsReloading(false);
+            }, 1000);
 
         } catch (error: unknown) {
             console.error('댓글 수정 실패:', error);
+            setIsReloading(false);
         } finally {
             setIsSubmittingEdit(false);
         }
@@ -650,16 +642,21 @@ const PostDetail = () => {
                     }
                 );
 
-                // 댓글 목록 새로고침
-                let queryParam = userData ? `?loggedInUserId=${userData.id}` : '';
-                await fetchReplies(queryParam);
-            }
+                setShowDeleteModal(false);
+                setDeletingReplyId(null);
 
-            setShowDeleteModal(false);
-            setDeletingReplyId(null);
+                // Overlay 로딩 표시 후 1초 뒤 새로고침
+                setIsReloading(true);
+                setTimeout(async () => {
+                    let queryParam = userData ? `?loggedInUserId=${userData.id}` : '';
+                    await fetchReplies(queryParam);
+                    setIsReloading(false);
+                }, 1000);
+            }
 
         } catch (error: unknown) {
             console.error('삭제 실패:', error);
+            setIsReloading(false);
         } finally {
             setIsDeleting(false);
         }
@@ -757,6 +754,14 @@ const PostDetail = () => {
             </Helmet>
 
             <div className="question-detail-container">
+                {/* Overlay Loading */}
+                {isReloading && (
+                    <div className="overlay-loading">
+                        <div className="overlay-loading-spinner"></div>
+                        <p>게시물을 불러오는 중...</p>
+                    </div>
+                )}
+
                 {/* Header */}
                 <CommonHeader
                     title="게시물 상세"
