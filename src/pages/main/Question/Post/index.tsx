@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
+import '../../versatile-styles.css';
 import './styles.css';
 
 import { useHistory, useParams } from 'react-router-dom';
