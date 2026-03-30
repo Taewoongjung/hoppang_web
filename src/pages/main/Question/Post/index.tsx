@@ -1236,21 +1236,24 @@ const PostDetail = () => {
                                                                 )}
 
                                                                 <div className="child-reply-actions">
-                                                                    <button
-                                                                        className={`like-btn ${childReply.isLiked ? 'liked' : ''}`}
-                                                                        onClick={() => handleLike(childReply.id, childReply.isLiked)}
-                                                                    >
-                                                                        <svg width="18" height="16" viewBox="0 0 16 16"
-                                                                             fill="none">
-                                                                            <path
-                                                                                d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
-                                                                                stroke="currentColor" strokeWidth="1.5"
-                                                                                fill={childReply.isLiked ? 'currentColor' : 'none'}/>
-                                                                        </svg>
-                                                                        <span>{childReply.likes || 0}</span>
-                                                                    </button>
+                                                                    {/* 좋아요 - 편집 중이 아닐 때만 표시 */}
+                                                                    {editingReplyId !== childReply.id && (
+                                                                        <button
+                                                                            className={`like-btn ${childReply.isLiked ? 'liked' : ''}`}
+                                                                            onClick={() => handleLike(childReply.id, childReply.isLiked)}
+                                                                        >
+                                                                            <svg width="16" height="14" viewBox="0 0 16 16"
+                                                                                 fill="none">
+                                                                                <path
+                                                                                    d="M8 14s-4-2.5-6-5.5a3.5 3.5 0 0 1 7-3.5 3.5 3.5 0 0 1 7 3.5C16 11.5 8 14 8 14Z"
+                                                                                    stroke="currentColor" strokeWidth="1.5"
+                                                                                    fill={childReply.isLiked ? 'currentColor' : 'none'}/>
+                                                                            </svg>
+                                                                            <span>{childReply.likes || 0}</span>
+                                                                        </button>
+                                                                    )}
 
-                                                                    {/* 대댓글 편집/삭제 */}
+                                                                    {/* 편집/삭제 - 우측 */}
                                                                     {canEditReply(childReply) && editingReplyId !== childReply.id && (
                                                                         <div className="child-reply-actions-menu">
                                                                             <button

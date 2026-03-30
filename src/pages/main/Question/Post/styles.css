@@ -1110,18 +1110,11 @@
 /* Child Reply Actions */
 .child-reply-actions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
-    gap: 8px;
     padding-top: 12px;
     margin-top: 8px;
     border-top: 1px solid #f8fafc;
-}
-
-.child-reply-actions-menu {
-    display: flex;
-    gap: 4px;
-    margin-left: 8px;
 }
 
 .child-reply-actions .like-btn {
@@ -1132,37 +1125,24 @@
     color: #64748b;
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px 16px;
+    gap: 6px;
+    padding: 6px 12px;
     border-radius: 6px;
-    min-width: 64px;
-    justify-content: flex-start;
-    box-sizing: border-box;
-}
-
-.child-reply-actions .like-btn svg {
-    flex-shrink: 0;
-    width: 18px;
-    height: 16px;
-    display: block;
-}
-
-.child-reply-actions .like-btn span {
-    flex-shrink: 0;
-    min-width: 20px;
-    text-align: left;
-    line-height: 1;
-    font-weight: 500;
 }
 
 .child-reply-actions .like-btn:hover {
     background: #f8fafc;
-    color: #6366f1;
+    color: #ef4444;
 }
 
 .child-reply-actions .like-btn.liked {
     color: #ef4444;
     background: #fef2f2;
+}
+
+.child-reply-actions-menu {
+    display: flex;
+    gap: 4px;
 }
 
 /* Delete Modal */
