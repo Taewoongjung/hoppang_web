@@ -1112,31 +1112,29 @@ const PostDetail = () => {
                                                         rows={3}
                                                         maxLength={500}
                                                     />
-                                                    <div className="child-reply-actions">
-                                                        <div className="char-count-small">
-                                                            {(childReplyContent[reply.id] || '').length}/500
-                                                        </div>
-                                                        <div className="child-reply-buttons">
-                                                            <button
-                                                                className="cancel-child-reply-btn"
-                                                                onClick={() => toggleChildReplyForm(reply.id)}
-                                                            >
-                                                                취소
-                                                            </button>
-                                                            <button
-                                                                className={`submit-child-reply-btn ${isSubmittingChildReply[reply.id] ? 'submitting' : ''}`}
-                                                                onClick={() => handleSubmitChildReply(reply.id)}
-                                                                disabled={!childReplyContent[reply.id]?.trim() || isSubmittingChildReply[reply.id]}
-                                                            >
-                                                                {isSubmittingChildReply[reply.id] ? (
-                                                                    <>
-                                                                        <span className="loading-spinner-small"></span>
-                                                                        등록 중...
-                                                                    </>
-                                                                ) : '댓글 등록'}
-                                                            </button>
-                                                        </div>
+                                                    <div className="char-count-small">
+                                                        {(childReplyContent[reply.id] || '').length}/500
                                                     </div>
+                                                </div>
+                                                <div className="child-reply-actions">
+                                                    <button
+                                                        className="cancel-child-reply-btn"
+                                                        onClick={() => toggleChildReplyForm(reply.id)}
+                                                    >
+                                                        취소
+                                                    </button>
+                                                    <button
+                                                        className={`submit-child-reply-btn ${isSubmittingChildReply[reply.id] ? 'submitting' : ''}`}
+                                                        onClick={() => handleSubmitChildReply(reply.id)}
+                                                        disabled={!childReplyContent[reply.id]?.trim() || isSubmittingChildReply[reply.id]}
+                                                    >
+                                                        {isSubmittingChildReply[reply.id] ? (
+                                                            <>
+                                                                <span className="loading-spinner-small"></span>
+                                                                등록 중...
+                                                            </>
+                                                        ) : '댓글 등록'}
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
