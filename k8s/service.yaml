@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hoppang-web
+  namespace: hoppang
+spec:
+  selector:
+    app: hoppang-web
+  type: ClusterIP
+  ports:
+    - port: 10244
+      targetPort: 10244

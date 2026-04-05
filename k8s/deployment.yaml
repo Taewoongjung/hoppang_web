@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hoppang-web
+  namespace: hoppang
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hoppang-web
+  template:
+    metadata:
+      labels:
+        app: hoppang-web
+    spec:
+      hostNetwork: true
+      nodeSelector:
+        kubernetes.io/hostname: tws-a
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: hoppang-web
+          image: ghcr.io/taewoongjung/hoppang-web:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 10244
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 10244
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 10244
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
