@@ -59,6 +59,7 @@ jobs:
       contents: read
     env:
       TAG: ${{ needs.build.outputs.TAG }}
+      KUBECONFIG: ${{ secrets.SERVER_HOME_DIR }}/kubeconfig
 
     steps:
       - name: Checkout manifests
