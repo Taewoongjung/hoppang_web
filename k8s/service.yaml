@@ -8,5 +8,5 @@ spec:
     app: hoppang-web
   type: ClusterIP
   ports:
-    - port: 10244
-      targetPort: 10244
+    - port: 10245
+      targetPort: 10245
