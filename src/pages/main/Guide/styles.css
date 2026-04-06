@@ -27,7 +27,7 @@ body {
     height: 100vh;
 }
 
-.header {
+.guide-header {
     background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
     color: white;
     padding: 20px;
@@ -35,13 +35,13 @@ body {
     position: relative;
 }
 
-.header h1 {
+.guide-header h1 {
     font-size: 24px;
     font-weight: 600;
     margin-bottom: 8px;
 }
 
-.header p {
+.guide-header p {
     font-size: 14px;
     opacity: 0.9;
 }

@@ -51,7 +51,7 @@ const HoppangProcess = () => {
             </Helmet>
 
             <div className={`container ${!isLoaded ? 'is-loading' : ''}`}>
-                <div className="header">
+                <div className="guide-header">
                     <button className="back-btn" onClick={() => history.push('/')}>←</button>
                     <img
                         src="/assets/hoppang-character.png"
