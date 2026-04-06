@@ -59,15 +59,11 @@ jobs:
       contents: read
     env:
       TAG: ${{ needs.build.outputs.TAG }}
+      KUBECONFIG: $HOME/kubeconfig
 
     steps:
       - name: Checkout manifests
         uses: actions/checkout@v4
-
-      - name: Setup kubeconfig
-        run: |
-          mkdir -p ~/.kube
-          cp ~/kubeconfig ~/.kube/config
 
       - name: Ensure namespace exists
         run: kubectl apply -f k8s/namespace.yaml
