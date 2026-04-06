@@ -65,6 +65,9 @@ jobs:
       - name: Checkout manifests
         uses: actions/checkout@v4
 
+      - name: Set KUBECONFIG
+        run: echo "KUBECONFIG=$HOME/kubeconfig" >> $GITHUB_ENV
+
       - name: Ensure namespace exists
         run: kubectl apply -f k8s/namespace.yaml
 
