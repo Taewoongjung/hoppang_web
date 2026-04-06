@@ -18,7 +18,6 @@ spec:
       labels:
         app: hoppang-web
     spec:
-      hostNetwork: true
       nodeSelector:
         kubernetes.io/hostname: tws-a
       imagePullSecrets:

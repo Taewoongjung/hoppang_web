@@ -6,7 +6,8 @@ metadata:
 spec:
   selector:
     app: hoppang-web
-  type: ClusterIP
+  type: NodePort
   ports:
     - port: 10244
       targetPort: 10244
+      nodePort: 30044
