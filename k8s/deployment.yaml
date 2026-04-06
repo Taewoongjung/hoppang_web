@@ -23,11 +23,11 @@ spec:
           image: ghcr.io/taewoongjung/hoppang-web:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 10245
+            - containerPort: 10244
           livenessProbe:
             httpGet:
               path: /
-              port: 10245
+              port: 10244
             initialDelaySeconds: 10
             periodSeconds: 30
             timeoutSeconds: 5
@@ -35,7 +35,7 @@ spec:
           readinessProbe:
             httpGet:
               path: /
-              port: 10245
+              port: 10244
             initialDelaySeconds: 5
             periodSeconds: 10
           resources:
