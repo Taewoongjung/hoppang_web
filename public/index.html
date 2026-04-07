@@ -114,9 +114,12 @@
 
   <!-- Kakao SDK -->
   <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
-          integrity="sha384-TiC880Vee6z9T6b8Wg8dGC5+cGB6ZcD6Z5l8c6pKKG/K6QvLp5x7fBcF5x5c5w5c5"
-          crossorigin="anonymous"
-          onload="if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) { Kakao.init('f63c57c581e3274e753b520cc5c45cdf'); }"></script>
+          crossorigin="anonymous"></script>
+  <script>
+    if (typeof Kakao !== 'undefined' && !Kakao.isInitialized()) {
+      Kakao.init('f63c57c581e3274e753b520cc5c45cdf');
+    }
+  </script>
 </head>
 <body>
 <div id="app"></div>
