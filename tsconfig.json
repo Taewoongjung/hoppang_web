@@ -17,6 +17,7 @@
       "@layouts/*": ["layouts/*"],
       "@pages/*": ["pages/*"]
     },
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "include": ["src/types"]
   }
 }
