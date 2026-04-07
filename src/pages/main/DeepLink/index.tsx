@@ -153,7 +153,7 @@ const DeepLink = () => {
                 <p style={styles.message}>
                     {status === 'loading'
                         ? '앱으로 이동 중...'
-                        : '앱이 설치되어 있지 않으면 스토어로 이동합니다'}
+                        : '잠시만 기다리시면 스토어로 이동합니다'}
                 </p>
                 <div style={styles.spinner} />
             </div>
