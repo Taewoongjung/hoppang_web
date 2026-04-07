@@ -1,0 +1,10 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["NUDBF8SVWU.hoppang"],
+        "components": [{ "/": "/*" }]
+      }
+    ]
+  }
+}

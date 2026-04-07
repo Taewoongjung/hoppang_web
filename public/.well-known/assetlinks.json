@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "store.hoppang.app",
+    "sha256_cert_fingerprints": [
+      "10:10:2D:F1:1F:48:05:1C:DB:BB:F9:C1:A1:A1:89:DF:1A:AC:A9:5F:BE:76:ED:15:2F:1A:CF:91:8C:17:E2:C9"
+    ]
+  }
+}]
