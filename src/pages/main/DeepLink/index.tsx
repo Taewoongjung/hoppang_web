@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 
 const DEEP_LINK_CONFIG = {
     scheme: 'hoppang',
@@ -12,8 +12,6 @@ const DEEP_LINK_STATISTICS_API = 'https://hoppang.store/api/statistics/pages/dee
 
 const DeepLink = () => {
     const [status, setStatus] = useState<'loading' | 'redirecting'>('loading');
-    const hasSentRequest = useRef(false);
-    const visitedAt = useRef(new Date());
 
     const getKorNow = () => {
         const now = new Date();
@@ -52,14 +50,11 @@ const DeepLink = () => {
         return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     };
 
-    const sendStatistics = useCallback(() => {
-        if (hasSentRequest.current) return;
-        hasSentRequest.current = true;
-
+    // 페이지 진입 시 바로 통계 전송
+    useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const targetPath = urlParams.get('path') || '';
         const referrer = document.referrer || "direct";
-        const stayDuration = Math.floor((Date.now() - visitedAt.current.getTime()) / 1000);
         const browser = getBrowser();
         const formattedVisitedAt = formatDateTime(getKorNow());
 
@@ -73,7 +68,6 @@ const DeepLink = () => {
             targetPath,
             browser,
             deviceType,
-            stayDuration,
             visitedAt: formattedVisitedAt
         };
 
@@ -86,19 +80,6 @@ const DeepLink = () => {
             keepalive: true
         }).catch(() => {});
     }, []);
-
-    useEffect(() => {
-        // 페이지를 벗어날 때 통계 전송
-        const handleBeforeUnload = () => {
-            sendStatistics();
-        };
-
-        window.addEventListener('beforeunload', handleBeforeUnload);
-
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        };
-    }, [sendStatistics]);
 
     useEffect(() => {
         const userAgent = navigator.userAgent.toLowerCase();
