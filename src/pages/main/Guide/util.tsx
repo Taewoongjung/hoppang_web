@@ -21,50 +21,8 @@ export const kakaoInquiry = () => {
     }
 }
 
-export const shareToKakao = (title: string, description?: string, imageUrl?: string) => {
+export const handleShare = async (title: string) => {
     const currentUrl = window.location.href;
-    const path = currentUrl.replace('https://hoppang.store', '');
-
-    const Kakao = (window as typeof window & { Kakao?: typeof import('kakao-js-sdk').default }).Kakao;
-
-    if (Kakao && Kakao.isInitialized && Kakao.isInitialized() && Kakao.Share) {
-        Kakao.Share.sendDefault({
-            objectType: 'feed',
-            content: {
-                title: title,
-                description: description || '호빵에서 확인해보세요.',
-                imageUrl: imageUrl || 'https://hoppang-public-assets.s3.ap-southeast-2.amazonaws.com/hoppang-character.png',
-                link: {
-                    mobileWebUrl: currentUrl,
-                    webUrl: currentUrl,
-                    androidExecutionParams: path,
-                    iosExecutionParams: path,
-                },
-            },
-            buttons: [
-                {
-                    title: '앱에서 보기',
-                    link: {
-                        mobileWebUrl: currentUrl,
-                        webUrl: currentUrl,
-                        androidExecutionParams: path,
-                        iosExecutionParams: path,
-                    },
-                },
-            ],
-        });
-        return true;
-    }
-    return false;
-};
-
-export const handleShare = async (title: string, description?: string, imageUrl?: string) => {
-    const currentUrl = window.location.href;
-
-    // 카카오톡 공유 시도
-    if (shareToKakao(title, description, imageUrl)) {
-        return;
-    }
 
     // Web Share API 사용 (지원하는 경우)
     if (navigator.share) {
