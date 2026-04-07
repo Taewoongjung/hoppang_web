@@ -25,8 +25,10 @@ export const shareToKakao = (title: string, description?: string, imageUrl?: str
     const currentUrl = window.location.href;
     const path = currentUrl.replace('https://hoppang.store', '');
 
-    if (typeof window.Kakao !== 'undefined' && window.Kakao.Share) {
-        window.Kakao.Share.sendDefault({
+    const Kakao = (window as typeof window & { Kakao?: typeof import('kakao-js-sdk').default }).Kakao;
+
+    if (Kakao && Kakao.isInitialized && Kakao.isInitialized() && Kakao.Share) {
+        Kakao.Share.sendDefault({
             objectType: 'feed',
             content: {
                 title: title,
