@@ -50,6 +50,7 @@ const CounselV2 = loadable(() => import('../../pages/main/Counsel'));
 const HowToChooseChassisTypeGuide = loadable(() => import('../../pages/main/Guide/HowToChooseChassisType'));
 const HoppangProcessGuide = loadable(() => import('../../pages/main/Guide/HoppangProcess'));
 const ChassisPerformanceGuide = loadable(() => import('../../pages/main/Guide/ChassisPerformance'));
+const DeepLink = loadable(() => import('../../pages/main/DeepLink'));
 
 
 const App = () => {
@@ -91,6 +92,9 @@ const App = () => {
                     <Route exact path="/v2/guide/howtochoosechassistype" component={HowToChooseChassisTypeGuide}/>
                     <Route exact path="/v2/guide/hoppangprocess" component={HoppangProcessGuide}/>
                     <Route exact path="/v2/guide/chassisperformance" component={ChassisPerformanceGuide}/>
+
+                    {/* 딥링크 */}
+                    <Route exact path="/open" component={DeepLink}/>
 
                     <Route exact path="/policy/privacy" component={PrivacyPolicyPage}/>
                     <Route exact path="/policy/termofuse" component={TermOfUsePage}/>
