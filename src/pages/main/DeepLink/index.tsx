@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 
 const DEEP_LINK_CONFIG = {
     scheme: 'hoppang',
@@ -8,8 +8,97 @@ const DEEP_LINK_CONFIG = {
     appStoreUrl: 'https://apps.apple.com/kr/app/id6737535725',
 };
 
+const DEEP_LINK_STATISTICS_API = 'https://hoppang.store/api/statistics/pages/deeplink/user-inbound';
+
 const DeepLink = () => {
     const [status, setStatus] = useState<'loading' | 'redirecting'>('loading');
+    const hasSentRequest = useRef(false);
+    const visitedAt = useRef(new Date());
+
+    const getKorNow = () => {
+        const now = new Date();
+        const utc = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
+        const koreaTimeDiff = 9 * 60 * 60 * 1000;
+        return new Date(utc + koreaTimeDiff);
+    };
+
+    const getBrowser = () => {
+        const browsers = [
+            'Chrome', 'Opera', 'WebTV', 'Whale',
+            'Beonex', 'Chimera', 'NetPositive', 'Phoenix',
+            'Firefox', 'Safari', 'SkipStone', 'Netscape', 'Mozilla',
+        ];
+
+        const userAgent = window.navigator.userAgent.toLowerCase();
+
+        if (userAgent.includes("edg")) {
+            return "Edge";
+        }
+
+        if (userAgent.includes("trident") || userAgent.includes("msie")) {
+            return "Internet Explorer";
+        }
+
+        return browsers.find((browser) => userAgent.includes(browser.toLowerCase())) || 'Unknown';
+    };
+
+    const formatDateTime = (date: Date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    };
+
+    const sendStatistics = useCallback(() => {
+        if (hasSentRequest.current) return;
+        hasSentRequest.current = true;
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const targetPath = urlParams.get('path') || '';
+        const referrer = document.referrer || "direct";
+        const stayDuration = Math.floor((Date.now() - visitedAt.current.getTime()) / 1000);
+        const browser = getBrowser();
+        const formattedVisitedAt = formatDateTime(getKorNow());
+
+        const userAgent = navigator.userAgent.toLowerCase();
+        const isIOS = /iphone|ipad|ipod/.test(userAgent);
+        const isAndroid = /android/.test(userAgent);
+        const deviceType = isAndroid ? 'android' : isIOS ? 'ios' : 'pc';
+
+        const data = {
+            referrer,
+            targetPath,
+            browser,
+            deviceType,
+            stayDuration,
+            visitedAt: formattedVisitedAt
+        };
+
+        fetch(DEEP_LINK_STATISTICS_API, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data),
+            keepalive: true
+        }).catch(() => {});
+    }, []);
+
+    useEffect(() => {
+        // 페이지를 벗어날 때 통계 전송
+        const handleBeforeUnload = () => {
+            sendStatistics();
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, [sendStatistics]);
 
     useEffect(() => {
         const userAgent = navigator.userAgent.toLowerCase();
