@@ -54,7 +54,6 @@ const DeepLink = () => {
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const targetPath = urlParams.get('path') || '';
-        const referrer = document.referrer || "direct";
         const browser = getBrowser();
         const formattedVisitedAt = formatDateTime(getKorNow());
 
@@ -64,10 +63,10 @@ const DeepLink = () => {
         const deviceType = isAndroid ? 'android' : isIOS ? 'ios' : 'pc';
 
         const data = {
-            referrer,
-            targetPath,
+            referrer: targetPath,
             browser,
             deviceType,
+            stayDuration: 0,
             visitedAt: formattedVisitedAt
         };
 
