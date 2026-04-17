@@ -20,6 +20,7 @@ body {
 .counsel-header {
     background: white;
     padding: 16px 20px;
+    padding-top: calc(16px + env(safe-area-inset-top, 0px));
     border-bottom: 1px solid #e2e8f0;
     position: sticky;
     top: 0;

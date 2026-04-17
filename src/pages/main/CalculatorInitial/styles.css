@@ -11,6 +11,7 @@
 .estimate-method-header {
     background: white;
     padding: 16px 20px;
+    padding-top: calc(16px + env(safe-area-inset-top, 0px));
     display: flex;
     align-items: center;
     justify-content: space-between;
