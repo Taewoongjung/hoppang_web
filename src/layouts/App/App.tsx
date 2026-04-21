@@ -3,7 +3,7 @@ import loadable from "@loadable/component";
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 const MAINTENANCE_MODE_ENABLED = true;
-const KAKAO_INQUIRY_URL = 'https://pf.kakao.com/_dbxezn/chat';
+const KAKAO_INQUIRY_URL = 'https://pf.kakao.com/_dbxezn';
 const KAKAO_APP_INQUIRY_URL = 'kakaotalk://plusfriend/chat/_dbxezn';
 
 // 어드민
