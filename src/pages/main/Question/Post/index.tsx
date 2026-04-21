@@ -901,11 +901,10 @@ const PostDetail = () => {
                         </div>
                     </section>
 
-                    {/* AdSense 베너 */}
-                    <GoogleAdSense
-                        adSlot="3210423518"
-                        className="banner-middle"
-                    />
+                    {/*<GoogleAdSense*/}
+                    {/*    adSlot="3210423518"*/}
+                    {/*    className="banner-middle"*/}
+                    {/*/>*/}
 
                     {/* Replies Section */}
                     <section id="replies-section" className="replies-section">

@@ -74,10 +74,10 @@ const HoppangProcess = () => {
                     <p>처음 상담부터 완공까지, 호빵이 함께합니다.</p>
                 </div>
 
-                <GoogleAdSense
-                    adSlot="3210423518"
-                    className="banner-middle"
-                />
+                {/*<GoogleAdSense*/}
+                {/*    adSlot="3210423518"*/}
+                {/*    className="banner-middle"*/}
+                {/*/>*/}
 
                 <div className="guide-section">
                     <div className="section-content">

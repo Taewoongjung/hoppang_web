@@ -98,10 +98,10 @@ const ChassisGuidePage = () => {
                     </p>
                 </div>
 
-                <GoogleAdSense
-                    adSlot="3210423518"
-                    className="banner-middle"
-                />
+                {/*<GoogleAdSense*/}
+                {/*    adSlot="3210423518"*/}
+                {/*    className="banner-middle"*/}
+                {/*/>*/}
 
                 <div className="content">
                     <div className="guide-section">

@@ -631,10 +631,10 @@ const Initial = () => {
                 </section>
             </main>
 
-            <GoogleAdSense
-                adSlot="3210423518"
-                className="banner-middle"
-            />
+            {/*<GoogleAdSense*/}
+            {/*    adSlot="3210423518"*/}
+            {/*    className="banner-middle"*/}
+            {/*/>*/}
 
             {/* Footer */}
             <footer>
