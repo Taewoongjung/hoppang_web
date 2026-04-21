@@ -129,7 +129,7 @@ const App = () => {
                         <button
                             type="button"
                             style={styles.kakaoButton}
-                            onClick={() => window.open(KAKAO_INQUIRY_URL, '_blank', 'noopener,noreferrer')}
+                            onClick={() => window.open(KAKAO_INQUIRY_URL, '_blank')}
                         >
                             카카오톡 문의하기
                         </button>
