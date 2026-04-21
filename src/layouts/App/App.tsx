@@ -59,18 +59,8 @@ const DeepLink = loadable(() => import('../../pages/main/DeepLink'));
 
 const App = () => {
         const handleKakaoInquiry = () => {
-            const userAgent = navigator.userAgent.toLowerCase();
-            const isIOS = userAgent.includes('iphone') || userAgent.includes('ipad');
 
-            if (isIOS) {
-                setTimeout(() => {
-                    window.location.href = KAKAO_INQUIRY_URL;
-                }, 500);
-                window.location.href = KAKAO_APP_INQUIRY_URL;
-                return;
-            }
-
-            window.open(KAKAO_INQUIRY_URL, '_blank', 'noopener,noreferrer');
+            window.open(KAKAO_INQUIRY_URL, '_blank');
         };
 
         return (
