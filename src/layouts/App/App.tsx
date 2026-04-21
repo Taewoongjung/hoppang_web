@@ -4,6 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 
 const MAINTENANCE_MODE_ENABLED = true;
 const KAKAO_INQUIRY_URL = 'https://pf.kakao.com/_dbxezn/chat';
+const KAKAO_APP_INQUIRY_URL = 'kakaotalk://plusfriend/chat/_dbxezn';
 
 // 어드민
 const AdminLoginPage = loadable(() => import('../../pages/admin/Login'));
@@ -57,6 +58,21 @@ const DeepLink = loadable(() => import('../../pages/main/DeepLink'));
 
 
 const App = () => {
+        const handleKakaoInquiry = () => {
+            const userAgent = navigator.userAgent.toLowerCase();
+            const isIOS = userAgent.includes('iphone') || userAgent.includes('ipad');
+
+            if (isIOS) {
+                setTimeout(() => {
+                    window.location.href = KAKAO_INQUIRY_URL;
+                }, 500);
+                window.location.href = KAKAO_APP_INQUIRY_URL;
+                return;
+            }
+
+            window.open(KAKAO_INQUIRY_URL, '_blank', 'noopener,noreferrer');
+        };
+
         return (
             <>
             <Switch>
@@ -129,7 +145,7 @@ const App = () => {
                         <button
                             type="button"
                             style={styles.kakaoButton}
-                            onClick={() => window.open(KAKAO_INQUIRY_URL, '_blank')}
+                            onClick={handleKakaoInquiry}
                         >
                             카카오톡 문의하기
                         </button>
