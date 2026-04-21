@@ -26,7 +26,7 @@
 }
 
 .company-card.selected {
-    border-color: #6366f1;
+    border-color: #FF6A4D;
     color: #1e40af;
     background-color: white;
 }
@@ -64,7 +64,7 @@
 .check-icon {
     width: 32px;
     height: 32px;
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    background: linear-gradient(135deg, #FF6A4D 0%, #8b5cf6 100%);
     color: white;
     border-radius: 50%;
     display: flex;
@@ -100,7 +100,7 @@
 .company-display {
     font-size: 18px;
     font-weight: 700;
-    /*color: #6366f1;*/
+    /*color: #FF6A4D;*/
     display: flex;
     align-items: center;
     gap: 12px;
@@ -112,7 +112,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 6px;
+    border-radius: 12px;
     padding: 4px;
     overflow: hidden;
     flex-shrink: 0;
@@ -150,7 +150,7 @@
 .app-container {
     max-width: 430px;
     margin: 0 auto;
-    background: #f8fafc;
+    background: #F7F3EF;
     min-height: 100vh;
     min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
     position: relative;
@@ -253,7 +253,7 @@
     font-size: 12px;
     color: #64748b;
     background: #f1f5f9;
-    border-radius: 4px;
+    border-radius: 12px;
 }
 
 /* 로고가 로딩 중일 때의 스켈레톤 효과 */

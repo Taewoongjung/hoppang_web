@@ -2,6 +2,9 @@ import React from 'react';
 import loadable from "@loadable/component";
 import { Switch, Route, Redirect } from 'react-router-dom';
 
+const MAINTENANCE_MODE_ENABLED = true;
+const KAKAO_INQUIRY_URL = 'https://pf.kakao.com/_dbxezn/chat';
+
 // 어드민
 const AdminLoginPage = loadable(() => import('../../pages/admin/Login'));
 const ChassisPriceDatabaseMainScreen = loadable(() => import('../../pages/admin/ChassisPriceDatabaseMainScreen'));
@@ -55,6 +58,7 @@ const DeepLink = loadable(() => import('../../pages/main/DeepLink'));
 
 const App = () => {
         return (
+            <>
             <Switch>
                     <Redirect exact path="/" to="/chassis/calculator"/>
                     <Route path="/chassis/calculator" component={InitialPageV2}/>
@@ -109,7 +113,86 @@ const App = () => {
                     {/* OFFICIAL */}
                     <Route path="/official" component={LandingPage}/>
             </Switch>
+            {MAINTENANCE_MODE_ENABLED && (
+                <div style={styles.overlay}>
+                    <div style={styles.modal}>
+                        <div style={styles.icon}>🔧</div>
+                        <h2 style={styles.title}>서버 점검 중입니다</h2>
+                        <p style={styles.description}>
+                            더 나은 서비스를 위해 현재 서버 점검을 진행하고 있습니다.
+                            <br />
+                            점검이 끝난 뒤 다시 이용 부탁드립니다.
+                        </p>
+                        <p style={styles.inquiryText}>
+                            문의가 필요하시면 카카오톡으로 문의하실 수 있습니다.
+                        </p>
+                        <button
+                            type="button"
+                            style={styles.kakaoButton}
+                            onClick={() => window.open(KAKAO_INQUIRY_URL, '_blank', 'noopener,noreferrer')}
+                        >
+                            카카오톡 문의하기
+                        </button>
+                    </div>
+                </div>
+            )}
+            </>
         );
 }
+
+const styles: Record<string, React.CSSProperties> = {
+    overlay: {
+        position: 'fixed',
+        inset: 0,
+        zIndex: 9999,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '24px',
+        backgroundColor: 'rgba(15, 23, 42, 0.78)',
+    },
+    modal: {
+        width: '100%',
+        maxWidth: '420px',
+        borderRadius: '24px',
+        backgroundColor: '#ffffff',
+        boxShadow: '0 24px 64px rgba(15, 23, 42, 0.28)',
+        padding: '32px 24px',
+        textAlign: 'center',
+    },
+    icon: {
+        fontSize: '44px',
+        marginBottom: '16px',
+    },
+    title: {
+        margin: '0 0 12px',
+        fontSize: '28px',
+        fontWeight: 700,
+        color: '#111827',
+    },
+    description: {
+        margin: '0 0 16px',
+        fontSize: '16px',
+        lineHeight: 1.7,
+        color: '#4b5563',
+    },
+    inquiryText: {
+        margin: '0 0 20px',
+        fontSize: '15px',
+        lineHeight: 1.6,
+        color: '#6b7280',
+    },
+    kakaoButton: {
+        width: '100%',
+        border: 'none',
+        borderRadius: '14px',
+        backgroundColor: '#FEE500',
+        color: '#3C1E1E',
+        padding: '15px 16px',
+        fontSize: '16px',
+        fontWeight: 700,
+        cursor: 'pointer',
+    },
+};
 
 export default App;

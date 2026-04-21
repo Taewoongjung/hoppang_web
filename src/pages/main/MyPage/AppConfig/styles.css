@@ -1,6 +1,6 @@
 /* Improved ConfigPage Styles - Tone on Tone */
 body {
-    background-color: #f8fafc;
+    background-color: #FFFBF7;
     color: #334155;
     line-height: 1.6;
 }
@@ -9,7 +9,7 @@ body {
 .config-container {
     max-width: 430px;
     margin: 0 auto;
-    background: #f8fafc;
+    background: #F7F3EF;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
@@ -34,7 +34,7 @@ body {
 }
 
 .back-button {
-    background: #f8fafc;
+    background: #F7F3EF;
     border: none;
     width: 40px;
     height: 40px;
@@ -105,7 +105,7 @@ body {
 .icon-wrapper {
     width: 64px;
     height: 64px;
-    background: #6366f1;
+    background: #FF6A4D;
     border-radius: 20px;
     display: flex;
     align-items: center;
@@ -207,7 +207,7 @@ body {
 
 .push-icon {
     background: #f0f9ff;
-    color: #6366f1;
+    color: #FF6A4D;
     border: 1px solid #e0f2fe;
 }
 
@@ -243,7 +243,7 @@ body {
 
 .feature-tag {
     background: #f0f9ff;
-    color: #6366f1;
+    color: #FF6A4D;
     font-size: 11px;
     font-weight: 600;
     padding: 4px 10px;
@@ -273,7 +273,7 @@ body {
 }
 
 .custom-switch.ant-switch-checked {
-    background: #6366f1;
+    background: #FF6A4D;
 }
 
 .custom-switch.ant-switch:focus {
@@ -303,7 +303,7 @@ body {
     font-size: 11px;
     font-weight: 600;
     padding: 4px 8px;
-    border-radius: 6px;
+    border-radius: 12px;
     transition: all 0.2s ease;
 }
 
@@ -330,7 +330,7 @@ body {
 }
 
 .info-card {
-    background: #f8fafc;
+    background: #F7F3EF;
     border-radius: 12px;
     padding: 20px;
     border: 1px solid #e2e8f0;
@@ -352,7 +352,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #6366f1;
+    color: #FF6A4D;
     font-size: 18px;
 }
 
@@ -384,7 +384,7 @@ body {
 }
 
 .info-bullet.push {
-    background: #6366f1;
+    background: #FF6A4D;
 }
 
 .info-bullet.talk {
@@ -528,7 +528,7 @@ body {
 
 /* Loading State */
 .custom-switch.ant-switch-loading .ant-switch-loading-icon {
-    color: #6366f1;
+    color: #FF6A4D;
 }
 
 /* Focus States for Accessibility */

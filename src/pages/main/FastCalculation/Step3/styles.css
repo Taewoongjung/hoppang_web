@@ -21,7 +21,7 @@
 }
 
 .expansion-card.selected {
-    border-color: #6366f1;
+    border-color: #FF6A4D;
     background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
     box-shadow: 0 8px 30px rgba(99, 102, 241, 0.2);
 }
@@ -42,8 +42,8 @@
 }
 
 .expansion-card.selected .expansion-check {
-    background: #6366f1;
-    border-color: #6366f1;
+    background: #FF6A4D;
+    border-color: #FF6A4D;
 }
 
 .expansion-icon-wrapper {
@@ -85,7 +85,7 @@
 }
 
 .expansion-card.selected .expansion-status-badge {
-    background: #6366f1;
+    background: #FF6A4D;
     color: white;
 }
 
@@ -99,7 +99,7 @@
 }
 
 .expansion-card.selected .expansion-label {
-    color: #6366f1;
+    color: #FF6A4D;
 }
 
 .expansion-description {
@@ -120,7 +120,7 @@
     gap: 6px;
     margin-top: 4px;
     padding: 8px 16px;
-    background: #f8fafc;
+    background: #F7F3EF;
     border-radius: 12px;
     font-size: 13px;
     color: #64748b;
@@ -139,12 +139,12 @@
 }
 
 .expansion-card.selected .expansion-details svg {
-    color: #6366f1;
+    color: #FF6A4D;
 }
 
 /* Selection Summary */
 .selection-summary {
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    background: linear-gradient(135deg, #F7F3EF 0%, #f1f5f9 100%);
     border-radius: 16px;
     padding: 20px;
     border: 1px solid #e2e8f0;

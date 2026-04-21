@@ -1,6 +1,6 @@
 /* Modern Counsel Page Styles - Tone on Tone */
 body {
-    background-color: #f8fafc;
+    background-color: #FFFBF7;
     color: #334155;
     line-height: 1.6;
     margin: 0;
@@ -10,7 +10,7 @@ body {
 .counsel-container {
     max-width: 430px;
     margin: 0 auto;
-    background: #f8fafc;
+    background: #F7F3EF;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
@@ -50,7 +50,7 @@ body {
 .logo-text {
     font-size: 1.5rem;
     font-weight: 700;
-    color: #6366f1;
+    color: #FF6A4D;
 }
 
 /* Main Content */
@@ -226,7 +226,7 @@ body {
 }
 
 .contact-icon.phone {
-    background: #6366f1;
+    background: #FF6A4D;
 }
 
 .icon-img {
@@ -264,7 +264,7 @@ body {
 }
 
 .contact-card:hover .contact-arrow {
-    color: #6366f1;
+    color: #FF6A4D;
     transform: translateX(4px);
 }
 
@@ -336,12 +336,12 @@ body {
 
 .tab-button:hover {
     color: #1e293b;
-    background: #f8fafc;
+    background: #F7F3EF;
 }
 
 .tab-button.active {
-    color: #6366f1;
-    border-bottom-color: #6366f1;
+    color: #FF6A4D;
+    border-bottom-color: #FF6A4D;
     background: white;
 }
 
@@ -352,7 +352,7 @@ body {
     left: 0;
     right: 0;
     height: 2px;
-    background: #6366f1;
+    background: #FF6A4D;
 }
 
 .faq-content {
@@ -369,7 +369,7 @@ body {
 }
 
 .faq-item:hover {
-    background: #f8fafc;
+    background: #F7F3EF;
     margin: 0 -24px;
     padding: 0 24px;
     border-radius: 8px;
@@ -389,7 +389,7 @@ body {
 }
 
 .faq-question:hover {
-    color: #6366f1;
+    color: #FF6A4D;
 }
 
 .question-text {
@@ -402,7 +402,7 @@ body {
 }
 
 .faq-question:hover .question-text {
-    color: #6366f1;
+    color: #FF6A4D;
 }
 
 .question-arrow {
@@ -414,17 +414,17 @@ body {
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    background: #f8fafc;
+    background: #F7F3EF;
 }
 
 .faq-question.expanded .question-arrow {
     transform: rotate(180deg);
-    background: #6366f1;
+    background: #FF6A4D;
     color: white;
 }
 
 .faq-question:hover .question-arrow {
-    background: #6366f1;
+    background: #FF6A4D;
     color: white;
 }
 
@@ -439,9 +439,9 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 16px 20px;
-    background: #f8fafc;
+    background: #F7F3EF;
     border-radius: 8px;
-    border-left: 4px solid #6366f1;
+    border-left: 4px solid #FF6A4D;
 }
 
 /* Animations */
@@ -622,7 +622,7 @@ body {
     width: 16px;
     height: 16px;
     border: 2px solid #e2e8f0;
-    border-top: 2px solid #6366f1;
+    border-top: 2px solid #FF6A4D;
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -667,7 +667,7 @@ body {
     left: 50%;
     width: 0;
     height: 2px;
-    background: #6366f1;
+    background: #FF6A4D;
     transition: all 0.2s ease;
     transform: translateX(-50%);
 }

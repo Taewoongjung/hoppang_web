@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh; /* 화면의 전체 높이를 차지 */
-    background-color: #f8f9fa; /* 배경 색상 */
+    background-color: #FFFBF7; /* 배경 색상 */
 }
 
 .loading-spinner {

@@ -27,7 +27,7 @@
 
 
 .bay-card.selected {
-    border-color: #6366f1;
+    border-color: #FF6A4D;
     background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
     box-shadow: 0 8px 30px rgba(99, 102, 241, 0.2);
 }
@@ -48,8 +48,8 @@
 }
 
 .bay-card.selected .bay-check {
-    background: #6366f1;
-    border-color: #6366f1;
+    background: #FF6A4D;
+    border-color: #FF6A4D;
 }
 
 .bay-visual {
@@ -69,7 +69,7 @@
 }
 
 .bay-card.selected .bay-structure {
-    color: #6366f1;
+    color: #FF6A4D;
 }
 
 .bay-illustration {
@@ -100,7 +100,7 @@
 }
 
 .bay-card.selected .bay-type {
-    color: #6366f1;
+    color: #FF6A4D;
 }
 
 .bay-image {

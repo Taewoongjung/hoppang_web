@@ -155,7 +155,7 @@ const InfoSection: React.FC<{
                 borderRadius: '12px',
                 padding: '20px',
                 marginBottom: '20px',
-                borderLeft: '4px solid #6366f1'
+                borderLeft: '4px solid #FF6A4D'
             }}>
                 <div style={{
                     display: 'flex',
@@ -166,7 +166,7 @@ const InfoSection: React.FC<{
                     <div style={{
                         width: '24px',
                         height: '24px',
-                        background: '#6366f1',
+                        background: '#FF6A4D',
                         borderRadius: '50%',
                         display: 'flex',
                         alignItems: 'center',
@@ -365,7 +365,7 @@ const InfoSection: React.FC<{
                     ref={lastSectionRef}
                     style={{
                         background: 'white',
-                        border: hasScrolledToBottom ? '2px solid #6366f1' : '1px solid #e2e8f0',
+                        border: hasScrolledToBottom ? '2px solid #FF6A4D' : '1px solid #e2e8f0',
                         borderRadius: '12px',
                         padding: '20px',
                         marginTop: '12px',
@@ -392,7 +392,7 @@ const InfoSection: React.FC<{
                                 minHeight: '18px',
                                 border: '2px solid #e2e8f0',
                                 borderRadius: '4px',
-                                accentColor: '#6366f1',
+                                accentColor: '#FF6A4D',
                                 marginTop: '2px',
                                 flexShrink: 0,
                                 cursor: hasScrolledToBottom ? 'pointer' : 'not-allowed'
@@ -447,12 +447,12 @@ const InfoSection: React.FC<{
                 }
 
                 button:focus {
-                    outline: 2px solid #6366f1;
+                    outline: 2px solid #FF6A4D;
                     outline-offset: 2px;
                 }
 
                 input[type="checkbox"]:focus {
-                    outline: 2px solid #6366f1;
+                    outline: 2px solid #FF6A4D;
                     outline-offset: 2px;
                 }
 

@@ -2,7 +2,7 @@
 .questions-container {
     max-width: 430px;
     margin: 0 auto;
-    background: #f8fafc;
+    background: #F7F3EF;
     min-height: 100vh;
     position: relative;
 }
@@ -15,7 +15,7 @@
     transform: translateX(-50%);
     width: 100%;
     max-width: calc(430px - env(safe-area-inset-left) - env(safe-area-inset-right));
-    background: #6366f1;
+    background: #FF6A4D;
     z-index: 101;
     overflow: hidden;
     transition: height 0.3s ease;
@@ -96,7 +96,7 @@
 }
 
 .header-my-activity:hover {
-    color: #6366f1;
+    color: #FF6A4D;
 }
 
 /* Board Tabs */
@@ -133,7 +133,7 @@
     gap: 6px;
     padding: 10px 16px;
     border-radius: 20px;
-    background: #f8fafc;
+    background: #F7F3EF;
     border: 1px solid #e2e8f0;
     font-size: 14px;
     font-weight: 500;
@@ -148,8 +148,8 @@
 }
 
 .board-tab.active {
-    background: var(--board-color, #6366f1);
-    border-color: var(--board-color, #6366f1);
+    background: var(--board-color, #FF6A4D);
+    border-color: var(--board-color, #FF6A4D);
     color: white;
     font-weight: 600;
 }
@@ -166,7 +166,7 @@
 .search-section {
     padding: 16px 20px;
     background: white;
-    border-bottom: 8px solid #f8fafc;
+    border-bottom: 8px solid #F7F3EF;
 }
 
 .search-form {
@@ -186,15 +186,15 @@
     border: 1px solid #e2e8f0;
     border-radius: 8px;
     font-size: 14px;
-    background: #f8fafc;
+    background: #F7F3EF;
     transition: all 0.2s ease;
 }
 
 .search-input:focus {
     outline: none;
-    border-color: #6366f1;
+    border-color: #FF6A4D;
     background: white;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    box-shadow: 0 0 0 3px #FFF1ED;
 }
 
 .search-input::placeholder {
@@ -228,13 +228,13 @@
     border: none;
     color: #64748b;
     padding: 8px;
-    border-radius: 6px;
+    border-radius: 12px;
     transition: all 0.2s ease;
 }
 
 .search-btn:hover {
     background: #f1f5f9;
-    color: #6366f1;
+    color: #FF6A4D;
 }
 
 /* Questions List */
@@ -266,7 +266,7 @@
 }
 
 .question-item:hover {
-    background: #f8fafc;
+    background: #F7F3EF;
 }
 
 .question-item.pinned {
@@ -316,7 +316,7 @@
 }
 
 .board-type-badge {
-    background: var(--board-color, #6366f1);
+    background: var(--board-color, #FF6A4D);
     box-shadow: 0 1px 2px rgba(99, 102, 241, 0.3);
 }
 
@@ -365,11 +365,11 @@
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    color: #6366f1;
+    color: #FF6A4D;
     font-weight: 500;
     padding: 2px 6px;
     border-radius: 8px;
-    background: rgba(99, 102, 241, 0.1);
+    background: #FFF1ED;
     flex-shrink: 0;
     white-space: nowrap;
 }
@@ -419,7 +419,7 @@
     width: 24px;
     height: 24px;
     border: 2px solid #f1f5f9;
-    border-top: 2px solid #6366f1;
+    border-top: 2px solid #FF6A4D;
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin-right: 12px;
@@ -429,7 +429,7 @@
     width: 16px;
     height: 16px;
     border: 2px solid #f1f5f9;
-    border-top: 2px solid #6366f1;
+    border-top: 2px solid #FF6A4D;
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin-right: 8px;
@@ -437,7 +437,7 @@
 
 /* Cache Clear Button (개발용) */
 .cache-clear-btn {
-    background: #f8fafc;
+    background: #F7F3EF;
     border: none;
     width: 40px;
     height: 40px;
@@ -468,7 +468,7 @@
     align-items: center;
     gap: 8px;
     padding: 12px 16px;
-    background: #f8fafc;
+    background: #F7F3EF;
     border-radius: 8px;
     border: 1px solid #e2e8f0;
 }
@@ -481,7 +481,7 @@
     justify-content: center;
     background: transparent;
     border: none;
-    border-radius: 6px;
+    border-radius: 12px;
     transition: all 0.2s ease;
     font-size: 14px;
     font-weight: 600;
@@ -489,12 +489,12 @@
 }
 
 .pagination-btn:hover:not(.disabled) {
-    color: #6366f1;
+    color: #FF6A4D;
     background: white;
 }
 
 .pagination-btn.active {
-    background: #6366f1;
+    background: #FF6A4D;
     color: white;
     font-weight: 700;
 }
@@ -522,7 +522,7 @@
 }
 
 .load-more-btn {
-    background: #f8fafc;
+    background: #F7F3EF;
     color: #64748b;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
@@ -537,8 +537,8 @@
 
 .load-more-btn:hover:not(:disabled) {
     background: #f1f5f9;
-    border-color: #6366f1;
-    color: #6366f1;
+    border-color: #FF6A4D;
+    color: #FF6A4D;
 }
 
 .load-more-btn:disabled {
@@ -579,7 +579,7 @@
 }
 
 .empty-action-btn {
-    background: #6366f1;
+    background: #FF6A4D;
     color: white;
     border: none;
     border-radius: 8px;
@@ -590,7 +590,7 @@
 }
 
 .empty-action-btn:hover {
-    background: #5855eb;
+    background: #FF8266;
     transform: translateY(-1px);
 }
 
@@ -601,7 +601,7 @@
     right: calc(20px + max(0px, env(safe-area-inset-right)));
     width: 56px;
     height: 56px;
-    background: #6366f1;
+    background: #FF6A4D;
     border: none;
     border-radius: 50%;
     color: white;
@@ -814,7 +814,7 @@
 .empty-action-btn:focus,
 .load-more-btn:focus,
 .back-btn:focus {
-    outline: 2px solid #6366f1;
+    outline: 2px solid #FF6A4D;
     outline-offset: -2px;
 }
 
@@ -945,7 +945,7 @@
     height: 82px;
     border-radius: 12px;
     overflow: hidden;
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    background: linear-gradient(135deg, #F7F3EF 0%, #f1f5f9 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -967,7 +967,7 @@
     height: 100%;
     object-fit: cover;
     transition: all 0.3s ease;
-    background: #f8fafc;
+    background: #F7F3EF;
 }
 
 .question-thumbnail-enhanced:hover .thumbnail-image {
@@ -1066,6 +1066,6 @@
 /* CSS를 지원하지 않는 브라우저를 위한 fallback */
 @supports not selector(:has(*)) {
     .question-item:hover {
-        background: #f8fafc;
+        background: #F7F3EF;
     }
 }

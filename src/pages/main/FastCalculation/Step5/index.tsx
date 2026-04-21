@@ -191,7 +191,7 @@ const Step5FloorplanReview = () => {
                         typeEn: getChassisTypeValue('발코니이중창'),
                         width: 4000,
                         height: 2300,
-                        color: '#818cf8',
+                        color: '#FF6A4D',
                         companyType: ''
                     },
                     {
@@ -201,7 +201,7 @@ const Step5FloorplanReview = () => {
                         typeEn: getChassisTypeValue('발코니이중창'),
                         width: 1800,
                         height: 2300,
-                        color: '#818cf8',
+                        color: '#FF6A4D',
                         companyType: ''
                     },
                     {
@@ -254,7 +254,7 @@ const Step5FloorplanReview = () => {
                         typeEn: getChassisTypeValue('내창이중창'),
                         width: 1800,
                         height: 2300,
-                        color: '#818cf8',
+                        color: '#FF6A4D',
                         companyType: ''
                     },
                     {
@@ -299,7 +299,7 @@ const Step5FloorplanReview = () => {
                         typeEn: getChassisTypeValue('발코니이중창'),
                         width: 3000,
                         height: 1200,
-                        color: '#818cf8',
+                        color: '#FF6A4D',
                         companyType: ''
                     },
                     {
@@ -359,7 +359,7 @@ const Step5FloorplanReview = () => {
                         typeEn: getChassisTypeValue('발코니이중창'),
                         width: 2000,
                         height: 2300,
-                        color: '#818cf8',
+                        color: '#FF6A4D',
                         companyType: ''
                     },
                     {
@@ -369,7 +369,7 @@ const Step5FloorplanReview = () => {
                         typeEn: getChassisTypeValue('발코니이중창'),
                         width: 4000,
                         height: 2400,
-                        color: '#818cf8',
+                        color: '#FF6A4D',
                         companyType: ''
                     }
                 ];

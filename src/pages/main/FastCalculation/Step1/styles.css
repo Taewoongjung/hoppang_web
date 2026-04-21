@@ -2,7 +2,7 @@
 .simple-estimate-container {
     max-width: 430px;
     margin: 0 auto;
-    background: #f8fafc;
+    background: #F7F3EF;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -61,7 +61,7 @@
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #6366f1 0%, #8b5cf6 100%);
+    background: linear-gradient(90deg, #FF6A4D 0%, #8b5cf6 100%);
     border-radius: 10px;
     transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
@@ -147,7 +147,7 @@
 }
 
 .option-card.selected {
-    border-color: #6366f1;
+    border-color: #FF6A4D;
     background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
 }
 
@@ -164,8 +164,8 @@
 }
 
 .option-card.selected .option-check {
-    background: #6366f1;
-    border-color: #6366f1;
+    background: #FF6A4D;
+    border-color: #FF6A4D;
 }
 
 .option-content {
@@ -180,7 +180,7 @@
 }
 
 .option-card.selected .option-label {
-    color: #6366f1;
+    color: #FF6A4D;
 }
 
 .option-description {
@@ -256,7 +256,7 @@
 }
 
 .nav-button.primary {
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    background: linear-gradient(135deg, #FF6A4D 0%, #8b5cf6 100%);
     color: white;
     box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
@@ -345,7 +345,7 @@
     width: 40px;
     height: 40px;
     border: 3px solid #e2e8f0;
-    border-top-color: #6366f1;
+    border-top-color: #FF6A4D;
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -384,7 +384,7 @@
 
 .retry-button {
     padding: 10px 24px;
-    background: #6366f1;
+    background: #FF6A4D;
     color: white;
     border: none;
     border-radius: 8px;
@@ -395,5 +395,5 @@
 }
 
 .retry-button:hover {
-    background: #4f46e5;
+    background: #E85535;
 }

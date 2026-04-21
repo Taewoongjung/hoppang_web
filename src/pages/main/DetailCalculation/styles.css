@@ -1,6 +1,6 @@
 /* Improved Calculator Page Styles - Tone on Tone */
 body {
-    background-color: #f8fafc;
+    background-color: #FFFBF7;
     color: #334155;
     line-height: 1.6;
 }
@@ -8,7 +8,7 @@ body {
 .app-container {
     max-width: 430px;
     margin: 0 auto;
-    background: #f8fafc;
+    background: #F7F3EF;
     min-height: 100vh;
     min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
     position: relative;
@@ -106,7 +106,7 @@ body {
 }
 
 .step.active {
-    background: #6366f1;
+    background: #FF6A4D;
 }
 
 /* Step Header */
@@ -187,7 +187,7 @@ body {
 .company-display {
     font-size: 18px;
     font-weight: 700;
-    color: #6366f1;
+    color: #FF6A4D;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -210,7 +210,7 @@ body {
 }
 
 .custom-input:focus, .custom-select:focus {
-    border-color: #6366f1;
+    border-color: #FF6A4D;
     outline: none;
 }
 
@@ -265,7 +265,7 @@ body {
 }
 
 .unit-button.active {
-    background: #6366f1;
+    background: #FF6A4D;
     color: white;
 }
 
@@ -274,8 +274,8 @@ body {
 }
 
 .unit-button:hover:not(.active) {
-    background: #f8fafc;
-    color: #6366f1;
+    background: #F7F3EF;
+    color: #FF6A4D;
 }
 
 /* Size Inputs */
@@ -292,8 +292,8 @@ body {
 .add-button {
     width: 100%;
     padding: 12px 16px;
-    background: #f8fafc;
-    color: #6366f1;
+    background: #F7F3EF;
+    color: #FF6A4D;
     border: 1px dashed #cbd5e1;
     border-radius: 8px;
     font-size: 16px;
@@ -307,7 +307,7 @@ body {
 
 .add-button:hover {
     background: #f1f5f9;
-    border-color: #6366f1;
+    border-color: #FF6A4D;
 }
 
 .add-icon {
@@ -337,10 +337,10 @@ body {
 .item-count {
     font-size: 13px;
     font-weight: 600;
-    color: #6366f1;
+    color: #FF6A4D;
     background: #f0f9ff;
     padding: 4px 8px;
-    border-radius: 6px;
+    border-radius: 12px;
 }
 
 /* Registered List */
@@ -351,7 +351,7 @@ body {
 }
 
 .registered-item {
-    background: #f8fafc;
+    background: #F7F3EF;
     border: 1px solid #e2e8f0;
     border-radius: 8px;
     padding: 16px;
@@ -405,7 +405,7 @@ body {
     background: #fef2f2;
     border: 1px solid #fecaca;
     color: #dc2626;
-    border-radius: 6px;
+    border-radius: 12px;
     width: 32px;
     height: 32px;
     transition: all 0.2s ease;
@@ -466,8 +466,8 @@ body {
 
 .address-input-wrapper:focus {
     outline: none;
-    border-color: #6366f1;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    border-color: #FF6A4D;
+    box-shadow: 0 0 0 3px #FFF1ED;
 }
 
 .address-input-wrapper.error {
@@ -504,7 +504,7 @@ body {
 
 .address-change-hint {
     font-size: 12px;
-    color: #6366f1;
+    color: #FF6A4D;
     font-weight: 500;
     margin-top: 4px;
 }
@@ -528,7 +528,7 @@ body {
 
 .address-input-arrow {
     font-size: 16px;
-    color: #6366f1;
+    color: #FF6A4D;
     flex-shrink: 0;
 }
 
@@ -536,9 +536,9 @@ body {
 .info-notice {
     margin-top: 16px;
     padding: 16px;
-    background: #f8fafc;
+    background: #F7F3EF;
     border-radius: 8px;
-    border-left: 4px solid #6366f1;
+    border-left: 4px solid #FF6A4D;
 }
 
 .notice-item {
@@ -558,7 +558,7 @@ body {
 .notice-dot {
     width: 4px;
     height: 4px;
-    background: #6366f1;
+    background: #FF6A4D;
     border-radius: 50%;
     margin-top: 6px;
     flex-shrink: 0;
@@ -642,7 +642,7 @@ body {
 }
 
 input:checked + .slider {
-    background-color: #6366f1;
+    background-color: #FF6A4D;
 }
 
 input:checked + .slider:before {
@@ -697,7 +697,7 @@ input:checked + .slider:before {
 .button-primary {
     width: 100%;
     padding: 12px 20px;
-    background: #6366f1;
+    background: #FF6A4D;
     color: white;
     border: none;
     border-radius: 8px;
@@ -711,7 +711,7 @@ input:checked + .slider:before {
 }
 
 .button-primary:hover {
-    background: #5855eb;
+    background: #FF8266;
 }
 
 .button-primary:disabled {
@@ -758,7 +758,7 @@ input:checked + .slider:before {
     width: 32px;
     height: 32px;
     border: 3px solid #f1f5f9;
-    border-top: 3px solid #6366f1;
+    border-top: 3px solid #FF6A4D;
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }

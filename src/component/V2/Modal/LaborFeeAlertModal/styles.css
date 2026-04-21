@@ -87,7 +87,7 @@
 
 /* 설명 박스 */
 .labor-fee-explanation-box {
-    background: #f8fafc;
+    background: #F7F3EF;
     border: 1px solid #e2e8f0;
     border-radius: 12px;
     padding: 20px;
@@ -102,12 +102,12 @@
 }
 
 .labor-fee-q-mark {
-    background: #6366f1;
+    background: #FF6A4D;
     color: white;
     font-size: 14px;
     font-weight: 700;
     padding: 4px 8px;
-    border-radius: 6px;
+    border-radius: 12px;
     min-width: 24px;
     text-align: center;
     flex-shrink: 0;
@@ -179,7 +179,7 @@
 .labor-fee-confirm-button {
     width: 100%;
     padding: 14px 20px;
-    background: #6366f1;
+    background: #FF6A4D;
     color: white;
     border: none;
     border-radius: 12px;
@@ -194,7 +194,7 @@
 }
 
 .labor-fee-confirm-button:hover {
-    background: #5855eb;
+    background: #FF8266;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
 }

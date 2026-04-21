@@ -1,7 +1,7 @@
 .login-container {
     max-width: 430px;
     margin: 0 auto;
-    background: #f8f9fa;
+    background: #FFFBF7;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
@@ -131,7 +131,7 @@
     justify-content: space-between;
     align-items: flex-start;
     padding: 20px;
-    background-color: #f8fafc;
+    background-color: #F7F3EF;
     border-radius: 12px;
     border: 1px solid #e2e8f0;
     gap: 16px;

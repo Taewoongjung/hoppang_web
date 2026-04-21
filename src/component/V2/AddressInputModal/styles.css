@@ -60,7 +60,7 @@
     font-size: 20px;
     color: #999;
     padding: 4px;
-    border-radius: 4px;
+    border-radius: 12px;
     transition: all 0.2s ease;
 }
 
@@ -101,7 +101,7 @@
 }
 
 .current-address {
-    background-color: #f8f9fa;
+    background-color: #FFFBF7;
     border: 1px solid #e9ecef;
     border-radius: 8px;
     padding: 12px 16px;

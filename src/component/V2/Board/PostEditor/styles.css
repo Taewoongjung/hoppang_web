@@ -40,7 +40,7 @@
 .btn-save {
     padding: 8px 16px;
     border: 1px solid #e2e8f0;
-    border-radius: 6px;
+    border-radius: 12px;
     font-size: 14px;
     font-weight: 500;
     transition: all 0.2s ease;
@@ -52,7 +52,7 @@
 }
 
 .btn-clear:hover {
-    background: #f8fafc;
+    background: #F7F3EF;
     border-color: #cbd5e1;
 }
 
@@ -104,7 +104,7 @@
     z-index: 20;
     background: white;
     border: 1px solid #e2e8f0;
-    border-radius: 6px;
+    border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     max-height: 200px;
     overflow-y: auto;

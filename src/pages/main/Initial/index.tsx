@@ -400,7 +400,7 @@ const Initial = () => {
                     <span className="service-highlight">셀프 · 무료 · 비대면</span>
                 </>
             ),
-            color: '#6366f1',
+            color: '#FF6A4D',
             bgColor: '#f0f9ff'
         },
         {
@@ -697,7 +697,7 @@ const Initial = () => {
                             <p style={{ color: '#666', marginBottom: '20px', lineHeight: 1.6 }}>
                                 더 나은 서비스 제공을 위해<br/>
                                 잠시 점검을 진행하고 있습니다.<br/>
-                                <span style={{ color: '#6366f1', fontWeight: 500 }}>빠른 시일 내에 다시 찾아뵙겠습니다.</span>
+                                <span style={{ color: '#FF6A4D', fontWeight: 500 }}>빠른 시일 내에 다시 찾아뵙겠습니다.</span>
                             </p>
                             <p style={{ color: '#888', fontSize: '13px', marginBottom: '16px' }}>
                                 급한 문의는 아래 버튼을 이용해주세요

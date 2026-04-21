@@ -166,7 +166,7 @@ const AdvertisementList = () => {
             </div>
         ),
         filterIcon: (filtered: boolean) => (
-            <SearchOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
+            <SearchOutlined style={{ color: filtered ? '#FF6A4D' : undefined }} />
         ),
         onFilter: (value, record) =>
             // @ts-ignore

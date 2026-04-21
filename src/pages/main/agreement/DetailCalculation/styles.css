@@ -1,5 +1,5 @@
 body {
-    background-color: #f8f9fa;
+    background-color: #FFFBF7;
     color: #333;
     line-height: 1.6;
 }
@@ -58,7 +58,7 @@ body {
 .logo-text {
     font-size: 1.25rem;
     font-weight: bold;
-    background: #6366f1;
+    background: #FF6A4D;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -75,7 +75,7 @@ body {
 }
 
 .login-btn {
-    background: #6366f1;
+    background: #FF6A4D;
     color: white;
     border: none;
     padding: 8px 16px;
@@ -86,7 +86,7 @@ body {
 }
 
 .login-btn:hover {
-    background: #5855eb;
+    background: #FF8266;
 }
 
 /* Main Content */
@@ -98,7 +98,7 @@ body {
 
 /* Hero Section */
 .hero-section {
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f8fafc 100%);
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #F7F3EF 100%);
     padding: 30px 20px;
     /* Safe area 좌우 패딩 추가 */
     padding-left: calc(20px + env(safe-area-inset-left));
@@ -222,7 +222,7 @@ body {
     align-items: flex-start;
     gap: 12px;
     padding: 16px;
-    background: #f8fafc;
+    background: #F7F3EF;
     border-radius: 12px;
     border: 1px solid #e2e8f0;
 }
@@ -308,7 +308,7 @@ body {
 }
 
 .button-secondary {
-    background: #f8fafc;
+    background: #F7F3EF;
     color: #64748b;
     border: 1px solid #e2e8f0;
 }

@@ -84,7 +84,7 @@ const QuestionsBoard = () => {
 
     // 게시판 타입 정의
     const boardTypes: BoardType[] = [
-        { id: 'all', name: '전체', color: '#6366f1' },
+        { id: 'all', name: '전체', color: '#FF6A4D' },
         { id: '1', name: '공지사항', color: '#ef4444' },
         { id: '2', name: '질문', color: '#3b82f6' },
         { id: '3', name: '자유', color: '#10b981' },

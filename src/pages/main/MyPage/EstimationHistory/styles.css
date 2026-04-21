@@ -2,7 +2,7 @@
 .estimation-history-container {
     max-width: 430px;
     margin: 0 auto;
-    background: #f8fafc;
+    background: #F7F3EF;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
@@ -146,7 +146,7 @@
 .id-number {
     font-size: 16px;
     font-weight: 700;
-    color: #6366f1;
+    color: #FF6A4D;
 }
 
 .estimation-date {
@@ -155,7 +155,7 @@
     gap: 6px;
     color: #64748b;
     font-size: 13px;
-    background: #f8fafc;
+    background: #F7F3EF;
     padding: 6px 12px;
     border-radius: 8px;
     border: 1px solid #f1f5f9;
@@ -258,7 +258,7 @@
 }
 
 .detail-btn {
-    background: #6366f1;
+    background: #FF6A4D;
     color: white;
     border: none;
     padding: 10px 16px;
@@ -272,7 +272,7 @@
 }
 
 .detail-btn:hover {
-    background: #5855eb;
+    background: #FF8266;
     transform: translateY(-1px);
 }
 
@@ -318,7 +318,7 @@
 }
 
 .create-estimation-btn {
-    background: #6366f1;
+    background: #FF6A4D;
     color: white;
     border: none;
     padding: 16px 32px;
@@ -329,7 +329,7 @@
 }
 
 .create-estimation-btn:hover {
-    background: #5855eb;
+    background: #FF8266;
     transform: translateY(-2px);
 }
 
@@ -354,11 +354,11 @@
 
 /* Loading Spinner Override */
 .loading-container .ant-spin .ant-spin-dot {
-    color: #6366f1;
+    color: #FF6A4D;
 }
 
 .loading-container .ant-spin .ant-spin-dot-item {
-    background-color: #6366f1;
+    background-color: #FF6A4D;
 }
 
 /* Responsive Design */

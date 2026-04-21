@@ -1,7 +1,7 @@
 .login-container {
     max-width: 430px;
     margin: 0 auto;
-    background: #f8f9fa;
+    background: #FFFBF7;
     min-height: 100vh;
     position: relative;
     overflow-x: hidden;
@@ -452,7 +452,7 @@
 .resend-btn:hover,
 .change-number-btn:hover {
     color: #374151 !important;
-    background: #f8f9fa !important;
+    background: #FFFBF7 !important;
 }
 
 .customer-service-btn {

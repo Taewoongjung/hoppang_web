@@ -5,7 +5,7 @@
 
 /* Detailed Selection Summary */
 .selection-summary-detailed {
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    background: linear-gradient(135deg, #F7F3EF 0%, #f1f5f9 100%);
     border-radius: 16px;
     padding: 16px 20px;
     border: 1px solid #e2e8f0;
@@ -56,7 +56,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #f8fafc;
+    background: #F7F3EF;
     border-radius: 12px;
     min-height: 200px;
 }
@@ -103,7 +103,7 @@
 
 /* Window Group Styles */
 .window-group {
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    background: linear-gradient(135deg, #F7F3EF 0%, #f1f5f9 100%);
     border-radius: 20px;
     padding: 16px;
     border: 2px solid #e2e8f0;
@@ -120,7 +120,7 @@
 .window-group-badge {
     font-size: 12px;
     font-weight: 700;
-    color: #6366f1;
+    color: #FF6A4D;
     background: linear-gradient(135deg, #e0e7ff 0%, #ddd6fe 100%);
     padding: 6px 12px;
     border-radius: 8px;
@@ -151,7 +151,7 @@
 }
 
 .window-card.editing {
-    border-color: #6366f1;
+    border-color: #FF6A4D;
     box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
 }
 
@@ -202,12 +202,12 @@
 }
 
 .window-card.editing .window-edit-button {
-    background: #6366f1;
+    background: #FF6A4D;
     color: white;
 }
 
 .window-card.editing .window-edit-button:hover {
-    background: #5855eb;
+    background: #FF8266;
 }
 
 /* Window Info Display */
@@ -293,8 +293,8 @@
 .form-select:focus,
 .form-input:focus {
     outline: none;
-    border-color: #6366f1;
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    border-color: #FF6A4D;
+    box-shadow: 0 0 0 3px #FFF1ED;
 }
 
 .form-input[type="number"] {

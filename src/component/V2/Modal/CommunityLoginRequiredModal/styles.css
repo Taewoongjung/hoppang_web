@@ -80,7 +80,7 @@
     display: flex;
     align-items: flex-start;
     padding: 20px;
-    background: #f8fafc;
+    background: #F7F3EF;
     border-radius: 12px;
     border: 1px solid #e2e8f0;
     text-align: left;
@@ -95,7 +95,7 @@
     left: 0;
     width: 4px;
     height: 100%;
-    background: #6366f1;
+    background: #FF6A4D;
     border-radius: 2px 0 0 2px;
 }
 
@@ -141,7 +141,7 @@
     padding: 12px;
     background: white;
     border-radius: 8px;
-    border: 1px solid rgba(99, 102, 241, 0.1);
+    border: 1px solid #FFF1ED;
     transition: all 0.2s ease;
 }
 
@@ -178,11 +178,11 @@
 }
 
 .highlight-text {
-    color: #6366f1;
+    color: #FF6A4D;
     font-weight: 600;
     background: #f0f9ff;
     padding: 2px 8px;
-    border-radius: 6px;
+    border-radius: 12px;
     font-size: 14px;
     border: 1px solid #e0f2fe;
 }
@@ -210,7 +210,7 @@
 }
 
 .modal-button.cancel {
-    background: #f8fafc;
+    background: #F7F3EF;
     color: #475569;
     border: 1px solid #e2e8f0;
     order: 2;
@@ -222,7 +222,7 @@
 }
 
 .modal-button.secondary {
-    background: #6366f1;
+    background: #FF6A4D;
     color: white;
     border: 1px solid transparent;
     order: 1;
@@ -251,14 +251,14 @@
     font-size: 13px;
     color: #64748b;
     line-height: 1.4;
-    background: #f8fafc;
+    background: #F7F3EF;
     padding: 12px 16px;
     border-radius: 8px;
     border: 1px solid #e2e8f0;
 }
 
 .footer-text strong {
-    color: #6366f1;
+    color: #FF6A4D;
     font-weight: 600;
 }
 

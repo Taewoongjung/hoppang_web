@@ -62,7 +62,7 @@ const MyPosts = () => {
 
     // 게시판 타입 정의 (개선된 아이콘과 색상)
     const boardTypes: BoardType[] = [
-        { id: 'all', name: '전체', color: '#6366f1' },
+        { id: 'all', name: '전체', color: '#FF6A4D' },
         { id: '2', name: '질문', color: '#3b82f6' },
         { id: '3', name: '자유', color: '#10b981' },
         { id: '4', name: '꿀팁', color: '#f59e0b' },
