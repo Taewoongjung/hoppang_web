@@ -2,7 +2,7 @@ import React from 'react';
 import loadable from "@loadable/component";
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-const MAINTENANCE_MODE_ENABLED = true;
+const MAINTENANCE_MODE_ENABLED = false;
 const KAKAO_INQUIRY_URL = 'https://pf.kakao.com/_dbxezn';
 const KAKAO_APP_INQUIRY_URL = 'kakaotalk://plusfriend/chat/_dbxezn';
 
