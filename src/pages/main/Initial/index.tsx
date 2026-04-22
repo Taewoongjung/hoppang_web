@@ -14,6 +14,8 @@ import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
 import {formatTimeAgo} from "../../../util/boardUtil";
 import GoogleAdSense from "../../../component/V2/AdBanner/GoogleAdSense";
 
+const NOTICE_EXCLUDED_USER_ID = 1208;
+
 declare global {
     interface Window {
         device?: any;
@@ -421,6 +423,13 @@ const Initial = () => {
 
     const handleServiceClick = (serviceTitle: string) => {
         if (serviceTitle === '샷시 견적') {
+            const shouldOpenMaintenanceModal = !userData || Number(userData.id) !== NOTICE_EXCLUDED_USER_ID;
+
+            if (shouldOpenMaintenanceModal) {
+                setIsMaintenanceModalOpen(true);
+                return;
+            }
+
             history.push('/calculator');
         } else if (serviceTitle === '커뮤니티') {
             history.push('/question/boards');
