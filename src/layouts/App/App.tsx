@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import loadable from "@loadable/component";
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-const TARGET_NOTICE_STORAGE_KEY = 'hoppang-targeted-notice-visible';
-const TARGET_NOTICE_EVENT_NAME = 'hoppang-targeted-notice-change';
+const MAINTENANCE_MODE_ENABLED = true;
 const KAKAO_INQUIRY_URL = 'https://pf.kakao.com/_dbxezn';
 const KAKAO_APP_INQUIRY_URL = 'kakaotalk://plusfriend/chat/_dbxezn';
 
@@ -59,26 +58,6 @@ const DeepLink = loadable(() => import('../../pages/main/DeepLink'));
 
 
 const App = () => {
-        const [isTargetNoticeVisible, setIsTargetNoticeVisible] = useState(false);
-
-        useEffect(() => {
-            const syncTargetNotice = () => {
-                setIsTargetNoticeVisible(window.localStorage.getItem(TARGET_NOTICE_STORAGE_KEY) === 'true');
-            };
-
-            const handleTargetNoticeChange = (event: Event) => {
-                const customEvent = event as CustomEvent<{ visible?: boolean }>;
-                setIsTargetNoticeVisible(Boolean(customEvent.detail?.visible));
-            };
-
-            syncTargetNotice();
-            window.addEventListener(TARGET_NOTICE_EVENT_NAME, handleTargetNoticeChange);
-
-            return () => {
-                window.removeEventListener(TARGET_NOTICE_EVENT_NAME, handleTargetNoticeChange);
-            };
-        }, []);
-
         const handleKakaoInquiry = () => {
             const userAgent = navigator.userAgent.toLowerCase();
             const isIOS = userAgent.includes('iphone') || userAgent.includes('ipad');
@@ -147,15 +126,15 @@ const App = () => {
                     {/* OFFICIAL */}
                     <Route path="/official" component={LandingPage}/>
             </Switch>
-            {isTargetNoticeVisible && (
+            {MAINTENANCE_MODE_ENABLED && (
                 <div style={styles.overlay}>
                     <div style={styles.modal}>
                         <div style={styles.icon}>🔧</div>
-                        <h2 style={styles.title}>공지사항</h2>
+                        <h2 style={styles.title}>서버 점검 중입니다</h2>
                         <p style={styles.description}>
-                            현재 지정된 계정에 한해 안내 문구를 노출하고 있습니다.
+                            더 나은 서비스를 위해 현재 서버 점검을 진행하고 있습니다.
                             <br />
-                            문의가 필요하시면 카카오톡으로 바로 연결해드릴게요.
+                            점검이 끝난 뒤 다시 이용 부탁드립니다.
                         </p>
                         <p style={styles.inquiryText}>
                             문의가 필요하시면 카카오톡으로 문의하실 수 있습니다.
