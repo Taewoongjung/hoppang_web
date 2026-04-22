@@ -17,10 +17,30 @@ import {
     getAxiosError
 } from "./security";
 
+const TARGET_NOTICE_USER_ID = 1208;
+const TARGET_NOTICE_STORAGE_KEY = "hoppang-targeted-notice-visible";
+const TARGET_NOTICE_EVENT_NAME = "hoppang-targeted-notice-change";
+
 /** 토큰 리프레시 진행 중인지 여부 (레이스 컨디션 방지) */
 let isRefreshing = false;
 /** 리프레시 대기 중인 요청 큐 */
 let refreshSubscribers: ((token: string) => void)[] = [];
+
+const isUserIdentityUrl = (url: string): boolean => {
+    return url === "/api/me" || /^\/api\/users\/\d+$/.test(url);
+};
+
+const updateTargetedNoticeFlag = (userId: unknown): void => {
+    if (typeof window === "undefined") {
+        return;
+    }
+
+    const shouldShowNotice = Number(userId) !== TARGET_NOTICE_USER_ID;
+    window.localStorage.setItem(TARGET_NOTICE_STORAGE_KEY, String(shouldShowNotice));
+    window.dispatchEvent(new CustomEvent(TARGET_NOTICE_EVENT_NAME, {
+        detail: { visible: shouldShowNotice }
+    }));
+};
 
 /**
  * 리프레시 완료 후 대기 중인 요청들 실행
@@ -115,6 +135,10 @@ const fetcher = async <T = unknown>(url: string): Promise<T | undefined> => {
         const currentToken = getSafeToken("hoppang-token");
         if (!currentToken) {
             window.location.reload();
+        }
+
+        if (isUserIdentityUrl(url) && response.data && typeof response.data === "object" && "id" in response.data) {
+            updateTargetedNoticeFlag((response.data as { id?: unknown }).id);
         }
 
         return response.data;
