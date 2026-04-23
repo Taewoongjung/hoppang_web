@@ -81,14 +81,14 @@ const MyPage = () => {
     ];
 
     const quickServices = [
-        {
-            title: '견적 받기',
-            subtitle: userData ? '무료 · 즉시' : '로그인 필요',
-            onClick: () => {
-                userData ? history.push('/calculator') : history.push('/login') },
-            isPrimary: true,
-            isDisabled: false
-        },
+        // {
+        //     title: '견적 받기',
+        //     subtitle: userData ? '무료 · 즉시' : '로그인 필요',
+        //     onClick: () => {
+        //         userData ? history.push('/calculator') : history.push('/login') },
+        //     isPrimary: true,
+        //     isDisabled: false
+        // },
         {
             title: '질문하기',
             subtitle: '커뮤니티',
