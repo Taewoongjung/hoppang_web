@@ -378,7 +378,7 @@ const ProfileEditPage = () => {
             <div className="profile-edit-container">
             {/* Header */}
             <header className="profile-header">
-                <div className="header-content">
+                    <div className="profile-header-content">
                     <button
                         onClick={() => window.location.href = "/v2/mypage"}
                         className="back-btn"
@@ -403,7 +403,7 @@ const ProfileEditPage = () => {
                                 <SafetyCertificateOutlined/>
                             </div>
                         </div>
-                        <div className="user-greeting">
+                        <div className="profile-user-greeting">
                             <h2 className="greeting-text">
                                 {userData?.nickname || userData?.name || '사용자'}
                             </h2>
@@ -442,8 +442,8 @@ const ProfileEditPage = () => {
                 {/* Information Sections */}
                 <div className="info-sections">
                     {/* Real Name Section */}
-                    <section className="info-card">
-                        <div className="info-header">
+                    <section className="profile-info-card">
+                        <div className="profile-info-header">
                             <div className="info-label">
                                 <div className="info-icon nickname-icon">
                                     <UserOutlined/>
@@ -468,7 +468,7 @@ const ProfileEditPage = () => {
                                         const filtered = value.replace(/[^a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣]/g, '');
                                         setFormData(prev => ({ ...prev, name: filtered }));
                                     }}
-                                    className="form-input"
+                                    className="profile-form-input"
                                     placeholder="실명을 입력하세요"
                                     disabled={loading.name}
                                 />
@@ -477,7 +477,7 @@ const ProfileEditPage = () => {
                                     <p>• 띄어쓰기, 특수문자, 이모지는 입력할 수 없습니다.</p>
                                     <p>• 이름은 <strong>최대 10자까지</strong> 입력할 수 있습니다.</p>
                                 </div>
-                                <div className="form-actions">
+                                <div className="profile-form-actions">
                                     <button
                                         onClick={() => handleSave('name')}
                                         disabled={
@@ -506,8 +506,8 @@ const ProfileEditPage = () => {
                     </section>
 
                     {/* Nickname Section */}
-                    <section className="info-card">
-                        <div className="info-header">
+                    <section className="profile-info-card">
+                        <div className="profile-info-header">
                             <div className="info-label">
                                 <div className="info-icon realname-icon">
                                     <IdcardOutlined/>
@@ -534,7 +534,7 @@ const ProfileEditPage = () => {
                                             setFormData(prev => ({ ...prev, nickname: filtered }));
                                         }
                                     }
-                                    className="form-input"
+                                    className="profile-form-input"
                                     placeholder="닉네임을 입력하세요"
                                     disabled={loading.nickname}
                                 />
@@ -543,7 +543,7 @@ const ProfileEditPage = () => {
                                     <p>• 띄어쓰기, 특수문자, 이모지는 입력할 수 없습니다.</p>
                                     <p>• 닉네임은 <strong>최대 15자까지</strong> 입력할 수 있습니다.</p>
                                 </div>
-                                <div className="form-actions">
+                                <div className="profile-form-actions">
                                     <button
                                         onClick={() => handleSave('nickname')}
                                         disabled={
@@ -576,15 +576,15 @@ const ProfileEditPage = () => {
                     </section>
 
                     {/* Phone Section */}
-                    <section className="info-card">
-                        <div className="info-header">
+                    <section className="profile-info-card">
+                        <div className="profile-info-header">
                             <div className="info-label">
                                 <div className="info-icon phone-icon">
                                     <PhoneOutlined/>
                                 </div>
                                 <span>휴대폰</span>
                             </div>
-                            <div className="header-actions">
+                            <div className="profile-header-actions">
                                 {userData?.tel ? (
                                     <span className="status-badge verified">
                                         인증완료
@@ -616,7 +616,7 @@ const ProfileEditPage = () => {
                                                 const formatted = formatPhoneNumber(e.target.value);
                                                 setFormData(prev => ({...prev, tel: formatted}));
                                             }}
-                                            className="form-input phone-input"
+                                            className="profile-form-input phone-input"
                                             placeholder="010-1234-5678"
                                             disabled={loading.tel || phoneVerification.isCodeSent}
                                             maxLength={13}
@@ -736,7 +736,7 @@ const ProfileEditPage = () => {
                                     )}
                                 </div>
 
-                                <div className="form-actions">
+                                <div className="profile-form-actions">
                                     {
                                         <button
                                             onClick={() => handleSave('tel')}
