@@ -835,6 +835,15 @@
 }
 
 /* Smooth Transitions */
-* {
+.profile-edit-container,
+.info-card,
+.edit-btn,
+.save-btn,
+.cancel-btn,
+.form-input,
+.verification-request-btn,
+.verify-code-btn,
+.back-btn,
+.status-badge {
     transition: all 0.2s ease;
 }
