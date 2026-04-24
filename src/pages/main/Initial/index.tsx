@@ -14,8 +14,6 @@ import OverlayLoadingPage from "../../../component/Loading/OverlayLoadingPage";
 import {formatTimeAgo} from "../../../util/boardUtil";
 import GoogleAdSense from "../../../component/V2/AdBanner/GoogleAdSense";
 
-const NOTICE_EXCLUDED_USER_ID = 1208;
-
 declare global {
     interface Window {
         device?: any;
@@ -42,7 +40,6 @@ const Initial = () => {
     const [lastScrollY, setLastScrollY] = useState(0);
     const [recentPosts, setRecentPosts] = useState<Question[]>([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [isMaintenanceModalOpen, setIsMaintenanceModalOpen] = useState(false);
 
     // Safe area 지원 감지
     const [supportsSafeArea, setSupportsSafeArea] = useState(false);
@@ -423,13 +420,6 @@ const Initial = () => {
 
     const handleServiceClick = (serviceTitle: string) => {
         if (serviceTitle === '샷시 견적') {
-            const shouldOpenMaintenanceModal = !userData || Number(userData.id) !== NOTICE_EXCLUDED_USER_ID;
-
-            if (shouldOpenMaintenanceModal) {
-                setIsMaintenanceModalOpen(true);
-                return;
-            }
-
             history.push('/calculator');
         } else if (serviceTitle === '커뮤니티') {
             history.push('/question/boards');
@@ -689,104 +679,6 @@ const Initial = () => {
                 userData={userData}
                 isVisible={isBottomNavVisible}
             />
-
-            {/* Maintenance Modal */}
-            {isMaintenanceModalOpen && (
-                <div
-                    className="custom-modal-overlay"
-                    onClick={() => setIsMaintenanceModalOpen(false)}
-                >
-                    <div
-                        className="custom-modal-content"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <div style={{ textAlign: 'center', padding: '24px 20px' }}>
-                            <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔧</div>
-                            <h3 style={{ marginBottom: '12px', fontSize: '18px', fontWeight: 600 }}>샷시 견적 서비스 점검중</h3>
-                            <p style={{ color: '#666', marginBottom: '20px', lineHeight: 1.6 }}>
-                                더 나은 서비스 제공을 위해<br/>
-                                잠시 점검을 진행하고 있습니다.<br/>
-                                <span style={{ color: '#FF6A4D', fontWeight: 500 }}>빠른 시일 내에 다시 찾아뵙겠습니다.</span>
-                            </p>
-                            <p style={{ color: '#888', fontSize: '13px', marginBottom: '16px' }}>
-                                급한 문의는 아래 버튼을 이용해주세요
-                            </p>
-                            <button
-                                onClick={() => {
-                                    const kakaoWebLink = 'https://pf.kakao.com/_dbxezn/chat';
-                                    const kakaoAppLink = 'kakaotalk://plusfriend/chat/_dbxezn';
-                                    const userAgent = navigator.userAgent.toLowerCase();
-                                    if (userAgent.includes('iphone') || userAgent.includes('ipad')) {
-                                        setTimeout(() => { window.location.href = kakaoWebLink; }, 500);
-                                        window.location.href = kakaoAppLink;
-                                    } else {
-                                        window.open(kakaoWebLink, '_blank');
-                                    }
-                                }}
-                                style={{
-                                    width: '100%',
-                                    padding: '12px',
-                                    backgroundColor: '#FEE500',
-                                    color: '#3C1E1E',
-                                    border: 'none',
-                                    borderRadius: '8px',
-                                    fontSize: '15px',
-                                    fontWeight: 600,
-                                    cursor: 'pointer',
-                                    marginBottom: '10px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    gap: '8px'
-                                }}
-                            >
-                                <img src="/assets/Sso/kakao-logo.png" alt="kakao" style={{ width: 20, height: 20 }} />
-                                카카오톡 문의하기
-                            </button>
-                            <button
-                                onClick={() => {
-                                    setIsMaintenanceModalOpen(false);
-                                    history.push('/question/boards');
-                                }}
-                                style={{
-                                    width: '100%',
-                                    padding: '12px',
-                                    backgroundColor: '#8b5cf6',
-                                    color: 'white',
-                                    border: 'none',
-                                    borderRadius: '8px',
-                                    fontSize: '15px',
-                                    fontWeight: 500,
-                                    cursor: 'pointer',
-                                    marginBottom: '10px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    gap: '8px'
-                                }}
-                            >
-                                <span>💬</span> 커뮤니티에서 질문하기
-                            </button>
-                            <button
-                                onClick={() => setIsMaintenanceModalOpen(false)}
-                                style={{
-                                    width: '100%',
-                                    padding: '12px',
-                                    backgroundColor: '#f1f5f9',
-                                    color: '#64748b',
-                                    border: 'none',
-                                    borderRadius: '8px',
-                                    fontSize: '15px',
-                                    fontWeight: 500,
-                                    cursor: 'pointer'
-                                }}
-                            >
-                                확인
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 };
