@@ -158,6 +158,12 @@ export const setSafeToken = (key: string, value: string): boolean => {
 export const removeSafeToken = (key: string): void => {
     try {
         localStorage.removeItem(key);
+
+        if (key === 'hoppang-token' && window.ReactNativeWebView) {
+            window.ReactNativeWebView.postMessage(JSON.stringify({
+                type: 'JwtTokenClear'
+            }));
+        }
     } catch (error) {
         console.warn('localStorage 제거 실패:', error);
     }

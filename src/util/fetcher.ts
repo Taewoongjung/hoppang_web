@@ -1,11 +1,8 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { notAuthorizedErrorCode } from "../definition/errorCode";
 import {
-    appleLogin,
     appleRefreshAccessToken,
-    googleLogin,
     googleRefreshAccessToken,
-    kakaoLogin,
     kakaoRefreshAccessToken
 } from "../definition/apiPath";
 import {
@@ -21,6 +18,16 @@ import {
 let isRefreshing = false;
 /** 리프레시 대기 중인 요청 큐 */
 let refreshSubscribers: ((token: string) => void)[] = [];
+
+const clearLoginTokens = (): void => {
+    removeSafeToken("hoppang-token");
+    removeSafeToken("hoppang-login-oauthType");
+};
+
+const redirectToLogin = (redirectUrl?: string): void => {
+    clearLoginTokens();
+    window.location.href = getSafeRedirectUrl(redirectUrl || '/v2/login', '/v2/login');
+};
 
 /**
  * 리프레시 완료 후 대기 중인 요청들 실행
@@ -40,14 +47,14 @@ const onRefreshFailed = (): void => {
 /**
  * OAuth 타입에 따른 리프레시 API 경로 반환
  */
-const getRefreshEndpoints = (oauthType: string): { refreshApi: string; loginApi: string } | null => {
+const getRefreshEndpoints = (oauthType: string): { refreshApi: string } | null => {
     switch (oauthType) {
         case "KKO":
-            return { refreshApi: kakaoRefreshAccessToken, loginApi: kakaoLogin };
+            return { refreshApi: kakaoRefreshAccessToken };
         case "APL":
-            return { refreshApi: appleRefreshAccessToken, loginApi: appleLogin };
+            return { refreshApi: appleRefreshAccessToken };
         case "GLE":
-            return { refreshApi: googleRefreshAccessToken, loginApi: googleLogin };
+            return { refreshApi: googleRefreshAccessToken };
         default:
             return null;
     }
@@ -78,15 +85,9 @@ const refreshToken = async (oauthType: string, currentToken: string): Promise<st
     } catch (error) {
         const axiosError = getAxiosError(error);
 
-        // errorCode 7: 리프레시 토큰 만료 - 재로그인 필요
+        // errorCode 7: 리프레시 토큰 만료 또는 유실 - 백엔드가 내려준 OAuth URL로 재로그인
         if (axiosError?.data?.errorCode === 7) {
-            try {
-                const res = await axios.post(endpoints.loginApi, {}, { withCredentials: true });
-                const redirectUrl = typeof res.data === 'string' ? res.data : '/v2/login';
-                window.location.href = getSafeRedirectUrl(redirectUrl, '/v2/login');
-            } catch {
-                window.location.href = "/v2/login";
-            }
+            redirectToLogin(axiosError.data.redirectUrl);
         }
 
         return null;
@@ -164,7 +165,7 @@ const fetcher = async <T = unknown>(url: string): Promise<T | undefined> => {
                         return retryResponse.data;
                     } else {
                         onRefreshFailed();
-                        removeSafeToken("hoppang-token");
+                        clearLoginTokens();
                     }
                 } finally {
                     isRefreshing = false;
@@ -174,7 +175,7 @@ const fetcher = async <T = unknown>(url: string): Promise<T | undefined> => {
 
         // 인증되지 않은 에러: 로그인 페이지로 리다이렉트
         if (axiosError.status && notAuthorizedErrorCode.includes(axiosError.status)) {
-            window.location.href = '/v2/login';
+            redirectToLogin();
         }
 
         return undefined;
