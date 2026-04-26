@@ -12,6 +12,7 @@ import fetcher from "../../../util/fetcher";
 import SkeletonLoader from "../../../component/Loading/Skeleton";
 import BottomNavigator from "../../../component/V2/BottomNavigator";
 import {useHistory} from "react-router-dom";
+import {enableNextPreview, isNextPreviewTester} from "../../../util/nextPreview";
 
 const MyPage = () => {
     const history = useHistory();
@@ -30,11 +31,12 @@ const MyPage = () => {
         };
     }, [history]);
 
-    const { data: userData, mutate, isValidating } = useSWR<{ tel: string; email: string; nickname?: string; name?: string } | undefined>(callMeData, fetcher, {
+    const { data: userData, mutate, isValidating } = useSWR<{ id: string | number; tel: string; email: string; nickname?: string; name?: string } | undefined>(callMeData, fetcher, {
         dedupingInterval: 2000
     });
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const canUseNextPreview = isNextPreviewTester(userData?.id);
 
     // Initial loading state - show skeleton until first data is received
     const isLoadingInitial = !userData && isValidating;
@@ -246,6 +248,22 @@ const MyPage = () => {
                                         </div>
                                     )
                                 ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {canUseNextPreview && (
+                        <section className="next-preview-section">
+                            <div className="next-preview-card">
+                                <div className="next-preview-content">
+                                    <div className="next-preview-badge">테스터 전용</div>
+                                    <h3>Next 버전 테스트</h3>
+                                    <p>새 SEO 전환 버전으로 이동해서 실제 운영 도메인 흐름을 확인합니다.</p>
+                                </div>
+                                <button type="button" className="next-preview-button" onClick={enableNextPreview}>
+                                    테스트 시작
+                                    <RightOutlined />
+                                </button>
                             </div>
                         </section>
                     )}
