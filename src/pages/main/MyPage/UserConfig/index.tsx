@@ -261,7 +261,7 @@ const ConfigPage = () => {
                                     <img src="/assets/hoppang-character.png" alt="Hoppang Character" />
                                 </div>
                                 <div className="app-info-text">
-                                    <h4>호빵 v3.3.3</h4>
+                                    <h4>호빵 v3.3.4</h4>
                                     <p>더 나은 서비스를 위해 지속적으로 개선하고 있습니다</p>
                                 </div>
                             </div>
