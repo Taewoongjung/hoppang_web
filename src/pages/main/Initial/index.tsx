@@ -95,8 +95,6 @@ const Initial = () => {
                 window.__HOPPANG_APP_INITIALIZED = true;
 
                 mutate();
-
-                // 캐시 무효화를 위한 timestamp 갱신
                 setRenderTimestamp(currentTime);
             }
 
@@ -154,7 +152,7 @@ const Initial = () => {
 
     // 3. 최근 게시물 가져오기 함수 분리
     const fetchRecentPosts = useCallback(() => {
-        axios.get(callRecentPosts + `?t=${renderTimestamp}`) // 캐시 방지용 timestamp
+        axios.get(callRecentPosts + `?t=${renderTimestamp}`)
             .then((res) => {
                 const post = res.data.map((post: any) => ({
                     id: post.id,
@@ -165,18 +163,15 @@ const Initial = () => {
                     createdAt: post.createdTime,
                     replyCount: post.replyCount,
                     viewCount: post.viewCount,
-                    isAnswered: Math.random() > 0.3,
+                    isAnswered: Boolean(post.isAnswered),
                     boardType: post.boardType || 'question',
                     isPinned: post.isPinned || false,
                     imageCount: null
                 }));
 
-                // 최근 게시물 로드
                 setRecentPosts(post);
             })
-            .catch(err => {
-
-            });
+            .catch(() => {});
     }, [renderTimestamp]);
 
     // 4. 초기 데이터 로드 (초기화 완료 후에만)
@@ -191,10 +186,7 @@ const Initial = () => {
 
         // 스크롤 위치 초기화
         window.scrollTo(0, 0);
-
-        // 최근 게시물 로드
         fetchRecentPosts();
-
     }, [isInitialized, fetchRecentPosts]);
 
     // 5. 뒤로가기 방지 (기존과 동일)
@@ -393,8 +385,7 @@ const Initial = () => {
             description: (
                 <>
                     <span className="estimate-modes">
-                        <span className="estimate-mode estimate-mode-simple"><span className="mode-icon">⚡</span>간편<br/>(2분)</span>
-                        <span className="estimate-mode estimate-mode-detail"><span className="mode-icon">📏</span>상세<br/>(5분)</span>
+                        <span className="estimate-mode">간편 2분 · 상세 5분</span>
                     </span>
                     <span className="service-highlight">셀프 · 무료 · 비대면</span>
                 </>
@@ -503,6 +494,11 @@ const Initial = () => {
             <main className="main-content">
                 {/* Services Grid */}
                 <section className="services-section">
+                    <div className="home-context">
+                        <p className="home-context-label">샷시 교체, 얼마 정도 나올까요?</p>
+                        <h1 className="home-context-title">간단히 보거나, 자세히 받아볼 수 있어요.</h1>
+                        <p className="home-context-description">아직 시공을 결정하지 않아도 괜찮아요.</p>
+                    </div>
                     <div className="services-grid">
                         {services.map((service) => (
                             <div
@@ -560,51 +556,46 @@ const Initial = () => {
                     </div>
                 </section>
 
-                {/* Recent Questions */}
-                <section className="questions-section">
-                    <div className="section-header">
-                        <h3 className="section-title">
-                            <span className="title-icon">❓</span>
-                            최근 질문
-                        </h3>
-                        <div className="see-all-btn" onClick={() => window.location.href = '/question/boards'}>
-                            <span>전체보기</span>
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                            </svg>
+                {recentPosts.length > 0 && (
+                    <section className="questions-section">
+                        <div className="section-header">
+                            <h3 className="section-title">
+                                <span className="title-icon">💬</span>
+                                요즘 올라온 질문
+                            </h3>
+                            <div className="see-all-btn" onClick={() => window.location.href = '/question/boards'}>
+                                <span>전체보기</span>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                </svg>
+                            </div>
                         </div>
-                    </div>
-                    <div className="questions-list">
-                        {recentPosts.map((q) => (
-                            <div key={q.id}
-                                 className="question-item"
-                                 onClick={() => window.location.href =`/question/boards/posts/${q.id}`
-                                 }>
-                                <div className="question-content">
-                                    <p className="question-text">{q.title}</p>
-                                    <div className="question-meta">
-                                        <span className="question-category">{q.category}</span>
-                                        <span className="question-element">{formatTimeAgo(q.createdAt)}</span>
-                                        <span className="question-element">| 조회 {q.viewCount} |</span>
-                                        {q.replyCount > 0 && (
-                                            <span className="question-element">
-                                                <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
-                                                    <path d="M8 1C11.866 1 15 4.134 15 8C15 11.866 11.866 15 8 15C6.674 15 5.431 14.612 4.378 13.934L1 15L2.066 11.622C1.388 10.569 1 9.326 1 8C1 4.134 4.134 1 8 1Z" stroke="currentColor" strokeWidth="1.2" fill="none"/>
-                                                </svg>
-                                                &nbsp;{q.replyCount}
-                                            </span>
-                                        )}
+                        <div className="questions-list">
+                            {recentPosts.slice(0, 5).map((q) => (
+                                <div key={q.id}
+                                     className="question-item"
+                                     onClick={() => window.location.href =`/question/boards/posts/${q.id}`
+                                     }>
+                                    <div className="question-content">
+                                        <p className="question-text">{q.title}</p>
+                                        <div className="question-meta">
+                                            <span className="question-category">{q.category}</span>
+                                            <span className="question-element">{formatTimeAgo(q.createdAt)}</span>
+                                            {q.replyCount > 0 && (
+                                                <span className="question-element">답변 {q.replyCount}</span>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="question-arrow">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                            <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                                        </svg>
                                     </div>
                                 </div>
-                                <div className="question-arrow">
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                                        <path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                                    </svg>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </section>
+                            ))}
+                        </div>
+                    </section>
+                )}
             </main>
 
             {/*<GoogleAdSense*/}

@@ -222,10 +222,40 @@ body {
 
 /* Services Section */
 .services-section {
-    padding: 30px 0;
-    padding-top: 45px;
+    padding: 24px 0 12px;
     animation: slideInUp 0.8s ease-out 0.1s both;
     overflow: visible;
+}
+
+.home-context {
+    margin: 0 20px;
+    margin-bottom: 24px;
+    padding: 16px 20px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 1px 8px rgba(15, 23, 42, 0.04);
+}
+
+.home-context-label {
+    margin: 0 0 4px;
+    color: #FF6A4D;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.home-context-title {
+    margin: 0;
+    color: #1e293b;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.home-context-description {
+    margin: 8px 0 0;
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.5;
 }
 
 .services-grid {
@@ -314,50 +344,21 @@ body {
     border-radius: 20px;
     white-space: nowrap;
     box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
-    animation: ribbonBounce 2s ease-in-out infinite;
-}
-
-@keyframes ribbonBounce {
-    0%, 100% {
-        transform: translateX(-50%) translateY(0);
-    }
-    50% {
-        transform: translateX(-50%) translateY(-3px);
-    }
 }
 
 /* 간편/상세 모드 컨테이너 */
 .estimate-modes {
-    display: flex;
-    gap: 6px;
+    display: block;
     margin-bottom: 8px;
-    flex-wrap: wrap;
     max-width: 100%;
 }
 
 /* 간편/상세 모드 표시 */
 .estimate-mode {
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-    color: white;
-    font-size: 9.5px;
+    display: block;
+    color: #64748b;
+    font-size: 13px;
     font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 14px;
-    min-width: 0;
-}
-
-.estimate-mode-simple {
-    background: linear-gradient(135deg, #FF6A4D 0%, #8b5cf6 100%);
-}
-
-.estimate-mode-detail {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-}
-
-.mode-icon {
-    font-size: 12px;
 }
 
 .service-highlight {
@@ -382,7 +383,7 @@ body {
 
 /* Guide Section */
 .guide-section {
-    padding: 30px 0;
+    padding: 12px 0 30px;
     animation: slideInUp 0.8s ease-out 0.2s both;
 }
 
@@ -481,13 +482,14 @@ body {
 
 .question-content {
     flex: 1;
+    min-width: 0;
 }
 
 .question-meta {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 6px;
+    flex-wrap: wrap;
 }
 
 .question-category {
@@ -505,11 +507,14 @@ body {
 }
 
 .question-text {
-    margin: 0;
+    margin: 0 0 8px;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     color: #1e293b;
     line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .question-arrow {
