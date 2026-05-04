@@ -501,29 +501,6 @@ const Initial = () => {
 
             {/* Main Content */}
             <main className="main-content">
-                {/* Hero Section */}
-                <section className="hero-section">
-                    <div className="hero-content">
-                        <div className="hero-text">
-                            <h2 className="hero-title">샷시 전문가와 함께하세요</h2>
-                            <p className="hero-subtitle">견적부터 설치까지, 모든 과정을 호빵이 도와드려요!</p>
-                            <button
-                                className="cta-button"
-                                onClick={() => {
-                                    userData ?
-                                        window.location.href = "/question/boards/posts/register?from=initial" : window.location.href = "/v2/login";
-                                }}
-                            >
-                                <span className="cta-icon">💬</span>
-                                {!userData && '로그인 하고'} 전문가에게 질문하기
-                            </button>
-                        </div>
-                        <div className="hero-illustration">
-                            <div className="window-icon">🪟</div>
-                        </div>
-                    </div>
-                </section>
-
                 {/* Services Grid */}
                 <section className="services-section">
                     <div className="services-grid">
