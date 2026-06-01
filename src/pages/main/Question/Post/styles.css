@@ -922,6 +922,48 @@
     color: #94a3b8;
 }
 
+.anonymous-reply-control {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.anonymous-reply-control.compact {
+    margin-bottom: 10px;
+}
+
+.anonymous-reply-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #64748b;
+}
+
+.anonymous-reply-options {
+    display: flex;
+    padding: 2px;
+    border-radius: 999px;
+    background: #f1f5f9;
+}
+
+.anonymous-reply-options button {
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 12px;
+    transition: all 0.2s ease;
+}
+
+.anonymous-reply-options button.active {
+    background: white;
+    color: #FF6A4D;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+}
+
 .child-reply-form .child-reply-actions {
     display: flex;
     justify-content: flex-end;

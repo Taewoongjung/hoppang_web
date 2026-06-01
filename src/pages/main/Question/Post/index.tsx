@@ -203,8 +203,10 @@ const PostDetail = () => {
 
     // 댓글 작성 관련
     const [replyContent, setReplyContent] = useState('');
+    const [replyAnonymous, setReplyAnonymous] = useState(false);
     const [isSubmittingReply, setIsSubmittingReply] = useState(false);
     const [childReplyContent, setChildReplyContent] = useState<{[key: number]: string}>({});
+    const [childReplyAnonymous, setChildReplyAnonymous] = useState<{[key: number]: boolean}>({});
     const [isSubmittingChildReply, setIsSubmittingChildReply] = useState<{[key: number]: boolean}>({});
     const [showChildReplyForm, setShowChildReplyForm] = useState<{[key: number]: boolean}>({});
 
@@ -235,6 +237,20 @@ const PostDetail = () => {
     const { data: userData, mutate } = useSWR<{ id: string | number; tel: string; email: string; nickname?: string; name?: string } | undefined>(callMeData, fetcher, {
         dedupingInterval: 2000
     });
+
+    const canWriteAnonymousReply = !!(
+        post &&
+        userData &&
+        post.isAnonymous === 'T' &&
+        post.registerId.toString() === userData.id.toString()
+    );
+
+    useEffect(() => {
+        setReplyAnonymous(canWriteAnonymousReply);
+        if (!canWriteAnonymousReply) {
+            setChildReplyAnonymous({});
+        }
+    }, [canWriteAnonymousReply]);
 
     // 댓글 조회 함수
     const fetchReplies = useCallback(async (queryParam: string) => {
@@ -485,7 +501,8 @@ const PostDetail = () => {
                 callPostsReply.replace("{postId}", postId),
                 {
                     contents: replyContent,
-                    rootReplyId: null
+                    rootReplyId: null,
+                    anonymous: canWriteAnonymousReply ? replyAnonymous : false
                 },
                 {
                     withCredentials: true,
@@ -529,7 +546,8 @@ const PostDetail = () => {
                 callPostsReply.replace("{postId}", postId),
                 {
                     contents: content,
-                    rootReplyId: parentReplyId
+                    rootReplyId: parentReplyId,
+                    anonymous: canWriteAnonymousReply ? (childReplyAnonymous[parentReplyId] ?? true) : false
                 },
                 {
                     withCredentials: true,
@@ -665,13 +683,17 @@ const PostDetail = () => {
 
     // UI 토글 헬퍼들
     const toggleChildReplyForm = (replyId: number) => {
+        const wasOpen = showChildReplyForm[replyId];
         setShowChildReplyForm(prev => ({
             ...prev,
-            [replyId]: !prev[replyId]
+            [replyId]: !wasOpen
         }));
 
-        if (showChildReplyForm[replyId]) {
+        if (wasOpen) {
             setChildReplyContent(prev => ({ ...prev, [replyId]: '' }));
+            setChildReplyAnonymous(prev => ({ ...prev, [replyId]: false }));
+        } else if (canWriteAnonymousReply) {
+            setChildReplyAnonymous(prev => ({ ...prev, [replyId]: true }));
         }
     };
 
@@ -1092,6 +1114,27 @@ const PostDetail = () => {
                                     {/* 대댓글 입력 폼 */}
                                     {showChildReplyForm[reply.id] && !reply.deleted && (
                                         <div className="child-reply-form">
+                                            {canWriteAnonymousReply && (
+                                                <div className="anonymous-reply-control compact">
+                                                    <span className="anonymous-reply-label">작성자 표시</span>
+                                                    <div className="anonymous-reply-options">
+                                                        <button
+                                                            type="button"
+                                                            className={childReplyAnonymous[reply.id] !== false ? 'active' : ''}
+                                                            onClick={() => setChildReplyAnonymous(prev => ({ ...prev, [reply.id]: true }))}
+                                                        >
+                                                            익명
+                                                        </button>
+                                                        <button
+                                                            type="button"
+                                                            className={childReplyAnonymous[reply.id] === false ? 'active' : ''}
+                                                            onClick={() => setChildReplyAnonymous(prev => ({ ...prev, [reply.id]: false }))}
+                                                        >
+                                                            닉네임
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            )}
                                             <textarea
                                                 className="child-reply-textarea"
                                                 placeholder={`${reply.authorName}님에게 댓글 작성...`}
@@ -1301,6 +1344,27 @@ const PostDetail = () => {
                                 </div>
 
                                 <div className="form-content">
+                                    {canWriteAnonymousReply && (
+                                        <div className="anonymous-reply-control">
+                                            <span className="anonymous-reply-label">작성자 표시</span>
+                                            <div className="anonymous-reply-options">
+                                                <button
+                                                    type="button"
+                                                    className={replyAnonymous ? 'active' : ''}
+                                                    onClick={() => setReplyAnonymous(true)}
+                                                >
+                                                    익명
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className={!replyAnonymous ? 'active' : ''}
+                                                    onClick={() => setReplyAnonymous(false)}
+                                                >
+                                                    닉네임
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
                                     <textarea
                                         className="reply-textarea"
                                         placeholder="자유로운 의견 환영! 단, 욕설·비방·허위정보는 제한될 수 있습니다."
