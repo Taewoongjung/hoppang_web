@@ -148,7 +148,7 @@ const LandingPage = () => {
                         alignItems: 'center',
                         marginTop: '20px'
                     }}>
-                        <a href="http://pf.kakao.com/_dbxezn"
+                        <a href="https://pf.kakao.com/_dbxezn"
                            onClick={(e) => handleButtonClick(e)}
                            style={{
                                display: 'inline-flex',

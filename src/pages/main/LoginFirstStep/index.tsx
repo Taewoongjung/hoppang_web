@@ -378,7 +378,7 @@ const LoginFirstStep = () => {
                                     <Button
                                         type="link"
                                         className="customer-service-btn"
-                                        onClick={() => window.location.href = 'http://pf.kakao.com/_dbxezn/chat'}
+                                        onClick={() => window.location.href = 'https://pf.kakao.com/_dbxezn/chat'}
                                         disabled={isLoading}
                                     >
                                         관리자문의
