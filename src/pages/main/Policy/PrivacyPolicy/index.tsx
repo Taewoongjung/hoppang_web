@@ -280,13 +280,13 @@ const PrivacyPolicy = () => {
                             <ul>
                                 <li><strong>성명</strong>: 개인정보보호책임자</li>
                                 <li><strong>직위</strong>: 개인정보보호팀장</li>
-                                <li><strong>연락처</strong>: 010-8825-7754, ho9nobody@gmail.com</li>
+                                <li><strong>연락처</strong>: 010-2164-7786, ho9nobody@gmail.com</li>
                             </ul>
 
                             <h3>▶ 개인정보보호 담당부서</h3>
                             <ul>
                                 <li><strong>부서명</strong>: 개인정보보호팀</li>
-                                <li><strong>연락처</strong>: 010-8825-7754, ho9nobody@gmail.com</li>
+                                <li><strong>연락처</strong>: 010-2164-7786, ho9nobody@gmail.com</li>
                             </ul>
                         </div>
 

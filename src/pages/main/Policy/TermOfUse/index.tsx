@@ -177,7 +177,7 @@ const TermOfUse = () => {
                             <h3>▶ 호빵 고객센터</h3>
                             <ul>
                                 <li><strong>이메일</strong>: ho9nobody@gmail.com</li>
-                                <li><strong>전화</strong>: 010-8825-7754 (평일 09:00~18:00)</li>
+                                <li><strong>전화</strong>: 010-2164-7786 (평일 09:00~18:00)</li>
                             </ul>
                         </div>
                     </section>
